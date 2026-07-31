@@ -204,7 +204,7 @@ ${section('quotes', c.home.quoteLabel, c.home.quoteLabel, null, `      <div clas
 function about(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ heading: c.about.title, headline: c.about.lead })}
+  const main = `${heroBlock({ eyebrow: c.nav.about, heading: c.about.title, headline: c.about.lead })}
 
   <section class="section">
     <div class="container">
@@ -228,7 +228,7 @@ ${section('faq', null, c.about.faqTitle, null, `      <div class="grid">\n${B.ab
 function work(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ heading: c.work.title, headline: c.work.lead })}
+  const main = `${heroBlock({ eyebrow: c.nav.work, heading: c.work.title, headline: c.work.lead })}
 
 ${section('timeline', null, c.work.timelineTitle, null, B.workTimeline(db, lang))}
 
@@ -244,7 +244,7 @@ ${section('education', null, c.work.educationTitle, null, B.workEducation(db, la
 function projects(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ heading: c.projects.title, headline: c.projects.lead })}
+  const main = `${heroBlock({ eyebrow: c.nav.projects, heading: c.projects.title, headline: c.projects.lead })}
 
   <section class="section">
     <div class="container">
@@ -260,7 +260,7 @@ ${B.projectsList(db, lang)}
 function automation(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ heading: c.automation.title, headline: c.automation.lead })}
+  const main = `${heroBlock({ eyebrow: c.nav.automation, heading: c.automation.title, headline: c.automation.lead })}
 
   <section class="section">
     <div class="container">
@@ -282,6 +282,7 @@ function contact(db, lang) {
   const github = p.sameAs.find((x) => x.platform === 'GitHub')?.url;
 
   const main = `${heroBlock({
+    eyebrow: c.nav.contact,
     heading: c.contact.title,
     headline: c.contact.lead,
     actions: `        <a class="btn" href="mailto:${e(p.email)}">${e(c.ui.emailMe)}</a>${
@@ -312,7 +313,7 @@ ${section('mcp', null, c.contact.mcpTitle, c.contact.mcpBody, B.contactMcp(db, l
 function chat(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ heading: c.chat.title, headline: c.chat.lead })}
+  const main = `${heroBlock({ eyebrow: c.nav.chat, heading: c.chat.title, headline: c.chat.lead })}
 
   <section class="section">
     <div class="container">

@@ -144,7 +144,7 @@
 
 .site-nav a[aria-current='page'] {
   color: var(--accent-ink);
-  background: var(--lime);
+  background: linear-gradient(135deg, var(--lime), var(--mint));
 }
 
 .header__tools {
@@ -306,7 +306,7 @@
 
 .hero .container { position: relative; z-index: 1; }
 
-.hero__name {
+.hero h1 {
   margin-block-end: var(--space-4);
   background: linear-gradient(120deg, var(--fg) 30%, var(--mint) 75%, var(--lime));
   -webkit-background-clip: text;
@@ -316,7 +316,7 @@
 
 /* If background-clip:text is unsupported, keep readable text. */
 @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
-  .hero__name { color: var(--fg); background: none; }
+  .hero h1 { color: var(--fg); background: none; }
 }
 
 .hero__headline {

@@ -22,12 +22,16 @@
 
 /* ------------------------------------------------------ workflow canvas */
 
-/* One canvas behind the whole page. The hero's nodes, lines, and pulses are
-   not a header decoration — they are the page's background, continuous from
-   top to bottom, and every section floats on the same connected graph. */
+/* One canvas laid over the WHOLE document — it scrolls with the page.
+   Nodes fill it from the header to the footer, every node is linked to its
+   neighbours, and pulses travel through the mesh. The header graph and the
+   page background are literally the same object. */
+body { position: relative; }
+
 .site-bg {
-  position: fixed;
-  inset: 0;
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
   inline-size: 100%;
   block-size: 100%;
   z-index: -1;
