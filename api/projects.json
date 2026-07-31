@@ -1,0 +1,556 @@
+{
+  "generated": "2026-07-31T16:13:51.815Z",
+  "projects": [
+    {
+      "id": "smart-scanner",
+      "name": "Smart Scanner",
+      "year": "2026",
+      "featured": true,
+      "category": {
+        "en": "AI SaaS product",
+        "ar": "منتج SaaS بالذكاء الاصطناعي"
+      },
+      "tagline": {
+        "en": "Arabic-first AI invoice management — from photo to approval, with zero manual data entry.",
+        "ar": "إدارة فواتير بالذكاء الاصطناعي، عربية أولاً — من الصورة حتى الاعتماد، دون أي إدخال يدوي."
+      },
+      "problem": {
+        "en": "In most companies an invoice sleeps in a pocket or a drawer until month-end, when a stack of paper lands on the accountant's desk to be typed in by hand. The result is lost time, human error, duplicate and forged invoices slipping through unnoticed, and no record of who submitted what. Global tools mostly cannot read an Arabic invoice at all.",
+        "ar": "في معظم الشركات تنام الفاتورة في جيب الموظف أو في درجه حتى نهاية الشهر، فتصل كومة ورق إلى مكتب المحاسب ليُدخلها يدوياً. والنتيجة: وقت ضائع، وأخطاء بشرية، وفواتير مكرّرة أو مزوّرة تمرّ دون ملاحظة، ولا أحد يعرف من سلّم ماذا. أما الأدوات العالمية فأغلبها لا يقرأ الفاتورة العربية أصلاً."
+      },
+      "built": {
+        "en": "I built two of the three layers: the entire AI extraction engine in n8n, and the complete frontend. The frontend is three role-based applications — admin, accountant, and employee — sharing one React 19 and TypeScript codebase, with an Arabic-default bilingual UI, full RTL through logical CSS properties, and a custom i18n layer. It includes a guided upload flow with in-page camera capture, a receipt browser with server-side filtering, Excel export, and feature gating across subscription tiers, all shipped through GitHub Actions quality gates and atomic SSH deploys.",
+        "ar": "بنيت طبقتين من أصل ثلاث: محرّك الاستخراج بالذكاء الاصطناعي كاملاً في n8n، والواجهة الأمامية بالكامل. الواجهة ثلاثة تطبيقات حسب الدور — مدير، ومحاسب، وموظف — تتشارك قاعدة كود واحدة بـ React 19 وTypeScript، بواجهة ثنائية اللغة افتراضها العربية، ودعم RTL كامل عبر خصائص CSS المنطقية، وطبقة i18n مخصّصة. وتتضمّن مسار رفع موجّهاً مع التقاط مباشر من الكاميرا، ومتصفّح فواتير بفلاتر تعمل على الخادم، وتصدير Excel، وتقييد المزايا حسب باقة الاشتراك، وكل ذلك يمرّ عبر بوابات جودة في GitHub Actions ونشر SSH ذرّي."
+      },
+      "role": {
+        "en": "AI/automation engine and complete frontend. Laravel backend by Haitham Zedan.",
+        "ar": "محرّك الذكاء الاصطناعي والأتمتة، والواجهة الأمامية كاملة. الواجهة الخلفية بـ Laravel من إعداد هيثم زيدان."
+      },
+      "metrics": [
+        {
+          "value": "204",
+          "label": {
+            "en": "source files",
+            "ar": "ملف مصدري"
+          }
+        },
+        {
+          "value": "494",
+          "label": {
+            "en": "automated tests",
+            "ar": "اختبار آلي"
+          }
+        },
+        {
+          "value": "70+",
+          "label": {
+            "en": "fields extracted",
+            "ar": "حقل مُستخرَج"
+          }
+        },
+        {
+          "value": "13+",
+          "label": {
+            "en": "server-side filters",
+            "ar": "فلتر على الخادم"
+          }
+        },
+        {
+          "value": "4",
+          "label": {
+            "en": "subscription tiers",
+            "ar": "باقة اشتراك"
+          }
+        },
+        {
+          "value": "~10s",
+          "label": {
+            "en": "photo to structured data",
+            "ar": "من الصورة إلى بيانات منظّمة"
+          }
+        }
+      ],
+      "stack": [
+        "React 19",
+        "TypeScript",
+        "Tailwind CSS",
+        "Vitest",
+        "React Testing Library",
+        "n8n",
+        "OpenAI GPT-4.1 Vision",
+        "GitHub Actions",
+        "i18n",
+        "RTL"
+      ],
+      "url": "https://receipt.nexleadtech.com"
+    },
+    {
+      "id": "dfs-dashboard",
+      "name": "DFS Dashboard",
+      "year": "2025–2026",
+      "featured": false,
+      "category": {
+        "en": "Internal platform",
+        "ar": "منصّة داخلية"
+      },
+      "tagline": {
+        "en": "A unified CRM and quotation platform that replaced scattered manual processes across every department.",
+        "ar": "منصّة موحّدة لإدارة العملاء وعروض الأسعار حلّت محل عمليات يدوية متفرّقة في كل الأقسام."
+      },
+      "problem": {
+        "en": "Customer management and quotation handling lived in separate manual steps with no shared context, so nothing was traceable end to end.",
+        "ar": "كانت إدارة العملاء ومعالجة عروض الأسعار خطوات يدوية منفصلة بلا سياق مشترك، فلم يكن أي شيء قابلاً للتتبّع من طرف إلى طرف."
+      },
+      "built": {
+        "en": "I owned the two core frontend modules — CRM and Quotation — and connected them into one workflow: creating and updating quotations, tracking statuses, managing customers and leads, and an internal module for projects and tasks with assignment and progress tracking. I worked closely with the backend team on API definitions and payload reviews so UI behaviour matched the business workflow.",
+        "ar": "تولّيت وحدتَي الواجهة الأمامية الأساسيتين — إدارة العملاء وعروض الأسعار — وربطتهما في سير عمل واحد: إنشاء عروض الأسعار وتحديثها، وتتبّع الحالات، وإدارة العملاء والفرص، إضافة إلى وحدة داخلية للمشاريع والمهام مع الإسناد وتتبّع التقدّم. وعملت عن قرب مع فريق الواجهة الخلفية على تعريفات الـ API ومراجعة الحمولات ليطابق سلوك الواجهة سير العمل الفعلي."
+      },
+      "role": {
+        "en": "Frontend lead",
+        "ar": "قائد الواجهة الأمامية"
+      },
+      "metrics": [
+        {
+          "value": "2",
+          "label": {
+            "en": "core modules owned",
+            "ar": "وحدة أساسية"
+          }
+        },
+        {
+          "value": "2",
+          "label": {
+            "en": "languages (AR/EN)",
+            "ar": "لغتان (عربي/إنجليزي)"
+          }
+        }
+      ],
+      "stack": [
+        "React 19",
+        "Vite",
+        "TypeScript",
+        "Tailwind CSS v4",
+        "Axios",
+        "TanStack React Query",
+        "React Hook Form",
+        "React Router",
+        "Laravel Echo",
+        "@hello-pangea/dnd"
+      ],
+      "url": null
+    },
+    {
+      "id": "goldentag",
+      "name": "GoldenTag",
+      "year": "2025",
+      "featured": false,
+      "category": {
+        "en": "Mobile app · Google Play",
+        "ar": "تطبيق موبايل · Google Play"
+      },
+      "tagline": {
+        "en": "A jewelry store management app shipped to the Google Play Store.",
+        "ar": "تطبيق لإدارة محلات المجوهرات، منشور على متجر Google Play."
+      },
+      "problem": {
+        "en": "Jewelry retailers track inventory, staff, and sales on paper, in a market where the exchange rate moves daily.",
+        "ar": "يتابع تجّار المجوهرات المخزون والموظفين والمبيعات على الورق، في سوق يتغيّر فيه سعر الصرف يومياً."
+      },
+      "built": {
+        "en": "I coordinated delivery end to end: requirements with the client, scope and acceptance criteria, user stories on Trello, and oversight across frontend, backend, and UI/UX through to publication. Features include inventory, employee management, barcode scanning, USD/SYP exchange rates, sales logging, and TXT export.",
+        "ar": "نسّقت التسليم من البداية إلى النهاية: المتطلبات مع العميل، والنطاق ومعايير القبول، وقصص المستخدم على Trello، والإشراف على الواجهة الأمامية والخلفية وتجربة المستخدم حتى النشر. وتشمل المزايا: المخزون، وإدارة الموظفين، ومسح الباركود، وأسعار صرف الدولار/الليرة، وتسجيل المبيعات، والتصدير النصي."
+      },
+      "role": {
+        "en": "Project coordinator",
+        "ar": "منسّق المشروع"
+      },
+      "metrics": [
+        {
+          "value": "4",
+          "label": {
+            "en": "core features",
+            "ar": "مزايا أساسية"
+          }
+        },
+        {
+          "value": "Live",
+          "label": {
+            "en": "on Google Play",
+            "ar": "على Google Play"
+          }
+        }
+      ],
+      "stack": [
+        "Flutter",
+        "Trello",
+        "Requirements Gathering",
+        "Release Management"
+      ],
+      "url": "https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag"
+    },
+    {
+      "id": "business-card-extractor",
+      "name": "Business Card Extractor",
+      "year": "2026",
+      "featured": false,
+      "category": {
+        "en": "AI web app",
+        "ar": "تطبيق ويب بالذكاء الاصطناعي"
+      },
+      "tagline": {
+        "en": "Photograph a business card, and it lands in your phone's contacts in one tap.",
+        "ar": "صوّر بطاقة العمل، فتصل إلى جهات الاتصال في هاتفك بضغطة واحدة."
+      },
+      "problem": {
+        "en": "You collect a stack of business cards at an event and never open it again. It is a small problem that quietly costs sales teams real pipeline.",
+        "ar": "تجمع كومة بطاقات عمل بعد فعالية ثم لا تفتحها أبداً. مشكلة صغيرة، لكنها تكلّف فرق المبيعات فرصاً حقيقية بصمت."
+      },
+      "built": {
+        "en": "A web app that turns a photo of any business card into structured data — name, company, email, phone, website — in seconds, stores it in Google Sheets, and generates a vCard so the contact saves straight to the phone. No custom backend at all: an n8n workflow receives the image, GPT-4o Vision reads it, the data is validated and stored, and it flows back to the app. The one-tap save came from a user suggestion after the first release.",
+        "ar": "تطبيق ويب يحوّل صورة أي بطاقة عمل إلى بيانات منظّمة — الاسم، والشركة، والبريد، والهاتف، والموقع — خلال ثوانٍ، ويخزّنها في Google Sheets، ويولّد ملف vCard لتُحفظ جهة الاتصال مباشرة في الهاتف. دون أي واجهة خلفية مخصّصة: مسار عمل في n8n يستقبل الصورة، وGPT-4o Vision يقرأها، ثم تُتحقّق البيانات وتُخزّن وتعود إلى التطبيق. وميزة الحفظ بضغطة واحدة جاءت من اقتراح مستخدم بعد الإصدار الأول."
+      },
+      "role": {
+        "en": "Full build — frontend and automation",
+        "ar": "البناء الكامل — الواجهة والأتمتة"
+      },
+      "metrics": [
+        {
+          "value": "0",
+          "label": {
+            "en": "lines of custom backend",
+            "ar": "سطر واجهة خلفية مخصّصة"
+          }
+        },
+        {
+          "value": "1 tap",
+          "label": {
+            "en": "to save a contact",
+            "ar": "لحفظ جهة الاتصال"
+          }
+        }
+      ],
+      "stack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "n8n",
+        "OpenAI GPT-4o Vision",
+        "Google Sheets",
+        "vCard"
+      ],
+      "url": null
+    },
+    {
+      "id": "mcp-search-server",
+      "name": "MCP Search Server",
+      "year": "2026",
+      "featured": false,
+      "category": {
+        "en": "AI tooling",
+        "ar": "أدوات ذكاء اصطناعي"
+      },
+      "tagline": {
+        "en": "A Model Context Protocol server that lets an AI model query real data instead of only generating text.",
+        "ar": "خادم Model Context Protocol يتيح لنموذج ذكاء اصطناعي أن يستعلم بيانات حقيقية بدل توليد النصوص فقط."
+      },
+      "problem": {
+        "en": "Language models are fluent but disconnected. MCP is the bridge — but most of the discussion about it stays theoretical.",
+        "ar": "نماذج اللغة بليغة لكنها معزولة عن البيانات. وMCP هو الجسر — إلا أن أغلب الحديث عنه يبقى نظرياً."
+      },
+      "built": {
+        "en": "I built an MCP server with custom tools including a search tool, wired it to real data, and connected it to Claude — so a plain-language question like \"what are the details of user 2\" returns the correct record directly. The same pattern powers the MCP server that ships with this portfolio.",
+        "ar": "بنيت خادم MCP بأدوات مخصّصة من بينها أداة بحث، وربطته ببيانات حقيقية، ثم وصلته بـ Claude — بحيث يعيد سؤال بلغة طبيعية مثل «ما تفاصيل المستخدم رقم ٢» السجلّ الصحيح مباشرة. والنمط نفسه يشغّل خادم MCP المرفق مع هذا الموقع."
+      },
+      "role": {
+        "en": "Full build",
+        "ar": "البناء الكامل"
+      },
+      "metrics": [
+        {
+          "value": "MCP",
+          "label": {
+            "en": "tools exposed to Claude",
+            "ar": "أدوات متاحة لـ Claude"
+          }
+        }
+      ],
+      "stack": [
+        "Model Context Protocol",
+        "Node.js",
+        "Claude",
+        "JSON Schema"
+      ],
+      "url": null
+    }
+  ],
+  "workflows": [
+    {
+      "id": "teacher-assistant-bot",
+      "name": {
+        "en": "Teacher Assistant AI Bot",
+        "ar": "بوت المساعد التعليمي بالذكاء الاصطناعي"
+      },
+      "year": "2025 — present",
+      "kind": {
+        "en": "Telegram AI agent · client project",
+        "ar": "وكيل ذكاء اصطناعي على Telegram · مشروع عميل"
+      },
+      "summary": {
+        "en": "A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia. The tutor manages students, schedules, cancellations, and dues entirely through chat — the AI agent calls custom CRUD tools under strict business rules rather than guessing.",
+        "ar": "مساعد عربي بلغة طبيعية سُلّم لمدرّس خصوصي في السعودية. يدير المدرّس الطلاب والجداول والإلغاءات والمستحقات عبر المحادثة بالكامل — والوكيل الذكي يستدعي أدوات CRUD مخصّصة وفق قواعد عمل صارمة بدل التخمين."
+      },
+      "trigger": {
+        "en": "Telegram message",
+        "ar": "رسالة على Telegram"
+      },
+      "services": [
+        "n8n AI Agent",
+        "OpenAI",
+        "Google Sheets",
+        "MySQL",
+        "Telegram Bot API",
+        "Webhooks"
+      ],
+      "highlights": {
+        "en": [
+          "Custom tool-calling design with strict business rules",
+          "Usage metering and free-trial gating",
+          "Session memory across conversations",
+          "Automated lesson reminders scheduled in Saudi time"
+        ],
+        "ar": [
+          "تصميم استدعاء أدوات مخصّص بقواعد عمل صارمة",
+          "قياس الاستخدام وتقييد الفترة التجريبية",
+          "ذاكرة جلسة عبر المحادثات",
+          "تذكيرات دروس مجدولة تلقائياً بتوقيت السعودية"
+        ]
+      },
+      "outcome": {
+        "en": "A tutor runs an entire practice from a chat window, with no app to learn and no spreadsheet to maintain.",
+        "ar": "يدير المدرّس عمله كاملاً من نافذة محادثة، دون تطبيق يتعلّمه ولا جدول بيانات يصونه."
+      }
+    },
+    {
+      "id": "smart-scanner-pipeline",
+      "name": {
+        "en": "Smart Scanner Extraction Pipeline",
+        "ar": "خط استخراج البيانات في Smart Scanner"
+      },
+      "year": "2026",
+      "kind": {
+        "en": "Production document AI pipeline",
+        "ar": "خط إنتاجي لمعالجة المستندات بالذكاء الاصطناعي"
+      },
+      "summary": {
+        "en": "The production pipeline behind Smart Scanner. Every invoice — photo or PDF — is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and ZATCA e-invoice fields.",
+        "ar": "الخط الإنتاجي خلف Smart Scanner. كل فاتورة — صورة أو PDF — يُتحقّق أولاً من كونها فاتورة حقيقية، ثم تُحلّل بـ GPT-4.1 Vision، وتُتحقّق، وتُنقّى من التكرار، وتُحفظ. يقرأ العربية والإنجليزية والمستندات المختلطة، ومضبوط للفواتير العربية المكتوبة بخط اليد ولحقول الفوترة الإلكترونية من ZATCA."
+      },
+      "trigger": {
+        "en": "Webhook (image or PDF upload)",
+        "ar": "Webhook (رفع صورة أو PDF)"
+      },
+      "services": [
+        "n8n",
+        "OpenAI GPT-4.1 Vision",
+        "PDF Extract",
+        "Validation",
+        "Deduplication",
+        "Webhooks"
+      ],
+      "highlights": {
+        "en": [
+          "Rejects any file that is not a genuine invoice, before anything is saved",
+          "Extracts 70+ fields plus line items: vendor, buyer, totals, VAT, dates",
+          "Classifies every line item into per-company expense categories at extraction time",
+          "Refuses politely and explains why when required data is missing — accuracy before speed"
+        ],
+        "ar": [
+          "يرفض أي ملف ليس فاتورة حقيقية قبل حفظ أي شيء",
+          "يستخرج أكثر من ٧٠ حقلاً إضافة إلى بنود الفاتورة: البائع، والمشتري، والإجماليات، والضريبة، والتواريخ",
+          "يصنّف كل بند إلى فئة مصروف خاصة بالشركة لحظة الاستخراج",
+          "يرفض بأدب ويشرح السبب عند نقص البيانات الأساسية — الدقة قبل السرعة"
+        ]
+      },
+      "outcome": {
+        "en": "Manual invoice entry disappears entirely; a photo becomes structured accounting data in about ten seconds.",
+        "ar": "يختفي الإدخال اليدوي للفواتير تماماً؛ وتتحوّل الصورة إلى بيانات محاسبية منظّمة خلال نحو عشر ثوانٍ."
+      }
+    },
+    {
+      "id": "ai-job-match",
+      "name": {
+        "en": "AI Job-Match Pipeline",
+        "ar": "خط مطابقة الوظائف بالذكاء الاصطناعي"
+      },
+      "year": "2026",
+      "kind": {
+        "en": "Scheduled agent with human-in-the-loop",
+        "ar": "وكيل مجدول مع تدخّل بشري"
+      },
+      "summary": {
+        "en": "A scheduled pipeline that runs five daily search queries across LinkedIn, Indeed, and Glassdoor, scores each role's fit from one to ten with a structured-JSON LLM evaluator, and delivers only the high scorers.",
+        "ar": "خط مجدول ينفّذ خمسة استعلامات بحث يومياً عبر LinkedIn وIndeed وGlassdoor، ويقيّم ملاءمة كل وظيفة من واحد إلى عشرة عبر مُقيّم LLM يُخرج JSON منظّماً، ولا يسلّم إلا الأعلى تقييماً."
+      },
+      "trigger": {
+        "en": "Daily schedule",
+        "ar": "جدول يومي"
+      },
+      "services": [
+        "n8n",
+        "JSearch API",
+        "OpenAI GPT-4.1",
+        "n8n Data Tables",
+        "Telegram",
+        "Gmail"
+      ],
+      "highlights": {
+        "en": [
+          "Structured-JSON evaluator scoring fit on a 1–10 scale",
+          "Deduplication against n8n Data Tables so nothing is seen twice",
+          "Telegram delivery of high-scoring matches only",
+          "Human-in-the-loop approval before any application is sent",
+          "Semi-automated applications with tailored AI-generated cover letters via Gmail"
+        ],
+        "ar": [
+          "مُقيّم يُخرج JSON منظّماً ويمنح درجة ملاءمة من ١ إلى ١٠",
+          "إزالة التكرار مقابل جداول بيانات n8n فلا يتكرّر أي إعلان",
+          "إرسال المطابقات عالية التقييم فقط عبر Telegram",
+          "موافقة بشرية قبل إرسال أي طلب توظيف",
+          "طلبات شبه آلية مع رسائل تغطية مخصّصة يولّدها الذكاء الاصطناعي وتُرسل عبر Gmail"
+        ]
+      },
+      "outcome": {
+        "en": "Daily job hunting collapses into reviewing a short, pre-scored shortlist.",
+        "ar": "يتقلّص البحث اليومي عن عمل إلى مراجعة قائمة قصيرة مقيّمة مسبقاً."
+      }
+    },
+    {
+      "id": "smart-lead-finder",
+      "name": {
+        "en": "Smart Lead Finder",
+        "ar": "الباحث الذكي عن العملاء المحتملين"
+      },
+      "year": "2025",
+      "kind": {
+        "en": "Scraping and enrichment pipeline",
+        "ar": "خط استخراج وإثراء بيانات"
+      },
+      "summary": {
+        "en": "Automated B2B lead generation across the Saudi and Jordanian markets: multi-query place search, website scraping to extract emails and WhatsApp numbers, prioritisation scoring, and duplicate-safe appends into segmented sheets.",
+        "ar": "توليد آلي للعملاء المحتملين في السوقين السعودي والأردني: بحث متعدّد الاستعلامات عن الأماكن، واستخراج البريد وأرقام واتساب من المواقع، وترتيب حسب الأولوية، وإضافة آمنة من التكرار إلى جداول مقسّمة."
+      },
+      "trigger": {
+        "en": "Schedule",
+        "ar": "جدول زمني"
+      },
+      "services": [
+        "n8n",
+        "Serper.dev Google SERP API",
+        "HTTP scraping",
+        "Google Sheets"
+      ],
+      "highlights": {
+        "en": [
+          "Multi-query place search across two markets",
+          "Extracts emails and WhatsApp numbers from company websites",
+          "Prioritisation scoring so the best prospects surface first",
+          "Duplicate-safe appends into segmented sheets"
+        ],
+        "ar": [
+          "بحث متعدّد الاستعلامات عن الأماكن في سوقين",
+          "استخراج البريد الإلكتروني وأرقام واتساب من مواقع الشركات",
+          "ترتيب حسب الأولوية لتظهر أفضل الفرص أولاً",
+          "إضافة آمنة من التكرار إلى جداول مقسّمة"
+        ]
+      },
+      "outcome": {
+        "en": "Manual prospect research became a hands-off scheduled pipeline producing scored, deduplicated lead lists.",
+        "ar": "تحوّل البحث اليدوي عن العملاء إلى خط مجدول لا يحتاج تدخّلاً، يُنتج قوائم مقيّمة وخالية من التكرار."
+      }
+    },
+    {
+      "id": "lesson-quality-evaluator",
+      "name": {
+        "en": "Lesson Quality Evaluator",
+        "ar": "مُقيّم جودة الدروس"
+      },
+      "year": "2026",
+      "kind": {
+        "en": "Video-to-data webhook service",
+        "ar": "خدمة webhook تحوّل الفيديو إلى بيانات"
+      },
+      "summary": {
+        "en": "A webhook service that transcribes lesson videos with speaker separation and returns structured JSON scoring teacher quality and student engagement.",
+        "ar": "خدمة webhook تفرّغ فيديوهات الدروس نصياً مع فصل المتحدّثين، وتُعيد JSON منظّماً يقيّم جودة المعلّم وتفاعل الطالب."
+      },
+      "trigger": {
+        "en": "Webhook (video upload)",
+        "ar": "Webhook (رفع فيديو)"
+      },
+      "services": [
+        "n8n",
+        "AssemblyAI Speaker Diarization",
+        "OpenAI GPT-4.1 Structured Outputs"
+      ],
+      "highlights": {
+        "en": [
+          "Speaker diarization separates teacher from student",
+          "Structured outputs guarantee a parseable result every time",
+          "Returns a score, not a transcript — the caller gets data, not homework"
+        ],
+        "ar": [
+          "فصل المتحدّثين يميّز المعلّم عن الطالب",
+          "المخرجات المنظّمة تضمن نتيجة قابلة للتحليل في كل مرة",
+          "يُعيد تقييماً لا تفريغاً نصياً — فيحصل المستدعي على بيانات لا على عمل إضافي"
+        ]
+      },
+      "outcome": {
+        "en": "Lesson review becomes measurable instead of anecdotal.",
+        "ar": "تصبح مراجعة الدروس قابلة للقياس بدل أن تكون انطباعية."
+      }
+    },
+    {
+      "id": "crm-lead-cleaner",
+      "name": {
+        "en": "CRM Lead Cleaner",
+        "ar": "منقّي بيانات العملاء المحتملين"
+      },
+      "year": "2026",
+      "kind": {
+        "en": "Data quality pipeline · proof of concept",
+        "ar": "خط جودة بيانات · إثبات مفهوم"
+      },
+      "summary": {
+        "en": "Incoming CRM leads arrive scattered — duplicates, malformed emails, missing fields — and cost sales teams hours of manual triage. This pipeline cleans them automatically and reports on what it did.",
+        "ar": "تصل بيانات العملاء المحتملين إلى نظام إدارة العلاقات مبعثرة — تكرار، وبريد غير صالح، وحقول ناقصة — فتكلّف فرق المبيعات ساعات من الفرز اليدوي. هذا الخط ينظّفها تلقائياً ويُبلغ عمّا فعله."
+      },
+      "trigger": {
+        "en": "Webhook or schedule",
+        "ar": "Webhook أو جدول زمني"
+      },
+      "services": [
+        "n8n",
+        "Email validation",
+        "Google Sheets"
+      ],
+      "highlights": {
+        "en": [
+          "Removes duplicates and validates email addresses",
+          "Flags missing fields rather than silently dropping records",
+          "Splits results into Clean and Rejected, with a reason on every rejection",
+          "Produces a quality summary after each run"
+        ],
+        "ar": [
+          "يزيل التكرار ويتحقّق من صحة عناوين البريد",
+          "يضع علامة على الحقول الناقصة بدل حذف السجلات بصمت",
+          "يقسّم النتائج إلى «نظيف» و«مرفوض» مع سبب لكل رفض",
+          "يُنتج ملخّص جودة بعد كل تشغيل"
+        ]
+      },
+      "outcome": {
+        "en": "Designed to plug straight into a CRM, turning hours of manual triage into a summary line.",
+        "ar": "مصمّم ليتّصل مباشرة بنظام إدارة العلاقات، فيحوّل ساعات الفرز اليدوي إلى سطر ملخّص."
+      }
+    }
+  ]
+}

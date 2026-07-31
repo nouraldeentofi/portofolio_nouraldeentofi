@@ -1,0 +1,56 @@
+# Nour Aldeen Tofi
+
+> AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer — based in Al Khobar, Saudi Arabia. I turn messy manual processes into self-running workflows — and build the interfaces people use on top of them.
+
+I build AI automation systems that turn messy manual processes into clean, self-running workflows — and the interfaces people use on top of them. My spearhead is n8n paired with language models: production workflows that read Arabic and English documents, validate them, catch what does not belong, and push clean structured data into sheets, CRMs, and dashboards. By day I lead frontend development as a Software Engineering Supervisor, with a track record of owning delivery end to end — requirements, tasks, production.
+
+## Start here
+
+- [Home](https://nouraldeentofi.netlify.app/index.html)
+- [About](https://nouraldeentofi.netlify.app/about.html)
+- [Work](https://nouraldeentofi.netlify.app/work.html)
+- [Projects](https://nouraldeentofi.netlify.app/projects.html)
+- [Automation Lab](https://nouraldeentofi.netlify.app/automation.html)
+- [Chat](https://nouraldeentofi.netlify.app/chat.html)
+- [Contact](https://nouraldeentofi.netlify.app/contact.html)
+
+## Projects
+
+- [Smart Scanner](https://receipt.nexleadtech.com) (2026): Arabic-first AI invoice management — from photo to approval, with zero manual data entry.
+- DFS Dashboard (2025–2026): A unified CRM and quotation platform that replaced scattered manual processes across every department.
+- [GoldenTag](https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag) (2025): A jewelry store management app shipped to the Google Play Store.
+- Business Card Extractor (2026): Photograph a business card, and it lands in your phone's contacts in one tap.
+- MCP Search Server (2026): A Model Context Protocol server that lets an AI model query real data instead of only generating text.
+
+## Automation workflows
+
+- Teacher Assistant AI Bot (2025 — present): A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia. The tutor manages students, schedules, cancellations, and dues entirely through chat — the AI agent calls custom CRUD tools under strict business rules rather than guessing.
+- Smart Scanner Extraction Pipeline (2026): The production pipeline behind Smart Scanner. Every invoice — photo or PDF — is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and ZATCA e-invoice fields.
+- AI Job-Match Pipeline (2026): A scheduled pipeline that runs five daily search queries across LinkedIn, Indeed, and Glassdoor, scores each role's fit from one to ten with a structured-JSON LLM evaluator, and delivers only the high scorers.
+- Smart Lead Finder (2025): Automated B2B lead generation across the Saudi and Jordanian markets: multi-query place search, website scraping to extract emails and WhatsApp numbers, prioritisation scoring, and duplicate-safe appends into segmented sheets.
+- Lesson Quality Evaluator (2026): A webhook service that transcribes lesson videos with speaker separation and returns structured JSON scoring teacher quality and student engagement.
+- CRM Lead Cleaner (2026): Incoming CRM leads arrive scattered — duplicates, malformed emails, missing fields — and cost sales teams hours of manual triage. This pipeline cleans them automatically and reports on what it did.
+
+## Experience
+
+- Software Engineering Supervisor, Distinctive Frontier Co. for Safety Equipment L.L.C (2026-01 — Present)
+- Freelance Project Coordinator & Automation Builder, NexLead (2025-03 — Present)
+- Frontend Developer / Project Coordinator, Distinctive Frontier Co. for Safety Equipment L.L.C (2025-01 — 2026-01)
+- Frontend Developer (Part-Time), Khwarizm Technologies (2024-09 — 2025-04)
+- Frontend Developer (Freelance), Minicodeleader (2023-06 — 2024-02)
+
+## Machine-readable
+
+- [Full profile as markdown](https://nouraldeentofi.netlify.app/llms-full.txt): everything on this site in one document
+- [Profile JSON](https://nouraldeentofi.netlify.app/api/profile.json): identity, links, availability
+- [Projects JSON](https://nouraldeentofi.netlify.app/api/projects.json): projects and workflows
+- [Résumé (JSON Resume standard)](https://nouraldeentofi.netlify.app/api/resume.json)
+- [MCP server](https://nouraldeentofi.netlify.app/mcp/README.md): query this profile as tools from an AI assistant
+
+## Contact
+
+- Email: nouraldeentofi@gmail.com
+- LinkedIn: https://www.linkedin.com/in/nour-aldeen-tofi-19b116240
+- Portfolio: https://nouraldeentofi.netlify.app
+- Smart Scanner: https://receipt.nexleadtech.com
+- Google Play: https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag

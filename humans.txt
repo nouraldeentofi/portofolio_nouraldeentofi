@@ -1,0 +1,11 @@
+/* TEAM */
+  Engineer: Nour Aldeen Tofi
+  Site: nouraldeentofi.netlify.app
+  Location: Al Khobar, Eastern Province, Saudi Arabia
+  Languages: Arabic, English
+
+/* SITE */
+  Standards: HTML5, CSS (logical properties), ES modules
+  Components: none
+  Build: node scripts/build.mjs
+  Software: written by hand

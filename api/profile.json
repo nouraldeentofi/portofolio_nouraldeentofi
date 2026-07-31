@@ -1,0 +1,218 @@
+{
+  "$schema": "https://nouraldeentofi.netlify.app/api/profile.json",
+  "generated": "2026-07-31T16:13:51.815Z",
+  "name": {
+    "en": "Nour Aldeen Tofi",
+    "ar": "نور الدين توفي"
+  },
+  "headline": {
+    "en": "AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer",
+    "ar": "مهندس أتمتة بالذكاء الاصطناعي — n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية أول"
+  },
+  "tagline": {
+    "en": "I turn messy manual processes into self-running workflows — and build the interfaces people use on top of them.",
+    "ar": "أُحوّل العمليات اليدوية المتعثّرة إلى مسارات عمل ذاتية التشغيل، وأبني الواجهات التي يستخدمها الناس فوقها."
+  },
+  "location": {
+    "city": {
+      "en": "Al Khobar",
+      "ar": "الخبر"
+    },
+    "region": {
+      "en": "Eastern Province",
+      "ar": "المنطقة الشرقية"
+    },
+    "country": {
+      "en": "Saudi Arabia",
+      "ar": "المملكة العربية السعودية"
+    },
+    "countryCode": "SA"
+  },
+  "email": "nouraldeentofi@gmail.com",
+  "phone": "+966547972944",
+  "url": "https://nouraldeentofi.netlify.app",
+  "languages": [
+    {
+      "code": "ar",
+      "name": {
+        "en": "Arabic",
+        "ar": "العربية"
+      },
+      "level": {
+        "en": "Native",
+        "ar": "اللغة الأم"
+      }
+    },
+    {
+      "code": "en",
+      "name": {
+        "en": "English",
+        "ar": "الإنجليزية"
+      },
+      "level": {
+        "en": "Professional working proficiency",
+        "ar": "إجادة مهنية"
+      }
+    }
+  ],
+  "links": [
+    {
+      "platform": "LinkedIn",
+      "url": "https://www.linkedin.com/in/nour-aldeen-tofi-19b116240"
+    },
+    {
+      "platform": "Portfolio",
+      "url": "https://nouraldeentofi.netlify.app"
+    },
+    {
+      "platform": "Smart Scanner",
+      "url": "https://receipt.nexleadtech.com"
+    },
+    {
+      "platform": "Google Play",
+      "url": "https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag"
+    }
+  ],
+  "availability": {
+    "openToWork": true,
+    "arrangements": {
+      "en": [
+        "On-site",
+        "Hybrid",
+        "Remote"
+      ],
+      "ar": [
+        "في الموقع",
+        "هجين",
+        "عن بُعد"
+      ]
+    }
+  },
+  "skills": [
+    {
+      "id": "automation-ai",
+      "category": {
+        "en": "Automation & AI",
+        "ar": "الأتمتة والذكاء الاصطناعي"
+      },
+      "items": [
+        "n8n",
+        "Workflow Automation",
+        "AI Agents",
+        "LLM Tool-Calling Design",
+        "Model Context Protocol (MCP)",
+        "OpenAI API",
+        "GPT-4o",
+        "GPT-4.1 Vision",
+        "Structured JSON Outputs",
+        "Prompt Engineering",
+        "Document AI",
+        "Arabic OCR & Extraction",
+        "Web Scraping",
+        "Telegram Bot API",
+        "Webhooks",
+        "Error Handling & Retries"
+      ]
+    },
+    {
+      "id": "frontend",
+      "category": {
+        "en": "Frontend",
+        "ar": "الواجهات الأمامية"
+      },
+      "items": [
+        "React.js",
+        "React 19",
+        "TypeScript",
+        "JavaScript (ES6+)",
+        "Tailwind CSS",
+        "HTML5",
+        "CSS3",
+        "Material-UI",
+        "Vite",
+        "React Hooks",
+        "TanStack React Query",
+        "React Hook Form",
+        "React Router",
+        "i18n & RTL",
+        "Responsive Design",
+        "Web Accessibility"
+      ]
+    },
+    {
+      "id": "data-backend",
+      "category": {
+        "en": "Data & Backend",
+        "ar": "البيانات والواجهة الخلفية"
+      },
+      "items": [
+        "REST APIs",
+        "API Integration",
+        "JSON",
+        "OAuth 2.0",
+        "MySQL",
+        "Stored Procedures",
+        "Google Sheets API",
+        "Google Drive API",
+        "Node.js",
+        "Python"
+      ]
+    },
+    {
+      "id": "tooling",
+      "category": {
+        "en": "Tooling & Delivery",
+        "ar": "الأدوات والتسليم"
+      },
+      "items": [
+        "Git",
+        "GitHub",
+        "GitLab",
+        "CI/CD (GitHub Actions)",
+        "Vitest",
+        "React Testing Library",
+        "Jira",
+        "Trello",
+        "Figma",
+        "Agile",
+        "Scrum",
+        "Clean Code"
+      ]
+    },
+    {
+      "id": "coordination",
+      "category": {
+        "en": "Coordination & Leadership",
+        "ar": "التنسيق والقيادة"
+      },
+      "items": [
+        "Requirements Gathering",
+        "Scope Definition",
+        "API Contract Design",
+        "User Stories",
+        "Sprint Planning",
+        "Code Review",
+        "Mentoring",
+        "Cross-Functional Team Leadership",
+        "Project Coordination",
+        "Problem Solving"
+      ]
+    }
+  ],
+  "documents": {
+    "llms": "https://nouraldeentofi.netlify.app/llms.txt",
+    "llmsFull": "https://nouraldeentofi.netlify.app/llms-full.txt",
+    "resume": "https://nouraldeentofi.netlify.app/api/resume.json",
+    "projects": "https://nouraldeentofi.netlify.app/api/projects.json",
+    "cv": [
+      {
+        "id": "automation",
+        "url": "https://nouraldeentofi.netlify.app/assets/cv/Nour_Aldeen_Tofi_Automation.pdf"
+      },
+      {
+        "id": "engineering",
+        "url": "https://nouraldeentofi.netlify.app/assets/cv/Nour_Aldeen_Tofi.pdf"
+      }
+    ]
+  }
+}

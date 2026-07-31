@@ -1,0 +1,342 @@
+# Nour Aldeen Tofi — complete profile
+
+> AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer
+
+**Location:** Al Khobar, Eastern Province, Saudi Arabia
+**Email:** nouraldeentofi@gmail.com
+**Phone:** +966547972944
+**Languages:** Arabic (Native), English (Professional working proficiency)
+**Open to work:** yes — On-site, Hybrid, Remote
+
+**Links:**
+- LinkedIn: https://www.linkedin.com/in/nour-aldeen-tofi-19b116240
+- Portfolio: https://nouraldeentofi.netlify.app
+- Smart Scanner: https://receipt.nexleadtech.com
+- Google Play: https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag
+
+## About
+
+I started where most frontend developers start: turning designs into interfaces. What changed things was discovering that the interface is usually the smallest part of the problem. Behind almost every screen someone is retyping data that a machine could have read.
+
+So I went looking for the layer underneath. n8n gave me a way to connect language models to real systems — documents in, validated structured data out, straight into the tools a business already uses. Arabic is where this gets interesting, because most global tools quietly do not handle it, and the region is moving fast toward mandatory digital invoicing.
+
+I still write the frontend. I lead it, in fact — I set the standards, review the code, and mentor the developers. The difference is that I now design the whole path, from the moment a document arrives to the moment someone approves it on screen.
+
+The other half of the job is coordination. I gather requirements directly from clients, define scope and acceptance criteria, break work into tasks, and keep delivery on schedule across frontend, backend, and design. It is less glamorous than the AI part and it is often what decides whether a project ships.
+
+## How he works
+
+### Agree the contract before the first line of code
+
+The worst bug I have shipped was not in anyone's code. Two systems each behaved perfectly and disagreed about what a payload meant, so data deleted itself silently — no error, no log, nothing broken. Now every shared boundary gets a written agreement first: the shape of the data, the required fields, the strange cases, and who owns what. It lets two people build in parallel and still fit together on the first try.
+
+### Accuracy before speed
+
+A workflow that saves nothing is better than one that saves the wrong thing. My extraction pipelines refuse to persist anything until the essential fields are present and plausible — and when something is missing, they say so and explain why. A confident wrong answer is worse than a slow right one.
+
+### Route by cost, not by habit
+
+My first workflow sent every incoming file to a vision model. But a PDF usually carries extractable text, and a text model reads it for a fraction of the price. One branching decision cut the per-document cost by three quarters — with a fallback to vision when extraction comes back empty. The branch is free; the saving compounds every month.
+
+### Build the thing people will actually open
+
+An automation nobody trusts gets bypassed. A dashboard nobody understands gets exported to a spreadsheet. So I care about the interface as much as the pipeline: clear states, honest errors, and no dead ends.
+
+## Projects
+
+### Smart Scanner (2026)
+
+*AI SaaS product* — Arabic-first AI invoice management — from photo to approval, with zero manual data entry.
+
+**Problem.** In most companies an invoice sleeps in a pocket or a drawer until month-end, when a stack of paper lands on the accountant's desk to be typed in by hand. The result is lost time, human error, duplicate and forged invoices slipping through unnoticed, and no record of who submitted what. Global tools mostly cannot read an Arabic invoice at all.
+
+**What he built.** I built two of the three layers: the entire AI extraction engine in n8n, and the complete frontend. The frontend is three role-based applications — admin, accountant, and employee — sharing one React 19 and TypeScript codebase, with an Arabic-default bilingual UI, full RTL through logical CSS properties, and a custom i18n layer. It includes a guided upload flow with in-page camera capture, a receipt browser with server-side filtering, Excel export, and feature gating across subscription tiers, all shipped through GitHub Actions quality gates and atomic SSH deploys.
+
+**Role.** AI/automation engine and complete frontend. Laravel backend by Haitham Zedan.
+
+**Numbers.** 204 source files · 494 automated tests · 70+ fields extracted · 13+ server-side filters · 4 subscription tiers · ~10s photo to structured data
+
+**Stack.** React 19, TypeScript, Tailwind CSS, Vitest, React Testing Library, n8n, OpenAI GPT-4.1 Vision, GitHub Actions, i18n, RTL
+
+**Live.** https://receipt.nexleadtech.com
+
+**Context.** Timed with ZATCA e-invoicing expansion in Saudi Arabia and mandatory JoFotara in Jordan — every paper invoice in the region now has to become clean digital data.
+
+### DFS Dashboard (2025–2026)
+
+*Internal platform* — A unified CRM and quotation platform that replaced scattered manual processes across every department.
+
+**Problem.** Customer management and quotation handling lived in separate manual steps with no shared context, so nothing was traceable end to end.
+
+**What he built.** I owned the two core frontend modules — CRM and Quotation — and connected them into one workflow: creating and updating quotations, tracking statuses, managing customers and leads, and an internal module for projects and tasks with assignment and progress tracking. I worked closely with the backend team on API definitions and payload reviews so UI behaviour matched the business workflow.
+
+**Role.** Frontend lead
+
+**Numbers.** 2 core modules owned · 2 languages (AR/EN)
+
+**Stack.** React 19, Vite, TypeScript, Tailwind CSS v4, Axios, TanStack React Query, React Hook Form, React Router, Laravel Echo, @hello-pangea/dnd
+
+### GoldenTag (2025)
+
+*Mobile app · Google Play* — A jewelry store management app shipped to the Google Play Store.
+
+**Problem.** Jewelry retailers track inventory, staff, and sales on paper, in a market where the exchange rate moves daily.
+
+**What he built.** I coordinated delivery end to end: requirements with the client, scope and acceptance criteria, user stories on Trello, and oversight across frontend, backend, and UI/UX through to publication. Features include inventory, employee management, barcode scanning, USD/SYP exchange rates, sales logging, and TXT export.
+
+**Role.** Project coordinator
+
+**Numbers.** 4 core features · Live on Google Play
+
+**Stack.** Flutter, Trello, Requirements Gathering, Release Management
+
+**Live.** https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag
+
+### Business Card Extractor (2026)
+
+*AI web app* — Photograph a business card, and it lands in your phone's contacts in one tap.
+
+**Problem.** You collect a stack of business cards at an event and never open it again. It is a small problem that quietly costs sales teams real pipeline.
+
+**What he built.** A web app that turns a photo of any business card into structured data — name, company, email, phone, website — in seconds, stores it in Google Sheets, and generates a vCard so the contact saves straight to the phone. No custom backend at all: an n8n workflow receives the image, GPT-4o Vision reads it, the data is validated and stored, and it flows back to the app. The one-tap save came from a user suggestion after the first release.
+
+**Role.** Full build — frontend and automation
+
+**Numbers.** 0 lines of custom backend · 1 tap to save a contact
+
+**Stack.** React, TypeScript, Tailwind CSS, n8n, OpenAI GPT-4o Vision, Google Sheets, vCard
+
+### MCP Search Server (2026)
+
+*AI tooling* — A Model Context Protocol server that lets an AI model query real data instead of only generating text.
+
+**Problem.** Language models are fluent but disconnected. MCP is the bridge — but most of the discussion about it stays theoretical.
+
+**What he built.** I built an MCP server with custom tools including a search tool, wired it to real data, and connected it to Claude — so a plain-language question like "what are the details of user 2" returns the correct record directly. The same pattern powers the MCP server that ships with this portfolio.
+
+**Role.** Full build
+
+**Numbers.** MCP tools exposed to Claude
+
+**Stack.** Model Context Protocol, Node.js, Claude, JSON Schema
+
+## Automation workflows
+
+### Teacher Assistant AI Bot (2025 — present)
+
+*Telegram AI agent · client project* — trigger: Telegram message
+
+A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia. The tutor manages students, schedules, cancellations, and dues entirely through chat — the AI agent calls custom CRUD tools under strict business rules rather than guessing.
+
+**Services.** n8n AI Agent, OpenAI, Google Sheets, MySQL, Telegram Bot API, Webhooks
+
+- Custom tool-calling design with strict business rules
+- Usage metering and free-trial gating
+- Session memory across conversations
+- Automated lesson reminders scheduled in Saudi time
+
+**Outcome.** A tutor runs an entire practice from a chat window, with no app to learn and no spreadsheet to maintain.
+
+### Smart Scanner Extraction Pipeline (2026)
+
+*Production document AI pipeline* — trigger: Webhook (image or PDF upload)
+
+The production pipeline behind Smart Scanner. Every invoice — photo or PDF — is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and ZATCA e-invoice fields.
+
+**Services.** n8n, OpenAI GPT-4.1 Vision, PDF Extract, Validation, Deduplication, Webhooks
+
+- Rejects any file that is not a genuine invoice, before anything is saved
+- Extracts 70+ fields plus line items: vendor, buyer, totals, VAT, dates
+- Classifies every line item into per-company expense categories at extraction time
+- Refuses politely and explains why when required data is missing — accuracy before speed
+
+**Outcome.** Manual invoice entry disappears entirely; a photo becomes structured accounting data in about ten seconds.
+
+### AI Job-Match Pipeline (2026)
+
+*Scheduled agent with human-in-the-loop* — trigger: Daily schedule
+
+A scheduled pipeline that runs five daily search queries across LinkedIn, Indeed, and Glassdoor, scores each role's fit from one to ten with a structured-JSON LLM evaluator, and delivers only the high scorers.
+
+**Services.** n8n, JSearch API, OpenAI GPT-4.1, n8n Data Tables, Telegram, Gmail
+
+- Structured-JSON evaluator scoring fit on a 1–10 scale
+- Deduplication against n8n Data Tables so nothing is seen twice
+- Telegram delivery of high-scoring matches only
+- Human-in-the-loop approval before any application is sent
+- Semi-automated applications with tailored AI-generated cover letters via Gmail
+
+**Outcome.** Daily job hunting collapses into reviewing a short, pre-scored shortlist.
+
+### Smart Lead Finder (2025)
+
+*Scraping and enrichment pipeline* — trigger: Schedule
+
+Automated B2B lead generation across the Saudi and Jordanian markets: multi-query place search, website scraping to extract emails and WhatsApp numbers, prioritisation scoring, and duplicate-safe appends into segmented sheets.
+
+**Services.** n8n, Serper.dev Google SERP API, HTTP scraping, Google Sheets
+
+- Multi-query place search across two markets
+- Extracts emails and WhatsApp numbers from company websites
+- Prioritisation scoring so the best prospects surface first
+- Duplicate-safe appends into segmented sheets
+
+**Outcome.** Manual prospect research became a hands-off scheduled pipeline producing scored, deduplicated lead lists.
+
+### Lesson Quality Evaluator (2026)
+
+*Video-to-data webhook service* — trigger: Webhook (video upload)
+
+A webhook service that transcribes lesson videos with speaker separation and returns structured JSON scoring teacher quality and student engagement.
+
+**Services.** n8n, AssemblyAI Speaker Diarization, OpenAI GPT-4.1 Structured Outputs
+
+- Speaker diarization separates teacher from student
+- Structured outputs guarantee a parseable result every time
+- Returns a score, not a transcript — the caller gets data, not homework
+
+**Outcome.** Lesson review becomes measurable instead of anecdotal.
+
+### CRM Lead Cleaner (2026)
+
+*Data quality pipeline · proof of concept* — trigger: Webhook or schedule
+
+Incoming CRM leads arrive scattered — duplicates, malformed emails, missing fields — and cost sales teams hours of manual triage. This pipeline cleans them automatically and reports on what it did.
+
+**Services.** n8n, Email validation, Google Sheets
+
+- Removes duplicates and validates email addresses
+- Flags missing fields rather than silently dropping records
+- Splits results into Clean and Rejected, with a reason on every rejection
+- Produces a quality summary after each run
+
+**Outcome.** Designed to plug straight into a CRM, turning hours of manual triage into a summary line.
+
+## Experience
+
+### Software Engineering Supervisor — Distinctive Frontier Co. for Safety Equipment L.L.C
+
+2026-01 — Present · Al Khobar, Saudi Arabia · Full-time · On-site
+
+- Lead frontend development across internal business platforms, delivering scalable UI features in Arabic and English with React and TypeScript.
+- Define coding standards, review every frontend change before merge, and mentor developers — reducing rework and keeping the codebase maintainable.
+- Translate product ideas into shipped features in collaboration with backend (Laravel) and UI/UX teams, aligning technical delivery with business objectives.
+- Introduce internal workflow automation with n8n and OpenAI integrations to streamline repetitive team operations.
+
+### Freelance Project Coordinator & Automation Builder — NexLead
+
+2025-03 — Present · Remote · Freelance · Remote
+
+- Deliver client automation and software projects end to end: requirements, scope, workflow design, and release.
+- Gather requirements directly with clients, define acceptance criteria, and break work into tasks and user stories on Trello.
+- Manage timelines and cost estimation while overseeing frontend, backend, and UI/UX quality.
+- Delivered GoldenTag, a jewelry store management app, to the Google Play Store.
+
+### Frontend Developer / Project Coordinator — Distinctive Frontier Co. for Safety Equipment L.L.C
+
+2025-01 — 2026-01 · Al Khobar, Saudi Arabia · Full-time · On-site
+
+- Built a dashboard-based internal platform combining Jira-style task tracking with a quotation management system in React, used daily across all departments.
+- Implemented three core modules — task tracking, quotation generation, and workflow management — replacing manual spreadsheet processes.
+- Coordinated between frontend and backend teams to clarify requirements and keep delivery on schedule.
+- Promoted to Software Engineering Supervisor within twelve months.
+
+### Frontend Developer (Part-Time) — Khwarizm Technologies
+
+2024-09 — 2025-04 · Riyadh, Saudi Arabia (Remote) · Part-time · Remote
+
+- Developed a modern, responsive web application dashboard with React and Tailwind CSS as part of a full product team.
+- Converted detailed Figma designs into accessible, pixel-accurate interfaces with reusable components and efficient state management.
+- Conducted code reviews and upheld coding standards to deliver a clean, optimized codebase.
+
+### Frontend Developer (Freelance) — Minicodeleader
+
+2023-06 — 2024-02 · Remote · Freelance · Remote
+
+- Designed responsive user interfaces for a kids education platform using React and Material-UI, where users browse courses, open lessons, and save courses for later.
+- Transformed Figma designs into functional interfaces with reusable components and optimized state management.
+- First professional React role — the foundation for everything that followed.
+
+## Education and awards
+
+- **Bachelor of Information Technology Engineering** — University of Kalamoon (2024-08)
+- **ACPC — Arab Collegiate Programming Contest** — ICPC — International Collegiate Programming Contest (2021-09)
+
+## Certifications
+
+- **How to use roadmaps in Jira** — Coursera Project Network (2025-05) · ID LK38V6C4Z8JI
+- **Create User Stories in Jira** — Coursera Project Network (2025-05) · ID TBR0Y7OAFNAY
+- **Get started with Jira** — Coursera Project Network (2025-05) · ID UJB8ZR6XQQIQ
+- **TypeScript in React: Get started** — Coursera Project Network (2025-05) · ID O5Q2441FNT75
+- **Learn Markdown** — Scrimba (2025-04) · ID 2ZF1TPIS79DV
+- **Project Initiation: Starting a Successful Project** — Google (2025-04) · ID E2FQ4VK5Y8E1
+- **Foundations of Project Management** — Google (2025-03) · ID 4Y8FUR9QHWM4
+- **Advanced React** — Meta (2025-01) · ID 1OMX1QZY5G5Q
+- **Clean Code Basics: How to Write Maintainable Code** — Scrimba (2024-11) · ID F72A6F85NYPT
+- **Python for Data Science, AI & Development** — IBM (2024-11) · ID UCC3I1P3TIIU
+- **Tailwind CSS From Scratch — Learn by Building Projects** — Packt (2024-10) · ID VWW2LONJ33FO
+- **Generative AI: Prompt Engineering Basics** — IBM (2024-10) · ID 7RRDE0FY184F
+
+## Skills
+
+**Automation & AI.** n8n, Workflow Automation, AI Agents, LLM Tool-Calling Design, Model Context Protocol (MCP), OpenAI API, GPT-4o, GPT-4.1 Vision, Structured JSON Outputs, Prompt Engineering, Document AI, Arabic OCR & Extraction, Web Scraping, Telegram Bot API, Webhooks, Error Handling & Retries
+
+**Frontend.** React.js, React 19, TypeScript, JavaScript (ES6+), Tailwind CSS, HTML5, CSS3, Material-UI, Vite, React Hooks, TanStack React Query, React Hook Form, React Router, i18n & RTL, Responsive Design, Web Accessibility
+
+**Data & Backend.** REST APIs, API Integration, JSON, OAuth 2.0, MySQL, Stored Procedures, Google Sheets API, Google Drive API, Node.js, Python
+
+**Tooling & Delivery.** Git, GitHub, GitLab, CI/CD (GitHub Actions), Vitest, React Testing Library, Jira, Trello, Figma, Agile, Scrum, Clean Code
+
+**Coordination & Leadership.** Requirements Gathering, Scope Definition, API Contract Design, User Stories, Sprint Planning, Code Review, Mentoring, Cross-Functional Team Leadership, Project Coordination, Problem Solving
+
+## Recommendations
+
+### Haitham Zedan — Software Engineer · Laravel PHP Developer
+
+*Worked with Nour on the same team, across two companies, 2026-02-05*
+
+> I worked closely with Nour Aldeen across two different companies, and he's one of the few people I've seen who combines strong frontend execution with real delivery ownership — requirements, task breakdown, and deadlines. I was the Backend Developer and he was the Frontend Developer. In our second collaboration, he also handled requirements clarification, turning them into actionable tasks, coordinating assignments, and keeping delivery on track. This made backend–frontend collaboration smooth, because expectations and API contracts were clear.
+
+### George Drouj — SDE @ noon · Codeforces Master · ACPC Bronze Medalist
+
+*Coached Nour in competitive programming; senior, but not a direct manager, 2026-02-05*
+
+> I had the pleasure of coaching Nour in 2021 for competitive programming contests. During our time working on data structures and algorithms, Nour stood out for his exceptionally sharp analytical mind and his ability to grasp complex concepts rapidly. He is a natural problem-solver who approaches challenges with both speed and precision.
+
+### Tawheed Malkat — IT Engineer · Senior UI/UX Designer · Product Designer
+
+*Worked with Nour on the same team at NexLead, 2026-02-05*
+
+> I had the privilege of working with Nour Aldeen on the mobile development team at NexLead, and — as the person responsible for UI/UX — what distinguished his approach most was his focus on understanding before implementing. He was always careful to absorb the requirements fully and grasp the intent behind the design, so that implementation was never merely a visual translation but a coherent, logical user experience reflecting the design's core idea. He handled handoff and feedback with real professionalism: he asked precise questions and paid attention to details like consistency, edge cases, and user expectations. I recommend Nour Aldeen for any role requiring strong coordination between design and development, deep understanding of requirements, and genuine care for implementation quality through to delivery.
+
+### Hamza Shansho — Mobile Application Developer · Flutter Developer
+
+*Studied with Nour; graduation project teammate, 2026-02-05*
+
+> I was on the graduation project team with Nour Aldeen. I handled the Flutter mobile application, while Nour handled the most important part of the project: the core algorithm and the AI component that builds a suitable nutrition plan from user data. What impressed me was that he worked with an owner's mindset — he clarified the required inputs, defined the data flow and integration points, and explained the decision logic in a way that got the whole team aligned on the same picture. Whenever something was unclear, he went back to fundamentals: what is the goal, what are the constraints, and how do we guarantee a sensible result? His presence raised the quality of what we shipped, because his work was built on understanding and analysis rather than guesswork.
+
+## Frequently asked
+
+**What does Nour Aldeen Tofi do?**
+
+He is an AI Automation Engineer and Senior Frontend Developer based in Al Khobar, Saudi Arabia. He designs and operates production n8n workflows that connect language models to real systems, and builds the React and TypeScript interfaces on top of them. He also works as a Software Engineering Supervisor, leading frontend development and owning delivery end to end.
+
+**What is Smart Scanner?**
+
+Smart Scanner is an Arabic-first AI invoice management product. An employee photographs a receipt; an n8n pipeline verifies it is a genuine invoice, extracts every field with GPT Vision in Arabic and English, and classifies each expense. Accountants then review, approve or reject, comment, and export through role-based dashboards. Nour built the entire AI automation engine and the complete frontend.
+
+**Does he work in Arabic?**
+
+Arabic is his native language and it is a core part of his technical specialisation. He builds Arabic-default bilingual interfaces with full right-to-left support, and his document AI pipelines are tuned specifically for Arabic invoices, including handwritten ones and ZATCA e-invoice fields — a case most global tools handle poorly or not at all.
+
+**Is he open to work?**
+
+Yes. He is open to opportunities in Saudi Arabia and remotely, on-site, hybrid, or fully remote, and takes on freelance automation and frontend projects. The fastest way to reach him is email.
+
+**What is his automation stack?**
+
+n8n for orchestration; the OpenAI API including GPT-4o and GPT-4.1 Vision with structured JSON outputs; AI agents with custom tool-calling; webhooks and REST integrations; Google Sheets, Google Drive, MySQL, and Telegram as data and delivery layers; and the Model Context Protocol for connecting models to real tools.
+
+**How do I contact him?**
+
+By email at nouraldeentofi@gmail.com, or through LinkedIn. This site also publishes a machine-readable profile and an MCP server, so an AI assistant can look up his experience and projects directly.

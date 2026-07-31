@@ -1,0 +1,418 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+  "basics": {
+    "name": "Nour Aldeen Tofi",
+    "label": "AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer",
+    "email": "nouraldeentofi@gmail.com",
+    "phone": "+966547972944",
+    "url": "https://nouraldeentofi.netlify.app",
+    "summary": "I turn messy manual processes into self-running workflows — and build the interfaces people use on top of them.",
+    "location": {
+      "city": "Al Khobar",
+      "region": "Eastern Province",
+      "countryCode": "SA"
+    },
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "Nour Aldeen Tofi",
+        "url": "https://www.linkedin.com/in/nour-aldeen-tofi-19b116240"
+      },
+      {
+        "network": "Portfolio",
+        "username": "Nour Aldeen Tofi",
+        "url": "https://nouraldeentofi.netlify.app"
+      },
+      {
+        "network": "Smart Scanner",
+        "username": "Nour Aldeen Tofi",
+        "url": "https://receipt.nexleadtech.com"
+      },
+      {
+        "network": "Google Play",
+        "username": "Nour Aldeen Tofi",
+        "url": "https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Distinctive Frontier Co. for Safety Equipment L.L.C",
+      "position": "Software Engineering Supervisor",
+      "location": "Al Khobar, Saudi Arabia",
+      "startDate": "2026-01-01",
+      "highlights": [
+        "Lead frontend development across internal business platforms, delivering scalable UI features in Arabic and English with React and TypeScript.",
+        "Define coding standards, review every frontend change before merge, and mentor developers — reducing rework and keeping the codebase maintainable.",
+        "Translate product ideas into shipped features in collaboration with backend (Laravel) and UI/UX teams, aligning technical delivery with business objectives.",
+        "Introduce internal workflow automation with n8n and OpenAI integrations to streamline repetitive team operations."
+      ]
+    },
+    {
+      "name": "NexLead",
+      "position": "Freelance Project Coordinator & Automation Builder",
+      "location": "Remote",
+      "startDate": "2025-03-01",
+      "highlights": [
+        "Deliver client automation and software projects end to end: requirements, scope, workflow design, and release.",
+        "Gather requirements directly with clients, define acceptance criteria, and break work into tasks and user stories on Trello.",
+        "Manage timelines and cost estimation while overseeing frontend, backend, and UI/UX quality.",
+        "Delivered GoldenTag, a jewelry store management app, to the Google Play Store."
+      ]
+    },
+    {
+      "name": "Distinctive Frontier Co. for Safety Equipment L.L.C",
+      "position": "Frontend Developer / Project Coordinator",
+      "location": "Al Khobar, Saudi Arabia",
+      "startDate": "2025-01-01",
+      "endDate": "2026-01-01",
+      "highlights": [
+        "Built a dashboard-based internal platform combining Jira-style task tracking with a quotation management system in React, used daily across all departments.",
+        "Implemented three core modules — task tracking, quotation generation, and workflow management — replacing manual spreadsheet processes.",
+        "Coordinated between frontend and backend teams to clarify requirements and keep delivery on schedule.",
+        "Promoted to Software Engineering Supervisor within twelve months."
+      ]
+    },
+    {
+      "name": "Khwarizm Technologies",
+      "position": "Frontend Developer (Part-Time)",
+      "location": "Riyadh, Saudi Arabia (Remote)",
+      "startDate": "2024-09-01",
+      "endDate": "2025-04-01",
+      "highlights": [
+        "Developed a modern, responsive web application dashboard with React and Tailwind CSS as part of a full product team.",
+        "Converted detailed Figma designs into accessible, pixel-accurate interfaces with reusable components and efficient state management.",
+        "Conducted code reviews and upheld coding standards to deliver a clean, optimized codebase."
+      ]
+    },
+    {
+      "name": "Minicodeleader",
+      "position": "Frontend Developer (Freelance)",
+      "location": "Remote",
+      "startDate": "2023-06-01",
+      "endDate": "2024-02-01",
+      "highlights": [
+        "Designed responsive user interfaces for a kids education platform using React and Material-UI, where users browse courses, open lessons, and save courses for later.",
+        "Transformed Figma designs into functional interfaces with reusable components and optimized state management.",
+        "First professional React role — the foundation for everything that followed."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "University of Kalamoon",
+      "area": "Information Technology Engineering",
+      "studyType": "Bachelor",
+      "startDate": "2019-09-01",
+      "endDate": "2024-08-01"
+    }
+  ],
+  "certificates": [
+    {
+      "name": "How to use roadmaps in Jira",
+      "issuer": "Coursera Project Network",
+      "date": "2025-05-01",
+      "url": "credential:LK38V6C4Z8JI"
+    },
+    {
+      "name": "Create User Stories in Jira",
+      "issuer": "Coursera Project Network",
+      "date": "2025-05-01",
+      "url": "credential:TBR0Y7OAFNAY"
+    },
+    {
+      "name": "Get started with Jira",
+      "issuer": "Coursera Project Network",
+      "date": "2025-05-01",
+      "url": "credential:UJB8ZR6XQQIQ"
+    },
+    {
+      "name": "TypeScript in React: Get started",
+      "issuer": "Coursera Project Network",
+      "date": "2025-05-01",
+      "url": "credential:O5Q2441FNT75"
+    },
+    {
+      "name": "Learn Markdown",
+      "issuer": "Scrimba",
+      "date": "2025-04-01",
+      "url": "credential:2ZF1TPIS79DV"
+    },
+    {
+      "name": "Project Initiation: Starting a Successful Project",
+      "issuer": "Google",
+      "date": "2025-04-01",
+      "url": "credential:E2FQ4VK5Y8E1"
+    },
+    {
+      "name": "Foundations of Project Management",
+      "issuer": "Google",
+      "date": "2025-03-01",
+      "url": "credential:4Y8FUR9QHWM4"
+    },
+    {
+      "name": "Advanced React",
+      "issuer": "Meta",
+      "date": "2025-01-01",
+      "url": "credential:1OMX1QZY5G5Q"
+    },
+    {
+      "name": "Clean Code Basics: How to Write Maintainable Code",
+      "issuer": "Scrimba",
+      "date": "2024-11-01",
+      "url": "credential:F72A6F85NYPT"
+    },
+    {
+      "name": "Python for Data Science, AI & Development",
+      "issuer": "IBM",
+      "date": "2024-11-01",
+      "url": "credential:UCC3I1P3TIIU"
+    },
+    {
+      "name": "Tailwind CSS From Scratch — Learn by Building Projects",
+      "issuer": "Packt",
+      "date": "2024-10-01",
+      "url": "credential:VWW2LONJ33FO"
+    },
+    {
+      "name": "Generative AI: Prompt Engineering Basics",
+      "issuer": "IBM",
+      "date": "2024-10-01",
+      "url": "credential:7RRDE0FY184F"
+    }
+  ],
+  "awards": [
+    {
+      "title": "ACPC — Arab Collegiate Programming Contest",
+      "awarder": "ICPC — International Collegiate Programming Contest",
+      "date": "2021-09-01",
+      "summary": "Algorithmic problem solving and team leadership under contest time pressure."
+    }
+  ],
+  "skills": [
+    {
+      "name": "Automation & AI",
+      "keywords": [
+        "n8n",
+        "Workflow Automation",
+        "AI Agents",
+        "LLM Tool-Calling Design",
+        "Model Context Protocol (MCP)",
+        "OpenAI API",
+        "GPT-4o",
+        "GPT-4.1 Vision",
+        "Structured JSON Outputs",
+        "Prompt Engineering",
+        "Document AI",
+        "Arabic OCR & Extraction",
+        "Web Scraping",
+        "Telegram Bot API",
+        "Webhooks",
+        "Error Handling & Retries"
+      ]
+    },
+    {
+      "name": "Frontend",
+      "keywords": [
+        "React.js",
+        "React 19",
+        "TypeScript",
+        "JavaScript (ES6+)",
+        "Tailwind CSS",
+        "HTML5",
+        "CSS3",
+        "Material-UI",
+        "Vite",
+        "React Hooks",
+        "TanStack React Query",
+        "React Hook Form",
+        "React Router",
+        "i18n & RTL",
+        "Responsive Design",
+        "Web Accessibility"
+      ]
+    },
+    {
+      "name": "Data & Backend",
+      "keywords": [
+        "REST APIs",
+        "API Integration",
+        "JSON",
+        "OAuth 2.0",
+        "MySQL",
+        "Stored Procedures",
+        "Google Sheets API",
+        "Google Drive API",
+        "Node.js",
+        "Python"
+      ]
+    },
+    {
+      "name": "Tooling & Delivery",
+      "keywords": [
+        "Git",
+        "GitHub",
+        "GitLab",
+        "CI/CD (GitHub Actions)",
+        "Vitest",
+        "React Testing Library",
+        "Jira",
+        "Trello",
+        "Figma",
+        "Agile",
+        "Scrum",
+        "Clean Code"
+      ]
+    },
+    {
+      "name": "Coordination & Leadership",
+      "keywords": [
+        "Requirements Gathering",
+        "Scope Definition",
+        "API Contract Design",
+        "User Stories",
+        "Sprint Planning",
+        "Code Review",
+        "Mentoring",
+        "Cross-Functional Team Leadership",
+        "Project Coordination",
+        "Problem Solving"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "language": "Arabic",
+      "fluency": "Native"
+    },
+    {
+      "language": "English",
+      "fluency": "Professional working proficiency"
+    }
+  ],
+  "projects": [
+    {
+      "name": "Smart Scanner",
+      "description": "Arabic-first AI invoice management — from photo to approval, with zero manual data entry.",
+      "highlights": [
+        "204 source files",
+        "494 automated tests",
+        "70+ fields extracted",
+        "13+ server-side filters",
+        "4 subscription tiers",
+        "~10s photo to structured data"
+      ],
+      "keywords": [
+        "React 19",
+        "TypeScript",
+        "Tailwind CSS",
+        "Vitest",
+        "React Testing Library",
+        "n8n",
+        "OpenAI GPT-4.1 Vision",
+        "GitHub Actions",
+        "i18n",
+        "RTL"
+      ],
+      "url": "https://receipt.nexleadtech.com",
+      "roles": [
+        "AI/automation engine and complete frontend. Laravel backend by Haitham Zedan."
+      ]
+    },
+    {
+      "name": "DFS Dashboard",
+      "description": "A unified CRM and quotation platform that replaced scattered manual processes across every department.",
+      "highlights": [
+        "2 core modules owned",
+        "2 languages (AR/EN)"
+      ],
+      "keywords": [
+        "React 19",
+        "Vite",
+        "TypeScript",
+        "Tailwind CSS v4",
+        "Axios",
+        "TanStack React Query",
+        "React Hook Form",
+        "React Router",
+        "Laravel Echo",
+        "@hello-pangea/dnd"
+      ],
+      "roles": [
+        "Frontend lead"
+      ]
+    },
+    {
+      "name": "GoldenTag",
+      "description": "A jewelry store management app shipped to the Google Play Store.",
+      "highlights": [
+        "4 core features",
+        "Live on Google Play"
+      ],
+      "keywords": [
+        "Flutter",
+        "Trello",
+        "Requirements Gathering",
+        "Release Management"
+      ],
+      "url": "https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag",
+      "roles": [
+        "Project coordinator"
+      ]
+    },
+    {
+      "name": "Business Card Extractor",
+      "description": "Photograph a business card, and it lands in your phone's contacts in one tap.",
+      "highlights": [
+        "0 lines of custom backend",
+        "1 tap to save a contact"
+      ],
+      "keywords": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "n8n",
+        "OpenAI GPT-4o Vision",
+        "Google Sheets",
+        "vCard"
+      ],
+      "roles": [
+        "Full build — frontend and automation"
+      ]
+    },
+    {
+      "name": "MCP Search Server",
+      "description": "A Model Context Protocol server that lets an AI model query real data instead of only generating text.",
+      "highlights": [
+        "MCP tools exposed to Claude"
+      ],
+      "keywords": [
+        "Model Context Protocol",
+        "Node.js",
+        "Claude",
+        "JSON Schema"
+      ],
+      "roles": [
+        "Full build"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "name": "Haitham Zedan — Software Engineer · Laravel PHP Developer",
+      "reference": "I worked closely with Nour Aldeen across two different companies, and he's one of the few people I've seen who combines strong frontend execution with real delivery ownership — requirements, task breakdown, and deadlines. I was the Backend Developer and he was the Frontend Developer. In our second collaboration, he also handled requirements clarification, turning them into actionable tasks, coordinating assignments, and keeping delivery on track. This made backend–frontend collaboration smooth, because expectations and API contracts were clear."
+    },
+    {
+      "name": "George Drouj — SDE @ noon · Codeforces Master · ACPC Bronze Medalist",
+      "reference": "I had the pleasure of coaching Nour in 2021 for competitive programming contests. During our time working on data structures and algorithms, Nour stood out for his exceptionally sharp analytical mind and his ability to grasp complex concepts rapidly. He is a natural problem-solver who approaches challenges with both speed and precision."
+    },
+    {
+      "name": "Tawheed Malkat — IT Engineer · Senior UI/UX Designer · Product Designer",
+      "reference": "I had the privilege of working with Nour Aldeen on the mobile development team at NexLead, and — as the person responsible for UI/UX — what distinguished his approach most was his focus on understanding before implementing. He was always careful to absorb the requirements fully and grasp the intent behind the design, so that implementation was never merely a visual translation but a coherent, logical user experience reflecting the design's core idea. He handled handoff and feedback with real professionalism: he asked precise questions and paid attention to details like consistency, edge cases, and user expectations. I recommend Nour Aldeen for any role requiring strong coordination between design and development, deep understanding of requirements, and genuine care for implementation quality through to delivery."
+    },
+    {
+      "name": "Hamza Shansho — Mobile Application Developer · Flutter Developer",
+      "reference": "I was on the graduation project team with Nour Aldeen. I handled the Flutter mobile application, while Nour handled the most important part of the project: the core algorithm and the AI component that builds a suitable nutrition plan from user data. What impressed me was that he worked with an owner's mindset — he clarified the required inputs, defined the data flow and integration points, and explained the decision logic in a way that got the whole team aligned on the same picture. Whenever something was unclear, he went back to fundamentals: what is the goal, what are the constraints, and how do we guarantee a sensible result? His presence raised the quality of what we shipped, because his work was built on understanding and analysis rather than guesswork."
+    }
+  ]
+}
