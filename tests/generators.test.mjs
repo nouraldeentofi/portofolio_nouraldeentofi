@@ -33,7 +33,7 @@ test('llms-full.txt contains the flagship product and its real figures', () => {
 
 test('llms-full.txt renders in Arabic too', () => {
   const full = buildLlmsFullTxt(db, 'ar');
-  assert.ok(full.includes('نور الدين توفي'));
+  assert.ok(full.includes('نور الدين طفي'));
   assert.ok(!full.includes('undefined'));
 });
 

@@ -2,20 +2,28 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مختبر الأتمتة — نور الدين توفي</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<title>مختبر الأتمتة — نور الدين طفي</title>
 <meta name="description" content="مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية أول، مقيم في الخبر بالمملكة العربية السعودية. أبني مسارات عمل إنتاجية في n8n مع وكلاء LLM، ومعالجة المستندات العربية بالذكاء الاصطناعي، والواجهات المبنية فوقها بـ React.">
 <link rel="canonical" href="https://nouraldeentofi.netlify.app/ar/automation.html">
 <link rel="alternate" hreflang="ar" href="https://nouraldeentofi.netlify.app/ar/automation.html">
 <link rel="alternate" hreflang="en" href="https://nouraldeentofi.netlify.app/automation.html">
 <link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.netlify.app/automation.html">
 <meta property="og:type" content="profile">
-<meta property="og:title" content="مختبر الأتمتة — نور الدين توفي">
+<meta property="og:title" content="مختبر الأتمتة — نور الدين طفي">
 <meta property="og:description" content="مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية أول، مقيم في الخبر بالمملكة العربية السعودية. أبني مسارات عمل إنتاجية في n8n مع وكلاء LLM، ومعالجة المستندات العربية بالذكاء الاصطناعي، والواجهات المبنية فوقها بـ React.">
 <meta property="og:url" content="https://nouraldeentofi.netlify.app/ar/automation.html">
 <meta property="og:locale" content="ar_SA">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="author" content="نور الدين توفي">
+<meta name="author" content="نور الدين طفي">
+<script>
+/* Set before first paint so reveals never flash, and the stored theme never
+   flickers. Also tells CSS that JavaScript is available — without this class
+   nothing is ever hidden. */
+(function(){var r=document.documentElement;r.classList.add('js');
+try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;600;800&family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -23,6 +31,7 @@
 <link rel="stylesheet" href="../assets/css/base.css">
 <link rel="stylesheet" href="../assets/css/layout.css">
 <link rel="stylesheet" href="../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/motion.css">
 <link rel="stylesheet" href="../assets/css/rtl.css">
 <script type="application/ld+json">
 {
@@ -31,7 +40,7 @@
     {
       "@type": "Person",
       "@id": "https://nouraldeentofi.netlify.app/#nour",
-      "name": "نور الدين توفي",
+      "name": "نور الدين طفي",
       "alternateName": "Nour Aldeen Tofi",
       "jobTitle": "مهندس أتمتة بالذكاء الاصطناعي — n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية أول",
       "description": "أُحوّل العمليات اليدوية المتعثّرة إلى مسارات عمل ذاتية التشغيل، وأبني الواجهات التي يستخدمها الناس فوقها.",
@@ -295,7 +304,7 @@
       "@type": "WebSite",
       "@id": "https://nouraldeentofi.netlify.app/#website",
       "url": "https://nouraldeentofi.netlify.app/ar/",
-      "name": "نور الدين توفي",
+      "name": "نور الدين طفي",
       "description": "مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية أول، مقيم في الخبر بالمملكة العربية السعودية. أبني مسارات عمل إنتاجية في n8n مع وكلاء LLM، ومعالجة المستندات العربية بالذكاء الاصطناعي، والواجهات المبنية فوقها بـ React.",
       "inLanguage": "ar",
       "author": {
@@ -415,29 +424,32 @@
 </head>
 <body>
 <a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+  <div class="scroll-progress" aria-hidden="true"></div>
   <header class="site-header">
     <div class="container site-header__inner">
       <a class="brand" href="../index.html">
         <span class="brand__mark" aria-hidden="true">NT</span>
-        <span>نور الدين توفي</span>
+        <span class="brand__name">نور الدين طفي</span>
       </a>
-      <nav class="site-nav" aria-label="الرئيسية">
-        <a href="../index.html">الرئيسية</a>
-        <a href="../about.html">نبذة</a>
-        <a href="../work.html">المسيرة</a>
-        <a href="../projects.html">المشاريع</a>
-        <a href="../automation.html" aria-current="page">مختبر الأتمتة</a>
-        <a href="../chat.html">محادثة</a>
-        <a href="../contact.html">تواصل</a>
+      <nav class="site-nav" id="site-nav" aria-label="الرئيسية" data-open="false">
+          <a href="../index.html">الرئيسية</a>
+          <a href="../about.html">نبذة</a>
+          <a href="../work.html">المسيرة</a>
+          <a href="../projects.html">المشاريع</a>
+          <a href="../automation.html" aria-current="page">مختبر الأتمتة</a>
+          <a href="../chat.html">محادثة</a>
+          <a href="../contact.html">تواصل</a>
       </nav>
       <div class="header__tools">
         <a class="lang-switch" href="../automation.html" lang="en" hreflang="en">English</a>
-        <button class="theme-toggle" type="button" aria-label="تبديل نمط الألوان">◐</button>
+        <button class="theme-toggle" type="button" aria-label="تبديل نمط الألوان" aria-pressed="false"><span class="theme-toggle__icon" aria-hidden="true">☾</span></button>
+        <button class="nav-toggle" type="button" aria-label="فتح القائمة" aria-controls="site-nav" aria-expanded="false"><span class="nav-toggle__bars" aria-hidden="true"></span></button>
       </div>
     </div>
   </header>
 <main id="main">
   <section class="hero">
+    <canvas class="hero__canvas hero__canvas--sparse" data-workflow data-density="sparse" aria-hidden="true"></canvas>
     <div class="container">
       <h1>مختبر الأتمتة</h1>
       <p class="hero__headline">مسارات عمل ووكلاء ذكاء اصطناعي في الإنتاج، مبنية في n8n. كلٌّ منها حلّ محلّ شيء كان شخص يؤدّيه بيده.</p>
@@ -447,7 +459,7 @@
   <section class="section">
     <div class="container">
       <div class="grid grid--2">
-<article class="card" id="teacher-assistant-bot">
+<article data-reveal class="card" id="teacher-assistant-bot">
   <p class="card__meta"><span>وكيل ذكاء اصطناعي على Telegram · مشروع عميل</span><span>2025 — present</span></p>
   <h3 class="card__title">بوت المساعد التعليمي بالذكاء الاصطناعي</h3>
   <p class="card__body">مساعد عربي بلغة طبيعية سُلّم لمدرّس خصوصي في السعودية. يدير المدرّس الطلاب والجداول والإلغاءات والمستحقات عبر المحادثة بالكامل — والوكيل الذكي يستدعي أدوات CRUD مخصّصة وفق قواعد عمل صارمة بدل التخمين.</p>
@@ -458,7 +470,7 @@
   <ul class="card__list"><li>تصميم استدعاء أدوات مخصّص بقواعد عمل صارمة</li><li>قياس الاستخدام وتقييد الفترة التجريبية</li><li>ذاكرة جلسة عبر المحادثات</li><li>تذكيرات دروس مجدولة تلقائياً بتوقيت السعودية</li></ul>
   <dl class="card__body"><dt>النتيجة</dt><dd>يدير المدرّس عمله كاملاً من نافذة محادثة، دون تطبيق يتعلّمه ولا جدول بيانات يصونه.</dd></dl>
 </article>
-<article class="card" id="smart-scanner-pipeline">
+<article data-reveal class="card" id="smart-scanner-pipeline">
   <p class="card__meta"><span>خط إنتاجي لمعالجة المستندات بالذكاء الاصطناعي</span><span>2026</span></p>
   <h3 class="card__title">خط استخراج البيانات في Smart Scanner</h3>
   <p class="card__body">الخط الإنتاجي خلف Smart Scanner. كل فاتورة — صورة أو PDF — يُتحقّق أولاً من كونها فاتورة حقيقية، ثم تُحلّل بـ GPT-4.1 Vision، وتُتحقّق، وتُنقّى من التكرار، وتُحفظ. يقرأ العربية والإنجليزية والمستندات المختلطة، ومضبوط للفواتير العربية المكتوبة بخط اليد ولحقول الفوترة الإلكترونية من ZATCA.</p>
@@ -469,7 +481,7 @@
   <ul class="card__list"><li>يرفض أي ملف ليس فاتورة حقيقية قبل حفظ أي شيء</li><li>يستخرج أكثر من ٧٠ حقلاً إضافة إلى بنود الفاتورة: البائع، والمشتري، والإجماليات، والضريبة، والتواريخ</li><li>يصنّف كل بند إلى فئة مصروف خاصة بالشركة لحظة الاستخراج</li><li>يرفض بأدب ويشرح السبب عند نقص البيانات الأساسية — الدقة قبل السرعة</li></ul>
   <dl class="card__body"><dt>النتيجة</dt><dd>يختفي الإدخال اليدوي للفواتير تماماً؛ وتتحوّل الصورة إلى بيانات محاسبية منظّمة خلال نحو عشر ثوانٍ.</dd></dl>
 </article>
-<article class="card" id="ai-job-match">
+<article data-reveal class="card" id="ai-job-match">
   <p class="card__meta"><span>وكيل مجدول مع تدخّل بشري</span><span>2026</span></p>
   <h3 class="card__title">خط مطابقة الوظائف بالذكاء الاصطناعي</h3>
   <p class="card__body">خط مجدول ينفّذ خمسة استعلامات بحث يومياً عبر LinkedIn وIndeed وGlassdoor، ويقيّم ملاءمة كل وظيفة من واحد إلى عشرة عبر مُقيّم LLM يُخرج JSON منظّماً، ولا يسلّم إلا الأعلى تقييماً.</p>
@@ -480,7 +492,7 @@
   <ul class="card__list"><li>مُقيّم يُخرج JSON منظّماً ويمنح درجة ملاءمة من ١ إلى ١٠</li><li>إزالة التكرار مقابل جداول بيانات n8n فلا يتكرّر أي إعلان</li><li>إرسال المطابقات عالية التقييم فقط عبر Telegram</li><li>موافقة بشرية قبل إرسال أي طلب توظيف</li><li>طلبات شبه آلية مع رسائل تغطية مخصّصة يولّدها الذكاء الاصطناعي وتُرسل عبر Gmail</li></ul>
   <dl class="card__body"><dt>النتيجة</dt><dd>يتقلّص البحث اليومي عن عمل إلى مراجعة قائمة قصيرة مقيّمة مسبقاً.</dd></dl>
 </article>
-<article class="card" id="smart-lead-finder">
+<article data-reveal class="card" id="smart-lead-finder">
   <p class="card__meta"><span>خط استخراج وإثراء بيانات</span><span>2025</span></p>
   <h3 class="card__title">الباحث الذكي عن العملاء المحتملين</h3>
   <p class="card__body">توليد آلي للعملاء المحتملين في السوقين السعودي والأردني: بحث متعدّد الاستعلامات عن الأماكن، واستخراج البريد وأرقام واتساب من المواقع، وترتيب حسب الأولوية، وإضافة آمنة من التكرار إلى جداول مقسّمة.</p>
@@ -491,7 +503,7 @@
   <ul class="card__list"><li>بحث متعدّد الاستعلامات عن الأماكن في سوقين</li><li>استخراج البريد الإلكتروني وأرقام واتساب من مواقع الشركات</li><li>ترتيب حسب الأولوية لتظهر أفضل الفرص أولاً</li><li>إضافة آمنة من التكرار إلى جداول مقسّمة</li></ul>
   <dl class="card__body"><dt>النتيجة</dt><dd>تحوّل البحث اليدوي عن العملاء إلى خط مجدول لا يحتاج تدخّلاً، يُنتج قوائم مقيّمة وخالية من التكرار.</dd></dl>
 </article>
-<article class="card" id="lesson-quality-evaluator">
+<article data-reveal class="card" id="lesson-quality-evaluator">
   <p class="card__meta"><span>خدمة webhook تحوّل الفيديو إلى بيانات</span><span>2026</span></p>
   <h3 class="card__title">مُقيّم جودة الدروس</h3>
   <p class="card__body">خدمة webhook تفرّغ فيديوهات الدروس نصياً مع فصل المتحدّثين، وتُعيد JSON منظّماً يقيّم جودة المعلّم وتفاعل الطالب.</p>
@@ -502,7 +514,7 @@
   <ul class="card__list"><li>فصل المتحدّثين يميّز المعلّم عن الطالب</li><li>المخرجات المنظّمة تضمن نتيجة قابلة للتحليل في كل مرة</li><li>يُعيد تقييماً لا تفريغاً نصياً — فيحصل المستدعي على بيانات لا على عمل إضافي</li></ul>
   <dl class="card__body"><dt>النتيجة</dt><dd>تصبح مراجعة الدروس قابلة للقياس بدل أن تكون انطباعية.</dd></dl>
 </article>
-<article class="card" id="crm-lead-cleaner">
+<article data-reveal class="card" id="crm-lead-cleaner">
   <p class="card__meta"><span>خط جودة بيانات · إثبات مفهوم</span><span>2026</span></p>
   <h3 class="card__title">منقّي بيانات العملاء المحتملين</h3>
   <p class="card__body">تصل بيانات العملاء المحتملين إلى نظام إدارة العلاقات مبعثرة — تكرار، وبريد غير صالح، وحقول ناقصة — فتكلّف فرق المبيعات ساعات من الفرز اليدوي. هذا الخط ينظّفها تلقائياً ويُبلغ عمّا فعله.</p>
@@ -519,7 +531,7 @@
 
   <section class="section" id="cost-case">
     <div class="container">
-      <div class="section__head">
+      <div class="section__head" data-reveal>
         
         <h2>دراسة حالة في التكلفة: تفريع واحد، وثلاثة أرباع موفّرة</h2>
         
@@ -537,7 +549,7 @@
     <div class="container site-footer__inner">
       <div>
         <p>بُني موقعاً ثابتاً بلا أي إطار عمل، حتى تكون كل كلمة فيه مقروءة للبشر والآلات على حدّ سواء.</p>
-        <p>© 2026 نور الدين توفي · ‏HTML وCSS ووحدات ES مكتوبة يدوياً</p>
+        <p>© 2026 نور الدين طفي · ‏HTML وCSS ووحدات ES مكتوبة يدوياً</p>
       </div>
       <ul class="footer__links">
         <li><a href="../llms.txt">llms.txt</a></li>

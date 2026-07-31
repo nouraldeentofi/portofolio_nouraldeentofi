@@ -2,20 +2,28 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>نبذة — نور الدين توفي</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<title>نبذة — نور الدين طفي</title>
 <meta name="description" content="مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية أول، مقيم في الخبر بالمملكة العربية السعودية. أبني مسارات عمل إنتاجية في n8n مع وكلاء LLM، ومعالجة المستندات العربية بالذكاء الاصطناعي، والواجهات المبنية فوقها بـ React.">
 <link rel="canonical" href="https://nouraldeentofi.netlify.app/ar/about.html">
 <link rel="alternate" hreflang="ar" href="https://nouraldeentofi.netlify.app/ar/about.html">
 <link rel="alternate" hreflang="en" href="https://nouraldeentofi.netlify.app/about.html">
 <link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.netlify.app/about.html">
 <meta property="og:type" content="profile">
-<meta property="og:title" content="نبذة — نور الدين توفي">
+<meta property="og:title" content="نبذة — نور الدين طفي">
 <meta property="og:description" content="مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية أول، مقيم في الخبر بالمملكة العربية السعودية. أبني مسارات عمل إنتاجية في n8n مع وكلاء LLM، ومعالجة المستندات العربية بالذكاء الاصطناعي، والواجهات المبنية فوقها بـ React.">
 <meta property="og:url" content="https://nouraldeentofi.netlify.app/ar/about.html">
 <meta property="og:locale" content="ar_SA">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="author" content="نور الدين توفي">
+<meta name="author" content="نور الدين طفي">
+<script>
+/* Set before first paint so reveals never flash, and the stored theme never
+   flickers. Also tells CSS that JavaScript is available — without this class
+   nothing is ever hidden. */
+(function(){var r=document.documentElement;r.classList.add('js');
+try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;600;800&family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -23,6 +31,7 @@
 <link rel="stylesheet" href="../assets/css/base.css">
 <link rel="stylesheet" href="../assets/css/layout.css">
 <link rel="stylesheet" href="../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/motion.css">
 <link rel="stylesheet" href="../assets/css/rtl.css">
 <script type="application/ld+json">
 {
@@ -31,7 +40,7 @@
     {
       "@type": "Person",
       "@id": "https://nouraldeentofi.netlify.app/#nour",
-      "name": "نور الدين توفي",
+      "name": "نور الدين طفي",
       "alternateName": "Nour Aldeen Tofi",
       "jobTitle": "مهندس أتمتة بالذكاء الاصطناعي — n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية أول",
       "description": "أُحوّل العمليات اليدوية المتعثّرة إلى مسارات عمل ذاتية التشغيل، وأبني الواجهات التي يستخدمها الناس فوقها.",
@@ -295,7 +304,7 @@
       "@type": "WebSite",
       "@id": "https://nouraldeentofi.netlify.app/#website",
       "url": "https://nouraldeentofi.netlify.app/ar/",
-      "name": "نور الدين توفي",
+      "name": "نور الدين طفي",
       "description": "مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية أول، مقيم في الخبر بالمملكة العربية السعودية. أبني مسارات عمل إنتاجية في n8n مع وكلاء LLM، ومعالجة المستندات العربية بالذكاء الاصطناعي، والواجهات المبنية فوقها بـ React.",
       "inLanguage": "ar",
       "author": {
@@ -325,7 +334,7 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "ماذا يعمل نور الدين توفي؟",
+          "name": "ماذا يعمل نور الدين طفي؟",
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية أول، مقيم في الخبر بالمملكة العربية السعودية. يصمّم ويشغّل مسارات عمل إنتاجية في n8n تربط نماذج اللغة بأنظمة حقيقية، ويبني الواجهات فوقها بـ React وTypeScript. ويعمل أيضاً مشرف هندسة برمجيات يقود تطوير الواجهات الأمامية ويمتلك دورة التسليم كاملة."
@@ -379,29 +388,32 @@
 </head>
 <body>
 <a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+  <div class="scroll-progress" aria-hidden="true"></div>
   <header class="site-header">
     <div class="container site-header__inner">
       <a class="brand" href="../index.html">
         <span class="brand__mark" aria-hidden="true">NT</span>
-        <span>نور الدين توفي</span>
+        <span class="brand__name">نور الدين طفي</span>
       </a>
-      <nav class="site-nav" aria-label="الرئيسية">
-        <a href="../index.html">الرئيسية</a>
-        <a href="../about.html" aria-current="page">نبذة</a>
-        <a href="../work.html">المسيرة</a>
-        <a href="../projects.html">المشاريع</a>
-        <a href="../automation.html">مختبر الأتمتة</a>
-        <a href="../chat.html">محادثة</a>
-        <a href="../contact.html">تواصل</a>
+      <nav class="site-nav" id="site-nav" aria-label="الرئيسية" data-open="false">
+          <a href="../index.html">الرئيسية</a>
+          <a href="../about.html" aria-current="page">نبذة</a>
+          <a href="../work.html">المسيرة</a>
+          <a href="../projects.html">المشاريع</a>
+          <a href="../automation.html">مختبر الأتمتة</a>
+          <a href="../chat.html">محادثة</a>
+          <a href="../contact.html">تواصل</a>
       </nav>
       <div class="header__tools">
         <a class="lang-switch" href="../about.html" lang="en" hreflang="en">English</a>
-        <button class="theme-toggle" type="button" aria-label="تبديل نمط الألوان">◐</button>
+        <button class="theme-toggle" type="button" aria-label="تبديل نمط الألوان" aria-pressed="false"><span class="theme-toggle__icon" aria-hidden="true">☾</span></button>
+        <button class="nav-toggle" type="button" aria-label="فتح القائمة" aria-controls="site-nav" aria-expanded="false"><span class="nav-toggle__bars" aria-hidden="true"></span></button>
       </div>
     </div>
   </header>
 <main id="main">
   <section class="hero">
+    <canvas class="hero__canvas hero__canvas--sparse" data-workflow data-density="sparse" aria-hidden="true"></canvas>
     <div class="container">
       <h1>نبذة</h1>
       <p class="hero__headline">يهمّني أن تكون الأتمتة منطقية من ناحية العمل، لا أن تبدو جميلة في عرض تجريبي.</p>
@@ -421,25 +433,25 @@
 
   <section class="section" id="principles">
     <div class="container">
-      <div class="section__head">
+      <div class="section__head" data-reveal>
         
         <h2>كيف أعمل</h2>
         
       </div>
       <div class="grid grid--2">
-<article class="card">
+<article data-reveal class="card">
   <h3 class="card__title">اتّفق على العقد قبل أول سطر كود</h3>
   <p class="card__body">أسوأ خلل سلّمته لم يكن في كود أحد. نظامان تصرّف كلٌّ منهما تصرّفاً سليماً تماماً، واختلفا على معنى الحمولة، فحذفت البيانات نفسها بصمت — بلا رسالة خطأ، وبلا سجلّ، وبلا شيء «مكسور». صار عندي منذ ذلك الحين مبدأ ثابت: كل حدود مشتركة تحتاج اتفاقاً مكتوباً أولاً — شكل البيانات، والحقول المطلوبة، والحالات الغريبة، ومن المسؤول عن ماذا. هذا يتيح لشخصين أن يبنيا بالتوازي وأن يتركّب عملهما من أول مرة.</p>
 </article>
-<article class="card">
+<article data-reveal class="card">
   <h3 class="card__title">الدقة قبل السرعة</h3>
   <p class="card__body">مسار عمل لا يحفظ شيئاً خير من مسار يحفظ الشيء الخطأ. لا تحفظ خطوط الاستخراج عندي أي شيء قبل التأكّد من وجود الحقول الأساسية ومعقوليتها — وعند النقص ترفض وتشرح السبب. فالجواب الخاطئ الواثق أسوأ من الجواب الصحيح البطيء.</p>
 </article>
-<article class="card">
+<article data-reveal class="card">
   <h3 class="card__title">وجّه حسب التكلفة لا حسب العادة</h3>
   <p class="card__body">كان أول مسار عمل عندي يرسل كل ملف وارد إلى نموذج رؤية. لكن ملف PDF يحمل عادةً نصاً قابلاً للاستخراج، ونموذج النص يقرأه بجزء بسيط من الكلفة. قرار تفريع واحد خفّض كلفة المستند بمقدار ثلاثة أرباع — مع العودة إلى نموذج الرؤية حين يعود الاستخراج فارغاً. التفريع مجاني، والتوفير يتراكم كل شهر.</p>
 </article>
-<article class="card">
+<article data-reveal class="card">
   <h3 class="card__title">ابنِ الشيء الذي سيفتحه الناس فعلاً</h3>
   <p class="card__body">الأتمتة التي لا يثق بها أحد يتجاوزها الجميع. ولوحة التحكّم التي لا يفهمها أحد تُصدَّر إلى جدول بيانات. لذلك يهمّني شكل الواجهة بقدر ما يهمّني الخط خلفها: حالات واضحة، وأخطاء صادقة، وبلا طرق مسدودة.</p>
 </article>
@@ -449,29 +461,29 @@
 
   <section class="section" id="skills">
     <div class="container">
-      <div class="section__head">
+      <div class="section__head" data-reveal>
         
         <h2>المهارات</h2>
         
       </div>
       <div class="grid grid--2">
-<article class="card">
+<article data-reveal class="card">
   <h3 class="card__title">الأتمتة والذكاء الاصطناعي</h3>
   <ul class="badges"><li class="badge">n8n</li><li class="badge">Workflow Automation</li><li class="badge">AI Agents</li><li class="badge">LLM Tool-Calling Design</li><li class="badge">Model Context Protocol (MCP)</li><li class="badge">OpenAI API</li><li class="badge">GPT-4o</li><li class="badge">GPT-4.1 Vision</li><li class="badge">Structured JSON Outputs</li><li class="badge">Prompt Engineering</li><li class="badge">Document AI</li><li class="badge">Arabic OCR &amp; Extraction</li><li class="badge">Web Scraping</li><li class="badge">Telegram Bot API</li><li class="badge">Webhooks</li><li class="badge">Error Handling &amp; Retries</li></ul>
 </article>
-<article class="card">
+<article data-reveal class="card">
   <h3 class="card__title">الواجهات الأمامية</h3>
   <ul class="badges"><li class="badge">React.js</li><li class="badge">React 19</li><li class="badge">TypeScript</li><li class="badge">JavaScript (ES6+)</li><li class="badge">Tailwind CSS</li><li class="badge">HTML5</li><li class="badge">CSS3</li><li class="badge">Material-UI</li><li class="badge">Vite</li><li class="badge">React Hooks</li><li class="badge">TanStack React Query</li><li class="badge">React Hook Form</li><li class="badge">React Router</li><li class="badge">i18n &amp; RTL</li><li class="badge">Responsive Design</li><li class="badge">Web Accessibility</li></ul>
 </article>
-<article class="card">
+<article data-reveal class="card">
   <h3 class="card__title">البيانات والواجهة الخلفية</h3>
   <ul class="badges"><li class="badge">REST APIs</li><li class="badge">API Integration</li><li class="badge">JSON</li><li class="badge">OAuth 2.0</li><li class="badge">MySQL</li><li class="badge">Stored Procedures</li><li class="badge">Google Sheets API</li><li class="badge">Google Drive API</li><li class="badge">Node.js</li><li class="badge">Python</li></ul>
 </article>
-<article class="card">
+<article data-reveal class="card">
   <h3 class="card__title">الأدوات والتسليم</h3>
   <ul class="badges"><li class="badge">Git</li><li class="badge">GitHub</li><li class="badge">GitLab</li><li class="badge">CI/CD (GitHub Actions)</li><li class="badge">Vitest</li><li class="badge">React Testing Library</li><li class="badge">Jira</li><li class="badge">Trello</li><li class="badge">Figma</li><li class="badge">Agile</li><li class="badge">Scrum</li><li class="badge">Clean Code</li></ul>
 </article>
-<article class="card">
+<article data-reveal class="card">
   <h3 class="card__title">التنسيق والقيادة</h3>
   <ul class="badges"><li class="badge">Requirements Gathering</li><li class="badge">Scope Definition</li><li class="badge">API Contract Design</li><li class="badge">User Stories</li><li class="badge">Sprint Planning</li><li class="badge">Code Review</li><li class="badge">Mentoring</li><li class="badge">Cross-Functional Team Leadership</li><li class="badge">Project Coordination</li><li class="badge">Problem Solving</li></ul>
 </article>
@@ -481,7 +493,7 @@
 
   <section class="section" id="personal">
     <div class="container">
-      <div class="section__head">
+      <div class="section__head" data-reveal>
         
         <h2>خارج العمل</h2>
         
@@ -492,33 +504,33 @@
 
   <section class="section" id="faq">
     <div class="container">
-      <div class="section__head">
+      <div class="section__head" data-reveal>
         
         <h2>أسئلة متكرّرة</h2>
         
       </div>
       <div class="grid">
-<details class="card">
-  <summary><strong>ماذا يعمل نور الدين توفي؟</strong></summary>
+<details data-reveal class="card">
+  <summary><strong>ماذا يعمل نور الدين طفي؟</strong></summary>
   <p class="card__body">مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية أول، مقيم في الخبر بالمملكة العربية السعودية. يصمّم ويشغّل مسارات عمل إنتاجية في n8n تربط نماذج اللغة بأنظمة حقيقية، ويبني الواجهات فوقها بـ React وTypeScript. ويعمل أيضاً مشرف هندسة برمجيات يقود تطوير الواجهات الأمامية ويمتلك دورة التسليم كاملة.</p>
 </details>
-<details class="card">
+<details data-reveal class="card">
   <summary><strong>ما هو Smart Scanner؟</strong></summary>
   <p class="card__body">‏Smart Scanner منتج لإدارة الفواتير بالذكاء الاصطناعي، عربي أولاً. يصوّر الموظف الفاتورة، فيتحقّق مسار عمل في n8n من كونها فاتورة حقيقية، ويستخرج كل الحقول عبر GPT Vision بالعربية والإنجليزية، ويصنّف كل مصروف. ثم يراجع المحاسب ويعتمد أو يرفض ويعلّق ويصدّر عبر لوحات تحكّم حسب الدور. بنى نور محرّك الأتمتة بالذكاء الاصطناعي كاملاً والواجهة الأمامية بالكامل.</p>
 </details>
-<details class="card">
+<details data-reveal class="card">
   <summary><strong>هل يعمل بالعربية؟</strong></summary>
   <p class="card__body">العربية لغته الأم، وهي جزء أساسي من تخصّصه التقني. يبني واجهات ثنائية اللغة افتراضها العربية بدعم كامل للاتجاه من اليمين إلى اليسار، وخطوط معالجة المستندات لديه مضبوطة خصيصاً للفواتير العربية، بما فيها المكتوبة بخط اليد وحقول الفوترة الإلكترونية من ZATCA — وهي حالة تتعامل معها أغلب الأدوات العالمية بضعف أو لا تتعامل معها إطلاقاً.</p>
 </details>
-<details class="card">
+<details data-reveal class="card">
   <summary><strong>هل هو متاح للعمل؟</strong></summary>
   <p class="card__body">نعم. متاح لفرص في المملكة العربية السعودية وعن بُعد، سواء في الموقع أو بنظام هجين أو عن بُعد بالكامل، ويقبل مشاريع أتمتة وواجهات أمامية بالعمل الحر. وأسرع وسيلة للوصول إليه هي البريد الإلكتروني.</p>
 </details>
-<details class="card">
+<details data-reveal class="card">
   <summary><strong>ما هي أدوات الأتمتة التي يستخدمها؟</strong></summary>
   <p class="card__body">‏n8n للتنسيق؛ وواجهة OpenAI البرمجية بما فيها GPT-4o وGPT-4.1 Vision مع مخرجات JSON منظّمة؛ ووكلاء ذكاء اصطناعي باستدعاء أدوات مخصّص؛ وWebhooks وتكاملات REST؛ وGoogle Sheets وGoogle Drive وMySQL وTelegram كطبقات بيانات وتسليم؛ وModel Context Protocol لربط النماذج بأدوات حقيقية.</p>
 </details>
-<details class="card">
+<details data-reveal class="card">
   <summary><strong>كيف أتواصل معه؟</strong></summary>
   <p class="card__body">عبر البريد الإلكتروني nouraldeentofi@gmail.com أو عبر LinkedIn. وينشر هذا الموقع أيضاً ملفاً تعريفياً قابلاً للقراءة آلياً وخادم MCP، بحيث يستطيع أي مساعد ذكاء اصطناعي الاستعلام مباشرة عن خبرته ومشاريعه.</p>
 </details>
@@ -530,7 +542,7 @@
     <div class="container site-footer__inner">
       <div>
         <p>بُني موقعاً ثابتاً بلا أي إطار عمل، حتى تكون كل كلمة فيه مقروءة للبشر والآلات على حدّ سواء.</p>
-        <p>© 2026 نور الدين توفي · ‏HTML وCSS ووحدات ES مكتوبة يدوياً</p>
+        <p>© 2026 نور الدين طفي · ‏HTML وCSS ووحدات ES مكتوبة يدوياً</p>
       </div>
       <ul class="footer__links">
         <li><a href="../llms.txt">llms.txt</a></li>

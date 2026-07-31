@@ -38,6 +38,9 @@
 
   --measure: 68ch;
   --container: 1120px;
+  /* Fluid gutter and section rhythm — one knob per breakpoint band. */
+  --gutter: clamp(1rem, 0.6rem + 2vw, 2rem);
+  --section-pad: clamp(3rem, 2rem + 5vw, 5.5rem);
 
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px rgba(0, 0, 0, 0.28);
 }

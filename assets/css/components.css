@@ -34,13 +34,14 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
   gap: var(--space-4);
-  padding: var(--space-5);
-  background: var(--panel);
+  padding: var(--space-6) var(--space-5);
+  background: linear-gradient(160deg, var(--accent-soft), var(--panel) 45%);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
+  list-style: none;
 }
 
-.proof__item { text-align: center; }
+.proof__item { text-align: center; padding-block: var(--space-2); }
 
 .proof__value {
   display: block;
@@ -63,6 +64,7 @@
 /* ---------- cards ---------- */
 
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
@@ -74,6 +76,27 @@
 }
 
 .card:hover { border-color: var(--line-strong); transform: translateY(-3px); }
+
+/* Every card is a workflow node. The dot in its corner is idle until you
+   hover — then the node "activates", exactly like the pulses in the hero. */
+.card::after {
+  content: '';
+  position: absolute;
+  inset-block-start: 18px;
+  inset-inline-end: 18px;
+  inline-size: 9px;
+  block-size: 9px;
+  border-radius: 50%;
+  border: 2px solid var(--line-strong);
+  pointer-events: none;
+  transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover::after {
+  background: var(--lime);
+  border-color: var(--lime);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--lime) 55%, transparent);
+}
 
 .card--featured {
   border-color: color-mix(in srgb, var(--lime) 45%, transparent);
@@ -89,6 +112,8 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--mint);
+  /* keep clear of the corner node dot */
+  padding-inline-end: var(--space-6);
 }
 
 :lang(ar) .card__meta { letter-spacing: 0; text-transform: none; }
@@ -172,6 +197,8 @@
   border-radius: 50%;
   background: var(--bg);
   border: 2px solid var(--line-strong);
+  /* past roles are visited nodes on the pipeline */
+  border-color: color-mix(in srgb, var(--mint) 55%, var(--bg));
 }
 
 .timeline__item--current::before {
@@ -232,6 +259,40 @@
   font-size: 0.75rem;
   color: var(--faint);
   direction: ltr;
+}
+
+/* ---------- faq (details/summary) ---------- */
+
+details.card > summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 1.02rem;
+}
+
+details.card > summary::-webkit-details-marker { display: none; }
+
+/* The FAQ marker is a node too: hollow when closed, lit when open. */
+details.card > summary::before {
+  content: '';
+  flex-shrink: 0;
+  inline-size: 9px;
+  block-size: 9px;
+  border-radius: 50%;
+  border: 2px solid var(--mint);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+details.card[open] > summary::before {
+  background: var(--mint);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--mint) 50%, transparent);
+}
+
+details.card > .card__body {
+  margin-block-start: var(--space-3);
+  padding-inline-start: calc(9px + var(--space-3));
 }
 
 /* ---------- cta ---------- */

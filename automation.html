@@ -2,7 +2,8 @@
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
 <title>Automation Lab — Nour Aldeen Tofi</title>
 <meta name="description" content="AI Automation Engineer and Senior Frontend Developer in Al Khobar, Saudi Arabia. I build production n8n workflows with LLM agents, Arabic document AI, and the React interfaces on top of them.">
 <link rel="canonical" href="https://nouraldeentofi.netlify.app/automation.html">
@@ -16,6 +17,13 @@
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="author" content="Nour Aldeen Tofi">
+<script>
+/* Set before first paint so reveals never flash, and the stored theme never
+   flickers. Also tells CSS that JavaScript is available — without this class
+   nothing is ever hidden. */
+(function(){var r=document.documentElement;r.classList.add('js');
+try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -23,6 +31,7 @@
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/layout.css">
 <link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/motion.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -31,7 +40,7 @@
       "@type": "Person",
       "@id": "https://nouraldeentofi.netlify.app/#nour",
       "name": "Nour Aldeen Tofi",
-      "alternateName": "نور الدين توفي",
+      "alternateName": "نور الدين طفي",
       "jobTitle": "AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer",
       "description": "I turn messy manual processes into self-running workflows — and build the interfaces people use on top of them.",
       "email": "mailto:nouraldeentofi@gmail.com",
@@ -414,29 +423,32 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+  <div class="scroll-progress" aria-hidden="true"></div>
   <header class="site-header">
     <div class="container site-header__inner">
       <a class="brand" href="index.html">
         <span class="brand__mark" aria-hidden="true">NT</span>
-        <span>Nour Aldeen Tofi</span>
+        <span class="brand__name">Nour Aldeen Tofi</span>
       </a>
-      <nav class="site-nav" aria-label="Home">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="work.html">Work</a>
-        <a href="projects.html">Projects</a>
-        <a href="automation.html" aria-current="page">Automation Lab</a>
-        <a href="chat.html">Chat</a>
-        <a href="contact.html">Contact</a>
+      <nav class="site-nav" id="site-nav" aria-label="Home" data-open="false">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="work.html">Work</a>
+          <a href="projects.html">Projects</a>
+          <a href="automation.html" aria-current="page">Automation Lab</a>
+          <a href="chat.html">Chat</a>
+          <a href="contact.html">Contact</a>
       </nav>
       <div class="header__tools">
         <a class="lang-switch" href="ar/automation.html" lang="ar" hreflang="ar">العربية</a>
-        <button class="theme-toggle" type="button" aria-label="Toggle colour theme">◐</button>
+        <button class="theme-toggle" type="button" aria-label="Toggle colour theme" aria-pressed="false"><span class="theme-toggle__icon" aria-hidden="true">☾</span></button>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-controls="site-nav" aria-expanded="false"><span class="nav-toggle__bars" aria-hidden="true"></span></button>
       </div>
     </div>
   </header>
 <main id="main">
   <section class="hero">
+    <canvas class="hero__canvas hero__canvas--sparse" data-workflow data-density="sparse" aria-hidden="true"></canvas>
     <div class="container">
       <h1>Automation Lab</h1>
       <p class="hero__headline">Production workflows and AI agents built in n8n. Every one of these replaced something a person used to do by hand.</p>
@@ -446,7 +458,7 @@
   <section class="section">
     <div class="container">
       <div class="grid grid--2">
-<article class="card" id="teacher-assistant-bot">
+<article data-reveal class="card" id="teacher-assistant-bot">
   <p class="card__meta"><span>Telegram AI agent · client project</span><span>2025 — present</span></p>
   <h3 class="card__title">Teacher Assistant AI Bot</h3>
   <p class="card__body">A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia. The tutor manages students, schedules, cancellations, and dues entirely through chat — the AI agent calls custom CRUD tools under strict business rules rather than guessing.</p>
@@ -457,7 +469,7 @@
   <ul class="card__list"><li>Custom tool-calling design with strict business rules</li><li>Usage metering and free-trial gating</li><li>Session memory across conversations</li><li>Automated lesson reminders scheduled in Saudi time</li></ul>
   <dl class="card__body"><dt>Outcome</dt><dd>A tutor runs an entire practice from a chat window, with no app to learn and no spreadsheet to maintain.</dd></dl>
 </article>
-<article class="card" id="smart-scanner-pipeline">
+<article data-reveal class="card" id="smart-scanner-pipeline">
   <p class="card__meta"><span>Production document AI pipeline</span><span>2026</span></p>
   <h3 class="card__title">Smart Scanner Extraction Pipeline</h3>
   <p class="card__body">The production pipeline behind Smart Scanner. Every invoice — photo or PDF — is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and ZATCA e-invoice fields.</p>
@@ -468,7 +480,7 @@
   <ul class="card__list"><li>Rejects any file that is not a genuine invoice, before anything is saved</li><li>Extracts 70+ fields plus line items: vendor, buyer, totals, VAT, dates</li><li>Classifies every line item into per-company expense categories at extraction time</li><li>Refuses politely and explains why when required data is missing — accuracy before speed</li></ul>
   <dl class="card__body"><dt>Outcome</dt><dd>Manual invoice entry disappears entirely; a photo becomes structured accounting data in about ten seconds.</dd></dl>
 </article>
-<article class="card" id="ai-job-match">
+<article data-reveal class="card" id="ai-job-match">
   <p class="card__meta"><span>Scheduled agent with human-in-the-loop</span><span>2026</span></p>
   <h3 class="card__title">AI Job-Match Pipeline</h3>
   <p class="card__body">A scheduled pipeline that runs five daily search queries across LinkedIn, Indeed, and Glassdoor, scores each role&#39;s fit from one to ten with a structured-JSON LLM evaluator, and delivers only the high scorers.</p>
@@ -479,7 +491,7 @@
   <ul class="card__list"><li>Structured-JSON evaluator scoring fit on a 1–10 scale</li><li>Deduplication against n8n Data Tables so nothing is seen twice</li><li>Telegram delivery of high-scoring matches only</li><li>Human-in-the-loop approval before any application is sent</li><li>Semi-automated applications with tailored AI-generated cover letters via Gmail</li></ul>
   <dl class="card__body"><dt>Outcome</dt><dd>Daily job hunting collapses into reviewing a short, pre-scored shortlist.</dd></dl>
 </article>
-<article class="card" id="smart-lead-finder">
+<article data-reveal class="card" id="smart-lead-finder">
   <p class="card__meta"><span>Scraping and enrichment pipeline</span><span>2025</span></p>
   <h3 class="card__title">Smart Lead Finder</h3>
   <p class="card__body">Automated B2B lead generation across the Saudi and Jordanian markets: multi-query place search, website scraping to extract emails and WhatsApp numbers, prioritisation scoring, and duplicate-safe appends into segmented sheets.</p>
@@ -490,7 +502,7 @@
   <ul class="card__list"><li>Multi-query place search across two markets</li><li>Extracts emails and WhatsApp numbers from company websites</li><li>Prioritisation scoring so the best prospects surface first</li><li>Duplicate-safe appends into segmented sheets</li></ul>
   <dl class="card__body"><dt>Outcome</dt><dd>Manual prospect research became a hands-off scheduled pipeline producing scored, deduplicated lead lists.</dd></dl>
 </article>
-<article class="card" id="lesson-quality-evaluator">
+<article data-reveal class="card" id="lesson-quality-evaluator">
   <p class="card__meta"><span>Video-to-data webhook service</span><span>2026</span></p>
   <h3 class="card__title">Lesson Quality Evaluator</h3>
   <p class="card__body">A webhook service that transcribes lesson videos with speaker separation and returns structured JSON scoring teacher quality and student engagement.</p>
@@ -501,7 +513,7 @@
   <ul class="card__list"><li>Speaker diarization separates teacher from student</li><li>Structured outputs guarantee a parseable result every time</li><li>Returns a score, not a transcript — the caller gets data, not homework</li></ul>
   <dl class="card__body"><dt>Outcome</dt><dd>Lesson review becomes measurable instead of anecdotal.</dd></dl>
 </article>
-<article class="card" id="crm-lead-cleaner">
+<article data-reveal class="card" id="crm-lead-cleaner">
   <p class="card__meta"><span>Data quality pipeline · proof of concept</span><span>2026</span></p>
   <h3 class="card__title">CRM Lead Cleaner</h3>
   <p class="card__body">Incoming CRM leads arrive scattered — duplicates, malformed emails, missing fields — and cost sales teams hours of manual triage. This pipeline cleans them automatically and reports on what it did.</p>
@@ -518,7 +530,7 @@
 
   <section class="section" id="cost-case">
     <div class="container">
-      <div class="section__head">
+      <div class="section__head" data-reveal>
         
         <h2>A case study in cost: one branch, three quarters saved</h2>
         

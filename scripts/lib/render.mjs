@@ -33,16 +33,3 @@ export function injectBlock(html, name, content) {
 
   return html.slice(0, start + open.length) + '\n' + content + '\n' + html.slice(end);
 }
-
-/** Names of every `@gen` marker present in a document. */
-export function markersIn(html) {
-  return [...html.matchAll(/<!-- @gen:([a-z0-9-]+) -->/g)].map((m) => m[1]);
-}
-
-/** Join an array of strings as indented HTML children. */
-export function joinBlocks(parts, indent = '        ') {
-  return parts
-    .filter(Boolean)
-    .map((p) => p.split('\n').map((line) => (line ? indent + line : line)).join('\n'))
-    .join('\n');
-}

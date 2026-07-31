@@ -1,7 +1,8 @@
-/* Page chrome: header, nav, footer, containers, sections. */
+/* Page chrome: header, nav, footer, containers, sections.
+   Logical properties throughout, so the Arabic RTL tree mirrors for free. */
 
 .container {
-  inline-size: min(var(--container), 100% - 2 * var(--space-5));
+  inline-size: min(var(--container), 100% - 2 * var(--gutter));
   margin-inline: auto;
 }
 
@@ -11,16 +12,28 @@
   position: sticky;
   inset-block-start: 0;
   z-index: 50;
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  backdrop-filter: blur(12px);
+  /* Fallback first, then the nicer blend where supported. */
+  background: var(--panel);
   border-block-end: 1px solid var(--line);
+}
+
+@supports (background: color-mix(in srgb, red 50%, transparent)) {
+  .site-header { background: color-mix(in srgb, var(--bg) 86%, transparent); }
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .site-header {
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
+  }
 }
 
 .site-header__inner {
   display: flex;
   align-items: center;
-  gap: var(--space-5);
-  padding-block: var(--space-4);
+  gap: var(--space-4);
+  padding-block: var(--space-3);
+  min-block-size: 64px;
 }
 
 .brand {
@@ -31,36 +44,41 @@
   color: var(--fg);
   text-decoration: none;
   flex-shrink: 0;
+  font-size: 0.98rem;
 }
 
 .brand__mark {
-  inline-size: 38px;
-  block-size: 38px;
+  inline-size: 36px;
+  block-size: 36px;
   border-radius: 50%;
   display: grid;
   place-items: center;
   background: linear-gradient(135deg, var(--lime), var(--mint));
   color: var(--accent-ink);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 800;
   letter-spacing: 0;
+  flex-shrink: 0;
 }
+
+.brand__name { white-space: nowrap; }
 
 .site-nav {
   display: flex;
   align-items: center;
   gap: var(--space-1);
   margin-inline-start: auto;
-  flex-wrap: wrap;
 }
 
 .site-nav a {
   color: var(--dim);
   text-decoration: none;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 600;
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-pill);
+  white-space: nowrap;
+  transition: color 0.2s ease, background-color 0.2s ease;
 }
 
 .site-nav a:hover { color: var(--fg); background: var(--raised); }
@@ -74,40 +92,110 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
+  flex-shrink: 0;
 }
 
 .theme-toggle,
 .lang-switch {
   font: inherit;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 700;
   color: var(--dim);
   background: transparent;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-pill);
-  padding: var(--space-2) var(--space-4);
+  padding: var(--space-2) var(--space-3);
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
+  min-block-size: 38px;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
+
+.theme-toggle { min-inline-size: 42px; justify-content: center; }
 
 .theme-toggle:hover,
 .lang-switch:hover { color: var(--fg); border-color: var(--fg); }
 
-/* ---------- sections ---------- */
-
-main { display: block; }
-
-.section {
-  padding-block: var(--space-8);
-  border-block-start: 1px solid var(--line);
+/* hamburger — hidden until the nav no longer fits */
+.nav-toggle {
+  display: none;
+  font: inherit;
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  color: var(--fg);
+  cursor: pointer;
+  padding: var(--space-2) var(--space-3);
+  min-block-size: 38px;
+  min-inline-size: 42px;
+  align-items: center;
+  justify-content: center;
 }
 
-.section:first-of-type { border-block-start: 0; }
+.nav-toggle__bars {
+  display: block;
+  inline-size: 18px;
+  block-size: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.nav-toggle__bars::before,
+.nav-toggle__bars::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  block-size: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform 0.24s ease;
+}
+
+.nav-toggle__bars::before { inset-block-start: -6px; }
+.nav-toggle__bars::after { inset-block-start: 6px; }
+
+.nav-toggle[aria-expanded='true'] .nav-toggle__bars { background: transparent; }
+.nav-toggle[aria-expanded='true'] .nav-toggle__bars::before { transform: translateY(6px) rotate(45deg); }
+.nav-toggle[aria-expanded='true'] .nav-toggle__bars::after { transform: translateY(-6px) rotate(-45deg); }
+
+/* ---------- sections ---------- */
+
+.section {
+  padding-block: var(--section-pad);
+  position: relative;
+}
+
+.section + .section { border-block-start: 1px solid var(--line); }
 
 .section__head { margin-block-end: var(--space-6); }
 
-.section__eyebrow {
+/* Section headings carry the site's motif in miniature: node — edge — node.
+   The same picture the hero canvas animates, reduced to an underline. */
+.section__head h2 {
+  position: relative;
+  padding-block-end: var(--space-4);
+}
+
+.section__head h2::after {
+  content: '';
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-start: 0;
+  inline-size: 76px;
+  block-size: 8px;
+  background:
+    radial-gradient(circle at 4px 50%, var(--lime) 0 2.6px, transparent 3.6px),
+    radial-gradient(circle at calc(100% - 4px) 50%, var(--mint) 0 2.6px, transparent 3.6px),
+    linear-gradient(90deg, var(--lime), var(--mint)) 50% 50% / calc(100% - 16px) 2px no-repeat;
+}
+
+.section__eyebrow,
+.hero__eyebrow {
   display: inline-block;
   font-size: 0.72rem;
   font-weight: 800;
@@ -117,7 +205,8 @@ main { display: block; }
   margin-block-end: var(--space-3);
 }
 
-:lang(ar) .section__eyebrow { letter-spacing: 0; }
+:lang(ar) .section__eyebrow,
+:lang(ar) .hero__eyebrow { letter-spacing: 0; text-transform: none; }
 
 .section__lead {
   color: var(--dim);
@@ -138,30 +227,43 @@ main { display: block; }
 /* ---------- hero ---------- */
 
 .hero {
-  padding-block: var(--space-9) var(--space-8);
+  padding-block: clamp(3rem, 2rem + 8vw, 7rem) var(--section-pad);
   position: relative;
   overflow: hidden;
+  isolation: isolate;
 }
 
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
+  z-index: -1;
   background:
-    radial-gradient(60vw 40vh at 82% -10%, var(--accent-soft), transparent 62%),
-    radial-gradient(46vw 36vh at 6% 110%, rgba(92, 225, 169, 0.09), transparent 62%);
+    radial-gradient(62vw 44vh at 82% -12%, rgba(184, 255, 92, 0.13), transparent 62%),
+    radial-gradient(48vw 38vh at 4% 112%, rgba(92, 225, 169, 0.11), transparent 62%);
   pointer-events: none;
 }
 
-.hero > * { position: relative; }
+.hero .container { position: relative; z-index: 1; }
 
-.hero__name { margin-block-end: var(--space-4); }
+.hero__name {
+  margin-block-end: var(--space-4);
+  background: linear-gradient(120deg, var(--fg) 30%, var(--mint) 75%, var(--lime));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* If background-clip:text is unsupported, keep readable text. */
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .hero__name { color: var(--fg); background: none; }
+}
 
 .hero__headline {
-  font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.4rem);
+  font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.45rem);
   font-weight: 600;
   color: var(--fg);
-  max-inline-size: 42ch;
+  max-inline-size: 44ch;
   margin-block-end: var(--space-4);
 }
 
@@ -179,22 +281,29 @@ main { display: block; }
 
 /* ---------- grids ---------- */
 
-.grid {
-  display: grid;
-  gap: var(--space-5);
-}
-
+.grid { display: grid; gap: var(--space-5); }
 .grid--2 { grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); }
 .grid--3 { grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); }
 
 /* ---------- footer ---------- */
 
 .site-footer {
-  border-block-start: 1px solid var(--line);
+  position: relative;
   padding-block: var(--space-7);
   margin-block-start: var(--space-8);
   color: var(--faint);
   font-size: 0.9rem;
+}
+
+/* The footer's top edge is a fading pipeline rather than a flat border. */
+.site-footer::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: 1px;
+  background: linear-gradient(90deg, transparent, var(--mint) 35%, var(--lime) 65%, transparent);
+  opacity: 0.35;
 }
 
 .site-footer__inner {
@@ -215,10 +324,84 @@ main { display: block; }
   padding: 0;
 }
 
-@media (max-width: 720px) {
-  .site-header__inner { flex-wrap: wrap; gap: var(--space-3); }
-  .site-nav { margin-inline-start: 0; order: 3; inline-size: 100%; }
-  .header__tools { margin-inline-start: auto; }
-  .section { padding-block: var(--space-7); }
-  .hero { padding-block: var(--space-8) var(--space-7); }
+/* =====================================================================
+   Responsive
+   ===================================================================== */
+
+/* Tablet — tighten the nav before it wraps. */
+@media (max-width: 1040px) {
+  .site-nav a { padding-inline: var(--space-2); font-size: 0.86rem; }
+  .brand__name { display: none; }
+}
+
+/* Mobile — nav becomes a drawer. */
+@media (max-width: 860px) {
+  .nav-toggle { display: inline-flex; }
+  .brand__name { display: inline; }
+
+  .site-nav {
+    position: fixed;
+    inset-block-start: 64px;
+    inset-inline: 0;
+    inset-block-end: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-1);
+    padding: var(--space-5) var(--gutter) var(--space-8);
+    background: var(--bg);
+    border-block-start: 1px solid var(--line);
+    overflow-y: auto;
+    transform: translateY(-8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.24s ease, transform 0.24s ease, visibility 0.24s;
+    margin-inline-start: 0;
+  }
+
+  .site-nav[data-open='true'] {
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Without JS the drawer can never open, so the nav stays inline instead. */
+  html:not(.js) .site-nav {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    padding: 0 0 var(--space-3);
+    background: transparent;
+    border: 0;
+    inline-size: 100%;
+  }
+
+  html:not(.js) .nav-toggle { display: none; }
+  html:not(.js) .site-header__inner { flex-wrap: wrap; }
+
+  .site-nav a {
+    font-size: 1.05rem;
+    padding: var(--space-3) var(--space-4);
+  }
+
+  body.nav-is-open { overflow: hidden; }
+}
+
+@media (max-width: 520px) {
+  .site-footer__inner { flex-direction: column; gap: var(--space-4); }
+  .hero__actions .btn { flex: 1 1 auto; justify-content: center; }
+}
+
+/* Very small screens — Galaxy Fold and similar. */
+@media (max-width: 360px) {
+  .brand__name { display: none; }
+  .lang-switch { padding-inline: var(--space-2); }
+}
+
+/* Landscape phones — reclaim vertical space. */
+@media (max-height: 520px) and (orientation: landscape) {
+  .hero { padding-block: var(--space-6); }
+  .site-nav { inset-block-start: 56px; }
 }

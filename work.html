@@ -2,7 +2,8 @@
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
 <title>Work — Nour Aldeen Tofi</title>
 <meta name="description" content="AI Automation Engineer and Senior Frontend Developer in Al Khobar, Saudi Arabia. I build production n8n workflows with LLM agents, Arabic document AI, and the React interfaces on top of them.">
 <link rel="canonical" href="https://nouraldeentofi.netlify.app/work.html">
@@ -16,6 +17,13 @@
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="author" content="Nour Aldeen Tofi">
+<script>
+/* Set before first paint so reveals never flash, and the stored theme never
+   flickers. Also tells CSS that JavaScript is available — without this class
+   nothing is ever hidden. */
+(function(){var r=document.documentElement;r.classList.add('js');
+try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -23,6 +31,7 @@
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/layout.css">
 <link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/motion.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -31,7 +40,7 @@
       "@type": "Person",
       "@id": "https://nouraldeentofi.netlify.app/#nour",
       "name": "Nour Aldeen Tofi",
-      "alternateName": "نور الدين توفي",
+      "alternateName": "نور الدين طفي",
       "jobTitle": "AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer",
       "description": "I turn messy manual processes into self-running workflows — and build the interfaces people use on top of them.",
       "email": "mailto:nouraldeentofi@gmail.com",
@@ -454,29 +463,32 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+  <div class="scroll-progress" aria-hidden="true"></div>
   <header class="site-header">
     <div class="container site-header__inner">
       <a class="brand" href="index.html">
         <span class="brand__mark" aria-hidden="true">NT</span>
-        <span>Nour Aldeen Tofi</span>
+        <span class="brand__name">Nour Aldeen Tofi</span>
       </a>
-      <nav class="site-nav" aria-label="Home">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="work.html" aria-current="page">Work</a>
-        <a href="projects.html">Projects</a>
-        <a href="automation.html">Automation Lab</a>
-        <a href="chat.html">Chat</a>
-        <a href="contact.html">Contact</a>
+      <nav class="site-nav" id="site-nav" aria-label="Home" data-open="false">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="work.html" aria-current="page">Work</a>
+          <a href="projects.html">Projects</a>
+          <a href="automation.html">Automation Lab</a>
+          <a href="chat.html">Chat</a>
+          <a href="contact.html">Contact</a>
       </nav>
       <div class="header__tools">
         <a class="lang-switch" href="ar/work.html" lang="ar" hreflang="ar">العربية</a>
-        <button class="theme-toggle" type="button" aria-label="Toggle colour theme">◐</button>
+        <button class="theme-toggle" type="button" aria-label="Toggle colour theme" aria-pressed="false"><span class="theme-toggle__icon" aria-hidden="true">☾</span></button>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-controls="site-nav" aria-expanded="false"><span class="nav-toggle__bars" aria-hidden="true"></span></button>
       </div>
     </div>
   </header>
 <main id="main">
   <section class="hero">
+    <canvas class="hero__canvas hero__canvas--sparse" data-workflow data-density="sparse" aria-hidden="true"></canvas>
     <div class="container">
       <h1>Work</h1>
       <p class="hero__headline">Roles, delivery, and the people I have built things with.</p>
@@ -485,41 +497,41 @@
 
   <section class="section" id="timeline">
     <div class="container">
-      <div class="section__head">
+      <div class="section__head" data-reveal>
         
         <h2>Experience</h2>
         
       </div>
 <ol class="timeline">
-  <li class="timeline__item timeline__item--current">
+  <li data-reveal class="timeline__item timeline__item--current">
     <p class="timeline__period">2026-01<span aria-hidden="true"> — </span>Present</p>
     <h3 class="timeline__role">Software Engineering Supervisor</h3>
     <p class="timeline__org">Distinctive Frontier Co. for Safety Equipment L.L.C · Al Khobar, Saudi Arabia · Full-time · On-site</p>
     <ul class="timeline__bullets"><li>Lead frontend development across internal business platforms, delivering scalable UI features in Arabic and English with React and TypeScript.</li><li>Define coding standards, review every frontend change before merge, and mentor developers — reducing rework and keeping the codebase maintainable.</li><li>Translate product ideas into shipped features in collaboration with backend (Laravel) and UI/UX teams, aligning technical delivery with business objectives.</li><li>Introduce internal workflow automation with n8n and OpenAI integrations to streamline repetitive team operations.</li></ul>
     <ul class="badges"><li class="badge">React</li><li class="badge">TypeScript</li><li class="badge">Tailwind CSS</li><li class="badge">n8n</li><li class="badge">OpenAI API</li><li class="badge">Jira</li><li class="badge">Git</li></ul>
   </li>
-  <li class="timeline__item timeline__item--current">
+  <li data-reveal class="timeline__item timeline__item--current">
     <p class="timeline__period">2025-03<span aria-hidden="true"> — </span>Present</p>
     <h3 class="timeline__role">Freelance Project Coordinator &amp; Automation Builder</h3>
     <p class="timeline__org">NexLead · Remote · Freelance · Remote</p>
     <ul class="timeline__bullets"><li>Deliver client automation and software projects end to end: requirements, scope, workflow design, and release.</li><li>Gather requirements directly with clients, define acceptance criteria, and break work into tasks and user stories on Trello.</li><li>Manage timelines and cost estimation while overseeing frontend, backend, and UI/UX quality.</li><li>Delivered GoldenTag, a jewelry store management app, to the Google Play Store.</li></ul>
     <ul class="badges"><li class="badge">Trello</li><li class="badge">Requirements Gathering</li><li class="badge">n8n</li><li class="badge">React</li><li class="badge">Release Management</li></ul>
   </li>
-  <li class="timeline__item">
+  <li data-reveal class="timeline__item">
     <p class="timeline__period">2025-01<span aria-hidden="true"> — </span>2026-01</p>
     <h3 class="timeline__role">Frontend Developer / Project Coordinator</h3>
     <p class="timeline__org">Distinctive Frontier Co. for Safety Equipment L.L.C · Al Khobar, Saudi Arabia · Full-time · On-site</p>
     <ul class="timeline__bullets"><li>Built a dashboard-based internal platform combining Jira-style task tracking with a quotation management system in React, used daily across all departments.</li><li>Implemented three core modules — task tracking, quotation generation, and workflow management — replacing manual spreadsheet processes.</li><li>Coordinated between frontend and backend teams to clarify requirements and keep delivery on schedule.</li><li>Promoted to Software Engineering Supervisor within twelve months.</li></ul>
     <ul class="badges"><li class="badge">React 19</li><li class="badge">TypeScript</li><li class="badge">Tailwind CSS v4</li><li class="badge">TanStack Query</li><li class="badge">React Hook Form</li><li class="badge">Axios</li><li class="badge">Laravel Echo</li></ul>
   </li>
-  <li class="timeline__item">
+  <li data-reveal class="timeline__item">
     <p class="timeline__period">2024-09<span aria-hidden="true"> — </span>2025-04</p>
     <h3 class="timeline__role">Frontend Developer (Part-Time)</h3>
     <p class="timeline__org">Khwarizm Technologies · Riyadh, Saudi Arabia (Remote) · Part-time · Remote</p>
     <ul class="timeline__bullets"><li>Developed a modern, responsive web application dashboard with React and Tailwind CSS as part of a full product team.</li><li>Converted detailed Figma designs into accessible, pixel-accurate interfaces with reusable components and efficient state management.</li><li>Conducted code reviews and upheld coding standards to deliver a clean, optimized codebase.</li></ul>
     <ul class="badges"><li class="badge">React</li><li class="badge">Tailwind CSS</li><li class="badge">Figma</li><li class="badge">Leaflet</li></ul>
   </li>
-  <li class="timeline__item">
+  <li data-reveal class="timeline__item">
     <p class="timeline__period">2023-06<span aria-hidden="true"> — </span>2024-02</p>
     <h3 class="timeline__role">Frontend Developer (Freelance)</h3>
     <p class="timeline__org">Minicodeleader · Remote · Freelance · Remote</p>
@@ -532,25 +544,25 @@
 
   <section class="section" id="testimonials">
     <div class="container">
-      <div class="section__head">
+      <div class="section__head" data-reveal>
         
         <h2>Recommendations</h2>
         
       </div>
       <div class="grid grid--2">
-<figure class="quote">
+<figure data-reveal class="quote">
   <blockquote class="quote__body">I worked closely with Nour Aldeen across two different companies, and he&#39;s one of the few people I&#39;ve seen who combines strong frontend execution with real delivery ownership — requirements, task breakdown, and deadlines. I was the Backend Developer and he was the Frontend Developer. In our second collaboration, he also handled requirements clarification, turning them into actionable tasks, coordinating assignments, and keeping delivery on track. This made backend–frontend collaboration smooth, because expectations and API contracts were clear.</blockquote>
   <figcaption class="quote__author">Haitham Zedan<span class="quote__role">Software Engineer · Laravel PHP Developer · Worked with Nour on the same team, across two companies</span></figcaption>
 </figure>
-<figure class="quote">
+<figure data-reveal class="quote">
   <blockquote class="quote__body">I had the pleasure of coaching Nour in 2021 for competitive programming contests. During our time working on data structures and algorithms, Nour stood out for his exceptionally sharp analytical mind and his ability to grasp complex concepts rapidly. He is a natural problem-solver who approaches challenges with both speed and precision.</blockquote>
   <figcaption class="quote__author">George Drouj<span class="quote__role">SDE @ noon · Codeforces Master · ACPC Bronze Medalist · Coached Nour in competitive programming; senior, but not a direct manager</span></figcaption>
 </figure>
-<figure class="quote">
+<figure data-reveal class="quote">
   <blockquote class="quote__body">I had the privilege of working with Nour Aldeen on the mobile development team at NexLead, and — as the person responsible for UI/UX — what distinguished his approach most was his focus on understanding before implementing. He was always careful to absorb the requirements fully and grasp the intent behind the design, so that implementation was never merely a visual translation but a coherent, logical user experience reflecting the design&#39;s core idea. He handled handoff and feedback with real professionalism: he asked precise questions and paid attention to details like consistency, edge cases, and user expectations. I recommend Nour Aldeen for any role requiring strong coordination between design and development, deep understanding of requirements, and genuine care for implementation quality through to delivery.</blockquote>
   <figcaption class="quote__author">Tawheed Malkat<span class="quote__role">IT Engineer · Senior UI/UX Designer · Product Designer · Worked with Nour on the same team at NexLead</span></figcaption>
 </figure>
-<figure class="quote">
+<figure data-reveal class="quote">
   <blockquote class="quote__body">I was on the graduation project team with Nour Aldeen. I handled the Flutter mobile application, while Nour handled the most important part of the project: the core algorithm and the AI component that builds a suitable nutrition plan from user data. What impressed me was that he worked with an owner&#39;s mindset — he clarified the required inputs, defined the data flow and integration points, and explained the decision logic in a way that got the whole team aligned on the same picture. Whenever something was unclear, he went back to fundamentals: what is the goal, what are the constraints, and how do we guarantee a sensible result? His presence raised the quality of what we shipped, because his work was built on understanding and analysis rather than guesswork.</blockquote>
   <figcaption class="quote__author">Hamza Shansho<span class="quote__role">Mobile Application Developer · Flutter Developer · Studied with Nour; graduation project teammate</span></figcaption>
 </figure>
@@ -560,7 +572,7 @@
 
   <section class="section" id="credentials">
     <div class="container">
-      <div class="section__head">
+      <div class="section__head" data-reveal>
         
         <h2>Certifications</h2>
         
@@ -632,7 +644,7 @@
 
   <section class="section" id="education">
     <div class="container">
-      <div class="section__head">
+      <div class="section__head" data-reveal>
         
         <h2>Education &amp; awards</h2>
         

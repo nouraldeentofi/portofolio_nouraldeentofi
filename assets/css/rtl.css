@@ -28,3 +28,10 @@
 [dir='rtl'] .chat__msg {
   text-align: start;
 }
+
+/* The heading ornament and footer hairline are drawn with physical
+   gradients — mirror them so the pipeline flows right-to-left. */
+[dir='rtl'] .section__head h2::after,
+[dir='rtl'] .site-footer::before {
+  transform: scaleX(-1);
+}

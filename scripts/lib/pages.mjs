@@ -25,24 +25,26 @@ function header(db, page, lang) {
 
   const nav = PAGES.map((p) => {
     const current = p === page ? ' aria-current="page"' : '';
-    return `        <a href="${rel(p, lang)}"${current}>${e(c.nav[PAGE_KEY[p]])}</a>`;
+    return `          <a href="${rel(p, lang)}"${current}>${e(c.nav[PAGE_KEY[p]])}</a>`;
   }).join('\n');
 
   // The language switch points at the same page in the other tree.
   const otherHref = lang === 'en' ? `ar/${page === '' ? 'index' : page}.html` : `../${page === '' ? 'index' : page}.html`;
 
-  return `  <header class="site-header">
+  return `  <div class="scroll-progress" aria-hidden="true"></div>
+  <header class="site-header">
     <div class="container site-header__inner">
       <a class="brand" href="${rel('', lang)}">
         <span class="brand__mark" aria-hidden="true">${initials}</span>
-        <span>${e(db.profile.name[lang])}</span>
+        <span class="brand__name">${e(db.profile.name[lang])}</span>
       </a>
-      <nav class="site-nav" aria-label="${e(c.nav.home)}">
+      <nav class="site-nav" id="site-nav" aria-label="${e(c.nav.home)}" data-open="false">
 ${nav}
       </nav>
       <div class="header__tools">
         <a class="lang-switch" href="${otherHref}" lang="${lang === 'en' ? 'ar' : 'en'}" hreflang="${lang === 'en' ? 'ar' : 'en'}">${e(c.meta.langLabel)}</a>
-        <button class="theme-toggle" type="button" aria-label="${e(c.ui.toggleTheme)}">◐</button>
+        <button class="theme-toggle" type="button" aria-label="${e(c.ui.toggleTheme)}" aria-pressed="false"><span class="theme-toggle__icon" aria-hidden="true">☾</span></button>
+        <button class="nav-toggle" type="button" aria-label="${e(c.ui.openMenu)}" aria-controls="site-nav" aria-expanded="false"><span class="nav-toggle__bars" aria-hidden="true"></span></button>
       </div>
     </div>
   </header>`;
@@ -79,15 +81,24 @@ function shell(db, page, lang, main) {
 <html lang="${lang}" dir="${dir}">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
 ${B.headMeta(db, page, lang)}
+<script>
+/* Set before first paint so reveals never flash, and the stored theme never
+   flickers. Also tells CSS that JavaScript is available — without this class
+   nothing is ever hidden. */
+(function(){var r=document.documentElement;r.classList.add('js');
+try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?${fonts}&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="${asset('assets/css/tokens.css', lang)}">
 <link rel="stylesheet" href="${asset('assets/css/base.css', lang)}">
 <link rel="stylesheet" href="${asset('assets/css/layout.css', lang)}">
-<link rel="stylesheet" href="${asset('assets/css/components.css', lang)}">${
+<link rel="stylesheet" href="${asset('assets/css/components.css', lang)}">
+<link rel="stylesheet" href="${asset('assets/css/motion.css', lang)}">${
     page === 'chat' ? `\n<link rel="stylesheet" href="${asset('assets/css/chat.css', lang)}">` : ''
   }${lang === 'ar' ? `\n<link rel="stylesheet" href="${asset('assets/css/rtl.css', lang)}">` : ''}
 ${B.headLd(db, page, lang)}
@@ -109,7 +120,7 @@ ${footer(db, lang)}
 
 const section = (id, eyebrow, title, lead, body) => `  <section class="section" id="${id}">
     <div class="container">
-      <div class="section__head">
+      <div class="section__head" data-reveal>
         ${eyebrow ? `<p class="section__eyebrow">${e(eyebrow)}</p>` : ''}
         <h2>${e(title)}</h2>
         ${lead ? `<p class="section__lead">${e(lead)}</p>` : ''}
@@ -118,24 +129,39 @@ ${body}
     </div>
   </section>`;
 
+/**
+ * Every page opens with the same visual idea: the animated workflow graph.
+ * The home hero runs it at full density; subpages run a sparser, quieter
+ * version of the same graph, so the whole site reads as one system.
+ */
+function heroBlock({ eyebrow = null, heading, headingClass = '', headline = null, intro = null, actions = null, dense = false }) {
+  const canvasClass = dense ? 'hero__canvas' : 'hero__canvas hero__canvas--sparse';
+  const density = dense ? '' : ' data-density="sparse"';
+
+  return `  <section class="hero">
+    <canvas class="${canvasClass}" data-workflow${density} aria-hidden="true"></canvas>
+    <div class="container">
+${eyebrow ? `      <p class="hero__eyebrow">${e(eyebrow)}</p>\n` : ''}      <h1${headingClass ? ` class="${headingClass}"` : ''}>${e(heading)}</h1>
+${headline ? `      <p class="hero__headline">${e(headline)}</p>\n` : ''}${intro ? `      <p class="hero__intro">${e(intro)}</p>\n` : ''}${actions ? `      <div class="hero__actions">\n${actions}\n      </div>\n` : ''}    </div>
+  </section>`;
+}
+
 /* ------------------------------------------------------------------ pages */
 
 function home(db, lang) {
   const c = db.copy[lang];
   const p = db.profile;
 
-  const main = `  <section class="hero">
-    <div class="container">
-      <p class="section__eyebrow">${e(c.home.eyebrow)}</p>
-      <h1 class="hero__name">${e(p.name[lang])}</h1>
-      <p class="hero__headline">${e(p.headline[lang])}</p>
-      <p class="hero__intro">${e(c.home.intro)}</p>
-      <div class="hero__actions">
-        <a class="btn" href="${rel('contact', lang)}">${e(c.home.ctaButton)}</a>
-        <a class="btn btn--ghost" href="${rel('automation', lang)}">${e(c.nav.automation)}</a>
-      </div>
-    </div>
-  </section>
+  const main = `${heroBlock({
+    dense: true,
+    eyebrow: c.home.eyebrow,
+    heading: p.name[lang],
+    headingClass: 'hero__name',
+    headline: p.headline[lang],
+    intro: c.home.intro,
+    actions: `        <a class="btn" href="${rel('contact', lang)}">${e(c.home.ctaButton)}</a>
+        <a class="btn btn--ghost" href="${rel('automation', lang)}">${e(c.nav.automation)}</a>`,
+  })}
 
 ${section('proof', c.home.proofLabel, c.home.proofLabel, null, B.homeProof(db, lang))}
 
@@ -163,12 +189,7 @@ ${section('quotes', c.home.quoteLabel, c.home.quoteLabel, null, `      <div clas
 function about(db, lang) {
   const c = db.copy[lang];
 
-  const main = `  <section class="hero">
-    <div class="container">
-      <h1>${e(c.about.title)}</h1>
-      <p class="hero__headline">${e(c.about.lead)}</p>
-    </div>
-  </section>
+  const main = `${heroBlock({ heading: c.about.title, headline: c.about.lead })}
 
   <section class="section">
     <div class="container">
@@ -192,12 +213,7 @@ ${section('faq', null, c.about.faqTitle, null, `      <div class="grid">\n${B.ab
 function work(db, lang) {
   const c = db.copy[lang];
 
-  const main = `  <section class="hero">
-    <div class="container">
-      <h1>${e(c.work.title)}</h1>
-      <p class="hero__headline">${e(c.work.lead)}</p>
-    </div>
-  </section>
+  const main = `${heroBlock({ heading: c.work.title, headline: c.work.lead })}
 
 ${section('timeline', null, c.work.timelineTitle, null, B.workTimeline(db, lang))}
 
@@ -213,12 +229,7 @@ ${section('education', null, c.work.educationTitle, null, B.workEducation(db, la
 function projects(db, lang) {
   const c = db.copy[lang];
 
-  const main = `  <section class="hero">
-    <div class="container">
-      <h1>${e(c.projects.title)}</h1>
-      <p class="hero__headline">${e(c.projects.lead)}</p>
-    </div>
-  </section>
+  const main = `${heroBlock({ heading: c.projects.title, headline: c.projects.lead })}
 
   <section class="section">
     <div class="container">
@@ -234,12 +245,7 @@ ${B.projectsList(db, lang)}
 function automation(db, lang) {
   const c = db.copy[lang];
 
-  const main = `  <section class="hero">
-    <div class="container">
-      <h1>${e(c.automation.title)}</h1>
-      <p class="hero__headline">${e(c.automation.lead)}</p>
-    </div>
-  </section>
+  const main = `${heroBlock({ heading: c.automation.title, headline: c.automation.lead })}
 
   <section class="section">
     <div class="container">
@@ -257,12 +263,7 @@ ${section('cost-case', null, c.automation.caseTitle, null, `      <div class="pr
 function contact(db, lang) {
   const c = db.copy[lang];
 
-  const main = `  <section class="hero">
-    <div class="container">
-      <h1>${e(c.contact.title)}</h1>
-      <p class="hero__headline">${e(c.contact.lead)}</p>
-    </div>
-  </section>
+  const main = `${heroBlock({ heading: c.contact.title, headline: c.contact.lead })}
 
 ${section('links', null, c.contact.linksTitle, null, B.contactLinks(db, lang))}
 
@@ -278,12 +279,7 @@ ${section('mcp', null, c.contact.mcpTitle, c.contact.mcpBody, B.contactMcp(db, l
 function chat(db, lang) {
   const c = db.copy[lang];
 
-  const main = `  <section class="hero">
-    <div class="container">
-      <h1>${e(c.chat.title)}</h1>
-      <p class="hero__headline">${e(c.chat.lead)}</p>
-    </div>
-  </section>
+  const main = `${heroBlock({ heading: c.chat.title, headline: c.chat.lead })}
 
   <section class="section">
     <div class="container">
@@ -306,13 +302,11 @@ ${section('transcript', null, c.chat.transcriptTitle, c.chat.transcriptNote, `  
 
 function notFound(db, lang) {
   const c = db.copy[lang];
-  const main = `  <section class="hero">
-    <div class="container">
-      <h1>404</h1>
-      <p class="hero__headline">${lang === 'en' ? 'That page does not exist.' : 'هذه الصفحة غير موجودة.'}</p>
-      <div class="hero__actions"><a class="btn" href="${rel('', lang)}">${e(c.nav.home)}</a></div>
-    </div>
-  </section>`;
+  const main = `${heroBlock({
+    heading: '404',
+    headline: lang === 'en' ? 'That page does not exist.' : 'هذه الصفحة غير موجودة.',
+    actions: `        <a class="btn" href="${rel('', lang)}">${e(c.nav.home)}</a>`,
+  })}`;
   return shell(db, '', lang, main);
 }
 

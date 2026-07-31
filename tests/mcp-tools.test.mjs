@@ -16,7 +16,7 @@ const db = loadDb('data');
 
 test('getProfile returns identity in the requested language', () => {
   assert.equal(getProfile(db, { lang: 'en' }).name, 'Nour Aldeen Tofi');
-  assert.equal(getProfile(db, { lang: 'ar' }).name, 'نور الدين توفي');
+  assert.equal(getProfile(db, { lang: 'ar' }).name, 'نور الدين طفي');
 });
 
 test('getProfile rejects an unknown language', () => {

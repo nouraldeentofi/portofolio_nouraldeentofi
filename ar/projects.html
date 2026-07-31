@@ -2,20 +2,28 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>المشاريع — نور الدين توفي</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<title>المشاريع — نور الدين طفي</title>
 <meta name="description" content="مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية أول، مقيم في الخبر بالمملكة العربية السعودية. أبني مسارات عمل إنتاجية في n8n مع وكلاء LLM، ومعالجة المستندات العربية بالذكاء الاصطناعي، والواجهات المبنية فوقها بـ React.">
 <link rel="canonical" href="https://nouraldeentofi.netlify.app/ar/projects.html">
 <link rel="alternate" hreflang="ar" href="https://nouraldeentofi.netlify.app/ar/projects.html">
 <link rel="alternate" hreflang="en" href="https://nouraldeentofi.netlify.app/projects.html">
 <link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.netlify.app/projects.html">
 <meta property="og:type" content="profile">
-<meta property="og:title" content="المشاريع — نور الدين توفي">
+<meta property="og:title" content="المشاريع — نور الدين طفي">
 <meta property="og:description" content="مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية أول، مقيم في الخبر بالمملكة العربية السعودية. أبني مسارات عمل إنتاجية في n8n مع وكلاء LLM، ومعالجة المستندات العربية بالذكاء الاصطناعي، والواجهات المبنية فوقها بـ React.">
 <meta property="og:url" content="https://nouraldeentofi.netlify.app/ar/projects.html">
 <meta property="og:locale" content="ar_SA">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="author" content="نور الدين توفي">
+<meta name="author" content="نور الدين طفي">
+<script>
+/* Set before first paint so reveals never flash, and the stored theme never
+   flickers. Also tells CSS that JavaScript is available — without this class
+   nothing is ever hidden. */
+(function(){var r=document.documentElement;r.classList.add('js');
+try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;600;800&family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -23,6 +31,7 @@
 <link rel="stylesheet" href="../assets/css/base.css">
 <link rel="stylesheet" href="../assets/css/layout.css">
 <link rel="stylesheet" href="../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/motion.css">
 <link rel="stylesheet" href="../assets/css/rtl.css">
 <script type="application/ld+json">
 {
@@ -31,7 +40,7 @@
     {
       "@type": "Person",
       "@id": "https://nouraldeentofi.netlify.app/#nour",
-      "name": "نور الدين توفي",
+      "name": "نور الدين طفي",
       "alternateName": "Nour Aldeen Tofi",
       "jobTitle": "مهندس أتمتة بالذكاء الاصطناعي — n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية أول",
       "description": "أُحوّل العمليات اليدوية المتعثّرة إلى مسارات عمل ذاتية التشغيل، وأبني الواجهات التي يستخدمها الناس فوقها.",
@@ -295,7 +304,7 @@
       "@type": "WebSite",
       "@id": "https://nouraldeentofi.netlify.app/#website",
       "url": "https://nouraldeentofi.netlify.app/ar/",
-      "name": "نور الدين توفي",
+      "name": "نور الدين طفي",
       "description": "مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية أول، مقيم في الخبر بالمملكة العربية السعودية. أبني مسارات عمل إنتاجية في n8n مع وكلاء LLM، ومعالجة المستندات العربية بالذكاء الاصطناعي، والواجهات المبنية فوقها بـ React.",
       "inLanguage": "ar",
       "author": {
@@ -408,29 +417,32 @@
 </head>
 <body>
 <a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+  <div class="scroll-progress" aria-hidden="true"></div>
   <header class="site-header">
     <div class="container site-header__inner">
       <a class="brand" href="../index.html">
         <span class="brand__mark" aria-hidden="true">NT</span>
-        <span>نور الدين توفي</span>
+        <span class="brand__name">نور الدين طفي</span>
       </a>
-      <nav class="site-nav" aria-label="الرئيسية">
-        <a href="../index.html">الرئيسية</a>
-        <a href="../about.html">نبذة</a>
-        <a href="../work.html">المسيرة</a>
-        <a href="../projects.html" aria-current="page">المشاريع</a>
-        <a href="../automation.html">مختبر الأتمتة</a>
-        <a href="../chat.html">محادثة</a>
-        <a href="../contact.html">تواصل</a>
+      <nav class="site-nav" id="site-nav" aria-label="الرئيسية" data-open="false">
+          <a href="../index.html">الرئيسية</a>
+          <a href="../about.html">نبذة</a>
+          <a href="../work.html">المسيرة</a>
+          <a href="../projects.html" aria-current="page">المشاريع</a>
+          <a href="../automation.html">مختبر الأتمتة</a>
+          <a href="../chat.html">محادثة</a>
+          <a href="../contact.html">تواصل</a>
       </nav>
       <div class="header__tools">
         <a class="lang-switch" href="../projects.html" lang="en" hreflang="en">English</a>
-        <button class="theme-toggle" type="button" aria-label="تبديل نمط الألوان">◐</button>
+        <button class="theme-toggle" type="button" aria-label="تبديل نمط الألوان" aria-pressed="false"><span class="theme-toggle__icon" aria-hidden="true">☾</span></button>
+        <button class="nav-toggle" type="button" aria-label="فتح القائمة" aria-controls="site-nav" aria-expanded="false"><span class="nav-toggle__bars" aria-hidden="true"></span></button>
       </div>
     </div>
   </header>
 <main id="main">
   <section class="hero">
+    <canvas class="hero__canvas hero__canvas--sparse" data-workflow data-density="sparse" aria-hidden="true"></canvas>
     <div class="container">
       <h1>المشاريع</h1>
       <p class="hero__headline">منتجات ومنصّات صمّمتها أو بنيتها أو سلّمتها من البداية إلى النهاية — من منتج SaaS عربي أولاً إلى تطبيق منشور على متجر Play.</p>
@@ -440,7 +452,7 @@
   <section class="section">
     <div class="container">
       <div class="grid grid--2">
-<article class="card card--featured" id="smart-scanner">
+<article data-reveal class="card card--featured" id="smart-scanner">
   <p class="card__meta"><span>منتج SaaS بالذكاء الاصطناعي</span><span>2026</span></p>
   <h3 class="card__title">Smart Scanner</h3>
   <p class="card__body">إدارة فواتير بالذكاء الاصطناعي، عربية أولاً — من الصورة حتى الاعتماد، دون أي إدخال يدوي.</p>
@@ -449,12 +461,12 @@
     <dt>ما بنيته</dt><dd>بنيت طبقتين من أصل ثلاث: محرّك الاستخراج بالذكاء الاصطناعي كاملاً في n8n، والواجهة الأمامية بالكامل. الواجهة ثلاثة تطبيقات حسب الدور — مدير، ومحاسب، وموظف — تتشارك قاعدة كود واحدة بـ React 19 وTypeScript، بواجهة ثنائية اللغة افتراضها العربية، ودعم RTL كامل عبر خصائص CSS المنطقية، وطبقة i18n مخصّصة. وتتضمّن مسار رفع موجّهاً مع التقاط مباشر من الكاميرا، ومتصفّح فواتير بفلاتر تعمل على الخادم، وتصدير Excel، وتقييد المزايا حسب باقة الاشتراك، وكل ذلك يمرّ عبر بوابات جودة في GitHub Actions ونشر SSH ذرّي.</dd>
     <dt>دوري</dt><dd>محرّك الذكاء الاصطناعي والأتمتة، والواجهة الأمامية كاملة. الواجهة الخلفية بـ Laravel من إعداد هيثم زيدان.</dd>
   </dl>
-  <ul class="proof"><li class="proof__item"><span class="proof__value">204</span><span class="proof__label">ملف مصدري</span></li><li class="proof__item"><span class="proof__value">494</span><span class="proof__label">اختبار آلي</span></li><li class="proof__item"><span class="proof__value">70+</span><span class="proof__label">حقل مُستخرَج</span></li><li class="proof__item"><span class="proof__value">13+</span><span class="proof__label">فلتر على الخادم</span></li><li class="proof__item"><span class="proof__value">4</span><span class="proof__label">باقة اشتراك</span></li><li class="proof__item"><span class="proof__value">~10s</span><span class="proof__label">من الصورة إلى بيانات منظّمة</span></li></ul>
+  <ul class="proof"><li class="proof__item"><span class="proof__value" data-count>204</span><span class="proof__label">ملف مصدري</span></li><li class="proof__item"><span class="proof__value" data-count>494</span><span class="proof__label">اختبار آلي</span></li><li class="proof__item"><span class="proof__value" data-count>70+</span><span class="proof__label">حقل مُستخرَج</span></li><li class="proof__item"><span class="proof__value" data-count>13+</span><span class="proof__label">فلتر على الخادم</span></li><li class="proof__item"><span class="proof__value" data-count>4</span><span class="proof__label">باقة اشتراك</span></li><li class="proof__item"><span class="proof__value" data-count>~10s</span><span class="proof__label">من الصورة إلى بيانات منظّمة</span></li></ul>
   <ul class="badges"><li class="badge">React 19</li><li class="badge">TypeScript</li><li class="badge">Tailwind CSS</li><li class="badge">Vitest</li><li class="badge">React Testing Library</li><li class="badge">n8n</li><li class="badge">OpenAI GPT-4.1 Vision</li><li class="badge">GitHub Actions</li><li class="badge">i18n</li><li class="badge">RTL</li></ul>
   <p class="card__body"><em>التوقيت ليس صدفة: مع توسّع الفوترة الإلكترونية من هيئة الزكاة والضريبة والجمارك (ZATCA) في السعودية وإلزامية JoFotara في الأردن، صار على كل فاتورة ورقية أن تتحوّل إلى بيانات رقمية نظيفة.</em></p>
   <div class="card__foot"><a class="btn" href="https://receipt.nexleadtech.com" rel="noopener">زيارة الموقع</a></div>
 </article>
-<article class="card" id="dfs-dashboard">
+<article data-reveal class="card" id="dfs-dashboard">
   <p class="card__meta"><span>منصّة داخلية</span><span>2025–2026</span></p>
   <h3 class="card__title">DFS Dashboard</h3>
   <p class="card__body">منصّة موحّدة لإدارة العملاء وعروض الأسعار حلّت محل عمليات يدوية متفرّقة في كل الأقسام.</p>
@@ -463,12 +475,12 @@
     <dt>ما بنيته</dt><dd>تولّيت وحدتَي الواجهة الأمامية الأساسيتين — إدارة العملاء وعروض الأسعار — وربطتهما في سير عمل واحد: إنشاء عروض الأسعار وتحديثها، وتتبّع الحالات، وإدارة العملاء والفرص، إضافة إلى وحدة داخلية للمشاريع والمهام مع الإسناد وتتبّع التقدّم. وعملت عن قرب مع فريق الواجهة الخلفية على تعريفات الـ API ومراجعة الحمولات ليطابق سلوك الواجهة سير العمل الفعلي.</dd>
     <dt>دوري</dt><dd>قائد الواجهة الأمامية</dd>
   </dl>
-  <ul class="proof"><li class="proof__item"><span class="proof__value">2</span><span class="proof__label">وحدة أساسية</span></li><li class="proof__item"><span class="proof__value">2</span><span class="proof__label">لغتان (عربي/إنجليزي)</span></li></ul>
+  <ul class="proof"><li class="proof__item"><span class="proof__value" data-count>2</span><span class="proof__label">وحدة أساسية</span></li><li class="proof__item"><span class="proof__value" data-count>2</span><span class="proof__label">لغتان (عربي/إنجليزي)</span></li></ul>
   <ul class="badges"><li class="badge">React 19</li><li class="badge">Vite</li><li class="badge">TypeScript</li><li class="badge">Tailwind CSS v4</li><li class="badge">Axios</li><li class="badge">TanStack React Query</li><li class="badge">React Hook Form</li><li class="badge">React Router</li><li class="badge">Laravel Echo</li><li class="badge">@hello-pangea/dnd</li></ul>
   
   <div class="card__foot"></div>
 </article>
-<article class="card" id="goldentag">
+<article data-reveal class="card" id="goldentag">
   <p class="card__meta"><span>تطبيق موبايل · Google Play</span><span>2025</span></p>
   <h3 class="card__title">GoldenTag</h3>
   <p class="card__body">تطبيق لإدارة محلات المجوهرات، منشور على متجر Google Play.</p>
@@ -477,12 +489,12 @@
     <dt>ما بنيته</dt><dd>نسّقت التسليم من البداية إلى النهاية: المتطلبات مع العميل، والنطاق ومعايير القبول، وقصص المستخدم على Trello، والإشراف على الواجهة الأمامية والخلفية وتجربة المستخدم حتى النشر. وتشمل المزايا: المخزون، وإدارة الموظفين، ومسح الباركود، وأسعار صرف الدولار/الليرة، وتسجيل المبيعات، والتصدير النصي.</dd>
     <dt>دوري</dt><dd>منسّق المشروع</dd>
   </dl>
-  <ul class="proof"><li class="proof__item"><span class="proof__value">4</span><span class="proof__label">مزايا أساسية</span></li><li class="proof__item"><span class="proof__value">Live</span><span class="proof__label">على Google Play</span></li></ul>
+  <ul class="proof"><li class="proof__item"><span class="proof__value" data-count>4</span><span class="proof__label">مزايا أساسية</span></li><li class="proof__item"><span class="proof__value" data-count>Live</span><span class="proof__label">على Google Play</span></li></ul>
   <ul class="badges"><li class="badge">Flutter</li><li class="badge">Trello</li><li class="badge">Requirements Gathering</li><li class="badge">Release Management</li></ul>
   
   <div class="card__foot"><a class="btn" href="https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag" rel="noopener">زيارة الموقع</a></div>
 </article>
-<article class="card" id="business-card-extractor">
+<article data-reveal class="card" id="business-card-extractor">
   <p class="card__meta"><span>تطبيق ويب بالذكاء الاصطناعي</span><span>2026</span></p>
   <h3 class="card__title">Business Card Extractor</h3>
   <p class="card__body">صوّر بطاقة العمل، فتصل إلى جهات الاتصال في هاتفك بضغطة واحدة.</p>
@@ -491,12 +503,12 @@
     <dt>ما بنيته</dt><dd>تطبيق ويب يحوّل صورة أي بطاقة عمل إلى بيانات منظّمة — الاسم، والشركة، والبريد، والهاتف، والموقع — خلال ثوانٍ، ويخزّنها في Google Sheets، ويولّد ملف vCard لتُحفظ جهة الاتصال مباشرة في الهاتف. دون أي واجهة خلفية مخصّصة: مسار عمل في n8n يستقبل الصورة، وGPT-4o Vision يقرأها، ثم تُتحقّق البيانات وتُخزّن وتعود إلى التطبيق. وميزة الحفظ بضغطة واحدة جاءت من اقتراح مستخدم بعد الإصدار الأول.</dd>
     <dt>دوري</dt><dd>البناء الكامل — الواجهة والأتمتة</dd>
   </dl>
-  <ul class="proof"><li class="proof__item"><span class="proof__value">0</span><span class="proof__label">سطر واجهة خلفية مخصّصة</span></li><li class="proof__item"><span class="proof__value">1 tap</span><span class="proof__label">لحفظ جهة الاتصال</span></li></ul>
+  <ul class="proof"><li class="proof__item"><span class="proof__value" data-count>0</span><span class="proof__label">سطر واجهة خلفية مخصّصة</span></li><li class="proof__item"><span class="proof__value" data-count>1 tap</span><span class="proof__label">لحفظ جهة الاتصال</span></li></ul>
   <ul class="badges"><li class="badge">React</li><li class="badge">TypeScript</li><li class="badge">Tailwind CSS</li><li class="badge">n8n</li><li class="badge">OpenAI GPT-4o Vision</li><li class="badge">Google Sheets</li><li class="badge">vCard</li></ul>
   
   <div class="card__foot"></div>
 </article>
-<article class="card" id="mcp-search-server">
+<article data-reveal class="card" id="mcp-search-server">
   <p class="card__meta"><span>أدوات ذكاء اصطناعي</span><span>2026</span></p>
   <h3 class="card__title">MCP Search Server</h3>
   <p class="card__body">خادم Model Context Protocol يتيح لنموذج ذكاء اصطناعي أن يستعلم بيانات حقيقية بدل توليد النصوص فقط.</p>
@@ -505,7 +517,7 @@
     <dt>ما بنيته</dt><dd>بنيت خادم MCP بأدوات مخصّصة من بينها أداة بحث، وربطته ببيانات حقيقية، ثم وصلته بـ Claude — بحيث يعيد سؤال بلغة طبيعية مثل «ما تفاصيل المستخدم رقم ٢» السجلّ الصحيح مباشرة. والنمط نفسه يشغّل خادم MCP المرفق مع هذا الموقع.</dd>
     <dt>دوري</dt><dd>البناء الكامل</dd>
   </dl>
-  <ul class="proof"><li class="proof__item"><span class="proof__value">MCP</span><span class="proof__label">أدوات متاحة لـ Claude</span></li></ul>
+  <ul class="proof"><li class="proof__item"><span class="proof__value" data-count>MCP</span><span class="proof__label">أدوات متاحة لـ Claude</span></li></ul>
   <ul class="badges"><li class="badge">Model Context Protocol</li><li class="badge">Node.js</li><li class="badge">Claude</li><li class="badge">JSON Schema</li></ul>
   
   <div class="card__foot"></div>
@@ -518,7 +530,7 @@
     <div class="container site-footer__inner">
       <div>
         <p>بُني موقعاً ثابتاً بلا أي إطار عمل، حتى تكون كل كلمة فيه مقروءة للبشر والآلات على حدّ سواء.</p>
-        <p>© 2026 نور الدين توفي · ‏HTML وCSS ووحدات ES مكتوبة يدوياً</p>
+        <p>© 2026 نور الدين طفي · ‏HTML وCSS ووحدات ES مكتوبة يدوياً</p>
       </div>
       <ul class="footer__links">
         <li><a href="../llms.txt">llms.txt</a></li>

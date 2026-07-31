@@ -2,20 +2,28 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>محادثة — نور الدين توفي</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<title>محادثة — نور الدين طفي</title>
 <meta name="description" content="مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية أول، مقيم في الخبر بالمملكة العربية السعودية. أبني مسارات عمل إنتاجية في n8n مع وكلاء LLM، ومعالجة المستندات العربية بالذكاء الاصطناعي، والواجهات المبنية فوقها بـ React.">
 <link rel="canonical" href="https://nouraldeentofi.netlify.app/ar/chat.html">
 <link rel="alternate" hreflang="ar" href="https://nouraldeentofi.netlify.app/ar/chat.html">
 <link rel="alternate" hreflang="en" href="https://nouraldeentofi.netlify.app/chat.html">
 <link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.netlify.app/chat.html">
 <meta property="og:type" content="profile">
-<meta property="og:title" content="محادثة — نور الدين توفي">
+<meta property="og:title" content="محادثة — نور الدين طفي">
 <meta property="og:description" content="مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية أول، مقيم في الخبر بالمملكة العربية السعودية. أبني مسارات عمل إنتاجية في n8n مع وكلاء LLM، ومعالجة المستندات العربية بالذكاء الاصطناعي، والواجهات المبنية فوقها بـ React.">
 <meta property="og:url" content="https://nouraldeentofi.netlify.app/ar/chat.html">
 <meta property="og:locale" content="ar_SA">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="author" content="نور الدين توفي">
+<meta name="author" content="نور الدين طفي">
+<script>
+/* Set before first paint so reveals never flash, and the stored theme never
+   flickers. Also tells CSS that JavaScript is available — without this class
+   nothing is ever hidden. */
+(function(){var r=document.documentElement;r.classList.add('js');
+try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;600;800&family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -23,6 +31,7 @@
 <link rel="stylesheet" href="../assets/css/base.css">
 <link rel="stylesheet" href="../assets/css/layout.css">
 <link rel="stylesheet" href="../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/motion.css">
 <link rel="stylesheet" href="../assets/css/chat.css">
 <link rel="stylesheet" href="../assets/css/rtl.css">
 <script type="application/ld+json">
@@ -32,7 +41,7 @@
     {
       "@type": "Person",
       "@id": "https://nouraldeentofi.netlify.app/#nour",
-      "name": "نور الدين توفي",
+      "name": "نور الدين طفي",
       "alternateName": "Nour Aldeen Tofi",
       "jobTitle": "مهندس أتمتة بالذكاء الاصطناعي — n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية أول",
       "description": "أُحوّل العمليات اليدوية المتعثّرة إلى مسارات عمل ذاتية التشغيل، وأبني الواجهات التي يستخدمها الناس فوقها.",
@@ -296,7 +305,7 @@
       "@type": "WebSite",
       "@id": "https://nouraldeentofi.netlify.app/#website",
       "url": "https://nouraldeentofi.netlify.app/ar/",
-      "name": "نور الدين توفي",
+      "name": "نور الدين طفي",
       "description": "مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية أول، مقيم في الخبر بالمملكة العربية السعودية. أبني مسارات عمل إنتاجية في n8n مع وكلاء LLM، ومعالجة المستندات العربية بالذكاء الاصطناعي، والواجهات المبنية فوقها بـ React.",
       "inLanguage": "ar",
       "author": {
@@ -326,29 +335,32 @@
 </head>
 <body>
 <a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+  <div class="scroll-progress" aria-hidden="true"></div>
   <header class="site-header">
     <div class="container site-header__inner">
       <a class="brand" href="../index.html">
         <span class="brand__mark" aria-hidden="true">NT</span>
-        <span>نور الدين توفي</span>
+        <span class="brand__name">نور الدين طفي</span>
       </a>
-      <nav class="site-nav" aria-label="الرئيسية">
-        <a href="../index.html">الرئيسية</a>
-        <a href="../about.html">نبذة</a>
-        <a href="../work.html">المسيرة</a>
-        <a href="../projects.html">المشاريع</a>
-        <a href="../automation.html">مختبر الأتمتة</a>
-        <a href="../chat.html" aria-current="page">محادثة</a>
-        <a href="../contact.html">تواصل</a>
+      <nav class="site-nav" id="site-nav" aria-label="الرئيسية" data-open="false">
+          <a href="../index.html">الرئيسية</a>
+          <a href="../about.html">نبذة</a>
+          <a href="../work.html">المسيرة</a>
+          <a href="../projects.html">المشاريع</a>
+          <a href="../automation.html">مختبر الأتمتة</a>
+          <a href="../chat.html" aria-current="page">محادثة</a>
+          <a href="../contact.html">تواصل</a>
       </nav>
       <div class="header__tools">
         <a class="lang-switch" href="../chat.html" lang="en" hreflang="en">English</a>
-        <button class="theme-toggle" type="button" aria-label="تبديل نمط الألوان">◐</button>
+        <button class="theme-toggle" type="button" aria-label="تبديل نمط الألوان" aria-pressed="false"><span class="theme-toggle__icon" aria-hidden="true">☾</span></button>
+        <button class="nav-toggle" type="button" aria-label="فتح القائمة" aria-controls="site-nav" aria-expanded="false"><span class="nav-toggle__bars" aria-hidden="true"></span></button>
       </div>
     </div>
   </header>
 <main id="main">
   <section class="hero">
+    <canvas class="hero__canvas hero__canvas--sparse" data-workflow data-density="sparse" aria-hidden="true"></canvas>
     <div class="container">
       <h1>حدّث الموقع</h1>
       <p class="hero__headline">المعلومات نفسها الموجودة في بقية الموقع، لكن على شكل محادثة. اختر سؤالاً لتبدأ.</p>
@@ -360,7 +372,7 @@
       <div class="chat" id="chat">
         <div class="chat__head">
           <span class="brand__mark" aria-hidden="true">NT</span>
-          <span class="chat__who"><b>نور الدين توفي</b><span>متصل — يردّ خلال ثوانٍ</span></span>
+          <span class="chat__who"><b>نور الدين طفي</b><span>متصل — يردّ خلال ثوانٍ</span></span>
         </div>
         <div class="chat__thread" id="chat-thread" role="log" aria-live="polite"></div>
         <div class="chat__typing" id="chat-typing" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -371,7 +383,7 @@
 
   <section class="section" id="transcript">
     <div class="container">
-      <div class="section__head">
+      <div class="section__head" data-reveal>
         
         <h2>النص الكامل</h2>
         <p class="section__lead">كل إجابة في المحادثة أعلاه، كنصّ صِرف — لكل من يفضّل القراءة على النقر، إنساناً كان أو آلة.</p>
@@ -396,7 +408,7 @@
   <p>الواجهة الخلفية بـ Laravel من إعداد هيثم زيدان. المنتجات الجيّدة تأتي من فرق جيّدة.</p>
 </section>
 <section class="transcript__node" id="say-who">
-  <p>أنا نور الدين توفي — مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية أول، مقيم في الخبر.</p>
+  <p>أنا نور الدين طفي — مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية أول، مقيم في الخبر.</p>
   <p>والجزء غير المعتاد أنني أعمل على الطرفين: أصمّم الخط وأبني الواجهة. وأدير التسليم أيضاً — المتطلبات والنطاق والمهام والمواعيد.</p>
   <p>بكالوريوس هندسة تقنية المعلومات من جامعة القلمون، ٢٠١٩–٢٠٢٤. العربية لغتي الأم، والإنجليزية بمستوى مهني. 🇸🇦</p>
 </section>
@@ -454,7 +466,7 @@
     <div class="container site-footer__inner">
       <div>
         <p>بُني موقعاً ثابتاً بلا أي إطار عمل، حتى تكون كل كلمة فيه مقروءة للبشر والآلات على حدّ سواء.</p>
-        <p>© 2026 نور الدين توفي · ‏HTML وCSS ووحدات ES مكتوبة يدوياً</p>
+        <p>© 2026 نور الدين طفي · ‏HTML وCSS ووحدات ES مكتوبة يدوياً</p>
       </div>
       <ul class="footer__links">
         <li><a href="../llms.txt">llms.txt</a></li>

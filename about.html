@@ -2,7 +2,8 @@
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
 <title>About — Nour Aldeen Tofi</title>
 <meta name="description" content="AI Automation Engineer and Senior Frontend Developer in Al Khobar, Saudi Arabia. I build production n8n workflows with LLM agents, Arabic document AI, and the React interfaces on top of them.">
 <link rel="canonical" href="https://nouraldeentofi.netlify.app/about.html">
@@ -16,6 +17,13 @@
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="author" content="Nour Aldeen Tofi">
+<script>
+/* Set before first paint so reveals never flash, and the stored theme never
+   flickers. Also tells CSS that JavaScript is available — without this class
+   nothing is ever hidden. */
+(function(){var r=document.documentElement;r.classList.add('js');
+try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -23,6 +31,7 @@
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/layout.css">
 <link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/motion.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -31,7 +40,7 @@
       "@type": "Person",
       "@id": "https://nouraldeentofi.netlify.app/#nour",
       "name": "Nour Aldeen Tofi",
-      "alternateName": "نور الدين توفي",
+      "alternateName": "نور الدين طفي",
       "jobTitle": "AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer",
       "description": "I turn messy manual processes into self-running workflows — and build the interfaces people use on top of them.",
       "email": "mailto:nouraldeentofi@gmail.com",
@@ -378,29 +387,32 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+  <div class="scroll-progress" aria-hidden="true"></div>
   <header class="site-header">
     <div class="container site-header__inner">
       <a class="brand" href="index.html">
         <span class="brand__mark" aria-hidden="true">NT</span>
-        <span>Nour Aldeen Tofi</span>
+        <span class="brand__name">Nour Aldeen Tofi</span>
       </a>
-      <nav class="site-nav" aria-label="Home">
-        <a href="index.html">Home</a>
-        <a href="about.html" aria-current="page">About</a>
-        <a href="work.html">Work</a>
-        <a href="projects.html">Projects</a>
-        <a href="automation.html">Automation Lab</a>
-        <a href="chat.html">Chat</a>
-        <a href="contact.html">Contact</a>
+      <nav class="site-nav" id="site-nav" aria-label="Home" data-open="false">
+          <a href="index.html">Home</a>
+          <a href="about.html" aria-current="page">About</a>
+          <a href="work.html">Work</a>
+          <a href="projects.html">Projects</a>
+          <a href="automation.html">Automation Lab</a>
+          <a href="chat.html">Chat</a>
+          <a href="contact.html">Contact</a>
       </nav>
       <div class="header__tools">
         <a class="lang-switch" href="ar/about.html" lang="ar" hreflang="ar">العربية</a>
-        <button class="theme-toggle" type="button" aria-label="Toggle colour theme">◐</button>
+        <button class="theme-toggle" type="button" aria-label="Toggle colour theme" aria-pressed="false"><span class="theme-toggle__icon" aria-hidden="true">☾</span></button>
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-controls="site-nav" aria-expanded="false"><span class="nav-toggle__bars" aria-hidden="true"></span></button>
       </div>
     </div>
   </header>
 <main id="main">
   <section class="hero">
+    <canvas class="hero__canvas hero__canvas--sparse" data-workflow data-density="sparse" aria-hidden="true"></canvas>
     <div class="container">
       <h1>About</h1>
       <p class="hero__headline">I care about automation that makes business sense, not automation that demos well.</p>
@@ -420,25 +432,25 @@
 
   <section class="section" id="principles">
     <div class="container">
-      <div class="section__head">
+      <div class="section__head" data-reveal>
         
         <h2>How I work</h2>
         
       </div>
       <div class="grid grid--2">
-<article class="card">
+<article data-reveal class="card">
   <h3 class="card__title">Agree the contract before the first line of code</h3>
   <p class="card__body">The worst bug I have shipped was not in anyone&#39;s code. Two systems each behaved perfectly and disagreed about what a payload meant, so data deleted itself silently — no error, no log, nothing broken. Now every shared boundary gets a written agreement first: the shape of the data, the required fields, the strange cases, and who owns what. It lets two people build in parallel and still fit together on the first try.</p>
 </article>
-<article class="card">
+<article data-reveal class="card">
   <h3 class="card__title">Accuracy before speed</h3>
   <p class="card__body">A workflow that saves nothing is better than one that saves the wrong thing. My extraction pipelines refuse to persist anything until the essential fields are present and plausible — and when something is missing, they say so and explain why. A confident wrong answer is worse than a slow right one.</p>
 </article>
-<article class="card">
+<article data-reveal class="card">
   <h3 class="card__title">Route by cost, not by habit</h3>
   <p class="card__body">My first workflow sent every incoming file to a vision model. But a PDF usually carries extractable text, and a text model reads it for a fraction of the price. One branching decision cut the per-document cost by three quarters — with a fallback to vision when extraction comes back empty. The branch is free; the saving compounds every month.</p>
 </article>
-<article class="card">
+<article data-reveal class="card">
   <h3 class="card__title">Build the thing people will actually open</h3>
   <p class="card__body">An automation nobody trusts gets bypassed. A dashboard nobody understands gets exported to a spreadsheet. So I care about the interface as much as the pipeline: clear states, honest errors, and no dead ends.</p>
 </article>
@@ -448,29 +460,29 @@
 
   <section class="section" id="skills">
     <div class="container">
-      <div class="section__head">
+      <div class="section__head" data-reveal>
         
         <h2>Skills</h2>
         
       </div>
       <div class="grid grid--2">
-<article class="card">
+<article data-reveal class="card">
   <h3 class="card__title">Automation &amp; AI</h3>
   <ul class="badges"><li class="badge">n8n</li><li class="badge">Workflow Automation</li><li class="badge">AI Agents</li><li class="badge">LLM Tool-Calling Design</li><li class="badge">Model Context Protocol (MCP)</li><li class="badge">OpenAI API</li><li class="badge">GPT-4o</li><li class="badge">GPT-4.1 Vision</li><li class="badge">Structured JSON Outputs</li><li class="badge">Prompt Engineering</li><li class="badge">Document AI</li><li class="badge">Arabic OCR &amp; Extraction</li><li class="badge">Web Scraping</li><li class="badge">Telegram Bot API</li><li class="badge">Webhooks</li><li class="badge">Error Handling &amp; Retries</li></ul>
 </article>
-<article class="card">
+<article data-reveal class="card">
   <h3 class="card__title">Frontend</h3>
   <ul class="badges"><li class="badge">React.js</li><li class="badge">React 19</li><li class="badge">TypeScript</li><li class="badge">JavaScript (ES6+)</li><li class="badge">Tailwind CSS</li><li class="badge">HTML5</li><li class="badge">CSS3</li><li class="badge">Material-UI</li><li class="badge">Vite</li><li class="badge">React Hooks</li><li class="badge">TanStack React Query</li><li class="badge">React Hook Form</li><li class="badge">React Router</li><li class="badge">i18n &amp; RTL</li><li class="badge">Responsive Design</li><li class="badge">Web Accessibility</li></ul>
 </article>
-<article class="card">
+<article data-reveal class="card">
   <h3 class="card__title">Data &amp; Backend</h3>
   <ul class="badges"><li class="badge">REST APIs</li><li class="badge">API Integration</li><li class="badge">JSON</li><li class="badge">OAuth 2.0</li><li class="badge">MySQL</li><li class="badge">Stored Procedures</li><li class="badge">Google Sheets API</li><li class="badge">Google Drive API</li><li class="badge">Node.js</li><li class="badge">Python</li></ul>
 </article>
-<article class="card">
+<article data-reveal class="card">
   <h3 class="card__title">Tooling &amp; Delivery</h3>
   <ul class="badges"><li class="badge">Git</li><li class="badge">GitHub</li><li class="badge">GitLab</li><li class="badge">CI/CD (GitHub Actions)</li><li class="badge">Vitest</li><li class="badge">React Testing Library</li><li class="badge">Jira</li><li class="badge">Trello</li><li class="badge">Figma</li><li class="badge">Agile</li><li class="badge">Scrum</li><li class="badge">Clean Code</li></ul>
 </article>
-<article class="card">
+<article data-reveal class="card">
   <h3 class="card__title">Coordination &amp; Leadership</h3>
   <ul class="badges"><li class="badge">Requirements Gathering</li><li class="badge">Scope Definition</li><li class="badge">API Contract Design</li><li class="badge">User Stories</li><li class="badge">Sprint Planning</li><li class="badge">Code Review</li><li class="badge">Mentoring</li><li class="badge">Cross-Functional Team Leadership</li><li class="badge">Project Coordination</li><li class="badge">Problem Solving</li></ul>
 </article>
@@ -480,7 +492,7 @@
 
   <section class="section" id="personal">
     <div class="container">
-      <div class="section__head">
+      <div class="section__head" data-reveal>
         
         <h2>Off the clock</h2>
         
@@ -491,33 +503,33 @@
 
   <section class="section" id="faq">
     <div class="container">
-      <div class="section__head">
+      <div class="section__head" data-reveal>
         
         <h2>Common questions</h2>
         
       </div>
       <div class="grid">
-<details class="card">
+<details data-reveal class="card">
   <summary><strong>What does Nour Aldeen Tofi do?</strong></summary>
   <p class="card__body">He is an AI Automation Engineer and Senior Frontend Developer based in Al Khobar, Saudi Arabia. He designs and operates production n8n workflows that connect language models to real systems, and builds the React and TypeScript interfaces on top of them. He also works as a Software Engineering Supervisor, leading frontend development and owning delivery end to end.</p>
 </details>
-<details class="card">
+<details data-reveal class="card">
   <summary><strong>What is Smart Scanner?</strong></summary>
   <p class="card__body">Smart Scanner is an Arabic-first AI invoice management product. An employee photographs a receipt; an n8n pipeline verifies it is a genuine invoice, extracts every field with GPT Vision in Arabic and English, and classifies each expense. Accountants then review, approve or reject, comment, and export through role-based dashboards. Nour built the entire AI automation engine and the complete frontend.</p>
 </details>
-<details class="card">
+<details data-reveal class="card">
   <summary><strong>Does he work in Arabic?</strong></summary>
   <p class="card__body">Arabic is his native language and it is a core part of his technical specialisation. He builds Arabic-default bilingual interfaces with full right-to-left support, and his document AI pipelines are tuned specifically for Arabic invoices, including handwritten ones and ZATCA e-invoice fields — a case most global tools handle poorly or not at all.</p>
 </details>
-<details class="card">
+<details data-reveal class="card">
   <summary><strong>Is he open to work?</strong></summary>
   <p class="card__body">Yes. He is open to opportunities in Saudi Arabia and remotely, on-site, hybrid, or fully remote, and takes on freelance automation and frontend projects. The fastest way to reach him is email.</p>
 </details>
-<details class="card">
+<details data-reveal class="card">
   <summary><strong>What is his automation stack?</strong></summary>
   <p class="card__body">n8n for orchestration; the OpenAI API including GPT-4o and GPT-4.1 Vision with structured JSON outputs; AI agents with custom tool-calling; webhooks and REST integrations; Google Sheets, Google Drive, MySQL, and Telegram as data and delivery layers; and the Model Context Protocol for connecting models to real tools.</p>
 </details>
-<details class="card">
+<details data-reveal class="card">
   <summary><strong>How do I contact him?</strong></summary>
   <p class="card__body">By email at nouraldeentofi@gmail.com, or through LinkedIn. This site also publishes a machine-readable profile and an MCP server, so an AI assistant can look up his experience and projects directly.</p>
 </details>

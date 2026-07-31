@@ -26,7 +26,7 @@ test('person carries the identity graph and drops unresolved links', () => {
 
 test('person renders in Arabic when asked', () => {
   const p = personLd(db, 'ar');
-  assert.equal(p.name, 'نور الدين توفي');
+  assert.equal(p.name, 'نور الدين طفي');
   assert.equal(p.alternateName, 'Nour Aldeen Tofi');
 });
 

@@ -94,3 +94,13 @@ test('the site never claims Riyadh as his base', () => {
     assert.ok(!/Riyadh/i.test(role.location.en), `${role.id} must not be based in Riyadh`);
   }
 });
+
+test('the Arabic name is spelled طفي, never توفي', () => {
+  const db = loadDb('data');
+  const blob = JSON.stringify(db);
+  assert.ok(blob.includes('نور الدين طفي'), 'canonical Arabic name missing');
+  assert.ok(
+    !blob.includes('نور الدين توفي'),
+    'توفي is a different word (reads as "passed away") — the name is طفي',
+  );
+});

@@ -81,7 +81,7 @@ export function homeProof(db, lang) {
 ${picks
   .map(
     (m) => `  <li class="proof__item">
-    <span class="proof__value">${e(m.value)}</span>
+    <span class="proof__value" data-count>${e(m.value)}</span>
     <span class="proof__label">${e(m.label[lang])}</span>
   </li>`,
   )
@@ -93,7 +93,7 @@ export function homeFeatured(db, lang) {
   const p = db.projects.find((x) => x.featured);
   const c = db.copy[lang];
 
-  return `<article class="card card--featured">
+  return `<article data-reveal class="card card--featured">
   <p class="card__meta"><span>${e(p.category[lang])}</span><span>${e(p.year)}</span></p>
   <h3 class="card__title">${e(p.name)}</h3>
   <p class="card__body">${e(p.tagline[lang])}</p>
@@ -115,7 +115,7 @@ export function homeAutomation(db, lang) {
   return db.workflows
     .slice(0, 3)
     .map(
-      (w) => `<article class="card">
+      (w) => `<article data-reveal class="card">
   <p class="card__meta"><span>${e(w.kind[lang])}</span><span>${e(w.year)}</span></p>
   <h3 class="card__title">${e(w.name[lang])}</h3>
   <p class="card__body">${e(w.summary[lang])}</p>
@@ -131,7 +131,7 @@ export function homeProjects(db, lang) {
   return db.projects
     .filter((p) => !p.featured)
     .map(
-      (p) => `<article class="card">
+      (p) => `<article data-reveal class="card">
   <p class="card__meta"><span>${e(p.category[lang])}</span><span>${e(p.year)}</span></p>
   <h3 class="card__title">${e(p.name)}</h3>
   <p class="card__body">${e(p.tagline[lang])}</p>
@@ -149,7 +149,7 @@ export function homeQuote(db, lang) {
     .filter((t) => t.featured)
     .slice(0, 2)
     .map(
-      (t) => `<figure class="quote">
+      (t) => `<figure data-reveal class="quote">
   <blockquote class="quote__body">${e(t.quote[lang].slice(0, 280))}${t.quote[lang].length > 280 ? '…' : ''}</blockquote>
   <figcaption class="quote__author">${e(t.author)}<span class="quote__role">${e(t.title[lang])}</span></figcaption>
 </figure>`,
@@ -166,7 +166,7 @@ export function aboutBody(db, lang) {
 export function aboutPrinciples(db, lang) {
   return db.copy[lang].about.principles
     .map(
-      (p) => `<article class="card">
+      (p) => `<article data-reveal class="card">
   <h3 class="card__title">${e(p.title)}</h3>
   <p class="card__body">${e(p.body)}</p>
 </article>`,
@@ -177,7 +177,7 @@ export function aboutPrinciples(db, lang) {
 export function aboutSkills(db, lang) {
   return db.skills
     .map(
-      (g) => `<article class="card">
+      (g) => `<article data-reveal class="card">
   <h3 class="card__title">${e(g.category[lang])}</h3>
   ${badges(g.items)}
 </article>`,
@@ -188,7 +188,7 @@ export function aboutSkills(db, lang) {
 export function aboutFaq(db, lang) {
   return db.copy[lang].about.faq
     .map(
-      (f) => `<details class="card">
+      (f) => `<details data-reveal class="card">
   <summary><strong>${e(f.q)}</strong></summary>
   <p class="card__body">${e(f.a)}</p>
 </details>`,
@@ -203,7 +203,7 @@ export function workTimeline(db, lang) {
   return `<ol class="timeline">
 ${db.experience
   .map(
-    (x) => `  <li class="timeline__item${x.end === null ? ' timeline__item--current' : ''}">
+    (x) => `  <li data-reveal class="timeline__item${x.end === null ? ' timeline__item--current' : ''}">
     <p class="timeline__period">${period(x.start, x.end, c.ui.present)}</p>
     <h3 class="timeline__role">${e(x.role[lang])}</h3>
     <p class="timeline__org">${e(x.company)} · ${e(x.location[lang])} · ${e(x.type[lang])}</p>
@@ -218,7 +218,7 @@ ${db.experience
 export function workTestimonials(db, lang) {
   return db.testimonials
     .map(
-      (t) => `<figure class="quote">
+      (t) => `<figure data-reveal class="quote">
   <blockquote class="quote__body">${e(t.quote[lang])}</blockquote>
   <figcaption class="quote__author">${e(t.author)}<span class="quote__role">${e(t.title[lang])} · ${e(t.relationship[lang])}</span></figcaption>
 </figure>`,
@@ -262,7 +262,7 @@ export function projectsList(db, lang) {
   const c = db.copy[lang];
   return db.projects
     .map(
-      (p) => `<article class="card${p.featured ? ' card--featured' : ''}" id="${e(p.id)}">
+      (p) => `<article data-reveal class="card${p.featured ? ' card--featured' : ''}" id="${e(p.id)}">
   <p class="card__meta"><span>${e(p.category[lang])}</span><span>${e(p.year)}</span></p>
   <h3 class="card__title">${e(p.name)}</h3>
   <p class="card__body">${e(p.tagline[lang])}</p>
@@ -276,7 +276,7 @@ export function projectsList(db, lang) {
       ? `<ul class="proof">${p.metrics
           .map(
             (m) =>
-              `<li class="proof__item"><span class="proof__value">${e(m.value)}</span><span class="proof__label">${e(m.label[lang])}</span></li>`,
+              `<li class="proof__item"><span class="proof__value" data-count>${e(m.value)}</span><span class="proof__label">${e(m.label[lang])}</span></li>`,
           )
           .join('')}</ul>`
       : ''
@@ -297,7 +297,7 @@ export function automationList(db, lang) {
   const c = db.copy[lang];
   return db.workflows
     .map(
-      (w) => `<article class="card" id="${e(w.id)}">
+      (w) => `<article data-reveal class="card" id="${e(w.id)}">
   <p class="card__meta"><span>${e(w.kind[lang])}</span><span>${e(w.year)}</span></p>
   <h3 class="card__title">${e(w.name[lang])}</h3>
   <p class="card__body">${e(w.summary[lang])}</p>
@@ -372,49 +372,4 @@ export function contactMcp(db, lang) {
   <li><a href="${b}/api/resume.json"><span class="platform">resume.json</span><span class="value">JSON Resume standard</span></a></li>
 </ul>
 <pre><code>${e(snippet)}</code></pre>`;
-}
-
-/* --------------------------------------------------------------- mapping */
-
-export function blocksFor(page, lang, db) {
-  const shared = [
-    ['head-meta', headMeta(db, page, lang)],
-    ['head-ld', headLd(db, page, lang)],
-  ];
-
-  const byPage = {
-    '': [
-      ['home-proof', homeProof(db, lang)],
-      ['home-featured', homeFeatured(db, lang)],
-      ['home-automation', homeAutomation(db, lang)],
-      ['home-projects', homeProjects(db, lang)],
-      ['home-quote', homeQuote(db, lang)],
-    ],
-    about: [
-      ['about-body', aboutBody(db, lang)],
-      ['about-principles', aboutPrinciples(db, lang)],
-      ['about-skills', aboutSkills(db, lang)],
-      ['about-faq', aboutFaq(db, lang)],
-    ],
-    work: [
-      ['work-timeline', workTimeline(db, lang)],
-      ['work-testimonials', workTestimonials(db, lang)],
-      ['work-credentials', workCredentials(db, lang)],
-      ['work-education', workEducation(db, lang)],
-    ],
-    projects: [['projects-list', projectsList(db, lang)]],
-    automation: [
-      ['automation-list', automationList(db, lang)],
-      ['automation-case', automationCase(db, lang)],
-    ],
-    contact: [
-      ['contact-links', contactLinks(db, lang)],
-      ['contact-cv', contactCv(db, lang)],
-      ['contact-availability', contactAvailability(db, lang)],
-      ['contact-mcp', contactMcp(db, lang)],
-    ],
-    chat: [],
-  };
-
-  return [...shared, ...(byPage[page] ?? [])];
 }
