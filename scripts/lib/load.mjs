@@ -51,10 +51,20 @@ export function loadDb(dir = 'data') {
     rows.forEach((row, i) => requireKeys(row, keys, `${file}[${i}] (${row.id ?? 'no id'})`));
   }
 
+  const links = readJson(dir, 'links.json');
+  for (const group of ['people', 'organizations']) {
+    if (!links[group]) throw new Error(`links.json: missing "${group}"`);
+    for (const [name, entry] of Object.entries(links[group])) {
+      if (entry.url === null && typeof entry.todo !== 'string') {
+        throw new Error(`links.json: ${group}."${name}" has a null url and no todo`);
+      }
+    }
+  }
+
   const copy = {
     en: readJson(join(dir, 'copy'), 'en.json'),
     ar: readJson(join(dir, 'copy'), 'ar.json'),
   };
 
-  return { profile, experience, projects, workflows, credentials, testimonials, skills, copy };
+  return { profile, experience, projects, workflows, credentials, testimonials, skills, links, copy };
 }

@@ -5,7 +5,7 @@
  * crawler needs is inlined here at build time — no runtime rendering.
  */
 
-import { escapeHtml } from './render.mjs';
+import { escapeHtml, extAttrs, newTabHint } from './render.mjs';
 import * as B from './blocks.mjs';
 import { PAGES } from './sitemap.mjs';
 
@@ -69,8 +69,8 @@ function footer(db, lang) {
         <p>© ${year} ${e(db.profile.name[lang])} · ${e(c.footer.builtWith)}</p>
       </div>
       <ul class="footer__links">
-        <li><a href="${asset('llms.txt', lang)}">llms.txt</a></li>
-        <li><a href="${asset('api/resume.json', lang)}">resume.json</a></li>
+        <li><a href="${asset('llms.txt', lang)}" target="_blank" rel="noopener">llms.txt${newTabHint(c.ui.opensInNewTab)}</a></li>
+        <li><a href="${asset('api/resume.json', lang)}" target="_blank" rel="noopener">resume.json${newTabHint(c.ui.opensInNewTab)}</a></li>
         <li><a href="mailto:${e(db.profile.email)}">${e(c.ui.emailMe)}</a></li>
       </ul>
     </div>
@@ -297,9 +297,9 @@ function contact(db, lang) {
     headline: c.contact.lead,
     actions: `        <a class="btn" href="mailto:${e(p.email)}">${e(c.ui.emailMe)}</a>${
       linkedin ? `
-        <a class="btn btn--ghost" href="${e(linkedin)}" rel="noopener">LinkedIn</a>` : ''
+        <a class="btn btn--ghost" href="${e(linkedin)}"${extAttrs(linkedin)}>LinkedIn${newTabHint(c.ui.opensInNewTab)}</a>` : ''
     }${github ? `
-        <a class="btn btn--ghost" href="${e(github)}" rel="noopener">GitHub</a>` : ''}`,
+        <a class="btn btn--ghost" href="${e(github)}"${extAttrs(github)}>GitHub${newTabHint(c.ui.opensInNewTab)}</a>` : ''}`,
   })}
 
 ${section('links', null, c.contact.linksTitle, null, B.contactLinks(db, lang))}

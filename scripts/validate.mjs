@@ -122,6 +122,15 @@ export function checkAll({ pages = pageFiles() } = {}) {
       }
     }
 
+    // 8c — links that leave the page open in a new tab, safely.
+    //
+    // `target="_blank"` without `rel="noopener"` hands the opened page a
+    // handle back to this one (reverse tabnabbing), so both are required.
+    for (const [tag, href] of html.matchAll(/<a\s[^>]*href="(https?:\/\/[^"]+)"[^>]*>/g).map((m) => [m[0], m[1]])) {
+      if (!tag.includes('target="_blank"')) fail(`${file}: external link to ${href} does not open in a new tab`);
+      else if (!/rel="[^"]*noopener/.test(tag)) fail(`${file}: external link to ${href} is missing rel="noopener"`);
+    }
+
     sectionCounts[`${page}:${lang}`] = (html.match(/<section/g) ?? []).length;
   }
 

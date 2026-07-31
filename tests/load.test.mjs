@@ -104,3 +104,32 @@ test('the Arabic name is spelled طفي, never توفي', () => {
     'توفي is a different word (reads as "passed away") — the name is طفي',
   );
 });
+
+test('every entity named on the site has a links.json entry', () => {
+  const db = loadDb('data');
+  const known = { ...db.links.people, ...db.links.organizations };
+
+  const named = new Set([
+    ...db.experience.map((e) => e.company),
+    ...db.testimonials.map((t) => t.author),
+    ...db.credentials.map((c) => c.issuer),
+  ]);
+
+  for (const name of named) {
+    assert.ok(known[name], `"${name}" is named on the site but missing from links.json`);
+  }
+});
+
+test('links.json urls are absolute, or null with a todo', () => {
+  const db = loadDb('data');
+  for (const group of ['people', 'organizations']) {
+    for (const [name, entry] of Object.entries(db.links[group])) {
+      if (entry.url === null) {
+        assert.equal(typeof entry.todo, 'string', `${name} needs a todo`);
+      } else {
+        assert.doesNotThrow(() => new URL(entry.url), `${name} url is malformed`);
+        assert.match(entry.url, /^https:\/\//, `${name} should use https`);
+      }
+    }
+  }
+});

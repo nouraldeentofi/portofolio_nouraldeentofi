@@ -5,7 +5,7 @@
  * prose and layout; this module owns every repeating list and every figure.
  */
 
-import { escapeHtml } from './render.mjs';
+import { escapeHtml, extAttrs, newTabHint } from './render.mjs';
 import * as ld from './jsonld.mjs';
 
 const e = escapeHtml;
@@ -20,6 +20,21 @@ function period(start, end, presentLabel) {
 }
 
 const list = (items, cls = '') => `<ul class="${cls}">${items.map((i) => `<li>${i}</li>`).join('')}</ul>`;
+
+/**
+ * Renders a person's or organisation's name, linked to their own page when
+ * `data/links.json` knows one. An unknown entity renders as plain text —
+ * a wrong link to a real person is far worse than no link.
+ */
+function entity(db, group, name, lang) {
+  const url = db.links?.[group]?.[name]?.url ?? null;
+  const label = e(name);
+  if (!url) return label;
+  return `<a class="entity" href="${e(url)}"${extAttrs(url)}>${label}${newTabHint(db.copy[lang].ui.opensInNewTab)}</a>`;
+}
+
+const org = (db, name, lang) => entity(db, 'organizations', name, lang);
+const person = (db, name, lang) => entity(db, 'people', name, lang);
 
 const badges = (items) =>
   `<ul class="badges">${items.map((s) => `<li class="badge">${e(s)}</li>`).join('')}</ul>`;
@@ -104,7 +119,7 @@ export function homeFeatured(db, lang) {
   </dl>
   ${badges(p.stack)}
   <div class="card__foot">
-    ${p.url ? `<a class="btn" href="${e(p.url)}" rel="noopener">${e(c.ui.visitLive)}</a>` : ''}
+    ${p.url ? `<a class="btn" href="${e(p.url)}"${extAttrs(p.url)}>${e(c.ui.visitLive)}${newTabHint(c.ui.opensInNewTab)}</a>` : ''}
     <a class="btn btn--ghost" href="${href('projects', lang)}">${e(c.ui.viewProject)}</a>
   </div>
 </article>`;
@@ -137,7 +152,7 @@ export function homeProjects(db, lang) {
   <p class="card__body">${e(p.tagline[lang])}</p>
   ${badges(p.stack.slice(0, 4))}
   <div class="card__foot">${
-    p.url ? `<a class="btn btn--ghost" href="${e(p.url)}" rel="noopener">${e(c.ui.visitLive)}</a>` : ''
+    p.url ? `<a class="btn btn--ghost" href="${e(p.url)}"${extAttrs(p.url)}>${e(c.ui.visitLive)}${newTabHint(c.ui.opensInNewTab)}</a>` : ''
   }</div>
 </article>`,
     )
@@ -151,7 +166,7 @@ export function homeQuote(db, lang) {
     .map(
       (t) => `<figure data-reveal class="quote">
   <blockquote class="quote__body">${e(t.quote[lang].slice(0, 280))}${t.quote[lang].length > 280 ? '…' : ''}</blockquote>
-  <figcaption class="quote__author">${e(t.author)}<span class="quote__role">${e(t.title[lang])}</span></figcaption>
+  <figcaption class="quote__author">${person(db, t.author, lang)}<span class="quote__role">${e(t.title[lang])}</span></figcaption>
 </figure>`,
     )
     .join('\n');
@@ -206,7 +221,7 @@ ${db.experience
     (x) => `  <li data-reveal class="timeline__item${x.end === null ? ' timeline__item--current' : ''}">
     <p class="timeline__period">${period(x.start, x.end, c.ui.present)}</p>
     <h3 class="timeline__role">${e(x.role[lang])}</h3>
-    <p class="timeline__org">${e(x.company)} · ${e(x.location[lang])} · ${e(x.type[lang])}</p>
+    <p class="timeline__org">${org(db, x.company, lang)} · ${e(x.location[lang])} · ${e(x.type[lang])}</p>
     ${list(x.bullets[lang].map(e), 'timeline__bullets')}
     ${badges(x.stack)}
   </li>`,
@@ -220,7 +235,7 @@ export function workTestimonials(db, lang) {
     .map(
       (t) => `<figure data-reveal class="quote">
   <blockquote class="quote__body">${e(t.quote[lang])}</blockquote>
-  <figcaption class="quote__author">${e(t.author)}<span class="quote__role">${e(t.title[lang])} · ${e(t.relationship[lang])}</span></figcaption>
+  <figcaption class="quote__author">${person(db, t.author, lang)}<span class="quote__role">${e(t.title[lang])} · ${e(t.relationship[lang])}</span></figcaption>
 </figure>`,
     )
     .join('\n');
@@ -234,7 +249,7 @@ ${db.credentials
   .map(
     (x) => `  <li class="cred">
     <span class="cred__name">${e(x.name[lang])}</span>
-    <span class="cred__issuer">${e(x.issuer)} · ${e(x.issued)}</span>
+    <span class="cred__issuer">${org(db, x.issuer, lang)} · ${e(x.issued)}</span>
     ${x.credentialId ? `<span class="cred__id">${e(c.ui.credentialId)} ${e(x.credentialId)}</span>` : ''}
   </li>`,
   )
@@ -249,7 +264,7 @@ ${db.credentials
   .map(
     (x) => `  <li class="cred">
     <span class="cred__name">${e(x.name[lang])}</span>
-    <span class="cred__issuer">${e(x.issuer)} · ${e(x.start ? `${x.start} — ${x.issued}` : x.issued)}</span>
+    <span class="cred__issuer">${org(db, x.issuer, lang)} · ${e(x.start ? `${x.start} — ${x.issued}` : x.issued)}</span>
   </li>`,
   )
   .join('\n')}
@@ -286,7 +301,7 @@ export function projectsList(db, lang) {
         : ''
     }
     <dl class="card__body"><dt>${e(c.ui.stack)}</dt><dd>${badges(p.stack)}</dd></dl>
-    ${p.url ? `<div class="card__foot"><a class="btn" href="${e(p.url)}" rel="noopener">${e(c.ui.visitLive)}</a></div>` : ''}
+    ${p.url ? `<div class="card__foot"><a class="btn" href="${e(p.url)}"${extAttrs(p.url)}>${e(c.ui.visitLive)}${newTabHint(c.ui.opensInNewTab)}</a></div>` : ''}
   </aside>
 </article>`,
     )
@@ -336,8 +351,10 @@ export function contactLinks(db, lang) {
   return `<ul class="linklist linklist--grid">
 ${rows
   .map(
-    (r) => `  <li><a href="${e(r.url)}"${r.url.startsWith('http') ? ' rel="noopener"' : ''}>
-    <span class="platform">${e(r.platform)}</span><span class="value">${e(r.value)}</span>
+    (r) => `  <li><a href="${e(r.url)}"${extAttrs(r.url)}>
+    <span class="platform">${e(r.platform)}</span><span class="value">${e(r.value)}</span>${
+      extAttrs(r.url) ? newTabHint(db.copy[lang].ui.opensInNewTab) : ''
+    }
   </a></li>`,
   )
   .join('\n')}
@@ -374,11 +391,15 @@ export function contactMcp(db, lang) {
     2,
   );
 
+  const hint = newTabHint(db.copy[lang].ui.opensInNewTab);
+  const row = (path, name, note) =>
+    `  <li><a href="${b}${path}" target="_blank" rel="noopener"><span class="platform">${e(name)}</span><span class="value">${e(note)}</span>${hint}</a></li>`;
+
   return `<ul class="linklist">
-  <li><a href="${b}/llms.txt"><span class="platform">llms.txt</span><span class="value">site index for language models</span></a></li>
-  <li><a href="${b}/llms-full.txt"><span class="platform">llms-full.txt</span><span class="value">complete profile, one document</span></a></li>
-  <li><a href="${b}/api/profile.json"><span class="platform">profile.json</span><span class="value">identity and links</span></a></li>
-  <li><a href="${b}/api/resume.json"><span class="platform">resume.json</span><span class="value">JSON Resume standard</span></a></li>
+${row('/llms.txt', 'llms.txt', 'site index for language models')}
+${row('/llms-full.txt', 'llms-full.txt', 'complete profile, one document')}
+${row('/api/profile.json', 'profile.json', 'identity and links')}
+${row('/api/resume.json', 'resume.json', 'JSON Resume standard')}
 </ul>
 <pre><code>${e(snippet)}</code></pre>`;
 }

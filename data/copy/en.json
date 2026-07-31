@@ -32,6 +32,7 @@
     "built": "What I built",
     "credentialId": "Credential ID",
     "emailMe": "Email me",
+    "opensInNewTab": "opens in a new tab",
     "openToWork": "Open to work",
     "readTranscript": "Read the full transcript",
     "machineReadable": "Machine-readable"

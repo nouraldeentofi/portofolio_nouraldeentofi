@@ -1,0 +1,50 @@
+{
+  "_comment": "Every person and organisation named on the site, and where their name should link. One entry per entity, looked up by the exact name used in the other data files. A null url renders as plain text — never as a dead or wrong link. Filling one in is a one-line edit followed by `npm run build`.",
+
+  "people": {
+    "Haitham Zedan": {
+      "url": null,
+      "todo": "LinkedIn URL — Laravel backend on Smart Scanner, and recommender"
+    },
+    "George Drouj": {
+      "url": null,
+      "todo": "LinkedIn URL — competitive programming coach, recommender"
+    },
+    "Tawheed Malkat": {
+      "url": null,
+      "todo": "LinkedIn URL — UI/UX designer at NexLead, recommender"
+    },
+    "Hamza Shansho": {
+      "url": null,
+      "todo": "LinkedIn URL — graduation project teammate, recommender"
+    }
+  },
+
+  "organizations": {
+    "Distinctive Frontier Co. for Safety Equipment L.L.C": {
+      "url": null,
+      "todo": "Company LinkedIn page or website"
+    },
+    "NexLead": {
+      "url": null,
+      "todo": "Company LinkedIn page or website"
+    },
+    "Khwarizm Technologies": {
+      "url": null,
+      "todo": "Company LinkedIn page or website"
+    },
+    "Minicodeleader": {
+      "url": null,
+      "todo": "Company LinkedIn page or website"
+    },
+
+    "University of Kalamoon": { "url": "https://uok.edu.sy/" },
+    "Meta": { "url": "https://about.meta.com/" },
+    "Google": { "url": "https://about.google/" },
+    "IBM": { "url": "https://www.ibm.com/" },
+    "Packt": { "url": "https://www.packtpub.com/" },
+    "Scrimba": { "url": "https://scrimba.com/" },
+    "Coursera Project Network": { "url": "https://www.coursera.org/" },
+    "ICPC — International Collegiate Programming Contest": { "url": "https://icpc.global/" }
+  }
+}

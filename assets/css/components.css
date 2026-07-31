@@ -484,3 +484,21 @@ details.card > .card__body {
   break-inside: avoid;
   margin-block-end: var(--space-5);
 }
+
+/* ---------- entity links (people and companies) ---------- */
+
+/* A name that has a page of its own is quietly underlined, so the reader
+   can tell it is clickable without the text turning into a sea of links. */
+.entity {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--mint) 55%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.entity:hover {
+  color: var(--lime);
+  text-decoration-color: var(--lime);
+}
