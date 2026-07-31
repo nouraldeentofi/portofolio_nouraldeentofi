@@ -30,7 +30,7 @@ export function buildLlmsTxt(db, lang = 'en') {
   L.push('');
   for (const page of PAGES) {
     const name = page === '' ? c.nav.home : c.nav[page];
-    L.push(`- [${name}](${b}/${page === '' ? 'index' : page}.html)`);
+    L.push(`- [${name}](${b}/en/${page === '' ? 'index' : page}.html)`);
   }
   L.push('');
 

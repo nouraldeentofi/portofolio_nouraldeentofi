@@ -20,7 +20,7 @@ const PAGE_TITLES = {
 };
 
 const base = (db) => db.profile.site.replace(/\/$/, '');
-const langPath = (lang) => (lang === 'en' ? '' : '/ar');
+const langPath = (lang) => (lang === 'ar' ? '' : '/en');
 
 export function pageUrl(db, page, lang) {
   return `${base(db)}${langPath(lang)}/${page === '' ? 'index' : page}.html`;

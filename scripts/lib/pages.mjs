@@ -12,12 +12,16 @@ import { PAGES } from './sitemap.mjs';
 const e = escapeHtml;
 const PAGE_KEY = { '': 'home', about: 'about', work: 'work', projects: 'projects', automation: 'automation', chat: 'chat', contact: 'contact' };
 
+/* Which whole-page background each page runs — one visual family, one
+   metaphor per page. */
+const PAGE_VARIANT = { '': 'graph', about: 'orbit', work: 'flow', projects: 'grid', automation: 'branch', chat: 'drift', contact: 'signal' };
+
 const rel = (page, lang) => {
-  const prefix = lang === 'en' ? '' : '../';
+  const prefix = lang === 'ar' ? '' : '../';
   return `${prefix}${page === '' ? 'index' : page}.html`;
 };
 
-const asset = (path, lang) => `${lang === 'en' ? '' : '../'}${path}`;
+const asset = (path, lang) => `${lang === 'ar' ? '' : '../'}${path}`;
 
 function header(db, page, lang) {
   const c = db.copy[lang];
@@ -29,7 +33,7 @@ function header(db, page, lang) {
   }).join('\n');
 
   // The language switch points at the same page in the other tree.
-  const otherHref = lang === 'en' ? `ar/${page === '' ? 'index' : page}.html` : `../${page === '' ? 'index' : page}.html`;
+  const otherHref = lang === 'ar' ? `en/${page === '' ? 'index' : page}.html` : `../${page === '' ? 'index' : page}.html`;
 
   return `  <header class="site-header">
     <div class="container site-header__inner">
@@ -42,7 +46,7 @@ ${nav}
       </nav>
       <div class="header__tools">
         <a class="lang-switch" href="${otherHref}" lang="${lang === 'en' ? 'ar' : 'en'}" hreflang="${lang === 'en' ? 'ar' : 'en'}">${e(c.meta.langLabel)}</a>
-        <button class="theme-toggle" type="button" aria-label="${e(c.ui.toggleTheme)}" aria-pressed="false"><span class="theme-toggle__icon" aria-hidden="true">☾</span></button>
+        <button class="theme-toggle" type="button" aria-label="${e(c.ui.toggleTheme)}" aria-pressed="false"><span class="theme-toggle__icon" aria-hidden="true">☀</span></button>
         <button class="nav-toggle" type="button" aria-label="${e(c.ui.openMenu)}" aria-controls="site-nav" aria-expanded="false"><span class="nav-toggle__bars" aria-hidden="true"></span></button>
       </div>
     </div>
@@ -68,6 +72,20 @@ function footer(db, lang) {
   </footer>`;
 }
 
+function mobileTabs(db, page, lang) {
+  const c = db.copy[lang];
+  const tabs = ['', 'projects', 'automation', 'contact'];
+
+  return `  <nav class="mobile-tabs" aria-label="${e(c.nav.home)}">
+${tabs
+    .map((t) => {
+      const current = t === page ? ' aria-current="page"' : '';
+      return `    <a href="${rel(t, lang)}"${current}><span>${e(c.nav[PAGE_KEY[t]])}</span></a>`;
+    })
+    .join('\n')}
+  </nav>`;
+}
+
 function shell(db, page, lang, main) {
   const c = db.copy[lang];
   const dir = lang === 'ar' ? 'rtl' : 'ltr';
@@ -81,7 +99,7 @@ function shell(db, page, lang, main) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="color-scheme" content="dark light">
+<meta name="color-scheme" content="light dark">
 ${B.headMeta(db, page, lang)}
 <script>
 /* Set before first paint so reveals never flash, and the stored theme never
@@ -103,6 +121,7 @@ try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.
 ${B.headLd(db, page, lang)}
 </head>
 <body>
+<canvas class="site-bg" data-workflow data-variant="${PAGE_VARIANT[page] ?? 'drift'}" aria-hidden="true"></canvas>
 <a class="skip-link" href="#main">${e(c.ui.skipToContent)}</a>
 ${header(db, page, lang)}
 <main id="main">
@@ -110,6 +129,7 @@ ${header(db, page, lang)}
 ${main}
 </main>
 ${footer(db, lang)}
+${mobileTabs(db, page, lang)}
 <script src="${asset('assets/js/main.js', lang)}" type="module"></script>${
     page === 'chat' ? `\n<script src="${asset(`assets/js/chat/boot.${lang}.js`, lang)}" type="module"></script>` : ''
   }
@@ -134,11 +154,8 @@ ${body}
  * The home hero runs it at full density; subpages run a sparser, quieter
  * version of the same graph, so the whole site reads as one system.
  */
-function heroBlock({ eyebrow = null, heading, headingClass = '', headline = null, intro = null, actions = null, dense = false, variant = 'graph' }) {
-  const canvasClass = dense ? 'hero__canvas' : 'hero__canvas hero__canvas--sparse';
-
+function heroBlock({ eyebrow = null, heading, headingClass = '', headline = null, intro = null, actions = null }) {
   return `  <section class="hero">
-    <canvas class="${canvasClass}" data-workflow data-variant="${variant}" aria-hidden="true"></canvas>
     <div class="container">
 ${eyebrow ? `      <p class="hero__eyebrow">${e(eyebrow)}</p>\n` : ''}      <h1${headingClass ? ` class="${headingClass}"` : ''}>${e(heading)}</h1>
 ${headline ? `      <p class="hero__headline">${e(headline)}</p>\n` : ''}${intro ? `      <p class="hero__intro">${e(intro)}</p>\n` : ''}${actions ? `      <div class="hero__actions">\n${actions}\n      </div>\n` : ''}    </div>
@@ -152,7 +169,6 @@ function home(db, lang) {
   const p = db.profile;
 
   const main = `${heroBlock({
-    dense: true,
     eyebrow: c.home.eyebrow,
     heading: p.name[lang],
     headingClass: 'hero__name',
@@ -188,7 +204,7 @@ ${section('quotes', c.home.quoteLabel, c.home.quoteLabel, null, `      <div clas
 function about(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ variant: 'orbit', heading: c.about.title, headline: c.about.lead })}
+  const main = `${heroBlock({ heading: c.about.title, headline: c.about.lead })}
 
   <section class="section">
     <div class="container">
@@ -212,7 +228,7 @@ ${section('faq', null, c.about.faqTitle, null, `      <div class="grid">\n${B.ab
 function work(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ variant: 'flow', heading: c.work.title, headline: c.work.lead })}
+  const main = `${heroBlock({ heading: c.work.title, headline: c.work.lead })}
 
 ${section('timeline', null, c.work.timelineTitle, null, B.workTimeline(db, lang))}
 
@@ -228,7 +244,7 @@ ${section('education', null, c.work.educationTitle, null, B.workEducation(db, la
 function projects(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ variant: 'grid', heading: c.projects.title, headline: c.projects.lead })}
+  const main = `${heroBlock({ heading: c.projects.title, headline: c.projects.lead })}
 
   <section class="section">
     <div class="container">
@@ -244,7 +260,7 @@ ${B.projectsList(db, lang)}
 function automation(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ variant: 'branch', heading: c.automation.title, headline: c.automation.lead })}
+  const main = `${heroBlock({ heading: c.automation.title, headline: c.automation.lead })}
 
   <section class="section">
     <div class="container">
@@ -261,14 +277,32 @@ ${section('cost-case', null, c.automation.caseTitle, null, `      <div class="pr
 
 function contact(db, lang) {
   const c = db.copy[lang];
+  const p = db.profile;
+  const linkedin = p.sameAs.find((x) => x.platform === 'LinkedIn')?.url;
+  const github = p.sameAs.find((x) => x.platform === 'GitHub')?.url;
 
-  const main = `${heroBlock({ variant: 'signal', heading: c.contact.title, headline: c.contact.lead })}
+  const main = `${heroBlock({
+    heading: c.contact.title,
+    headline: c.contact.lead,
+    actions: `        <a class="btn" href="mailto:${e(p.email)}">${e(c.ui.emailMe)}</a>${
+      linkedin ? `
+        <a class="btn btn--ghost" href="${e(linkedin)}" rel="noopener">LinkedIn</a>` : ''
+    }${github ? `
+        <a class="btn btn--ghost" href="${e(github)}" rel="noopener">GitHub</a>` : ''}`,
+  })}
 
 ${section('links', null, c.contact.linksTitle, null, B.contactLinks(db, lang))}
 
-${section('availability', null, c.contact.availabilityTitle, null, `      <div class="card">${B.contactAvailability(db, lang)}</div>`)}
-
-${section('cv', null, c.contact.cvTitle, c.contact.cvNote, B.contactCv(db, lang))}
+${section('details', null, c.contact.availabilityTitle, null, `      <div class="grid grid--2">
+        <div class="card" data-reveal>
+          ${B.contactAvailability(db, lang)}
+        </div>
+        <div class="card" data-reveal>
+          <h3 class="card__title">${e(c.contact.cvTitle)}</h3>
+          <p class="card__body">${e(c.contact.cvNote)}</p>
+          ${B.contactCv(db, lang)}
+        </div>
+      </div>`)}
 
 ${section('mcp', null, c.contact.mcpTitle, c.contact.mcpBody, B.contactMcp(db, lang))}`;
 
@@ -278,7 +312,7 @@ ${section('mcp', null, c.contact.mcpTitle, c.contact.mcpBody, B.contactMcp(db, l
 function chat(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ variant: 'drift', heading: c.chat.title, headline: c.chat.lead })}
+  const main = `${heroBlock({ heading: c.chat.title, headline: c.chat.lead })}
 
   <section class="section">
     <div class="container">
@@ -302,7 +336,6 @@ ${section('transcript', null, c.chat.transcriptTitle, c.chat.transcriptNote, `  
 function notFound(db, lang) {
   const c = db.copy[lang];
   const main = `${heroBlock({
-    variant: 'drift',
     heading: '404',
     headline: lang === 'en' ? 'That page does not exist.' : 'هذه الصفحة غير موجودة.',
     actions: `        <a class="btn" href="${rel('', lang)}">${e(c.nav.home)}</a>`,

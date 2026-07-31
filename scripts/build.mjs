@@ -24,7 +24,7 @@ function main() {
   const stage = (path, content) => pending.set(path, content);
 
   for (const lang of LANGS) {
-    const dir = lang === 'en' ? '' : 'ar/';
+    const dir = lang === 'ar' ? '' : 'en/';
 
     for (const page of PAGES) {
       const file = `${dir}${page === '' ? 'index' : page}.html`;

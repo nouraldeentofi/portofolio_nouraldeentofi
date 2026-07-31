@@ -3,7 +3,7 @@ export const PAGES = ['', 'about', 'work', 'projects', 'automation', 'chat', 'co
 
 export const LANGS = ['en', 'ar'];
 
-const path = (page, lang) => `${lang === 'en' ? '' : '/ar'}/${page === '' ? 'index' : page}.html`;
+const path = (page, lang) => `${lang === 'ar' ? '' : '/en'}/${page === '' ? 'index' : page}.html`;
 
 export function buildSitemap(pages, baseUrl) {
   const base = baseUrl.replace(/\/$/, '');
@@ -19,7 +19,7 @@ export function buildSitemap(pages, baseUrl) {
         '  <url>',
         `    <loc>${base}${path(page, lang)}</loc>`,
         alternates,
-        `    <xhtml:link rel="alternate" hreflang="x-default" href="${base}${path(page, 'en')}"/>`,
+        `    <xhtml:link rel="alternate" hreflang="x-default" href="${base}${path(page, 'ar')}"/>`,
         `    <lastmod>${today}</lastmod>`,
         `    <priority>${page === '' ? '1.0' : '0.8'}</priority>`,
         '  </url>',

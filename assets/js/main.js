@@ -15,10 +15,8 @@ const KEY = 'nt-theme';
 const root = document.documentElement;
 
 function currentTheme() {
-  return (
-    root.dataset.theme ||
-    (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')
-  );
+  // Light is the site default; dark only ever comes from the user's toggle.
+  return root.dataset.theme || 'light';
 }
 
 function initTheme() {

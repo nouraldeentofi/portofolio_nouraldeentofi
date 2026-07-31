@@ -22,21 +22,33 @@
 
 /* ------------------------------------------------------ workflow canvas */
 
-.hero__canvas {
-  position: absolute;
+/* One canvas behind the whole page. The hero's nodes, lines, and pulses are
+   not a header decoration — they are the page's background, continuous from
+   top to bottom, and every section floats on the same connected graph. */
+.site-bg {
+  position: fixed;
   inset: 0;
   inline-size: 100%;
   block-size: 100%;
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
-  /* Fades out toward the text so it never competes with reading. */
-  -webkit-mask-image: radial-gradient(120% 100% at 50% 0%, #000 30%, transparent 78%);
-  mask-image: radial-gradient(120% 100% at 50% 0%, #000 30%, transparent 78%);
-  opacity: 0.85;
+  opacity: var(--canvas-alpha);
 }
 
-/* Subpages: same graph, lower volume. */
-.hero__canvas--sparse { opacity: 0.5; }
+/* Content sections carry a translucent veil, so the graph shines through
+   strongest in the hero and the gaps, and stays quiet behind reading. */
+.section,
+.site-footer {
+  background: var(--veil);
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .section,
+  .site-footer {
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+  }
+}
 
 /* ------------------------------------------------------------ page spine */
 

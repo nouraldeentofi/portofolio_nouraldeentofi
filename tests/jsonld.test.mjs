@@ -67,9 +67,11 @@ test('faq entries become questions with accepted answers', () => {
 });
 
 test('breadcrumbs are absolute and language-aware', () => {
-  const crumbs = breadcrumbLd('projects', 'ar', db);
-  assert.equal(crumbs['@type'], 'BreadcrumbList');
-  assert.match(crumbs.itemListElement.at(-1).item, /\/ar\/projects\.html$/);
+  const ar = breadcrumbLd('projects', 'ar', db);
+  assert.equal(ar['@type'], 'BreadcrumbList');
+  assert.match(ar.itemListElement.at(-1).item, /nouraldeentofi\.netlify\.app\/projects\.html$/);
+  const en = breadcrumbLd('projects', 'en', db);
+  assert.match(en.itemListElement.at(-1).item, /\/en\/projects\.html$/);
 });
 
 test('script tag emits parseable json-ld', () => {

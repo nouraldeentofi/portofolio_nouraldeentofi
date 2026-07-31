@@ -10,7 +10,7 @@ import * as ld from './jsonld.mjs';
 
 const e = escapeHtml;
 const base = (db) => db.profile.site.replace(/\/$/, '');
-const langPath = (lang) => (lang === 'en' ? '' : '/ar');
+const langPath = (lang) => (lang === 'ar' ? '' : '/en');
 const href = (page, lang) => `${langPath(lang)}/${page === '' ? 'index' : page}.html`;
 
 const PAGE_KEY = { '': 'home', about: 'about', work: 'work', projects: 'projects', automation: 'automation', chat: 'chat', contact: 'contact' };
@@ -327,7 +327,7 @@ export function contactLinks(db, lang) {
     ...profile.sameAs.filter((s) => s.url).map((s) => ({ platform: s.platform, url: s.url, value: s.url.replace(/^https?:\/\//, '') })),
   ];
 
-  return `<ul class="linklist">
+  return `<ul class="linklist linklist--grid">
 ${rows
   .map(
     (r) => `  <li><a href="${e(r.url)}"${r.url.startsWith('http') ? ' rel="noopener"' : ''}>
@@ -353,7 +353,10 @@ ${db.profile.cv
 
 export function contactAvailability(db, lang) {
   const a = db.profile.availability;
-  return `<p class="card__body">${e(db.profile.location.city[lang])}, ${e(db.profile.location.country[lang])}</p>
+  const c = db.copy[lang];
+  return `${a.openToWork ? `<ul class="badges"><li class="badge badge--accent">${e(c.ui.openToWork)}</li></ul>` : ''}
+<h3 class="card__title">${e(c.contact.availabilityTitle)}</h3>
+<p class="card__body">${e(db.profile.location.city[lang])}, ${e(db.profile.location.country[lang])}</p>
 ${badges(a.arrangements[lang])}`;
 }
 

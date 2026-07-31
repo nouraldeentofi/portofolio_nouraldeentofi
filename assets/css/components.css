@@ -314,18 +314,38 @@ details.card > .card__body {
 
 .linklist { list-style: none; padding: 0; display: grid; gap: var(--space-3); }
 
+/* contact channels sit two-up on wide screens */
+.linklist--grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+}
+
 .linklist a {
   display: flex;
   gap: var(--space-3);
   align-items: baseline;
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-4) var(--space-5);
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   text-decoration: none;
   color: var(--fg);
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.linklist a:hover { border-color: var(--lime); }
+.linklist a:hover {
+  border-color: var(--lime);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
 .linklist .platform { font-weight: 700; }
 .linklist .value { color: var(--dim); font-size: 0.9rem; margin-inline-start: auto; direction: ltr; }
+
+/* a travelling arrow, pointing the reading direction */
+.linklist a::after {
+  content: '→';
+  color: var(--faint);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.linklist a:hover::after { color: var(--lime); transform: translateX(4px); }

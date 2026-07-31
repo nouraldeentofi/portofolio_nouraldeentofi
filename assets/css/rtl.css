@@ -4,8 +4,8 @@
 
 [dir='rtl'] .hero::before {
   background:
-    radial-gradient(60vw 40vh at 18% -10%, var(--accent-soft), transparent 62%),
-    radial-gradient(46vw 36vh at 94% 110%, rgba(92, 225, 169, 0.09), transparent 62%);
+    radial-gradient(62vw 44vh at 18% -12%, color-mix(in srgb, var(--lime) 13%, transparent), transparent 62%),
+    radial-gradient(48vw 38vh at 96% 112%, color-mix(in srgb, var(--mint) 11%, transparent), transparent 62%);
 }
 
 /* Credential IDs, URLs, phone numbers and code stay left-to-right. */
@@ -35,3 +35,7 @@
 [dir='rtl'] .site-footer::before {
   transform: scaleX(-1);
 }
+
+/* the contact-link arrow points with the reading direction */
+[dir='rtl'] .linklist a::after { content: '←'; }
+[dir='rtl'] .linklist a:hover::after { transform: translateX(-4px); }

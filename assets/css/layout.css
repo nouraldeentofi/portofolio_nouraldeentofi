@@ -66,8 +66,67 @@
 .site-nav {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: var(--space-1);
   margin-inline-start: auto;
+}
+
+/* ---------- mobile tab bar (hidden on desktop) ---------- */
+
+/* On phones, the four key destinations stay one tap away in an app-style
+   bottom bar; the drawer still holds the full list. */
+.mobile-tabs {
+  display: none;
+  position: fixed;
+  inset-block-end: 0;
+  inset-inline: 0;
+  z-index: 48;
+  border-block-start: 1px solid var(--line);
+  background: var(--panel);
+  padding-block-end: env(safe-area-inset-bottom, 0);
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .mobile-tabs {
+    background: color-mix(in srgb, var(--panel) 88%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
+  }
+}
+
+.mobile-tabs a {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding-block: var(--space-2) var(--space-3);
+  min-block-size: 56px;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--faint);
+  text-decoration: none;
+}
+
+/* each tab is a node on the pipeline */
+.mobile-tabs a::before {
+  content: '';
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mobile-tabs a[aria-current='page'] {
+  color: var(--lime);
+}
+
+.mobile-tabs a[aria-current='page']::before {
+  background: var(--lime);
+  border-color: var(--lime);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--lime) 55%, transparent);
 }
 
 .site-nav a {
@@ -238,9 +297,10 @@
   position: absolute;
   inset: 0;
   z-index: -1;
+  /* token-driven so the glow adapts to light and dark alike */
   background:
-    radial-gradient(62vw 44vh at 82% -12%, rgba(184, 255, 92, 0.13), transparent 62%),
-    radial-gradient(48vw 38vh at 4% 112%, rgba(92, 225, 169, 0.11), transparent 62%);
+    radial-gradient(62vw 44vh at 82% -12%, color-mix(in srgb, var(--lime) 13%, transparent), transparent 62%),
+    radial-gradient(48vw 38vh at 4% 112%, color-mix(in srgb, var(--mint) 11%, transparent), transparent 62%);
   pointer-events: none;
 }
 
@@ -338,6 +398,11 @@
 @media (max-width: 860px) {
   .nav-toggle { display: inline-flex; }
   .brand__name { display: inline; }
+  .mobile-tabs { display: flex; }
+
+  /* leave room for the tab bar */
+  body { padding-block-end: calc(56px + env(safe-area-inset-bottom, 0px)); }
+  .site-footer { margin-block-end: 0; }
 
   .site-nav {
     position: fixed;

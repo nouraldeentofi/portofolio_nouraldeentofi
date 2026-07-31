@@ -23,7 +23,7 @@ function pageFiles() {
     [...PAGES, '404'].map((p) => ({
       lang,
       page: p,
-      file: `${lang === 'en' ? '' : 'ar/'}${p === '' ? 'index' : p}.html`,
+      file: `${lang === 'ar' ? '' : 'en/'}${p === '' ? 'index' : p}.html`,
     })),
   );
 }
@@ -93,7 +93,7 @@ export function checkAll({ pages = pageFiles() } = {}) {
     for (const [, target] of html.matchAll(/href="(?!https?:|mailto:|tel:|#)([^"]+)"/g)) {
       const clean = target.split('#')[0];
       if (!clean) continue;
-      const dir = lang === 'en' ? '' : 'ar/';
+      const dir = lang === 'ar' ? '' : 'en/';
       const resolved = clean.startsWith('/')
         ? clean.slice(1)
         : clean.startsWith('../')

@@ -27,12 +27,16 @@ html::-webkit-scrollbar-thumb {
 }
 html::-webkit-scrollbar-thumb:hover { background: var(--line-strong); }
 
+/* The page background lives on <html> so the fixed full-page canvas
+   (a negative-z child of body) can sit above it but below all content. */
+html { background: var(--bg); }
+
 body {
   font-family: var(--font-sans);
   font-size: clamp(1rem, 0.96rem + 0.2vw, 1.075rem);
   line-height: 1.65;
   color: var(--fg);
-  background: var(--bg);
+  background: transparent;
   min-block-size: 100vh;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
