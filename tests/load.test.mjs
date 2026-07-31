@@ -133,3 +133,22 @@ test('links.json urls are absolute, or null with a todo', () => {
     }
   }
 });
+
+test('no private or UI-state LinkedIn urls are stored', () => {
+  const db = loadDb('data');
+  const all = Object.values({ ...db.links.people, ...db.links.organizations });
+  for (const { url } of all) {
+    if (!url) continue;
+    assert.ok(!url.includes('/admin/'), `${url} is an admin URL — it 404s for visitors`);
+    assert.ok(!url.includes('?'), `${url} carries UI state; store the clean canonical URL`);
+    assert.ok(!/\/posts\/?$/.test(url), `${url} points at a posts tab, not the profile`);
+  }
+});
+
+test('every recommender resolves to a real profile', () => {
+  const db = loadDb('data');
+  for (const t of db.testimonials) {
+    const entry = db.links.people[t.author];
+    assert.ok(entry?.url, `${t.author} vouches for Nour but has no profile link`);
+  }
+});

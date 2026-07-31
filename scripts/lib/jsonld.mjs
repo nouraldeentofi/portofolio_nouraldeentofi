@@ -20,6 +20,17 @@ const PAGE_TITLES = {
 };
 
 const base = (db) => db.profile.site.replace(/\/$/, '');
+
+/**
+ * `sameAs` for a named person or organisation, when `data/links.json` knows
+ * one. Emitting it turns a bare name into a resolvable entity, which is how
+ * a search engine or model connects "Haitham Zedan" here to the same person
+ * elsewhere. Unknown names get no key at all rather than a guess.
+ */
+const entitySameAs = (db, group, name) => {
+  const url = db.links?.[group]?.[name]?.url;
+  return url ? { sameAs: url } : {};
+};
 const langPath = (lang) => (lang === 'ar' ? '' : '/en');
 
 export function pageUrl(db, page, lang) {
@@ -33,7 +44,11 @@ export function credentialsLd(db, lang) {
       '@type': 'EducationalOccupationalCredential',
       name: c.name[lang],
       credentialCategory: 'certificate',
-      recognizedBy: { '@type': 'Organization', name: c.issuer },
+      recognizedBy: {
+        '@type': 'Organization',
+        name: c.issuer,
+        ...entitySameAs(db, 'organizations', c.issuer),
+      },
       dateCreated: c.issued,
       ...(c.credentialId ? { identifier: c.credentialId } : {}),
     }));
@@ -74,11 +89,11 @@ export function personLd(db, lang) {
     alumniOf: {
       '@type': 'CollegeOrUniversity',
       name: 'University of Kalamoon',
-      sameAs: 'https://uok.edu.sy/',
+      ...entitySameAs(db, 'organizations', 'University of Kalamoon'),
     },
     worksFor: db.experience
       .filter((e) => e.end === null)
-      .map((e) => ({ '@type': 'Organization', name: e.company })),
+      .map((e) => ({ '@type': 'Organization', name: e.company, ...entitySameAs(db, 'organizations', e.company) })),
     hasOccupation: {
       '@type': 'Occupation',
       name: 'AI Automation Engineer',
@@ -171,7 +186,11 @@ export function experienceLd(db, lang) {
         roleName: e.role[lang],
         startDate: e.start,
         ...(e.end ? { endDate: e.end } : {}),
-        memberOf: { '@type': 'Organization', name: e.company },
+        memberOf: {
+          '@type': 'Organization',
+          name: e.company,
+          ...entitySameAs(db, 'organizations', e.company),
+        },
       },
     })),
   };
@@ -182,7 +201,12 @@ export function reviewsLd(db, lang) {
     '@context': CTX,
     '@type': 'Review',
     itemReviewed: { '@id': `${base(db)}/#nour` },
-    author: { '@type': 'Person', name: t.author, jobTitle: t.title[lang] },
+    author: {
+      '@type': 'Person',
+      name: t.author,
+      jobTitle: t.title[lang],
+      ...entitySameAs(db, 'people', t.author),
+    },
     datePublished: t.date,
     reviewBody: t.quote[lang],
     inLanguage: lang,

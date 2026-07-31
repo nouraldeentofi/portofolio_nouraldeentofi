@@ -1,41 +1,26 @@
 {
-  "_comment": "Every person and organisation named on the site, and where their name should link. One entry per entity, looked up by the exact name used in the other data files. A null url renders as plain text — never as a dead or wrong link. Filling one in is a one-line edit followed by `npm run build`.",
+  "_comment": "Every person and organisation named on the site, and where their name should link. One entry per entity, looked up by the exact name used in the other data files. A null url renders as plain text — never as a dead or wrong link. URLs are stored in their clean public form: no /posts/, no ?feedView, and never an /admin/ URL (those only work for page admins and 404 for everyone else).",
 
   "people": {
-    "Haitham Zedan": {
-      "url": null,
-      "todo": "LinkedIn URL — Laravel backend on Smart Scanner, and recommender"
-    },
-    "George Drouj": {
-      "url": null,
-      "todo": "LinkedIn URL — competitive programming coach, recommender"
-    },
-    "Tawheed Malkat": {
-      "url": null,
-      "todo": "LinkedIn URL — UI/UX designer at NexLead, recommender"
-    },
-    "Hamza Shansho": {
-      "url": null,
-      "todo": "LinkedIn URL — graduation project teammate, recommender"
-    }
+    "Haitham Zedan": { "url": "https://www.linkedin.com/in/haitham-zedan-391668221/" },
+    "George Drouj": { "url": "https://www.linkedin.com/in/georgedrouj/" },
+    "Tawheed Malkat": { "url": "https://www.linkedin.com/in/tawheed-malkat/" },
+    "Hamza Shansho": { "url": "https://www.linkedin.com/in/hamza-shansho-85151b210/" }
   },
 
   "organizations": {
     "Distinctive Frontier Co. for Safety Equipment L.L.C": {
-      "url": null,
-      "todo": "Company LinkedIn page or website"
+      "url": "https://www.linkedin.com/company/dfspumps/"
     },
     "NexLead": {
-      "url": null,
-      "todo": "Company LinkedIn page or website"
+      "url": "https://www.linkedin.com/company/106661611/",
+      "note": "Numeric page id — supplied as an /admin/dashboard/ link, normalised to the public company URL. Replace with a vanity slug once NexLead claims one."
     },
     "Khwarizm Technologies": {
-      "url": null,
-      "todo": "Company LinkedIn page or website"
+      "url": "https://www.linkedin.com/company/ktcsa/"
     },
     "Minicodeleader": {
-      "url": null,
-      "todo": "Company LinkedIn page or website"
+      "url": "https://www.linkedin.com/company/minicodeleader/"
     },
 
     "University of Kalamoon": { "url": "https://uok.edu.sy/" },
