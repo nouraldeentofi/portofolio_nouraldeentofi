@@ -152,3 +152,24 @@ test('every recommender resolves to a real profile', () => {
     assert.ok(entry?.url, `${t.author} vouches for Nour but has no profile link`);
   }
 });
+
+test('linkifyPeople links names without mangling numbers', async () => {
+  const { linkifyPeople } = await import('../scripts/lib/render.mjs');
+  const db = loadDb('data');
+
+  const out = linkifyPeople(db, 'Extracts 70 fields. Backend by Haitham Zedan.', 'en');
+  assert.match(out, /Extracts 70 fields/, 'plain numbers must survive untouched');
+  assert.match(out, /href="https:\/\/www\.linkedin\.com\/in\/haitham-zedan/);
+  assert.match(out, /target="_blank"/);
+
+  // Arabic alias resolves to the same profile
+  const ar = linkifyPeople(db, 'من إعداد هيثم زيدان.', 'ar');
+  assert.match(ar, /href="https:\/\/www\.linkedin\.com\/in\/haitham-zedan/);
+
+  // organisations are deliberately NOT linked inside prose
+  const g = linkifyPeople(db, 'Stored in Google Sheets and Google Drive.', 'en');
+  assert.ok(!g.includes('<a '), 'Google Sheets must not become a link');
+
+  // text with no known name is escaped and otherwise unchanged
+  assert.equal(linkifyPeople(db, 'a < b & c', 'en'), 'a &lt; b &amp; c');
+});

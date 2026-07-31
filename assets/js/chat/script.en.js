@@ -61,7 +61,7 @@ export const SCRIPT = {
 </div>`,
     msgs2: [
       'Timing was not an accident — ZATCA e-invoicing is expanding in Saudi Arabia and JoFotara is mandatory in Jordan. Every paper invoice in the region has to become clean data.',
-      'The Laravel backend is by Haitham Zedan. Good products come from good teams.',
+      'The Laravel backend is by <a href="https://www.linkedin.com/in/haitham-zedan-391668221/" target="_blank" rel="noopener noreferrer">Haitham Zedan</a>. Good products come from good teams.',
     ],
     opts: [
       ['💸 How you cut costs 75%', 'cost'],

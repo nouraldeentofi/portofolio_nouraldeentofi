@@ -5,7 +5,7 @@
  * prose and layout; this module owns every repeating list and every figure.
  */
 
-import { escapeHtml, extAttrs, newTabHint } from './render.mjs';
+import { escapeHtml, extAttrs, newTabHint, linkifyPeople } from './render.mjs';
 import * as ld from './jsonld.mjs';
 
 const e = escapeHtml;
@@ -32,6 +32,9 @@ function entity(db, group, name, lang) {
   if (!url) return label;
   return `<a class="entity" href="${e(url)}"${extAttrs(url)}>${label}${newTabHint(db.copy[lang].ui.opensInNewTab)}</a>`;
 }
+
+/** Prose that may name a person — escaped, with any known name linked. */
+const prose = (db, text, lang) => linkifyPeople(db, text, lang);
 
 const org = (db, name, lang) => entity(db, 'organizations', name, lang);
 const person = (db, name, lang) => entity(db, 'people', name, lang);
@@ -113,9 +116,9 @@ export function homeFeatured(db, lang) {
   <h3 class="card__title">${e(p.name)}</h3>
   <p class="card__body">${e(p.tagline[lang])}</p>
   <dl class="card__body">
-    <dt>${e(c.ui.problem)}</dt><dd>${e(p.problem[lang])}</dd>
-    <dt>${e(c.ui.built)}</dt><dd>${e(p.built[lang])}</dd>
-    <dt>${e(c.ui.role)}</dt><dd>${e(p.role[lang])}</dd>
+    <dt>${e(c.ui.problem)}</dt><dd>${prose(db, p.problem[lang], lang)}</dd>
+    <dt>${e(c.ui.built)}</dt><dd>${prose(db, p.built[lang], lang)}</dd>
+    <dt>${e(c.ui.role)}</dt><dd>${prose(db, p.role[lang], lang)}</dd>
   </dl>
   ${badges(p.stack)}
   <div class="card__foot">
@@ -133,7 +136,7 @@ export function homeAutomation(db, lang) {
       (w) => `<article data-reveal class="card">
   <p class="card__meta"><span>${e(w.kind[lang])}</span><span>${e(w.year)}</span></p>
   <h3 class="card__title">${e(w.name[lang])}</h3>
-  <p class="card__body">${e(w.summary[lang])}</p>
+  <p class="card__body">${prose(db, w.summary[lang], lang)}</p>
   ${badges(w.services.slice(0, 4))}
   <div class="card__foot"><a class="btn btn--ghost" href="${href('automation', lang)}">${e(c.ui.viewProject)}</a></div>
 </article>`,
@@ -222,7 +225,7 @@ ${db.experience
     <p class="timeline__period">${period(x.start, x.end, c.ui.present)}</p>
     <h3 class="timeline__role">${e(x.role[lang])}</h3>
     <p class="timeline__org">${org(db, x.company, lang)} · ${e(x.location[lang])} · ${e(x.type[lang])}</p>
-    ${list(x.bullets[lang].map(e), 'timeline__bullets')}
+    ${list(x.bullets[lang].map((b) => prose(db, b, lang)), 'timeline__bullets')}
     ${badges(x.stack)}
   </li>`,
   )
@@ -283,11 +286,11 @@ export function projectsList(db, lang) {
     <h3 class="card__title">${e(p.name)}</h3>
     <p class="card__body">${e(p.tagline[lang])}</p>
     <dl class="card__body">
-      <dt>${e(c.ui.problem)}</dt><dd>${e(p.problem[lang])}</dd>
-      <dt>${e(c.ui.built)}</dt><dd>${e(p.built[lang])}</dd>
-      <dt>${e(c.ui.role)}</dt><dd>${e(p.role[lang])}</dd>
+      <dt>${e(c.ui.problem)}</dt><dd>${prose(db, p.problem[lang], lang)}</dd>
+      <dt>${e(c.ui.built)}</dt><dd>${prose(db, p.built[lang], lang)}</dd>
+      <dt>${e(c.ui.role)}</dt><dd>${prose(db, p.role[lang], lang)}</dd>
     </dl>
-    ${p.context ? `<p class="card__body"><em>${e(p.context[lang])}</em></p>` : ''}
+    ${p.context ? `<p class="card__body"><em>${prose(db, p.context[lang], lang)}</em></p>` : ''}
   </div>
   <aside class="card__aside">
     ${
@@ -318,9 +321,9 @@ export function automationList(db, lang) {
   <div class="card__main">
     <p class="card__meta"><span>${e(w.kind[lang])}</span><span>${e(w.year)}</span></p>
     <h3 class="card__title">${e(w.name[lang])}</h3>
-    <p class="card__body">${e(w.summary[lang])}</p>
-    ${list(w.highlights[lang].map(e), 'card__list')}
-    <dl class="card__body"><dt>${e(c.ui.outcome)}</dt><dd>${e(w.outcome[lang])}</dd></dl>
+    <p class="card__body">${prose(db, w.summary[lang], lang)}</p>
+    ${list(w.highlights[lang].map((h) => prose(db, h, lang)), 'card__list')}
+    <dl class="card__body"><dt>${e(c.ui.outcome)}</dt><dd>${prose(db, w.outcome[lang], lang)}</dd></dl>
   </div>
   <aside class="card__aside">
     <dl class="card__body">

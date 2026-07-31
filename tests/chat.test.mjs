@@ -58,3 +58,17 @@ test('transcript renders in Arabic too', () => {
 test('transcript rejects an unknown language', () => {
   assert.throws(() => buildTranscript('fr'), /unknown language/);
 });
+
+test('collaborators named in the chat link to their profile', () => {
+  for (const [name, SCRIPT] of [['en', EN], ['ar', AR]]) {
+    const blob = JSON.stringify(SCRIPT);
+    assert.match(blob, /linkedin\.com\/in\/haitham-zedan/, `${name} should link Haitham`);
+    assert.match(blob, /rel=\\"noopener noreferrer\\"/, `${name} chat links need noopener`);
+  }
+});
+
+test('the transcript strips chat markup but keeps collaborator names', () => {
+  const t = buildTranscript('en');
+  assert.ok(t.includes('Haitham Zedan'));
+  assert.ok(!t.includes('<a '), 'anchors must not survive into the transcript');
+});

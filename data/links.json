@@ -2,7 +2,10 @@
   "_comment": "Every person and organisation named on the site, and where their name should link. One entry per entity, looked up by the exact name used in the other data files. A null url renders as plain text — never as a dead or wrong link. URLs are stored in their clean public form: no /posts/, no ?feedView, and never an /admin/ URL (those only work for page admins and 404 for everyone else).",
 
   "people": {
-    "Haitham Zedan": { "url": "https://www.linkedin.com/in/haitham-zedan-391668221/" },
+    "Haitham Zedan": {
+      "url": "https://www.linkedin.com/in/haitham-zedan-391668221/",
+      "aliases": ["هيثم زيدان"]
+    },
     "George Drouj": { "url": "https://www.linkedin.com/in/georgedrouj/" },
     "Tawheed Malkat": { "url": "https://www.linkedin.com/in/tawheed-malkat/" },
     "Hamza Shansho": { "url": "https://www.linkedin.com/in/hamza-shansho-85151b210/" }
