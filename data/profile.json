@@ -1,0 +1,59 @@
+{
+  "name": { "en": "Nour Aldeen Tofi", "ar": "نور الدين توفي" },
+  "headline": {
+    "en": "AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer",
+    "ar": "مهندس أتمتة بالذكاء الاصطناعي — n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية أول"
+  },
+  "tagline": {
+    "en": "I turn messy manual processes into self-running workflows — and build the interfaces people use on top of them.",
+    "ar": "أُحوّل العمليات اليدوية المتعثّرة إلى مسارات عمل ذاتية التشغيل، وأبني الواجهات التي يستخدمها الناس فوقها."
+  },
+  "location": {
+    "city": { "en": "Al Khobar", "ar": "الخبر" },
+    "region": { "en": "Eastern Province", "ar": "المنطقة الشرقية" },
+    "country": { "en": "Saudi Arabia", "ar": "المملكة العربية السعودية" },
+    "countryCode": "SA"
+  },
+  "email": "nouraldeentofi@gmail.com",
+  "phone": "+966547972944",
+  "site": "https://nouraldeentofi.netlify.app",
+  "languages": [
+    {
+      "code": "ar",
+      "name": { "en": "Arabic", "ar": "العربية" },
+      "level": { "en": "Native", "ar": "اللغة الأم" }
+    },
+    {
+      "code": "en",
+      "name": { "en": "English", "ar": "الإنجليزية" },
+      "level": { "en": "Professional working proficiency", "ar": "إجادة مهنية" }
+    }
+  ],
+  "sameAs": [
+    { "platform": "LinkedIn", "url": "https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" },
+    { "platform": "Portfolio", "url": "https://nouraldeentofi.netlify.app" },
+    { "platform": "Smart Scanner", "url": "https://receipt.nexleadtech.com" },
+    { "platform": "Google Play", "url": "https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag" },
+    { "platform": "GitHub", "url": null, "todo": "Awaiting GitHub URL from Nour" },
+    { "platform": "FIDE", "url": null, "todo": "Confirm ratings.fide.com/profile/7618166 belongs to Nour before publishing" }
+  ],
+  "availability": {
+    "openToWork": true,
+    "arrangements": {
+      "en": ["On-site", "Hybrid", "Remote"],
+      "ar": ["في الموقع", "هجين", "عن بُعد"]
+    }
+  },
+  "cv": [
+    {
+      "id": "automation",
+      "file": "assets/cv/Nour_Aldeen_Tofi_Automation.pdf",
+      "label": { "en": "Automation CV", "ar": "السيرة الذاتية — الأتمتة" }
+    },
+    {
+      "id": "engineering",
+      "file": "assets/cv/Nour_Aldeen_Tofi.pdf",
+      "label": { "en": "Engineering CV", "ar": "السيرة الذاتية — الهندسة" }
+    }
+  ]
+}
