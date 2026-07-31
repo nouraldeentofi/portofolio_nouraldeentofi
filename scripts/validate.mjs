@@ -90,16 +90,36 @@ export function checkAll({ pages = pageFiles() } = {}) {
     if ((html.match(/<h1[ >]/g) ?? []).length !== 1) fail(`${file}: must have exactly one h1`);
 
     // 8 — internal links resolve.
+    const dir = lang === 'ar' ? '' : 'en/';
     for (const [, target] of html.matchAll(/href="(?!https?:|mailto:|tel:|#)([^"]+)"/g)) {
       const clean = target.split('#')[0];
       if (!clean) continue;
-      const dir = lang === 'ar' ? '' : 'en/';
       const resolved = clean.startsWith('/')
         ? clean.slice(1)
         : clean.startsWith('../')
           ? clean.slice(3)
           : `${dir}${clean}`;
       if (!existsSync(resolved)) fail(`${file}: link "${target}" resolves to missing ${resolved}`);
+    }
+
+    // 8b — navigation must never cross language trees.
+    //
+    // The plain "does it resolve" check above is not enough: `../about.html`
+    // from an English page resolves to a real file — the *Arabic* one. That
+    // silently dumped English readers back into Arabic on every nav click.
+    // Only the deliberate language switch may cross.
+    for (const [, attrs, href] of html.matchAll(/<a\s+([^>]*?)href="([^"]+\.html)"/g)) {
+      if (attrs.includes('lang-switch')) continue;
+      if (/^(https?:|mailto:|tel:)/.test(href)) continue;
+      const resolved = href.startsWith('/')
+        ? href.slice(1)
+        : href.startsWith('../')
+          ? href.slice(3)
+          : `${dir}${href}`;
+      const targetIsEnglish = resolved.startsWith('en/');
+      if (targetIsEnglish !== (lang === 'en')) {
+        fail(`${file}: link "${href}" leaves the ${lang} tree (goes to ${resolved})`);
+      }
     }
 
     sectionCounts[`${page}:${lang}`] = (html.match(/<section/g) ?? []).length;

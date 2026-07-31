@@ -16,10 +16,15 @@ const PAGE_KEY = { '': 'home', about: 'about', work: 'work', projects: 'projects
    metaphor per page. */
 const PAGE_VARIANT = { '': 'graph', about: 'orbit', work: 'flow', projects: 'grid', automation: 'branch', chat: 'drift', contact: 'signal' };
 
-const rel = (page, lang) => {
-  const prefix = lang === 'ar' ? '' : '../';
-  return `${prefix}${page === '' ? 'index' : page}.html`;
-};
+/**
+ * A link to another page *in the same language*.
+ *
+ * Both language trees are flat and self-contained — Arabic at the root,
+ * English in `/en/` — so pages are always siblings and never need a prefix.
+ * (Assets are different: they live once at the root, so `asset()` below does
+ * need to climb out of `/en/`.)
+ */
+const rel = (page) => `${page === '' ? 'index' : page}.html`;
 
 const asset = (path, lang) => `${lang === 'ar' ? '' : '../'}${path}`;
 
@@ -29,7 +34,7 @@ function header(db, page, lang) {
 
   const nav = PAGES.map((p) => {
     const current = p === page ? ' aria-current="page"' : '';
-    return `          <a href="${rel(p, lang)}"${current}>${e(c.nav[PAGE_KEY[p]])}</a>`;
+    return `          <a href="${rel(p)}"${current}>${e(c.nav[PAGE_KEY[p]])}</a>`;
   }).join('\n');
 
   // The language switch points at the same page in the other tree.
@@ -37,7 +42,7 @@ function header(db, page, lang) {
 
   return `  <header class="site-header">
     <div class="container site-header__inner">
-      <a class="brand" href="${rel('', lang)}">
+      <a class="brand" href="${rel('')}">
         <span class="brand__mark" aria-hidden="true">${initials}</span>
         <span class="brand__name">${e(db.profile.name[lang])}</span>
       </a>
@@ -80,7 +85,7 @@ function mobileTabs(db, page, lang) {
 ${tabs
     .map((t) => {
       const current = t === page ? ' aria-current="page"' : '';
-      return `    <a href="${rel(t, lang)}"${current}><span>${e(c.nav[PAGE_KEY[t]])}</span></a>`;
+      return `    <a href="${rel(t)}"${current}><span>${e(c.nav[PAGE_KEY[t]])}</span></a>`;
     })
     .join('\n')}
   </nav>`;
@@ -179,8 +184,8 @@ function home(db, lang) {
     headingClass: 'hero__name',
     headline: p.headline[lang],
     intro: c.home.intro,
-    actions: `        <a class="btn" href="${rel('contact', lang)}">${e(c.home.ctaButton)}</a>
-        <a class="btn btn--ghost" href="${rel('automation', lang)}">${e(c.nav.automation)}</a>`,
+    actions: `        <a class="btn" href="${rel('contact')}">${e(c.home.ctaButton)}</a>
+        <a class="btn btn--ghost" href="${rel('automation')}">${e(c.nav.automation)}</a>`,
   })}
 
 ${section('proof', c.home.proofLabel, c.home.proofLabel, null, B.homeProof(db, lang))}
@@ -198,7 +203,7 @@ ${section('quotes', c.home.quoteLabel, c.home.quoteLabel, null, `      <div clas
       <div class="cta">
         <h2>${e(c.home.ctaTitle)}</h2>
         <p>${e(c.home.ctaBody)}</p>
-        <a class="btn" href="${rel('contact', lang)}">${e(c.home.ctaButton)}</a>
+        <a class="btn" href="${rel('contact')}">${e(c.home.ctaButton)}</a>
       </div>
     </div>
   </section>`;
@@ -344,7 +349,7 @@ function notFound(db, lang) {
   const main = `${heroBlock({
     heading: '404',
     headline: lang === 'en' ? 'That page does not exist.' : 'هذه الصفحة غير موجودة.',
-    actions: `        <a class="btn" href="${rel('', lang)}">${e(c.nav.home)}</a>`,
+    actions: `        <a class="btn" href="${rel('')}">${e(c.nav.home)}</a>`,
   })}`;
   return shell(db, '', lang, main);
 }
