@@ -502,3 +502,42 @@ details.card > .card__body {
   color: var(--lime);
   text-decoration-color: var(--lime);
 }
+
+/* ---------- row-card variants ---------- */
+
+/* A numbered side panel, for sequences like the working principles. */
+.card__aside--index {
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.card__index {
+  font-size: clamp(2.6rem, 2rem + 3vw, 4.2rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  background: linear-gradient(135deg, var(--lime), var(--mint));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: 0.55;
+}
+
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .card__index { color: var(--mint); background: none; }
+}
+
+/* FAQ rows sit full width and keep the corner node clear of the question. */
+.card--faq > summary { padding-inline-end: var(--space-6); }
+
+@media (max-width: 780px) {
+  .card__aside--index {
+    align-items: flex-start;
+    /* the numeral is decoration, not content — it goes first visually on
+       desktop and simply shrinks on narrow screens */
+    order: -1;
+    padding-block-start: 0;
+    border-block-start: 0;
+  }
+  .card__index { font-size: 2.2rem; }
+}

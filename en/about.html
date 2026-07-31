@@ -457,22 +457,42 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
         <h2>How I work</h2>
         
       </div>
-      <div class="grid grid--2">
-<article data-reveal class="card">
-  <h3 class="card__title">Agree the contract before the first line of code</h3>
-  <p class="card__body">The worst bug I have shipped was not in anyone&#39;s code. Two systems each behaved perfectly and disagreed about what a payload meant, so data deleted itself silently — no error, no log, nothing broken. Now every shared boundary gets a written agreement first: the shape of the data, the required fields, the strange cases, and who owns what. It lets two people build in parallel and still fit together on the first try.</p>
+      <div class="stack">
+<article data-reveal class="card card--row">
+  <div class="card__main">
+    <h3 class="card__title">Agree the contract before the first line of code</h3>
+    <p class="card__body">The worst bug I have shipped was not in anyone&#39;s code. Two systems each behaved perfectly and disagreed about what a payload meant, so data deleted itself silently — no error, no log, nothing broken. Now every shared boundary gets a written agreement first: the shape of the data, the required fields, the strange cases, and who owns what. It lets two people build in parallel and still fit together on the first try.</p>
+  </div>
+  <aside class="card__aside card__aside--index">
+    <span class="card__index" aria-hidden="true">01</span>
+  </aside>
 </article>
-<article data-reveal class="card">
-  <h3 class="card__title">Accuracy before speed</h3>
-  <p class="card__body">A workflow that saves nothing is better than one that saves the wrong thing. My extraction pipelines refuse to persist anything until the essential fields are present and plausible — and when something is missing, they say so and explain why. A confident wrong answer is worse than a slow right one.</p>
+<article data-reveal class="card card--row">
+  <div class="card__main">
+    <h3 class="card__title">Accuracy before speed</h3>
+    <p class="card__body">A workflow that saves nothing is better than one that saves the wrong thing. My extraction pipelines refuse to persist anything until the essential fields are present and plausible — and when something is missing, they say so and explain why. A confident wrong answer is worse than a slow right one.</p>
+  </div>
+  <aside class="card__aside card__aside--index">
+    <span class="card__index" aria-hidden="true">02</span>
+  </aside>
 </article>
-<article data-reveal class="card">
-  <h3 class="card__title">Route by cost, not by habit</h3>
-  <p class="card__body">My first workflow sent every incoming file to a vision model. But a PDF usually carries extractable text, and a text model reads it for a fraction of the price. One branching decision cut the per-document cost by three quarters — with a fallback to vision when extraction comes back empty. The branch is free; the saving compounds every month.</p>
+<article data-reveal class="card card--row">
+  <div class="card__main">
+    <h3 class="card__title">Route by cost, not by habit</h3>
+    <p class="card__body">My first workflow sent every incoming file to a vision model. But a PDF usually carries extractable text, and a text model reads it for a fraction of the price. One branching decision cut the per-document cost by three quarters — with a fallback to vision when extraction comes back empty. The branch is free; the saving compounds every month.</p>
+  </div>
+  <aside class="card__aside card__aside--index">
+    <span class="card__index" aria-hidden="true">03</span>
+  </aside>
 </article>
-<article data-reveal class="card">
-  <h3 class="card__title">Build the thing people will actually open</h3>
-  <p class="card__body">An automation nobody trusts gets bypassed. A dashboard nobody understands gets exported to a spreadsheet. So I care about the interface as much as the pipeline: clear states, honest errors, and no dead ends.</p>
+<article data-reveal class="card card--row">
+  <div class="card__main">
+    <h3 class="card__title">Build the thing people will actually open</h3>
+    <p class="card__body">An automation nobody trusts gets bypassed. A dashboard nobody understands gets exported to a spreadsheet. So I care about the interface as much as the pipeline: clear states, honest errors, and no dead ends.</p>
+  </div>
+  <aside class="card__aside card__aside--index">
+    <span class="card__index" aria-hidden="true">04</span>
+  </aside>
 </article>
       </div>
     </div>
@@ -485,26 +505,76 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
         <h2>Skills</h2>
         
       </div>
-      <div class="grid grid--2">
-<article data-reveal class="card">
-  <h3 class="card__title">Automation &amp; AI</h3>
-  <ul class="badges"><li class="badge">n8n</li><li class="badge">Workflow Automation</li><li class="badge">AI Agents</li><li class="badge">LLM Tool-Calling Design</li><li class="badge">Model Context Protocol (MCP)</li><li class="badge">OpenAI API</li><li class="badge">GPT-4o</li><li class="badge">GPT-4.1 Vision</li><li class="badge">Structured JSON Outputs</li><li class="badge">Prompt Engineering</li><li class="badge">Document AI</li><li class="badge">Arabic OCR &amp; Extraction</li><li class="badge">Web Scraping</li><li class="badge">Telegram Bot API</li><li class="badge">Webhooks</li><li class="badge">Error Handling &amp; Retries</li></ul>
+      <div class="stack">
+<article data-reveal class="card card--row">
+  <div class="card__main">
+    <h3 class="card__title">Automation &amp; AI</h3>
+    <ul class="badges"><li class="badge">n8n</li><li class="badge">Workflow Automation</li><li class="badge">AI Agents</li><li class="badge">LLM Tool-Calling Design</li><li class="badge">Model Context Protocol (MCP)</li><li class="badge">OpenAI API</li><li class="badge">GPT-4o</li><li class="badge">GPT-4.1 Vision</li><li class="badge">Structured JSON Outputs</li><li class="badge">Prompt Engineering</li><li class="badge">Document AI</li><li class="badge">Arabic OCR &amp; Extraction</li><li class="badge">Web Scraping</li><li class="badge">Telegram Bot API</li><li class="badge">Webhooks</li><li class="badge">Error Handling &amp; Retries</li></ul>
+  </div>
+  <aside class="card__aside">
+    <ul class="proof proof--inline">
+      <li class="proof__item">
+        <span class="proof__value" data-count>16</span>
+        <span class="proof__label">tools &amp; practices</span>
+      </li>
+    </ul>
+  </aside>
 </article>
-<article data-reveal class="card">
-  <h3 class="card__title">Frontend</h3>
-  <ul class="badges"><li class="badge">React.js</li><li class="badge">React 19</li><li class="badge">TypeScript</li><li class="badge">JavaScript (ES6+)</li><li class="badge">Tailwind CSS</li><li class="badge">HTML5</li><li class="badge">CSS3</li><li class="badge">Material-UI</li><li class="badge">Vite</li><li class="badge">React Hooks</li><li class="badge">TanStack React Query</li><li class="badge">React Hook Form</li><li class="badge">React Router</li><li class="badge">i18n &amp; RTL</li><li class="badge">Responsive Design</li><li class="badge">Web Accessibility</li></ul>
+<article data-reveal class="card card--row">
+  <div class="card__main">
+    <h3 class="card__title">Frontend</h3>
+    <ul class="badges"><li class="badge">React.js</li><li class="badge">React 19</li><li class="badge">TypeScript</li><li class="badge">JavaScript (ES6+)</li><li class="badge">Tailwind CSS</li><li class="badge">HTML5</li><li class="badge">CSS3</li><li class="badge">Material-UI</li><li class="badge">Vite</li><li class="badge">React Hooks</li><li class="badge">TanStack React Query</li><li class="badge">React Hook Form</li><li class="badge">React Router</li><li class="badge">i18n &amp; RTL</li><li class="badge">Responsive Design</li><li class="badge">Web Accessibility</li></ul>
+  </div>
+  <aside class="card__aside">
+    <ul class="proof proof--inline">
+      <li class="proof__item">
+        <span class="proof__value" data-count>16</span>
+        <span class="proof__label">tools &amp; practices</span>
+      </li>
+    </ul>
+  </aside>
 </article>
-<article data-reveal class="card">
-  <h3 class="card__title">Data &amp; Backend</h3>
-  <ul class="badges"><li class="badge">REST APIs</li><li class="badge">API Integration</li><li class="badge">JSON</li><li class="badge">OAuth 2.0</li><li class="badge">MySQL</li><li class="badge">Stored Procedures</li><li class="badge">Google Sheets API</li><li class="badge">Google Drive API</li><li class="badge">Node.js</li><li class="badge">Python</li></ul>
+<article data-reveal class="card card--row">
+  <div class="card__main">
+    <h3 class="card__title">Data &amp; Backend</h3>
+    <ul class="badges"><li class="badge">REST APIs</li><li class="badge">API Integration</li><li class="badge">JSON</li><li class="badge">OAuth 2.0</li><li class="badge">MySQL</li><li class="badge">Stored Procedures</li><li class="badge">Google Sheets API</li><li class="badge">Google Drive API</li><li class="badge">Node.js</li><li class="badge">Python</li></ul>
+  </div>
+  <aside class="card__aside">
+    <ul class="proof proof--inline">
+      <li class="proof__item">
+        <span class="proof__value" data-count>10</span>
+        <span class="proof__label">tools &amp; practices</span>
+      </li>
+    </ul>
+  </aside>
 </article>
-<article data-reveal class="card">
-  <h3 class="card__title">Tooling &amp; Delivery</h3>
-  <ul class="badges"><li class="badge">Git</li><li class="badge">GitHub</li><li class="badge">GitLab</li><li class="badge">CI/CD (GitHub Actions)</li><li class="badge">Vitest</li><li class="badge">React Testing Library</li><li class="badge">Jira</li><li class="badge">Trello</li><li class="badge">Figma</li><li class="badge">Agile</li><li class="badge">Scrum</li><li class="badge">Clean Code</li></ul>
+<article data-reveal class="card card--row">
+  <div class="card__main">
+    <h3 class="card__title">Tooling &amp; Delivery</h3>
+    <ul class="badges"><li class="badge">Git</li><li class="badge">GitHub</li><li class="badge">GitLab</li><li class="badge">CI/CD (GitHub Actions)</li><li class="badge">Vitest</li><li class="badge">React Testing Library</li><li class="badge">Jira</li><li class="badge">Trello</li><li class="badge">Figma</li><li class="badge">Agile</li><li class="badge">Scrum</li><li class="badge">Clean Code</li></ul>
+  </div>
+  <aside class="card__aside">
+    <ul class="proof proof--inline">
+      <li class="proof__item">
+        <span class="proof__value" data-count>12</span>
+        <span class="proof__label">tools &amp; practices</span>
+      </li>
+    </ul>
+  </aside>
 </article>
-<article data-reveal class="card">
-  <h3 class="card__title">Coordination &amp; Leadership</h3>
-  <ul class="badges"><li class="badge">Requirements Gathering</li><li class="badge">Scope Definition</li><li class="badge">API Contract Design</li><li class="badge">User Stories</li><li class="badge">Sprint Planning</li><li class="badge">Code Review</li><li class="badge">Mentoring</li><li class="badge">Cross-Functional Team Leadership</li><li class="badge">Project Coordination</li><li class="badge">Problem Solving</li></ul>
+<article data-reveal class="card card--row">
+  <div class="card__main">
+    <h3 class="card__title">Coordination &amp; Leadership</h3>
+    <ul class="badges"><li class="badge">Requirements Gathering</li><li class="badge">Scope Definition</li><li class="badge">API Contract Design</li><li class="badge">User Stories</li><li class="badge">Sprint Planning</li><li class="badge">Code Review</li><li class="badge">Mentoring</li><li class="badge">Cross-Functional Team Leadership</li><li class="badge">Project Coordination</li><li class="badge">Problem Solving</li></ul>
+  </div>
+  <aside class="card__aside">
+    <ul class="proof proof--inline">
+      <li class="proof__item">
+        <span class="proof__value" data-count>10</span>
+        <span class="proof__label">tools &amp; practices</span>
+      </li>
+    </ul>
+  </aside>
 </article>
       </div>
     </div>
@@ -528,28 +598,28 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
         <h2>Common questions</h2>
         
       </div>
-      <div class="grid">
-<details data-reveal class="card">
+      <div class="stack">
+<details data-reveal class="card card--faq">
   <summary><strong>What does Nour Aldeen Tofi do?</strong></summary>
   <p class="card__body">He is an AI Automation Engineer and Senior Frontend Developer based in Al Khobar, Saudi Arabia. He designs and operates production n8n workflows that connect language models to real systems, and builds the React and TypeScript interfaces on top of them. He also works as a Software Engineering Supervisor, leading frontend development and owning delivery end to end.</p>
 </details>
-<details data-reveal class="card">
+<details data-reveal class="card card--faq">
   <summary><strong>What is Smart Scanner?</strong></summary>
   <p class="card__body">Smart Scanner is an Arabic-first AI invoice management product. An employee photographs a receipt; an n8n pipeline verifies it is a genuine invoice, extracts every field with GPT Vision in Arabic and English, and classifies each expense. Accountants then review, approve or reject, comment, and export through role-based dashboards. Nour built the entire AI automation engine and the complete frontend.</p>
 </details>
-<details data-reveal class="card">
+<details data-reveal class="card card--faq">
   <summary><strong>Does he work in Arabic?</strong></summary>
   <p class="card__body">Arabic is his native language and it is a core part of his technical specialisation. He builds Arabic-default bilingual interfaces with full right-to-left support, and his document AI pipelines are tuned specifically for Arabic invoices, including handwritten ones and ZATCA e-invoice fields — a case most global tools handle poorly or not at all.</p>
 </details>
-<details data-reveal class="card">
+<details data-reveal class="card card--faq">
   <summary><strong>Is he open to work?</strong></summary>
   <p class="card__body">Yes. He is open to opportunities in Saudi Arabia and remotely, on-site, hybrid, or fully remote, and takes on freelance automation and frontend projects. The fastest way to reach him is email.</p>
 </details>
-<details data-reveal class="card">
+<details data-reveal class="card card--faq">
   <summary><strong>What is his automation stack?</strong></summary>
   <p class="card__body">n8n for orchestration; the OpenAI API including GPT-4o and GPT-4.1 Vision with structured JSON outputs; AI agents with custom tool-calling; webhooks and REST integrations; Google Sheets, Google Drive, MySQL, and Telegram as data and delivery layers; and the Model Context Protocol for connecting models to real tools.</p>
 </details>
-<details data-reveal class="card">
+<details data-reveal class="card card--faq">
   <summary><strong>How do I contact him?</strong></summary>
   <p class="card__body">By email at nouraldeentofi@gmail.com, or through LinkedIn. This site also publishes a machine-readable profile and an MCP server, so an AI assistant can look up his experience and projects directly.</p>
 </details>

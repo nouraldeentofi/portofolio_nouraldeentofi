@@ -184,20 +184,36 @@ export function aboutBody(db, lang) {
 export function aboutPrinciples(db, lang) {
   return db.copy[lang].about.principles
     .map(
-      (p) => `<article data-reveal class="card">
-  <h3 class="card__title">${e(p.title)}</h3>
-  <p class="card__body">${e(p.body)}</p>
+      (p, i) => `<article data-reveal class="card card--row">
+  <div class="card__main">
+    <h3 class="card__title">${e(p.title)}</h3>
+    <p class="card__body">${prose(db, p.body, lang)}</p>
+  </div>
+  <aside class="card__aside card__aside--index">
+    <span class="card__index" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
+  </aside>
 </article>`,
     )
     .join('\n');
 }
 
 export function aboutSkills(db, lang) {
+  const c = db.copy[lang];
   return db.skills
     .map(
-      (g) => `<article data-reveal class="card">
-  <h3 class="card__title">${e(g.category[lang])}</h3>
-  ${badges(g.items)}
+      (g) => `<article data-reveal class="card card--row">
+  <div class="card__main">
+    <h3 class="card__title">${e(g.category[lang])}</h3>
+    ${badges(g.items)}
+  </div>
+  <aside class="card__aside">
+    <ul class="proof proof--inline">
+      <li class="proof__item">
+        <span class="proof__value" data-count>${g.items.length}</span>
+        <span class="proof__label">${e(c.about.skillsCountLabel)}</span>
+      </li>
+    </ul>
+  </aside>
 </article>`,
     )
     .join('\n');
@@ -206,9 +222,9 @@ export function aboutSkills(db, lang) {
 export function aboutFaq(db, lang) {
   return db.copy[lang].about.faq
     .map(
-      (f) => `<details data-reveal class="card">
+      (f) => `<details data-reveal class="card card--faq">
   <summary><strong>${e(f.q)}</strong></summary>
-  <p class="card__body">${e(f.a)}</p>
+  <p class="card__body">${prose(db, f.a, lang)}</p>
 </details>`,
     )
     .join('\n');
@@ -347,8 +363,12 @@ export function contactLinks(db, lang) {
   const rows = [
     { platform: 'Email', url: `mailto:${profile.email}`, value: profile.email },
     { platform: 'Phone', url: `tel:${profile.phone}`, value: profile.phone },
-    // unresolved links are skipped entirely — never rendered as dead anchors
-    ...profile.sameAs.filter((s) => s.url).map((s) => ({ platform: s.platform, url: s.url, value: s.url.replace(/^https?:\/\//, '') })),
+    // Unresolved links are skipped entirely — never rendered as dead anchors.
+    // `contactChannel: false` marks a link that belongs in the identity graph
+    // but is not a way to reach him (a product page, say).
+    ...profile.sameAs
+      .filter((s) => s.url && s.contactChannel !== false)
+      .map((s) => ({ platform: s.platform, url: s.url, value: s.url.replace(/^https?:\/\//, '') })),
   ];
 
   return `<ul class="linklist linklist--grid">
@@ -380,8 +400,7 @@ ${db.profile.cv
 export function contactAvailability(db, lang) {
   const a = db.profile.availability;
   const c = db.copy[lang];
-  return `${a.openToWork ? `<ul class="badges"><li class="badge badge--accent">${e(c.ui.openToWork)}</li></ul>` : ''}
-<h3 class="card__title">${e(c.contact.availabilityTitle)}</h3>
+  return `<h3 class="card__title">${e(c.contact.availabilityTitle)}</h3>
 <p class="card__body">${e(db.profile.location.city[lang])}, ${e(db.profile.location.country[lang])}</p>
 ${badges(a.arrangements[lang])}`;
 }

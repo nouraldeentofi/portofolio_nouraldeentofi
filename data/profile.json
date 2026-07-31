@@ -34,7 +34,12 @@
   "sameAs": [
     { "platform": "LinkedIn", "url": "https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" },
     { "platform": "Smart Scanner", "url": "https://receipt.nexleadtech.com" },
-    { "platform": "Google Play", "url": "https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag" },
+    {
+      "platform": "Google Play",
+      "url": "https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag",
+      "contactChannel": false,
+      "note": "A product link, not a way to reach Nour. Kept in sameAs so the identity graph still resolves it; shown on the Projects page as GoldenTag."
+    },
     { "platform": "GitHub", "url": "https://github.com/NourTofi" },
     { "platform": "FIDE", "url": null, "todo": "Confirm ratings.fide.com/profile/7618166 belongs to Nour before publishing" }
   ],

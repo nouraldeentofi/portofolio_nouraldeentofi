@@ -14,6 +14,12 @@ const PAGE_KEY = { '': 'home', about: 'about', work: 'work', projects: 'projects
 
 /* Which whole-page background each page runs — one visual family, one
    metaphor per page. */
+/* The 'For AI assistants' block on the contact page is hidden for now.
+   Everything it advertised still exists and works — llms.txt, robots.txt,
+   /api/*.json and the MCP server are untouched; only the visible section
+   is suppressed. Flip to true to bring it back. */
+const SHOW_MCP_SECTION = false;
+
 const PAGE_VARIANT = { '': 'graph', about: 'orbit', work: 'flow', projects: 'grid', automation: 'branch', chat: 'drift', contact: 'signal' };
 
 /**
@@ -224,13 +230,13 @@ ${B.aboutBody(db, lang)}
     </div>
   </section>
 
-${section('principles', null, c.about.principlesTitle, null, `      <div class="grid grid--2">\n${B.aboutPrinciples(db, lang)}\n      </div>`)}
+${section('principles', null, c.about.principlesTitle, null, `      <div class="stack">\n${B.aboutPrinciples(db, lang)}\n      </div>`)}
 
-${section('skills', null, c.about.skillsTitle, null, `      <div class="grid grid--2">\n${B.aboutSkills(db, lang)}\n      </div>`)}
+${section('skills', null, c.about.skillsTitle, null, `      <div class="stack">\n${B.aboutSkills(db, lang)}\n      </div>`)}
 
 ${section('personal', null, c.about.personalTitle, null, `      <div class="prose"><p>${e(c.about.personal)}</p></div>`)}
 
-${section('faq', null, c.about.faqTitle, null, `      <div class="grid">\n${B.aboutFaq(db, lang)}\n      </div>`)}`;
+${section('faq', null, c.about.faqTitle, null, `      <div class="stack">\n${B.aboutFaq(db, lang)}\n      </div>`)}`;
 
   return shell(db, 'about', lang, main);
 }
@@ -315,7 +321,7 @@ ${section('details', null, c.contact.availabilityTitle, null, `      <div class=
         </div>
       </div>`)}
 
-${section('mcp', null, c.contact.mcpTitle, c.contact.mcpBody, B.contactMcp(db, lang))}`;
+${SHOW_MCP_SECTION ? section('mcp', null, c.contact.mcpTitle, c.contact.mcpBody, B.contactMcp(db, lang)) : ''}`;
 
   return shell(db, 'contact', lang, main);
 }

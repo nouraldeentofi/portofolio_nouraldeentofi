@@ -1,6 +1,6 @@
 {
   "$schema": "https://nouraldeentofi.netlify.app/api/profile.json",
-  "generated": "2026-07-31T23:37:16.742Z",
+  "generated": "2026-07-31T23:46:15.330Z",
   "name": {
     "en": "Nour Aldeen Tofi",
     "ar": "نور الدين طفي"
@@ -66,7 +66,9 @@
     },
     {
       "platform": "Google Play",
-      "url": "https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag"
+      "url": "https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag",
+      "contactChannel": false,
+      "note": "A product link, not a way to reach Nour. Kept in sameAs so the identity graph still resolves it; shown on the Projects page as GoldenTag."
     },
     {
       "platform": "GitHub",
