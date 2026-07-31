@@ -1,0 +1,54 @@
+[
+  {
+    "id": "haitham-zedan",
+    "author": "Haitham Zedan",
+    "title": { "en": "Software Engineer · Laravel PHP Developer", "ar": "مهندس برمجيات · مطوّر Laravel PHP" },
+    "relationship": { "en": "Worked with Nour on the same team, across two companies", "ar": "عمل مع نور في الفريق نفسه، في شركتين مختلفتين" },
+    "date": "2026-02-05",
+    "lang": "en",
+    "featured": true,
+    "quote": {
+      "en": "I worked closely with Nour Aldeen across two different companies, and he's one of the few people I've seen who combines strong frontend execution with real delivery ownership — requirements, task breakdown, and deadlines. I was the Backend Developer and he was the Frontend Developer. In our second collaboration, he also handled requirements clarification, turning them into actionable tasks, coordinating assignments, and keeping delivery on track. This made backend–frontend collaboration smooth, because expectations and API contracts were clear.",
+      "ar": "عملت عن قرب مع نور الدين في شركتين مختلفتين، وهو من القلائل الذين رأيتهم يجمعون بين تنفيذ قوي للواجهة الأمامية وملكية حقيقية للتسليم — المتطلبات، وتقسيم المهام، والمواعيد النهائية. كنت مطوّر الواجهة الخلفية وكان هو مطوّر الواجهة الأمامية. وفي تعاوننا الثاني تولّى أيضاً توضيح المتطلبات وتحويلها إلى مهام قابلة للتنفيذ، وتنسيق الإسناد، وإبقاء التسليم في مساره. وهذا جعل التعاون بين الواجهتين سلساً، لأن التوقّعات وعقود الـ API كانت واضحة."
+    }
+  },
+  {
+    "id": "george-drouj",
+    "author": "George Drouj",
+    "title": { "en": "SDE @ noon · Codeforces Master · ACPC Bronze Medalist", "ar": "مهندس برمجيات في noon · Codeforces Master · ميدالية برونزية في ACPC" },
+    "relationship": { "en": "Coached Nour in competitive programming; senior, but not a direct manager", "ar": "درّب نور في البرمجة التنافسية؛ أقدم منه لكن دون إدارة مباشرة" },
+    "date": "2026-02-05",
+    "lang": "en",
+    "featured": true,
+    "quote": {
+      "en": "I had the pleasure of coaching Nour in 2021 for competitive programming contests. During our time working on data structures and algorithms, Nour stood out for his exceptionally sharp analytical mind and his ability to grasp complex concepts rapidly. He is a natural problem-solver who approaches challenges with both speed and precision.",
+      "ar": "سعدت بتدريب نور عام ٢٠٢١ استعداداً لمسابقات البرمجة التنافسية. وخلال عملنا على هياكل البيانات والخوارزميات، تميّز نور بذهن تحليلي حادّ بشكل استثنائي وبقدرة سريعة على استيعاب المفاهيم المعقّدة. إنه حلّال مشكلات بالفطرة، يواجه التحديات بسرعة ودقّة معاً."
+    }
+  },
+  {
+    "id": "tawheed-malkat",
+    "author": "Tawheed Malkat",
+    "title": { "en": "IT Engineer · Senior UI/UX Designer · Product Designer", "ar": "مهندس تقنية معلومات · مصمّم واجهات وتجربة مستخدم أول · مصمّم منتجات" },
+    "relationship": { "en": "Worked with Nour on the same team at NexLead", "ar": "عمل مع نور في الفريق نفسه في NexLead" },
+    "date": "2026-02-05",
+    "lang": "ar",
+    "featured": true,
+    "quote": {
+      "ar": "تشرّفت بالعمل مع نور الدين ضمن فريق تطوير تطبيقات الموبايل في شركة NexLead، وخلال هذه التجربة — وبحكم مسؤوليتي عن تصميم الواجهات وتجربة المستخدم — كان أكثر ما ميّز أسلوبه في العمل هو تركيزه على «الفهم قبل التنفيذ». كان حريصاً دائماً على استيعاب المتطلبات بشكل كامل وفهم الهدف من التصميم، لضمان ألا يكون التنفيذ مجرّد تطبيق بصري، بل تجربة مستخدم متكاملة ومنطقية تعكس الفكرة الأساسية للتصميم. وتعامل باحترافية عالية مع مرحلة التسليم والملاحظات؛ كان يطرح أسئلة دقيقة، وينتبه لتفاصيل مثل الاتساق والحالات المختلفة وتوقّعات المستخدم. أوصي بنور الدين لأي دور يتطلّب تنسيقاً قوياً بين التصميم والتطوير، وفهماً عميقاً للمتطلبات، مع اهتمام حقيقي بجودة التنفيذ حتى مرحلة التسليم.",
+      "en": "I had the privilege of working with Nour Aldeen on the mobile development team at NexLead, and — as the person responsible for UI/UX — what distinguished his approach most was his focus on understanding before implementing. He was always careful to absorb the requirements fully and grasp the intent behind the design, so that implementation was never merely a visual translation but a coherent, logical user experience reflecting the design's core idea. He handled handoff and feedback with real professionalism: he asked precise questions and paid attention to details like consistency, edge cases, and user expectations. I recommend Nour Aldeen for any role requiring strong coordination between design and development, deep understanding of requirements, and genuine care for implementation quality through to delivery."
+    }
+  },
+  {
+    "id": "hamza-shansho",
+    "author": "Hamza Shansho",
+    "title": { "en": "Mobile Application Developer · Flutter Developer", "ar": "مطوّر تطبيقات موبايل · مطوّر Flutter" },
+    "relationship": { "en": "Studied with Nour; graduation project teammate", "ar": "درس مع نور؛ زميله في مشروع التخرّج" },
+    "date": "2026-02-05",
+    "lang": "ar",
+    "featured": false,
+    "quote": {
+      "ar": "كنت ضمن فريق مشروع التخرّج مع نور الدين، وكنت مسؤولاً عن جزء Flutter وتطبيق الموبايل، بينما كان نور مسؤولاً عن الجزء الأهمّ في المشروع: الخوارزمية الأساسية ومكوّن الذكاء الاصطناعي الذي يبني النظام الغذائي المناسب بناءً على بيانات المستخدم. ما أعجبني في نور أنه كان يتعامل بعقلية المالك: يوضّح المدخلات المطلوبة، ويحدّد تدفّق البيانات ونقاط التكامل، ويشرح منطق القرار بطريقة تجعل الفريق كله متّفقاً على الصورة نفسها. وأي حالة غير واضحة كان يعود فيها إلى الأساس: ما الهدف؟ وما القيود؟ وكيف نضمن نتيجة منطقية؟ وجوده في المشروع رفع جودة المخرجات، لأن عمله كان مبنياً على فهم وتحليل لا على تنفيذ عشوائي.",
+      "en": "I was on the graduation project team with Nour Aldeen. I handled the Flutter mobile application, while Nour handled the most important part of the project: the core algorithm and the AI component that builds a suitable nutrition plan from user data. What impressed me was that he worked with an owner's mindset — he clarified the required inputs, defined the data flow and integration points, and explained the decision logic in a way that got the whole team aligned on the same picture. Whenever something was unclear, he went back to fundamentals: what is the goal, what are the constraints, and how do we guarantee a sensible result? His presence raised the quality of what we shipped, because his work was built on understanding and analysis rather than guesswork."
+    }
+  }
+]

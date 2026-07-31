@@ -1,0 +1,156 @@
+{
+  "meta": {
+    "siteName": "Nour Aldeen Tofi",
+    "description": "AI Automation Engineer and Senior Frontend Developer in Al Khobar, Saudi Arabia. I build production n8n workflows with LLM agents, Arabic document AI, and the React interfaces on top of them.",
+    "langLabel": "العربية",
+    "langHref": "/ar/"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "work": "Work",
+    "projects": "Projects",
+    "automation": "Automation Lab",
+    "chat": "Chat",
+    "contact": "Contact"
+  },
+  "ui": {
+    "skipToContent": "Skip to content",
+    "toggleTheme": "Toggle colour theme",
+    "openMenu": "Open menu",
+    "viewProject": "View project",
+    "visitLive": "Visit live site",
+    "downloadCv": "Download CV",
+    "present": "Present",
+    "current": "Current",
+    "stack": "Stack",
+    "trigger": "Trigger",
+    "services": "Services",
+    "outcome": "Outcome",
+    "role": "My role",
+    "problem": "The problem",
+    "built": "What I built",
+    "credentialId": "Credential ID",
+    "emailMe": "Email me",
+    "readTranscript": "Read the full transcript",
+    "machineReadable": "Machine-readable"
+  },
+  "home": {
+    "eyebrow": "Al Khobar, Saudi Arabia · Arabic & English",
+    "intro": "I build AI automation systems that turn messy manual processes into clean, self-running workflows — and the interfaces people use on top of them. My spearhead is n8n paired with language models: production workflows that read Arabic and English documents, validate them, catch what does not belong, and push clean structured data into sheets, CRMs, and dashboards. By day I lead frontend development as a Software Engineering Supervisor, with a track record of owning delivery end to end — requirements, tasks, production.",
+    "proofLabel": "In numbers",
+    "featuredLabel": "Featured work",
+    "automationLabel": "Automation Lab",
+    "automationLead": "Production workflows and agents, not demos. Each one replaced work someone used to do by hand.",
+    "projectsLabel": "Products & platforms",
+    "projectsLead": "Interfaces and applications I designed, built, or shipped end to end.",
+    "quoteLabel": "What people say",
+    "ctaTitle": "Have a process that should run itself?",
+    "ctaBody": "Whether it is Arabic document processing, an internal tool nobody enjoys using, or a workflow that quietly eats your team's week — tell me about it.",
+    "ctaButton": "Start a conversation"
+  },
+  "about": {
+    "title": "About",
+    "lead": "I care about automation that makes business sense, not automation that demos well.",
+    "body": [
+      "I started where most frontend developers start: turning designs into interfaces. What changed things was discovering that the interface is usually the smallest part of the problem. Behind almost every screen someone is retyping data that a machine could have read.",
+      "So I went looking for the layer underneath. n8n gave me a way to connect language models to real systems — documents in, validated structured data out, straight into the tools a business already uses. Arabic is where this gets interesting, because most global tools quietly do not handle it, and the region is moving fast toward mandatory digital invoicing.",
+      "I still write the frontend. I lead it, in fact — I set the standards, review the code, and mentor the developers. The difference is that I now design the whole path, from the moment a document arrives to the moment someone approves it on screen.",
+      "The other half of the job is coordination. I gather requirements directly from clients, define scope and acceptance criteria, break work into tasks, and keep delivery on schedule across frontend, backend, and design. It is less glamorous than the AI part and it is often what decides whether a project ships."
+    ],
+    "principlesTitle": "How I work",
+    "principles": [
+      {
+        "title": "Agree the contract before the first line of code",
+        "body": "The worst bug I have shipped was not in anyone's code. Two systems each behaved perfectly and disagreed about what a payload meant, so data deleted itself silently — no error, no log, nothing broken. Now every shared boundary gets a written agreement first: the shape of the data, the required fields, the strange cases, and who owns what. It lets two people build in parallel and still fit together on the first try."
+      },
+      {
+        "title": "Accuracy before speed",
+        "body": "A workflow that saves nothing is better than one that saves the wrong thing. My extraction pipelines refuse to persist anything until the essential fields are present and plausible — and when something is missing, they say so and explain why. A confident wrong answer is worse than a slow right one."
+      },
+      {
+        "title": "Route by cost, not by habit",
+        "body": "My first workflow sent every incoming file to a vision model. But a PDF usually carries extractable text, and a text model reads it for a fraction of the price. One branching decision cut the per-document cost by three quarters — with a fallback to vision when extraction comes back empty. The branch is free; the saving compounds every month."
+      },
+      {
+        "title": "Build the thing people will actually open",
+        "body": "An automation nobody trusts gets bypassed. A dashboard nobody understands gets exported to a spreadsheet. So I care about the interface as much as the pipeline: clear states, honest errors, and no dead ends."
+      }
+    ],
+    "skillsTitle": "Skills",
+    "personalTitle": "Off the clock",
+    "personal": "Anime, chess, badminton, and films. Chess taught me to calculate fast, stay calm, and convert an advantage — which is roughly what a deadline asks of you. I competed in ICPC/ACPC in 2021, and that habit of thinking a few moves ahead never really left.",
+    "faqTitle": "Common questions",
+    "faq": [
+      {
+        "q": "What does Nour Aldeen Tofi do?",
+        "a": "He is an AI Automation Engineer and Senior Frontend Developer based in Al Khobar, Saudi Arabia. He designs and operates production n8n workflows that connect language models to real systems, and builds the React and TypeScript interfaces on top of them. He also works as a Software Engineering Supervisor, leading frontend development and owning delivery end to end."
+      },
+      {
+        "q": "What is Smart Scanner?",
+        "a": "Smart Scanner is an Arabic-first AI invoice management product. An employee photographs a receipt; an n8n pipeline verifies it is a genuine invoice, extracts every field with GPT Vision in Arabic and English, and classifies each expense. Accountants then review, approve or reject, comment, and export through role-based dashboards. Nour built the entire AI automation engine and the complete frontend."
+      },
+      {
+        "q": "Does he work in Arabic?",
+        "a": "Arabic is his native language and it is a core part of his technical specialisation. He builds Arabic-default bilingual interfaces with full right-to-left support, and his document AI pipelines are tuned specifically for Arabic invoices, including handwritten ones and ZATCA e-invoice fields — a case most global tools handle poorly or not at all."
+      },
+      {
+        "q": "Is he open to work?",
+        "a": "Yes. He is open to opportunities in Saudi Arabia and remotely, on-site, hybrid, or fully remote, and takes on freelance automation and frontend projects. The fastest way to reach him is email."
+      },
+      {
+        "q": "What is his automation stack?",
+        "a": "n8n for orchestration; the OpenAI API including GPT-4o and GPT-4.1 Vision with structured JSON outputs; AI agents with custom tool-calling; webhooks and REST integrations; Google Sheets, Google Drive, MySQL, and Telegram as data and delivery layers; and the Model Context Protocol for connecting models to real tools."
+      },
+      {
+        "q": "How do I contact him?",
+        "a": "By email at nouraldeentofi@gmail.com, or through LinkedIn. This site also publishes a machine-readable profile and an MCP server, so an AI assistant can look up his experience and projects directly."
+      }
+    ]
+  },
+  "work": {
+    "title": "Work",
+    "lead": "Roles, delivery, and the people I have built things with.",
+    "timelineTitle": "Experience",
+    "testimonialsTitle": "Recommendations",
+    "credentialsTitle": "Certifications",
+    "educationTitle": "Education & awards"
+  },
+  "projects": {
+    "title": "Projects",
+    "lead": "Products and platforms I designed, built, or shipped end to end — from an Arabic-first SaaS to an app on the Play Store."
+  },
+  "automation": {
+    "title": "Automation Lab",
+    "lead": "Production workflows and AI agents built in n8n. Every one of these replaced something a person used to do by hand.",
+    "caseTitle": "A case study in cost: one branch, three quarters saved",
+    "caseBody": [
+      "The mistake in my first workflow was sending every file that arrived at the webhook straight to a vision model. It worked. It also cost roughly three times more than it needed to.",
+      "The reason is simple: a PDF usually already contains readable text. A vision model does not need to look at the page when a text model can read it — and reading costs a fraction of seeing.",
+      "The fix was a single branching decision placed just after the webhook: if the file is a PDF with extractable text, send the text to a text model; otherwise send the image to the vision model. The per-document cost dropped by about three quarters.",
+      "One detail matters more than the branch itself: always keep a fallback. If text extraction returns empty — because the PDF is really just a scanned image — the file has to go back to the vision branch. Without that, the cheap path silently produces nothing."
+    ]
+  },
+  "chat": {
+    "title": "Talk to the portfolio",
+    "lead": "The same information as the rest of this site, in the form of a conversation. Pick a question to begin.",
+    "status": "online — replies in seconds",
+    "transcriptTitle": "Full transcript",
+    "transcriptNote": "Every answer in the conversation above, as plain text — for anyone, and anything, that prefers to read rather than click."
+  },
+  "contact": {
+    "title": "Contact",
+    "lead": "The fastest route is email. I read everything, and I reply.",
+    "availabilityTitle": "Availability",
+    "cvTitle": "Curriculum vitae",
+    "cvNote": "Two versions, depending on what you are hiring for.",
+    "linksTitle": "Elsewhere",
+    "mcpTitle": "For AI assistants",
+    "mcpBody": "This site publishes a machine-readable profile and ships an MCP server, so an AI assistant can query my experience, projects, and workflows directly instead of scraping the page."
+  },
+  "footer": {
+    "tagline": "Built as a static site with no framework, so every word is readable by people and machines alike.",
+    "builtWith": "Hand-written HTML, CSS, and ES modules",
+    "sourceLabel": "Machine-readable profile"
+  }
+}

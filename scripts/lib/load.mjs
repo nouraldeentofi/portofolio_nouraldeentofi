@@ -38,5 +38,23 @@ export function loadDb(dir = 'data') {
     rows.forEach((row, i) => requireKeys(row, keys, `${file}[${i}] (${row.id ?? 'no id'})`));
   }
 
-  return { profile, experience, projects, workflows };
+  const credentials = readJson(dir, 'credentials.json');
+  const testimonials = readJson(dir, 'testimonials.json');
+  const skills = readJson(dir, 'skills.json');
+
+  for (const [file, rows, keys] of [
+    ['credentials.json', credentials, ['id', 'kind', 'name.en', 'name.ar', 'issuer', 'issued']],
+    ['testimonials.json', testimonials, ['id', 'author', 'title.en', 'title.ar', 'quote.en', 'quote.ar']],
+    ['skills.json', skills, ['id', 'category.en', 'category.ar', 'items']],
+  ]) {
+    if (!Array.isArray(rows)) throw new Error(`${file}: expected an array`);
+    rows.forEach((row, i) => requireKeys(row, keys, `${file}[${i}] (${row.id ?? 'no id'})`));
+  }
+
+  const copy = {
+    en: readJson(join(dir, 'copy'), 'en.json'),
+    ar: readJson(join(dir, 'copy'), 'ar.json'),
+  };
+
+  return { profile, experience, projects, workflows, credentials, testimonials, skills, copy };
 }

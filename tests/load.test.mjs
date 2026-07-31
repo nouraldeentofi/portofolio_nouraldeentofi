@@ -48,6 +48,45 @@ test('every project and workflow carries both languages', () => {
   }
 });
 
+test('every certification records its issuer and credential id', () => {
+  const db = loadDb('data');
+  const certs = db.credentials.filter((c) => c.kind === 'certification');
+  assert.equal(certs.length, 12);
+  for (const c of certs) {
+    assert.ok(c.issuer, `${c.id} missing issuer`);
+    assert.ok(c.credentialId, `${c.id} missing credential id`);
+  }
+});
+
+test('all four recommendations are present', () => {
+  const db = loadDb('data');
+  assert.equal(db.testimonials.length, 4);
+  const authors = db.testimonials.map((t) => t.author).sort();
+  assert.deepEqual(authors, ['George Drouj', 'Haitham Zedan', 'Hamza Shansho', 'Tawheed Malkat']);
+});
+
+test('English and Arabic copy expose identical key sets', () => {
+  const db = loadDb('data');
+  const flatten = (o, p = '') =>
+    Object.entries(o).flatMap(([k, v]) =>
+      v && typeof v === 'object' && !Array.isArray(v) ? flatten(v, `${p}${k}.`) : [`${p}${k}`],
+    );
+  assert.deepEqual(flatten(db.copy.en).sort(), flatten(db.copy.ar).sort());
+});
+
+test('copy arrays are the same length in both languages', () => {
+  const db = loadDb('data');
+  const pairs = [
+    ['about.body', db.copy.en.about.body, db.copy.ar.about.body],
+    ['about.principles', db.copy.en.about.principles, db.copy.ar.about.principles],
+    ['about.faq', db.copy.en.about.faq, db.copy.ar.about.faq],
+    ['automation.caseBody', db.copy.en.automation.caseBody, db.copy.ar.automation.caseBody],
+  ];
+  for (const [name, en, ar] of pairs) {
+    assert.equal(en.length, ar.length, `${name} length differs between languages`);
+  }
+});
+
 test('the site never claims Riyadh as his base', () => {
   const db = loadDb('data');
   const current = db.experience.filter((e) => e.end === null);

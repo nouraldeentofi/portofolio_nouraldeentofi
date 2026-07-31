@@ -1,0 +1,96 @@
+[
+  {
+    "id": "automation-ai",
+    "category": { "en": "Automation & AI", "ar": "الأتمتة والذكاء الاصطناعي" },
+    "items": [
+      "n8n",
+      "Workflow Automation",
+      "AI Agents",
+      "LLM Tool-Calling Design",
+      "Model Context Protocol (MCP)",
+      "OpenAI API",
+      "GPT-4o",
+      "GPT-4.1 Vision",
+      "Structured JSON Outputs",
+      "Prompt Engineering",
+      "Document AI",
+      "Arabic OCR & Extraction",
+      "Web Scraping",
+      "Telegram Bot API",
+      "Webhooks",
+      "Error Handling & Retries"
+    ]
+  },
+  {
+    "id": "frontend",
+    "category": { "en": "Frontend", "ar": "الواجهات الأمامية" },
+    "items": [
+      "React.js",
+      "React 19",
+      "TypeScript",
+      "JavaScript (ES6+)",
+      "Tailwind CSS",
+      "HTML5",
+      "CSS3",
+      "Material-UI",
+      "Vite",
+      "React Hooks",
+      "TanStack React Query",
+      "React Hook Form",
+      "React Router",
+      "i18n & RTL",
+      "Responsive Design",
+      "Web Accessibility"
+    ]
+  },
+  {
+    "id": "data-backend",
+    "category": { "en": "Data & Backend", "ar": "البيانات والواجهة الخلفية" },
+    "items": [
+      "REST APIs",
+      "API Integration",
+      "JSON",
+      "OAuth 2.0",
+      "MySQL",
+      "Stored Procedures",
+      "Google Sheets API",
+      "Google Drive API",
+      "Node.js",
+      "Python"
+    ]
+  },
+  {
+    "id": "tooling",
+    "category": { "en": "Tooling & Delivery", "ar": "الأدوات والتسليم" },
+    "items": [
+      "Git",
+      "GitHub",
+      "GitLab",
+      "CI/CD (GitHub Actions)",
+      "Vitest",
+      "React Testing Library",
+      "Jira",
+      "Trello",
+      "Figma",
+      "Agile",
+      "Scrum",
+      "Clean Code"
+    ]
+  },
+  {
+    "id": "coordination",
+    "category": { "en": "Coordination & Leadership", "ar": "التنسيق والقيادة" },
+    "items": [
+      "Requirements Gathering",
+      "Scope Definition",
+      "API Contract Design",
+      "User Stories",
+      "Sprint Planning",
+      "Code Review",
+      "Mentoring",
+      "Cross-Functional Team Leadership",
+      "Project Coordination",
+      "Problem Solving"
+    ]
+  }
+]
