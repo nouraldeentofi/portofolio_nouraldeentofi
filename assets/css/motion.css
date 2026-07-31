@@ -38,22 +38,73 @@
 /* Subpages: same graph, lower volume. */
 .hero__canvas--sparse { opacity: 0.5; }
 
-/* ------------------------------------------------------- scroll progress */
+/* ------------------------------------------------------------ page spine */
 
-.scroll-progress {
-  position: fixed;
-  inset-block-start: 0;
-  inset-inline: 0;
-  block-size: 2px;
-  z-index: 60;
-  background: linear-gradient(90deg, var(--lime), var(--mint));
-  transform: scaleX(0);
-  transform-origin: 0 50%;
-  will-change: transform;
+/* The pipeline continues out of the hero and down the page. The fill height
+   is scroll-driven (set by initSpine); every .section carries a node on the
+   line that lights once the section has been read past. */
+
+main { position: relative; }
+
+.page-spine {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: calc(max(var(--gutter), (100% - var(--container)) / 2) / 2);
+  inline-size: 2px;
+  background: var(--line);
   pointer-events: none;
 }
 
-[dir='rtl'] .scroll-progress { transform-origin: 100% 50%; }
+.page-spine__fill {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: calc(var(--spine-progress, 0) * 100%);
+  background: linear-gradient(180deg, var(--mint), var(--lime));
+  transition: block-size 0.15s linear;
+}
+
+/* the data pulse riding the tip of the fill */
+.page-spine__fill::after {
+  content: '';
+  position: absolute;
+  inset-block-end: -4px;
+  inset-inline-start: 50%;
+  inline-size: 8px;
+  block-size: 8px;
+  margin-inline-start: -4px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 12px var(--lime);
+}
+
+/* every section is a node on the spine */
+.section::before {
+  content: '';
+  position: absolute;
+  inset-block-start: calc(var(--section-pad) + 8px);
+  inset-inline-start: calc(max(var(--gutter), (100% - var(--container)) / 2) / 2 - 5px);
+  inline-size: 12px;
+  block-size: 12px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--line-strong);
+  transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  pointer-events: none;
+}
+
+.section.is-passed::before {
+  background: var(--mint);
+  border-color: var(--mint);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--mint) 55%, transparent);
+}
+
+/* On phones the margin is too narrow for the spine — the drawer nav and
+   hero variants carry the motif there instead. */
+@media (max-width: 860px) {
+  .page-spine { display: none; }
+  .section::before { display: none; }
+}
 
 /* ---------------------------------------------------------- header lift */
 
@@ -153,7 +204,7 @@
   .proof__value {
     animation: none;
   }
-  .scroll-progress { display: none; }
+  .page-spine__fill { transition: none; }
   .btn:hover,
   .card:hover { transform: none; }
 }

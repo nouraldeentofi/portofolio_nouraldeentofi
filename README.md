@@ -132,8 +132,6 @@ committed, so the repository can be served as-is.
 
 `npm run validate` reports these as warnings on every run, by design:
 
-- **GitHub URL** — set `data/profile.json` → `sameAs` → GitHub → `url`. This is the most
-  valuable missing edge in the identity graph.
 - **FIDE profile** — confirm it belongs to Nour, then fill in the same way.
 - **Portrait** — add `assets/img/nour.jpg` and set `profile.image` to that path. Until
   then `Person.image` and the social preview are correctly omitted rather than broken.

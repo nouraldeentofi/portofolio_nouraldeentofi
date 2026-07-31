@@ -334,7 +334,7 @@
   .brand__name { display: none; }
 }
 
-/* Mobile — nav becomes a drawer. */
+/* Mobile — nav becomes a full drawer of large node-cards. */
 @media (max-width: 860px) {
   .nav-toggle { display: inline-flex; }
   .brand__name { display: inline; }
@@ -344,25 +344,85 @@
     inset-block-start: 64px;
     inset-inline: 0;
     inset-block-end: 0;
+    z-index: 49;
     flex-direction: column;
     align-items: stretch;
-    gap: var(--space-1);
-    padding: var(--space-5) var(--gutter) var(--space-8);
-    background: var(--bg);
-    border-block-start: 1px solid var(--line);
+    gap: var(--space-3);
+    padding: var(--space-6) var(--gutter) var(--space-8);
+    margin-inline-start: 0;
     overflow-y: auto;
-    transform: translateY(-8px);
+    scrollbar-width: none;
+    border-block-start: 1px solid var(--line);
+    /* the drawer sits on the same faint node grid as the rest of the motif */
+    background-color: var(--bg);
+    background-image: radial-gradient(var(--line) 1px, transparent 1.5px);
+    background-size: 26px 26px;
+    transform: translateY(-10px);
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.24s ease, transform 0.24s ease, visibility 0.24s;
-    margin-inline-start: 0;
+    transition: opacity 0.26s ease, transform 0.26s ease, visibility 0.26s;
   }
+
+  .site-nav::-webkit-scrollbar { display: none; }
 
   .site-nav[data-open='true'] {
     transform: none;
     opacity: 1;
     visibility: visible;
   }
+
+  /* Each destination is a full-width card with a node marker — big enough
+     to read, big enough to tap. */
+  .site-nav a {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    font-size: 1.25rem;
+    font-weight: 700;
+    padding: var(--space-4) var(--space-5);
+    min-block-size: 60px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+    color: var(--fg);
+  }
+
+  .site-nav a::before {
+    content: '';
+    flex-shrink: 0;
+    inline-size: 10px;
+    block-size: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--mint);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .site-nav a:hover { background: var(--raised); color: var(--fg); }
+
+  .site-nav a[aria-current='page'] {
+    background: var(--accent-soft);
+    border-color: color-mix(in srgb, var(--lime) 55%, var(--line));
+    color: var(--fg);
+  }
+
+  .site-nav a[aria-current='page']::before {
+    background: var(--lime);
+    border-color: var(--lime);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--lime) 55%, transparent);
+  }
+
+  /* staggered entrance, one card after another */
+  .site-nav[data-open='true'] a {
+    animation: nav-item-in 0.32s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+
+  .site-nav[data-open='true'] a:nth-child(1) { animation-delay: 0.02s; }
+  .site-nav[data-open='true'] a:nth-child(2) { animation-delay: 0.06s; }
+  .site-nav[data-open='true'] a:nth-child(3) { animation-delay: 0.1s; }
+  .site-nav[data-open='true'] a:nth-child(4) { animation-delay: 0.14s; }
+  .site-nav[data-open='true'] a:nth-child(5) { animation-delay: 0.18s; }
+  .site-nav[data-open='true'] a:nth-child(6) { animation-delay: 0.22s; }
+  .site-nav[data-open='true'] a:nth-child(7) { animation-delay: 0.26s; }
 
   /* Without JS the drawer can never open, so the nav stays inline instead. */
   html:not(.js) .site-nav {
@@ -378,15 +438,24 @@
     inline-size: 100%;
   }
 
+  html:not(.js) .site-nav a {
+    font-size: 0.95rem;
+    min-block-size: auto;
+    padding: var(--space-2) var(--space-3);
+    border: 0;
+    background: transparent;
+  }
+
+  html:not(.js) .site-nav a::before { display: none; }
   html:not(.js) .nav-toggle { display: none; }
   html:not(.js) .site-header__inner { flex-wrap: wrap; }
 
-  .site-nav a {
-    font-size: 1.05rem;
-    padding: var(--space-3) var(--space-4);
-  }
-
   body.nav-is-open { overflow: hidden; }
+}
+
+@keyframes nav-item-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
 }
 
 @media (max-width: 520px) {

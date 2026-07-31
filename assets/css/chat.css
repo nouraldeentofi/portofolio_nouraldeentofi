@@ -35,7 +35,11 @@
   /* faint node grid — the same motif as the hero graph, at rest */
   background-image: radial-gradient(var(--line) 1px, transparent 1.5px);
   background-size: 22px 22px;
+  /* the thread scrolls by touch and wheel; its scrollbar is pure clutter */
+  scrollbar-width: none;
 }
+
+.chat__thread::-webkit-scrollbar { display: none; }
 
 .chat__msg {
   max-inline-size: 82%;

@@ -54,3 +54,4 @@ I build AI automation systems that turn messy manual processes into clean, self-
 - Portfolio: https://nouraldeentofi.netlify.app
 - Smart Scanner: https://receipt.nexleadtech.com
 - Google Play: https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag
+- GitHub: https://github.com/NourTofi

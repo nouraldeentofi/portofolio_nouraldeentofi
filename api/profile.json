@@ -1,6 +1,6 @@
 {
   "$schema": "https://nouraldeentofi.netlify.app/api/profile.json",
-  "generated": "2026-07-31T16:39:46.503Z",
+  "generated": "2026-07-31T16:53:12.259Z",
   "name": {
     "en": "Nour Aldeen Tofi",
     "ar": "نور الدين طفي"
@@ -71,6 +71,10 @@
     {
       "platform": "Google Play",
       "url": "https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag"
+    },
+    {
+      "platform": "GitHub",
+      "url": "https://github.com/NourTofi"
     }
   ],
   "availability": {

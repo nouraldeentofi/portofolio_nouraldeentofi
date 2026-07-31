@@ -13,7 +13,19 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  /* The document scrollbar is kept, but slimmed and themed until it almost
+     disappears — removing it entirely would break drag-scrolling. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--raised) transparent;
 }
+
+html::-webkit-scrollbar { inline-size: 8px; block-size: 8px; }
+html::-webkit-scrollbar-track { background: transparent; }
+html::-webkit-scrollbar-thumb {
+  background: var(--raised);
+  border-radius: 99px;
+}
+html::-webkit-scrollbar-thumb:hover { background: var(--line-strong); }
 
 body {
   font-family: var(--font-sans);

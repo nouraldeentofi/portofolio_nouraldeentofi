@@ -123,17 +123,32 @@ export function initNav() {
   mq.addEventListener?.('change', sync);
 }
 
-/* -------------------------------------------------------- scroll progress */
+/* ------------------------------------------------------------ page spine */
 
-export function initScrollProgress() {
-  const bar = document.querySelector('.scroll-progress');
-  if (!bar || REDUCED) return;
+/**
+ * The scroll-linked pipeline that ties the hero graph to the whole page:
+ * a vertical line down the margin whose fill tracks reading progress, with
+ * a node at every section that lights as you pass it. Scroll-driven only —
+ * nothing moves on its own, so it stays on under reduced motion.
+ */
+export function initSpine() {
+  const main = document.getElementById('main');
+  const spine = main?.querySelector('.page-spine');
+  if (!main || !spine) return;
 
+  const sections = [...main.querySelectorAll('.section')];
   let ticking = false;
+
   const update = () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
-    bar.style.transform = `scaleX(${pct / 100})`;
+    const rect = main.getBoundingClientRect();
+    const viewLine = window.innerHeight * 0.6;
+    const progress = rect.height > 0 ? Math.min(Math.max((viewLine - rect.top) / rect.height, 0), 1) : 0;
+    spine.style.setProperty('--spine-progress', progress.toFixed(4));
+
+    const passLine = window.innerHeight * 0.55;
+    for (const s of sections) {
+      s.classList.toggle('is-passed', s.getBoundingClientRect().top < passLine);
+    }
     ticking = false;
   };
 
@@ -146,6 +161,7 @@ export function initScrollProgress() {
     },
     { passive: true },
   );
+  window.addEventListener('resize', update);
 
   update();
 }

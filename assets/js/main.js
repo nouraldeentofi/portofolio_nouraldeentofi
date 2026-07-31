@@ -6,7 +6,7 @@
  * navigation, and the workflow background.
  */
 
-import { initReveal, initCounters, initNav, initScrollProgress, initHeader } from './motion.js';
+import { initReveal, initCounters, initNav, initSpine, initHeader } from './motion.js';
 import { createWorkflowBackground } from './workflow-bg.js';
 
 /* ----------------------------------------------------------------- theme */
@@ -54,10 +54,10 @@ initNav();
 initHeader();
 initReveal();
 initCounters();
-initScrollProgress();
+initSpine();
 
-// Every hero carries the workflow graph — full density on the home page,
-// sparse on subpages. One instance per canvas.
+// Every hero carries a variant of the workflow animation — the page's own
+// metaphor in the shared visual language. One instance per canvas.
 document.querySelectorAll('canvas[data-workflow]').forEach((canvas) => {
   createWorkflowBackground(canvas);
 });

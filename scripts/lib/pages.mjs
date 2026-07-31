@@ -31,8 +31,7 @@ function header(db, page, lang) {
   // The language switch points at the same page in the other tree.
   const otherHref = lang === 'en' ? `ar/${page === '' ? 'index' : page}.html` : `../${page === '' ? 'index' : page}.html`;
 
-  return `  <div class="scroll-progress" aria-hidden="true"></div>
-  <header class="site-header">
+  return `  <header class="site-header">
     <div class="container site-header__inner">
       <a class="brand" href="${rel('', lang)}">
         <span class="brand__mark" aria-hidden="true">${initials}</span>
@@ -107,6 +106,7 @@ ${B.headLd(db, page, lang)}
 <a class="skip-link" href="#main">${e(c.ui.skipToContent)}</a>
 ${header(db, page, lang)}
 <main id="main">
+<div class="page-spine" aria-hidden="true"><span class="page-spine__fill"></span></div>
 ${main}
 </main>
 ${footer(db, lang)}
@@ -134,12 +134,11 @@ ${body}
  * The home hero runs it at full density; subpages run a sparser, quieter
  * version of the same graph, so the whole site reads as one system.
  */
-function heroBlock({ eyebrow = null, heading, headingClass = '', headline = null, intro = null, actions = null, dense = false }) {
+function heroBlock({ eyebrow = null, heading, headingClass = '', headline = null, intro = null, actions = null, dense = false, variant = 'graph' }) {
   const canvasClass = dense ? 'hero__canvas' : 'hero__canvas hero__canvas--sparse';
-  const density = dense ? '' : ' data-density="sparse"';
 
   return `  <section class="hero">
-    <canvas class="${canvasClass}" data-workflow${density} aria-hidden="true"></canvas>
+    <canvas class="${canvasClass}" data-workflow data-variant="${variant}" aria-hidden="true"></canvas>
     <div class="container">
 ${eyebrow ? `      <p class="hero__eyebrow">${e(eyebrow)}</p>\n` : ''}      <h1${headingClass ? ` class="${headingClass}"` : ''}>${e(heading)}</h1>
 ${headline ? `      <p class="hero__headline">${e(headline)}</p>\n` : ''}${intro ? `      <p class="hero__intro">${e(intro)}</p>\n` : ''}${actions ? `      <div class="hero__actions">\n${actions}\n      </div>\n` : ''}    </div>
@@ -189,7 +188,7 @@ ${section('quotes', c.home.quoteLabel, c.home.quoteLabel, null, `      <div clas
 function about(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ heading: c.about.title, headline: c.about.lead })}
+  const main = `${heroBlock({ variant: 'orbit', heading: c.about.title, headline: c.about.lead })}
 
   <section class="section">
     <div class="container">
@@ -213,7 +212,7 @@ ${section('faq', null, c.about.faqTitle, null, `      <div class="grid">\n${B.ab
 function work(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ heading: c.work.title, headline: c.work.lead })}
+  const main = `${heroBlock({ variant: 'flow', heading: c.work.title, headline: c.work.lead })}
 
 ${section('timeline', null, c.work.timelineTitle, null, B.workTimeline(db, lang))}
 
@@ -229,7 +228,7 @@ ${section('education', null, c.work.educationTitle, null, B.workEducation(db, la
 function projects(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ heading: c.projects.title, headline: c.projects.lead })}
+  const main = `${heroBlock({ variant: 'grid', heading: c.projects.title, headline: c.projects.lead })}
 
   <section class="section">
     <div class="container">
@@ -245,7 +244,7 @@ ${B.projectsList(db, lang)}
 function automation(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ heading: c.automation.title, headline: c.automation.lead })}
+  const main = `${heroBlock({ variant: 'branch', heading: c.automation.title, headline: c.automation.lead })}
 
   <section class="section">
     <div class="container">
@@ -263,7 +262,7 @@ ${section('cost-case', null, c.automation.caseTitle, null, `      <div class="pr
 function contact(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ heading: c.contact.title, headline: c.contact.lead })}
+  const main = `${heroBlock({ variant: 'signal', heading: c.contact.title, headline: c.contact.lead })}
 
 ${section('links', null, c.contact.linksTitle, null, B.contactLinks(db, lang))}
 
@@ -279,7 +278,7 @@ ${section('mcp', null, c.contact.mcpTitle, c.contact.mcpBody, B.contactMcp(db, l
 function chat(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ heading: c.chat.title, headline: c.chat.lead })}
+  const main = `${heroBlock({ variant: 'drift', heading: c.chat.title, headline: c.chat.lead })}
 
   <section class="section">
     <div class="container">
@@ -303,6 +302,7 @@ ${section('transcript', null, c.chat.transcriptTitle, c.chat.transcriptNote, `  
 function notFound(db, lang) {
   const c = db.copy[lang];
   const main = `${heroBlock({
+    variant: 'drift',
     heading: '404',
     headline: lang === 'en' ? 'That page does not exist.' : 'هذه الصفحة غير موجودة.',
     actions: `        <a class="btn" href="${rel('', lang)}">${e(c.nav.home)}</a>`,
