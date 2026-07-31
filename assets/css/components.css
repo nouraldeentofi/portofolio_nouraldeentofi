@@ -412,3 +412,75 @@ details.card > .card__body {
     }
   }
 }
+
+/* ---------- row cards (projects & automation lab) ---------- */
+
+/* Long-form cards read as a document, not a squeezed box: text on one side,
+   facts (metrics, stack, actions) on the other. */
+.stack { display: grid; gap: var(--space-5); }
+
+.card--row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+  gap: var(--space-6);
+}
+
+.card--row .card__main,
+.card--row .card__aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-inline-size: 0;
+}
+
+.card--row .card__aside {
+  padding-inline-start: var(--space-6);
+  border-inline-start: 1px solid var(--line);
+}
+
+@media (max-width: 780px) {
+  .card--row { grid-template-columns: 1fr; }
+  .card--row .card__aside {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+    padding-block-start: var(--space-4);
+    border-block-start: 1px solid var(--line);
+  }
+}
+
+/* Metrics inside a card are a quiet fact row, not a wall of tiles. */
+.proof--inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-6);
+}
+
+.proof--inline .proof__item {
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: start;
+  transition: none;
+}
+
+.proof--inline .proof__item:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.proof--inline .proof__value { font-size: 1.35rem; }
+.proof--inline .proof__label { margin-block-start: 2px; font-size: 0.75rem; }
+
+/* ---------- masonry (recommendations) ---------- */
+
+/* Quotes differ wildly in length; columns let each keep its natural height
+   instead of stretching into wide, half-empty boxes. */
+.masonry {
+  columns: 2 360px;
+  column-gap: var(--space-5);
+}
+
+.masonry > * {
+  break-inside: avoid;
+  margin-block-end: var(--space-5);
+}

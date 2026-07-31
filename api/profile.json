@@ -1,6 +1,6 @@
 {
   "$schema": "https://nouraldeentofi.netlify.app/api/profile.json",
-  "generated": "2026-07-31T17:24:18.844Z",
+  "generated": "2026-07-31T23:12:13.782Z",
   "name": {
     "en": "Nour Aldeen Tofi",
     "ar": "نور الدين طفي"
@@ -59,10 +59,6 @@
     {
       "platform": "LinkedIn",
       "url": "https://www.linkedin.com/in/nour-aldeen-tofi-19b116240"
-    },
-    {
-      "platform": "Portfolio",
-      "url": "https://nouraldeentofi.netlify.app"
     },
     {
       "platform": "Smart Scanner",

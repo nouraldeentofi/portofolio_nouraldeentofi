@@ -22,7 +22,12 @@
    flickers. Also tells CSS that JavaScript is available — without this class
    nothing is ever hidden. */
 (function(){var r=document.documentElement;r.classList.add('js');
-try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}})();
+try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}
+/* honour the visitor's last language choice on every arrival */
+try{var L=localStorage.getItem('nt-lang');var p=location.pathname;
+var en=p==='/en'||p.slice(0,4)==='/en/';
+if(L==='en'&&!en){location.replace(p==='/'?'/en/index.html':'/en'+p);}
+else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(e){}})();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -68,7 +73,6 @@ try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.
       ],
       "sameAs": [
         "https://www.linkedin.com/in/nour-aldeen-tofi-19b116240",
-        "https://nouraldeentofi.netlify.app",
         "https://receipt.nexleadtech.com",
         "https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag",
         "https://github.com/NourTofi"
@@ -390,7 +394,8 @@ try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.
         <h2>النص الكامل</h2>
         <p class="section__lead">كل إجابة في المحادثة أعلاه، كنصّ صِرف — لكل من يفضّل القراءة على النقر، إنساناً كان أو آلة.</p>
       </div>
-      <div class="prose" id="chat-transcript">
+      <details class="transcript" id="chat-transcript">
+        <summary>اقرأ النص الكامل</summary>
 <!-- @gen:chat-transcript -->
 <section class="transcript__node" id="say-start">
   <p>السلام عليكم 👋 أنا نور — النسخة المحادِثة منه على أي حال.</p>
@@ -460,7 +465,7 @@ try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.
   <p>يلّا — نلتقي في البريد 👋</p>
 </section>
 <!-- /@gen:chat-transcript -->
-      </div>
+      </details>
     </div>
   </section>
 </main>

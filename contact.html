@@ -22,7 +22,12 @@
    flickers. Also tells CSS that JavaScript is available — without this class
    nothing is ever hidden. */
 (function(){var r=document.documentElement;r.classList.add('js');
-try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}})();
+try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}
+/* honour the visitor's last language choice on every arrival */
+try{var L=localStorage.getItem('nt-lang');var p=location.pathname;
+var en=p==='/en'||p.slice(0,4)==='/en/';
+if(L==='en'&&!en){location.replace(p==='/'?'/en/index.html':'/en'+p);}
+else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(e){}})();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -67,7 +72,6 @@ try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.
       ],
       "sameAs": [
         "https://www.linkedin.com/in/nour-aldeen-tofi-19b116240",
-        "https://nouraldeentofi.netlify.app",
         "https://receipt.nexleadtech.com",
         "https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag",
         "https://github.com/NourTofi"
@@ -397,9 +401,6 @@ try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.
   </a></li>
   <li><a href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" rel="noopener">
     <span class="platform">LinkedIn</span><span class="value">www.linkedin.com/in/nour-aldeen-tofi-19b116240</span>
-  </a></li>
-  <li><a href="https://nouraldeentofi.netlify.app" rel="noopener">
-    <span class="platform">Portfolio</span><span class="value">nouraldeentofi.netlify.app</span>
   </a></li>
   <li><a href="https://receipt.nexleadtech.com" rel="noopener">
     <span class="platform">Smart Scanner</span><span class="value">receipt.nexleadtech.com</span>

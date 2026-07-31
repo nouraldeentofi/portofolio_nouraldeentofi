@@ -146,8 +146,17 @@
   color: var(--accent-ink);
 }
 
-.transcript__node { margin-block-end: var(--space-4); }
-.transcript__node p { color: var(--dim); margin-block-end: var(--space-2); }
+.transcript__node {
+  border-inline-start: 2px solid var(--line);
+  padding-inline-start: var(--space-4);
+  margin-block-end: var(--space-4);
+}
+
+.transcript__node p {
+  color: var(--dim);
+  margin-block-end: var(--space-2);
+  font-size: 0.95rem;
+}
 
 @keyframes chat-pop {
   from { opacity: 0; transform: translateY(8px) scale(0.97); }
@@ -158,3 +167,39 @@
   0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
   30% { transform: translateY(-5px); opacity: 1; }
 }
+
+/* ---------- transcript ---------- */
+
+/* The full conversation stays in the DOM for crawlers, but readers get a
+   tidy collapsible instead of a wall of text. */
+.transcript {
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+  max-inline-size: 760px;
+}
+
+.transcript > summary {
+  cursor: pointer;
+  list-style: none;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.transcript > summary::-webkit-details-marker { display: none; }
+
+.transcript > summary::before {
+  content: '';
+  flex-shrink: 0;
+  inline-size: 9px;
+  block-size: 9px;
+  border-radius: 50%;
+  border: 2px solid var(--mint);
+  transition: background-color 0.2s ease;
+}
+
+.transcript[open] > summary::before { background: var(--mint); }
+.transcript[open] > summary { margin-block-end: var(--space-4); }

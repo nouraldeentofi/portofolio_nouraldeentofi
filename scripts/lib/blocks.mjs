@@ -262,30 +262,32 @@ export function projectsList(db, lang) {
   const c = db.copy[lang];
   return db.projects
     .map(
-      (p) => `<article data-reveal class="card${p.featured ? ' card--featured' : ''}" id="${e(p.id)}">
-  <p class="card__meta"><span>${e(p.category[lang])}</span><span>${e(p.year)}</span></p>
-  <h3 class="card__title">${e(p.name)}</h3>
-  <p class="card__body">${e(p.tagline[lang])}</p>
-  <dl class="card__body">
-    <dt>${e(c.ui.problem)}</dt><dd>${e(p.problem[lang])}</dd>
-    <dt>${e(c.ui.built)}</dt><dd>${e(p.built[lang])}</dd>
-    <dt>${e(c.ui.role)}</dt><dd>${e(p.role[lang])}</dd>
-  </dl>
-  ${
-    p.metrics?.length
-      ? `<ul class="proof">${p.metrics
-          .map(
-            (m) =>
-              `<li class="proof__item"><span class="proof__value" data-count>${e(m.value)}</span><span class="proof__label">${e(m.label[lang])}</span></li>`,
-          )
-          .join('')}</ul>`
-      : ''
-  }
-  ${badges(p.stack)}
-  ${p.context ? `<p class="card__body"><em>${e(p.context[lang])}</em></p>` : ''}
-  <div class="card__foot">${
-    p.url ? `<a class="btn" href="${e(p.url)}" rel="noopener">${e(c.ui.visitLive)}</a>` : ''
-  }</div>
+      (p) => `<article data-reveal class="card card--row${p.featured ? ' card--featured' : ''}" id="${e(p.id)}">
+  <div class="card__main">
+    <p class="card__meta"><span>${e(p.category[lang])}</span><span>${e(p.year)}</span></p>
+    <h3 class="card__title">${e(p.name)}</h3>
+    <p class="card__body">${e(p.tagline[lang])}</p>
+    <dl class="card__body">
+      <dt>${e(c.ui.problem)}</dt><dd>${e(p.problem[lang])}</dd>
+      <dt>${e(c.ui.built)}</dt><dd>${e(p.built[lang])}</dd>
+      <dt>${e(c.ui.role)}</dt><dd>${e(p.role[lang])}</dd>
+    </dl>
+    ${p.context ? `<p class="card__body"><em>${e(p.context[lang])}</em></p>` : ''}
+  </div>
+  <aside class="card__aside">
+    ${
+      p.metrics?.length
+        ? `<ul class="proof proof--inline">${p.metrics
+            .map(
+              (m) =>
+                `<li class="proof__item"><span class="proof__value" data-count>${e(m.value)}</span><span class="proof__label">${e(m.label[lang])}</span></li>`,
+            )
+            .join('')}</ul>`
+        : ''
+    }
+    <dl class="card__body"><dt>${e(c.ui.stack)}</dt><dd>${badges(p.stack)}</dd></dl>
+    ${p.url ? `<div class="card__foot"><a class="btn" href="${e(p.url)}" rel="noopener">${e(c.ui.visitLive)}</a></div>` : ''}
+  </aside>
 </article>`,
     )
     .join('\n');
@@ -297,16 +299,20 @@ export function automationList(db, lang) {
   const c = db.copy[lang];
   return db.workflows
     .map(
-      (w) => `<article data-reveal class="card" id="${e(w.id)}">
-  <p class="card__meta"><span>${e(w.kind[lang])}</span><span>${e(w.year)}</span></p>
-  <h3 class="card__title">${e(w.name[lang])}</h3>
-  <p class="card__body">${e(w.summary[lang])}</p>
-  <dl class="card__body">
-    <dt>${e(c.ui.trigger)}</dt><dd>${e(w.trigger[lang])}</dd>
-    <dt>${e(c.ui.services)}</dt><dd>${badges(w.services)}</dd>
-  </dl>
-  ${list(w.highlights[lang].map(e), 'card__list')}
-  <dl class="card__body"><dt>${e(c.ui.outcome)}</dt><dd>${e(w.outcome[lang])}</dd></dl>
+      (w) => `<article data-reveal class="card card--row" id="${e(w.id)}">
+  <div class="card__main">
+    <p class="card__meta"><span>${e(w.kind[lang])}</span><span>${e(w.year)}</span></p>
+    <h3 class="card__title">${e(w.name[lang])}</h3>
+    <p class="card__body">${e(w.summary[lang])}</p>
+    ${list(w.highlights[lang].map(e), 'card__list')}
+    <dl class="card__body"><dt>${e(c.ui.outcome)}</dt><dd>${e(w.outcome[lang])}</dd></dl>
+  </div>
+  <aside class="card__aside">
+    <dl class="card__body">
+      <dt>${e(c.ui.trigger)}</dt><dd>${e(w.trigger[lang])}</dd>
+      <dt>${e(c.ui.services)}</dt><dd>${badges(w.services)}</dd>
+    </dl>
+  </aside>
 </article>`,
     )
     .join('\n');

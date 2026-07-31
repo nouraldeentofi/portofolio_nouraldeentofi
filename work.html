@@ -22,7 +22,12 @@
    flickers. Also tells CSS that JavaScript is available — without this class
    nothing is ever hidden. */
 (function(){var r=document.documentElement;r.classList.add('js');
-try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}})();
+try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}
+/* honour the visitor's last language choice on every arrival */
+try{var L=localStorage.getItem('nt-lang');var p=location.pathname;
+var en=p==='/en'||p.slice(0,4)==='/en/';
+if(L==='en'&&!en){location.replace(p==='/'?'/en/index.html':'/en'+p);}
+else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(e){}})();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -67,7 +72,6 @@ try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.
       ],
       "sameAs": [
         "https://www.linkedin.com/in/nour-aldeen-tofi-19b116240",
-        "https://nouraldeentofi.netlify.app",
         "https://receipt.nexleadtech.com",
         "https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag",
         "https://github.com/NourTofi"
@@ -552,7 +556,7 @@ try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.
         <h2>التوصيات</h2>
         
       </div>
-      <div class="grid grid--2">
+      <div class="masonry">
 <figure data-reveal class="quote">
   <blockquote class="quote__body">عملت عن قرب مع نور الدين في شركتين مختلفتين، وهو من القلائل الذين رأيتهم يجمعون بين تنفيذ قوي للواجهة الأمامية وملكية حقيقية للتسليم — المتطلبات، وتقسيم المهام، والمواعيد النهائية. كنت مطوّر الواجهة الخلفية وكان هو مطوّر الواجهة الأمامية. وفي تعاوننا الثاني تولّى أيضاً توضيح المتطلبات وتحويلها إلى مهام قابلة للتنفيذ، وتنسيق الإسناد، وإبقاء التسليم في مساره. وهذا جعل التعاون بين الواجهتين سلساً، لأن التوقّعات وعقود الـ API كانت واضحة.</blockquote>
   <figcaption class="quote__author">Haitham Zedan<span class="quote__role">مهندس برمجيات · مطوّر Laravel PHP · عمل مع نور في الفريق نفسه، في شركتين مختلفتين</span></figcaption>

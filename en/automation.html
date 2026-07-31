@@ -22,7 +22,12 @@
    flickers. Also tells CSS that JavaScript is available — without this class
    nothing is ever hidden. */
 (function(){var r=document.documentElement;r.classList.add('js');
-try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}})();
+try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}
+/* honour the visitor's last language choice on every arrival */
+try{var L=localStorage.getItem('nt-lang');var p=location.pathname;
+var en=p==='/en'||p.slice(0,4)==='/en/';
+if(L==='en'&&!en){location.replace(p==='/'?'/en/index.html':'/en'+p);}
+else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(e){}})();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -66,7 +71,6 @@ try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.
       ],
       "sameAs": [
         "https://www.linkedin.com/in/nour-aldeen-tofi-19b116240",
-        "https://nouraldeentofi.netlify.app",
         "https://receipt.nexleadtech.com",
         "https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag",
         "https://github.com/NourTofi"
@@ -459,72 +463,96 @@ try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.
 
   <section class="section">
     <div class="container">
-      <div class="grid grid--2">
-<article data-reveal class="card" id="teacher-assistant-bot">
-  <p class="card__meta"><span>Telegram AI agent · client project</span><span>2025 — present</span></p>
-  <h3 class="card__title">Teacher Assistant AI Bot</h3>
-  <p class="card__body">A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia. The tutor manages students, schedules, cancellations, and dues entirely through chat — the AI agent calls custom CRUD tools under strict business rules rather than guessing.</p>
-  <dl class="card__body">
-    <dt>Trigger</dt><dd>Telegram message</dd>
-    <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n AI Agent</li><li class="badge">OpenAI</li><li class="badge">Google Sheets</li><li class="badge">MySQL</li><li class="badge">Telegram Bot API</li><li class="badge">Webhooks</li></ul></dd>
-  </dl>
-  <ul class="card__list"><li>Custom tool-calling design with strict business rules</li><li>Usage metering and free-trial gating</li><li>Session memory across conversations</li><li>Automated lesson reminders scheduled in Saudi time</li></ul>
-  <dl class="card__body"><dt>Outcome</dt><dd>A tutor runs an entire practice from a chat window, with no app to learn and no spreadsheet to maintain.</dd></dl>
+      <div class="stack">
+<article data-reveal class="card card--row" id="teacher-assistant-bot">
+  <div class="card__main">
+    <p class="card__meta"><span>Telegram AI agent · client project</span><span>2025 — present</span></p>
+    <h3 class="card__title">Teacher Assistant AI Bot</h3>
+    <p class="card__body">A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia. The tutor manages students, schedules, cancellations, and dues entirely through chat — the AI agent calls custom CRUD tools under strict business rules rather than guessing.</p>
+    <ul class="card__list"><li>Custom tool-calling design with strict business rules</li><li>Usage metering and free-trial gating</li><li>Session memory across conversations</li><li>Automated lesson reminders scheduled in Saudi time</li></ul>
+    <dl class="card__body"><dt>Outcome</dt><dd>A tutor runs an entire practice from a chat window, with no app to learn and no spreadsheet to maintain.</dd></dl>
+  </div>
+  <aside class="card__aside">
+    <dl class="card__body">
+      <dt>Trigger</dt><dd>Telegram message</dd>
+      <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n AI Agent</li><li class="badge">OpenAI</li><li class="badge">Google Sheets</li><li class="badge">MySQL</li><li class="badge">Telegram Bot API</li><li class="badge">Webhooks</li></ul></dd>
+    </dl>
+  </aside>
 </article>
-<article data-reveal class="card" id="smart-scanner-pipeline">
-  <p class="card__meta"><span>Production document AI pipeline</span><span>2026</span></p>
-  <h3 class="card__title">Smart Scanner Extraction Pipeline</h3>
-  <p class="card__body">The production pipeline behind Smart Scanner. Every invoice — photo or PDF — is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and ZATCA e-invoice fields.</p>
-  <dl class="card__body">
-    <dt>Trigger</dt><dd>Webhook (image or PDF upload)</dd>
-    <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">OpenAI GPT-4.1 Vision</li><li class="badge">PDF Extract</li><li class="badge">Validation</li><li class="badge">Deduplication</li><li class="badge">Webhooks</li></ul></dd>
-  </dl>
-  <ul class="card__list"><li>Rejects any file that is not a genuine invoice, before anything is saved</li><li>Extracts 70+ fields plus line items: vendor, buyer, totals, VAT, dates</li><li>Classifies every line item into per-company expense categories at extraction time</li><li>Refuses politely and explains why when required data is missing — accuracy before speed</li></ul>
-  <dl class="card__body"><dt>Outcome</dt><dd>Manual invoice entry disappears entirely; a photo becomes structured accounting data in about ten seconds.</dd></dl>
+<article data-reveal class="card card--row" id="smart-scanner-pipeline">
+  <div class="card__main">
+    <p class="card__meta"><span>Production document AI pipeline</span><span>2026</span></p>
+    <h3 class="card__title">Smart Scanner Extraction Pipeline</h3>
+    <p class="card__body">The production pipeline behind Smart Scanner. Every invoice — photo or PDF — is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and ZATCA e-invoice fields.</p>
+    <ul class="card__list"><li>Rejects any file that is not a genuine invoice, before anything is saved</li><li>Extracts 70+ fields plus line items: vendor, buyer, totals, VAT, dates</li><li>Classifies every line item into per-company expense categories at extraction time</li><li>Refuses politely and explains why when required data is missing — accuracy before speed</li></ul>
+    <dl class="card__body"><dt>Outcome</dt><dd>Manual invoice entry disappears entirely; a photo becomes structured accounting data in about ten seconds.</dd></dl>
+  </div>
+  <aside class="card__aside">
+    <dl class="card__body">
+      <dt>Trigger</dt><dd>Webhook (image or PDF upload)</dd>
+      <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">OpenAI GPT-4.1 Vision</li><li class="badge">PDF Extract</li><li class="badge">Validation</li><li class="badge">Deduplication</li><li class="badge">Webhooks</li></ul></dd>
+    </dl>
+  </aside>
 </article>
-<article data-reveal class="card" id="ai-job-match">
-  <p class="card__meta"><span>Scheduled agent with human-in-the-loop</span><span>2026</span></p>
-  <h3 class="card__title">AI Job-Match Pipeline</h3>
-  <p class="card__body">A scheduled pipeline that runs five daily search queries across LinkedIn, Indeed, and Glassdoor, scores each role&#39;s fit from one to ten with a structured-JSON LLM evaluator, and delivers only the high scorers.</p>
-  <dl class="card__body">
-    <dt>Trigger</dt><dd>Daily schedule</dd>
-    <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">JSearch API</li><li class="badge">OpenAI GPT-4.1</li><li class="badge">n8n Data Tables</li><li class="badge">Telegram</li><li class="badge">Gmail</li></ul></dd>
-  </dl>
-  <ul class="card__list"><li>Structured-JSON evaluator scoring fit on a 1–10 scale</li><li>Deduplication against n8n Data Tables so nothing is seen twice</li><li>Telegram delivery of high-scoring matches only</li><li>Human-in-the-loop approval before any application is sent</li><li>Semi-automated applications with tailored AI-generated cover letters via Gmail</li></ul>
-  <dl class="card__body"><dt>Outcome</dt><dd>Daily job hunting collapses into reviewing a short, pre-scored shortlist.</dd></dl>
+<article data-reveal class="card card--row" id="ai-job-match">
+  <div class="card__main">
+    <p class="card__meta"><span>Scheduled agent with human-in-the-loop</span><span>2026</span></p>
+    <h3 class="card__title">AI Job-Match Pipeline</h3>
+    <p class="card__body">A scheduled pipeline that runs five daily search queries across LinkedIn, Indeed, and Glassdoor, scores each role&#39;s fit from one to ten with a structured-JSON LLM evaluator, and delivers only the high scorers.</p>
+    <ul class="card__list"><li>Structured-JSON evaluator scoring fit on a 1–10 scale</li><li>Deduplication against n8n Data Tables so nothing is seen twice</li><li>Telegram delivery of high-scoring matches only</li><li>Human-in-the-loop approval before any application is sent</li><li>Semi-automated applications with tailored AI-generated cover letters via Gmail</li></ul>
+    <dl class="card__body"><dt>Outcome</dt><dd>Daily job hunting collapses into reviewing a short, pre-scored shortlist.</dd></dl>
+  </div>
+  <aside class="card__aside">
+    <dl class="card__body">
+      <dt>Trigger</dt><dd>Daily schedule</dd>
+      <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">JSearch API</li><li class="badge">OpenAI GPT-4.1</li><li class="badge">n8n Data Tables</li><li class="badge">Telegram</li><li class="badge">Gmail</li></ul></dd>
+    </dl>
+  </aside>
 </article>
-<article data-reveal class="card" id="smart-lead-finder">
-  <p class="card__meta"><span>Scraping and enrichment pipeline</span><span>2025</span></p>
-  <h3 class="card__title">Smart Lead Finder</h3>
-  <p class="card__body">Automated B2B lead generation across the Saudi and Jordanian markets: multi-query place search, website scraping to extract emails and WhatsApp numbers, prioritisation scoring, and duplicate-safe appends into segmented sheets.</p>
-  <dl class="card__body">
-    <dt>Trigger</dt><dd>Schedule</dd>
-    <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">Serper.dev Google SERP API</li><li class="badge">HTTP scraping</li><li class="badge">Google Sheets</li></ul></dd>
-  </dl>
-  <ul class="card__list"><li>Multi-query place search across two markets</li><li>Extracts emails and WhatsApp numbers from company websites</li><li>Prioritisation scoring so the best prospects surface first</li><li>Duplicate-safe appends into segmented sheets</li></ul>
-  <dl class="card__body"><dt>Outcome</dt><dd>Manual prospect research became a hands-off scheduled pipeline producing scored, deduplicated lead lists.</dd></dl>
+<article data-reveal class="card card--row" id="smart-lead-finder">
+  <div class="card__main">
+    <p class="card__meta"><span>Scraping and enrichment pipeline</span><span>2025</span></p>
+    <h3 class="card__title">Smart Lead Finder</h3>
+    <p class="card__body">Automated B2B lead generation across the Saudi and Jordanian markets: multi-query place search, website scraping to extract emails and WhatsApp numbers, prioritisation scoring, and duplicate-safe appends into segmented sheets.</p>
+    <ul class="card__list"><li>Multi-query place search across two markets</li><li>Extracts emails and WhatsApp numbers from company websites</li><li>Prioritisation scoring so the best prospects surface first</li><li>Duplicate-safe appends into segmented sheets</li></ul>
+    <dl class="card__body"><dt>Outcome</dt><dd>Manual prospect research became a hands-off scheduled pipeline producing scored, deduplicated lead lists.</dd></dl>
+  </div>
+  <aside class="card__aside">
+    <dl class="card__body">
+      <dt>Trigger</dt><dd>Schedule</dd>
+      <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">Serper.dev Google SERP API</li><li class="badge">HTTP scraping</li><li class="badge">Google Sheets</li></ul></dd>
+    </dl>
+  </aside>
 </article>
-<article data-reveal class="card" id="lesson-quality-evaluator">
-  <p class="card__meta"><span>Video-to-data webhook service</span><span>2026</span></p>
-  <h3 class="card__title">Lesson Quality Evaluator</h3>
-  <p class="card__body">A webhook service that transcribes lesson videos with speaker separation and returns structured JSON scoring teacher quality and student engagement.</p>
-  <dl class="card__body">
-    <dt>Trigger</dt><dd>Webhook (video upload)</dd>
-    <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">AssemblyAI Speaker Diarization</li><li class="badge">OpenAI GPT-4.1 Structured Outputs</li></ul></dd>
-  </dl>
-  <ul class="card__list"><li>Speaker diarization separates teacher from student</li><li>Structured outputs guarantee a parseable result every time</li><li>Returns a score, not a transcript — the caller gets data, not homework</li></ul>
-  <dl class="card__body"><dt>Outcome</dt><dd>Lesson review becomes measurable instead of anecdotal.</dd></dl>
+<article data-reveal class="card card--row" id="lesson-quality-evaluator">
+  <div class="card__main">
+    <p class="card__meta"><span>Video-to-data webhook service</span><span>2026</span></p>
+    <h3 class="card__title">Lesson Quality Evaluator</h3>
+    <p class="card__body">A webhook service that transcribes lesson videos with speaker separation and returns structured JSON scoring teacher quality and student engagement.</p>
+    <ul class="card__list"><li>Speaker diarization separates teacher from student</li><li>Structured outputs guarantee a parseable result every time</li><li>Returns a score, not a transcript — the caller gets data, not homework</li></ul>
+    <dl class="card__body"><dt>Outcome</dt><dd>Lesson review becomes measurable instead of anecdotal.</dd></dl>
+  </div>
+  <aside class="card__aside">
+    <dl class="card__body">
+      <dt>Trigger</dt><dd>Webhook (video upload)</dd>
+      <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">AssemblyAI Speaker Diarization</li><li class="badge">OpenAI GPT-4.1 Structured Outputs</li></ul></dd>
+    </dl>
+  </aside>
 </article>
-<article data-reveal class="card" id="crm-lead-cleaner">
-  <p class="card__meta"><span>Data quality pipeline · proof of concept</span><span>2026</span></p>
-  <h3 class="card__title">CRM Lead Cleaner</h3>
-  <p class="card__body">Incoming CRM leads arrive scattered — duplicates, malformed emails, missing fields — and cost sales teams hours of manual triage. This pipeline cleans them automatically and reports on what it did.</p>
-  <dl class="card__body">
-    <dt>Trigger</dt><dd>Webhook or schedule</dd>
-    <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">Email validation</li><li class="badge">Google Sheets</li></ul></dd>
-  </dl>
-  <ul class="card__list"><li>Removes duplicates and validates email addresses</li><li>Flags missing fields rather than silently dropping records</li><li>Splits results into Clean and Rejected, with a reason on every rejection</li><li>Produces a quality summary after each run</li></ul>
-  <dl class="card__body"><dt>Outcome</dt><dd>Designed to plug straight into a CRM, turning hours of manual triage into a summary line.</dd></dl>
+<article data-reveal class="card card--row" id="crm-lead-cleaner">
+  <div class="card__main">
+    <p class="card__meta"><span>Data quality pipeline · proof of concept</span><span>2026</span></p>
+    <h3 class="card__title">CRM Lead Cleaner</h3>
+    <p class="card__body">Incoming CRM leads arrive scattered — duplicates, malformed emails, missing fields — and cost sales teams hours of manual triage. This pipeline cleans them automatically and reports on what it did.</p>
+    <ul class="card__list"><li>Removes duplicates and validates email addresses</li><li>Flags missing fields rather than silently dropping records</li><li>Splits results into Clean and Rejected, with a reason on every rejection</li><li>Produces a quality summary after each run</li></ul>
+    <dl class="card__body"><dt>Outcome</dt><dd>Designed to plug straight into a CRM, turning hours of manual triage into a summary line.</dd></dl>
+  </div>
+  <aside class="card__aside">
+    <dl class="card__body">
+      <dt>Trigger</dt><dd>Webhook or schedule</dd>
+      <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">Email validation</li><li class="badge">Google Sheets</li></ul></dd>
+    </dl>
+  </aside>
 </article>
       </div>
     </div>

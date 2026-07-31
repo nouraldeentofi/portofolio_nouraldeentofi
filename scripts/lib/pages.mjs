@@ -106,7 +106,12 @@ ${B.headMeta(db, page, lang)}
    flickers. Also tells CSS that JavaScript is available — without this class
    nothing is ever hidden. */
 (function(){var r=document.documentElement;r.classList.add('js');
-try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}})();
+try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}
+/* honour the visitor's last language choice on every arrival */
+try{var L=localStorage.getItem('nt-lang');var p=location.pathname;
+var en=p==='/en'||p.slice(0,4)==='/en/';
+if(L==='en'&&!en){location.replace(p==='/'?'/en/index.html':'/en'+p);}
+else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(e){}})();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -232,7 +237,7 @@ function work(db, lang) {
 
 ${section('timeline', null, c.work.timelineTitle, null, B.workTimeline(db, lang))}
 
-${section('testimonials', null, c.work.testimonialsTitle, null, `      <div class="grid grid--2">\n${B.workTestimonials(db, lang)}\n      </div>`)}
+${section('testimonials', null, c.work.testimonialsTitle, null, `      <div class="masonry">\n${B.workTestimonials(db, lang)}\n      </div>`)}
 
 ${section('credentials', null, c.work.credentialsTitle, null, B.workCredentials(db, lang))}
 
@@ -248,7 +253,7 @@ function projects(db, lang) {
 
   <section class="section">
     <div class="container">
-      <div class="grid grid--2">
+      <div class="stack">
 ${B.projectsList(db, lang)}
       </div>
     </div>
@@ -264,7 +269,7 @@ function automation(db, lang) {
 
   <section class="section">
     <div class="container">
-      <div class="grid grid--2">
+      <div class="stack">
 ${B.automationList(db, lang)}
       </div>
     </div>
@@ -329,7 +334,7 @@ function chat(db, lang) {
     </div>
   </section>
 
-${section('transcript', null, c.chat.transcriptTitle, c.chat.transcriptNote, `      <div class="prose" id="chat-transcript">\n<!-- @gen:chat-transcript -->\n<!-- /@gen:chat-transcript -->\n      </div>`)}`;
+${section('transcript', null, c.chat.transcriptTitle, c.chat.transcriptNote, `      <details class="transcript" id="chat-transcript">\n        <summary>${e(c.ui.readTranscript)}</summary>\n<!-- @gen:chat-transcript -->\n<!-- /@gen:chat-transcript -->\n      </details>`)}`;
 
   return shell(db, 'chat', lang, main);
 }

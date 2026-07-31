@@ -45,9 +45,26 @@ function initTheme() {
   sync();
 }
 
+/* -------------------------------------------------------------- language */
+
+/* The head script redirects arrivals to the stored language; this remembers
+   the choice whenever the visitor uses the switch. */
+function initLang() {
+  const s = document.querySelector('.lang-switch');
+  if (!s) return;
+  s.addEventListener('click', () => {
+    try {
+      localStorage.setItem('nt-lang', s.getAttribute('hreflang') || 'ar');
+    } catch {
+      /* private browsing — the link still navigates */
+    }
+  });
+}
+
 /* ------------------------------------------------------------------ boot */
 
 initTheme();
+initLang();
 initNav();
 initHeader();
 initReveal();

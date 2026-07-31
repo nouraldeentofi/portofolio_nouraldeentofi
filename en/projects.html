@@ -22,7 +22,12 @@
    flickers. Also tells CSS that JavaScript is available — without this class
    nothing is ever hidden. */
 (function(){var r=document.documentElement;r.classList.add('js');
-try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}})();
+try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}
+/* honour the visitor's last language choice on every arrival */
+try{var L=localStorage.getItem('nt-lang');var p=location.pathname;
+var en=p==='/en'||p.slice(0,4)==='/en/';
+if(L==='en'&&!en){location.replace(p==='/'?'/en/index.html':'/en'+p);}
+else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(e){}})();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -66,7 +71,6 @@ try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.
       ],
       "sameAs": [
         "https://www.linkedin.com/in/nour-aldeen-tofi-19b116240",
-        "https://nouraldeentofi.netlify.app",
         "https://receipt.nexleadtech.com",
         "https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag",
         "https://github.com/NourTofi"
@@ -452,76 +456,96 @@ try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.
 
   <section class="section">
     <div class="container">
-      <div class="grid grid--2">
-<article data-reveal class="card card--featured" id="smart-scanner">
-  <p class="card__meta"><span>AI SaaS product</span><span>2026</span></p>
-  <h3 class="card__title">Smart Scanner</h3>
-  <p class="card__body">Arabic-first AI invoice management — from photo to approval, with zero manual data entry.</p>
-  <dl class="card__body">
-    <dt>The problem</dt><dd>In most companies an invoice sleeps in a pocket or a drawer until month-end, when a stack of paper lands on the accountant&#39;s desk to be typed in by hand. The result is lost time, human error, duplicate and forged invoices slipping through unnoticed, and no record of who submitted what. Global tools mostly cannot read an Arabic invoice at all.</dd>
-    <dt>What I built</dt><dd>I built two of the three layers: the entire AI extraction engine in n8n, and the complete frontend. The frontend is three role-based applications — admin, accountant, and employee — sharing one React 19 and TypeScript codebase, with an Arabic-default bilingual UI, full RTL through logical CSS properties, and a custom i18n layer. It includes a guided upload flow with in-page camera capture, a receipt browser with server-side filtering, Excel export, and feature gating across subscription tiers, all shipped through GitHub Actions quality gates and atomic SSH deploys.</dd>
-    <dt>My role</dt><dd>AI/automation engine and complete frontend. Laravel backend by Haitham Zedan.</dd>
-  </dl>
-  <ul class="proof"><li class="proof__item"><span class="proof__value" data-count>204</span><span class="proof__label">source files</span></li><li class="proof__item"><span class="proof__value" data-count>494</span><span class="proof__label">automated tests</span></li><li class="proof__item"><span class="proof__value" data-count>70+</span><span class="proof__label">fields extracted</span></li><li class="proof__item"><span class="proof__value" data-count>13+</span><span class="proof__label">server-side filters</span></li><li class="proof__item"><span class="proof__value" data-count>4</span><span class="proof__label">subscription tiers</span></li><li class="proof__item"><span class="proof__value" data-count>~10s</span><span class="proof__label">photo to structured data</span></li></ul>
-  <ul class="badges"><li class="badge">React 19</li><li class="badge">TypeScript</li><li class="badge">Tailwind CSS</li><li class="badge">Vitest</li><li class="badge">React Testing Library</li><li class="badge">n8n</li><li class="badge">OpenAI GPT-4.1 Vision</li><li class="badge">GitHub Actions</li><li class="badge">i18n</li><li class="badge">RTL</li></ul>
-  <p class="card__body"><em>Timed with ZATCA e-invoicing expansion in Saudi Arabia and mandatory JoFotara in Jordan — every paper invoice in the region now has to become clean digital data.</em></p>
-  <div class="card__foot"><a class="btn" href="https://receipt.nexleadtech.com" rel="noopener">Visit live site</a></div>
+      <div class="stack">
+<article data-reveal class="card card--row card--featured" id="smart-scanner">
+  <div class="card__main">
+    <p class="card__meta"><span>AI SaaS product</span><span>2026</span></p>
+    <h3 class="card__title">Smart Scanner</h3>
+    <p class="card__body">Arabic-first AI invoice management — from photo to approval, with zero manual data entry.</p>
+    <dl class="card__body">
+      <dt>The problem</dt><dd>In most companies an invoice sleeps in a pocket or a drawer until month-end, when a stack of paper lands on the accountant&#39;s desk to be typed in by hand. The result is lost time, human error, duplicate and forged invoices slipping through unnoticed, and no record of who submitted what. Global tools mostly cannot read an Arabic invoice at all.</dd>
+      <dt>What I built</dt><dd>I built two of the three layers: the entire AI extraction engine in n8n, and the complete frontend. The frontend is three role-based applications — admin, accountant, and employee — sharing one React 19 and TypeScript codebase, with an Arabic-default bilingual UI, full RTL through logical CSS properties, and a custom i18n layer. It includes a guided upload flow with in-page camera capture, a receipt browser with server-side filtering, Excel export, and feature gating across subscription tiers, all shipped through GitHub Actions quality gates and atomic SSH deploys.</dd>
+      <dt>My role</dt><dd>AI/automation engine and complete frontend. Laravel backend by Haitham Zedan.</dd>
+    </dl>
+    <p class="card__body"><em>Timed with ZATCA e-invoicing expansion in Saudi Arabia and mandatory JoFotara in Jordan — every paper invoice in the region now has to become clean digital data.</em></p>
+  </div>
+  <aside class="card__aside">
+    <ul class="proof proof--inline"><li class="proof__item"><span class="proof__value" data-count>204</span><span class="proof__label">source files</span></li><li class="proof__item"><span class="proof__value" data-count>494</span><span class="proof__label">automated tests</span></li><li class="proof__item"><span class="proof__value" data-count>70+</span><span class="proof__label">fields extracted</span></li><li class="proof__item"><span class="proof__value" data-count>13+</span><span class="proof__label">server-side filters</span></li><li class="proof__item"><span class="proof__value" data-count>4</span><span class="proof__label">subscription tiers</span></li><li class="proof__item"><span class="proof__value" data-count>~10s</span><span class="proof__label">photo to structured data</span></li></ul>
+    <dl class="card__body"><dt>Stack</dt><dd><ul class="badges"><li class="badge">React 19</li><li class="badge">TypeScript</li><li class="badge">Tailwind CSS</li><li class="badge">Vitest</li><li class="badge">React Testing Library</li><li class="badge">n8n</li><li class="badge">OpenAI GPT-4.1 Vision</li><li class="badge">GitHub Actions</li><li class="badge">i18n</li><li class="badge">RTL</li></ul></dd></dl>
+    <div class="card__foot"><a class="btn" href="https://receipt.nexleadtech.com" rel="noopener">Visit live site</a></div>
+  </aside>
 </article>
-<article data-reveal class="card" id="dfs-dashboard">
-  <p class="card__meta"><span>Internal platform</span><span>2025–2026</span></p>
-  <h3 class="card__title">DFS Dashboard</h3>
-  <p class="card__body">A unified CRM and quotation platform that replaced scattered manual processes across every department.</p>
-  <dl class="card__body">
-    <dt>The problem</dt><dd>Customer management and quotation handling lived in separate manual steps with no shared context, so nothing was traceable end to end.</dd>
-    <dt>What I built</dt><dd>I owned the two core frontend modules — CRM and Quotation — and connected them into one workflow: creating and updating quotations, tracking statuses, managing customers and leads, and an internal module for projects and tasks with assignment and progress tracking. I worked closely with the backend team on API definitions and payload reviews so UI behaviour matched the business workflow.</dd>
-    <dt>My role</dt><dd>Frontend lead</dd>
-  </dl>
-  <ul class="proof"><li class="proof__item"><span class="proof__value" data-count>2</span><span class="proof__label">core modules owned</span></li><li class="proof__item"><span class="proof__value" data-count>2</span><span class="proof__label">languages (AR/EN)</span></li></ul>
-  <ul class="badges"><li class="badge">React 19</li><li class="badge">Vite</li><li class="badge">TypeScript</li><li class="badge">Tailwind CSS v4</li><li class="badge">Axios</li><li class="badge">TanStack React Query</li><li class="badge">React Hook Form</li><li class="badge">React Router</li><li class="badge">Laravel Echo</li><li class="badge">@hello-pangea/dnd</li></ul>
-  
-  <div class="card__foot"></div>
+<article data-reveal class="card card--row" id="dfs-dashboard">
+  <div class="card__main">
+    <p class="card__meta"><span>Internal platform</span><span>2025–2026</span></p>
+    <h3 class="card__title">DFS Dashboard</h3>
+    <p class="card__body">A unified CRM and quotation platform that replaced scattered manual processes across every department.</p>
+    <dl class="card__body">
+      <dt>The problem</dt><dd>Customer management and quotation handling lived in separate manual steps with no shared context, so nothing was traceable end to end.</dd>
+      <dt>What I built</dt><dd>I owned the two core frontend modules — CRM and Quotation — and connected them into one workflow: creating and updating quotations, tracking statuses, managing customers and leads, and an internal module for projects and tasks with assignment and progress tracking. I worked closely with the backend team on API definitions and payload reviews so UI behaviour matched the business workflow.</dd>
+      <dt>My role</dt><dd>Frontend lead</dd>
+    </dl>
+    
+  </div>
+  <aside class="card__aside">
+    <ul class="proof proof--inline"><li class="proof__item"><span class="proof__value" data-count>2</span><span class="proof__label">core modules owned</span></li><li class="proof__item"><span class="proof__value" data-count>2</span><span class="proof__label">languages (AR/EN)</span></li></ul>
+    <dl class="card__body"><dt>Stack</dt><dd><ul class="badges"><li class="badge">React 19</li><li class="badge">Vite</li><li class="badge">TypeScript</li><li class="badge">Tailwind CSS v4</li><li class="badge">Axios</li><li class="badge">TanStack React Query</li><li class="badge">React Hook Form</li><li class="badge">React Router</li><li class="badge">Laravel Echo</li><li class="badge">@hello-pangea/dnd</li></ul></dd></dl>
+    
+  </aside>
 </article>
-<article data-reveal class="card" id="goldentag">
-  <p class="card__meta"><span>Mobile app · Google Play</span><span>2025</span></p>
-  <h3 class="card__title">GoldenTag</h3>
-  <p class="card__body">A jewelry store management app shipped to the Google Play Store.</p>
-  <dl class="card__body">
-    <dt>The problem</dt><dd>Jewelry retailers track inventory, staff, and sales on paper, in a market where the exchange rate moves daily.</dd>
-    <dt>What I built</dt><dd>I coordinated delivery end to end: requirements with the client, scope and acceptance criteria, user stories on Trello, and oversight across frontend, backend, and UI/UX through to publication. Features include inventory, employee management, barcode scanning, USD/SYP exchange rates, sales logging, and TXT export.</dd>
-    <dt>My role</dt><dd>Project coordinator</dd>
-  </dl>
-  <ul class="proof"><li class="proof__item"><span class="proof__value" data-count>4</span><span class="proof__label">core features</span></li><li class="proof__item"><span class="proof__value" data-count>Live</span><span class="proof__label">on Google Play</span></li></ul>
-  <ul class="badges"><li class="badge">Flutter</li><li class="badge">Trello</li><li class="badge">Requirements Gathering</li><li class="badge">Release Management</li></ul>
-  
-  <div class="card__foot"><a class="btn" href="https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag" rel="noopener">Visit live site</a></div>
+<article data-reveal class="card card--row" id="goldentag">
+  <div class="card__main">
+    <p class="card__meta"><span>Mobile app · Google Play</span><span>2025</span></p>
+    <h3 class="card__title">GoldenTag</h3>
+    <p class="card__body">A jewelry store management app shipped to the Google Play Store.</p>
+    <dl class="card__body">
+      <dt>The problem</dt><dd>Jewelry retailers track inventory, staff, and sales on paper, in a market where the exchange rate moves daily.</dd>
+      <dt>What I built</dt><dd>I coordinated delivery end to end: requirements with the client, scope and acceptance criteria, user stories on Trello, and oversight across frontend, backend, and UI/UX through to publication. Features include inventory, employee management, barcode scanning, USD/SYP exchange rates, sales logging, and TXT export.</dd>
+      <dt>My role</dt><dd>Project coordinator</dd>
+    </dl>
+    
+  </div>
+  <aside class="card__aside">
+    <ul class="proof proof--inline"><li class="proof__item"><span class="proof__value" data-count>4</span><span class="proof__label">core features</span></li><li class="proof__item"><span class="proof__value" data-count>Live</span><span class="proof__label">on Google Play</span></li></ul>
+    <dl class="card__body"><dt>Stack</dt><dd><ul class="badges"><li class="badge">Flutter</li><li class="badge">Trello</li><li class="badge">Requirements Gathering</li><li class="badge">Release Management</li></ul></dd></dl>
+    <div class="card__foot"><a class="btn" href="https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag" rel="noopener">Visit live site</a></div>
+  </aside>
 </article>
-<article data-reveal class="card" id="business-card-extractor">
-  <p class="card__meta"><span>AI web app</span><span>2026</span></p>
-  <h3 class="card__title">Business Card Extractor</h3>
-  <p class="card__body">Photograph a business card, and it lands in your phone&#39;s contacts in one tap.</p>
-  <dl class="card__body">
-    <dt>The problem</dt><dd>You collect a stack of business cards at an event and never open it again. It is a small problem that quietly costs sales teams real pipeline.</dd>
-    <dt>What I built</dt><dd>A web app that turns a photo of any business card into structured data — name, company, email, phone, website — in seconds, stores it in Google Sheets, and generates a vCard so the contact saves straight to the phone. No custom backend at all: an n8n workflow receives the image, GPT-4o Vision reads it, the data is validated and stored, and it flows back to the app. The one-tap save came from a user suggestion after the first release.</dd>
-    <dt>My role</dt><dd>Full build — frontend and automation</dd>
-  </dl>
-  <ul class="proof"><li class="proof__item"><span class="proof__value" data-count>0</span><span class="proof__label">lines of custom backend</span></li><li class="proof__item"><span class="proof__value" data-count>1 tap</span><span class="proof__label">to save a contact</span></li></ul>
-  <ul class="badges"><li class="badge">React</li><li class="badge">TypeScript</li><li class="badge">Tailwind CSS</li><li class="badge">n8n</li><li class="badge">OpenAI GPT-4o Vision</li><li class="badge">Google Sheets</li><li class="badge">vCard</li></ul>
-  
-  <div class="card__foot"></div>
+<article data-reveal class="card card--row" id="business-card-extractor">
+  <div class="card__main">
+    <p class="card__meta"><span>AI web app</span><span>2026</span></p>
+    <h3 class="card__title">Business Card Extractor</h3>
+    <p class="card__body">Photograph a business card, and it lands in your phone&#39;s contacts in one tap.</p>
+    <dl class="card__body">
+      <dt>The problem</dt><dd>You collect a stack of business cards at an event and never open it again. It is a small problem that quietly costs sales teams real pipeline.</dd>
+      <dt>What I built</dt><dd>A web app that turns a photo of any business card into structured data — name, company, email, phone, website — in seconds, stores it in Google Sheets, and generates a vCard so the contact saves straight to the phone. No custom backend at all: an n8n workflow receives the image, GPT-4o Vision reads it, the data is validated and stored, and it flows back to the app. The one-tap save came from a user suggestion after the first release.</dd>
+      <dt>My role</dt><dd>Full build — frontend and automation</dd>
+    </dl>
+    
+  </div>
+  <aside class="card__aside">
+    <ul class="proof proof--inline"><li class="proof__item"><span class="proof__value" data-count>0</span><span class="proof__label">lines of custom backend</span></li><li class="proof__item"><span class="proof__value" data-count>1 tap</span><span class="proof__label">to save a contact</span></li></ul>
+    <dl class="card__body"><dt>Stack</dt><dd><ul class="badges"><li class="badge">React</li><li class="badge">TypeScript</li><li class="badge">Tailwind CSS</li><li class="badge">n8n</li><li class="badge">OpenAI GPT-4o Vision</li><li class="badge">Google Sheets</li><li class="badge">vCard</li></ul></dd></dl>
+    
+  </aside>
 </article>
-<article data-reveal class="card" id="mcp-search-server">
-  <p class="card__meta"><span>AI tooling</span><span>2026</span></p>
-  <h3 class="card__title">MCP Search Server</h3>
-  <p class="card__body">A Model Context Protocol server that lets an AI model query real data instead of only generating text.</p>
-  <dl class="card__body">
-    <dt>The problem</dt><dd>Language models are fluent but disconnected. MCP is the bridge — but most of the discussion about it stays theoretical.</dd>
-    <dt>What I built</dt><dd>I built an MCP server with custom tools including a search tool, wired it to real data, and connected it to Claude — so a plain-language question like &quot;what are the details of user 2&quot; returns the correct record directly. The same pattern powers the MCP server that ships with this portfolio.</dd>
-    <dt>My role</dt><dd>Full build</dd>
-  </dl>
-  <ul class="proof"><li class="proof__item"><span class="proof__value" data-count>MCP</span><span class="proof__label">tools exposed to Claude</span></li></ul>
-  <ul class="badges"><li class="badge">Model Context Protocol</li><li class="badge">Node.js</li><li class="badge">Claude</li><li class="badge">JSON Schema</li></ul>
-  
-  <div class="card__foot"></div>
+<article data-reveal class="card card--row" id="mcp-search-server">
+  <div class="card__main">
+    <p class="card__meta"><span>AI tooling</span><span>2026</span></p>
+    <h3 class="card__title">MCP Search Server</h3>
+    <p class="card__body">A Model Context Protocol server that lets an AI model query real data instead of only generating text.</p>
+    <dl class="card__body">
+      <dt>The problem</dt><dd>Language models are fluent but disconnected. MCP is the bridge — but most of the discussion about it stays theoretical.</dd>
+      <dt>What I built</dt><dd>I built an MCP server with custom tools including a search tool, wired it to real data, and connected it to Claude — so a plain-language question like &quot;what are the details of user 2&quot; returns the correct record directly. The same pattern powers the MCP server that ships with this portfolio.</dd>
+      <dt>My role</dt><dd>Full build</dd>
+    </dl>
+    
+  </div>
+  <aside class="card__aside">
+    <ul class="proof proof--inline"><li class="proof__item"><span class="proof__value" data-count>MCP</span><span class="proof__label">tools exposed to Claude</span></li></ul>
+    <dl class="card__body"><dt>Stack</dt><dd><ul class="badges"><li class="badge">Model Context Protocol</li><li class="badge">Node.js</li><li class="badge">Claude</li><li class="badge">JSON Schema</li></ul></dd></dl>
+    
+  </aside>
 </article>
       </div>
     </div>
