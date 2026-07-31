@@ -1,6 +1,7 @@
 [
   {
     "id": "teacher-assistant-bot",
+    "featured": true,
     "name": { "en": "Teacher Assistant AI Bot", "ar": "بوت المساعد التعليمي بالذكاء الاصطناعي" },
     "kind": { "en": "Telegram AI agent · client project", "ar": "وكيل ذكاء اصطناعي على Telegram · مشروع عميل" },
     "year": "2025 — present",

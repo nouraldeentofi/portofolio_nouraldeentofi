@@ -40,13 +40,29 @@ test('the script leads with automation and states Al Khobar', () => {
   assert.ok(!blob.includes('Receipt Scanner'));
 });
 
-test('transcript renders every reachable node as plain text', () => {
+test('transcript renders every reachable node as a table row', () => {
   const t = buildTranscript('en');
   assert.ok(t.includes('Smart Scanner'));
   assert.ok(t.includes('494'));
-  assert.ok(!t.includes('<b>'), 'presentational tags must be stripped');
-  assert.ok(!t.includes('<div'), 'card markup must be stripped');
+
+  // The chat's own markup must not survive into the transcript — only the
+  // table wrapper the transcript builds itself is allowed.
+  assert.ok(!t.includes('<b>'), 'bold tags must be stripped');
+  assert.ok(!t.includes('<br'), 'line breaks must be stripped');
+  assert.ok(!t.includes('chat__card'), 'chat card classes must be stripped');
+  assert.ok(!t.includes('<a '), 'anchors must not survive into the transcript');
+
+  assert.ok(t.includes('<table class="transcript__table">'), 'should render a table');
+  assert.ok(t.includes('<thead>'), 'table needs a header row');
   for (const id of Object.keys(EN)) assert.ok(t.includes(`id="say-${id}"`), `missing node ${id}`);
+});
+
+test('transcript rows carry a readable topic taken from the chat buttons', () => {
+  const t = buildTranscript('en', { chat: { transcriptTopic: 'Topic', transcriptAnswer: 'Answer', transcriptOpening: 'Opening' } });
+  assert.match(t, /<th scope="col">Topic<\/th>/);
+  assert.match(t, /<th scope="row">Opening<\/th>/);
+  // a node reached by a button borrows that button's wording
+  assert.match(t, /<th scope="row">[^<]*Smart Scanner[^<]*<\/th>/);
 });
 
 test('transcript renders in Arabic too', () => {

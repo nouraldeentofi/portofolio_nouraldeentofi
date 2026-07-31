@@ -224,9 +224,7 @@ function about(db, lang) {
 
   <section class="section">
     <div class="container">
-      <div class="prose">
 ${B.aboutBody(db, lang)}
-      </div>
     </div>
   </section>
 

@@ -139,7 +139,10 @@
     "lead": "The same information as the rest of this site, in the form of a conversation. Pick a question to begin.",
     "status": "online — replies in seconds",
     "transcriptTitle": "Full transcript",
-    "transcriptNote": "Every answer in the conversation above, as plain text — for anyone, and anything, that prefers to read rather than click."
+    "transcriptNote": "Every answer in the conversation above, as plain text — for anyone, and anything, that prefers to read rather than click.",
+    "transcriptTopic": "Topic",
+    "transcriptAnswer": "What Nour says",
+    "transcriptOpening": "Opening"
   },
   "contact": {
     "title": "Contact",

@@ -541,3 +541,144 @@ details.card > .card__body {
   }
   .card__index { font-size: 2.2rem; }
 }
+
+/* ---------- narrative (the About story) ---------- */
+
+/* The story runs as a pipeline: each paragraph is a node on a line, the
+   same motif the background canvas and the page spine use. */
+.narrative {
+  max-inline-size: 74ch;
+  display: grid;
+  gap: var(--space-6);
+  padding-inline-start: var(--space-6);
+  border-inline-start: 2px solid var(--line);
+  position: relative;
+}
+
+.narrative__step {
+  position: relative;
+  color: var(--dim);
+  font-size: 1.06rem;
+}
+
+.narrative__step::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 0.55em;
+  inset-inline-start: calc(-1 * var(--space-6) - 7px);
+  inline-size: 12px;
+  block-size: 12px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid color-mix(in srgb, var(--mint) 55%, var(--line));
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.narrative__step.is-revealed::before {
+  background: var(--mint);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--mint) 45%, transparent);
+}
+
+/* The opening paragraph carries the weight. */
+.narrative__step--lead {
+  font-size: clamp(1.18rem, 1.05rem + 0.6vw, 1.5rem);
+  line-height: 1.55;
+  color: var(--fg);
+  font-weight: 500;
+}
+
+.narrative__step--lead::before {
+  background: linear-gradient(135deg, var(--lime), var(--mint));
+  border-color: transparent;
+  inline-size: 14px;
+  block-size: 14px;
+  inset-inline-start: calc(-1 * var(--space-6) - 8px);
+}
+
+@media (max-width: 560px) {
+  .narrative { padding-inline-start: var(--space-5); gap: var(--space-5); }
+  .narrative__step::before { inset-inline-start: calc(-1 * var(--space-5) - 7px); }
+  .narrative__step--lead::before { inset-inline-start: calc(-1 * var(--space-5) - 8px); }
+}
+
+/* ---------- transcript table ---------- */
+
+/* Wide content scrolls inside its own box; the page never scrolls sideways. */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--glass);
+}
+
+.transcript__table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  min-inline-size: 520px;
+}
+
+.transcript__table thead th {
+  text-align: start;
+  padding: var(--space-4) var(--space-5);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  background: linear-gradient(135deg, var(--lime), var(--mint));
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+}
+
+:lang(ar) .transcript__table thead th { letter-spacing: 0; text-transform: none; }
+
+.transcript__table tbody th {
+  text-align: start;
+  vertical-align: top;
+  padding: var(--space-4) var(--space-5);
+  inline-size: 30%;
+  font-weight: 700;
+  color: var(--fg);
+  white-space: nowrap;
+}
+
+/* the topic cell carries a node marker, tying the table to the motif */
+.transcript__table tbody th::before {
+  content: '';
+  display: inline-block;
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: 50%;
+  margin-inline-end: var(--space-3);
+  background: var(--mint);
+  vertical-align: middle;
+}
+
+.transcript__table tbody td {
+  vertical-align: top;
+  padding: var(--space-4) var(--space-5);
+  color: var(--dim);
+}
+
+.transcript__table tbody td p + p { margin-block-start: var(--space-3); }
+
+.transcript__row { border-block-start: 1px solid var(--line); }
+
+.transcript__row:nth-child(odd) {
+  background: color-mix(in srgb, var(--mint) 4%, transparent);
+}
+
+.transcript__row:hover {
+  background: color-mix(in srgb, var(--lime) 8%, transparent);
+}
+
+.transcript__row:target {
+  background: color-mix(in srgb, var(--lime) 14%, transparent);
+}
+
+@media (max-width: 620px) {
+  .transcript__table tbody th { white-space: normal; inline-size: 38%; }
+  .transcript__table { font-size: 0.88rem; }
+}

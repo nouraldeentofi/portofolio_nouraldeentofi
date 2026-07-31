@@ -178,7 +178,15 @@ export function homeQuote(db, lang) {
 /* ----------------------------------------------------------------- about */
 
 export function aboutBody(db, lang) {
-  return db.copy[lang].about.body.map((p) => `<p>${e(p)}</p>`).join('\n');
+  // The story is told as a pipeline: each paragraph is a node on a line,
+  // the same motif the background and the page spine use.
+  return `<div class="narrative">
+${db.copy[lang].about.body
+    .map(
+      (p, i) => `  <p class="narrative__step${i === 0 ? ' narrative__step--lead' : ''}" data-reveal>${prose(db, p, lang)}</p>`,
+    )
+    .join('\n')}
+</div>`;
 }
 
 export function aboutPrinciples(db, lang) {
@@ -333,7 +341,7 @@ export function automationList(db, lang) {
   const c = db.copy[lang];
   return db.workflows
     .map(
-      (w) => `<article data-reveal class="card card--row" id="${e(w.id)}">
+      (w) => `<article data-reveal class="card card--row${w.featured ? ' card--featured' : ''}" id="${e(w.id)}">
   <div class="card__main">
     <p class="card__meta"><span>${e(w.kind[lang])}</span><span>${e(w.year)}</span></p>
     <h3 class="card__title">${e(w.name[lang])}</h3>

@@ -32,7 +32,7 @@ function main() {
 
       // The chat page carries a crawlable transcript of the conversation.
       if (page === 'chat') {
-        html = injectBlock(html, 'chat-transcript', buildTranscript(lang));
+        html = injectBlock(html, 'chat-transcript', buildTranscript(lang, db.copy[lang]));
       }
 
       stage(file, html);
