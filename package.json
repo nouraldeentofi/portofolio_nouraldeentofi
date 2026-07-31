@@ -1,0 +1,14 @@
+{
+  "name": "nouraldeentofi-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Bilingual, AI-readable static portfolio for Nour Aldeen Tofi. The site itself has zero runtime dependencies — these scripts are maintenance tooling only.",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "build": "node scripts/build.mjs",
+    "validate": "node scripts/validate.mjs",
+    "check": "npm run test && npm run build && npm run validate"
+  },
+  "engines": { "node": ">=20" }
+}

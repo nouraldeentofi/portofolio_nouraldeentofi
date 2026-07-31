@@ -1,0 +1,182 @@
+[
+  {
+    "id": "teacher-assistant-bot",
+    "name": { "en": "Teacher Assistant AI Bot", "ar": "بوت المساعد التعليمي بالذكاء الاصطناعي" },
+    "kind": { "en": "Telegram AI agent · client project", "ar": "وكيل ذكاء اصطناعي على Telegram · مشروع عميل" },
+    "year": "2025 — present",
+    "summary": {
+      "en": "A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia. The tutor manages students, schedules, cancellations, and dues entirely through chat — the AI agent calls custom CRUD tools under strict business rules rather than guessing.",
+      "ar": "مساعد عربي بلغة طبيعية سُلّم لمدرّس خصوصي في السعودية. يدير المدرّس الطلاب والجداول والإلغاءات والمستحقات عبر المحادثة بالكامل — والوكيل الذكي يستدعي أدوات CRUD مخصّصة وفق قواعد عمل صارمة بدل التخمين."
+    },
+    "trigger": { "en": "Telegram message", "ar": "رسالة على Telegram" },
+    "services": ["n8n AI Agent", "OpenAI", "Google Sheets", "MySQL", "Telegram Bot API", "Webhooks"],
+    "highlights": {
+      "en": [
+        "Custom tool-calling design with strict business rules",
+        "Usage metering and free-trial gating",
+        "Session memory across conversations",
+        "Automated lesson reminders scheduled in Saudi time"
+      ],
+      "ar": [
+        "تصميم استدعاء أدوات مخصّص بقواعد عمل صارمة",
+        "قياس الاستخدام وتقييد الفترة التجريبية",
+        "ذاكرة جلسة عبر المحادثات",
+        "تذكيرات دروس مجدولة تلقائياً بتوقيت السعودية"
+      ]
+    },
+    "outcome": {
+      "en": "A tutor runs an entire practice from a chat window, with no app to learn and no spreadsheet to maintain.",
+      "ar": "يدير المدرّس عمله كاملاً من نافذة محادثة، دون تطبيق يتعلّمه ولا جدول بيانات يصونه."
+    }
+  },
+  {
+    "id": "smart-scanner-pipeline",
+    "name": { "en": "Smart Scanner Extraction Pipeline", "ar": "خط استخراج البيانات في Smart Scanner" },
+    "kind": { "en": "Production document AI pipeline", "ar": "خط إنتاجي لمعالجة المستندات بالذكاء الاصطناعي" },
+    "year": "2026",
+    "summary": {
+      "en": "The production pipeline behind Smart Scanner. Every invoice — photo or PDF — is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and ZATCA e-invoice fields.",
+      "ar": "الخط الإنتاجي خلف Smart Scanner. كل فاتورة — صورة أو PDF — يُتحقّق أولاً من كونها فاتورة حقيقية، ثم تُحلّل بـ GPT-4.1 Vision، وتُتحقّق، وتُنقّى من التكرار، وتُحفظ. يقرأ العربية والإنجليزية والمستندات المختلطة، ومضبوط للفواتير العربية المكتوبة بخط اليد ولحقول الفوترة الإلكترونية من ZATCA."
+    },
+    "trigger": { "en": "Webhook (image or PDF upload)", "ar": "Webhook (رفع صورة أو PDF)" },
+    "services": ["n8n", "OpenAI GPT-4.1 Vision", "PDF Extract", "Validation", "Deduplication", "Webhooks"],
+    "highlights": {
+      "en": [
+        "Rejects any file that is not a genuine invoice, before anything is saved",
+        "Extracts 70+ fields plus line items: vendor, buyer, totals, VAT, dates",
+        "Classifies every line item into per-company expense categories at extraction time",
+        "Refuses politely and explains why when required data is missing — accuracy before speed"
+      ],
+      "ar": [
+        "يرفض أي ملف ليس فاتورة حقيقية قبل حفظ أي شيء",
+        "يستخرج أكثر من ٧٠ حقلاً إضافة إلى بنود الفاتورة: البائع، والمشتري، والإجماليات، والضريبة، والتواريخ",
+        "يصنّف كل بند إلى فئة مصروف خاصة بالشركة لحظة الاستخراج",
+        "يرفض بأدب ويشرح السبب عند نقص البيانات الأساسية — الدقة قبل السرعة"
+      ]
+    },
+    "outcome": {
+      "en": "Manual invoice entry disappears entirely; a photo becomes structured accounting data in about ten seconds.",
+      "ar": "يختفي الإدخال اليدوي للفواتير تماماً؛ وتتحوّل الصورة إلى بيانات محاسبية منظّمة خلال نحو عشر ثوانٍ."
+    }
+  },
+  {
+    "id": "ai-job-match",
+    "name": { "en": "AI Job-Match Pipeline", "ar": "خط مطابقة الوظائف بالذكاء الاصطناعي" },
+    "kind": { "en": "Scheduled agent with human-in-the-loop", "ar": "وكيل مجدول مع تدخّل بشري" },
+    "year": "2026",
+    "summary": {
+      "en": "A scheduled pipeline that runs five daily search queries across LinkedIn, Indeed, and Glassdoor, scores each role's fit from one to ten with a structured-JSON LLM evaluator, and delivers only the high scorers.",
+      "ar": "خط مجدول ينفّذ خمسة استعلامات بحث يومياً عبر LinkedIn وIndeed وGlassdoor، ويقيّم ملاءمة كل وظيفة من واحد إلى عشرة عبر مُقيّم LLM يُخرج JSON منظّماً، ولا يسلّم إلا الأعلى تقييماً."
+    },
+    "trigger": { "en": "Daily schedule", "ar": "جدول يومي" },
+    "services": ["n8n", "JSearch API", "OpenAI GPT-4.1", "n8n Data Tables", "Telegram", "Gmail"],
+    "highlights": {
+      "en": [
+        "Structured-JSON evaluator scoring fit on a 1–10 scale",
+        "Deduplication against n8n Data Tables so nothing is seen twice",
+        "Telegram delivery of high-scoring matches only",
+        "Human-in-the-loop approval before any application is sent",
+        "Semi-automated applications with tailored AI-generated cover letters via Gmail"
+      ],
+      "ar": [
+        "مُقيّم يُخرج JSON منظّماً ويمنح درجة ملاءمة من ١ إلى ١٠",
+        "إزالة التكرار مقابل جداول بيانات n8n فلا يتكرّر أي إعلان",
+        "إرسال المطابقات عالية التقييم فقط عبر Telegram",
+        "موافقة بشرية قبل إرسال أي طلب توظيف",
+        "طلبات شبه آلية مع رسائل تغطية مخصّصة يولّدها الذكاء الاصطناعي وتُرسل عبر Gmail"
+      ]
+    },
+    "outcome": {
+      "en": "Daily job hunting collapses into reviewing a short, pre-scored shortlist.",
+      "ar": "يتقلّص البحث اليومي عن عمل إلى مراجعة قائمة قصيرة مقيّمة مسبقاً."
+    }
+  },
+  {
+    "id": "smart-lead-finder",
+    "name": { "en": "Smart Lead Finder", "ar": "الباحث الذكي عن العملاء المحتملين" },
+    "kind": { "en": "Scraping and enrichment pipeline", "ar": "خط استخراج وإثراء بيانات" },
+    "year": "2025",
+    "summary": {
+      "en": "Automated B2B lead generation across the Saudi and Jordanian markets: multi-query place search, website scraping to extract emails and WhatsApp numbers, prioritisation scoring, and duplicate-safe appends into segmented sheets.",
+      "ar": "توليد آلي للعملاء المحتملين في السوقين السعودي والأردني: بحث متعدّد الاستعلامات عن الأماكن، واستخراج البريد وأرقام واتساب من المواقع، وترتيب حسب الأولوية، وإضافة آمنة من التكرار إلى جداول مقسّمة."
+    },
+    "trigger": { "en": "Schedule", "ar": "جدول زمني" },
+    "services": ["n8n", "Serper.dev Google SERP API", "HTTP scraping", "Google Sheets"],
+    "highlights": {
+      "en": [
+        "Multi-query place search across two markets",
+        "Extracts emails and WhatsApp numbers from company websites",
+        "Prioritisation scoring so the best prospects surface first",
+        "Duplicate-safe appends into segmented sheets"
+      ],
+      "ar": [
+        "بحث متعدّد الاستعلامات عن الأماكن في سوقين",
+        "استخراج البريد الإلكتروني وأرقام واتساب من مواقع الشركات",
+        "ترتيب حسب الأولوية لتظهر أفضل الفرص أولاً",
+        "إضافة آمنة من التكرار إلى جداول مقسّمة"
+      ]
+    },
+    "outcome": {
+      "en": "Manual prospect research became a hands-off scheduled pipeline producing scored, deduplicated lead lists.",
+      "ar": "تحوّل البحث اليدوي عن العملاء إلى خط مجدول لا يحتاج تدخّلاً، يُنتج قوائم مقيّمة وخالية من التكرار."
+    }
+  },
+  {
+    "id": "lesson-quality-evaluator",
+    "name": { "en": "Lesson Quality Evaluator", "ar": "مُقيّم جودة الدروس" },
+    "kind": { "en": "Video-to-data webhook service", "ar": "خدمة webhook تحوّل الفيديو إلى بيانات" },
+    "year": "2026",
+    "summary": {
+      "en": "A webhook service that transcribes lesson videos with speaker separation and returns structured JSON scoring teacher quality and student engagement.",
+      "ar": "خدمة webhook تفرّغ فيديوهات الدروس نصياً مع فصل المتحدّثين، وتُعيد JSON منظّماً يقيّم جودة المعلّم وتفاعل الطالب."
+    },
+    "trigger": { "en": "Webhook (video upload)", "ar": "Webhook (رفع فيديو)" },
+    "services": ["n8n", "AssemblyAI Speaker Diarization", "OpenAI GPT-4.1 Structured Outputs"],
+    "highlights": {
+      "en": [
+        "Speaker diarization separates teacher from student",
+        "Structured outputs guarantee a parseable result every time",
+        "Returns a score, not a transcript — the caller gets data, not homework"
+      ],
+      "ar": [
+        "فصل المتحدّثين يميّز المعلّم عن الطالب",
+        "المخرجات المنظّمة تضمن نتيجة قابلة للتحليل في كل مرة",
+        "يُعيد تقييماً لا تفريغاً نصياً — فيحصل المستدعي على بيانات لا على عمل إضافي"
+      ]
+    },
+    "outcome": {
+      "en": "Lesson review becomes measurable instead of anecdotal.",
+      "ar": "تصبح مراجعة الدروس قابلة للقياس بدل أن تكون انطباعية."
+    }
+  },
+  {
+    "id": "crm-lead-cleaner",
+    "name": { "en": "CRM Lead Cleaner", "ar": "منقّي بيانات العملاء المحتملين" },
+    "kind": { "en": "Data quality pipeline · proof of concept", "ar": "خط جودة بيانات · إثبات مفهوم" },
+    "year": "2026",
+    "summary": {
+      "en": "Incoming CRM leads arrive scattered — duplicates, malformed emails, missing fields — and cost sales teams hours of manual triage. This pipeline cleans them automatically and reports on what it did.",
+      "ar": "تصل بيانات العملاء المحتملين إلى نظام إدارة العلاقات مبعثرة — تكرار، وبريد غير صالح، وحقول ناقصة — فتكلّف فرق المبيعات ساعات من الفرز اليدوي. هذا الخط ينظّفها تلقائياً ويُبلغ عمّا فعله."
+    },
+    "trigger": { "en": "Webhook or schedule", "ar": "Webhook أو جدول زمني" },
+    "services": ["n8n", "Email validation", "Google Sheets"],
+    "highlights": {
+      "en": [
+        "Removes duplicates and validates email addresses",
+        "Flags missing fields rather than silently dropping records",
+        "Splits results into Clean and Rejected, with a reason on every rejection",
+        "Produces a quality summary after each run"
+      ],
+      "ar": [
+        "يزيل التكرار ويتحقّق من صحة عناوين البريد",
+        "يضع علامة على الحقول الناقصة بدل حذف السجلات بصمت",
+        "يقسّم النتائج إلى «نظيف» و«مرفوض» مع سبب لكل رفض",
+        "يُنتج ملخّص جودة بعد كل تشغيل"
+      ]
+    },
+    "outcome": {
+      "en": "Designed to plug straight into a CRM, turning hours of manual triage into a summary line.",
+      "ar": "مصمّم ليتّصل مباشرة بنظام إدارة العلاقات، فيحوّل ساعات الفرز اليدوي إلى سطر ملخّص."
+    }
+  }
+]

@@ -1,0 +1,118 @@
+[
+  {
+    "id": "dfs-supervisor",
+    "role": { "en": "Software Engineering Supervisor", "ar": "مشرف هندسة برمجيات" },
+    "company": "Distinctive Frontier Co. for Safety Equipment L.L.C",
+    "location": { "en": "Al Khobar, Saudi Arabia", "ar": "الخبر، المملكة العربية السعودية" },
+    "type": { "en": "Full-time · On-site", "ar": "دوام كامل · في الموقع" },
+    "start": "2026-01",
+    "end": null,
+    "bullets": {
+      "en": [
+        "Lead frontend development across internal business platforms, delivering scalable UI features in Arabic and English with React and TypeScript.",
+        "Define coding standards, review every frontend change before merge, and mentor developers — reducing rework and keeping the codebase maintainable.",
+        "Translate product ideas into shipped features in collaboration with backend (Laravel) and UI/UX teams, aligning technical delivery with business objectives.",
+        "Introduce internal workflow automation with n8n and OpenAI integrations to streamline repetitive team operations."
+      ],
+      "ar": [
+        "أقود تطوير الواجهات الأمامية عبر المنصات الداخلية للشركة، وأسلّم واجهات قابلة للتوسّع بالعربية والإنجليزية باستخدام React وTypeScript.",
+        "أضع معايير كتابة الكود، وأراجع كل تغيير في الواجهة الأمامية قبل الدمج، وأوجّه المطوّرين — ما يقلّل إعادة العمل ويحافظ على قابلية صيانة الكود.",
+        "أحوّل أفكار المنتج إلى مزايا تصل للإنتاج بالتعاون مع فريقي الواجهة الخلفية (Laravel) وتصميم تجربة المستخدم، بما يوائم التسليم التقني مع أهداف العمل.",
+        "أُدخل الأتمتة الداخلية عبر n8n وتكاملات OpenAI لتبسيط العمليات المتكرّرة داخل الفريق."
+      ]
+    },
+    "stack": ["React", "TypeScript", "Tailwind CSS", "n8n", "OpenAI API", "Jira", "Git"]
+  },
+  {
+    "id": "nexlead-coordinator",
+    "role": { "en": "Freelance Project Coordinator & Automation Builder", "ar": "منسّق مشاريع ومطوّر أتمتة (عمل حر)" },
+    "company": "NexLead",
+    "location": { "en": "Remote", "ar": "عن بُعد" },
+    "type": { "en": "Freelance · Remote", "ar": "عمل حر · عن بُعد" },
+    "start": "2025-03",
+    "end": null,
+    "bullets": {
+      "en": [
+        "Deliver client automation and software projects end to end: requirements, scope, workflow design, and release.",
+        "Gather requirements directly with clients, define acceptance criteria, and break work into tasks and user stories on Trello.",
+        "Manage timelines and cost estimation while overseeing frontend, backend, and UI/UX quality.",
+        "Delivered GoldenTag, a jewelry store management app, to the Google Play Store."
+      ],
+      "ar": [
+        "أُسلّم مشاريع الأتمتة والبرمجيات للعملاء من البداية إلى النهاية: المتطلبات، النطاق، تصميم سير العمل، والإصدار.",
+        "أجمع المتطلبات مباشرة من العملاء، وأحدّد معايير القبول، وأقسّم العمل إلى مهام وقصص مستخدم على Trello.",
+        "أدير الجداول الزمنية وتقدير التكلفة، وأشرف على جودة الواجهة الأمامية والخلفية وتجربة المستخدم.",
+        "سلّمت تطبيق GoldenTag لإدارة محلات المجوهرات ونشرته على متجر Google Play."
+      ]
+    },
+    "stack": ["Trello", "Requirements Gathering", "n8n", "React", "Release Management"]
+  },
+  {
+    "id": "dfs-frontend",
+    "role": { "en": "Frontend Developer / Project Coordinator", "ar": "مطوّر واجهات أمامية / منسّق مشاريع" },
+    "company": "Distinctive Frontier Co. for Safety Equipment L.L.C",
+    "location": { "en": "Al Khobar, Saudi Arabia", "ar": "الخبر، المملكة العربية السعودية" },
+    "type": { "en": "Full-time · On-site", "ar": "دوام كامل · في الموقع" },
+    "start": "2025-01",
+    "end": "2026-01",
+    "bullets": {
+      "en": [
+        "Built a dashboard-based internal platform combining Jira-style task tracking with a quotation management system in React, used daily across all departments.",
+        "Implemented three core modules — task tracking, quotation generation, and workflow management — replacing manual spreadsheet processes.",
+        "Coordinated between frontend and backend teams to clarify requirements and keep delivery on schedule.",
+        "Promoted to Software Engineering Supervisor within twelve months."
+      ],
+      "ar": [
+        "بنيت منصّة داخلية قائمة على لوحات التحكّم تجمع تتبّع المهام بأسلوب Jira مع نظام لإدارة عروض الأسعار باستخدام React، وتُستخدم يومياً في كل الأقسام.",
+        "نفّذت ثلاث وحدات أساسية — تتبّع المهام، وإصدار عروض الأسعار، وإدارة سير العمل — لتحلّ محل العمليات اليدوية على جداول البيانات.",
+        "نسّقت بين فريقي الواجهة الأمامية والخلفية لتوضيح المتطلبات والحفاظ على الجدول الزمني للتسليم.",
+        "تمّت ترقيتي إلى مشرف هندسة برمجيات خلال اثني عشر شهراً."
+      ]
+    },
+    "stack": ["React 19", "TypeScript", "Tailwind CSS v4", "TanStack Query", "React Hook Form", "Axios", "Laravel Echo"]
+  },
+  {
+    "id": "khwarizm-frontend",
+    "role": { "en": "Frontend Developer (Part-Time)", "ar": "مطوّر واجهات أمامية (دوام جزئي)" },
+    "company": "Khwarizm Technologies",
+    "location": { "en": "Riyadh, Saudi Arabia (Remote)", "ar": "الرياض، المملكة العربية السعودية (عن بُعد)" },
+    "type": { "en": "Part-time · Remote", "ar": "دوام جزئي · عن بُعد" },
+    "start": "2024-09",
+    "end": "2025-04",
+    "bullets": {
+      "en": [
+        "Developed a modern, responsive web application dashboard with React and Tailwind CSS as part of a full product team.",
+        "Converted detailed Figma designs into accessible, pixel-accurate interfaces with reusable components and efficient state management.",
+        "Conducted code reviews and upheld coding standards to deliver a clean, optimized codebase."
+      ],
+      "ar": [
+        "طوّرت لوحة تحكّم لتطبيق ويب حديث ومتجاوب باستخدام React وTailwind CSS ضمن فريق منتج متكامل.",
+        "حوّلت تصاميم Figma التفصيلية إلى واجهات دقيقة البكسل وسهلة الوصول، بمكوّنات قابلة لإعادة الاستخدام وإدارة حالة فعّالة.",
+        "أجريت مراجعات للكود وحافظت على معايير الكتابة لتسليم كود نظيف ومحسّن."
+      ]
+    },
+    "stack": ["React", "Tailwind CSS", "Figma", "Leaflet"]
+  },
+  {
+    "id": "minicodeleader-frontend",
+    "role": { "en": "Frontend Developer (Freelance)", "ar": "مطوّر واجهات أمامية (عمل حر)" },
+    "company": "Minicodeleader",
+    "location": { "en": "Remote", "ar": "عن بُعد" },
+    "type": { "en": "Freelance · Remote", "ar": "عمل حر · عن بُعد" },
+    "start": "2023-06",
+    "end": "2024-02",
+    "bullets": {
+      "en": [
+        "Designed responsive user interfaces for a kids education platform using React and Material-UI, where users browse courses, open lessons, and save courses for later.",
+        "Transformed Figma designs into functional interfaces with reusable components and optimized state management.",
+        "First professional React role — the foundation for everything that followed."
+      ],
+      "ar": [
+        "صمّمت واجهات مستخدم متجاوبة لمنصّة تعليمية للأطفال باستخدام React وMaterial-UI، حيث يتصفّح المستخدمون الدورات ويفتحون الدروس ويحفظون الدورات لوقت لاحق.",
+        "حوّلت تصاميم Figma إلى واجهات عملية بمكوّنات قابلة لإعادة الاستخدام وإدارة حالة محسّنة.",
+        "أول دور احترافي لي بـ React — والأساس الذي بُني عليه كل ما تلاه."
+      ]
+    },
+    "stack": ["React", "Material-UI", "Bootstrap", "Figma"]
+  }
+]

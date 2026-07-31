@@ -24,3 +24,34 @@ test('sameAs entries are either a valid url or an explicit null with a todo', ()
 test('throws a named error when a required key is missing', () => {
   assert.throws(() => loadDb('tests/fixtures/broken'), /profile\.json.*email/);
 });
+
+test('experience is newest-first and never mentions Alessa', () => {
+  const db = loadDb('data');
+  const dates = db.experience.map((e) => e.start);
+  assert.deepEqual([...dates].sort().reverse(), dates, 'experience must be newest first');
+  const blob = JSON.stringify(db).toLowerCase();
+  assert.ok(!blob.includes('alessa'), 'Alessa Group must not appear in any data file');
+});
+
+test('the flagship product is named Smart Scanner everywhere', () => {
+  const db = loadDb('data');
+  const blob = JSON.stringify(db);
+  assert.ok(blob.includes('Smart Scanner'));
+  assert.ok(!blob.includes('Receipt Scanner'), 'use Smart Scanner, never Receipt Scanner');
+});
+
+test('every project and workflow carries both languages', () => {
+  const db = loadDb('data');
+  for (const item of [...db.projects, ...db.workflows]) {
+    const ar = item.summary?.ar ?? item.tagline?.ar;
+    assert.equal(typeof ar, 'string', `${item.id} missing Arabic`);
+  }
+});
+
+test('the site never claims Riyadh as his base', () => {
+  const db = loadDb('data');
+  const current = db.experience.filter((e) => e.end === null);
+  for (const role of current) {
+    assert.ok(!/Riyadh/i.test(role.location.en), `${role.id} must not be based in Riyadh`);
+  }
+});
