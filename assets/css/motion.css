@@ -224,3 +224,125 @@ main { position: relative; }
   .btn:hover,
   .card:hover { transform: none; }
 }
+
+/* ---------------------------------------------------- cost-flow animation */
+
+/* The branch does not just sit there being a diagram — it runs. A document
+   arrives, the IF node decides, and a pulse takes the cheap route. One
+   staggered cycle, so the eye follows the same path the data does. */
+
+.flow { --cycle: 5s; }
+
+.js .flow__node--trigger {
+  animation: flow-lit var(--cycle) ease-in-out infinite;
+  animation-delay: 0s;
+}
+
+.js .flow__node--decision {
+  animation: flow-decide var(--cycle) ease-in-out infinite;
+  animation-delay: 0.9s;
+}
+
+/* a pulse riding the stem from the webhook down to the decision */
+.js .flow__stem::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: 50%;
+  margin-inline-start: -4px;
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 10px var(--lime);
+  animation: flow-travel var(--cycle) ease-in-out infinite;
+  animation-delay: 0.25s;
+}
+
+.flow__stem { position: relative; }
+
+/* each branch stem carries its own pulse, the cheap one brighter */
+.js .flow__branch::after {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 50%;
+  margin-inline-start: -4px;
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: 50%;
+  animation: flow-travel-short var(--cycle) ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+.js .flow__branch--cheap::after {
+  background: var(--lime);
+  box-shadow: 0 0 10px var(--lime);
+}
+
+/* the expensive route is taken rarely — its pulse stays faint */
+.js .flow__branch--costly::after {
+  background: var(--dim);
+  opacity: 0.35;
+}
+
+.js .flow__branch--cheap .flow__node {
+  animation: flow-lit var(--cycle) ease-in-out infinite;
+  animation-delay: 2.1s;
+}
+
+.js .flow__fallback {
+  animation: flow-fallback var(--cycle) ease-in-out infinite;
+  animation-delay: 3s;
+}
+
+@keyframes flow-lit {
+  0%, 12%, 100% { border-color: var(--line-strong); box-shadow: none; }
+  4%, 8% {
+    border-color: var(--lime);
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--lime) 18%, transparent);
+  }
+}
+
+@keyframes flow-decide {
+  0%, 100% { box-shadow: 0 0 0 4px color-mix(in srgb, var(--lime) 12%, transparent); }
+  20%, 30% {
+    box-shadow: 0 0 0 9px color-mix(in srgb, var(--lime) 26%, transparent);
+    transform: scale(1.03);
+  }
+}
+
+@keyframes flow-travel {
+  0%, 4% { inset-block-start: -4px; opacity: 0; }
+  8% { opacity: 1; }
+  22% { inset-block-start: calc(100% - 4px); opacity: 1; }
+  26%, 100% { inset-block-start: calc(100% - 4px); opacity: 0; }
+}
+
+@keyframes flow-travel-short {
+  0%, 30% { transform: translateY(-4px); opacity: 0; }
+  34% { opacity: 1; }
+  44% { transform: translateY(var(--space-4)); opacity: 1; }
+  48%, 100% { transform: translateY(var(--space-4)); opacity: 0; }
+}
+
+@keyframes flow-fallback {
+  0%, 55%, 100% { border-color: var(--line-strong); color: var(--dim); }
+  62%, 72% {
+    border-color: color-mix(in srgb, var(--mint) 60%, transparent);
+    color: var(--fg);
+  }
+}
+
+/* The figures count up in place; the diagram is the only moving part. */
+@media (prefers-reduced-motion: reduce) {
+  .js .flow__node--trigger,
+  .js .flow__node--decision,
+  .js .flow__stem::after,
+  .js .flow__branch::after,
+  .js .flow__branch--cheap .flow__node,
+  .js .flow__fallback {
+    animation: none;
+  }
+  .js .flow__stem::after,
+  .js .flow__branch::after { display: none; }
+}

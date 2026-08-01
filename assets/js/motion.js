@@ -123,6 +123,31 @@ export function initNav() {
   mq.addEventListener?.('change', sync);
 }
 
+/* ------------------------------------------------------------ transcript */
+
+/**
+ * Transcript rows open on click, and on keyboard activation via a real
+ * button.
+ *
+ * Hover-to-expand was removed deliberately: with rows that grow on hover,
+ * sweeping the mouse down the table made content jump under the pointer.
+ * A click is a decision; a hover is an accident.
+ */
+export function initTranscript() {
+  const table = document.querySelector('.transcript__table');
+  if (!table) return;
+
+  table.addEventListener('click', (event) => {
+    const toggle = event.target.closest('.transcript__toggle');
+    if (!toggle) return;
+
+    const row = toggle.closest('.transcript__row');
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    row.classList.toggle('is-open', !open);
+  });
+}
+
 /* ------------------------------------------------------------ page spine */
 
 /**

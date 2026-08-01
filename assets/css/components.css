@@ -726,11 +726,35 @@
   overflow: hidden;
 }
 
-.transcript__row:hover td,
-.transcript__row:focus-within td,
+/* Opened by click or keyboard — not by hover, which made rows jump under
+   the pointer as you swept down the table. */
+.transcript__row.is-open td,
 .transcript__row:target td {
   --lines: 99;
 }
+
+.transcript__toggle {
+  font: inherit;
+  font-weight: 700;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: start;
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.transcript__toggle::after {
+  content: '+';
+  color: var(--mint);
+  font-weight: 800;
+}
+
+.transcript__toggle[aria-expanded='true']::after { content: '−'; }
+.transcript__toggle:hover { color: var(--lime); }
 
 .transcript__table tbody td p { display: inline; }
 .transcript__table tbody td p + p::before { content: ' · '; color: var(--mint); }

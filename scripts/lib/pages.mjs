@@ -154,11 +154,20 @@ ${mobileTabs(db, page, lang)}
 `;
 }
 
-const section = (id, eyebrow, title, lead, body) => `  <section class="section" id="${id}">
+/**
+ * A page section.
+ *
+ * `more` turns the heading into a link and adds a "see all" affordance, so a
+ * summary block on the home page leads to the page that covers it in full.
+ */
+const section = (id, eyebrow, title, lead, body, more = null) => `  <section class="section" id="${id}">
     <div class="container">
       <div class="section__head" data-reveal>
         ${eyebrow ? `<p class="section__eyebrow">${e(eyebrow)}</p>` : ''}
-        <h2>${e(title)}</h2>
+        <div class="section__titlebar">
+          <h2>${more ? `<a class="section__titlelink" href="${e(more.href)}">${e(title)}</a>` : e(title)}</h2>
+          ${more ? `<a class="section__more" href="${e(more.href)}">${e(more.label)}<span class="section__more-arrow" aria-hidden="true">→</span></a>` : ''}
+        </div>
         ${lead ? `<p class="section__lead">${e(lead)}</p>` : ''}
       </div>
 ${body}
@@ -194,15 +203,15 @@ function home(db, lang) {
         <a class="btn btn--ghost" href="${rel('automation')}">${e(c.nav.automation)}</a>`,
   })}
 
-${section('proof', c.home.proofLabel, c.home.proofLabel, null, B.homeProof(db, lang))}
+${section('proof', c.home.proofLabel, c.home.proofLabel, null, B.homeProof(db, lang), { href: rel('about'), label: c.nav.about })}
 
-${section('featured', c.home.featuredLabel, c.home.featuredLabel, null, B.homeFeatured(db, lang))}
+${section('featured', c.home.featuredLabel, c.home.featuredLabel, null, B.homeFeatured(db, lang), { href: rel('projects'), label: c.ui.seeAll })}
 
-${section('automation', c.home.automationLabel, c.home.automationLabel, c.home.automationLead, `      <div class="grid grid--3">\n${B.homeAutomation(db, lang)}\n      </div>`)}
+${section('automation', c.home.automationLabel, c.home.automationLabel, c.home.automationLead, `      <div class="grid grid--3">\n${B.homeAutomation(db, lang)}\n      </div>`, { href: rel('automation'), label: c.nav.automation })}
 
-${section('projects', c.home.projectsLabel, c.home.projectsLabel, c.home.projectsLead, `      <div class="grid grid--3">\n${B.homeProjects(db, lang)}\n      </div>`)}
+${section('projects', c.home.projectsLabel, c.home.projectsLabel, c.home.projectsLead, `      <div class="grid grid--3">\n${B.homeProjects(db, lang)}\n      </div>`, { href: rel('projects'), label: c.nav.projects })}
 
-${section('quotes', c.home.quoteLabel, c.home.quoteLabel, null, `      <div class="grid grid--2">\n${B.homeQuote(db, lang)}\n      </div>`)}
+${section('quotes', c.home.quoteLabel, c.home.quoteLabel, null, `      <div class="grid grid--2">\n${B.homeQuote(db, lang)}\n      </div>`, { href: rel('work'), label: c.nav.work })}
 
   <section class="section">
     <div class="container">

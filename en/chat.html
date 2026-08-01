@@ -411,7 +411,10 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     <div class="container">
       <div class="section__head" data-reveal>
         
-        <h2>Full transcript</h2>
+        <div class="section__titlebar">
+          <h2>Full transcript</h2>
+          
+        </div>
         <p class="section__lead">Every answer in the conversation above, as plain text — for anyone, and anything, that prefers to read rather than click.</p>
       </div>
       <details class="transcript" id="chat-transcript">
@@ -424,60 +427,60 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </thead>
     <tbody>
     <tr class="transcript__row" id="say-start">
-      <th scope="row">Opening</th>
-      <td><p>Salam 👋 I am Nour — the chat version, anyway.</p><p>I am an AI automation engineer in Al Khobar, Saudi Arabia. I build n8n workflows that read documents with language models, and the React interfaces people use on top of them.</p><p>Everything here is also on the rest of the site as plain text. Ask away 👇</p></td>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-start">Opening</button></th>
+      <td id="answer-start"><p>Salam 👋 I am Nour — the chat version, anyway.</p><p>I am an AI automation engineer in Al Khobar, Saudi Arabia. I build n8n workflows that read documents with language models, and the React interfaces people use on top of them.</p><p>Everything here is also on the rest of the site as plain text. Ask away 👇</p></td>
     </tr>
     <tr class="transcript__row" id="say-automation">
-      <th scope="row">🤖 What do you actually build?</th>
-      <td><p>The short version: I take a process someone does by hand, and make it run itself.</p><p>Six of them are in production right now 👇</p><p>🤖 Automation Lab Smart Scanner pipeline — invoice photo → verified → parsed with GPT Vision → validated → stored. Teacher Assistant Bot — an Arabic Telegram agent running a tutor&#39;s whole practice from chat. AI Job-Match — scores jobs 1–10 daily, delivers only the good ones, writes the cover letter. Smart Lead Finder — scrapes and scores B2B leads across Saudi and Jordan. Lesson Quality Evaluator — video in, structured scoring JSON out. CRM Lead Cleaner — dedupes and validates incoming leads, with a reason for every rejection.</p><p>None of these are demos. Each replaced work a person used to do.</p></td>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-automation">🤖 What do you actually build?</button></th>
+      <td id="answer-automation"><p>The short version: I take a process someone does by hand, and make it run itself.</p><p>Six of them are in production right now 👇</p><p>🤖 Automation Lab Smart Scanner pipeline — invoice photo → verified → parsed with GPT Vision → validated → stored. Teacher Assistant Bot — an Arabic Telegram agent running a tutor&#39;s whole practice from chat. AI Job-Match — scores jobs 1–10 daily, delivers only the good ones, writes the cover letter. Smart Lead Finder — scrapes and scores B2B leads across Saudi and Jordan. Lesson Quality Evaluator — video in, structured scoring JSON out. CRM Lead Cleaner — dedupes and validates incoming leads, with a reason for every rejection.</p><p>None of these are demos. Each replaced work a person used to do.</p></td>
     </tr>
     <tr class="transcript__row" id="say-smartscanner">
-      <th scope="row">🧾 Tell me about Smart Scanner</th>
-      <td><p>My favourite build 🧾</p><p>🧾 Smart Scanner — Arabic-first invoice AI An employee photographs a receipt. The AI verifies it is a real invoice, runs fraud checks, extracts 70+ fields plus line items in Arabic and English, and classifies every expense. Accountants review, approve, comment, and export — through role-based dashboards. I built two of the three layers: the entire n8n AI engine, and the complete frontend — React 19 and TypeScript, 204 source files, 494 automated tests.</p><p>Timing was not an accident — ZATCA e-invoicing is expanding in Saudi Arabia and JoFotara is mandatory in Jordan. Every paper invoice in the region has to become clean data.</p><p>The Laravel backend is by Haitham Zedan. Good products come from good teams.</p></td>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-smartscanner">🧾 Tell me about Smart Scanner</button></th>
+      <td id="answer-smartscanner"><p>My favourite build 🧾</p><p>🧾 Smart Scanner — Arabic-first invoice AI An employee photographs a receipt. The AI verifies it is a real invoice, runs fraud checks, extracts 70+ fields plus line items in Arabic and English, and classifies every expense. Accountants review, approve, comment, and export — through role-based dashboards. I built two of the three layers: the entire n8n AI engine, and the complete frontend — React 19 and TypeScript, 204 source files, 494 automated tests.</p><p>Timing was not an accident — ZATCA e-invoicing is expanding in Saudi Arabia and JoFotara is mandatory in Jordan. Every paper invoice in the region has to become clean data.</p><p>The Laravel backend is by Haitham Zedan. Good products come from good teams.</p></td>
     </tr>
     <tr class="transcript__row" id="say-who">
-      <th scope="row">👤 Who are you?</th>
-      <td><p>I am Nour Aldeen Tofi — AI automation engineer and senior frontend developer, based in Al Khobar.</p><p>The unusual part is that I do both ends: I design the pipeline and I build the interface. I also run delivery — requirements, scope, tasks, deadlines.</p><p>B.Eng in Information Technology from University of Kalamoon, 2019–2024. Arabic native, English professional. 🇸🇦</p></td>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-who">👤 Who are you?</button></th>
+      <td id="answer-who"><p>I am Nour Aldeen Tofi — AI automation engineer and senior frontend developer, based in Al Khobar.</p><p>The unusual part is that I do both ends: I design the pipeline and I build the interface. I also run delivery — requirements, scope, tasks, deadlines.</p><p>B.Eng in Information Technology from University of Kalamoon, 2019–2024. Arabic native, English professional. 🇸🇦</p></td>
     </tr>
     <tr class="transcript__row" id="say-history">
-      <th scope="row">📜 Work history</th>
-      <td><p>Quick rewind ⏪</p><p>📜 The timeline 2026 → Software Engineering Supervisor · Distinctive Frontier 2025 → Project Coordinator &amp;amp; Automation Builder · NexLead 2025–26 Frontend Developer / Coordinator · Distinctive Frontier 2024–25 Frontend Developer · Khwarizm Technologies 2023–24 Frontend Developer · Minicodeleader 2021 ICPC / ACPC — competitive programming 2019–24 B.Eng Information Technology · University of Kalamoon</p><p>Frontend developer to supervisor in twelve months — like a pawn reaching the eighth rank. ♟→♛</p></td>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-history">📜 Work history</button></th>
+      <td id="answer-history"><p>Quick rewind ⏪</p><p>📜 The timeline 2026 → Software Engineering Supervisor · Distinctive Frontier 2025 → Project Coordinator &amp;amp; Automation Builder · NexLead 2025–26 Frontend Developer / Coordinator · Distinctive Frontier 2024–25 Frontend Developer · Khwarizm Technologies 2023–24 Frontend Developer · Minicodeleader 2021 ICPC / ACPC — competitive programming 2019–24 B.Eng Information Technology · University of Kalamoon</p><p>Frontend developer to supervisor in twelve months — like a pawn reaching the eighth rank. ♟→♛</p></td>
     </tr>
     <tr class="transcript__row" id="say-skills">
-      <th scope="row">🛠 Stack &amp; certifications</th>
-      <td><p>Automation: n8n, OpenAI (GPT-4o and GPT-4.1 Vision), AI agents with custom tool-calling, MCP, webhooks, REST.</p><p>Frontend: React, TypeScript, Tailwind, i18n and RTL, Vitest. Ops: Git, GitHub Actions, Jira, MySQL, Python.</p><p>🛠 Certified Meta Advanced React · IBM Python for Data Science &amp;amp; AI · GenAI Prompt Engineering Google Foundations of PM · Project Initiation Packt Tailwind CSS · Scrimba Clean Code · Markdown Coursera TypeScript in React · Jira roadmaps, user stories, and fundamentals</p><p>Twelve certificates, all with credential IDs on the Work page. Clean code is not on the list — that one is a personality trait 😌</p></td>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-skills">🛠 Stack &amp; certifications</button></th>
+      <td id="answer-skills"><p>Automation: n8n, OpenAI (GPT-4o and GPT-4.1 Vision), AI agents with custom tool-calling, MCP, webhooks, REST.</p><p>Frontend: React, TypeScript, Tailwind, i18n and RTL, Vitest. Ops: Git, GitHub Actions, Jira, MySQL, Python.</p><p>🛠 Certified Meta Advanced React · IBM Python for Data Science &amp;amp; AI · GenAI Prompt Engineering Google Foundations of PM · Project Initiation Packt Tailwind CSS · Scrimba Clean Code · Markdown Coursera TypeScript in React · Jira roadmaps, user stories, and fundamentals</p><p>Twelve certificates, all with credential IDs on the Work page. Clean code is not on the list — that one is a personality trait 😌</p></td>
     </tr>
     <tr class="transcript__row" id="say-hire">
-      <th scope="row">🤝 What can I hire you for?</th>
-      <td><p>Here is what people come to me for 👇</p><p>🤝 Open for Arabic document AI — invoices, receipts, cards, forms → structured data Workflow automation — n8n pipelines and AI agents that run themselves Internal tools — CRM, ERP, dashboards people actually enjoy using SaaS frontends — React and TypeScript, bilingual and RTL from day one Delivery — running a remote team end to end</p><p>Small scope or full product — both welcome.</p></td>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-hire">🤝 What can I hire you for?</button></th>
+      <td id="answer-hire"><p>Here is what people come to me for 👇</p><p>🤝 Open for Arabic document AI — invoices, receipts, cards, forms → structured data Workflow automation — n8n pipelines and AI agents that run themselves Internal tools — CRM, ERP, dashboards people actually enjoy using SaaS frontends — React and TypeScript, bilingual and RTL from day one Delivery — running a remote team end to end</p><p>Small scope or full product — both welcome.</p></td>
     </tr>
     <tr class="transcript__row" id="say-chess">
-      <th scope="row">♞ Chess me</th>
-      <td><p>You dare? Bold. I open 1. d4 — London System incoming ☕</p></td>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-chess">♞ Chess me</button></th>
+      <td id="answer-chess"><p>You dare? Bold. I open 1. d4 — London System incoming ☕</p></td>
     </tr>
     <tr class="transcript__row" id="say-contact">
-      <th scope="row">📬 Let us talk</th>
-      <td><p>Best move of the game 🤝</p><p>📬 Reach Nour Fastest: email. Formal: LinkedIn. For an AI assistant: this site ships an MCP server and a machine-readable profile, so it can just look me up.</p><p>Based in Al Khobar 🇸🇦 · replies fast · faster if you mention anime.</p></td>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-contact">📬 Let us talk</button></th>
+      <td id="answer-contact"><p>Best move of the game 🤝</p><p>📬 Reach Nour Fastest: email. Formal: LinkedIn. For an AI assistant: this site ships an MCP server and a machine-readable profile, so it can just look me up.</p><p>Based in Al Khobar 🇸🇦 · replies fast · faster if you mention anime.</p></td>
     </tr>
     <tr class="transcript__row" id="say-cost">
-      <th scope="row">💸 The cost trick</th>
-      <td><p>My first workflow sent every incoming file straight to a vision model. It worked — and cost about 3× more than it needed to.</p><p>A PDF usually already contains readable text. A vision model does not need to look at a page a text model can simply read.</p><p>One IF node after the webhook: PDF with extractable text → text model, otherwise → vision. About 75% cheaper per document.</p><p>💡 The part people forget: keep a fallback. If extraction returns empty because the PDF is really a scan, send it back to the vision branch — otherwise the cheap path silently produces nothing.</p></td>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-cost">💸 The cost trick</button></th>
+      <td id="answer-cost"><p>My first workflow sent every incoming file straight to a vision model. It worked — and cost about 3× more than it needed to.</p><p>A PDF usually already contains readable text. A vision model does not need to look at a page a text model can simply read.</p><p>One IF node after the webhook: PDF with extractable text → text model, otherwise → vision. About 75% cheaper per document.</p><p>💡 The part people forget: keep a fallback. If extraction returns empty because the PDF is really a scan, send it back to the vision branch — otherwise the cheap path silently produces nothing.</p></td>
     </tr>
     <tr class="transcript__row" id="say-menu">
-      <th scope="row">⌂ Menu</th>
-      <td><p>What else can I tell you?</p></td>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-menu">⌂ Menu</button></th>
+      <td id="answer-menu"><p>What else can I tell you?</p></td>
     </tr>
     <tr class="transcript__row" id="say-chess2">
-      <th scope="row">1… d5</th>
-      <td><p>Solid. 2. Bf4. I have played this structure a thousand times.</p><p>Fast-forward thirty moves: I am a pawn up in the endgame and you are in time trouble 😄</p><p>ICPC 2021 taught me to calculate fast, stay calm, and convert the advantage. Deadlines ask for exactly the same thing.</p></td>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-chess2">1… d5</button></th>
+      <td id="answer-chess2"><p>Solid. 2. Bf4. I have played this structure a thousand times.</p><p>Fast-forward thirty moves: I am a pawn up in the endgame and you are in time trouble 😄</p><p>ICPC 2021 taught me to calculate fast, stay calm, and convert the advantage. Deadlines ask for exactly the same thing.</p></td>
     </tr>
     <tr class="transcript__row" id="say-chessrun">
-      <th scope="row">Flip the board and run</th>
-      <td><p>Wise. The London System shows no mercy 😌</p></td>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-chessrun">Flip the board and run</button></th>
+      <td id="answer-chessrun"><p>Wise. The London System shows no mercy 😌</p></td>
     </tr>
     <tr class="transcript__row" id="say-bye">
-      <th scope="row">👋 That is all, thanks</th>
-      <td><p>Thanks for talking to my portfolio instead of only scrolling one 😄</p><p>Yalla — see you in the inbox 👋</p></td>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-bye">👋 That is all, thanks</button></th>
+      <td id="answer-bye"><p>Thanks for talking to my portfolio instead of only scrolling one 😄</p><p>Yalla — see you in the inbox 👋</p></td>
     </tr>
     </tbody>
   </table>

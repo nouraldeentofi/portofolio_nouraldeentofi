@@ -39,3 +39,7 @@
 /* the contact-link arrow points with the reading direction */
 [dir='rtl'] .linklist a::after { content: '←'; }
 [dir='rtl'] .linklist a:hover::after { transform: translateX(-4px); }
+
+/* the "see all" arrow points with the reading direction */
+[dir='rtl'] .section__more-arrow { transform: scaleX(-1); }
+[dir='rtl'] .section__more:hover .section__more-arrow { transform: scaleX(-1) translateX(3px); }

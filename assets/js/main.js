@@ -6,7 +6,14 @@
  * navigation, and the workflow background.
  */
 
-import { initReveal, initCounters, initNav, initSpine, initHeader } from './motion.js';
+import {
+  initReveal,
+  initCounters,
+  initNav,
+  initSpine,
+  initHeader,
+  initTranscript,
+} from './motion.js';
 import { createWorkflowBackground } from './workflow-bg.js';
 
 /* ----------------------------------------------------------------- theme */
@@ -70,6 +77,7 @@ initHeader();
 initReveal();
 initCounters();
 initSpine();
+initTranscript();
 
 // Every hero carries a variant of the workflow animation — the page's own
 // metaphor in the shared visual language. One instance per canvas.

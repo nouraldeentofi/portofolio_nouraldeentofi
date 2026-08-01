@@ -131,6 +131,21 @@ export function checkAll({ pages = pageFiles() } = {}) {
       else if (!/rel="[^"]*noopener/.test(tag)) fail(`${file}: external link to ${href} is missing rel="noopener"`);
     }
 
+    // 8d — every summary block on the home page must lead somewhere.
+    //
+    // These links are an optional argument to section(). Passing them to the
+    // wrong function fails silently — the block renderer simply ignores the
+    // extra argument and the link never appears. This catches that.
+    if (page === '') {
+      const HOME_SECTIONS = ['proof', 'featured', 'automation', 'projects', 'quotes'];
+      for (const id of HOME_SECTIONS) {
+        const block = html.split(`id="${id}"`)[1]?.split('</section>')[0] ?? '';
+        if (!block.includes('class="section__more"')) {
+          fail(`${file}: home section "${id}" has no link out to its page`);
+        }
+      }
+    }
+
     sectionCounts[`${page}:${lang}`] = (html.match(/<section/g) ?? []).length;
   }
 

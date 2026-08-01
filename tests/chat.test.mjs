@@ -60,9 +60,19 @@ test('transcript renders every reachable node as a table row', () => {
 test('transcript rows carry a readable topic taken from the chat buttons', () => {
   const t = buildTranscript('en', { chat: { transcriptTopic: 'Topic', transcriptAnswer: 'Answer', transcriptOpening: 'Opening' } });
   assert.match(t, /<th scope="col">Topic<\/th>/);
-  assert.match(t, /<th scope="row">Opening<\/th>/);
+  // each topic is a real button, so rows open by click and by keyboard
+  assert.match(t, /<button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-start">Opening<\/button>/);
   // a node reached by a button borrows that button's wording
-  assert.match(t, /<th scope="row">[^<]*Smart Scanner[^<]*<\/th>/);
+  assert.match(t, /class="transcript__toggle"[^>]*>[^<]*Smart Scanner[^<]*<\/button>/);
+});
+
+test('every transcript toggle controls a real answer cell', () => {
+  const t = buildTranscript('en');
+  const controls = [...t.matchAll(/aria-controls="([^"]+)"/g)].map((m) => m[1]);
+  assert.ok(controls.length > 0);
+  for (const id of controls) {
+    assert.ok(t.includes(`<td id="${id}">`), `${id} has no matching cell`);
+  }
 });
 
 test('transcript renders in Arabic too', () => {
