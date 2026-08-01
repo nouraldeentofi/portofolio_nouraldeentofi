@@ -17,8 +17,8 @@ You already own `nouraldeentofi` on the two that matter most.
 |---|---|---|
 | Email | ✅ `nouraldeentofi@gmail.com` | — |
 | LinkedIn | ✅ `/in/nouraldeentofi/` | — |
-| Site | ✅ `nouraldeentofi.netlify.app` | — |
-| **GitHub** | ⚠️ `github.com/NourTofi` | **Rename to `nouraldeentofi`** — see below |
+| Site | ✅ `nouraldeentofi.github.io` | — |
+| GitHub | ✅ `github.com/nouraldeentofi` | — |
 | X / Twitter | ❌ | Claim `@nouraldeentofi` |
 | Dev.to or Medium | ❌ | Claim it; repost your LinkedIn write-ups |
 | YouTube | ❌ | Claim the handle even if you never post |
@@ -28,16 +28,16 @@ You already own `nouraldeentofi` on the two that matter most.
 **Claim a handle even on platforms you will not use.** It costs a minute and stops
 someone else becoming the first `nouraldeentofi` a search returns.
 
-### Renaming GitHub
+### GitHub was renamed on 2026-08-01
 
-Settings → Account → Change username. GitHub redirects the old URL, but the redirect
-breaks the moment anyone else claims `NourTofi` — so do it soon, and afterwards:
+`NourTofi` → `nouraldeentofi`, and the Pages repo with it, so the site moved from
+`nourtofi.github.io` to `nouraldeentofi.github.io`. `data/profile.json` carries both
+the site URL and the GitHub `sameAs`, so the rebuild propagated them everywhere.
 
-```bash
-# update the one place it lives, then rebuild
-#   data/profile.json → sameAs → GitHub → url
-npm run build && npm run validate
-```
+**The old handle is now unclaimed.** GitHub redirects `github.com/NourTofi/*` only
+until someone else takes the name, and the old Pages host stopped serving the moment
+the rename landed — Pages does not redirect `*.github.io`. Anywhere `nourtofi.github.io`
+was ever pasted is now a dead link: LinkedIn, CV PDFs, the Play Store listing.
 
 ---
 
