@@ -1,6 +1,6 @@
 /* TEAM */
   Engineer: Nour Aldeen Tofi
-  Site: nouraldeentofi.netlify.app
+  Site: nourtofi.github.io
   Location: Al Khobar, Eastern Province, Saudi Arabia
   Languages: Arabic, English
 

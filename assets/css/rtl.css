@@ -38,25 +38,23 @@
 
 /* the contact-link arrow points with the reading direction */
 [dir='rtl'] .linklist a::after { content: '←'; }
-[dir='rtl'] .linklist a:hover::after { transform: translateX(-4px); }
 
 /* the "see all" arrow points with the reading direction */
 [dir='rtl'] .section__more-arrow { transform: scaleX(-1); }
-[dir='rtl'] .section__more:hover .section__more-arrow { transform: scaleX(-1) translateX(3px); }
 
-/* ---------- mobile rails ---------- */
+/* Mirrored hover motion, gated the same way the LTR rules are — a tap must
+   not leave the arrow displaced. */
+@media (hover: hover) {
+  [dir='rtl'] .linklist a:hover::after { transform: translateX(-4px); }
+  [dir='rtl'] .section__more:hover .section__more-arrow { transform: scaleX(-1) translateX(3px); }
+}
 
-/* Horizontal snap rails inherit the document direction, so on Arabic pages
-   they already start from the right. Only the tab-bar indicator and the
-   hero cue are positioned with physical values and need mirroring. */
-@media (max-width: 860px) {
+/* ---------- phone ---------- */
+
+/* Layout mirrors for free through logical properties. Only the tab-bar
+   indicator is drawn with a physical offset and needs help. */
+@media (max-width: 767px) {
   [dir='rtl'] .mobile-tabs a[aria-current='page']::after {
     inset-inline-start: 22%;
-  }
-
-  [dir='rtl'] .hero::after {
-    inset-inline-start: auto;
-    inset-inline-end: 50%;
-    margin-inline: 0 -1px;
   }
 }

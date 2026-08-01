@@ -394,8 +394,12 @@
   .brand__name { display: none; }
 }
 
-/* Mobile — nav becomes a full drawer of large node-cards. */
-@media (max-width: 860px) {
+/* Phone — nav becomes a full drawer of large node-cards.
+   The boundary is 767px, not 860px, so tablet portrait (768–860) keeps the
+   inline nav and never sees the drawer or the bottom tab bar. Everything a
+   tablet needs it now inherits from the 1040px block above: tightened nav
+   padding and a hidden brand name. */
+@media (max-width: 767px) {
   .nav-toggle { display: inline-flex; }
   .brand__name { display: inline; }
   .mobile-tabs { display: flex; }
@@ -575,14 +579,17 @@
   transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
-.section__more:hover {
-  color: var(--lime);
-  border-color: var(--lime);
-  transform: translateY(-2px);
-}
-
 .section__more-arrow { transition: transform 0.2s ease; }
-.section__more:hover .section__more-arrow { transform: translateX(3px); }
+
+@media (hover: hover) {
+  .section__more:hover {
+    color: var(--lime);
+    border-color: var(--lime);
+    transform: translateY(-2px);
+  }
+
+  .section__more:hover .section__more-arrow { transform: translateX(3px); }
+}
 
 /* The whole heading row is a target on small screens, where the pill would
    otherwise be an easy thing to miss. */

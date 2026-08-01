@@ -31,13 +31,15 @@
   pointer-events: none;
 }
 
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 26px color-mix(in srgb, var(--mint) 35%, transparent);
-  text-decoration: none;
-}
+@media (hover: hover) {
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px color-mix(in srgb, var(--mint) 35%, transparent);
+    text-decoration: none;
+  }
 
-.btn:hover::before { transform: translateX(130%); }
+  .btn:hover::before { transform: translateX(130%); }
+}
 
 .btn--ghost {
   background: var(--glass);
@@ -479,7 +481,9 @@
   transition: transform 0.2s ease, color 0.2s ease;
 }
 
-.linklist a:hover::after { color: var(--lime); transform: translateX(4px); }
+@media (hover: hover) {
+  .linklist a:hover::after { color: var(--lime); transform: translateX(4px); }
+}
 
 /* ---------- credentials ---------- */
 
@@ -669,7 +673,9 @@
   border-inline-start: 1px solid var(--line);
 }
 
-@media (max-width: 780px) {
+/* Row cards stack for the whole touch range. At 780 the flip landed inside
+   iPad portrait, putting a layout seam in the middle of one device class. */
+@media (max-width: 860px) {
   .card--row { grid-template-columns: 1fr; }
   .card--row .card__aside {
     padding-inline-start: 0;
@@ -761,7 +767,7 @@
 /* FAQ rows sit full width and keep the corner node clear of the question. */
 .card--faq > summary { padding-inline-end: var(--space-6); }
 
-@media (max-width: 780px) {
+@media (max-width: 860px) {
   .card__aside--index {
     align-items: flex-start;
     /* the numeral is decoration, not content — it goes first visually on

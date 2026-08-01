@@ -1,0 +1,261 @@
+/* ============================================================
+   Touch layout — phones and tablets.
+
+   Loaded last. Every rule below sits inside a `max-width: 860px`,
+   `pointer: coarse`, or `hover: none` query, so a laptop with a mouse
+   matches none of them. Desktop rendering is unchanged by construction,
+   not by care.
+
+   Three tiers:
+     ≤ 767px            phone            drawer nav, tab bar, one column
+     768 – 860px        tablet portrait  inline nav, no tab bar, two columns
+     ≥ 861px + coarse   tablet landscape desktop layout, larger targets
+
+   The guiding choice: a phone scrolls in one direction. Nothing is hidden
+   behind a sideways gesture the reader has to discover first.
+   ============================================================ */
+
+/* =====================================================================
+   Phone — ≤ 767px
+   ===================================================================== */
+
+@media (max-width: 767px) {
+  :root {
+    --gutter: 1.25rem;
+    --section-pad: 2.75rem;
+  }
+
+  /* ---------- rhythm ---------- */
+
+  body { font-size: 1.05rem; line-height: 1.72; }
+
+  h1 { font-size: clamp(1.95rem, 1.4rem + 3.4vw, 2.3rem); line-height: 1.16; }
+  h2 { font-size: clamp(1.4rem, 1.2rem + 1.6vw, 1.7rem); }
+  h3 { font-size: 1.12rem; }
+
+  .section { padding-block: var(--section-pad); }
+  .section__head { margin-block-end: var(--space-5); }
+  .section__lead { font-size: 1rem; }
+
+  /* ---------- hero, sized by its content ---------- */
+
+  /* Not a forced full screen. A hero that fills the viewport pushes the
+     first real content below the fold and buys nothing for it. */
+  .hero { padding-block: var(--space-7) var(--space-6); }
+
+  .hero__eyebrow { font-size: 0.7rem; }
+  .hero__headline { font-size: 1.1rem; max-inline-size: none; }
+  .hero__intro { font-size: 1rem; }
+
+  .hero__actions {
+    display: grid;
+    gap: var(--space-3);
+    margin-block-start: var(--space-6);
+  }
+
+  .hero__actions .btn {
+    inline-size: 100%;
+    justify-content: center;
+    min-block-size: 52px;
+    font-size: 1rem;
+  }
+
+  /* ---------- collections stack ---------- */
+
+  /* One direction of travel. Every card, tile and quote is reached by
+     scrolling down; none of it hides behind a swipe. */
+  .grid--2,
+  .grid--3,
+  .creds--grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .masonry { columns: 1; column-gap: 0; }
+  .masonry > * { margin-block-end: var(--space-4); }
+
+  .stack { gap: var(--space-4); }
+
+  /* Skills wrap. Sixteen badges over a few lines scan faster than sixteen
+     badges on one line you have to drag through. */
+  .badges { flex-wrap: wrap; }
+
+  /* Statistics are short enough to pair up. */
+  .proof { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+  .proof__item { padding: var(--space-4) var(--space-3); }
+
+  /* ---------- cards, inside the gutter ---------- */
+
+  .card { padding: var(--space-4); }
+  .card--row { gap: var(--space-4); padding: var(--space-5) var(--space-4); }
+  .card--row .card__aside { padding-block-start: var(--space-4); }
+
+  /* the corner node collides with headings that wrap on a narrow card */
+  .card::after { inset-block-start: 14px; inset-inline-end: 14px; }
+  .card__meta { padding-inline-end: var(--space-5); font-size: 0.72rem; }
+
+  .quote { padding: var(--space-4); }
+
+  /* ---------- narrative and timeline ---------- */
+
+  .narrative { gap: var(--space-5); }
+  .narrative__step--lead { font-size: 1.15rem; }
+
+  .timeline__item { padding: var(--space-4); padding-inline-start: var(--space-5); }
+  .timeline__role { font-size: 1.05rem; }
+  .timeline__bullets { font-size: 0.94rem; }
+
+  /* ---------- bottom tab bar ---------- */
+
+  .mobile-tabs a {
+    position: relative;
+    min-block-size: 60px;
+    font-size: 0.68rem;
+    gap: 4px;
+  }
+
+  /* a real active indicator, not only a colour change */
+  .mobile-tabs a[aria-current='page']::after {
+    content: '';
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 22%;
+    inline-size: 56%;
+    block-size: 3px;
+    border-radius: 0 0 3px 3px;
+    background: linear-gradient(90deg, var(--lime), var(--mint));
+  }
+
+  /* ---------- chat ---------- */
+
+  .chat { block-size: min(62svh, 520px); border-radius: var(--radius); }
+  .chat__msg { max-inline-size: 88%; font-size: 0.94rem; }
+  .chat__replies { max-block-size: 30svh; }
+  .chat__reply { font-size: 0.92rem; }
+
+  /* ---------- cost flow ---------- */
+
+  .flow { padding: var(--space-5) var(--space-4); }
+  .flow__branches { grid-template-columns: 1fr; gap: var(--space-4); }
+  .flow__node { font-size: 0.88rem; padding: var(--space-3) var(--space-4); }
+  .case__scale { flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+
+  /* ---------- transcript ---------- */
+
+  .table-wrap { max-block-size: 52svh; }
+  .transcript__table { min-inline-size: 0; }
+  .transcript__table tbody th { inline-size: 42%; white-space: normal; }
+  .transcript__toggle { align-items: center; }
+
+  /* ---------- footer ---------- */
+
+  .site-footer { text-align: center; }
+  .site-footer__inner { align-items: center; }
+  .footer__links { justify-content: center; }
+}
+
+/* Narrow phones — let the statistics fall to one column rather than squeeze
+   a five-digit figure into 140px. */
+@media (max-width: 380px) {
+  .proof { grid-template-columns: 1fr; }
+  .hero__actions .btn { font-size: 0.95rem; }
+}
+
+/* Landscape phones have width, not height. */
+@media (max-width: 860px) and (max-height: 520px) and (orientation: landscape) {
+  .hero { padding-block: var(--space-6); }
+  .chat { block-size: 78svh; }
+}
+
+/* =====================================================================
+   Tablet portrait — 768 – 860px
+
+   A tablet is neither a large phone nor a small laptop. It keeps the inline
+   nav and loses the bottom tab bar, which returns the full height of the
+   screen to reading. The nav rules come for free: layout.css caps the
+   drawer at 767px, and its 1040px block already tightens the inline nav
+   and hides the brand name.
+   ===================================================================== */
+
+@media (min-width: 768px) and (max-width: 860px) {
+  :root { --section-pad: 3.5rem; }
+
+  /* Two columns is the whole point of the extra width. */
+  .grid--2,
+  .grid--3,
+  .creds--grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  .masonry { columns: 2; }
+
+  .hero { padding-block: var(--space-8) var(--space-7); }
+
+  /* Long-form pages stay one column. A project is a document, and two
+     columns of prose at this width gives a 34-character measure. */
+  .stack { grid-template-columns: 1fr; }
+}
+
+/* =====================================================================
+   Any touch device, at any width
+   ===================================================================== */
+
+/* A finger needs a bigger target than a cursor, including on tablet
+   landscape and kiosks that keep the desktop layout entirely. */
+@media (pointer: coarse) {
+  .btn,
+  .site-nav a,
+  .linklist a,
+  .theme-toggle,
+  .lang-switch,
+  .nav-toggle,
+  .chat__reply,
+  .transcript__toggle,
+  .section__more,
+  .brand {
+    min-block-size: 48px;
+  }
+
+  /* min-block-size does nothing to a non-replaced inline box, so any target
+     that is still inline needs a flex box before the height can take. */
+  .site-nav a { display: flex; align-items: center; }
+
+  /* Links inside prose are deliberately left alone. Padding them out to 48px
+     would wreck the line rhythm of a paragraph, and the sentence around them
+     already gives a generous horizontal target. */
+}
+
+/* Hover belongs to a pointer that can leave again. On touch, :hover stays
+   applied after a tap, so every lift in the stylesheet sticks — the card
+   sits raised until you happen to tap somewhere else. The rules that could
+   be gated at their source are; these are the remainder. */
+@media (hover: none) {
+  .card:hover,
+  .cred:hover,
+  .quote:hover,
+  .proof__item:hover,
+  .linklist a:hover,
+  .timeline__item:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* Calmer motion. The mesh keeps moving — it is the site's signature — but
+   quieter, and the decorative entrances shorten to something closer to a
+   fade than a parade. */
+@media (pointer: coarse) {
+  :root { --canvas-alpha: 0.42; }
+  :root[data-theme='dark'] { --canvas-alpha: 0.34; }
+
+  /* :nth-child(n) matches every item at the same specificity as the
+     staggered delays in layout.css, and this file loads later, so it
+     collapses the stagger without an !important. */
+  .site-nav[data-open='true'] a:nth-child(n) {
+    animation-duration: 0.22s;
+    animation-delay: 0.02s;
+  }
+
+  .timeline__item--current::before { animation-duration: 4.2s; }
+}

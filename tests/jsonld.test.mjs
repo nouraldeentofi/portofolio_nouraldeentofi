@@ -77,11 +77,13 @@ test('faq entries become questions with accepted answers', () => {
 });
 
 test('breadcrumbs are absolute and language-aware', () => {
+  // The host comes from data/profile.json, never a literal here — otherwise
+  // moving the site to a new domain fails a test that is not about domains.
   const ar = breadcrumbLd('projects', 'ar', db);
   assert.equal(ar['@type'], 'BreadcrumbList');
-  assert.match(ar.itemListElement.at(-1).item, /nouraldeentofi\.netlify\.app\/projects\.html$/);
+  assert.equal(ar.itemListElement.at(-1).item, `${db.profile.site}/projects.html`);
   const en = breadcrumbLd('projects', 'en', db);
-  assert.match(en.itemListElement.at(-1).item, /\/en\/projects\.html$/);
+  assert.equal(en.itemListElement.at(-1).item, `${db.profile.site}/en/projects.html`);
 });
 
 test('script tag emits parseable json-ld', () => {

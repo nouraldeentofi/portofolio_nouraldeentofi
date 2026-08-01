@@ -6,13 +6,13 @@ I build AI automation systems that turn messy manual processes into clean, self-
 
 ## Start here
 
-- [Home](https://nouraldeentofi.netlify.app/en/index.html)
-- [About](https://nouraldeentofi.netlify.app/en/about.html)
-- [Work](https://nouraldeentofi.netlify.app/en/work.html)
-- [Projects](https://nouraldeentofi.netlify.app/en/projects.html)
-- [Automation Lab](https://nouraldeentofi.netlify.app/en/automation.html)
-- [Chat](https://nouraldeentofi.netlify.app/en/chat.html)
-- [Contact](https://nouraldeentofi.netlify.app/en/contact.html)
+- [Home](https://nourtofi.github.io/en/index.html)
+- [About](https://nourtofi.github.io/en/about.html)
+- [Work](https://nourtofi.github.io/en/work.html)
+- [Projects](https://nourtofi.github.io/en/projects.html)
+- [Automation Lab](https://nourtofi.github.io/en/automation.html)
+- [Chat](https://nourtofi.github.io/en/chat.html)
+- [Contact](https://nourtofi.github.io/en/contact.html)
 
 ## Projects
 
@@ -41,11 +41,11 @@ I build AI automation systems that turn messy manual processes into clean, self-
 
 ## Machine-readable
 
-- [Full profile as markdown](https://nouraldeentofi.netlify.app/llms-full.txt): everything on this site in one document
-- [Profile JSON](https://nouraldeentofi.netlify.app/api/profile.json): identity, links, availability
-- [Projects JSON](https://nouraldeentofi.netlify.app/api/projects.json): projects and workflows
-- [Résumé (JSON Resume standard)](https://nouraldeentofi.netlify.app/api/resume.json)
-- [MCP server](https://nouraldeentofi.netlify.app/mcp/README.md): query this profile as tools from an AI assistant
+- [Full profile as markdown](https://nourtofi.github.io/llms-full.txt): everything on this site in one document
+- [Profile JSON](https://nourtofi.github.io/api/profile.json): identity, links, availability
+- [Projects JSON](https://nourtofi.github.io/api/projects.json): projects and workflows
+- [Résumé (JSON Resume standard)](https://nourtofi.github.io/api/resume.json)
+- [MCP server](https://nourtofi.github.io/mcp/README.md): query this profile as tools from an AI assistant
 
 ## Contact
 

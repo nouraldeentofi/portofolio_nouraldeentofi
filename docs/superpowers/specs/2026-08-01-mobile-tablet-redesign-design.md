@@ -1,0 +1,120 @@
+# Phone and tablet redesign
+
+**Date:** 2026-08-01
+**Status:** Approved
+
+## Goal
+
+Make the site easy to use and restful to look at on phones and tablets. Laptop and
+desktop rendering must not change at all.
+
+## The problem
+
+`assets/css/mobile.css` (commit `9735ea5`) made phones a distinct design, but three of
+its choices work against ease of use:
+
+1. **Sideways swipe rails.** `.grid--3`, `.grid--2`, `.creds--grid`, `.masonry`,
+   `.badges` and `.proof` all became horizontal snap carousels with
+   `scrollbar-width: none`. Content is hidden behind a gesture the user has to discover,
+   with no visual cue that more exists.
+2. **Three competing chrome layers.** A sticky site header, sticky section headings at
+   `top: 60px`, and a fixed bottom tab bar. The sticky heading also paints opaque
+   `--bg` over the animated mesh canvas, leaving a visible seam.
+3. **Full-bleed with rounded corners.** Negative margins push cards to the screen edge
+   while `border-radius` stays applied, so the corners read as a rendering fault.
+
+Tablets have no tier at all. The only breakpoint is 860px, so every iPad in portrait
+(768–834px) receives the complete phone design — bottom tab bar, swipe rails and all.
+
+There is also a defect affecting every touch device: `.btn:hover`, `.card:hover` and
+`.section__more:hover` apply `translateY(-2px)` lifts. On touch, that hover state sticks
+after a tap and the element stays visibly raised until the user taps elsewhere.
+
+## Tiers
+
+| Tier | Matches | Nav | Grids | Bottom bar |
+|---|---|---|---|---|
+| Phone | `≤767px` | Drawer | 1 column | Yes |
+| Tablet portrait | `768–860px` | Inline, full | 2 columns | No |
+| Wide touch | `≥861px` and `pointer: coarse` | Desktop | Desktop | No |
+| Laptop / desktop | `≥861px`, fine pointer | untouched | untouched | untouched |
+
+**Desktop is protected structurally, not by care.** Every rule introduced here lives
+inside either a `max-width: 860px` query or a `pointer: coarse` query. A mouse-driven
+laptop matches neither and therefore cannot be affected.
+
+### Why 768px, and not 600px
+
+The inline navigation needs roughly 700px: seven items (`Automation Lab` is wide on its
+own) plus the brand, theme toggle and language switch. Below that it overflows.
+
+768px is also where every real iPad portrait width sits (768, 810, 820, 834), so the
+tablet tier captures the devices that matter without a tier boundary cutting through
+the middle of a common device.
+
+### Why the tablet tier stops at 860px
+
+Extending it to 1024px would change how the site renders in a narrow browser window on
+a laptop. Keeping the existing 861px desktop boundary means laptop rendering is
+bit-for-bit unchanged. iPad landscape (1024–1194px) is served instead by the
+`pointer: coarse` tier, which a mouse cannot match.
+
+## Phone (≤767px)
+
+- **Collections stack.** Remove every horizontal rail. `.grid--3`, `.grid--2`,
+  `.creds--grid` and `.masonry` become single-column stacks. `.badges` wraps again.
+  `.proof` becomes a two-up grid of stat tiles rather than 44%-wide slivers.
+- **Inset, not full-bleed.** Remove every `margin-inline: calc(-1 * var(--gutter))`
+  bleed. Gutter ~1.25rem so rounded corners read as intended.
+- **One sticky layer.** Drop sticky section headings. Keep the sticky header and the
+  bottom tab bar — two fixed edges, not three.
+- **Hero is content-sized.** Drop the forced `78svh` and the pulsing scroll cue.
+- **Reading comfort.** Body 1.05rem, line-height ~1.7, `h1` capped near 2.3rem.
+- Keep the existing 48px minimum touch targets.
+
+## Tablet portrait (768–860px)
+
+- Inline nav; no hamburger, no bottom tab bar. Reclaims ~60px plus the safe-area inset.
+- Two-column grids for cards, credentials and the testimonial masonry.
+- Row cards (`.card--row`) stack through the whole tier. They currently flip to two
+  columns at 780px, which places a layout seam inside iPad portrait.
+- Wider gutters.
+
+## Wide touch (`≥861px` and `pointer: coarse`)
+
+Desktop layout retained. Touch targets to 48px; hover effects disabled.
+
+## Motion, on every touch tier
+
+- Remove the pulsing hero cue and its now-dead RTL mirror at `rtl.css:57`.
+- **Gate all hover effects behind `(hover: hover)`** so touch never receives a stuck
+  lifted state.
+- Shorten the nav entrance stagger.
+- Keep the canvas mesh, but slower and fainter. `workflow-bg.js` already caps mobile at
+  90 nodes.
+
+## Files
+
+| File | Change |
+|---|---|
+| `assets/css/mobile.css` | Rewritten and renamed `responsive.css` — it covers tablets now |
+| `scripts/lib/pages.mjs` | Line 137: `mobile.css` → `responsive.css` |
+| `assets/css/layout.css` | Split the 860px block into ≤767 (drawer, tabs) and 768–860 (inline nav) |
+| `assets/css/components.css` | Row-card boundary 780→860; hover gating |
+| `assets/css/motion.css` | Hover gating; calmer touch motion |
+| `assets/css/rtl.css` | Drop the dead hero-cue mirror; mirror any new rules |
+| `*.html`, `ar/*.html` | Regenerated by `npm run build` — never edited by hand |
+
+## Constraints carried from CLAUDE.md
+
+- Logical properties only. No `left:` or `right:`.
+- Generated HTML is never hand-edited; `npm run build` produces it.
+- Arabic and English must both be verified — RTL is where responsive changes break.
+
+## Verification
+
+- `npm run check` (test → build → validate) passes.
+- No new `left:`/`right:` declarations in any stylesheet.
+- Every added rule is inside a `max-width: 860px` or `pointer: coarse` query — grep to
+  confirm nothing leaked to desktop.
+- Both language trees render correctly at 390px, 430px, 768px, 834px and 1024px.
