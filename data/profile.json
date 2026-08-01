@@ -28,7 +28,7 @@
   "imageTodo": "Add assets/img/nour.jpg (a real portrait) and set this to that path — it becomes the Person image in structured data and the social preview",
   "email": "nouraldeentofi@gmail.com",
   "phone": "+966547972944",
-  "site": "https://nourtofi.github.io",
+  "site": "https://nouraldeentofi.github.io",
   "languages": [
     {
       "code": "ar",
@@ -50,7 +50,7 @@
       "contactChannel": false,
       "note": "A product link, not a way to reach Nour. Kept in sameAs so the identity graph still resolves it; shown on the Projects page as GoldenTag."
     },
-    { "platform": "GitHub", "url": "https://github.com/NourTofi" },
+    { "platform": "GitHub", "url": "https://github.com/nouraldeentofi" },
     {
       "platform": "Codeforces",
       "url": "https://codeforces.com/profile/nour.tofi.it",

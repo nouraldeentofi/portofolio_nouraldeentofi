@@ -6,13 +6,13 @@ I build AI automation systems that turn messy manual processes into clean, self-
 
 ## Start here
 
-- [Home](https://nourtofi.github.io/en/index.html)
-- [About](https://nourtofi.github.io/en/about.html)
-- [Work](https://nourtofi.github.io/en/work.html)
-- [Projects](https://nourtofi.github.io/en/projects.html)
-- [Automation Lab](https://nourtofi.github.io/en/automation.html)
-- [Chat](https://nourtofi.github.io/en/chat.html)
-- [Contact](https://nourtofi.github.io/en/contact.html)
+- [Home](https://nouraldeentofi.github.io/en/index.html)
+- [About](https://nouraldeentofi.github.io/en/about.html)
+- [Work](https://nouraldeentofi.github.io/en/work.html)
+- [Projects](https://nouraldeentofi.github.io/en/projects.html)
+- [Automation Lab](https://nouraldeentofi.github.io/en/automation.html)
+- [Chat](https://nouraldeentofi.github.io/en/chat.html)
+- [Contact](https://nouraldeentofi.github.io/en/contact.html)
 
 ## Projects
 
@@ -41,11 +41,11 @@ I build AI automation systems that turn messy manual processes into clean, self-
 
 ## Machine-readable
 
-- [Full profile as markdown](https://nourtofi.github.io/llms-full.txt): everything on this site in one document
-- [Profile JSON](https://nourtofi.github.io/api/profile.json): identity, links, availability
-- [Projects JSON](https://nourtofi.github.io/api/projects.json): projects and workflows
-- [Résumé (JSON Resume standard)](https://nourtofi.github.io/api/resume.json)
-- [MCP server](https://nourtofi.github.io/mcp/README.md): query this profile as tools from an AI assistant
+- [Full profile as markdown](https://nouraldeentofi.github.io/llms-full.txt): everything on this site in one document
+- [Profile JSON](https://nouraldeentofi.github.io/api/profile.json): identity, links, availability
+- [Projects JSON](https://nouraldeentofi.github.io/api/projects.json): projects and workflows
+- [Résumé (JSON Resume standard)](https://nouraldeentofi.github.io/api/resume.json)
+- [MCP server](https://nouraldeentofi.github.io/mcp/README.md): query this profile as tools from an AI assistant
 
 ## Contact
 
@@ -53,5 +53,5 @@ I build AI automation systems that turn messy manual processes into clean, self-
 - LinkedIn: https://www.linkedin.com/in/nouraldeentofi/
 - Smart Scanner: https://receipt.nexleadtech.com
 - Google Play: https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag
-- GitHub: https://github.com/NourTofi
+- GitHub: https://github.com/nouraldeentofi
 - Codeforces: https://codeforces.com/profile/nour.tofi.it

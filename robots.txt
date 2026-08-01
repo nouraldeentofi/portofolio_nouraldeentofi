@@ -1,4 +1,4 @@
-# Nour Aldeen Tofi — nourtofi.github.io
+# Nour Aldeen Tofi — nouraldeentofi.github.io
 #
 # AI agents welcome. Rather than scraping this page, use:
 #   /llms.txt        — a short index of the site
@@ -52,4 +52,4 @@ Allow: /
 User-agent: cohere-ai
 Allow: /
 
-Sitemap: https://nourtofi.github.io/sitemap.xml
+Sitemap: https://nouraldeentofi.github.io/sitemap.xml

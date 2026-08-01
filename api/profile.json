@@ -1,6 +1,6 @@
 {
-  "$schema": "https://nourtofi.github.io/api/profile.json",
-  "generated": "2026-08-01T02:08:32.756Z",
+  "$schema": "https://nouraldeentofi.github.io/api/profile.json",
+  "generated": "2026-08-01T08:14:55.031Z",
   "name": {
     "en": "Nour Aldeen Tofi",
     "ar": "نور الدين طفي"
@@ -30,7 +30,7 @@
   },
   "email": "nouraldeentofi@gmail.com",
   "phone": "+966547972944",
-  "url": "https://nourtofi.github.io",
+  "url": "https://nouraldeentofi.github.io",
   "languages": [
     {
       "code": "ar",
@@ -72,7 +72,7 @@
     },
     {
       "platform": "GitHub",
-      "url": "https://github.com/NourTofi"
+      "url": "https://github.com/nouraldeentofi"
     },
     {
       "platform": "Codeforces",
@@ -207,18 +207,18 @@
     }
   ],
   "documents": {
-    "llms": "https://nourtofi.github.io/llms.txt",
-    "llmsFull": "https://nourtofi.github.io/llms-full.txt",
-    "resume": "https://nourtofi.github.io/api/resume.json",
-    "projects": "https://nourtofi.github.io/api/projects.json",
+    "llms": "https://nouraldeentofi.github.io/llms.txt",
+    "llmsFull": "https://nouraldeentofi.github.io/llms-full.txt",
+    "resume": "https://nouraldeentofi.github.io/api/resume.json",
+    "projects": "https://nouraldeentofi.github.io/api/projects.json",
     "cv": [
       {
         "id": "automation",
-        "url": "https://nourtofi.github.io/assets/cv/Nour_Aldeen_Tofi_Automation.pdf"
+        "url": "https://nouraldeentofi.github.io/assets/cv/Nour_Aldeen_Tofi_Automation.pdf"
       },
       {
         "id": "engineering",
-        "url": "https://nourtofi.github.io/assets/cv/Nour_Aldeen_Tofi.pdf"
+        "url": "https://nouraldeentofi.github.io/assets/cv/Nour_Aldeen_Tofi.pdf"
       }
     ]
   }
