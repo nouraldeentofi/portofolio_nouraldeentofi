@@ -4,6 +4,7 @@ import { loadDb } from '../scripts/lib/load.mjs';
 import { buildLlmsTxt, buildLlmsFullTxt } from '../scripts/lib/llms.mjs';
 import { buildSitemap, PAGES, LANGS } from '../scripts/lib/sitemap.mjs';
 import { buildApiProfile, buildApiProjects, buildResumeJson } from '../scripts/lib/api.mjs';
+import { TEMPLATES } from '../scripts/lib/pages.mjs';
 
 const db = loadDb('data');
 
@@ -68,5 +69,40 @@ test('the public api never leaks an unresolved link', () => {
 test('every generated artefact is serialisable json', () => {
   for (const build of [buildApiProfile, buildApiProjects, buildResumeJson]) {
     assert.doesNotThrow(() => JSON.parse(JSON.stringify(build(db))));
+  }
+});
+
+/* The phone tab bar is the only navigation below 768px, so "every page is in
+   it" is a correctness property, not a preference. It used to be built from a
+   hardcoded four and had silently fallen three pages behind. */
+test('the phone tab bar links every page, in both languages', () => {
+  for (const lang of LANGS) {
+    const bar = TEMPLATES[''](db, lang).match(/<nav class="mobile-tabs"[\s\S]*?<\/nav>/)?.[0];
+    assert.ok(bar, `${lang}: no tab bar rendered`);
+
+    for (const page of PAGES) {
+      const href = `${page === '' ? 'index' : page}.html`;
+      assert.ok(bar.includes(`href="${href}"`), `${lang}: tab bar is missing ${href}`);
+    }
+  }
+});
+
+test('tab labels come from navShort and are never blank', () => {
+  for (const lang of LANGS) {
+    const bar = TEMPLATES[''](db, lang).match(/<nav class="mobile-tabs"[\s\S]*?<\/nav>/)[0];
+    const labels = [...bar.matchAll(/<span>([^<]*)<\/span>/g)].map((m) => m[1]);
+
+    assert.equal(labels.length, PAGES.length);
+    assert.ok(labels.every((l) => l.trim().length > 0), `${lang}: a tab rendered an empty label`);
+    assert.ok(labels.includes(db.copy[lang].navShort.automation));
+  }
+});
+
+test('no page ships a hamburger — the tab bar is the whole phone nav', () => {
+  for (const lang of LANGS) {
+    for (const page of PAGES) {
+      const html = TEMPLATES[page](db, lang);
+      assert.ok(!html.includes('nav-toggle'), `${lang}/${page || 'index'} still renders a nav toggle`);
+    }
   }
 });

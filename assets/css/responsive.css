@@ -107,10 +107,11 @@
 
   /* ---------- bottom tab bar ---------- */
 
+  /* Type size stays in layout.css so the seven-across fit is tuned in one
+     place; this only buys a taller target and room for the indicator. */
   .mobile-tabs a {
     position: relative;
     min-block-size: 60px;
-    font-size: 0.68rem;
     gap: 4px;
   }
 
@@ -209,7 +210,6 @@
   .linklist a,
   .theme-toggle,
   .lang-switch,
-  .nav-toggle,
   .chat__reply,
   .transcript__toggle,
   .section__more,
@@ -248,14 +248,6 @@
 @media (pointer: coarse) {
   :root { --canvas-alpha: 0.42; }
   :root[data-theme='dark'] { --canvas-alpha: 0.34; }
-
-  /* :nth-child(n) matches every item at the same specificity as the
-     staggered delays in layout.css, and this file loads later, so it
-     collapses the stagger without an !important. */
-  .site-nav[data-open='true'] a:nth-child(n) {
-    animation-duration: 0.22s;
-    animation-delay: 0.02s;
-  }
 
   .timeline__item--current::before { animation-duration: 4.2s; }
 }

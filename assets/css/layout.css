@@ -73,8 +73,9 @@
 
 /* ---------- mobile tab bar (hidden on desktop) ---------- */
 
-/* On phones, the four key destinations stay one tap away in an app-style
-   bottom bar; the drawer still holds the full list. */
+/* On phones this is the whole navigation: every section, one tap away, in an
+   app-style bottom bar. Seven across is tight, which is what the sizing below
+   is negotiating — and why `navShort` exists in the copy. */
 .mobile-tabs {
   display: none;
   position: fixed;
@@ -96,17 +97,31 @@
 
 .mobile-tabs a {
   flex: 1 1 0;
+  /* flex items refuse to shrink below their content without this, which is
+     what pushes a seven-item bar wider than the screen. */
+  min-inline-size: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 5px;
   padding-block: var(--space-2) var(--space-3);
+  padding-inline: 2px;
   min-block-size: 56px;
   justify-content: center;
-  font-size: 0.72rem;
+  font-size: 0.62rem;
   font-weight: 700;
   color: var(--faint);
   text-decoration: none;
+}
+
+/* One line per label, always. A wrapped label would make its tab taller than
+   its neighbours and break the row. */
+.mobile-tabs a span {
+  inline-size: 100%;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* each tab is a node on the pipeline */
@@ -177,50 +192,6 @@
 
 .theme-toggle:hover,
 .lang-switch:hover { color: var(--fg); border-color: var(--fg); }
-
-/* hamburger — hidden until the nav no longer fits */
-.nav-toggle {
-  display: none;
-  font: inherit;
-  background: transparent;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius-pill);
-  color: var(--fg);
-  cursor: pointer;
-  padding: var(--space-2) var(--space-3);
-  min-block-size: 38px;
-  min-inline-size: 42px;
-  align-items: center;
-  justify-content: center;
-}
-
-.nav-toggle__bars {
-  display: block;
-  inline-size: 18px;
-  block-size: 2px;
-  background: currentColor;
-  border-radius: 2px;
-  position: relative;
-  transition: background-color 0.2s ease;
-}
-
-.nav-toggle__bars::before,
-.nav-toggle__bars::after {
-  content: '';
-  position: absolute;
-  inset-inline: 0;
-  block-size: 2px;
-  background: currentColor;
-  border-radius: 2px;
-  transition: transform 0.24s ease;
-}
-
-.nav-toggle__bars::before { inset-block-start: -6px; }
-.nav-toggle__bars::after { inset-block-start: 6px; }
-
-.nav-toggle[aria-expanded='true'] .nav-toggle__bars { background: transparent; }
-.nav-toggle[aria-expanded='true'] .nav-toggle__bars::before { transform: translateY(6px) rotate(45deg); }
-.nav-toggle[aria-expanded='true'] .nav-toggle__bars::after { transform: translateY(-6px) rotate(-45deg); }
 
 /* ---------- sections ---------- */
 
@@ -403,137 +374,27 @@
   .brand__name { display: none; }
 }
 
-/* Phone — nav becomes a full drawer of large node-cards.
+/* Phone — the tab bar is the entire navigation.
    The boundary is 767px, not 860px, so tablet portrait (768–860) keeps the
-   inline nav and never sees the drawer or the bottom tab bar. Everything a
-   tablet needs it now inherits from the 1040px block above: tightened nav
-   padding and a hidden brand name. */
+   inline nav and never sees the bottom tab bar. Everything a tablet needs it
+   inherits from the 1040px block above: tightened nav padding and a hidden
+   brand name.
+
+   There was a drawer here once, opened by a hamburger. It listed the same seven
+   links the tab bar now carries, so it was deleted rather than repaired — with
+   no overlay there is no dismiss-on-outside-tap to get wrong, no focus trap, no
+   scroll lock, and nothing that can be left stuck open. It also means phone
+   navigation is plain links again, working with scripts disabled. */
 @media (max-width: 767px) {
-  .nav-toggle { display: inline-flex; }
   .brand__name { display: inline; }
   .mobile-tabs { display: flex; }
+
+  /* The header nav would only repeat the tab bar. */
+  .site-nav { display: none; }
 
   /* leave room for the tab bar */
   body { padding-block-end: calc(56px + env(safe-area-inset-bottom, 0px)); }
   .site-footer { margin-block-end: 0; }
-
-  .site-nav {
-    position: fixed;
-    inset-block-start: 64px;
-    inset-inline: 0;
-    inset-block-end: 0;
-    z-index: 49;
-    flex-direction: column;
-    align-items: stretch;
-    gap: var(--space-3);
-    padding: var(--space-6) var(--gutter) var(--space-8);
-    margin-inline-start: 0;
-    overflow-y: auto;
-    scrollbar-width: none;
-    border-block-start: 1px solid var(--line);
-    /* the drawer sits on the same faint node grid as the rest of the motif */
-    background-color: var(--bg);
-    background-image: radial-gradient(var(--line) 1px, transparent 1.5px);
-    background-size: 26px 26px;
-    transform: translateY(-10px);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.26s ease, transform 0.26s ease, visibility 0.26s;
-  }
-
-  .site-nav::-webkit-scrollbar { display: none; }
-
-  .site-nav[data-open='true'] {
-    transform: none;
-    opacity: 1;
-    visibility: visible;
-  }
-
-  /* Each destination is a full-width card with a node marker — big enough
-     to read, big enough to tap. */
-  .site-nav a {
-    display: flex;
-    align-items: center;
-    gap: var(--space-4);
-    font-size: 1.25rem;
-    font-weight: 700;
-    padding: var(--space-4) var(--space-5);
-    min-block-size: 60px;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: var(--panel);
-    color: var(--fg);
-  }
-
-  .site-nav a::before {
-    content: '';
-    flex-shrink: 0;
-    inline-size: 10px;
-    block-size: 10px;
-    border-radius: 50%;
-    border: 2px solid var(--mint);
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .site-nav a:hover { background: var(--raised); color: var(--fg); }
-
-  .site-nav a[aria-current='page'] {
-    background: var(--accent-soft);
-    border-color: color-mix(in srgb, var(--lime) 55%, var(--line));
-    color: var(--fg);
-  }
-
-  .site-nav a[aria-current='page']::before {
-    background: var(--lime);
-    border-color: var(--lime);
-    box-shadow: 0 0 10px color-mix(in srgb, var(--lime) 55%, transparent);
-  }
-
-  /* staggered entrance, one card after another */
-  .site-nav[data-open='true'] a {
-    animation: nav-item-in 0.32s cubic-bezier(0.22, 0.61, 0.36, 1) both;
-  }
-
-  .site-nav[data-open='true'] a:nth-child(1) { animation-delay: 0.02s; }
-  .site-nav[data-open='true'] a:nth-child(2) { animation-delay: 0.06s; }
-  .site-nav[data-open='true'] a:nth-child(3) { animation-delay: 0.1s; }
-  .site-nav[data-open='true'] a:nth-child(4) { animation-delay: 0.14s; }
-  .site-nav[data-open='true'] a:nth-child(5) { animation-delay: 0.18s; }
-  .site-nav[data-open='true'] a:nth-child(6) { animation-delay: 0.22s; }
-  .site-nav[data-open='true'] a:nth-child(7) { animation-delay: 0.26s; }
-
-  /* Without JS the drawer can never open, so the nav stays inline instead. */
-  html:not(.js) .site-nav {
-    position: static;
-    flex-direction: row;
-    flex-wrap: wrap;
-    opacity: 1;
-    visibility: visible;
-    transform: none;
-    padding: 0 0 var(--space-3);
-    background: transparent;
-    border: 0;
-    inline-size: 100%;
-  }
-
-  html:not(.js) .site-nav a {
-    font-size: 0.95rem;
-    min-block-size: auto;
-    padding: var(--space-2) var(--space-3);
-    border: 0;
-    background: transparent;
-  }
-
-  html:not(.js) .site-nav a::before { display: none; }
-  html:not(.js) .nav-toggle { display: none; }
-  html:not(.js) .site-header__inner { flex-wrap: wrap; }
-
-  body.nav-is-open { overflow: hidden; }
-}
-
-@keyframes nav-item-in {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: none; }
 }
 
 @media (max-width: 520px) {
@@ -545,12 +406,15 @@
 @media (max-width: 360px) {
   .brand__name { display: none; }
   .lang-switch { padding-inline: var(--space-2); }
+
+  /* seven tabs across ~45px each — the labels need the last notch down */
+  .mobile-tabs a { font-size: 0.56rem; gap: 3px; }
+  .mobile-tabs a::before { inline-size: 7px; block-size: 7px; }
 }
 
 /* Landscape phones — reclaim vertical space. */
 @media (max-height: 520px) and (orientation: landscape) {
   .hero { padding-block: var(--space-6); }
-  .site-nav { inset-block-start: 56px; }
 }
 
 /* ---------- section heading links ---------- */

@@ -14,10 +14,18 @@
     "chat": "Chat",
     "contact": "Contact"
   },
+  "navShort": {
+    "home": "Home",
+    "about": "About",
+    "work": "Work",
+    "projects": "Projects",
+    "automation": "Lab",
+    "chat": "Chat",
+    "contact": "Contact"
+  },
   "ui": {
     "skipToContent": "Skip to content",
     "toggleTheme": "Toggle colour theme",
-    "openMenu": "Open menu",
     "viewProject": "View project",
     "seeAll": "See all",
     "visitLive": "Visit live site",

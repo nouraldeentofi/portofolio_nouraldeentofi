@@ -14,10 +14,18 @@
     "chat": "محادثة",
     "contact": "تواصل"
   },
+  "navShort": {
+    "home": "الرئيسية",
+    "about": "نبذة",
+    "work": "المسيرة",
+    "projects": "المشاريع",
+    "automation": "أتمتة",
+    "chat": "محادثة",
+    "contact": "تواصل"
+  },
   "ui": {
     "skipToContent": "تخطَّ إلى المحتوى",
     "toggleTheme": "تبديل نمط الألوان",
-    "openMenu": "فتح القائمة",
     "viewProject": "عرض المشروع",
     "seeAll": "عرض الكل",
     "visitLive": "زيارة الموقع",

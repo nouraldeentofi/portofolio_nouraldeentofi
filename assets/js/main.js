@@ -3,13 +3,15 @@
  *
  * This file never renders content — every word on the site is already in the
  * HTML before JavaScript runs. Everything here is enhancement: theme, motion,
- * navigation, and the workflow background.
+ * and the workflow background.
+ *
+ * Navigation is deliberately absent: the phone tab bar and the desktop nav are
+ * both plain links, so they work with scripts disabled.
  */
 
 import {
   initReveal,
   initCounters,
-  initNav,
   initSpine,
   initHeader,
   initTranscript,
@@ -72,7 +74,6 @@ function initLang() {
 
 initTheme();
 initLang();
-initNav();
 initHeader();
 initReveal();
 initCounters();

@@ -58,7 +58,6 @@ ${nav}
       <div class="header__tools">
         <a class="lang-switch" href="${otherHref}" lang="${lang === 'en' ? 'ar' : 'en'}" hreflang="${lang === 'en' ? 'ar' : 'en'}">${e(c.meta.langLabel)}</a>
         <button class="theme-toggle" type="button" aria-label="${e(c.ui.toggleTheme)}" aria-pressed="false"><span class="theme-toggle__icon" aria-hidden="true">☀</span></button>
-        <button class="nav-toggle" type="button" aria-label="${e(c.ui.openMenu)}" aria-controls="site-nav" aria-expanded="false"><span class="nav-toggle__bars" aria-hidden="true"></span></button>
       </div>
     </div>
   </header>`;
@@ -83,17 +82,23 @@ function footer(db, lang) {
   </footer>`;
 }
 
+/**
+ * The phone navigation — the only one below 768px, so it carries every page.
+ *
+ * It walks `PAGES` rather than a list of its own. An earlier version kept a
+ * hardcoded four, which is exactly how About, Work and Chat came to be
+ * unreachable on a phone: a second copy of the page list drifts the moment a
+ * page is added. Labels come from `navShort`, which differs from `nav` only
+ * where the full wording will not fit at 320px.
+ */
 function mobileTabs(db, page, lang) {
   const c = db.copy[lang];
-  const tabs = ['', 'projects', 'automation', 'contact'];
 
   return `  <nav class="mobile-tabs" aria-label="${e(c.nav.home)}">
-${tabs
-    .map((t) => {
-      const current = t === page ? ' aria-current="page"' : '';
-      return `    <a href="${rel(t)}"${current}><span>${e(c.nav[PAGE_KEY[t]])}</span></a>`;
-    })
-    .join('\n')}
+${PAGES.map((t) => {
+    const current = t === page ? ' aria-current="page"' : '';
+    return `    <a href="${rel(t)}"${current}><span>${e(c.navShort[PAGE_KEY[t]])}</span></a>`;
+  }).join('\n')}
   </nav>`;
 }
 
