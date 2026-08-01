@@ -52,7 +52,7 @@ function header(db, page, lang) {
         <span class="brand__mark" aria-hidden="true">${initials}</span>
         <span class="brand__name">${e(db.profile.name[lang])}</span>
       </a>
-      <nav class="site-nav" id="site-nav" aria-label="${e(c.nav.home)}" data-open="false">
+      <nav class="site-nav" aria-label="${e(c.nav.home)}">
 ${nav}
       </nav>
       <div class="header__tools">
