@@ -63,7 +63,12 @@ export function personLd(db, lang) {
     '@type': 'Person',
     '@id': `${base(db)}/#nour`,
     name: profile.name[lang],
-    alternateName: profile.name[other],
+    // Every spelling people actually use, so a model or search engine that
+    // meets any variant resolves it to this same person. The name being
+    // rendered is excluded — a canonical name is not its own alias.
+    alternateName: [...new Set([profile.name[other], ...(profile.nameVariants ?? [])])].filter(
+      (n) => n !== profile.name[lang],
+    ),
     jobTitle: profile.headline[lang],
     description: profile.tagline[lang],
     email: `mailto:${profile.email}`,

@@ -19,7 +19,7 @@ test('person carries the identity graph and drops unresolved links', () => {
   assert.equal(p.name, 'Nour Aldeen Tofi');
   assert.equal(p.address.addressLocality, 'Al Khobar');
   assert.equal(p.address.addressCountry, 'SA');
-  assert.ok(p.sameAs.includes('https://www.linkedin.com/in/nour-aldeen-tofi-19b116240'));
+  assert.ok(p.sameAs.some((u) => u.includes('linkedin.com/in/nouraldeentofi')));
   assert.ok(p.sameAs.every((u) => typeof u === 'string'), 'null sameAs entries must be dropped');
   assert.ok(p.knowsAbout.includes('n8n'));
 });
@@ -27,7 +27,17 @@ test('person carries the identity graph and drops unresolved links', () => {
 test('person renders in Arabic when asked', () => {
   const p = personLd(db, 'ar');
   assert.equal(p.name, 'نور الدين طفي');
-  assert.equal(p.alternateName, 'Nour Aldeen Tofi');
+  assert.ok(Array.isArray(p.alternateName));
+  assert.ok(p.alternateName.includes('Nour Aldeen Tofi'));
+});
+
+test('alternateName carries every spelling variant, without duplicates', () => {
+  const p = personLd(db, 'en');
+  // the misspelling is listed deliberately, so a search for it still resolves
+  assert.ok(p.alternateName.includes('نور الدين توفي'));
+  assert.ok(p.alternateName.includes('nouraldeentofi'));
+  assert.equal(new Set(p.alternateName).size, p.alternateName.length, 'no duplicates');
+  assert.ok(!p.alternateName.includes(p.name), 'the canonical name is not also an alias');
 });
 
 test('projects become SoftwareApplication entries in an ItemList', () => {

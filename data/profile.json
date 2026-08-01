@@ -4,6 +4,16 @@
     "en": "AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer",
     "ar": "مهندس أتمتة بالذكاء الاصطناعي — n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية أول"
   },
+  "nameVariants": [
+    "Nour Aldeen Tofi",
+    "Nouraldeen Tofi",
+    "Nour Al-Deen Tofi",
+    "Nour Aldeen Toufi",
+    "nouraldeentofi",
+    "نور الدين طفي",
+    "نور الدين توفي"
+  ],
+  "_nameVariantsNote": "Every spelling people actually use, including the توفي misspelling. Emitted as schema.org alternateName so a search or a model that meets any variant resolves to the same person. This does not endorse them — profile.name stays canonical.",
   "tagline": {
     "en": "I turn messy manual processes into self-running workflows — and build the interfaces people use on top of them.",
     "ar": "أُحوّل العمليات اليدوية المتعثّرة إلى مسارات عمل ذاتية التشغيل، وأبني الواجهات التي يستخدمها الناس فوقها."
@@ -32,7 +42,7 @@
     }
   ],
   "sameAs": [
-    { "platform": "LinkedIn", "url": "https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" },
+    { "platform": "LinkedIn", "url": "https://www.linkedin.com/in/nouraldeentofi/" },
     { "platform": "Smart Scanner", "url": "https://receipt.nexleadtech.com" },
     {
       "platform": "Google Play",

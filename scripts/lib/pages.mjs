@@ -232,7 +232,7 @@ ${section('principles', null, c.about.principlesTitle, null, `      <div class="
 
 ${section('skills', null, c.about.skillsTitle, null, `      <div class="stack">\n${B.aboutSkills(db, lang)}\n      </div>`)}
 
-${section('personal', null, c.about.personalTitle, null, `      <div class="prose"><p>${e(c.about.personal)}</p></div>`)}
+${section('personal', null, c.about.personalTitle, null, `      <div class="stack">${B.aboutPersonal(db, lang)}</div>`)}
 
 ${section('faq', null, c.about.faqTitle, null, `      <div class="stack">\n${B.aboutFaq(db, lang)}\n      </div>`)}`;
 

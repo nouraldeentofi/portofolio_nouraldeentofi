@@ -36,6 +36,20 @@ function entity(db, group, name, lang) {
 /** Prose that may name a person — escaped, with any known name linked. */
 const prose = (db, text, lang) => linkifyPeople(db, text, lang);
 
+export function aboutPersonal(db, lang) {
+  const c = db.copy[lang];
+  return `<div class="card card--row" data-reveal>
+  <div class="card__main">
+    <p class="card__body">${prose(db, c.about.personal, lang)}</p>
+  </div>
+  <aside class="card__aside">
+    <ul class="badges badges--interests">
+${(c.about.interests ?? []).map((i) => `      <li class="badge badge--interest">${e(i)}</li>`).join('\n')}
+    </ul>
+  </aside>
+</div>`;
+}
+
 const org = (db, name, lang) => entity(db, 'organizations', name, lang);
 const person = (db, name, lang) => entity(db, 'people', name, lang);
 
@@ -270,14 +284,17 @@ export function workTestimonials(db, lang) {
 
 export function workCredentials(db, lang) {
   const c = db.copy[lang];
-  return `<ul class="creds">
+  return `<ul class="creds creds--grid">
 ${db.credentials
   .filter((x) => x.kind === 'certification')
   .map(
-    (x) => `  <li class="cred">
+    (x) => `  <li class="cred" data-reveal>
+    <span class="cred__issuer">${org(db, x.issuer, lang)}</span>
     <span class="cred__name">${e(x.name[lang])}</span>
-    <span class="cred__issuer">${org(db, x.issuer, lang)} · ${e(x.issued)}</span>
-    ${x.credentialId ? `<span class="cred__id">${e(c.ui.credentialId)} ${e(x.credentialId)}</span>` : ''}
+    <span class="cred__foot">
+      <time class="cred__date">${e(x.issued)}</time>
+      ${x.credentialId ? `<span class="cred__id" title="${e(c.ui.credentialId)}">${e(x.credentialId)}</span>` : ''}
+    </span>
   </li>`,
   )
   .join('\n')}
@@ -285,13 +302,17 @@ ${db.credentials
 }
 
 export function workEducation(db, lang) {
-  return `<ul class="creds">
+  return `<ul class="creds creds--feature">
 ${db.credentials
   .filter((x) => x.kind !== 'certification')
   .map(
-    (x) => `  <li class="cred">
-    <span class="cred__name">${e(x.name[lang])}</span>
-    <span class="cred__issuer">${org(db, x.issuer, lang)} · ${e(x.start ? `${x.start} — ${x.issued}` : x.issued)}</span>
+    (x) => `  <li class="cred cred--feature" data-reveal>
+    <span class="cred__kind">${e(x.kind === 'award' ? '★' : '✦')}</span>
+    <span class="cred__body">
+      <span class="cred__name">${e(x.name[lang])}</span>
+      <span class="cred__issuer">${org(db, x.issuer, lang)} · ${e(x.start ? `${x.start} — ${x.issued}` : x.issued)}</span>
+      ${x.note ? `<span class="cred__note">${e(x.note[lang])}</span>` : ''}
+    </span>
   </li>`,
   )
   .join('\n')}

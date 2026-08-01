@@ -285,61 +285,108 @@
 .quote__author { font-weight: 800; }
 .quote__role { color: var(--faint); font-size: 0.85rem; font-weight: 400; display: block; }
 
-/* ---------- definition lists / credentials ---------- */
+/* ---------- credentials ---------- */
 
-.creds { list-style: none; padding: 0; display: grid; gap: var(--space-3); }
+.creds { list-style: none; padding: 0; display: grid; gap: var(--space-4); }
+
+/* Twelve certificates read as a wall of rows; as tiles they scan in seconds. */
+.creds--grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+}
 
 .cred {
   display: flex;
-  gap: var(--space-4);
-  flex-wrap: wrap;
-  align-items: baseline;
-  padding-block-end: var(--space-3);
-  border-block-end: 1px solid var(--line);
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  border-block-start: 2px solid color-mix(in srgb, var(--mint) 50%, var(--line));
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.cred__name { font-weight: 700; }
-.cred__issuer { color: var(--dim); font-size: 0.9rem; }
+.cred:hover {
+  transform: translateY(-3px);
+  border-block-start-color: var(--lime);
+  box-shadow: var(--shadow);
+}
+
+.cred__issuer {
+  align-self: flex-start;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mint);
+}
+
+:lang(ar) .cred__issuer { letter-spacing: 0; text-transform: none; }
+
+.cred__name { font-weight: 700; font-size: 0.98rem; line-height: 1.35; }
+
+.cred__foot {
+  margin-block-start: auto;
+  padding-block-start: var(--space-3);
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.cred__date { font-size: 0.8rem; color: var(--faint); font-variant-numeric: tabular-nums; }
+
 .cred__id {
   margin-inline-start: auto;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   color: var(--faint);
   direction: ltr;
+  background: var(--raised);
+  border-radius: var(--radius-sm);
+  padding: 2px var(--space-2);
 }
 
-/* ---------- faq (details/summary) ---------- */
+/* Education and awards are few and important — give them room. */
+.creds--feature { grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); }
 
-details.card > summary {
-  cursor: pointer;
-  list-style: none;
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  font-size: 1.02rem;
+.cred--feature {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border-block-start-width: 1px;
+  border-inline-start: 3px solid var(--lime);
 }
 
-details.card > summary::-webkit-details-marker { display: none; }
-
-/* The FAQ marker is a node too: hollow when closed, lit when open. */
-details.card > summary::before {
-  content: '';
+.cred__kind {
   flex-shrink: 0;
-  inline-size: 9px;
-  block-size: 9px;
+  inline-size: 40px;
+  block-size: 40px;
+  display: grid;
+  place-items: center;
   border-radius: 50%;
-  border: 2px solid var(--mint);
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  font-size: 1.1rem;
+  color: var(--accent-ink);
+  background: linear-gradient(135deg, var(--lime), var(--mint));
 }
 
-details.card[open] > summary::before {
-  background: var(--mint);
-  box-shadow: 0 0 10px color-mix(in srgb, var(--mint) 50%, transparent);
-}
+.cred__body { display: flex; flex-direction: column; gap: var(--space-2); }
+.cred__body .cred__name { font-size: 1.1rem; }
+.cred__body .cred__issuer { text-transform: none; letter-spacing: 0; font-size: 0.85rem; font-weight: 600; color: var(--dim); }
+.cred__note { color: var(--faint); font-size: 0.9rem; }
 
-details.card > .card__body {
-  margin-block-start: var(--space-3);
-  padding-inline-start: calc(9px + var(--space-3));
+/* ---------- interests ---------- */
+
+.badges--interests { gap: var(--space-3); }
+
+.badge--interest {
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: var(--space-2) var(--space-4);
+  color: var(--fg);
+  background: linear-gradient(135deg, var(--accent-soft), transparent);
+  border-color: color-mix(in srgb, var(--mint) 40%, var(--line));
 }
 
 /* ---------- cta ---------- */
@@ -605,10 +652,15 @@ details.card > .card__body {
 
 /* Wide content scrolls inside its own box; the page never scrolls sideways. */
 .table-wrap {
-  overflow-x: auto;
+  overflow: auto;
+  /* the whole transcript is bounded, so it never runs away down the page */
+  max-block-size: min(60vh, 520px);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   background: var(--glass);
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
 }
 
 .transcript__table {
@@ -637,9 +689,10 @@ details.card > .card__body {
 .transcript__table tbody th {
   text-align: start;
   vertical-align: top;
-  padding: var(--space-4) var(--space-5);
-  inline-size: 30%;
+  padding: var(--space-3) var(--space-4);
+  inline-size: 32%;
   font-weight: 700;
+  font-size: 0.88rem;
   color: var(--fg);
   white-space: nowrap;
 }
@@ -658,11 +711,29 @@ details.card > .card__body {
 
 .transcript__table tbody td {
   vertical-align: top;
-  padding: var(--space-4) var(--space-5);
+  padding: var(--space-3) var(--space-4);
   color: var(--dim);
 }
 
-.transcript__table tbody td p + p { margin-block-start: var(--space-3); }
+/* Every word stays in the DOM for crawlers, but a row shows two lines until
+   you hover or focus it — so the transcript never dominates the page. */
+.transcript__table tbody td {
+  --lines: 2;
+  display: -webkit-box;
+  -webkit-line-clamp: var(--lines);
+  line-clamp: var(--lines);
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.transcript__row:hover td,
+.transcript__row:focus-within td,
+.transcript__row:target td {
+  --lines: 99;
+}
+
+.transcript__table tbody td p { display: inline; }
+.transcript__table tbody td p + p::before { content: ' · '; color: var(--mint); }
 
 .transcript__row { border-block-start: 1px solid var(--line); }
 

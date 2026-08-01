@@ -95,14 +95,19 @@ test('the site never claims Riyadh as his base', () => {
   }
 });
 
-test('the Arabic name is spelled طفي, never توفي', () => {
+test('the Arabic name is spelled طفي everywhere except the alias list', () => {
   const db = loadDb('data');
-  const blob = JSON.stringify(db);
-  assert.ok(blob.includes('نور الدين طفي'), 'canonical Arabic name missing');
-  assert.ok(
-    !blob.includes('نور الدين توفي'),
-    'توفي is a different word (reads as "passed away") — the name is طفي',
-  );
+  const WRONG = 'نور الدين توفي';
+
+  assert.equal(db.profile.name.ar, 'نور الدين طفي', 'canonical Arabic name');
+
+  // The misspelling is allowed in exactly one place: nameVariants, where it
+  // exists so a search for it still resolves to him. Anywhere else it would
+  // be calling him a different word (توفي reads as "passed away").
+  const { nameVariants, ...rest } = db.profile;
+  const elsewhere = JSON.stringify({ ...db, profile: rest });
+  assert.ok(!elsewhere.includes(WRONG), 'توفي must appear only in profile.nameVariants');
+  assert.ok(nameVariants.includes(WRONG), 'the variant should be listed for entity resolution');
 });
 
 test('every entity named on the site has a links.json entry', () => {
