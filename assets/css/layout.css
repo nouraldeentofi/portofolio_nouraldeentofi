@@ -319,6 +319,15 @@
   .hero h1 { color: var(--fg); background: none; }
 }
 
+/* Arabic descends further than the line box allows: the ي in طفي drops a swash
+   and two dots below it. Because the heading is painted with background-clip,
+   the glyph *is* the gradient, and a gradient paints nothing outside the
+   element's box — so those dots were being sliced flat. Padding is the fix, not
+   margin: only padding grows the box the gradient is allowed to fill. */
+:lang(ar) .hero h1 {
+  padding-block-end: 0.22em;
+}
+
 .hero__headline {
   font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.45rem);
   font-weight: 600;
