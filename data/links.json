@@ -26,7 +26,11 @@
       "url": "https://www.linkedin.com/company/minicodeleader/"
     },
 
-    "University of Kalamoon": { "url": "https://uok.edu.sy/" },
+    "University of Kalamoon": {
+      "url": "http://www.uok.edu.sy/?lang=en",
+      "insecure": "The university site serves no HTTPS — the https URL does not resolve at all. A plain link to http is not mixed content, so it works fine; this flag records that the exception is deliberate, not an oversight.",
+      "note": "?lang=en forces the English site. Drop the parameter to land on the Arabic default instead."
+    },
     "Meta": { "url": "https://about.meta.com/" },
     "Google": { "url": "https://about.google/" },
     "IBM": { "url": "https://www.ibm.com/" },

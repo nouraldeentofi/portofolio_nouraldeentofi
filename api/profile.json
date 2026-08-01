@@ -1,6 +1,6 @@
 {
   "$schema": "https://nouraldeentofi.netlify.app/api/profile.json",
-  "generated": "2026-08-01T00:31:34.064Z",
+  "generated": "2026-08-01T00:39:00.639Z",
   "name": {
     "en": "Nour Aldeen Tofi",
     "ar": "نور الدين طفي"
@@ -73,6 +73,11 @@
     {
       "platform": "GitHub",
       "url": "https://github.com/NourTofi"
+    },
+    {
+      "platform": "Codeforces",
+      "url": "https://codeforces.com/profile/nour.tofi.it",
+      "note": "Corroborates the ICPC/ACPC award and George Drouj's recommendation about competitive programming."
     }
   ],
   "availability": {

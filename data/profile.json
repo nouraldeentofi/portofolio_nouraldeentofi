@@ -51,6 +51,11 @@
       "note": "A product link, not a way to reach Nour. Kept in sameAs so the identity graph still resolves it; shown on the Projects page as GoldenTag."
     },
     { "platform": "GitHub", "url": "https://github.com/NourTofi" },
+    {
+      "platform": "Codeforces",
+      "url": "https://codeforces.com/profile/nour.tofi.it",
+      "note": "Corroborates the ICPC/ACPC award and George Drouj's recommendation about competitive programming."
+    },
     { "platform": "FIDE", "url": null, "todo": "Confirm ratings.fide.com/profile/7618166 belongs to Nour before publishing" }
   ],
   "availability": {

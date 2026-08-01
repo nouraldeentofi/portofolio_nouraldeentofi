@@ -131,22 +131,48 @@ test('links.json urls are absolute, or null with a todo', () => {
     for (const [name, entry] of Object.entries(db.links[group])) {
       if (entry.url === null) {
         assert.equal(typeof entry.todo, 'string', `${name} needs a todo`);
-      } else {
-        assert.doesNotThrow(() => new URL(entry.url), `${name} url is malformed`);
-        assert.match(entry.url, /^https:\/\//, `${name} should use https`);
+        continue;
+      }
+      assert.doesNotThrow(() => new URL(entry.url), `${name} url is malformed`);
+
+      // https unless the destination genuinely has none, and says so.
+      if (!entry.url.startsWith('https://')) {
+        assert.match(entry.url, /^http:\/\//, `${name} must be http or https`);
+        assert.equal(
+          typeof entry.insecure,
+          'string',
+          `${name} is http — record why in an "insecure" note, so the exception is deliberate`,
+        );
       }
     }
   }
 });
 
-test('no private or UI-state LinkedIn urls are stored', () => {
+test('no private or tracking-laden urls are stored', () => {
   const db = loadDb('data');
-  const all = Object.values({ ...db.links.people, ...db.links.organizations });
+
+  // Parameters that carry UI state or tracking, as opposed to content. A
+  // ?lang=en is part of the address; a ?feedView=all is where someone's
+  // browser happened to be looking.
+  const JUNK_PARAMS = ['feedView', 'originalSubdomain', 'trk', 'trkInfo', 'ref', 'source'];
+
+  const all = [
+    ...Object.values({ ...db.links.people, ...db.links.organizations }),
+    ...db.profile.sameAs,
+  ];
+
   for (const { url } of all) {
     if (!url) continue;
     assert.ok(!url.includes('/admin/'), `${url} is an admin URL — it 404s for visitors`);
-    assert.ok(!url.includes('?'), `${url} carries UI state; store the clean canonical URL`);
     assert.ok(!/\/posts\/?$/.test(url), `${url} points at a posts tab, not the profile`);
+
+    const params = new URL(url).searchParams;
+    for (const junk of JUNK_PARAMS) {
+      assert.ok(!params.has(junk), `${url} carries "${junk}"; store the clean canonical URL`);
+    }
+    for (const [key] of params) {
+      assert.ok(!key.startsWith('utm_'), `${url} carries campaign tracking`);
+    }
   }
 });
 

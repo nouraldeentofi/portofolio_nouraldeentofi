@@ -54,3 +54,4 @@ I build AI automation systems that turn messy manual processes into clean, self-
 - Smart Scanner: https://receipt.nexleadtech.com
 - Google Play: https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag
 - GitHub: https://github.com/NourTofi
+- Codeforces: https://codeforces.com/profile/nour.tofi.it
