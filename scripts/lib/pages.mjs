@@ -284,7 +284,7 @@ ${B.automationList(db, lang)}
     </div>
   </section>
 
-${section('cost-case', null, c.automation.caseTitle, null, `      <div class="prose">\n${B.automationCase(db, lang)}\n      </div>`)}`;
+${section('cost-case', null, c.automation.caseTitle, null, `${B.automationCase(db, lang)}`)}`;
 
   return shell(db, 'automation', lang, main);
 }

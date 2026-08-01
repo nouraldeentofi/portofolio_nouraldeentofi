@@ -1,0 +1,58 @@
+{
+  "id": "cost-routing",
+  "_comment": "The cost-routing case study on the Automation Lab page. Figures are Nour's own, from his published write-up: a vision model reading a PDF costs roughly four times what a text model costs to read the text already inside it. Prose lives in copy.automation.caseBody; only the numbers and the branch shape live here.",
+
+  "figures": [
+    {
+      "id": "before",
+      "value": "$0.02",
+      "label": { "en": "per PDF, vision model", "ar": "لكل PDF عبر نموذج الرؤية" },
+      "tone": "costly"
+    },
+    {
+      "id": "after",
+      "value": "$0.005",
+      "label": { "en": "per PDF, text model", "ar": "لكل PDF عبر النموذج النصي" },
+      "tone": "cheap"
+    },
+    {
+      "id": "saving",
+      "value": "75%",
+      "label": { "en": "cut per document", "ar": "توفير لكل مستند" },
+      "tone": "win"
+    }
+  ],
+
+  "flow": {
+    "trigger": { "en": "Webhook — file arrives", "ar": "‏Webhook — يصل الملف" },
+    "decision": { "en": "PDF with extractable text?", "ar": "‏PDF بنص قابل للاستخراج؟" },
+    "branches": [
+      {
+        "id": "text",
+        "answer": { "en": "Yes", "ar": "نعم" },
+        "node": { "en": "Text model reads it", "ar": "النموذج النصي يقرأه" },
+        "cost": "$0.005",
+        "tone": "cheap"
+      },
+      {
+        "id": "vision",
+        "answer": { "en": "No", "ar": "لا" },
+        "node": { "en": "Vision model sees it", "ar": "نموذج الرؤية ينظر إليه" },
+        "cost": "$0.02",
+        "tone": "costly"
+      }
+    ],
+    "fallback": {
+      "en": "Extraction came back empty? The PDF was only a scan — send it back to the vision branch.",
+      "ar": "عاد الاستخراج فارغاً؟ إذن ملف PDF كان صورة ممسوحة فقط — أعده إلى فرع الرؤية."
+    }
+  },
+
+  "scale": {
+    "basis": { "en": "1,000 receipts a month, half PDF, half photos", "ar": "١٠٠٠ إيصال شهرياً، نصفها PDF ونصفها صور" },
+    "before": "$20",
+    "after": "$12.50",
+    "beforeLabel": { "en": "before", "ar": "قبل" },
+    "afterLabel": { "en": "after", "ar": "بعد" }
+  }
+}

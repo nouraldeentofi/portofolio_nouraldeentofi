@@ -753,3 +753,215 @@
   .transcript__table tbody th { white-space: normal; inline-size: 38%; }
   .transcript__table { font-size: 0.88rem; }
 }
+
+/* ---------- cost case study ---------- */
+
+.case { display: grid; gap: var(--space-7); }
+
+/* the headline numbers */
+.case__figures {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+  gap: var(--space-4);
+}
+
+.figure {
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: var(--glass);
+  text-align: center;
+}
+
+.figure__value {
+  display: block;
+  font-size: clamp(1.7rem, 1.4rem + 1.4vw, 2.6rem);
+  font-weight: 800;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.figure__label {
+  display: block;
+  margin-block-start: var(--space-2);
+  font-size: 0.8rem;
+  color: var(--faint);
+}
+
+.figure--costly .figure__value { color: var(--dim); text-decoration: line-through; text-decoration-thickness: 2px; }
+.figure--cheap .figure__value { color: var(--mint); }
+
+.figure--win {
+  border-color: color-mix(in srgb, var(--lime) 45%, transparent);
+  background: linear-gradient(150deg, var(--accent-soft), var(--glass) 60%);
+}
+
+.figure--win .figure__value {
+  background: linear-gradient(135deg, var(--lime), var(--mint));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* the branch itself — the IF node, drawn */
+.flow {
+  margin: 0;
+  display: grid;
+  justify-items: center;
+  gap: 0;
+  padding: var(--space-6) var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--glass);
+  background-image: radial-gradient(var(--line) 1px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+.flow__node {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  background: var(--panel);
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.flow__node--trigger { border-color: color-mix(in srgb, var(--mint) 50%, transparent); }
+
+.flow__node--decision {
+  border-radius: var(--radius);
+  border-color: var(--lime);
+  font-weight: 800;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--lime) 12%, transparent);
+}
+
+/* the connector between trigger and decision */
+.flow__stem {
+  inline-size: 2px;
+  block-size: var(--space-6);
+  background: linear-gradient(180deg, var(--mint), var(--lime));
+}
+
+.flow__branches {
+  list-style: none;
+  padding: 0;
+  margin-block-start: var(--space-6);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  gap: var(--space-5);
+  inline-size: 100%;
+  position: relative;
+}
+
+/* each branch grows its own stem up toward the decision node */
+.flow__branch {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  position: relative;
+  padding-block-start: var(--space-5);
+}
+
+.flow__branch::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inline-size: 2px;
+  block-size: var(--space-4);
+  background: var(--line-strong);
+}
+
+.flow__branch--cheap::before { background: var(--mint); }
+.flow__branch--costly::before { background: color-mix(in srgb, var(--dim) 45%, transparent); }
+
+.flow__answer {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+:lang(ar) .flow__answer { letter-spacing: 0; text-transform: none; }
+
+.flow__branch--cheap .flow__answer { color: var(--mint); }
+
+.flow__cost {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--faint);
+}
+
+.flow__branch--cheap .flow__node {
+  border-color: var(--mint);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--mint) 12%, transparent);
+}
+
+.flow__branch--cheap .flow__cost { color: var(--mint); font-weight: 700; }
+
+.flow__fallback {
+  margin-block-start: var(--space-6);
+  padding: var(--space-3) var(--space-5);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-pill);
+  font-size: 0.86rem;
+  color: var(--dim);
+  text-align: center;
+  max-inline-size: 62ch;
+}
+
+/* what it means at scale */
+.case__scale {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border-inline-start: 3px solid var(--lime);
+  border-radius: var(--radius);
+  background: var(--glass);
+}
+
+.case__basis { color: var(--dim); font-size: 0.95rem; }
+
+.case__delta {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-size: 1.15rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.case__delta s { color: var(--faint); }
+.case__delta strong { color: var(--mint); font-size: 1.35rem; }
+
+/* the story, as numbered steps */
+.steps { list-style: none; padding: 0; display: grid; gap: var(--space-5); max-inline-size: 74ch; }
+
+.steps__item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-4);
+  align-items: start;
+  color: var(--dim);
+}
+
+.steps__num {
+  inline-size: 32px;
+  block-size: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--accent-ink);
+  background: linear-gradient(135deg, var(--lime), var(--mint));
+}

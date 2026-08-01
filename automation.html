@@ -587,12 +587,73 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
         <h2>دراسة حالة في التكلفة: تفريع واحد، وثلاثة أرباع موفّرة</h2>
         
       </div>
-      <div class="prose">
-<p>كان الخطأ في أول مسار عمل عندي أنني أرسل كل ملف يصل إلى الـ webhook مباشرة إلى نموذج رؤية. كان يعمل، وكان أيضاً يكلّف نحو ثلاثة أضعاف ما يلزم.</p>
-<p>والسبب بسيط: ملف PDF يحتوي عادةً على نص قابل للقراءة أصلاً. ولا يحتاج نموذج الرؤية أن «ينظر» إلى الصفحة ما دام نموذج النص يستطيع قراءتها — والقراءة تكلّف جزءاً بسيطاً مما تكلّفه الرؤية.</p>
-<p>وكان الحلّ قرار تفريع واحداً يوضع بعد الـ webhook مباشرة: إن كان الملف PDF يحمل نصاً قابلاً للاستخراج، أُرسل النص إلى نموذج نصّي؛ وإلا أُرسل الصورة إلى نموذج الرؤية. فانخفضت كلفة المستند الواحد بنحو ثلاثة أرباع.</p>
-<p>وثمّة تفصيل أهمّ من التفريع نفسه: احتفظ دائماً بمسار احتياطي. فإن عاد استخراج النص فارغاً — لأن ملف PDF ليس في حقيقته إلا صورة ممسوحة — وجب أن يعود الملف إلى فرع الرؤية. وبدون ذلك، ينتج المسار الرخيص لا شيء، بصمت.</p>
-      </div>
+<div class="case">
+  <ul class="case__figures">
+      <li class="figure figure--costly">
+        <span class="figure__value">$0.02</span>
+        <span class="figure__label">لكل PDF عبر نموذج الرؤية</span>
+      </li>
+      <li class="figure figure--cheap">
+        <span class="figure__value">$0.005</span>
+        <span class="figure__label">لكل PDF عبر النموذج النصي</span>
+      </li>
+      <li class="figure figure--win">
+        <span class="figure__value">75%</span>
+        <span class="figure__label">توفير لكل مستند</span>
+      </li>
+  </ul>
+
+  <figure class="flow" data-reveal>
+    <span class="flow__node flow__node--trigger">‏Webhook — يصل الملف</span>
+    <span class="flow__stem" aria-hidden="true"></span>
+    <span class="flow__node flow__node--decision">‏PDF بنص قابل للاستخراج؟</span>
+    <ul class="flow__branches">
+        <li class="flow__branch flow__branch--cheap">
+          <span class="flow__answer">نعم</span>
+          <span class="flow__node">
+            <span class="flow__node-label">النموذج النصي يقرأه</span>
+            <span class="flow__cost">$0.005</span>
+          </span>
+        </li>
+        <li class="flow__branch flow__branch--costly">
+          <span class="flow__answer">لا</span>
+          <span class="flow__node">
+            <span class="flow__node-label">نموذج الرؤية ينظر إليه</span>
+            <span class="flow__cost">$0.02</span>
+          </span>
+        </li>
+    </ul>
+    <figcaption class="flow__fallback">عاد الاستخراج فارغاً؟ إذن ملف PDF كان صورة ممسوحة فقط — أعده إلى فرع الرؤية.</figcaption>
+  </figure>
+
+  <p class="case__scale">
+    <span class="case__basis">١٠٠٠ إيصال شهرياً، نصفها PDF ونصفها صور</span>
+    <span class="case__delta">
+      <s>$20</s>
+      <span aria-hidden="true">→</span>
+      <strong>$12.50</strong>
+    </span>
+  </p>
+
+  <ol class="steps">
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">1</span>
+        <p>كان الخطأ في أول مسار عمل عندي أنني أرسل كل ملف يصل إلى الـ webhook مباشرة إلى نموذج رؤية. كان يعمل، وكان أيضاً يكلّف نحو ثلاثة أضعاف ما يلزم.</p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">2</span>
+        <p>والسبب بسيط: ملف PDF يحتوي عادةً على نص قابل للقراءة أصلاً. ولا يحتاج نموذج الرؤية أن «ينظر» إلى الصفحة ما دام نموذج النص يستطيع قراءتها — والقراءة تكلّف جزءاً بسيطاً مما تكلّفه الرؤية.</p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">3</span>
+        <p>وكان الحلّ قرار تفريع واحداً يوضع بعد الـ webhook مباشرة: إن كان الملف PDF يحمل نصاً قابلاً للاستخراج، أُرسل النص إلى نموذج نصّي؛ وإلا أُرسل الصورة إلى نموذج الرؤية. فانخفضت كلفة المستند الواحد بنحو ثلاثة أرباع.</p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">4</span>
+        <p>وثمّة تفصيل أهمّ من التفريع نفسه: احتفظ دائماً بمسار احتياطي. فإن عاد استخراج النص فارغاً — لأن ملف PDF ليس في حقيقته إلا صورة ممسوحة — وجب أن يعود الملف إلى فرع الرؤية. وبدون ذلك، ينتج المسار الرخيص لا شيء، بصمت.</p>
+      </li>
+  </ol>
+</div>
     </div>
   </section>
 </main>

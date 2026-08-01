@@ -51,6 +51,9 @@ export function loadDb(dir = 'data') {
     rows.forEach((row, i) => requireKeys(row, keys, `${file}[${i}] (${row.id ?? 'no id'})`));
   }
 
+  const caseStudy = readJson(dir, 'case-study.json');
+  requireKeys(caseStudy, ['figures', 'flow.trigger', 'flow.decision', 'flow.branches', 'scale'], 'case-study.json');
+
   const links = readJson(dir, 'links.json');
   for (const group of ['people', 'organizations']) {
     if (!links[group]) throw new Error(`links.json: missing "${group}"`);
@@ -66,5 +69,5 @@ export function loadDb(dir = 'data') {
     ar: readJson(join(dir, 'copy'), 'ar.json'),
   };
 
-  return { profile, experience, projects, workflows, credentials, testimonials, skills, links, copy };
+  return { profile, experience, projects, workflows, credentials, testimonials, skills, caseStudy, links, copy };
 }

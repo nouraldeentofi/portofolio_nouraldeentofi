@@ -586,12 +586,73 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
         <h2>A case study in cost: one branch, three quarters saved</h2>
         
       </div>
-      <div class="prose">
-<p>The mistake in my first workflow was sending every file that arrived at the webhook straight to a vision model. It worked. It also cost roughly three times more than it needed to.</p>
-<p>The reason is simple: a PDF usually already contains readable text. A vision model does not need to look at the page when a text model can read it — and reading costs a fraction of seeing.</p>
-<p>The fix was a single branching decision placed just after the webhook: if the file is a PDF with extractable text, send the text to a text model; otherwise send the image to the vision model. The per-document cost dropped by about three quarters.</p>
-<p>One detail matters more than the branch itself: always keep a fallback. If text extraction returns empty — because the PDF is really just a scanned image — the file has to go back to the vision branch. Without that, the cheap path silently produces nothing.</p>
-      </div>
+<div class="case">
+  <ul class="case__figures">
+      <li class="figure figure--costly">
+        <span class="figure__value">$0.02</span>
+        <span class="figure__label">per PDF, vision model</span>
+      </li>
+      <li class="figure figure--cheap">
+        <span class="figure__value">$0.005</span>
+        <span class="figure__label">per PDF, text model</span>
+      </li>
+      <li class="figure figure--win">
+        <span class="figure__value">75%</span>
+        <span class="figure__label">cut per document</span>
+      </li>
+  </ul>
+
+  <figure class="flow" data-reveal>
+    <span class="flow__node flow__node--trigger">Webhook — file arrives</span>
+    <span class="flow__stem" aria-hidden="true"></span>
+    <span class="flow__node flow__node--decision">PDF with extractable text?</span>
+    <ul class="flow__branches">
+        <li class="flow__branch flow__branch--cheap">
+          <span class="flow__answer">Yes</span>
+          <span class="flow__node">
+            <span class="flow__node-label">Text model reads it</span>
+            <span class="flow__cost">$0.005</span>
+          </span>
+        </li>
+        <li class="flow__branch flow__branch--costly">
+          <span class="flow__answer">No</span>
+          <span class="flow__node">
+            <span class="flow__node-label">Vision model sees it</span>
+            <span class="flow__cost">$0.02</span>
+          </span>
+        </li>
+    </ul>
+    <figcaption class="flow__fallback">Extraction came back empty? The PDF was only a scan — send it back to the vision branch.</figcaption>
+  </figure>
+
+  <p class="case__scale">
+    <span class="case__basis">1,000 receipts a month, half PDF, half photos</span>
+    <span class="case__delta">
+      <s>$20</s>
+      <span aria-hidden="true">→</span>
+      <strong>$12.50</strong>
+    </span>
+  </p>
+
+  <ol class="steps">
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">1</span>
+        <p>The mistake in my first workflow was sending every file that arrived at the webhook straight to a vision model. It worked. It also cost roughly three times more than it needed to.</p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">2</span>
+        <p>The reason is simple: a PDF usually already contains readable text. A vision model does not need to look at the page when a text model can read it — and reading costs a fraction of seeing.</p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">3</span>
+        <p>The fix was a single branching decision placed just after the webhook: if the file is a PDF with extractable text, send the text to a text model; otherwise send the image to the vision model. The per-document cost dropped by about three quarters.</p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">4</span>
+        <p>One detail matters more than the branch itself: always keep a fallback. If text extraction returns empty — because the PDF is really just a scanned image — the file has to go back to the vision branch. Without that, the cheap path silently produces nothing.</p>
+      </li>
+  </ol>
+</div>
     </div>
   </section>
 </main>

@@ -382,7 +382,68 @@ export function automationList(db, lang) {
 }
 
 export function automationCase(db, lang) {
-  return db.copy[lang].automation.caseBody.map((p) => `<p>${e(p)}</p>`).join('\n');
+  const cs = db.caseStudy;
+  const f = cs.flow;
+
+  const figures = cs.figures
+    .map(
+      (x) => `      <li class="figure figure--${e(x.tone)}">
+        <span class="figure__value">${e(x.value)}</span>
+        <span class="figure__label">${e(x.label[lang])}</span>
+      </li>`,
+    )
+    .join('\n');
+
+  const branches = f.branches
+    .map(
+      (b) => `        <li class="flow__branch flow__branch--${e(b.tone)}">
+          <span class="flow__answer">${e(b.answer[lang])}</span>
+          <span class="flow__node">
+            <span class="flow__node-label">${e(b.node[lang])}</span>
+            <span class="flow__cost">${e(b.cost)}</span>
+          </span>
+        </li>`,
+    )
+    .join('\n');
+
+  // The prose becomes numbered steps: mistake, reason, fix, caveat.
+  const steps = db.copy[lang].automation.caseBody
+    .map(
+      (para, i) => `      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">${i + 1}</span>
+        <p>${prose(db, para, lang)}</p>
+      </li>`,
+    )
+    .join('\n');
+
+  return `<div class="case">
+  <ul class="case__figures">
+${figures}
+  </ul>
+
+  <figure class="flow" data-reveal>
+    <span class="flow__node flow__node--trigger">${e(f.trigger[lang])}</span>
+    <span class="flow__stem" aria-hidden="true"></span>
+    <span class="flow__node flow__node--decision">${e(f.decision[lang])}</span>
+    <ul class="flow__branches">
+${branches}
+    </ul>
+    <figcaption class="flow__fallback">${e(f.fallback[lang])}</figcaption>
+  </figure>
+
+  <p class="case__scale">
+    <span class="case__basis">${e(cs.scale.basis[lang])}</span>
+    <span class="case__delta">
+      <s>${e(cs.scale.before)}</s>
+      <span aria-hidden="true">→</span>
+      <strong>${e(cs.scale.after)}</strong>
+    </span>
+  </p>
+
+  <ol class="steps">
+${steps}
+  </ol>
+</div>`;
 }
 
 /* --------------------------------------------------------------- contact */
