@@ -43,6 +43,12 @@ const PRESETS = {
 
 const MAX_PIXELS = 4_500_000;
 
+/* A phone renders the same mesh over a page that is often taller than a
+   desktop one, on a fraction of the GPU. Cap the node count there so the
+   background stays a background and never costs a frame. */
+const MOBILE = window.matchMedia('(max-width: 860px)').matches;
+const MAX_NODES = MOBILE ? 90 : 320;
+
 function readTokens(el) {
   const s = getComputedStyle(el);
   return {
@@ -99,8 +105,17 @@ export function createWorkflowBackground(canvas) {
     ctx.setTransform(scale, 0, 0, scale, 0, 0);
 
     // --- nodes: a jittered grid over the WHOLE document, with depth
-    const cols = Math.max(3, Math.round(w / preset.cell));
-    const rows = Math.max(4, Math.round(h / preset.cell));
+    const cell = MOBILE ? preset.cell * 1.5 : preset.cell;
+    let cols = Math.max(3, Math.round(w / cell));
+    let rows = Math.max(4, Math.round(h / cell));
+
+    // Thin the grid rather than let a very long page multiply the work.
+    // (Named `thin`, not `scale` — `scale` above is the device-pixel ratio.)
+    if (cols * rows > MAX_NODES) {
+      const thin = Math.sqrt((cols * rows) / MAX_NODES);
+      cols = Math.max(2, Math.round(cols / thin));
+      rows = Math.max(3, Math.round(rows / thin));
+    }
     nodes = [];
     for (let c = 0; c < cols; c++) {
       for (let r = 0; r < rows; r++) {

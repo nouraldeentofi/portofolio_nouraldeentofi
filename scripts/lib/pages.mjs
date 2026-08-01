@@ -133,7 +133,10 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
 <link rel="stylesheet" href="${asset('assets/css/components.css', lang)}">
 <link rel="stylesheet" href="${asset('assets/css/motion.css', lang)}">${
     page === 'chat' ? `\n<link rel="stylesheet" href="${asset('assets/css/chat.css', lang)}">` : ''
-  }${lang === 'ar' ? `\n<link rel="stylesheet" href="${asset('assets/css/rtl.css', lang)}">` : ''}
+  }
+<link rel="stylesheet" href="${asset('assets/css/mobile.css', lang)}">${
+    lang === 'ar' ? `\n<link rel="stylesheet" href="${asset('assets/css/rtl.css', lang)}">` : ''
+  }
 ${B.headLd(db, page, lang)}
 </head>
 <body>
