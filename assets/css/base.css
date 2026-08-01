@@ -122,7 +122,9 @@ pre {
 
 .skip-link:focus-visible { transform: none; }
 
-/* Kept in the accessibility tree and readable by crawlers — clipped, not hidden. */
+/* Kept in the accessibility tree and readable by crawlers — clipped, not
+   hidden. `user-select: none` stops the clipped text being dragged along
+   when a reader selects and copies the visible words around it. */
 .visually-hidden {
   position: absolute;
   inline-size: 1px;
@@ -133,6 +135,8 @@ pre {
   clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

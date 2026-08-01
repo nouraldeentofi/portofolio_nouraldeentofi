@@ -465,9 +465,11 @@ export function contactLinks(db, lang) {
 ${rows
   .map(
     (r) => `  <li><a href="${e(r.url)}"${extAttrs(r.url)}>
-    <span class="platform">${e(r.platform)}</span><span class="value">${e(r.value)}</span>${
-      extAttrs(r.url) ? newTabHint(db.copy[lang].ui.opensInNewTab) : ''
-    }
+    <span class="linklist__mark" aria-hidden="true"></span>
+    <span class="linklist__text">
+      <span class="platform">${e(r.platform)}</span>
+      <span class="value">${e(r.value)}</span>
+    </span>${extAttrs(r.url) ? newTabHint(db.copy[lang].ui.opensInNewTab) : ''}
   </a></li>`,
   )
   .join('\n')}
@@ -480,7 +482,11 @@ export function contactCv(db, lang) {
 ${db.profile.cv
   .map(
     (cv) => `  <li><a href="/${e(cv.file)}" download>
-    <span class="platform">${e(cv.label[lang])}</span><span class="value">${e(c.ui.downloadCv)} · PDF</span>
+    <span class="linklist__mark linklist__mark--download" aria-hidden="true"></span>
+    <span class="linklist__text">
+      <span class="platform">${e(cv.label[lang])}</span>
+      <span class="value">${e(c.ui.downloadCv)} · PDF</span>
+    </span>
   </a></li>`,
   )
   .join('\n')}
