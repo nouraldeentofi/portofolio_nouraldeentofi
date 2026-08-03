@@ -35,6 +35,19 @@ const rel = (page) => `${page === '' ? 'index' : page}.html`;
 const asset = (path, lang) => `${lang === 'ar' ? '' : '../'}${path}`;
 
 /**
+ * The same path, fingerprinted.
+ *
+ * Only for assets the browser caches hard — stylesheets, scripts, images.
+ * `llms.txt` and the JSON API keep clean URLs on purpose: those are addresses
+ * other people quote, and a hash in them would rot the moment we rebuild.
+ * See `VERSIONED_ASSETS` in load.mjs for why the query string is there.
+ */
+const assetV = (db, path, lang) => {
+  const v = db.assetVersions?.[path];
+  return v ? `${asset(path, lang)}?v=${v}` : asset(path, lang);
+};
+
+/**
  * The portrait, as a plain link to the full-size file.
  *
  * With scripts off it simply opens the image — which is why it is an anchor
@@ -44,8 +57,8 @@ const asset = (path, lang) => `${lang === 'ar' ? '' : '../'}${path}`;
 function portraitTrigger(db, lang, cls) {
   const c = db.copy[lang];
   const name = e(db.profile.name[lang]);
-  return `<a class="${cls} portrait-open" href="${asset(db.profile.image, lang)}" aria-label="${e(c.ui.viewPortrait)}">
-          <img src="${asset('assets/img/nour-96.png', lang)}" alt="${name}" width="36" height="36" decoding="async">
+  return `<a class="${cls} portrait-open" href="${assetV(db, db.profile.image, lang)}" aria-label="${e(c.ui.viewPortrait)}">
+          <img src="${assetV(db, 'assets/img/nour-96.png', lang)}" alt="${name}" width="36" height="36" decoding="async">
         </a>`;
 }
 
@@ -130,7 +143,7 @@ function portraitDialog(db, lang) {
     <form method="dialog">
       <button class="portrait__close" aria-label="${e(c.ui.closePortrait)}">&times;</button>
     </form>
-    <img src="${asset(db.profile.image, lang)}" alt="${e(db.profile.name[lang])}" width="720" height="720" loading="lazy" decoding="async">
+    <img src="${assetV(db, db.profile.image, lang)}" alt="${e(db.profile.name[lang])}" width="720" height="720" loading="lazy" decoding="async">
   </dialog>`;
 }
 
@@ -161,20 +174,20 @@ var en=p==='/en'||p.slice(0,4)==='/en/';
 if(L==='en'&&!en){location.replace(p==='/'?'/en/index.html':'/en'+p);}
 else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(e){}})();
 </script>
-<link rel="icon" type="image/png" sizes="32x32" href="${asset('assets/img/icon-32.png', lang)}">
-<link rel="apple-touch-icon" sizes="180x180" href="${asset('assets/img/icon-180.png', lang)}">
+<link rel="icon" type="image/png" sizes="32x32" href="${assetV(db, 'assets/img/icon-32.png', lang)}">
+<link rel="apple-touch-icon" sizes="180x180" href="${assetV(db, 'assets/img/icon-180.png', lang)}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?${fonts}&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="${asset('assets/css/tokens.css', lang)}">
-<link rel="stylesheet" href="${asset('assets/css/base.css', lang)}">
-<link rel="stylesheet" href="${asset('assets/css/layout.css', lang)}">
-<link rel="stylesheet" href="${asset('assets/css/components.css', lang)}">
-<link rel="stylesheet" href="${asset('assets/css/motion.css', lang)}">${
-    page === 'chat' ? `\n<link rel="stylesheet" href="${asset('assets/css/chat.css', lang)}">` : ''
+<link rel="stylesheet" href="${assetV(db, 'assets/css/tokens.css', lang)}">
+<link rel="stylesheet" href="${assetV(db, 'assets/css/base.css', lang)}">
+<link rel="stylesheet" href="${assetV(db, 'assets/css/layout.css', lang)}">
+<link rel="stylesheet" href="${assetV(db, 'assets/css/components.css', lang)}">
+<link rel="stylesheet" href="${assetV(db, 'assets/css/motion.css', lang)}">${
+    page === 'chat' ? `\n<link rel="stylesheet" href="${assetV(db, 'assets/css/chat.css', lang)}">` : ''
   }
-<link rel="stylesheet" href="${asset('assets/css/responsive.css', lang)}">${
-    lang === 'ar' ? `\n<link rel="stylesheet" href="${asset('assets/css/rtl.css', lang)}">` : ''
+<link rel="stylesheet" href="${assetV(db, 'assets/css/responsive.css', lang)}">${
+    lang === 'ar' ? `\n<link rel="stylesheet" href="${assetV(db, 'assets/css/rtl.css', lang)}">` : ''
   }
 ${B.headLd(db, page, lang)}
 </head>
@@ -189,8 +202,8 @@ ${main}
 ${footer(db, lang)}
 ${mobileTabs(db, page, lang)}
 ${portraitDialog(db, lang)}
-<script src="${asset('assets/js/main.js', lang)}" type="module"></script>${
-    page === 'chat' ? `\n<script src="${asset(`assets/js/chat/boot.${lang}.js`, lang)}" type="module"></script>` : ''
+<script src="${assetV(db, 'assets/js/main.js', lang)}" type="module"></script>${
+    page === 'chat' ? `\n<script src="${assetV(db, `assets/js/chat/boot.${lang}.js`, lang)}" type="module"></script>` : ''
   }
 </body>
 </html>

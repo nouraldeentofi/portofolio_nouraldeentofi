@@ -92,7 +92,10 @@ export function checkAll({ pages = pageFiles() } = {}) {
     // 8 — internal links resolve.
     const dir = lang === 'ar' ? '' : 'en/';
     for (const [, target] of html.matchAll(/href="(?!https?:|mailto:|tel:|#)([^"]+)"/g)) {
-      const clean = target.split('#')[0];
+      // Neither the fragment nor the query is part of the path on disk.
+      // Stylesheets carry a `?v=` fingerprint so a CDN cannot serve a stale
+      // copy; without stripping it, every one of them reads as missing.
+      const clean = target.split('#')[0].split('?')[0];
       if (!clean) continue;
       const resolved = clean.startsWith('/')
         ? clean.slice(1)
