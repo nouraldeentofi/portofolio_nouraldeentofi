@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-01T09:21:07.465Z",
+  "generated": "2026-08-03T19:06:57.826Z",
   "projects": [
     {
       "id": "smart-scanner",
@@ -290,7 +290,10 @@
         "en": "Teacher Assistant AI Bot",
         "ar": "بوت المساعد التعليمي بالذكاء الاصطناعي"
       },
-      "year": "2025 — present",
+      "year": {
+        "en": "2025 — present",
+        "ar": "2025 — حتى الآن"
+      },
       "kind": {
         "en": "Telegram AI agent · client project",
         "ar": "وكيل ذكاء اصطناعي على Telegram · مشروع عميل"

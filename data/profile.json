@@ -1,80 +1,137 @@
 {
-  "name": { "en": "Nour Aldeen Tofi", "ar": "نور الدين طفي" },
+  "name": {
+    "en": "Nour Aldeen Tofi",
+    "ar": "نور الدين طفي"
+  },
   "headline": {
-    "en": "AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer",
-    "ar": "مهندس أتمتة بالذكاء الاصطناعي — n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية أول"
+    "en": "AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer",
+    "ar": "مهندس أتمتة بالذكاء الاصطناعي — n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية أول"
   },
   "nameVariants": [
     "Nour Aldeen Tofi",
     "Nouraldeen Tofi",
     "Nour Al-Deen Tofi",
     "Nour Aldeen Toufi",
+    "Nour Tofi",
     "nouraldeentofi",
+    "nourtofi",
     "نور الدين طفي",
-    "نور الدين توفي"
+    "نور الدين توفي",
+    "نور طفي",
+    "نور توفي"
   ],
-  "_nameVariantsNote": "Every spelling people actually use, including the توفي misspelling. Emitted as schema.org alternateName so a search or a model that meets any variant resolves to the same person. This does not endorse them — profile.name stays canonical.",
+  "_nameVariantsNote": "Every spelling people actually use — full names, the short form Nour Tofi / نور طفي, both handles, and the توفي misspelling. Emitted as schema.org alternateName and listed in llms.txt / llms-full.txt / api/profile.json, so a search or a model that meets any variant resolves to the same person. This does not endorse them — profile.name stays canonical.",
   "tagline": {
     "en": "I turn messy manual processes into self-running workflows — and build the interfaces people use on top of them.",
     "ar": "أُحوّل العمليات اليدوية المتعثّرة إلى مسارات عمل ذاتية التشغيل، وأبني الواجهات التي يستخدمها الناس فوقها."
   },
   "location": {
-    "city": { "en": "Al Khobar", "ar": "الخبر" },
-    "region": { "en": "Eastern Province", "ar": "المنطقة الشرقية" },
-    "country": { "en": "Saudi Arabia", "ar": "المملكة العربية السعودية" },
+    "city": {
+      "en": "Al Khobar",
+      "ar": "الخبر"
+    },
+    "region": {
+      "en": "Eastern Province",
+      "ar": "المنطقة الشرقية"
+    },
+    "country": {
+      "en": "Saudi Arabia",
+      "ar": "المملكة العربية السعودية"
+    },
     "countryCode": "SA"
   },
-  "image": null,
-  "imageTodo": "Add assets/img/nour.jpg (a real portrait) and set this to that path — it becomes the Person image in structured data and the social preview",
+  "image": "assets/img/nour.jpg",
+  "_imageNote": "The portrait. 720×720, downscaled from me.png. Feeds Person.image in the structured data, the header avatar (via the 96px copy) and the full-size view behind it.",
+  "ogImage": "assets/img/og.png",
+  "_ogImageNote": "Generated 1200×630 share card, emitted as og:image / twitter:image so links unfurl with a real preview. Wider than the portrait and captioned, so it stays the share image rather than the photo.",
   "email": "nouraldeentofi@gmail.com",
   "phone": "+966547972944",
-  "site": "https://nouraldeentofi.github.io",
+  "site": "https://nouraldeentofi.com",
   "languages": [
     {
       "code": "ar",
-      "name": { "en": "Arabic", "ar": "العربية" },
-      "level": { "en": "Native", "ar": "اللغة الأم" }
+      "name": {
+        "en": "Arabic",
+        "ar": "العربية"
+      },
+      "level": {
+        "en": "Native",
+        "ar": "اللغة الأم"
+      }
     },
     {
       "code": "en",
-      "name": { "en": "English", "ar": "الإنجليزية" },
-      "level": { "en": "Professional working proficiency", "ar": "إجادة مهنية" }
+      "name": {
+        "en": "English",
+        "ar": "الإنجليزية"
+      },
+      "level": {
+        "en": "Professional working proficiency",
+        "ar": "إجادة مهنية"
+      }
     }
   ],
   "sameAs": [
-    { "platform": "LinkedIn", "url": "https://www.linkedin.com/in/nouraldeentofi/" },
-    { "platform": "Smart Scanner", "url": "https://receipt.nexleadtech.com" },
+    {
+      "platform": "LinkedIn",
+      "url": "https://www.linkedin.com/in/nouraldeentofi/"
+    },
+    {
+      "platform": "Smart Scanner",
+      "url": "https://receipt.nexleadtech.com"
+    },
     {
       "platform": "Google Play",
       "url": "https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag",
       "contactChannel": false,
       "note": "A product link, not a way to reach Nour. Kept in sameAs so the identity graph still resolves it; shown on the Projects page as GoldenTag."
     },
-    { "platform": "GitHub", "url": "https://github.com/nouraldeentofi" },
+    {
+      "platform": "GitHub",
+      "url": "https://github.com/nouraldeentofi"
+    },
     {
       "platform": "Codeforces",
       "url": "https://codeforces.com/profile/nour.tofi.it",
       "note": "Corroborates the ICPC/ACPC award and George Drouj's recommendation about competitive programming."
     },
-    { "platform": "FIDE", "url": null, "todo": "Confirm ratings.fide.com/profile/7618166 belongs to Nour before publishing" }
+    {
+      "platform": "FIDE",
+      "url": null,
+      "todo": "Confirm ratings.fide.com/profile/7618166 belongs to Nour before publishing"
+    }
   ],
   "availability": {
     "openToWork": true,
     "arrangements": {
-      "en": ["On-site", "Hybrid", "Remote"],
-      "ar": ["في الموقع", "هجين", "عن بُعد"]
+      "en": [
+        "On-site",
+        "Hybrid",
+        "Remote"
+      ],
+      "ar": [
+        "في الموقع",
+        "هجين",
+        "عن بُعد"
+      ]
     }
   },
   "cv": [
     {
       "id": "automation",
       "file": "assets/cv/Nour_Aldeen_Tofi_Automation.pdf",
-      "label": { "en": "Automation CV", "ar": "السيرة الذاتية — الأتمتة" }
+      "label": {
+        "en": "Automation CV",
+        "ar": "السيرة الذاتية — الأتمتة"
+      }
     },
     {
       "id": "engineering",
       "file": "assets/cv/Nour_Aldeen_Tofi.pdf",
-      "label": { "en": "Engineering CV", "ar": "السيرة الذاتية — الهندسة" }
+      "label": {
+        "en": "Engineering CV",
+        "ar": "السيرة الذاتية — الهندسة"
+      }
     }
   ]
 }

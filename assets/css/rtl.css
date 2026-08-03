@@ -8,14 +8,55 @@
     radial-gradient(48vw 38vh at 96% 112%, color-mix(in srgb, var(--mint) 11%, transparent), transparent 62%);
 }
 
-/* Credential IDs, URLs, phone numbers and code stay left-to-right. */
+/* Credential IDs, URLs, phone numbers and code stay left-to-right.
+
+   `end`, not `start`, and that is not a typo. The override above makes the
+   box itself ltr, so `start` resolves against the override and pins the run
+   to the far left — while the Arabic label above it stays right. On the
+   contact page that opened a gap the width of the row between "LinkedIn"
+   and the address underneath it. `end` of an ltr box is its right edge,
+   which is where the Arabic beside it begins. */
 [dir='rtl'] .cred__id,
 [dir='rtl'] .linklist .value,
 [dir='rtl'] pre,
 [dir='rtl'] code {
   direction: ltr;
-  text-align: start;
+  text-align: end;
   unicode-bidi: isolate;
+}
+
+/* The CV rows carry an Arabic label in `.value`, not an address — those stay
+   RTL and keep the UI font instead of the monospace address styling. Putting
+   the direction back means putting the alignment back with it: `end` above
+   was the right edge only because that box was ltr. Here it would be the
+   left one, and the label would drift away from its title. */
+[dir='rtl'] .linklist .value--label {
+  direction: rtl;
+  text-align: start;
+  unicode-bidi: normal;
+  font-family: inherit;
+}
+
+/* Metric values are Latin/numeric strings ("70+", "~10s", "1 tap", "$0.005").
+   Left-to-right isolation keeps their prefix and suffix on the sides the
+   author wrote them — RTL turned "~10s" into "10s~" and "1 tap" into "tap 1".
+   Labels underneath are separate elements and stay Arabic. */
+[dir='rtl'] .proof__value,
+[dir='rtl'] .figure__value,
+[dir='rtl'] .flow__cost,
+[dir='rtl'] .case__delta {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* The same trap, one level up. These values are blocks that inherit their
+   alignment, so wherever that alignment is directional the ltr override
+   drops the number on the left while its Arabic label holds the right, and
+   the two stop reading as one statistic — "4" sat 38px away from
+   "باقة اشتراك". Centred contexts (the .proof tiles, .figure) need nothing:
+   `center` has no handedness. */
+[dir='rtl'] .proof--inline .proof__value {
+  text-align: end;
 }
 
 /* Latin technology names inside Arabic text should not flip punctuation. */

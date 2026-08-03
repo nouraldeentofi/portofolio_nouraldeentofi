@@ -44,7 +44,9 @@
     "opensInNewTab": "opens in a new tab",
     "openToWork": "Open to work",
     "readTranscript": "Read the full transcript",
-    "machineReadable": "Machine-readable"
+    "machineReadable": "Machine-readable",
+    "viewPortrait": "View the portrait full size",
+    "closePortrait": "Close"
   },
   "home": {
     "eyebrow": "Al Khobar, Saudi Arabia · Arabic & English",

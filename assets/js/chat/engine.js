@@ -6,7 +6,11 @@
  */
 
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const now = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+/* Timestamps follow the page language, not the browser locale — the Arabic
+   page shows "٠٦:١٧ م" even on a device set to English, and vice versa. */
+const locale = document.documentElement.lang || undefined;
+const now = () => new Date().toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
 
 export function createChat({ script, thread, typing, replies, fallbackNode = 'menu' }) {
   let busy = false;

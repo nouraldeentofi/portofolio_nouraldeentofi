@@ -13,6 +13,13 @@ const base = (db) => db.profile.site.replace(/\/$/, '');
 const langPath = (lang) => (lang === 'ar' ? '' : '/en');
 const href = (page, lang) => `${langPath(lang)}/${page === '' ? 'index' : page}.html`;
 
+/**
+ * A year is usually one string shared by both languages ("2026"). It becomes
+ * `{en, ar}` the moment the wording differs — "2025 — present" must not show
+ * the English word "present" on the Arabic page.
+ */
+export const yearOf = (y, lang) => (y && typeof y === 'object' ? y[lang] : y);
+
 const PAGE_KEY = { '': 'home', about: 'about', work: 'work', projects: 'projects', automation: 'automation', chat: 'chat', contact: 'contact' };
 
 function period(start, end, presentLabel) {
@@ -66,6 +73,9 @@ export function headMeta(db, page, lang) {
       ? `${db.profile.name[lang]} — ${db.profile.headline[lang]}`
       : `${c.nav[PAGE_KEY[page]]} — ${db.profile.name[lang]}`;
   const url = `${base(db)}${href(page, lang)}`;
+  // A generated share card, not the pending portrait — profile.image stays
+  // reserved for a real photo and its own structured-data treatment.
+  const ogImage = db.profile.ogImage ? `${base(db)}/${db.profile.ogImage}` : null;
 
   return [
     `<title>${e(title)}</title>`,
@@ -73,13 +83,25 @@ export function headMeta(db, page, lang) {
     `<link rel="canonical" href="${url}">`,
     `<link rel="alternate" hreflang="${lang}" href="${url}">`,
     `<link rel="alternate" hreflang="${other}" href="${base(db)}${href(page, other)}">`,
-    `<link rel="alternate" hreflang="x-default" href="${base(db)}${href(page, 'en')}">`,
+    // x-default mirrors what the server actually serves at the root: Arabic.
+    // It must agree with sitemap.mjs — the two used to contradict each other.
+    `<link rel="alternate" hreflang="x-default" href="${base(db)}${href(page, 'ar')}">`,
     `<meta property="og:type" content="profile">`,
     `<meta property="og:title" content="${e(title)}">`,
     `<meta property="og:description" content="${e(c.meta.description)}">`,
     `<meta property="og:url" content="${url}">`,
     `<meta property="og:locale" content="${lang === 'en' ? 'en_US' : 'ar_SA'}">`,
-    `<meta name="twitter:card" content="summary_large_image">`,
+    `<meta property="og:locale:alternate" content="${lang === 'en' ? 'ar_SA' : 'en_US'}">`,
+    ...(ogImage
+      ? [
+          `<meta property="og:image" content="${ogImage}">`,
+          `<meta property="og:image:width" content="1200">`,
+          `<meta property="og:image:height" content="630">`,
+          `<meta property="og:image:alt" content="${e(title)}">`,
+          `<meta name="twitter:card" content="summary_large_image">`,
+          `<meta name="twitter:image" content="${ogImage}">`,
+        ]
+      : [`<meta name="twitter:card" content="summary">`]),
     `<meta name="author" content="${e(db.profile.name[lang])}">`,
   ].join('\n');
 }
@@ -126,7 +148,7 @@ export function homeFeatured(db, lang) {
   const c = db.copy[lang];
 
   return `<article data-reveal class="card card--featured">
-  <p class="card__meta"><span>${e(p.category[lang])}</span><span>${e(p.year)}</span></p>
+  <p class="card__meta"><span>${e(p.category[lang])}</span><span>${e(yearOf(p.year, lang))}</span></p>
   <h3 class="card__title">${e(p.name)}</h3>
   <p class="card__body">${e(p.tagline[lang])}</p>
   <dl class="card__body">
@@ -148,7 +170,7 @@ export function homeAutomation(db, lang) {
     .slice(0, 3)
     .map(
       (w) => `<article data-reveal class="card">
-  <p class="card__meta"><span>${e(w.kind[lang])}</span><span>${e(w.year)}</span></p>
+  <p class="card__meta"><span>${e(w.kind[lang])}</span><span>${e(yearOf(w.year, lang))}</span></p>
   <h3 class="card__title">${e(w.name[lang])}</h3>
   <p class="card__body">${prose(db, w.summary[lang], lang)}</p>
   ${badges(w.services.slice(0, 4))}
@@ -164,7 +186,7 @@ export function homeProjects(db, lang) {
     .filter((p) => !p.featured)
     .map(
       (p) => `<article data-reveal class="card">
-  <p class="card__meta"><span>${e(p.category[lang])}</span><span>${e(p.year)}</span></p>
+  <p class="card__meta"><span>${e(p.category[lang])}</span><span>${e(yearOf(p.year, lang))}</span></p>
   <h3 class="card__title">${e(p.name)}</h3>
   <p class="card__body">${e(p.tagline[lang])}</p>
   ${badges(p.stack.slice(0, 4))}
@@ -327,7 +349,7 @@ export function projectsList(db, lang) {
     .map(
       (p) => `<article data-reveal class="card card--row${p.featured ? ' card--featured' : ''}" id="${e(p.id)}">
   <div class="card__main">
-    <p class="card__meta"><span>${e(p.category[lang])}</span><span>${e(p.year)}</span></p>
+    <p class="card__meta"><span>${e(p.category[lang])}</span><span>${e(yearOf(p.year, lang))}</span></p>
     <h3 class="card__title">${e(p.name)}</h3>
     <p class="card__body">${e(p.tagline[lang])}</p>
     <dl class="card__body">
@@ -364,7 +386,7 @@ export function automationList(db, lang) {
     .map(
       (w) => `<article data-reveal class="card card--row${w.featured ? ' card--featured' : ''}" id="${e(w.id)}">
   <div class="card__main">
-    <p class="card__meta"><span>${e(w.kind[lang])}</span><span>${e(w.year)}</span></p>
+    <p class="card__meta"><span>${e(w.kind[lang])}</span><span>${e(yearOf(w.year, lang))}</span></p>
     <h3 class="card__title">${e(w.name[lang])}</h3>
     <p class="card__body">${prose(db, w.summary[lang], lang)}</p>
     ${list(w.highlights[lang].map((h) => prose(db, h, lang)), 'card__list')}
@@ -485,7 +507,7 @@ ${db.profile.cv
     <span class="linklist__mark linklist__mark--download" aria-hidden="true"></span>
     <span class="linklist__text">
       <span class="platform">${e(cv.label[lang])}</span>
-      <span class="value">${e(c.ui.downloadCv)} · PDF</span>
+      <span class="value value--label">${e(c.ui.downloadCv)} · PDF</span>
     </span>
   </a></li>`,
   )

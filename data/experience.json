@@ -1,10 +1,19 @@
 [
   {
     "id": "dfs-supervisor",
-    "role": { "en": "Software Engineering Supervisor", "ar": "مشرف هندسة برمجيات" },
+    "role": {
+      "en": "Software Engineering Supervisor",
+      "ar": "مشرف هندسة برمجيات"
+    },
     "company": "Distinctive Frontier Co. for Safety Equipment L.L.C",
-    "location": { "en": "Al Khobar, Saudi Arabia", "ar": "الخبر، المملكة العربية السعودية" },
-    "type": { "en": "Full-time · On-site", "ar": "دوام كامل · في الموقع" },
+    "location": {
+      "en": "Al Khobar, Saudi Arabia",
+      "ar": "الخبر، المملكة العربية السعودية"
+    },
+    "type": {
+      "en": "Full-time · On-site",
+      "ar": "دوام كامل · في الموقع"
+    },
     "start": "2026-01",
     "end": null,
     "bullets": {
@@ -21,38 +30,70 @@
         "أُدخل الأتمتة الداخلية عبر n8n وتكاملات OpenAI لتبسيط العمليات المتكرّرة داخل الفريق."
       ]
     },
-    "stack": ["React", "TypeScript", "Tailwind CSS", "n8n", "OpenAI API", "Jira", "Git"]
+    "stack": [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "n8n",
+      "OpenAI API",
+      "Jira",
+      "Git"
+    ]
   },
   {
     "id": "nexlead-coordinator",
-    "role": { "en": "Freelance Project Coordinator & Automation Builder", "ar": "منسّق مشاريع ومطوّر أتمتة (عمل حر)" },
+    "role": {
+      "en": "Freelance Project Coordinator",
+      "ar": "منسّق مشاريع (عمل حر)"
+    },
     "company": "NexLead",
-    "location": { "en": "Remote", "ar": "عن بُعد" },
-    "type": { "en": "Freelance · Remote", "ar": "عمل حر · عن بُعد" },
+    "location": {
+      "en": "Remote",
+      "ar": "عن بُعد"
+    },
+    "type": {
+      "en": "Freelance",
+      "ar": "عمل حر"
+    },
     "start": "2025-03",
-    "end": null,
+    "end": "2026-05",
     "bullets": {
       "en": [
-        "Deliver client automation and software projects end to end: requirements, scope, workflow design, and release.",
-        "Gather requirements directly with clients, define acceptance criteria, and break work into tasks and user stories on Trello.",
-        "Manage timelines and cost estimation while overseeing frontend, backend, and UI/UX quality.",
+        "Ran client automation and software projects end to end: requirements, scope, workflow design, and release.",
+        "Gathered requirements directly with clients, defined acceptance criteria, and broke work into tasks and user stories on Trello.",
+        "Managed timelines and cost estimation while overseeing frontend, backend, and UI/UX quality.",
         "Delivered GoldenTag, a jewelry store management app, to the Google Play Store."
       ],
       "ar": [
-        "أُسلّم مشاريع الأتمتة والبرمجيات للعملاء من البداية إلى النهاية: المتطلبات، النطاق، تصميم سير العمل، والإصدار.",
-        "أجمع المتطلبات مباشرة من العملاء، وأحدّد معايير القبول، وأقسّم العمل إلى مهام وقصص مستخدم على Trello.",
-        "أدير الجداول الزمنية وتقدير التكلفة، وأشرف على جودة الواجهة الأمامية والخلفية وتجربة المستخدم.",
+        "قدت مشاريع الأتمتة والبرمجيات للعملاء من البداية إلى النهاية: المتطلبات، النطاق، تصميم سير العمل، والإصدار.",
+        "جمعت المتطلبات مباشرة من العملاء، وحدّدت معايير القبول، وقسّمت العمل إلى مهام وقصص مستخدم على Trello.",
+        "أدرت الجداول الزمنية وتقدير التكلفة، وأشرفت على جودة الواجهة الأمامية والخلفية وتجربة المستخدم.",
         "سلّمت تطبيق GoldenTag لإدارة محلات المجوهرات ونشرته على متجر Google Play."
       ]
     },
-    "stack": ["Trello", "Requirements Gathering", "n8n", "React", "Release Management"]
+    "stack": [
+      "Trello",
+      "Requirements Gathering",
+      "n8n",
+      "React",
+      "Release Management"
+    ]
   },
   {
     "id": "dfs-frontend",
-    "role": { "en": "Frontend Developer / Project Coordinator", "ar": "مطوّر واجهات أمامية / منسّق مشاريع" },
+    "role": {
+      "en": "Frontend Developer / Project Coordinator",
+      "ar": "مطوّر واجهات أمامية / منسّق مشاريع"
+    },
     "company": "Distinctive Frontier Co. for Safety Equipment L.L.C",
-    "location": { "en": "Al Khobar, Saudi Arabia", "ar": "الخبر، المملكة العربية السعودية" },
-    "type": { "en": "Full-time · On-site", "ar": "دوام كامل · في الموقع" },
+    "location": {
+      "en": "Al Khobar, Saudi Arabia",
+      "ar": "الخبر، المملكة العربية السعودية"
+    },
+    "type": {
+      "en": "Full-time · On-site",
+      "ar": "دوام كامل · في الموقع"
+    },
     "start": "2025-01",
     "end": "2026-01",
     "bullets": {
@@ -69,14 +110,31 @@
         "تمّت ترقيتي إلى مشرف هندسة برمجيات خلال اثني عشر شهراً."
       ]
     },
-    "stack": ["React 19", "TypeScript", "Tailwind CSS v4", "TanStack Query", "React Hook Form", "Axios", "Laravel Echo"]
+    "stack": [
+      "React 19",
+      "TypeScript",
+      "Tailwind CSS v4",
+      "TanStack Query",
+      "React Hook Form",
+      "Axios",
+      "Laravel Echo"
+    ]
   },
   {
     "id": "khwarizm-frontend",
-    "role": { "en": "Frontend Developer (Part-Time)", "ar": "مطوّر واجهات أمامية (دوام جزئي)" },
+    "role": {
+      "en": "Frontend Developer (Part-Time)",
+      "ar": "مطوّر واجهات أمامية (دوام جزئي)"
+    },
     "company": "Khwarizm Technologies",
-    "location": { "en": "Riyadh, Saudi Arabia (Remote)", "ar": "الرياض، المملكة العربية السعودية (عن بُعد)" },
-    "type": { "en": "Part-time · Remote", "ar": "دوام جزئي · عن بُعد" },
+    "location": {
+      "en": "Riyadh, Saudi Arabia (Remote)",
+      "ar": "الرياض، المملكة العربية السعودية (عن بُعد)"
+    },
+    "type": {
+      "en": "Part-time · Remote",
+      "ar": "دوام جزئي · عن بُعد"
+    },
     "start": "2024-09",
     "end": "2025-04",
     "bullets": {
@@ -91,14 +149,28 @@
         "أجريت مراجعات للكود وحافظت على معايير الكتابة لتسليم كود نظيف ومحسّن."
       ]
     },
-    "stack": ["React", "Tailwind CSS", "Figma", "Leaflet"]
+    "stack": [
+      "React",
+      "Tailwind CSS",
+      "Figma",
+      "Leaflet"
+    ]
   },
   {
     "id": "minicodeleader-frontend",
-    "role": { "en": "Frontend Developer (Freelance)", "ar": "مطوّر واجهات أمامية (عمل حر)" },
+    "role": {
+      "en": "Frontend Developer (Freelance)",
+      "ar": "مطوّر واجهات أمامية (عمل حر)"
+    },
     "company": "Minicodeleader",
-    "location": { "en": "Remote", "ar": "عن بُعد" },
-    "type": { "en": "Freelance · Remote", "ar": "عمل حر · عن بُعد" },
+    "location": {
+      "en": "Remote",
+      "ar": "عن بُعد"
+    },
+    "type": {
+      "en": "Freelance",
+      "ar": "عمل حر"
+    },
     "start": "2023-06",
     "end": "2024-02",
     "bullets": {
@@ -113,6 +185,11 @@
         "أول دور احترافي لي بـ React — والأساس الذي بُني عليه كل ما تلاه."
       ]
     },
-    "stack": ["React", "Material-UI", "Bootstrap", "Figma"]
+    "stack": [
+      "React",
+      "Material-UI",
+      "Bootstrap",
+      "Figma"
+    ]
   }
 ]

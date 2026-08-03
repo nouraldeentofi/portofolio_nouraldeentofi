@@ -70,10 +70,37 @@ function initLang() {
   });
 }
 
+/* -------------------------------------------------------------- portrait */
+
+/* The trigger is a plain link to the image file, so it already works with
+   scripts off. Here it is upgraded to open the dialog that is already in the
+   HTML — nothing is rendered, only shown. */
+function initPortrait() {
+  const dialog = document.getElementById('portrait');
+  if (!dialog || typeof dialog.showModal !== 'function') return;
+
+  document.querySelectorAll('.portrait-open').forEach((trigger) => {
+    trigger.addEventListener('click', (event) => {
+      // Let modified clicks do what the visitor asked: new tab, save, etc.
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+      event.preventDefault();
+      dialog.showModal();
+    });
+  });
+
+  // Clicking the backdrop closes it. The dialog fills no more than its image,
+  // so a click landing on the element itself but outside that box is a
+  // backdrop click.
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+}
+
 /* ------------------------------------------------------------------ boot */
 
 initTheme();
 initLang();
+initPortrait();
 initHeader();
 initReveal();
 initCounters();

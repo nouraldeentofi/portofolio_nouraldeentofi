@@ -17,7 +17,7 @@ You already own `nouraldeentofi` on the two that matter most.
 |---|---|---|
 | Email | ✅ `nouraldeentofi@gmail.com` | — |
 | LinkedIn | ✅ `/in/nouraldeentofi/` | — |
-| Site | ✅ `nouraldeentofi.github.io` | — |
+| Site | ✅ `nouraldeentofi.com` | — |
 | GitHub | ✅ `github.com/nouraldeentofi` | — |
 | X / Twitter | ❌ | Claim `@nouraldeentofi` |
 | Dev.to or Medium | ❌ | Claim it; repost your LinkedIn write-ups |
@@ -34,6 +34,15 @@ someone else becoming the first `nouraldeentofi` a search returns.
 `nourtofi.github.io` to `nouraldeentofi.github.io`. `data/profile.json` carries both
 the site URL and the GitHub `sameAs`, so the rebuild propagated them everywhere.
 
+### The site now lives at `nouraldeentofi.com` (2026-08)
+
+The custom domain replaced the `*.github.io` host. `data/profile.json` is the single
+source of the site URL, so every canonical, JSON-LD block, sitemap entry, `llms.txt`
+link and API document points at `nouraldeentofi.com` after a rebuild. The `CNAME`
+file in the repo root keeps GitHub Pages bound to the domain — do not delete it.
+Old `*.github.io` URLs redirect to the custom domain as long as the Pages custom
+domain stays configured.
+
 **The old handle is now unclaimed.** GitHub redirects `github.com/NourTofi/*` only
 until someone else takes the name, and the old Pages host stopped serving the moment
 the rename landed — Pages does not redirect `*.github.io`. Anywhere `nourtofi.github.io`
@@ -44,7 +53,7 @@ was ever pasted is now a dead link: LinkedIn, CV PDFs, the Play Store listing.
 ## 2. Link back from every platform
 
 This is the step people skip, and it is the one that does the work. **Every profile
-must link to `nouraldeentofi.netlify.app`.**
+must link to `nouraldeentofi.com`.**
 
 - **LinkedIn** — put the site in the Website field *and* in your About text. Add the
   Featured section with Smart Scanner and the site.
@@ -68,7 +77,7 @@ New sites are not found, they are submitted.
 2. **Bing Webmaster Tools** — <https://www.bing.com/webmasters>. Same. Bing feeds
    ChatGPT search, so this one matters more than its market share suggests.
 3. Ask for indexing of the two homepages explicitly:
-   `nouraldeentofi.netlify.app/` (Arabic) and `/en/index.html` (English).
+   `nouraldeentofi.com/` (Arabic) and `/en/index.html` (English).
 
 ---
 

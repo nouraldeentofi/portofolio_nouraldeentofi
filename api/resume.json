@@ -2,10 +2,10 @@
   "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
   "basics": {
     "name": "Nour Aldeen Tofi",
-    "label": "AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer",
+    "label": "AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer",
     "email": "nouraldeentofi@gmail.com",
     "phone": "+966547972944",
-    "url": "https://nouraldeentofi.github.io",
+    "url": "https://nouraldeentofi.com",
     "summary": "I turn messy manual processes into self-running workflows — and build the interfaces people use on top of them.",
     "location": {
       "city": "Al Khobar",
@@ -55,13 +55,14 @@
     },
     {
       "name": "NexLead",
-      "position": "Freelance Project Coordinator & Automation Builder",
+      "position": "Freelance Project Coordinator",
       "location": "Remote",
       "startDate": "2025-03-01",
+      "endDate": "2026-05-01",
       "highlights": [
-        "Deliver client automation and software projects end to end: requirements, scope, workflow design, and release.",
-        "Gather requirements directly with clients, define acceptance criteria, and break work into tasks and user stories on Trello.",
-        "Manage timelines and cost estimation while overseeing frontend, backend, and UI/UX quality.",
+        "Ran client automation and software projects end to end: requirements, scope, workflow design, and release.",
+        "Gathered requirements directly with clients, defined acceptance criteria, and broke work into tasks and user stories on Trello.",
+        "Managed timelines and cost estimation while overseeing frontend, backend, and UI/UX quality.",
         "Delivered GoldenTag, a jewelry store management app, to the Google Play Store."
       ]
     },

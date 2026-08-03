@@ -47,21 +47,37 @@
   font-size: 0.98rem;
 }
 
+/* The portrait, in the slot the "NT" monogram used to hold. The gradient
+   stays as a ring around it, so the mark still reads as part of the identity
+   rather than a photo dropped into the header. */
 .brand__mark {
   inline-size: 36px;
   block-size: 36px;
   border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(135deg, var(--lime), var(--mint));
-  color: var(--accent-ink);
-  font-size: 0.8rem;
-  font-weight: 800;
-  letter-spacing: 0;
+  display: block;
   flex-shrink: 0;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--lime), var(--mint));
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.brand__name { white-space: nowrap; }
+.brand__mark img {
+  inline-size: 100%;
+  block-size: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  background: var(--raised);
+}
+
+@media (hover: hover) {
+  .brand__mark:hover {
+    transform: scale(1.06);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--mint) 22%, transparent);
+  }
+}
+
+.brand__name { color: var(--fg); text-decoration: none; white-space: nowrap; }
 
 .site-nav {
   display: flex;

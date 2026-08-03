@@ -1,7 +1,8 @@
 # Nour Aldeen Tofi — complete profile
 
-> AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer
+> AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer
 
+**Also known as:** Nour Aldeen Tofi · Nouraldeen Tofi · Nour Al-Deen Tofi · Nour Aldeen Toufi · Nour Tofi · nouraldeentofi · nourtofi · نور الدين طفي · نور الدين توفي · نور طفي · نور توفي
 **Location:** Al Khobar, Eastern Province, Saudi Arabia
 **Email:** nouraldeentofi@gmail.com
 **Phone:** +966547972944
@@ -224,13 +225,13 @@ Incoming CRM leads arrive scattered — duplicates, malformed emails, missing fi
 - Translate product ideas into shipped features in collaboration with backend (Laravel) and UI/UX teams, aligning technical delivery with business objectives.
 - Introduce internal workflow automation with n8n and OpenAI integrations to streamline repetitive team operations.
 
-### Freelance Project Coordinator & Automation Builder — NexLead
+### Freelance Project Coordinator — NexLead
 
-2025-03 — Present · Remote · Freelance · Remote
+2025-03 — 2026-05 · Remote · Freelance
 
-- Deliver client automation and software projects end to end: requirements, scope, workflow design, and release.
-- Gather requirements directly with clients, define acceptance criteria, and break work into tasks and user stories on Trello.
-- Manage timelines and cost estimation while overseeing frontend, backend, and UI/UX quality.
+- Ran client automation and software projects end to end: requirements, scope, workflow design, and release.
+- Gathered requirements directly with clients, defined acceptance criteria, and broke work into tasks and user stories on Trello.
+- Managed timelines and cost estimation while overseeing frontend, backend, and UI/UX quality.
 - Delivered GoldenTag, a jewelry store management app, to the Google Play Store.
 
 ### Frontend Developer / Project Coordinator — Distinctive Frontier Co. for Safety Equipment L.L.C
@@ -252,7 +253,7 @@ Incoming CRM leads arrive scattered — duplicates, malformed emails, missing fi
 
 ### Frontend Developer (Freelance) — Minicodeleader
 
-2023-06 — 2024-02 · Remote · Freelance · Remote
+2023-06 — 2024-02 · Remote · Freelance
 
 - Designed responsive user interfaces for a kids education platform using React and Material-UI, where users browse courses, open lessons, and save courses for later.
 - Transformed Figma designs into functional interfaces with reusable components and optimized state management.

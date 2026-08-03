@@ -39,7 +39,7 @@ export function checkAll({ pages = pageFiles() } = {}) {
     if (!s.url) warn(`pending link: ${s.platform} — ${s.todo ?? 'no note'}`);
     else if (!/^https?:\/\//.test(s.url)) fail(`profile.json: ${s.platform} url is not absolute`);
   }
-  if (!db.profile.image) warn('pending: no portrait set — Person.image and social preview are omitted');
+  if (!db.profile.image) warn('pending: no portrait set — Person.image is omitted (the generated ogImage covers the social preview)');
 
   const sectionCounts = {};
 

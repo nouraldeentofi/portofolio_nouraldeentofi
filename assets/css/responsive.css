@@ -129,10 +129,24 @@
 
   /* ---------- chat ---------- */
 
-  .chat { block-size: min(62svh, 520px); border-radius: var(--radius); }
-  .chat__msg { max-inline-size: 88%; font-size: 0.94rem; }
-  .chat__replies { max-block-size: 30svh; }
-  .chat__reply { font-size: 0.92rem; }
+  /* The chat is the page on a phone — give it real height. `svh` measures the
+     smallest viewport, so the box never jumps when the URL bar collapses. */
+  .chat { block-size: min(74svh, 620px); border-radius: var(--radius); }
+
+  /* a tighter head returns its spare pixels to the thread */
+  .chat__head { padding: var(--space-3) var(--space-4); }
+  .chat__head .brand__mark { inline-size: 38px; block-size: 38px; font-size: 0.85rem; }
+  .chat__who b { font-size: 0.98rem; }
+
+  .chat__thread { padding: var(--space-4); }
+  .chat__msg { max-inline-size: 90%; font-size: 0.97rem; }
+  .chat__card { max-inline-size: 94%; }
+  .chat__card-body { font-size: 0.9rem; }
+
+  /* Quick replies stay one tap away but never drown the thread: capped at
+     roughly three rows, scrollable past that, with slightly denser chips. */
+  .chat__replies { max-block-size: 24svh; padding: var(--space-3); gap: var(--space-2); }
+  .chat__reply { font-size: 0.88rem; padding-inline: var(--space-3); }
 
   /* ---------- cost flow ---------- */
 
@@ -220,6 +234,18 @@
   /* min-block-size does nothing to a non-replaced inline box, so any target
      that is still inline needs a flex box before the height can take. */
   .site-nav a { display: flex; align-items: center; }
+
+  /* The portrait is 36px because the header is built around that circle.
+     Growing it to 48 would push the header out of proportion, so the hit
+     area grows instead and the mark stays where it is. */
+  .brand__mark { position: relative; }
+
+  .brand__mark::after {
+    content: '';
+    position: absolute;
+    inset-block: -6px;
+    inset-inline: -6px;
+  }
 
   /* Links inside prose are deliberately left alone. Padding them out to 48px
      would wreck the line rhythm of a paragraph, and the sentence around them

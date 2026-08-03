@@ -1,6 +1,6 @@
 /* TEAM */
   Engineer: Nour Aldeen Tofi
-  Site: nouraldeentofi.github.io
+  Site: nouraldeentofi.com
   Location: Al Khobar, Eastern Province, Saudi Arabia
   Languages: Arabic, English
 

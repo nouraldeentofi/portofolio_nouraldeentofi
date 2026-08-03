@@ -1,18 +1,21 @@
 # Nour Aldeen Tofi
 
-> AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer — based in Al Khobar, Saudi Arabia. I turn messy manual processes into self-running workflows — and build the interfaces people use on top of them.
+> AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer — based in Al Khobar, Saudi Arabia. I turn messy manual processes into self-running workflows — and build the interfaces people use on top of them.
+
+Also known as: Nour Aldeen Tofi · Nouraldeen Tofi · Nour Al-Deen Tofi · Nour Aldeen Toufi · Nour Tofi · nouraldeentofi · nourtofi · نور الدين طفي · نور الدين توفي · نور طفي · نور توفي
 
 I build AI automation systems that turn messy manual processes into clean, self-running workflows — and the interfaces people use on top of them. My spearhead is n8n paired with language models: production workflows that read Arabic and English documents, validate them, catch what does not belong, and push clean structured data into sheets, CRMs, and dashboards. By day I lead frontend development as a Software Engineering Supervisor, with a track record of owning delivery end to end — requirements, tasks, production.
 
 ## Start here
 
-- [Home](https://nouraldeentofi.github.io/en/index.html)
-- [About](https://nouraldeentofi.github.io/en/about.html)
-- [Work](https://nouraldeentofi.github.io/en/work.html)
-- [Projects](https://nouraldeentofi.github.io/en/projects.html)
-- [Automation Lab](https://nouraldeentofi.github.io/en/automation.html)
-- [Chat](https://nouraldeentofi.github.io/en/chat.html)
-- [Contact](https://nouraldeentofi.github.io/en/contact.html)
+- [Home](https://nouraldeentofi.com/en/index.html)
+- [About](https://nouraldeentofi.com/en/about.html)
+- [Work](https://nouraldeentofi.com/en/work.html)
+- [Projects](https://nouraldeentofi.com/en/projects.html)
+- [Automation Lab](https://nouraldeentofi.com/en/automation.html)
+- [Chat](https://nouraldeentofi.com/en/chat.html)
+- [Contact](https://nouraldeentofi.com/en/contact.html)
+- [النسخة العربية](https://nouraldeentofi.com/): the same site, Arabic-first, served at the root
 
 ## Projects
 
@@ -34,18 +37,18 @@ I build AI automation systems that turn messy manual processes into clean, self-
 ## Experience
 
 - Software Engineering Supervisor, Distinctive Frontier Co. for Safety Equipment L.L.C (2026-01 — Present)
-- Freelance Project Coordinator & Automation Builder, NexLead (2025-03 — Present)
+- Freelance Project Coordinator, NexLead (2025-03 — 2026-05)
 - Frontend Developer / Project Coordinator, Distinctive Frontier Co. for Safety Equipment L.L.C (2025-01 — 2026-01)
 - Frontend Developer (Part-Time), Khwarizm Technologies (2024-09 — 2025-04)
 - Frontend Developer (Freelance), Minicodeleader (2023-06 — 2024-02)
 
 ## Machine-readable
 
-- [Full profile as markdown](https://nouraldeentofi.github.io/llms-full.txt): everything on this site in one document
-- [Profile JSON](https://nouraldeentofi.github.io/api/profile.json): identity, links, availability
-- [Projects JSON](https://nouraldeentofi.github.io/api/projects.json): projects and workflows
-- [Résumé (JSON Resume standard)](https://nouraldeentofi.github.io/api/resume.json)
-- [MCP server](https://nouraldeentofi.github.io/mcp/README.md): query this profile as tools from an AI assistant
+- [Full profile as markdown](https://nouraldeentofi.com/llms-full.txt): everything on this site in one document
+- [Profile JSON](https://nouraldeentofi.com/api/profile.json): identity, links, availability
+- [Projects JSON](https://nouraldeentofi.com/api/projects.json): projects and workflows
+- [Résumé (JSON Resume standard)](https://nouraldeentofi.com/api/resume.json)
+- [MCP server](https://nouraldeentofi.com/mcp/README.md): query this profile as tools from an AI assistant
 
 ## Contact
 

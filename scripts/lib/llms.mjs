@@ -13,6 +13,9 @@ const base = (db) => db.profile.site.replace(/\/$/, '');
 const period = (start, end, presentLabel) =>
   `${start} — ${end ?? presentLabel}`;
 
+/** `year` may be a shared string or `{en, ar}` when the wording differs. */
+const yearOf = (y, lang) => (y && typeof y === 'object' ? y[lang] : y);
+
 export function buildLlmsTxt(db, lang = 'en') {
   const { profile, copy } = db;
   const c = copy[lang];
@@ -23,6 +26,12 @@ export function buildLlmsTxt(db, lang = 'en') {
   L.push('');
   L.push(`> ${profile.headline[lang]} — based in ${profile.location.city[lang]}, ${profile.location.country[lang]}. ${profile.tagline[lang]}`);
   L.push('');
+  // Every spelling people actually type — so a model that meets any of them
+  // resolves it to this same person.
+  if (profile.nameVariants?.length) {
+    L.push(`Also known as: ${profile.nameVariants.join(' · ')}`);
+    L.push('');
+  }
   L.push(c.home.intro);
   L.push('');
 
@@ -32,20 +41,21 @@ export function buildLlmsTxt(db, lang = 'en') {
     const name = page === '' ? c.nav.home : c.nav[page];
     L.push(`- [${name}](${b}/en/${page === '' ? 'index' : page}.html)`);
   }
+  L.push(`- [النسخة العربية](${b}/): the same site, Arabic-first, served at the root`);
   L.push('');
 
   L.push('## Projects');
   L.push('');
   for (const p of db.projects) {
     const link = p.url ? `[${p.name}](${p.url})` : p.name;
-    L.push(`- ${link} (${p.year}): ${p.tagline[lang]}`);
+    L.push(`- ${link} (${yearOf(p.year, lang)}): ${p.tagline[lang]}`);
   }
   L.push('');
 
   L.push('## Automation workflows');
   L.push('');
   for (const w of db.workflows) {
-    L.push(`- ${w.name[lang]} (${w.year}): ${w.summary[lang]}`);
+    L.push(`- ${w.name[lang]} (${yearOf(w.year, lang)}): ${w.summary[lang]}`);
   }
   L.push('');
 
@@ -85,6 +95,9 @@ export function buildLlmsFullTxt(db, lang = 'en') {
   L.push('');
   L.push(`> ${profile.headline[lang]}`);
   L.push('');
+  if (profile.nameVariants?.length) {
+    L.push(`**Also known as:** ${profile.nameVariants.join(' · ')}`);
+  }
   L.push(`**Location:** ${profile.location.city[lang]}, ${profile.location.region[lang]}, ${profile.location.country[lang]}`);
   L.push(`**Email:** ${profile.email}`);
   L.push(`**Phone:** ${profile.phone}`);
@@ -111,7 +124,7 @@ export function buildLlmsFullTxt(db, lang = 'en') {
   L.push('## Projects');
   L.push('');
   for (const p of db.projects) {
-    L.push(`### ${p.name} (${p.year})`);
+    L.push(`### ${p.name} (${yearOf(p.year, lang)})`);
     L.push('');
     L.push(`*${p.category[lang]}* — ${p.tagline[lang]}`);
     L.push('');
@@ -134,7 +147,7 @@ export function buildLlmsFullTxt(db, lang = 'en') {
   L.push('## Automation workflows');
   L.push('');
   for (const w of db.workflows) {
-    L.push(`### ${w.name[lang]} (${w.year})`);
+    L.push(`### ${w.name[lang]} (${yearOf(w.year, lang)})`);
     L.push('');
     L.push(`*${w.kind[lang]}* — trigger: ${w.trigger[lang]}`);
     L.push('');

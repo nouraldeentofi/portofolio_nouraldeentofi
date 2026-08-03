@@ -34,9 +34,23 @@ const rel = (page) => `${page === '' ? 'index' : page}.html`;
 
 const asset = (path, lang) => `${lang === 'ar' ? '' : '../'}${path}`;
 
+/**
+ * The portrait, as a plain link to the full-size file.
+ *
+ * With scripts off it simply opens the image — which is why it is an anchor
+ * and not a button. `main.js` upgrades the same anchor into the dialog at the
+ * foot of the page. Nothing here depends on JavaScript to be reachable.
+ */
+function portraitTrigger(db, lang, cls) {
+  const c = db.copy[lang];
+  const name = e(db.profile.name[lang]);
+  return `<a class="${cls} portrait-open" href="${asset(db.profile.image, lang)}" aria-label="${e(c.ui.viewPortrait)}">
+          <img src="${asset('assets/img/nour-96.png', lang)}" alt="${name}" width="36" height="36" decoding="async">
+        </a>`;
+}
+
 function header(db, page, lang) {
   const c = db.copy[lang];
-  const initials = 'NT';
 
   const nav = PAGES.map((p) => {
     const current = p === page ? ' aria-current="page"' : '';
@@ -48,10 +62,10 @@ function header(db, page, lang) {
 
   return `  <header class="site-header">
     <div class="container site-header__inner">
-      <a class="brand" href="${rel('')}">
-        <span class="brand__mark" aria-hidden="true">${initials}</span>
-        <span class="brand__name">${e(db.profile.name[lang])}</span>
-      </a>
+      <div class="brand">
+        ${portraitTrigger(db, lang, 'brand__mark')}
+        <a class="brand__name" href="${rel('')}">${e(db.profile.name[lang])}</a>
+      </div>
       <nav class="site-nav" aria-label="${e(c.nav.home)}">
 ${nav}
       </nav>
@@ -102,6 +116,24 @@ ${PAGES.map((t) => {
   </nav>`;
 }
 
+/**
+ * The full-size portrait.
+ *
+ * Written into the HTML rather than assembled by script, so the image is in
+ * the document for a crawler whether or not the dialog ever opens. `<dialog>`
+ * brings focus handling and Escape-to-close for free; `main.js` only calls
+ * `showModal()`.
+ */
+function portraitDialog(db, lang) {
+  const c = db.copy[lang];
+  return `  <dialog class="portrait" id="portrait" aria-label="${e(db.profile.name[lang])}">
+    <form method="dialog">
+      <button class="portrait__close" aria-label="${e(c.ui.closePortrait)}">&times;</button>
+    </form>
+    <img src="${asset(db.profile.image, lang)}" alt="${e(db.profile.name[lang])}" width="720" height="720" loading="lazy" decoding="async">
+  </dialog>`;
+}
+
 function shell(db, page, lang, main) {
   const c = db.copy[lang];
   const dir = lang === 'ar' ? 'rtl' : 'ltr';
@@ -129,6 +161,8 @@ var en=p==='/en'||p.slice(0,4)==='/en/';
 if(L==='en'&&!en){location.replace(p==='/'?'/en/index.html':'/en'+p);}
 else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(e){}})();
 </script>
+<link rel="icon" type="image/png" sizes="32x32" href="${asset('assets/img/icon-32.png', lang)}">
+<link rel="apple-touch-icon" sizes="180x180" href="${asset('assets/img/icon-180.png', lang)}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?${fonts}&display=swap" rel="stylesheet">
@@ -154,6 +188,7 @@ ${main}
 </main>
 ${footer(db, lang)}
 ${mobileTabs(db, page, lang)}
+${portraitDialog(db, lang)}
 <script src="${asset('assets/js/main.js', lang)}" type="module"></script>${
     page === 'chat' ? `\n<script src="${asset(`assets/js/chat/boot.${lang}.js`, lang)}" type="module"></script>` : ''
   }
@@ -350,7 +385,7 @@ function chat(db, lang) {
     <div class="container">
       <div class="chat" id="chat">
         <div class="chat__head">
-          <span class="brand__mark" aria-hidden="true">NT</span>
+          ${portraitTrigger(db, lang, 'brand__mark')}
           <span class="chat__who"><b>${e(db.profile.name[lang])}</b><span>${e(c.chat.status)}</span></span>
         </div>
         <div class="chat__thread" id="chat-thread" role="log" aria-live="polite"></div>

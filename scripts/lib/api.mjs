@@ -15,6 +15,9 @@ export function buildApiProfile(db) {
     $schema: `${base(db)}/api/profile.json`,
     generated: new Date().toISOString(),
     name: profile.name,
+    // Alternate spellings people actually use — same list as the JSON-LD
+    // alternateName, so agents can match any of them to this profile.
+    nameVariants: profile.nameVariants ?? [],
     headline: profile.headline,
     tagline: profile.tagline,
     location: profile.location,

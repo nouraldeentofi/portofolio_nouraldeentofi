@@ -1,13 +1,26 @@
 {
-  "$schema": "https://nouraldeentofi.github.io/api/profile.json",
-  "generated": "2026-08-01T09:21:07.465Z",
+  "$schema": "https://nouraldeentofi.com/api/profile.json",
+  "generated": "2026-08-03T19:06:57.826Z",
   "name": {
     "en": "Nour Aldeen Tofi",
     "ar": "نور الدين طفي"
   },
+  "nameVariants": [
+    "Nour Aldeen Tofi",
+    "Nouraldeen Tofi",
+    "Nour Al-Deen Tofi",
+    "Nour Aldeen Toufi",
+    "Nour Tofi",
+    "nouraldeentofi",
+    "nourtofi",
+    "نور الدين طفي",
+    "نور الدين توفي",
+    "نور طفي",
+    "نور توفي"
+  ],
   "headline": {
-    "en": "AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer",
-    "ar": "مهندس أتمتة بالذكاء الاصطناعي — n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية أول"
+    "en": "AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer",
+    "ar": "مهندس أتمتة بالذكاء الاصطناعي — n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية أول"
   },
   "tagline": {
     "en": "I turn messy manual processes into self-running workflows — and build the interfaces people use on top of them.",
@@ -30,7 +43,7 @@
   },
   "email": "nouraldeentofi@gmail.com",
   "phone": "+966547972944",
-  "url": "https://nouraldeentofi.github.io",
+  "url": "https://nouraldeentofi.com",
   "languages": [
     {
       "code": "ar",
@@ -207,18 +220,18 @@
     }
   ],
   "documents": {
-    "llms": "https://nouraldeentofi.github.io/llms.txt",
-    "llmsFull": "https://nouraldeentofi.github.io/llms-full.txt",
-    "resume": "https://nouraldeentofi.github.io/api/resume.json",
-    "projects": "https://nouraldeentofi.github.io/api/projects.json",
+    "llms": "https://nouraldeentofi.com/llms.txt",
+    "llmsFull": "https://nouraldeentofi.com/llms-full.txt",
+    "resume": "https://nouraldeentofi.com/api/resume.json",
+    "projects": "https://nouraldeentofi.com/api/projects.json",
     "cv": [
       {
         "id": "automation",
-        "url": "https://nouraldeentofi.github.io/assets/cv/Nour_Aldeen_Tofi_Automation.pdf"
+        "url": "https://nouraldeentofi.com/assets/cv/Nour_Aldeen_Tofi_Automation.pdf"
       },
       {
         "id": "engineering",
-        "url": "https://nouraldeentofi.github.io/assets/cv/Nour_Aldeen_Tofi.pdf"
+        "url": "https://nouraldeentofi.com/assets/cv/Nour_Aldeen_Tofi.pdf"
       }
     ]
   }
