@@ -65,7 +65,7 @@ const badges = (items) =>
 
 /* ------------------------------------------------------------------ head */
 
-export function headMeta(db, page, lang) {
+export function headMeta(db, page, lang, { noindex = false } = {}) {
   const c = db.copy[lang];
   const other = lang === 'en' ? 'ar' : 'en';
   const title =
@@ -80,6 +80,8 @@ export function headMeta(db, page, lang) {
   return [
     `<title>${e(title)}</title>`,
     `<meta name="description" content="${e(c.meta.description)}">`,
+    // `follow` so the links out of the page still carry weight.
+    ...(noindex ? [`<meta name="robots" content="noindex, follow">`] : []),
     `<link rel="canonical" href="${url}">`,
     `<link rel="alternate" hreflang="${lang}" href="${url}">`,
     `<link rel="alternate" hreflang="${other}" href="${base(db)}${href(page, other)}">`,

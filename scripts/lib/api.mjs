@@ -116,7 +116,10 @@ export function buildResumeJson(db, lang = 'en') {
         name: c.name[lang],
         issuer: c.issuer,
         date: iso(c.issued),
-        ...(c.credentialId ? { url: `credential:${c.credentialId}` } : {}),
+        // Only a real verification URL goes in `url` — JSON Resume defines it as
+        // one, and a parser will render whatever is here as a link. The
+        // credential ID travels in the JSON-LD `identifier` and llms-full.txt.
+        ...(c.url ? { url: c.url } : {}),
       })),
     awards: db.credentials
       .filter((c) => c.kind === 'award')

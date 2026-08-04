@@ -4,7 +4,7 @@ import { loadDb } from '../scripts/lib/load.mjs';
 import { buildLlmsTxt, buildLlmsFullTxt } from '../scripts/lib/llms.mjs';
 import { buildSitemap, PAGES, LANGS } from '../scripts/lib/sitemap.mjs';
 import { buildApiProfile, buildApiProjects, buildResumeJson } from '../scripts/lib/api.mjs';
-import { TEMPLATES } from '../scripts/lib/pages.mjs';
+import { TEMPLATES, notFound, buildRedirects } from '../scripts/lib/pages.mjs';
 
 const db = loadDb('data');
 
@@ -58,6 +58,17 @@ test('resume.json matches the JSON Resume shape', () => {
   assert.equal(r.education[0].institution, 'University of Kalamoon');
 });
 
+/* JSON Resume defines certificates[].url as a URL. A credential ID is not one,
+   and a parser that trusts the field renders it as a dead link. The ID still
+   travels in the JSON-LD identifier, llms-full.txt, and the MCP tool. */
+test('resume.json never puts a non-URL in a certificate url field', () => {
+  const r = buildResumeJson(db);
+  for (const c of r.certificates) {
+    if (!('url' in c)) continue;
+    assert.match(c.url, /^https?:\/\//, `${c.name} has a non-URL url: ${c.url}`);
+  }
+});
+
 test('the public api never leaks an unresolved link', () => {
   const profile = buildApiProfile(db);
   assert.ok(profile.links.every((l) => typeof l.url === 'string' && l.url.startsWith('http')));
@@ -95,6 +106,44 @@ test('tab labels come from navShort and are never blank', () => {
     assert.equal(labels.length, PAGES.length);
     assert.ok(labels.every((l) => l.trim().length > 0), `${lang}: a tab rendered an empty label`);
     assert.ok(labels.includes(db.copy[lang].navShort.automation));
+  }
+});
+
+/* GitHub Pages ignores _redirects, so every shortcut has to be a real file.
+   These four are the ones robots.txt and the README hand out. */
+test('every documented shortcut is a real file, not a redirect rule', () => {
+  const stubs = buildRedirects(db);
+
+  assert.deepEqual(
+    stubs.map((s) => s.path).sort(),
+    ['cv/auto/index.html', 'cv/index.html', 'profile/index.html', 'resume/index.html'],
+  );
+
+  for (const s of stubs) {
+    assert.match(s.html, /<meta name="robots" content="noindex/, `${s.path} is indexable`);
+    assert.match(s.html, /<meta http-equiv="refresh" content="0;\s*url=/, `${s.path} never redirects`);
+    assert.ok(s.html.includes(`href="${s.target}"`), `${s.path} has no fallback link`);
+  }
+});
+
+test('the shortcuts resolve to the real files named in data', () => {
+  const target = Object.fromEntries(buildRedirects(db).map((s) => [s.path, s.target]));
+
+  assert.equal(target['cv/index.html'], '/assets/cv/Nour_Aldeen_Tofi.pdf');
+  assert.equal(target['cv/auto/index.html'], '/assets/cv/Nour_Aldeen_Tofi_Automation.pdf');
+  assert.equal(target['resume/index.html'], '/api/resume.json');
+  assert.equal(target['profile/index.html'], '/api/profile.json');
+});
+
+/* The 404 is a real 200-status file at /404.html and /en/404.html. Without this
+   it is a crawlable page carrying the home page's title and description. */
+test('the 404 page tells crawlers not to index it', () => {
+  for (const lang of LANGS) {
+    assert.match(
+      notFound(db, lang),
+      /<meta name="robots" content="noindex/,
+      `${lang}: 404 is indexable`,
+    );
   }
 });
 

@@ -147,7 +147,7 @@ function portraitDialog(db, lang) {
   </dialog>`;
 }
 
-function shell(db, page, lang, main) {
+function shell(db, page, lang, main, opts = {}) {
   const c = db.copy[lang];
   const dir = lang === 'ar' ? 'rtl' : 'ltr';
   const fonts =
@@ -161,7 +161,7 @@ function shell(db, page, lang, main) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-${B.headMeta(db, page, lang)}
+${B.headMeta(db, page, lang, opts)}
 <script>
 /* Set before first paint so reveals never flash, and the stored theme never
    flickers. Also tells CSS that JavaScript is available — without this class
@@ -420,7 +420,46 @@ function notFound(db, lang) {
     headline: lang === 'en' ? 'That page does not exist.' : 'هذه الصفحة غير موجودة.',
     actions: `        <a class="btn" href="${rel('')}">${e(c.nav.home)}</a>`,
   })}`;
-  return shell(db, '', lang, main);
+  // Borrows the home page's head, so it must say noindex — otherwise it is a
+  // crawlable duplicate of the home title and description.
+  return shell(db, '', lang, main, { noindex: true });
+}
+
+/**
+ * The shortcut URLs, as real files.
+ *
+ * `_redirects` only works on Netlify; this site is served by GitHub Pages,
+ * which has no redirect rules at all. So each shortcut ships as a page that
+ * redirects three ways: a meta refresh for browsers, a canonical for crawlers
+ * that follow it, and a plain link for anything that honours neither. All are
+ * noindex — the destination is the thing worth indexing, not the doorway.
+ */
+function redirectStub(target, label) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, follow">
+<meta http-equiv="refresh" content="0; url=${target}">
+<link rel="canonical" href="${target}">
+<title>${e(label)}</title>
+</head>
+<body>
+<p><a href="${target}">${e(label)}</a></p>
+</body>
+</html>
+`;
+}
+
+export function buildRedirects(db) {
+  const cv = (id) => db.profile.cv.find((c) => c.id === id);
+
+  return [
+    { path: 'cv/index.html', target: `/${cv('engineering').file}`, label: 'Engineering CV' },
+    { path: 'cv/auto/index.html', target: `/${cv('automation').file}`, label: 'Automation CV' },
+    { path: 'resume/index.html', target: '/api/resume.json', label: 'Résumé (JSON Resume)' },
+    { path: 'profile/index.html', target: '/api/profile.json', label: 'Profile JSON' },
+  ].map((r) => ({ ...r, html: redirectStub(r.target, r.label) }));
 }
 
 export const TEMPLATES = { '': home, about, work, projects, automation, chat, contact };

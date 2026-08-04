@@ -115,16 +115,22 @@ This version fixes that with four stacked layers:
 
 ## Deploying
 
-It is a static site, so any host works. For Netlify, connect the repository and use:
+It is a static site, so any host works. This one is served by **GitHub Pages** from
+`nouraldeentofi/nouraldeentofi.github.io`, with `CNAME` pointing the apex domain at it
+and `.nojekyll` stopping Jekyll from eating the generated files.
 
-- **Build command:** `npm run build`
-- **Publish directory:** `.`
+GitHub Pages has no build step, so **the generated files must be committed**. Run
+`npm run check` and commit the result — pushing the source alone deploys nothing.
 
-`_headers` and `_redirects` are already configured for Netlify — CORS on `/api/*`,
-caching, and shortcuts like `/cv` and `/resume`.
+The shortcuts `/cv`, `/cv/auto`, `/resume` and `/profile` are real generated files
+(`cv/index.html` and friends), each a noindex page that redirects to its target. They
+are files rather than rules because **GitHub Pages ignores `_headers` and `_redirects`
+entirely** — those two are Netlify syntax and do nothing here. GitHub Pages sends
+`Access-Control-Allow-Origin: *` on its own, so the JSON API stays agent-readable
+without them.
 
-If your host has no build step at all, that is fine too: the generated files are
-committed, so the repository can be served as-is.
+For Netlify instead, connect the repository with build command `npm run build` and
+publish directory `.`; `_headers` and `_redirects` then take effect as written.
 
 ---
 
@@ -133,7 +139,5 @@ committed, so the repository can be served as-is.
 `npm run validate` reports these as warnings on every run, by design:
 
 - **FIDE profile** — confirm it belongs to Nour, then fill in the same way.
-- **Portrait** — add `assets/img/nour.jpg` and set `profile.image` to that path. Until
-  then `Person.image` and the social preview are correctly omitted rather than broken.
 
-Each is a one-line edit followed by `npm run build`.
+It is a one-line edit followed by `npm run build`.

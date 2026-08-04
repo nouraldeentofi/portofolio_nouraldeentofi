@@ -14,7 +14,7 @@ import { loadDb } from './lib/load.mjs';
 import { PAGES, LANGS, buildSitemap } from './lib/sitemap.mjs';
 import { buildLlmsTxt, buildLlmsFullTxt } from './lib/llms.mjs';
 import { buildApiProfile, buildApiProjects, buildResumeJson } from './lib/api.mjs';
-import { TEMPLATES, notFound } from './lib/pages.mjs';
+import { TEMPLATES, notFound, buildRedirects } from './lib/pages.mjs';
 import { injectBlock } from './lib/render.mjs';
 import { buildTranscript } from './lib/transcript.mjs';
 
@@ -40,6 +40,9 @@ function main() {
 
     stage(`${dir}404.html`, notFound(db, lang));
   }
+
+  // GitHub Pages has no redirect rules, so the shortcuts are real files.
+  for (const { path, html } of buildRedirects(db)) stage(path, html);
 
   stage('llms.txt', buildLlmsTxt(db, 'en'));
   stage('llms-full.txt', buildLlmsFullTxt(db, 'en'));
