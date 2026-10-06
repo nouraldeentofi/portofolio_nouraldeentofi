@@ -1,7 +1,7 @@
 {
   "meta": {
     "siteName": "Nour Aldeen Tofi",
-    "description": "AI Automation Engineer and Senior Frontend Developer in Al Khobar, Saudi Arabia. I build production n8n workflows with LLM agents, Arabic document AI, and the React interfaces on top of them.",
+    "description": "AI Automation Engineer and Frontend Developer in Al Khobar, Saudi Arabia. I build production n8n workflows with LLM agents, Arabic document AI, and the React interfaces on top of them.",
     "langLabel": "العربية",
     "langHref": "/ar/"
   },
@@ -104,7 +104,7 @@
     "faq": [
       {
         "q": "What does Nour Aldeen Tofi do?",
-        "a": "He is an AI Automation Engineer and Senior Frontend Developer based in Al Khobar, Saudi Arabia. He designs and operates production n8n workflows that connect language models to real systems, and builds the React and TypeScript interfaces on top of them. He also works as a Software Engineering Supervisor, leading frontend development and owning delivery end to end."
+        "a": "He is an AI Automation Engineer and Frontend Developer based in Al Khobar, Saudi Arabia. He designs and operates production n8n workflows that connect language models to real systems, and builds the React and TypeScript interfaces on top of them. He also works as a Software Engineering Supervisor, leading frontend development and owning delivery end to end."
       },
       {
         "q": "What is Smart Scanner?",

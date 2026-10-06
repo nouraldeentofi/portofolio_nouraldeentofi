@@ -1,6 +1,6 @@
 # Nour Aldeen Tofi
 
-> AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer — based in Al Khobar, Saudi Arabia. I turn messy manual processes into self-running workflows — and build the interfaces people use on top of them.
+> AI Automation Engineer — n8n, LLM Agents, MCP · Frontend Developer — based in Al Khobar, Saudi Arabia. I turn messy manual processes into self-running workflows — and build the interfaces people use on top of them.
 
 Also known as: Nour Aldeen Tofi · Nouraldeen Tofi · Nour Al-Deen Tofi · Nour Aldeen Toufi · Nour Tofi · nouraldeentofi · nourtofi · نور الدين طفي · نور الدين توفي · نور طفي · نور توفي
 
@@ -20,6 +20,8 @@ I build AI automation systems that turn messy manual processes into clean, self-
 ## Projects
 
 - [Smart Scanner](https://receipt.nexleadtech.com) (2026): Arabic-first AI invoice management — from photo to approval, with zero manual data entry.
+- [CV Screener](https://cv-screener.nouraldeentofi.com) (2026): Upload a folder of CVs — every one is read, classified, and scored by AI, with each point traced to a quote from the CV.
+- Universal Web Scraper (2026): One link in, the whole site out — every page discovered, the data classified, and an Excel file with a tab for each kind of data.
 - DFS Dashboard (2025–2026): A unified CRM and quotation platform that replaced scattered manual processes across every department.
 - [GoldenTag](https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag) (2025): A jewelry store management app shipped to the Google Play Store.
 - Business Card Extractor (2026): Photograph a business card, and it lands in your phone's contacts in one tap.

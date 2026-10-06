@@ -86,7 +86,7 @@ export const SCRIPT = {
 
   who: {
     msgs: [
-      'I am <b>Nour Aldeen Tofi</b> — AI automation engineer and senior frontend developer, based in <b>Al Khobar</b>.',
+      'I am <b>Nour Aldeen Tofi</b> — AI automation engineer and frontend developer, based in <b>Al Khobar</b>.',
       'The unusual part is that I do both ends: I design the pipeline <i>and</i> I build the interface. I also run delivery — requirements, scope, tasks, deadlines.',
       'B.Eng in Information Technology from University of Kalamoon, 2019–2024. Arabic native, English professional. 🇸🇦',
     ],

@@ -1,6 +1,6 @@
 {
   "$schema": "https://nouraldeentofi.com/api/profile.json",
-  "generated": "2026-08-04T19:41:29.901Z",
+  "generated": "2026-10-06T18:16:29.272Z",
   "name": {
     "en": "Nour Aldeen Tofi",
     "ar": "نور الدين طفي"
@@ -19,8 +19,8 @@
     "نور توفي"
   ],
   "headline": {
-    "en": "AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer",
-    "ar": "مهندس أتمتة بالذكاء الاصطناعي — n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية أول"
+    "en": "AI Automation Engineer — n8n, LLM Agents, MCP · Frontend Developer",
+    "ar": "مهندس أتمتة بالذكاء الاصطناعي — n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية"
   },
   "tagline": {
     "en": "I turn messy manual processes into self-running workflows — and build the interfaces people use on top of them.",

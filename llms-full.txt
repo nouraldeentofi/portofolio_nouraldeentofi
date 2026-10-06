@@ -1,6 +1,6 @@
 # Nour Aldeen Tofi — complete profile
 
-> AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer
+> AI Automation Engineer — n8n, LLM Agents, MCP · Frontend Developer
 
 **Also known as:** Nour Aldeen Tofi · Nouraldeen Tofi · Nour Al-Deen Tofi · Nour Aldeen Toufi · Nour Tofi · nouraldeentofi · nourtofi · نور الدين طفي · نور الدين توفي · نور طفي · نور توفي
 **Location:** Al Khobar, Eastern Province, Saudi Arabia
@@ -63,6 +63,36 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 **Live.** https://receipt.nexleadtech.com
 
 **Context.** Timed with ZATCA e-invoicing expansion in Saudi Arabia and mandatory JoFotara in Jordan — every paper invoice in the region now has to become clean digital data.
+
+### CV Screener (2026)
+
+*AI SaaS product* — Upload a folder of CVs — every one is read, classified, and scored by AI, with each point traced to a quote from the CV.
+
+**Problem.** HR teams receive hundreds of CVs per opening, many of them Arabic PDFs that most tools cannot read. Screening them by hand is slow and inconsistent, and an AI score with no explanation is not something a recruiter can trust or defend.
+
+**What he built.** A full-stack, Arabic-default bilingual product. HR uploads files, folders, or ZIPs; a background worker extracts the text — repairing Arabic visual order — and n8n profiles each CV, places it in the account's own categories, and scores it on several dimensions with quoted evidence. The server verifies every quote against the CV before it can raise a score, and computes every number people sort by. On top sit filters on every profile field, Arabic and English full-text search, HR status, stars and notes, role screenings with weighted criteria and must-haves, AI summaries of any scope, CSV export, and an admin console.
+
+**Role.** Full build — product, frontend, backend, and AI workflows
+
+**Numbers.** 1,189 automated tests · 8 scoring dimensions · 3 n8n AI workflows · 5,000 CVs performance-tested
+
+**Stack.** Next.js 16, React 19, TypeScript, Tailwind CSS 4, Prisma, MySQL 8, n8n, OpenAI, Docker, Vitest, i18n, RTL
+
+**Live.** https://cv-screener.nouraldeentofi.com
+
+### Universal Web Scraper (2026)
+
+*AI automation product* — One link in, the whole site out — every page discovered, the data classified, and an Excel file with a tab for each kind of data.
+
+**Problem.** Collecting data from websites usually means copying it by hand into Excel, or writing a new scraper for every site — and breaking it the moment a site blocks bots or renders its content with JavaScript.
+
+**What he built.** You paste one link. The engine discovers every page of the site through its sitemap, classifies what it finds — companies, people, products, articles, jobs, places — and fills an Excel file with a tab per category, mirrored to Google Sheets. It runs in the background on n8n, so it keeps going after the laptop is closed, and the rows collected so far can be downloaded at any moment; large sites are split into parts. Each page fetch escalates only as far as it needs — direct request, proxy pool, scraping API, full renderer — and extraction reads JSON-LD and tables first, falling back to chunked, parallel AI extraction. A small web interface shows live progress, a time estimate, a preview of the rows, and pause, resume, cancel, and restart controls.
+
+**Role.** Full build — interface and automation
+
+**Numbers.** 1 link to scrape a whole site · 7 data categories, one Excel tab each · 4 fetch tiers, escalated on demand
+
+**Stack.** n8n, OpenAI, Excel, Google Sheets, JSON-LD, Sitemap crawling, Proxy pool, Webhooks, JavaScript
 
 ### DFS Dashboard (2025–2026)
 
@@ -321,7 +351,7 @@ Incoming CRM leads arrive scattered — duplicates, malformed emails, missing fi
 
 **What does Nour Aldeen Tofi do?**
 
-He is an AI Automation Engineer and Senior Frontend Developer based in Al Khobar, Saudi Arabia. He designs and operates production n8n workflows that connect language models to real systems, and builds the React and TypeScript interfaces on top of them. He also works as a Software Engineering Supervisor, leading frontend development and owning delivery end to end.
+He is an AI Automation Engineer and Frontend Developer based in Al Khobar, Saudi Arabia. He designs and operates production n8n workflows that connect language models to real systems, and builds the React and TypeScript interfaces on top of them. He also works as a Software Engineering Supervisor, leading frontend development and owning delivery end to end.
 
 **What is Smart Scanner?**
 

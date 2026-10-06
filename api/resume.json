@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
   "basics": {
     "name": "Nour Aldeen Tofi",
-    "label": "AI Automation Engineer — n8n, LLM Agents, MCP · Senior Frontend Developer",
+    "label": "AI Automation Engineer — n8n, LLM Agents, MCP · Frontend Developer",
     "email": "nouraldeentofi@gmail.com",
     "phone": "+966547972944",
     "url": "https://nouraldeentofi.com",
@@ -311,6 +311,57 @@
       "url": "https://receipt.nexleadtech.com",
       "roles": [
         "AI/automation engine and complete frontend. Laravel backend by Haitham Zedan."
+      ]
+    },
+    {
+      "name": "CV Screener",
+      "description": "Upload a folder of CVs — every one is read, classified, and scored by AI, with each point traced to a quote from the CV.",
+      "highlights": [
+        "1,189 automated tests",
+        "8 scoring dimensions",
+        "3 n8n AI workflows",
+        "5,000 CVs performance-tested"
+      ],
+      "keywords": [
+        "Next.js 16",
+        "React 19",
+        "TypeScript",
+        "Tailwind CSS 4",
+        "Prisma",
+        "MySQL 8",
+        "n8n",
+        "OpenAI",
+        "Docker",
+        "Vitest",
+        "i18n",
+        "RTL"
+      ],
+      "url": "https://cv-screener.nouraldeentofi.com",
+      "roles": [
+        "Full build — product, frontend, backend, and AI workflows"
+      ]
+    },
+    {
+      "name": "Universal Web Scraper",
+      "description": "One link in, the whole site out — every page discovered, the data classified, and an Excel file with a tab for each kind of data.",
+      "highlights": [
+        "1 link to scrape a whole site",
+        "7 data categories, one Excel tab each",
+        "4 fetch tiers, escalated on demand"
+      ],
+      "keywords": [
+        "n8n",
+        "OpenAI",
+        "Excel",
+        "Google Sheets",
+        "JSON-LD",
+        "Sitemap crawling",
+        "Proxy pool",
+        "Webhooks",
+        "JavaScript"
+      ],
+      "roles": [
+        "Full build — interface and automation"
       ]
     },
     {

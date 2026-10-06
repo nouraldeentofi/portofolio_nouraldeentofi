@@ -37,6 +37,68 @@
     }
   },
   {
+    "id": "cv-screener",
+    "name": "CV Screener",
+    "featured": false,
+    "year": "2026",
+    "category": { "en": "AI SaaS product", "ar": "منتج SaaS بالذكاء الاصطناعي" },
+    "tagline": {
+      "en": "Upload a folder of CVs — every one is read, classified, and scored by AI, with each point traced to a quote from the CV.",
+      "ar": "ارفع مجلداً من السير الذاتية — فتُقرأ كلها وتُصنّف وتُقيّم بالذكاء الاصطناعي، وكل نقطة مربوطة باقتباس من السيرة نفسها."
+    },
+    "problem": {
+      "en": "HR teams receive hundreds of CVs per opening, many of them Arabic PDFs that most tools cannot read. Screening them by hand is slow and inconsistent, and an AI score with no explanation is not something a recruiter can trust or defend.",
+      "ar": "تستقبل فرق الموارد البشرية مئات السير الذاتية لكل وظيفة، وكثير منها ملفات PDF عربية لا تقرؤها معظم الأدوات. فرزها يدوياً بطيء وغير متّسق، وتقييم الذكاء الاصطناعي بلا تفسير لا يستطيع المسؤول عن التوظيف أن يثق به أو يدافع عنه."
+    },
+    "built": {
+      "en": "A full-stack, Arabic-default bilingual product. HR uploads files, folders, or ZIPs; a background worker extracts the text — repairing Arabic visual order — and n8n profiles each CV, places it in the account's own categories, and scores it on several dimensions with quoted evidence. The server verifies every quote against the CV before it can raise a score, and computes every number people sort by. On top sit filters on every profile field, Arabic and English full-text search, HR status, stars and notes, role screenings with weighted criteria and must-haves, AI summaries of any scope, CSV export, and an admin console.",
+      "ar": "منتج متكامل ثنائي اللغة، العربية فيه افتراضية. يرفع فريق الموارد البشرية ملفات أو مجلدات أو ملفات ZIP؛ فيستخرج عامل في الخلفية النص — مع إصلاح ترتيب العربية المقلوب — ثم يبني n8n ملفاً لكل سيرة، ويضعها في تصنيفات الحساب نفسه، ويقيّمها على عدة أبعاد مع اقتباسات داعمة. ويتحقّق الخادم من كل اقتباس مقابل السيرة قبل أن يرفع أي درجة، ويحسب بنفسه كل رقم يُرتّب عليه. وفوق ذلك: فلاتر على كل حقل، وبحث نصي كامل بالعربية والإنجليزية، وحالة توظيف ونجمة وملاحظات، وفرز حسب الوظيفة بمعايير موزونة وشروط إلزامية، وملخّصات بالذكاء الاصطناعي لأي نطاق، وتصدير CSV، ولوحة إدارة."
+    },
+    "role": {
+      "en": "Full build — product, frontend, backend, and AI workflows",
+      "ar": "البناء الكامل — المنتج والواجهة والخادم ومسارات الذكاء الاصطناعي"
+    },
+    "metrics": [
+      { "value": "1,189", "label": { "en": "automated tests", "ar": "اختبار آلي" } },
+      { "value": "8", "label": { "en": "scoring dimensions", "ar": "أبعاد تقييم" } },
+      { "value": "3", "label": { "en": "n8n AI workflows", "ar": "مسارات ذكاء اصطناعي في n8n" } },
+      { "value": "5,000", "label": { "en": "CVs performance-tested", "ar": "سيرة في اختبار الأداء" } }
+    ],
+    "stack": ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS 4", "Prisma", "MySQL 8", "n8n", "OpenAI", "Docker", "Vitest", "i18n", "RTL"],
+    "url": "https://cv-screener.nouraldeentofi.com"
+  },
+  {
+    "id": "universal-web-scraper",
+    "name": "Universal Web Scraper",
+    "featured": false,
+    "year": "2026",
+    "category": { "en": "AI automation product", "ar": "منتج أتمتة بالذكاء الاصطناعي" },
+    "tagline": {
+      "en": "One link in, the whole site out — every page discovered, the data classified, and an Excel file with a tab for each kind of data.",
+      "ar": "رابط واحد يدخل، والموقع كله يخرج — تُكتشف كل صفحاته، وتُصنّف بياناته، ويُملأ ملف Excel بتبويب لكل نوع منها."
+    },
+    "problem": {
+      "en": "Collecting data from websites usually means copying it by hand into Excel, or writing a new scraper for every site — and breaking it the moment a site blocks bots or renders its content with JavaScript.",
+      "ar": "جمع البيانات من المواقع يعني عادةً نسخها يدوياً إلى Excel، أو كتابة أداة سحب جديدة لكل موقع — ثم تتعطّل فور أن يحجب الموقع الروبوتات أو يعرض محتواه بـ JavaScript."
+    },
+    "built": {
+      "en": "You paste one link. The engine discovers every page of the site through its sitemap, classifies what it finds — companies, people, products, articles, jobs, places — and fills an Excel file with a tab per category, mirrored to Google Sheets. It runs in the background on n8n, so it keeps going after the laptop is closed, and the rows collected so far can be downloaded at any moment; large sites are split into parts. Each page fetch escalates only as far as it needs — direct request, proxy pool, scraping API, full renderer — and extraction reads JSON-LD and tables first, falling back to chunked, parallel AI extraction. A small web interface shows live progress, a time estimate, a preview of the rows, and pause, resume, cancel, and restart controls.",
+      "ar": "تضع رابطاً واحداً. يكتشف المحرّك كل صفحات الموقع عبر خريطة الموقع، ويصنّف ما يجده — شركات، وأشخاص، ومنتجات، ومقالات، ووظائف، وأماكن — ويملأ ملف Excel بتبويب لكل تصنيف، مع نسخة على Google Sheets. يعمل في الخلفية على n8n، فيكمل حتى لو أُغلق اللابتوب، ويمكن تنزيل ما وصل من صفوف في أي لحظة، وتُقسَم المواقع الكبيرة إلى أجزاء. كل طلب صفحة يتصاعد بقدر الحاجة فقط — طلب مباشر، ثم بروكسيات، ثم واجهة سحب، ثم متصفّح عرض كامل — والاستخراج يقرأ JSON-LD والجداول أولاً، ثم يلجأ إلى استخراج بالذكاء الاصطناعي مقسّم ومتوازٍ. وواجهة ويب صغيرة تعرض التقدّم مباشرة، والوقت المتبقّي، ومعاينة للصفوف، وأزرار الإيقاف والاستئناف والإلغاء والبدء من جديد."
+    },
+    "role": { "en": "Full build — interface and automation", "ar": "البناء الكامل — الواجهة والأتمتة" },
+    "metrics": [
+      { "value": "1 link", "label": { "en": "to scrape a whole site", "ar": "لسحب موقع كامل" } },
+      {
+        "value": "7",
+        "label": { "en": "data categories, one Excel tab each", "ar": "تصنيفات بيانات، لكل منها تبويب Excel" }
+      },
+      { "value": "4", "label": { "en": "fetch tiers, escalated on demand", "ar": "مستويات جلب تتصاعد عند الحاجة" } }
+    ],
+    "stack": ["n8n", "OpenAI", "Excel", "Google Sheets", "JSON-LD", "Sitemap crawling", "Proxy pool", "Webhooks", "JavaScript"],
+    "url": null,
+    "todo": "Add the scraper website URL once it is public"
+  },
+  {
     "id": "dfs-dashboard",
     "name": "DFS Dashboard",
     "featured": false,
