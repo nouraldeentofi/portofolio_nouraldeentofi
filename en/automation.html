@@ -45,7 +45,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
 <link rel="stylesheet" href="../assets/css/layout.css?v=8db2bca0">
 <link rel="stylesheet" href="../assets/css/components.css?v=f77e7512">
 <link rel="stylesheet" href="../assets/css/motion.css?v=c05b770e">
-<link rel="stylesheet" href="../assets/css/gallery.css?v=c6deb9ca">
+<link rel="stylesheet" href="../assets/css/gallery.css?v=54f99880">
 <link rel="stylesheet" href="../assets/css/responsive.css?v=51f7ace6">
 <script type="application/ld+json">
 {
@@ -743,7 +743,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </g>
   </svg>
     </div>
-    <figcaption class="system__caption"><span class="system__count"><b>7</b> workflows · <b>136</b> nodes</span></figcaption>
+    <figcaption class="system__caption"><span class="system__count"><b>7</b> workflows · <b>136</b> nodes</span><a class="canvas-open" href="/assets/img/workflows/universal-web-scraper.webp" data-dialog-open="canvas-universal-web-scraper" target="_blank" rel="noopener">See the real n8n canvas<span class="visually-hidden"> (opens in a new tab)</span></a></figcaption>
   </figure>
   <div class="system__detail">
     <ul class="card__list"><li>One engine, called as a sub-workflow by both the quick runner and the crawl worker</li><li>The AI call is skipped entirely when structured data already answers the page</li><li>The crawl worker locks each job, opens a new sheet when a part fills up, and writes one tab per category</li><li>Pause, resume, cancel, restart and delete, routed through a single control endpoint</li></ul>
@@ -753,6 +753,13 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
       <dt>Outcome</dt><dd>Collecting a website into Excel stops being copy-and-paste or a new script per site.</dd>
     </dl>
   </div>
+  <dialog class="lightbox" id="canvas-universal-web-scraper" aria-label="Universal Web Scraper — The real canvas in n8n">
+    <div class="lightbox__head">
+      <span>Universal Web Scraper · The real canvas in n8n</span>
+      <form method="dialog"><button class="lightbox__close" aria-label="Close">&times;</button></form>
+    </div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/universal-web-scraper.webp" alt="Universal Web Scraper — The real canvas in n8n" width="1211" height="257" loading="lazy" decoding="async"></div>
+  </dialog>
 </article>
 <article data-reveal data-filter-item data-group="hr" class="card system" id="cv-screener">
   <p class="card__meta"><span class="status status--live">Live</span><span>AI agents behind a product</span><span>2026</span></p>
@@ -826,7 +833,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </g>
   </svg>
     </div>
-    <figcaption class="system__caption"><span class="system__count"><b>4</b> workflows · <b>38</b> nodes</span></figcaption>
+    <figcaption class="system__caption"><span class="system__count"><b>4</b> workflows · <b>38</b> nodes</span><a class="canvas-open" href="/assets/img/workflows/cv-screener.webp" data-dialog-open="canvas-cv-screener" target="_blank" rel="noopener">See the real n8n canvas<span class="visually-hidden"> (opens in a new tab)</span></a></figcaption>
   </figure>
   <div class="system__detail">
     <ul class="card__list"><li>A secret header is checked before anything else; a bad call never reaches the model</li><li>The CV text is wrapped in random fences, so instructions hidden inside a CV are read as data</li><li>The model scores with quoted evidence; weighted totals and must-have caps are computed in code</li><li>Set not to store executions, because CVs are personal data</li></ul>
@@ -836,6 +843,13 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
       <dt>Outcome</dt><dd>Hundreds of CVs become a ranked, explainable pool that a recruiter can defend.</dd>
     </dl>
   </div>
+  <dialog class="lightbox" id="canvas-cv-screener" aria-label="CV Screener agents — The real canvas in n8n">
+    <div class="lightbox__head">
+      <span>CV Screener agents · The real canvas in n8n <span class="lightbox__hint">Scroll sideways to follow the whole flow</span></span>
+      <form method="dialog"><button class="lightbox__close" aria-label="Close">&times;</button></form>
+    </div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/cv-screener.webp" alt="CV Screener agents — The real canvas in n8n" width="1473" height="566" loading="lazy" decoding="async"></div>
+  </dialog>
 </article>
 <article data-reveal data-filter-item data-group="education" class="card system card--featured" id="teacher-assistant-bot">
   <p class="card__meta"><span class="status status--client">Running for a client</span><span>Telegram AI agent · client project</span><span>2025 — present</span></p>
@@ -917,7 +931,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </g>
   </svg>
     </div>
-    <figcaption class="system__caption"><span class="system__count"><b>5</b> workflows · <b>74</b> nodes</span></figcaption>
+    <figcaption class="system__caption"><span class="system__count"><b>5</b> workflows · <b>74</b> nodes</span><a class="canvas-open" href="/assets/img/workflows/teacher-assistant-bot.webp" data-dialog-open="canvas-teacher-assistant-bot" target="_blank" rel="noopener">See the real n8n canvas<span class="visually-hidden"> (opens in a new tab)</span></a></figcaption>
   </figure>
   <div class="system__detail">
     <ul class="card__list"><li>Custom tool-calling design with strict business rules</li><li>Usage metering and free-trial gating</li><li>Session memory across conversations</li><li>Automated lesson reminders scheduled in Saudi time</li><li>Grew in stages: fixed commands without AI, then an AI agent, then a MySQL version with stored procedures as tools</li></ul>
@@ -927,6 +941,13 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
       <dt>Outcome</dt><dd>A tutor runs an entire practice from a chat window, with no app to learn and no spreadsheet to maintain.</dd>
     </dl>
   </div>
+  <dialog class="lightbox" id="canvas-teacher-assistant-bot" aria-label="Teacher Assistant AI Bot — The real canvas in n8n">
+    <div class="lightbox__head">
+      <span>Teacher Assistant AI Bot · The real canvas in n8n <span class="lightbox__hint">Scroll sideways to follow the whole flow</span></span>
+      <form method="dialog"><button class="lightbox__close" aria-label="Close">&times;</button></form>
+    </div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/teacher-assistant-bot.webp" alt="Teacher Assistant AI Bot — The real canvas in n8n" width="2031" height="730" loading="lazy" decoding="async"></div>
+  </dialog>
 </article>
 <article data-reveal data-filter-item data-group="data" class="card system" id="smart-scanner-pipeline">
   <p class="card__meta"><span class="status status--live">Live</span><span>Production document AI pipeline</span><span>2026</span></p>
@@ -1014,7 +1035,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </g>
   </svg>
     </div>
-    <figcaption class="system__caption"><span class="system__count"><b>1</b> workflows · <b>15</b> nodes</span></figcaption>
+    <figcaption class="system__caption"><span class="system__count"><b>1</b> workflows · <b>15</b> nodes</span><a class="canvas-open" href="/assets/img/workflows/smart-scanner-pipeline.webp" data-dialog-open="canvas-smart-scanner-pipeline" target="_blank" rel="noopener">See the real n8n canvas<span class="visually-hidden"> (opens in a new tab)</span></a></figcaption>
   </figure>
   <div class="system__detail">
     <ul class="card__list"><li>Rejects any file that is not a genuine invoice, before anything is saved</li><li>Extracts 70+ fields plus line items: vendor, buyer, totals, VAT, dates</li><li>Classifies every line item into per-company expense categories at extraction time</li><li>Refuses politely and explains why when required data is missing — accuracy before speed</li></ul>
@@ -1024,6 +1045,13 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
       <dt>Outcome</dt><dd>Manual invoice entry disappears entirely; a photo becomes structured accounting data in about ten seconds.</dd>
     </dl>
   </div>
+  <dialog class="lightbox" id="canvas-smart-scanner-pipeline" aria-label="Smart Scanner Extraction Pipeline — The real canvas in n8n">
+    <div class="lightbox__head">
+      <span>Smart Scanner Extraction Pipeline · The real canvas in n8n <span class="lightbox__hint">Scroll sideways to follow the whole flow</span></span>
+      <form method="dialog"><button class="lightbox__close" aria-label="Close">&times;</button></form>
+    </div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/smart-scanner-pipeline.webp" alt="Smart Scanner Extraction Pipeline — The real canvas in n8n" width="2124" height="559" loading="lazy" decoding="async"></div>
+  </dialog>
 </article>
 <article data-reveal data-filter-item data-group="content" class="card system" id="telegram-publisher">
   <p class="card__meta"><span class="status status--built">Built and tested</span><span>Content system run from a chat</span><span>2026</span></p>
@@ -1111,7 +1139,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </g>
   </svg>
     </div>
-    <figcaption class="system__caption"><span class="system__count"><b>4</b> workflows · <b>75</b> nodes</span></figcaption>
+    <figcaption class="system__caption"><span class="system__count"><b>4</b> workflows · <b>75</b> nodes</span><a class="canvas-open" href="/assets/img/workflows/telegram-publisher.webp" data-dialog-open="canvas-telegram-publisher" target="_blank" rel="noopener">See the real n8n canvas<span class="visually-hidden"> (opens in a new tab)</span></a></figcaption>
   </figure>
   <div class="system__detail">
     <ul class="card__list"><li>Button presses skip the AI and go straight to the state machine</li><li>Only allow-listed chats are processed</li><li>The scheduler locks an approved post before publishing, so nothing goes out twice</li><li>Jobs stuck too long are marked failed, with a retry button</li></ul>
@@ -1121,6 +1149,13 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
       <dt>Outcome</dt><dd>A content calendar that lives in a chat, with a human approving every post.</dd>
     </dl>
   </div>
+  <dialog class="lightbox" id="canvas-telegram-publisher" aria-label="Telegram Publishing System — The real canvas in n8n">
+    <div class="lightbox__head">
+      <span>Telegram Publishing System · The real canvas in n8n <span class="lightbox__hint">Scroll sideways to follow the whole flow</span></span>
+      <form method="dialog"><button class="lightbox__close" aria-label="Close">&times;</button></form>
+    </div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/telegram-publisher.webp" alt="Telegram Publishing System — The real canvas in n8n" width="2854" height="729" loading="lazy" decoding="async"></div>
+  </dialog>
 </article>
 <article data-reveal data-filter-item data-group="content" class="card system" id="unified-inbox">
   <p class="card__meta"><span class="status status--built">Built and tested</span><span>Inbox with AI triage</span><span>2026</span></p>
@@ -1207,7 +1242,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </g>
   </svg>
     </div>
-    <figcaption class="system__caption"><span class="system__count"><b>3</b> workflows · <b>16</b> nodes</span></figcaption>
+    <figcaption class="system__caption"><span class="system__count"><b>3</b> workflows · <b>16</b> nodes</span><a class="canvas-open" href="/assets/img/workflows/unified-inbox.webp" data-dialog-open="canvas-unified-inbox" target="_blank" rel="noopener">See the real n8n canvas<span class="visually-hidden"> (opens in a new tab)</span></a></figcaption>
   </figure>
   <div class="system__detail">
     <ul class="card__list"><li>Greetings and emoji-only messages never reach the model — they are classified locally to save cost</li><li>Every channel is normalised to one contract and written with a single atomic call</li><li>Enrichment continues on error, so no message is ever lost</li><li>The outbox sends one message at a time and records a readable failure reason</li></ul>
@@ -1217,6 +1252,13 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
       <dt>Outcome</dt><dd>A team answers every customer from one place, starting from a draft that already sounds like them.</dd>
     </dl>
   </div>
+  <dialog class="lightbox" id="canvas-unified-inbox" aria-label="Unified Inbox — The real canvas in n8n">
+    <div class="lightbox__head">
+      <span>Unified Inbox · The real canvas in n8n <span class="lightbox__hint">Scroll sideways to follow the whole flow</span></span>
+      <form method="dialog"><button class="lightbox__close" aria-label="Close">&times;</button></form>
+    </div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/unified-inbox.webp" alt="Unified Inbox — The real canvas in n8n" width="1471" height="517" loading="lazy" decoding="async"></div>
+  </dialog>
 </article>
 <article data-reveal data-filter-item data-group="shops" class="card system" id="google-review-reply">
   <p class="card__meta"><span class="status status--built">Built and tested</span><span>Review management for shops</span><span>2026</span></p>
@@ -1302,7 +1344,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </g>
   </svg>
     </div>
-    <figcaption class="system__caption"><span class="system__count"><b>2</b> workflows · <b>26</b> nodes</span></figcaption>
+    <figcaption class="system__caption"><span class="system__count"><b>2</b> workflows · <b>26</b> nodes</span><a class="canvas-open" href="/assets/img/workflows/google-review-reply.webp" data-dialog-open="canvas-google-review-reply" target="_blank" rel="noopener">See the real n8n canvas<span class="visually-hidden"> (opens in a new tab)</span></a></figcaption>
   </figure>
   <div class="system__detail">
     <ul class="card__list"><li>Reviews already answered or already tracked are skipped</li><li>High ratings are posted automatically; low ratings wait for the owner</li><li>The owner&#39;s tap posts the stored draft and edits the message to confirm</li><li>A one-off helper fetches each new client&#39;s account and location</li></ul>
@@ -1312,6 +1354,13 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
       <dt>Outcome</dt><dd>Every review gets an answer, and the owner only spends time on the ones that need them.</dd>
     </dl>
   </div>
+  <dialog class="lightbox" id="canvas-google-review-reply" aria-label="Google Review Reply Manager — The real canvas in n8n">
+    <div class="lightbox__head">
+      <span>Google Review Reply Manager · The real canvas in n8n <span class="lightbox__hint">Scroll sideways to follow the whole flow</span></span>
+      <form method="dialog"><button class="lightbox__close" aria-label="Close">&times;</button></form>
+    </div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/google-review-reply.webp" alt="Google Review Reply Manager — The real canvas in n8n" width="1559" height="741" loading="lazy" decoding="async"></div>
+  </dialog>
 </article>
 <article data-reveal data-filter-item data-group="hr" class="card system" id="ai-job-match">
   <p class="card__meta"><span class="status status--live">Live</span><span>Scheduled agent with human-in-the-loop</span><span>2026</span></p>
@@ -1398,7 +1447,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </g>
   </svg>
     </div>
-    <figcaption class="system__caption"><span class="system__count"><b>3</b> workflows · <b>47</b> nodes</span></figcaption>
+    <figcaption class="system__caption"><span class="system__count"><b>3</b> workflows · <b>47</b> nodes</span><a class="canvas-open" href="/assets/img/workflows/ai-job-match.webp" data-dialog-open="canvas-ai-job-match" target="_blank" rel="noopener">See the real n8n canvas<span class="visually-hidden"> (opens in a new tab)</span></a></figcaption>
   </figure>
   <div class="system__detail">
     <ul class="card__list"><li>Structured-JSON evaluator scoring fit on a 1–10 scale</li><li>Deduplication against n8n Data Tables so nothing is seen twice</li><li>Telegram delivery of high-scoring matches only</li><li>Human-in-the-loop approval before any application is sent</li><li>Semi-automated applications with tailored AI-generated cover letters via Gmail</li><li>A factory clones the search into a separate daily bot for each user, through the n8n API — automation that builds automation</li></ul>
@@ -1408,6 +1457,13 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
       <dt>Outcome</dt><dd>Daily job hunting collapses into reviewing a short, pre-scored shortlist.</dd>
     </dl>
   </div>
+  <dialog class="lightbox" id="canvas-ai-job-match" aria-label="AI Job-Match Pipeline — The real canvas in n8n">
+    <div class="lightbox__head">
+      <span>AI Job-Match Pipeline · The real canvas in n8n <span class="lightbox__hint">Scroll sideways to follow the whole flow</span></span>
+      <form method="dialog"><button class="lightbox__close" aria-label="Close">&times;</button></form>
+    </div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/ai-job-match.webp" alt="AI Job-Match Pipeline — The real canvas in n8n" width="4734" height="586" loading="lazy" decoding="async"></div>
+  </dialog>
 </article>
       </div>
     </div>
@@ -1486,7 +1542,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </g>
   </svg>
     </div>
-    <figcaption class="system__caption"><span class="system__count"><b>1</b> workflows · <b>7</b> nodes</span></figcaption>
+    <figcaption class="system__caption"><span class="system__count"><b>1</b> workflows · <b>7</b> nodes</span><a class="canvas-open" href="/assets/img/workflows/receipt-verify.webp" data-dialog-open="canvas-receipt-verify" target="_blank" rel="noopener">See the real n8n canvas<span class="visually-hidden"> (opens in a new tab)</span></a></figcaption>
   </figure>
   <div class="system__detail">
     <ul class="card__list"><li>Secret, contract version and image size are checked before any model call</li><li>Model failures take their own branch, so the site always gets a JSON answer</li><li>Successful runs are not stored, because receipts carry personal data</li></ul>
@@ -1496,12 +1552,80 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
       
     </dl>
   </div>
+  <dialog class="lightbox" id="canvas-receipt-verify" aria-label="Transfer Receipt Check — The real canvas in n8n">
+    <div class="lightbox__head">
+      <span>Transfer Receipt Check · The real canvas in n8n <span class="lightbox__hint">Scroll sideways to follow the whole flow</span></span>
+      <form method="dialog"><button class="lightbox__close" aria-label="Close">&times;</button></form>
+    </div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/receipt-verify.webp" alt="Transfer Receipt Check — The real canvas in n8n" width="1462" height="417" loading="lazy" decoding="async"></div>
+  </dialog>
 </article>
 <article data-reveal data-filter-item data-group="shops" class="card system" id="whatsapp-booking">
   <p class="card__meta"><span class="status status--built">Built and tested</span><span>Booking bot for shops</span><span>2026</span></p>
   <h3 class="card__title">WhatsApp Booking Bot</h3>
   <p class="card__body">A customer taps a service, then a time slot, in WhatsApp buttons. The confirmed slot is written to Google Calendar and confirmed back on WhatsApp.</p>
-  <p class="system__caption"><span class="system__count"><b>1</b> workflows</span></p>
+  <figure class="system__diagram">
+    <div class="wf-frame">
+      <svg class="wf" viewBox="0 0 1120 208" width="1120" height="208" role="img" aria-labelledby="wf-whatsapp-booking-en-t wf-whatsapp-booking-en-d" style="--wf-w:1120px">
+    <title id="wf-whatsapp-booking-en-t">WhatsApp Booking Bot</title>
+    <desc id="wf-whatsapp-booking-en-d">WhatsApp message → Normalize the message → Which step? → Service buttons / Time-slot buttons / Create the booking → Send confirmation</desc>
+    <defs><marker id="wf-a-whatsapp-booking-en" class="wf__arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0.8 L7 4 L0 7.2 Z"/></marker></defs>
+    <path class="wf__edge" d="M196 104 C218 104 218 104 240 104" marker-end="url(#wf-a-whatsapp-booking-en)"/>
+    <path class="wf__pulse" d="M196 104 C218 104 218 104 240 104" pathLength="100" style="animation-delay:0.00s"/>
+    <path class="wf__edge" d="M424 104 C446 104 446 104 468 104" marker-end="url(#wf-a-whatsapp-booking-en)"/>
+    <path class="wf__pulse" d="M424 104 C446 104 446 104 468 104" pathLength="100" style="animation-delay:0.52s"/>
+    <path class="wf__edge" d="M652 104 C674 104 674 38 696 38" marker-end="url(#wf-a-whatsapp-booking-en)"/>
+    <path class="wf__pulse" d="M652 104 C674 104 674 38 696 38" pathLength="100" style="animation-delay:1.04s"/>
+    <path class="wf__edge" d="M652 104 C674 104 674 104 696 104" marker-end="url(#wf-a-whatsapp-booking-en)"/>
+    <path class="wf__pulse" d="M652 104 C674 104 674 104 696 104" pathLength="100" style="animation-delay:0.80s"/>
+    <path class="wf__edge" d="M652 104 C674 104 674 170 696 170" marker-end="url(#wf-a-whatsapp-booking-en)"/>
+    <path class="wf__pulse" d="M652 104 C674 104 674 170 696 170" pathLength="100" style="animation-delay:0.92s"/>
+    <path class="wf__edge" d="M880 170 C902 170 902 104 924 104" marker-end="url(#wf-a-whatsapp-booking-en)"/>
+    <path class="wf__pulse" d="M880 170 C902 170 902 104 924 104" pathLength="100" style="animation-delay:1.44s"/>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="78" width="184" height="52" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="104" r="4.5"/>
+      <text class="wf__label" x="110" y="100" text-anchor="middle">WhatsApp message</text>
+      <text class="wf__service" x="110" y="117" text-anchor="middle">WhatsApp</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="240" y="85" width="184" height="38" rx="11"/>
+      <circle class="wf__mark" cx="256" cy="104" r="4.5"/>
+      <text class="wf__label" x="338" y="108.5" text-anchor="middle">Normalize the message</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="468" y="85" width="184" height="38" rx="11"/>
+      <circle class="wf__mark" cx="484" cy="104" r="4.5"/>
+      <text class="wf__label" x="566" y="108.5" text-anchor="middle">Which step?</text>
+    </g>
+    <g class="wf__node wf__node--io">
+      <rect x="696" y="12" width="184" height="52" rx="11"/>
+      <circle class="wf__mark" cx="712" cy="38" r="4.5"/>
+      <text class="wf__label" x="794" y="34" text-anchor="middle">Service buttons</text>
+      <text class="wf__service" x="794" y="51" text-anchor="middle">WhatsApp</text>
+    </g>
+    <g class="wf__node wf__node--io">
+      <rect x="696" y="78" width="184" height="52" rx="11"/>
+      <circle class="wf__mark" cx="712" cy="104" r="4.5"/>
+      <text class="wf__label" x="794" y="100" text-anchor="middle">Time-slot buttons</text>
+      <text class="wf__service" x="794" y="117" text-anchor="middle">WhatsApp</text>
+    </g>
+    <g class="wf__node wf__node--data">
+      <rect x="696" y="144" width="184" height="52" rx="11"/>
+      <circle class="wf__mark" cx="712" cy="170" r="4.5"/>
+      <text class="wf__label" x="794" y="166" text-anchor="middle">Create the booking</text>
+      <text class="wf__service" x="794" y="183" text-anchor="middle">Google Calendar</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="924" y="78" width="184" height="52" rx="11"/>
+      <circle class="wf__mark" cx="940" cy="104" r="4.5"/>
+      <text class="wf__label" x="1022" y="100" text-anchor="middle">Send confirmation</text>
+      <text class="wf__service" x="1022" y="117" text-anchor="middle">WhatsApp</text>
+    </g>
+  </svg>
+    </div>
+    <figcaption class="system__caption"><span class="system__count"><b>1</b> workflows · <b>7</b> nodes</span><a class="canvas-open" href="/assets/img/workflows/whatsapp-booking.webp" data-dialog-open="canvas-whatsapp-booking" target="_blank" rel="noopener">See the real n8n canvas<span class="visually-hidden"> (opens in a new tab)</span></a></figcaption>
+  </figure>
   <div class="system__detail">
     <ul class="card__list"><li>Service and time chosen with buttons, not typing</li><li>Every booking lands in Google Calendar</li><li>The customer gets a confirmation on WhatsApp</li></ul>
     <dl class="card__body">
@@ -1510,6 +1634,13 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
       
     </dl>
   </div>
+  <dialog class="lightbox" id="canvas-whatsapp-booking" aria-label="WhatsApp Booking Bot — The real canvas in n8n">
+    <div class="lightbox__head">
+      <span>WhatsApp Booking Bot · The real canvas in n8n <span class="lightbox__hint">Scroll sideways to follow the whole flow</span></span>
+      <form method="dialog"><button class="lightbox__close" aria-label="Close">&times;</button></form>
+    </div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/whatsapp-booking.webp" alt="WhatsApp Booking Bot — The real canvas in n8n" width="1488" height="628" loading="lazy" decoding="async"></div>
+  </dialog>
 </article>
 <article data-reveal data-filter-item data-group="content" class="card system" id="whatsapp-group">
   <p class="card__meta"><span class="status status--built">Built and tested</span><span>Form-driven messaging tool</span><span>2026</span></p>
@@ -1581,7 +1712,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </g>
   </svg>
     </div>
-    <figcaption class="system__caption"><span class="system__count"><b>1</b> workflows · <b>13</b> nodes</span></figcaption>
+    <figcaption class="system__caption"><span class="system__count"><b>1</b> workflows · <b>13</b> nodes</span><a class="canvas-open" href="/assets/img/workflows/whatsapp-group.webp" data-dialog-open="canvas-whatsapp-group" target="_blank" rel="noopener">See the real n8n canvas<span class="visually-hidden"> (opens in a new tab)</span></a></figcaption>
   </figure>
   <div class="system__detail">
     <ul class="card__list"><li>Phone columns are detected automatically, normalised and de-duplicated</li><li>Members are added in batches with a pause between them, to stay under spam limits</li><li>Whoever could not be added gets the invite link, one message at a time</li></ul>
@@ -1591,6 +1722,13 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
       
     </dl>
   </div>
+  <dialog class="lightbox" id="canvas-whatsapp-group" aria-label="WhatsApp Group from a Spreadsheet — The real canvas in n8n">
+    <div class="lightbox__head">
+      <span>WhatsApp Group from a Spreadsheet · The real canvas in n8n <span class="lightbox__hint">Scroll sideways to follow the whole flow</span></span>
+      <form method="dialog"><button class="lightbox__close" aria-label="Close">&times;</button></form>
+    </div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/whatsapp-group.webp" alt="WhatsApp Group from a Spreadsheet — The real canvas in n8n" width="1978" height="472" loading="lazy" decoding="async"></div>
+  </dialog>
 </article>
 <article data-reveal data-filter-item data-group="content shops" class="card system" id="social-auto-publisher">
   <p class="card__meta"><span class="status status--built">Built and tested</span><span>AI social media studio</span><span>2026</span></p>
@@ -1679,7 +1817,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </g>
   </svg>
     </div>
-    <figcaption class="system__caption"><span class="system__count"><b>1</b> workflows · <b>33</b> nodes</span></figcaption>
+    <figcaption class="system__caption"><span class="system__count"><b>1</b> workflows · <b>33</b> nodes</span><a class="canvas-open" href="/assets/img/workflows/social-auto-publisher.webp" data-dialog-open="canvas-social-auto-publisher" target="_blank" rel="noopener">See the real n8n canvas<span class="visually-hidden"> (opens in a new tab)</span></a></figcaption>
   </figure>
   <div class="system__detail">
     <ul class="card__list"><li>The brand kit is stored once and edited through chat commands</li><li>A vision pass picks the text zone, logo corner and overlay strength for each background</li><li>The final image is composed as HTML and rendered to PNG</li></ul>
@@ -1689,6 +1827,13 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
       
     </dl>
   </div>
+  <dialog class="lightbox" id="canvas-social-auto-publisher" aria-label="Social Auto-Publisher — The real canvas in n8n">
+    <div class="lightbox__head">
+      <span>Social Auto-Publisher · The real canvas in n8n <span class="lightbox__hint">Scroll sideways to follow the whole flow</span></span>
+      <form method="dialog"><button class="lightbox__close" aria-label="Close">&times;</button></form>
+    </div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/social-auto-publisher.webp" alt="Social Auto-Publisher — The real canvas in n8n" width="5079" height="656" loading="lazy" decoding="async"></div>
+  </dialog>
 </article>
 <article data-reveal data-filter-item data-group="data" class="card system" id="smart-lead-finder">
   <p class="card__meta"><span class="status status--built">Built and tested</span><span>Scraping and enrichment pipeline</span><span>2025</span></p>
@@ -1777,7 +1922,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </g>
   </svg>
     </div>
-    <figcaption class="system__caption"><span class="system__count"><b>3</b> workflows · <b>51</b> nodes</span></figcaption>
+    <figcaption class="system__caption"><span class="system__count"><b>3</b> workflows · <b>51</b> nodes</span><a class="canvas-open" href="/assets/img/workflows/smart-lead-finder.webp" data-dialog-open="canvas-smart-lead-finder" target="_blank" rel="noopener">See the real n8n canvas<span class="visually-hidden"> (opens in a new tab)</span></a></figcaption>
   </figure>
   <div class="system__detail">
     <ul class="card__list"><li>Multi-query place search across two markets</li><li>Extracts emails and WhatsApp numbers from company websites</li><li>Prioritisation scoring so the best prospects surface first</li></ul>
@@ -1787,6 +1932,13 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
       
     </dl>
   </div>
+  <dialog class="lightbox" id="canvas-smart-lead-finder" aria-label="Smart Lead Finder — The real canvas in n8n">
+    <div class="lightbox__head">
+      <span>Smart Lead Finder · The real canvas in n8n <span class="lightbox__hint">Scroll sideways to follow the whole flow</span></span>
+      <form method="dialog"><button class="lightbox__close" aria-label="Close">&times;</button></form>
+    </div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/smart-lead-finder.webp" alt="Smart Lead Finder — The real canvas in n8n" width="2939" height="574" loading="lazy" decoding="async"></div>
+  </dialog>
 </article>
 <article data-reveal data-filter-item data-group="education" class="card system" id="lesson-quality-evaluator">
   <p class="card__meta"><span class="status status--built">Built and tested</span><span>Video-to-data webhook service</span><span>2026</span></p>
@@ -1874,7 +2026,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </g>
   </svg>
     </div>
-    <figcaption class="system__caption"><span class="system__count"><b>1</b> workflows · <b>12</b> nodes</span></figcaption>
+    <figcaption class="system__caption"><span class="system__count"><b>1</b> workflows · <b>12</b> nodes</span><a class="canvas-open" href="/assets/img/workflows/lesson-quality-evaluator.webp" data-dialog-open="canvas-lesson-quality-evaluator" target="_blank" rel="noopener">See the real n8n canvas<span class="visually-hidden"> (opens in a new tab)</span></a></figcaption>
   </figure>
   <div class="system__detail">
     <ul class="card__list"><li>Speaker diarization separates teacher from student</li><li>Structured outputs guarantee a parseable result every time</li><li>Returns a score, not a transcript — the caller gets data, not homework</li></ul>
@@ -1884,6 +2036,13 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
       
     </dl>
   </div>
+  <dialog class="lightbox" id="canvas-lesson-quality-evaluator" aria-label="Lesson Quality Evaluator — The real canvas in n8n">
+    <div class="lightbox__head">
+      <span>Lesson Quality Evaluator · The real canvas in n8n <span class="lightbox__hint">Scroll sideways to follow the whole flow</span></span>
+      <form method="dialog"><button class="lightbox__close" aria-label="Close">&times;</button></form>
+    </div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/lesson-quality-evaluator.webp" alt="Lesson Quality Evaluator — The real canvas in n8n" width="2158" height="389" loading="lazy" decoding="async"></div>
+  </dialog>
 </article>
 <article data-reveal data-filter-item data-group="hr content" class="card system" id="ai-email-campaign">
   <p class="card__meta"><span class="status status--built">Built and tested</span><span>Personalised outreach</span><span>2026</span></p>
@@ -1964,7 +2123,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </g>
   </svg>
     </div>
-    <figcaption class="system__caption"><span class="system__count"><b>1</b> workflows · <b>22</b> nodes</span></figcaption>
+    <figcaption class="system__caption"><span class="system__count"><b>1</b> workflows · <b>22</b> nodes</span><a class="canvas-open" href="/assets/img/workflows/ai-email-campaign.webp" data-dialog-open="canvas-ai-email-campaign" target="_blank" rel="noopener">See the real n8n canvas<span class="visually-hidden"> (opens in a new tab)</span></a></figcaption>
   </figure>
   <div class="system__detail">
     <ul class="card__list"><li>Arabic or English column headers are mapped automatically</li><li>Your CV&#39;s text is given to the model as context for job-search emails</li><li>Every send is recorded as sent or failed</li></ul>
@@ -1974,6 +2133,13 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
       
     </dl>
   </div>
+  <dialog class="lightbox" id="canvas-ai-email-campaign" aria-label="AI Email Campaigns — The real canvas in n8n">
+    <div class="lightbox__head">
+      <span>AI Email Campaigns · The real canvas in n8n <span class="lightbox__hint">Scroll sideways to follow the whole flow</span></span>
+      <form method="dialog"><button class="lightbox__close" aria-label="Close">&times;</button></form>
+    </div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/ai-email-campaign.webp" alt="AI Email Campaigns — The real canvas in n8n" width="2917" height="685" loading="lazy" decoding="async"></div>
+  </dialog>
 </article>
 <article data-reveal data-filter-item data-group="data" class="card system" id="crm-lead-cleaner">
   <p class="card__meta"><span class="status status--built">Built and tested</span><span>Data quality pipeline · proof of concept</span><span>2026</span></p>

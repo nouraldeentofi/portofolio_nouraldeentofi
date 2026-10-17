@@ -426,6 +426,7 @@
 
 .lightbox {
   inline-size: min(1280px, 94vw);
+  margin: auto;
   max-block-size: 92vh;
   padding: 0;
   border: 1px solid var(--line-strong);
@@ -466,16 +467,22 @@
 
 .lightbox__close:hover { border-color: var(--lime); }
 
+/* A canvas reads left to right in any language, and the long ones are wider
+   than any screen — so it keeps its natural size and pans sideways, starting
+   from the trigger. */
 .lightbox__body {
   overflow: auto;
   max-block-size: calc(92vh - 62px);
   background: #1b1b1f;
+  direction: ltr;
 }
 
 .lightbox__body img {
   display: block;
-  inline-size: 100%;
+  inline-size: auto;
+  max-inline-size: none;
   block-size: auto;
+  margin-inline: auto;
 }
 
 /* --------------------------------------------------------------- legend */
@@ -513,4 +520,12 @@ html[lang='ar'] .system__count,
 html[lang='ar'] .note-private {
   font-family: var(--font-arabic);
   letter-spacing: 0;
+}
+
+.lightbox__hint {
+  display: inline-block;
+  margin-inline-start: var(--space-3);
+  font-weight: 400;
+  font-size: 0.82rem;
+  color: var(--faint);
 }

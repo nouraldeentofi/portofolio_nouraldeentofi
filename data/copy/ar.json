@@ -53,10 +53,11 @@
     "privateSite": "نسخة خاصة — معروضة بإذن صاحبها",
     "filterAll": "الكل",
     "filterLabel": "// تصفية",
-    "workflowsUnit": "مسار عمل",
-    "nodesUnit": "عقدة",
+    "workflowsUnit": "مسارات العمل",
+    "nodesUnit": "العقد",
     "openCanvas": "اعرض اللوحة الحقيقية في n8n",
     "canvasCaption": "اللوحة الحقيقية في n8n",
+    "panHint": "مرّر أفقياً لتتبّع المسار كاملاً",
     "closeCanvas": "إغلاق",
     "idea": "الفكرة",
     "status": {

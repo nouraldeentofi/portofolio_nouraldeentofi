@@ -313,6 +313,8 @@ Behind a chess club's tournament registration: the uploaded bank-transfer receip
 
 *Booking bot for shops* — Built and tested — 1 n8n workflow(s) — trigger: WhatsApp message
 
+**Flow.** WhatsApp message → Normalize the message → Which step? → Service buttons → Time-slot buttons → Create the booking → Send confirmation
+
 A customer taps a service, then a time slot, in WhatsApp buttons. The confirmed slot is written to Google Calendar and confirmed back on WhatsApp.
 
 **Services.** n8n, WhatsApp, Google Calendar

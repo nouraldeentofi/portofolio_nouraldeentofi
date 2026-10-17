@@ -500,9 +500,12 @@ function systemCard(db, w, lang, { compact = false } = {}) {
   const c = db.copy[lang];
   const name = w.name[lang];
   const dialogId = `canvas-${w.id}`;
+  // Arabic counts take the label first ("العقد: 7"): a bare number before a
+  // noun would need a different noun form for every number.
+  const unit = (n, label) => (lang === 'ar' ? `${e(label)}: <b>${e(n)}</b>` : `<b>${e(n)}</b> ${e(label)}`);
   const count = w.workflowCount
-    ? `<span class="system__count"><b>${e(w.workflowCount)}</b> ${e(c.ui.workflowsUnit)}${
-        w.nodeCount ? ` · <b>${e(w.nodeCount)}</b> ${e(c.ui.nodesUnit)}` : ''
+    ? `<span class="system__count">${unit(w.workflowCount, c.ui.workflowsUnit)}${
+        w.nodeCount ? ` · ${unit(w.nodeCount, c.ui.nodesUnit)}` : ''
       }</span>`
     : '';
   const canvasLink = w.canvas
@@ -537,10 +540,14 @@ function systemCard(db, w, lang, { compact = false } = {}) {
       ? `
   <dialog class="lightbox" id="${dialogId}" aria-label="${e(`${name} — ${c.ui.canvasCaption}`)}">
     <div class="lightbox__head">
-      <span>${e(name)} · ${e(c.ui.canvasCaption)}</span>
+      <span>${e(name)} · ${e(c.ui.canvasCaption)}${
+        (w.canvasSize?.[0] ?? 0) > 1280 ? ` <span class="lightbox__hint">${e(c.ui.panHint)}</span>` : ''
+      }</span>
       <form method="dialog"><button class="lightbox__close" aria-label="${e(c.ui.closeCanvas)}">&times;</button></form>
     </div>
-    <div class="lightbox__body"><img src="${img(w.canvas)}" alt="${e(`${name} — ${c.ui.canvasCaption}`)}" loading="lazy" decoding="async"></div>
+    <div class="lightbox__body"><img src="${img(w.canvas)}" alt="${e(`${name} — ${c.ui.canvasCaption}`)}"${
+      w.canvasSize ? ` width="${w.canvasSize[0]}" height="${w.canvasSize[1]}"` : ''
+    } loading="lazy" decoding="async"></div>
   </dialog>`
       : ''
   }

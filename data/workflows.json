@@ -51,7 +51,11 @@
     },
     "workflowCount": 7,
     "nodeCount": 136,
-    "canvas": null,
+    "canvas": "assets/img/workflows/universal-web-scraper.webp",
+    "canvasSize": [
+      1211,
+      257
+    ],
     "flow": {
       "nodes": [
         {
@@ -233,7 +237,11 @@
     },
     "workflowCount": 4,
     "nodeCount": 38,
-    "canvas": null,
+    "canvas": "assets/img/workflows/cv-screener.webp",
+    "canvasSize": [
+      1473,
+      566
+    ],
     "flow": {
       "nodes": [
         {
@@ -399,7 +407,11 @@
     },
     "workflowCount": 5,
     "nodeCount": 74,
-    "canvas": null,
+    "canvas": "assets/img/workflows/teacher-assistant-bot.webp",
+    "canvasSize": [
+      2031,
+      730
+    ],
     "flow": {
       "nodes": [
         {
@@ -570,7 +582,11 @@
     },
     "workflowCount": 1,
     "nodeCount": 15,
-    "canvas": null,
+    "canvas": "assets/img/workflows/smart-scanner-pipeline.webp",
+    "canvasSize": [
+      2124,
+      559
+    ],
     "flow": {
       "nodes": [
         {
@@ -755,7 +771,11 @@
     },
     "workflowCount": 4,
     "nodeCount": 75,
-    "canvas": null,
+    "canvas": "assets/img/workflows/telegram-publisher.webp",
+    "canvasSize": [
+      2854,
+      729
+    ],
     "flow": {
       "nodes": [
         {
@@ -938,7 +958,11 @@
     },
     "workflowCount": 3,
     "nodeCount": 16,
-    "canvas": null,
+    "canvas": "assets/img/workflows/unified-inbox.webp",
+    "canvasSize": [
+      1471,
+      517
+    ],
     "flow": {
       "nodes": [
         {
@@ -1116,7 +1140,11 @@
     },
     "workflowCount": 2,
     "nodeCount": 26,
-    "canvas": null,
+    "canvas": "assets/img/workflows/google-review-reply.webp",
+    "canvasSize": [
+      1559,
+      741
+    ],
     "flow": {
       "nodes": [
         {
@@ -1298,7 +1326,11 @@
     },
     "workflowCount": 3,
     "nodeCount": 47,
-    "canvas": null,
+    "canvas": "assets/img/workflows/ai-job-match.webp",
+    "canvasSize": [
+      4734,
+      586
+    ],
     "flow": {
       "nodes": [
         {
@@ -1474,7 +1506,11 @@
     },
     "workflowCount": 1,
     "nodeCount": 7,
-    "canvas": null,
+    "canvas": "assets/img/workflows/receipt-verify.webp",
+    "canvasSize": [
+      1462,
+      417
+    ],
     "flow": {
       "nodes": [
         {
@@ -1619,9 +1655,103 @@
       "ar": "يستقبل المحل الحجوزات طوال اليوم دون أن يردّ على الهاتف."
     },
     "workflowCount": 1,
-    "nodeCount": null,
-    "canvas": null,
-    "flow": null
+    "nodeCount": 7,
+    "canvas": "assets/img/workflows/whatsapp-booking.webp",
+    "canvasSize": [
+      1488,
+      628
+    ],
+    "flow": {
+      "nodes": [
+        {
+          "id": "wa",
+          "label": {
+            "en": "WhatsApp message",
+            "ar": "رسالة واتساب"
+          },
+          "kind": "trigger",
+          "service": "WhatsApp"
+        },
+        {
+          "id": "norm",
+          "label": {
+            "en": "Normalize the message",
+            "ar": "توحيد الرسالة"
+          },
+          "kind": "logic"
+        },
+        {
+          "id": "step",
+          "label": {
+            "en": "Which step?",
+            "ar": "أي خطوة؟"
+          },
+          "kind": "logic"
+        },
+        {
+          "id": "services",
+          "label": {
+            "en": "Service buttons",
+            "ar": "أزرار الخدمات"
+          },
+          "kind": "io",
+          "service": "WhatsApp"
+        },
+        {
+          "id": "times",
+          "label": {
+            "en": "Time-slot buttons",
+            "ar": "أزرار المواعيد"
+          },
+          "kind": "io",
+          "service": "WhatsApp"
+        },
+        {
+          "id": "book",
+          "label": {
+            "en": "Create the booking",
+            "ar": "إنشاء الحجز"
+          },
+          "kind": "data",
+          "service": "Google Calendar"
+        },
+        {
+          "id": "confirm",
+          "label": {
+            "en": "Send confirmation",
+            "ar": "إرسال التأكيد"
+          },
+          "kind": "output",
+          "service": "WhatsApp"
+        }
+      ],
+      "edges": [
+        [
+          "wa",
+          "norm"
+        ],
+        [
+          "norm",
+          "step"
+        ],
+        [
+          "step",
+          "services"
+        ],
+        [
+          "step",
+          "times"
+        ],
+        [
+          "step",
+          "book"
+        ],
+        [
+          "book",
+          "confirm"
+        ]
+      ]
+    }
   },
   {
     "id": "whatsapp-group",
@@ -1671,7 +1801,11 @@
     },
     "workflowCount": 1,
     "nodeCount": 13,
-    "canvas": null,
+    "canvas": "assets/img/workflows/whatsapp-group.webp",
+    "canvasSize": [
+      1978,
+      472
+    ],
     "flow": {
       "nodes": [
         {
@@ -1826,7 +1960,11 @@
     },
     "workflowCount": 1,
     "nodeCount": 33,
-    "canvas": null,
+    "canvas": "assets/img/workflows/social-auto-publisher.webp",
+    "canvasSize": [
+      5079,
+      656
+    ],
     "flow": {
       "nodes": [
         {
@@ -2007,7 +2145,11 @@
     },
     "workflowCount": 3,
     "nodeCount": 51,
-    "canvas": null,
+    "canvas": "assets/img/workflows/smart-lead-finder.webp",
+    "canvasSize": [
+      2939,
+      574
+    ],
     "flow": {
       "nodes": [
         {
@@ -2189,7 +2331,11 @@
     },
     "workflowCount": 1,
     "nodeCount": 12,
-    "canvas": null,
+    "canvas": "assets/img/workflows/lesson-quality-evaluator.webp",
+    "canvasSize": [
+      2158,
+      389
+    ],
     "flow": {
       "nodes": [
         {
@@ -2369,7 +2515,11 @@
     },
     "workflowCount": 1,
     "nodeCount": 22,
-    "canvas": null,
+    "canvas": "assets/img/workflows/ai-email-campaign.webp",
+    "canvasSize": [
+      2917,
+      685
+    ],
     "flow": {
       "nodes": [
         {

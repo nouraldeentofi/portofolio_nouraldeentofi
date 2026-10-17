@@ -57,6 +57,7 @@
     "nodesUnit": "nodes",
     "openCanvas": "See the real n8n canvas",
     "canvasCaption": "The real canvas in n8n",
+    "panHint": "Scroll sideways to follow the whole flow",
     "closeCanvas": "Close",
     "idea": "The idea",
     "status": {

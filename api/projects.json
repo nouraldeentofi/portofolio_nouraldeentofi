@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-17T17:38:42.822Z",
+  "generated": "2026-10-17T18:12:02.305Z",
   "projects": [
     {
       "id": "smart-scanner",
@@ -1977,7 +1977,97 @@
       },
       "status": "built",
       "workflowCount": 1,
-      "flow": null
+      "flow": {
+        "nodes": [
+          {
+            "id": "wa",
+            "label": {
+              "en": "WhatsApp message",
+              "ar": "رسالة واتساب"
+            },
+            "kind": "trigger",
+            "service": "WhatsApp"
+          },
+          {
+            "id": "norm",
+            "label": {
+              "en": "Normalize the message",
+              "ar": "توحيد الرسالة"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "step",
+            "label": {
+              "en": "Which step?",
+              "ar": "أي خطوة؟"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "services",
+            "label": {
+              "en": "Service buttons",
+              "ar": "أزرار الخدمات"
+            },
+            "kind": "io",
+            "service": "WhatsApp"
+          },
+          {
+            "id": "times",
+            "label": {
+              "en": "Time-slot buttons",
+              "ar": "أزرار المواعيد"
+            },
+            "kind": "io",
+            "service": "WhatsApp"
+          },
+          {
+            "id": "book",
+            "label": {
+              "en": "Create the booking",
+              "ar": "إنشاء الحجز"
+            },
+            "kind": "data",
+            "service": "Google Calendar"
+          },
+          {
+            "id": "confirm",
+            "label": {
+              "en": "Send confirmation",
+              "ar": "إرسال التأكيد"
+            },
+            "kind": "output",
+            "service": "WhatsApp"
+          }
+        ],
+        "edges": [
+          [
+            "wa",
+            "norm"
+          ],
+          [
+            "norm",
+            "step"
+          ],
+          [
+            "step",
+            "services"
+          ],
+          [
+            "step",
+            "times"
+          ],
+          [
+            "step",
+            "book"
+          ],
+          [
+            "book",
+            "confirm"
+          ]
+        ]
+      }
     },
     {
       "id": "whatsapp-group",
