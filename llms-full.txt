@@ -481,6 +481,8 @@ The hero is an engineering sheet: a tower elevation draws itself floor by floor 
 - English and Arabic, each under its own path
 - Structured data and llms.txt for search engines and AI assistants
 
+**Live.** https://nouraldeentofi.github.io/monther-al-ashqar/
+
 ### Gambit Tournaments — Tournaments platform for a chess club in Dammam
 
 The club's black and gold, built as a full product: upcoming tournaments with live seats, guest registration, and an archive of past tournaments.
