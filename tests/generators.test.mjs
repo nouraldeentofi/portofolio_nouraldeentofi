@@ -130,7 +130,7 @@ test('the shortcuts resolve to the real files named in data', () => {
   const target = Object.fromEntries(buildRedirects(db).map((s) => [s.path, s.target]));
 
   assert.equal(target['cv/index.html'], '/assets/cv/Nour_Aldeen_Tofi.pdf');
-  assert.equal(target['cv/auto/index.html'], '/assets/cv/Nour_Aldeen_Tofi_Automation.pdf');
+  assert.equal(target['cv/auto/index.html'], '/assets/cv/Nour_Aldeen_Tofi.pdf');
   assert.equal(target['resume/index.html'], '/api/resume.json');
   assert.equal(target['profile/index.html'], '/api/profile.json');
 });

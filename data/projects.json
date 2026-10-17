@@ -32,8 +32,8 @@
     "stack": ["React 19", "TypeScript", "Tailwind CSS", "Vitest", "React Testing Library", "n8n", "OpenAI GPT-4.1 Vision", "GitHub Actions", "i18n", "RTL"],
     "url": "https://receipt.nexleadtech.com",
     "context": {
-      "en": "Timed with ZATCA e-invoicing expansion in Saudi Arabia and mandatory JoFotara in Jordan — every paper invoice in the region now has to become clean digital data.",
-      "ar": "التوقيت ليس صدفة: مع توسّع الفوترة الإلكترونية من هيئة الزكاة والضريبة والجمارك (ZATCA) في السعودية وإلزامية JoFotara في الأردن، صار على كل فاتورة ورقية أن تتحوّل إلى بيانات رقمية نظيفة."
+      "en": "Timed with the e-invoicing expansion in Saudi Arabia and mandatory JoFotara in Jordan — every paper invoice in the region now has to become clean digital data.",
+      "ar": "التوقيت ليس صدفة: مع توسّع الفوترة الإلكترونية في السعودية وإلزامية JoFotara في الأردن، صار على كل فاتورة ورقية أن تتحوّل إلى بيانات رقمية نظيفة."
     }
   },
   {

@@ -452,11 +452,12 @@ function redirectStub(target, label) {
 }
 
 export function buildRedirects(db) {
-  const cv = (id) => db.profile.cv.find((c) => c.id === id);
+  /* One CV. /cv/auto stays so links already shared for the old automation CV still land. */
+  const cv = db.profile.cv[0];
 
   return [
-    { path: 'cv/index.html', target: `/${cv('engineering').file}`, label: 'Engineering CV' },
-    { path: 'cv/auto/index.html', target: `/${cv('automation').file}`, label: 'Automation CV' },
+    { path: 'cv/index.html', target: `/${cv.file}`, label: 'CV' },
+    { path: 'cv/auto/index.html', target: `/${cv.file}`, label: 'CV' },
     { path: 'resume/index.html', target: '/api/resume.json', label: 'Résumé (JSON Resume)' },
     { path: 'profile/index.html', target: '/api/profile.json', label: 'Profile JSON' },
   ].map((r) => ({ ...r, html: redirectStub(r.target, r.label) }));

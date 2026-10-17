@@ -122,7 +122,7 @@ and `.nojekyll` stopping Jekyll from eating the generated files.
 GitHub Pages has no build step, so **the generated files must be committed**. Run
 `npm run check` and commit the result — pushing the source alone deploys nothing.
 
-The shortcuts `/cv`, `/cv/auto`, `/resume` and `/profile` are real generated files
+The shortcuts `/cv` (and the legacy `/cv/auto`, which now points to the same single CV), `/resume` and `/profile` are real generated files
 (`cv/index.html` and friends), each a noindex page that redirects to its target. They
 are files rather than rules because **GitHub Pages ignores `_headers` and `_redirects`
 entirely** — those two are Netlify syntax and do nothing here. GitHub Pages sends

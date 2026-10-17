@@ -30,7 +30,7 @@ I build AI automation systems that turn messy manual processes into clean, self-
 ## Automation workflows
 
 - Teacher Assistant AI Bot (2025 — present): A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia. The tutor manages students, schedules, cancellations, and dues entirely through chat — the AI agent calls custom CRUD tools under strict business rules rather than guessing.
-- Smart Scanner Extraction Pipeline (2026): The production pipeline behind Smart Scanner. Every invoice — photo or PDF — is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and ZATCA e-invoice fields.
+- Smart Scanner Extraction Pipeline (2026): The production pipeline behind Smart Scanner. Every invoice — photo or PDF — is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and Saudi e-invoice fields.
 - AI Job-Match Pipeline (2026): A scheduled pipeline that runs five daily search queries across LinkedIn, Indeed, and Glassdoor, scores each role's fit from one to ten with a structured-JSON LLM evaluator, and delivers only the high scorers.
 - Smart Lead Finder (2025): Automated B2B lead generation across the Saudi and Jordanian markets: multi-query place search, website scraping to extract emails and WhatsApp numbers, prioritisation scoring, and duplicate-safe appends into segmented sheets.
 - Lesson Quality Evaluator (2026): A webhook service that transcribes lesson videos with speaker separation and returns structured JSON scoring teacher quality and student engagement.

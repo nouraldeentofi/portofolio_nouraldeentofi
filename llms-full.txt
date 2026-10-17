@@ -62,7 +62,7 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 **Live.** https://receipt.nexleadtech.com
 
-**Context.** Timed with ZATCA e-invoicing expansion in Saudi Arabia and mandatory JoFotara in Jordan — every paper invoice in the region now has to become clean digital data.
+**Context.** Timed with the e-invoicing expansion in Saudi Arabia and mandatory JoFotara in Jordan — every paper invoice in the region now has to become clean digital data.
 
 ### CV Screener (2026)
 
@@ -173,7 +173,7 @@ A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia
 
 *Production document AI pipeline* — trigger: Webhook (image or PDF upload)
 
-The production pipeline behind Smart Scanner. Every invoice — photo or PDF — is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and ZATCA e-invoice fields.
+The production pipeline behind Smart Scanner. Every invoice — photo or PDF — is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and Saudi e-invoice fields.
 
 **Services.** n8n, OpenAI GPT-4.1 Vision, PDF Extract, Validation, Deduplication, Webhooks
 
@@ -359,7 +359,7 @@ Smart Scanner is an Arabic-first AI invoice management product. An employee phot
 
 **Does he work in Arabic?**
 
-Arabic is his native language and it is a core part of his technical specialisation. He builds Arabic-default bilingual interfaces with full right-to-left support, and his document AI pipelines are tuned specifically for Arabic invoices, including handwritten ones and ZATCA e-invoice fields — a case most global tools handle poorly or not at all.
+Arabic is his native language and it is a core part of his technical specialisation. He builds Arabic-default bilingual interfaces with full right-to-left support, and his document AI pipelines are tuned specifically for Arabic invoices, including handwritten ones and Saudi e-invoice fields — a case most global tools handle poorly or not at all.
 
 **Is he open to work?**
 

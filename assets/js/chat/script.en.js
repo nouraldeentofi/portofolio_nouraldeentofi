@@ -60,7 +60,7 @@ export const SCRIPT = {
   React 19 and TypeScript, <b>204 source files</b>, <b>494 automated tests</b>.
 </div>`,
     msgs2: [
-      'Timing was not an accident — ZATCA e-invoicing is expanding in Saudi Arabia and JoFotara is mandatory in Jordan. Every paper invoice in the region has to become clean data.',
+      'Timing was not an accident — e-invoicing is expanding in Saudi Arabia and JoFotara is mandatory in Jordan. Every paper invoice in the region has to become clean data.',
       'The Laravel backend is by <a href="https://www.linkedin.com/in/haitham-zedan-391668221/" target="_blank" rel="noopener noreferrer">Haitham Zedan</a>. Good products come from good teams.',
     ],
     opts: [

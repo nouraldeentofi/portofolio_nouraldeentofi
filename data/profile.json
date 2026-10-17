@@ -118,19 +118,11 @@
   },
   "cv": [
     {
-      "id": "automation",
-      "file": "assets/cv/Nour_Aldeen_Tofi_Automation.pdf",
-      "label": {
-        "en": "Automation CV",
-        "ar": "السيرة الذاتية — الأتمتة"
-      }
-    },
-    {
-      "id": "engineering",
+      "id": "cv",
       "file": "assets/cv/Nour_Aldeen_Tofi.pdf",
       "label": {
-        "en": "Engineering CV",
-        "ar": "السيرة الذاتية — الهندسة"
+        "en": "CV",
+        "ar": "السيرة الذاتية"
       }
     }
   ]

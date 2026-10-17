@@ -112,7 +112,7 @@
       },
       {
         "q": "Does he work in Arabic?",
-        "a": "Arabic is his native language and it is a core part of his technical specialisation. He builds Arabic-default bilingual interfaces with full right-to-left support, and his document AI pipelines are tuned specifically for Arabic invoices, including handwritten ones and ZATCA e-invoice fields — a case most global tools handle poorly or not at all."
+        "a": "Arabic is his native language and it is a core part of his technical specialisation. He builds Arabic-default bilingual interfaces with full right-to-left support, and his document AI pipelines are tuned specifically for Arabic invoices, including handwritten ones and Saudi e-invoice fields — a case most global tools handle poorly or not at all."
       },
       {
         "q": "Is he open to work?",
@@ -166,7 +166,7 @@
     "lead": "The fastest route is email. I read everything, and I reply.",
     "availabilityTitle": "Availability",
     "cvTitle": "Curriculum vitae",
-    "cvNote": "Two versions, depending on what you are hiring for.",
+    "cvNote": "Everything in one file — automation, frontend, and delivery.",
     "linksTitle": "Elsewhere",
     "mcpTitle": "For AI assistants",
     "mcpBody": "This site publishes a machine-readable profile and ships an MCP server, so an AI assistant can query my experience, projects, and workflows directly instead of scraping the page."

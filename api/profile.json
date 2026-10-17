@@ -1,6 +1,6 @@
 {
   "$schema": "https://nouraldeentofi.com/api/profile.json",
-  "generated": "2026-10-06T18:16:29.272Z",
+  "generated": "2026-10-17T16:57:25.146Z",
   "name": {
     "en": "Nour Aldeen Tofi",
     "ar": "نور الدين طفي"
@@ -226,11 +226,7 @@
     "projects": "https://nouraldeentofi.com/api/projects.json",
     "cv": [
       {
-        "id": "automation",
-        "url": "https://nouraldeentofi.com/assets/cv/Nour_Aldeen_Tofi_Automation.pdf"
-      },
-      {
-        "id": "engineering",
+        "id": "cv",
         "url": "https://nouraldeentofi.com/assets/cv/Nour_Aldeen_Tofi.pdf"
       }
     ]
