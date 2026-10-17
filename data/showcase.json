@@ -2,7 +2,10 @@
   "sites": [
     {
       "id": "aya-rady",
-      "name": { "en": "Aya Rady", "ar": "آية راضي" },
+      "name": {
+        "en": "Aya Rady",
+        "ar": "آية راضي"
+      },
       "segment": "people",
       "year": "2026",
       "role": {
@@ -25,7 +28,12 @@
           "العربية افتراضياً، والإنجليزية بضغطة واحدة"
         ]
       },
-      "tags": ["Arabic + English", "RTL", "JSON-LD", "llms.txt"],
+      "tags": [
+        "Arabic + English",
+        "RTL",
+        "JSON-LD",
+        "llms.txt"
+      ],
       "url": "https://nouraldeentofi.github.io/aya-rady/",
       "images": {
         "desktop": "assets/img/showcase/aya-rady-desktop.webp",
@@ -34,7 +42,10 @@
     },
     {
       "id": "mohammed-alhabbarah",
-      "name": { "en": "Mohammed Alhabbarah", "ar": "محمد الحبارة" },
+      "name": {
+        "en": "Mohammed Alhabbarah",
+        "ar": "محمد الحبارة"
+      },
       "segment": "people",
       "year": "2026",
       "role": {
@@ -57,7 +68,12 @@
           "مُختبر على كل المقاسات، وبالوضعين، وباللمس، وبمعايير الوصول"
         ]
       },
-      "tags": ["Arabic + English", "RTL", "Dark mode", "Playwright"],
+      "tags": [
+        "Arabic + English",
+        "RTL",
+        "Dark mode",
+        "Playwright"
+      ],
       "url": "https://nouraldeentofi.github.io/mohammed-alhabbarah/",
       "images": {
         "desktop": "assets/img/showcase/mohammed-alhabbarah-desktop.webp",
@@ -66,7 +82,10 @@
     },
     {
       "id": "layal-joumaa",
-      "name": { "en": "Layal Joumaa", "ar": "ليال جمعة" },
+      "name": {
+        "en": "Layal Joumaa",
+        "ar": "ليال جمعة"
+      },
       "segment": "people",
       "year": "2026",
       "role": {
@@ -89,7 +108,12 @@
           "رسالة أولى جاهزة ببضع ضغطات"
         ]
       },
-      "tags": ["Arabic + English", "WebGL", "RTL", "llms.txt"],
+      "tags": [
+        "Arabic + English",
+        "WebGL",
+        "RTL",
+        "llms.txt"
+      ],
       "url": "https://nouraldeentofi.github.io/layal-joumaa/",
       "images": {
         "desktop": "assets/img/showcase/layal-joumaa-desktop.webp",
@@ -98,7 +122,10 @@
     },
     {
       "id": "salam-aksimi",
-      "name": { "en": "Salam Aksimi", "ar": "سلام اقسيمي" },
+      "name": {
+        "en": "Salam Aksimi",
+        "ar": "سلام اقسيمي"
+      },
       "segment": "people",
       "year": "2026",
       "role": {
@@ -121,7 +148,12 @@
           "للجوال أولاً، بشريط سفلي يشبه التطبيقات وزر للحجز"
         ]
       },
-      "tags": ["Arabic + English", "RTL", "Dark mode", "Canvas"],
+      "tags": [
+        "Arabic + English",
+        "RTL",
+        "Dark mode",
+        "Canvas"
+      ],
       "url": "https://nouraldeentofi.github.io/salam-aksimi/",
       "images": {
         "desktop": "assets/img/showcase/salam-aksimi-desktop.webp",
@@ -130,7 +162,10 @@
     },
     {
       "id": "tawheed-malkat",
-      "name": { "en": "Tawheed Malkat", "ar": "توحيد ملقط" },
+      "name": {
+        "en": "Tawheed Malkat",
+        "ar": "توحيد ملقط"
+      },
       "segment": "people",
       "year": "2026",
       "role": {
@@ -138,22 +173,27 @@
         "ar": "مصممة منتجات UI/UX"
       },
       "concept": {
-        "en": "The portfolio as an open design file: a dotted canvas, her name as a selected text layer, and a camera that flies through her projects as you scroll.",
-        "ar": "البورتفوليو ملف تصميم مفتوح: كانفاس منقّط، واسمها طبقة نص محدّدة، وكاميرا تتنقّل بين مشاريعها مع التمرير."
+        "en": "The portfolio as an open design file that never stops working: selections move, cursors collaborate, and every project fans out its screens like layers.",
+        "ar": "البورتفوليو ملف تصميم مفتوح لا يتوقّف عن العمل: تحديدات تتحرّك، ومؤشّرات تتعاون، وكل مشروع يفرد شاشاته كطبقات."
       },
       "highlights": {
         "en": [
-          "A scroll-driven camera journey through her projects",
-          "A slider from first research note to clickable prototype",
+          "A deck of projects to swipe through, each card fanning its own screens",
+          "A page for every project, with its whole case study screen by screen",
           "A project board you can drag and zoom"
         ],
         "ar": [
-          "رحلة كاميرا بين مشاريعها يقودها التمرير",
-          "شريط ينقلك من أول ملاحظة بحث حتى النموذج التفاعلي",
+          "مجموعة مشاريع تُسحب واحداً تلو الآخر، وكل بطاقة تفرد شاشاتها",
+          "صفحة لكل مشروع، فيها دراسة الحالة كاملة شاشةً شاشة",
           "لوحة مشاريع تُسحب وتُكبَّر"
         ]
       },
-      "tags": ["Arabic + English", "3D", "RTL", "Dark mode"],
+      "tags": [
+        "Arabic + English",
+        "3D",
+        "RTL",
+        "Dark mode"
+      ],
       "url": "https://nouraldeentofi.github.io/tawheed-malkat/",
       "images": {
         "desktop": "assets/img/showcase/tawheed-malkat-desktop.webp",
@@ -162,7 +202,10 @@
     },
     {
       "id": "monther-al-ashqar",
-      "name": { "en": "Monther Al-Ashqar", "ar": "منذر الأشقر" },
+      "name": {
+        "en": "Monther Al-Ashqar",
+        "ar": "منذر الأشقر"
+      },
       "segment": "people",
       "year": "2026",
       "role": {
@@ -185,7 +228,11 @@
           "بيانات منظّمة وllms.txt لمحركات البحث ومساعدات الذكاء الاصطناعي"
         ]
       },
-      "tags": ["English + Arabic", "JSON-LD", "llms.txt"],
+      "tags": [
+        "English + Arabic",
+        "JSON-LD",
+        "llms.txt"
+      ],
       "url": null,
       "todo": "Private repository — add the URL once it is published",
       "images": {
@@ -195,7 +242,10 @@
     },
     {
       "id": "gambit-tournaments",
-      "name": { "en": "Gambit Tournaments", "ar": "بطولات چامبت" },
+      "name": {
+        "en": "Gambit Tournaments",
+        "ar": "بطولات چامبت"
+      },
       "segment": "companies",
       "year": "2026",
       "role": {
@@ -218,7 +268,13 @@
           "لوحة إدارة للبطولات والمعرض والتسجيلات"
         ]
       },
-      "tags": ["Next.js", "React", "Prisma", "MySQL", "n8n"],
+      "tags": [
+        "Next.js",
+        "React",
+        "Prisma",
+        "MySQL",
+        "n8n"
+      ],
       "url": "https://gambit.nouraldeentofi.com/",
       "images": {
         "desktop": "assets/img/showcase/gambit-tournaments-desktop.webp",
@@ -227,7 +283,10 @@
     },
     {
       "id": "prestige-vip-tailor",
-      "name": { "en": "Prestige VIP Tailor", "ar": "خياط برستيج VIP" },
+      "name": {
+        "en": "Prestige VIP Tailor",
+        "ar": "خياط برستيج VIP"
+      },
       "segment": "shops",
       "year": "2026",
       "role": {
@@ -250,7 +309,12 @@
           "فاتح افتراضياً، مع زر قمر للوضع الداكن"
         ]
       },
-      "tags": ["Arabic", "WhatsApp", "3D", "Mobile first"],
+      "tags": [
+        "Arabic",
+        "WhatsApp",
+        "3D",
+        "Mobile first"
+      ],
       "url": "https://nouraldeentofi.github.io/prestige-vip-tailor/",
       "images": {
         "desktop": "assets/img/showcase/prestige-vip-tailor-desktop.webp",
@@ -259,7 +323,10 @@
     },
     {
       "id": "alreem-mashwi",
-      "name": { "en": "Al-Reem Grilled Lamb", "ar": "الريم الخروف المشوي" },
+      "name": {
+        "en": "Al-Reem Grilled Lamb",
+        "ar": "الريم الخروف المشوي"
+      },
       "segment": "shops",
       "year": "2026",
       "role": {
@@ -282,7 +349,11 @@
           "وضع فاتح وداكن"
         ]
       },
-      "tags": ["Arabic", "WhatsApp", "Mobile first"],
+      "tags": [
+        "Arabic",
+        "WhatsApp",
+        "Mobile first"
+      ],
       "url": "https://nouraldeentofi.github.io/alreem-mashwi/",
       "images": {
         "desktop": "assets/img/showcase/alreem-mashwi-desktop.webp",
@@ -292,14 +363,27 @@
   ],
   "lab": {
     "id": "portfolio-gallery",
-    "name": { "en": "Portfolio Gallery", "ar": "معرض البورتفوليو" },
+    "name": {
+      "en": "Portfolio Gallery",
+      "ar": "معرض البورتفوليو"
+    },
     "count": "120",
-    "countLabel": { "en": "portfolio designs", "ar": "تصميم بورتفوليو" },
+    "countLabel": {
+      "en": "portfolio designs",
+      "ar": "تصميم بورتفوليو"
+    },
     "tagline": {
       "en": "Personas, scroll stories, interactive machines and whole worlds — a city builder, a solar system, a museum, a stock exchange — each one a single hand-crafted HTML file.",
       "ar": "شخصيات، وقصص تمرير، وآلات تفاعلية، وعوالم كاملة — مدينة تُبنى، ومجموعة شمسية، ومتحف، وبورصة — كل واحد منها ملف HTML واحد مصنوع يدوياً."
     },
-    "tags": ["HTML", "CSS", "Canvas", "Three.js", "GSAP", "Web Audio"],
+    "tags": [
+      "HTML",
+      "CSS",
+      "Canvas",
+      "Three.js",
+      "GSAP",
+      "Web Audio"
+    ],
     "url": "https://nouraldeentofi.github.io/portfolio-gallery/",
     "images": {
       "desktop": "assets/img/showcase/portfolio-gallery-desktop.webp",

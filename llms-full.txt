@@ -465,10 +465,10 @@ Threads and sparks: the sparkle she signs every post with becomes a drawn spark,
 
 ### Tawheed Malkat — Product designer (UI/UX)
 
-The portfolio as an open design file: a dotted canvas, her name as a selected text layer, and a camera that flies through her projects as you scroll.
+The portfolio as an open design file that never stops working: selections move, cursors collaborate, and every project fans out its screens like layers.
 
-- A scroll-driven camera journey through her projects
-- A slider from first research note to clickable prototype
+- A deck of projects to swipe through, each card fanning its own screens
+- A page for every project, with its whole case study screen by screen
 - A project board you can drag and zoom
 
 **Live.** https://nouraldeentofi.github.io/tawheed-malkat/

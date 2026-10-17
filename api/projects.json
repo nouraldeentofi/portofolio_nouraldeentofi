@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-17T18:12:02.305Z",
+  "generated": "2026-10-17T18:56:40.115Z",
   "projects": [
     {
       "id": "smart-scanner",
@@ -3088,18 +3088,18 @@
         "ar": "مصممة منتجات UI/UX"
       },
       "concept": {
-        "en": "The portfolio as an open design file: a dotted canvas, her name as a selected text layer, and a camera that flies through her projects as you scroll.",
-        "ar": "البورتفوليو ملف تصميم مفتوح: كانفاس منقّط، واسمها طبقة نص محدّدة، وكاميرا تتنقّل بين مشاريعها مع التمرير."
+        "en": "The portfolio as an open design file that never stops working: selections move, cursors collaborate, and every project fans out its screens like layers.",
+        "ar": "البورتفوليو ملف تصميم مفتوح لا يتوقّف عن العمل: تحديدات تتحرّك، ومؤشّرات تتعاون، وكل مشروع يفرد شاشاته كطبقات."
       },
       "highlights": {
         "en": [
-          "A scroll-driven camera journey through her projects",
-          "A slider from first research note to clickable prototype",
+          "A deck of projects to swipe through, each card fanning its own screens",
+          "A page for every project, with its whole case study screen by screen",
           "A project board you can drag and zoom"
         ],
         "ar": [
-          "رحلة كاميرا بين مشاريعها يقودها التمرير",
-          "شريط ينقلك من أول ملاحظة بحث حتى النموذج التفاعلي",
+          "مجموعة مشاريع تُسحب واحداً تلو الآخر، وكل بطاقة تفرد شاشاتها",
+          "صفحة لكل مشروع، فيها دراسة الحالة كاملة شاشةً شاشة",
           "لوحة مشاريع تُسحب وتُكبَّر"
         ]
       },
