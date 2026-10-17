@@ -425,17 +425,17 @@ Incoming CRM leads arrive scattered — duplicates, malformed emails, missing fi
 
 ### Aya Rady — Personal branding strategist for experts and consultants
 
-Inside-Out, the name of her programme, drawn as rings: expertise at the centre, the sides she works on around it, and a wave that lights each one until it reaches your name.
+On arrival a search plays out: look-alike results blur away and one name rises through her three verbs, remembered, trusted, chosen. Inside-Out, her programme drawn as rings, now opens her method.
 
 - A before-and-after case study shown as a real LinkedIn profile
 - A gap check that names your first gap and opens a ready message
-- Arabic by default, English in one tap
+- Her brand on one page: message, pillars, voice and colours
 
 **Live.** https://nouraldeentofi.github.io/aya-rady/
 
 ### Mohammed Alhabbarah — Head of Learning & Capability Development, Riyadh Metro
 
-A living metro map behind every page — lines that draw themselves, stations that breathe, small trains on the move — taken from his work on Riyadh Metro and his banner line, from the field to impact.
+Arrival on a platform: a split-flap board flips his name, his role and his destination, operational readiness, while a small train calls at the stages of his work; then the platform doors slide open onto the page. Behind every page, a living metro map.
 
 - A page for each of his programmes: scope, role, dates and impact
 - A metro-line footer where the page you are on is the lit station
@@ -445,7 +445,7 @@ A living metro map behind every page — lines that draw themselves, stations th
 
 ### Layal Joumaa — CV writer, LinkedIn optimisation and personal branding
 
-A living marble background in WebGL behind a CV that rewrites itself in the hero — her craft, shown instead of described.
+Her craft is the opening: a red pen sharpens a sample CV, the page folds into a paper plane and flies across a dotted map to where her clients landed, then opens on her real profile. No photos: a pen mark, a one-page CV and a letter that writes itself.
 
 - A LinkedIn headline checker
 - Client stories on a map of where they landed
@@ -455,7 +455,7 @@ A living marble background in WebGL behind a CV that rewrites itself in the hero
 
 ### Salam Aksimi — Personal branding and content on LinkedIn
 
-Threads and sparks: the sparkle she signs every post with becomes a drawn spark, travelling along threads that connect people and ideas.
+The post that lands: her own hook types itself into a post, she publishes, the card lifts out of the feed while reactions float up and ripples spread, then a spark flies to the booking button. Threads and sparks run behind every page.
 
 - Her stage story as real event badges that flip between years
 - A page for every event she spoke at or hosted
@@ -475,7 +475,7 @@ The portfolio as a design file that never stops working: on arrival the hero des
 
 ### Monther Al-Ashqar — Senior project manager and owner's representative
 
-An engineering-grade portfolio on a dark blueprint, leading with the scale of a career spent on site.
+The hero is an engineering sheet: a tower elevation draws itself floor by floor while a progress S-curve falls behind plan, recovers and lands on completion, and a handed-over stamp settles.
 
 - A page for every major project
 - English and Arabic, each under its own path
@@ -493,7 +493,7 @@ The club's black and gold, built as a full product: upcoming tournaments with li
 
 ### Prestige VIP Tailor — Men's tailor, Al Khobar
 
-From the tailor's world: pattern paper in the background, a fabric swatch book in 3D, and a thobe on a hanger that changes as the customer chooses.
+Cut to measure: tailor's chalk drafts the thobe pattern, a tape measures it and a running stitch closes it, then the cloth fills in and becomes the thobe on its hanger, beside a fabric swatch book in 3D.
 
 - Design your thobe — collar, sleeve, pocket, buttons, fabric — and it travels with the booking
 - A three-step booking that opens WhatsApp with the message ready
@@ -503,7 +503,7 @@ From the tailor's world: pattern paper in the background, a fabric swatch book i
 
 ### Al-Reem Grilled Lamb — Charcoal-grilled lamb, Al Khobar
 
-An app on the phone: a bottom bar, an order in steps, and the shop's own photos doing the selling.
+Live coals: the hero opens at night, then the charcoal catches. Embers and sparks rise off the real coals, warm light flickers on the lamb, and the headline glows and cools. On the phone it works like an app: a bottom bar and an order in steps.
 
 - Orders arrive ready on the shop's WhatsApp
 - Photo gallery and Google reviews
