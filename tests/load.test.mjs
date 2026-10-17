@@ -214,6 +214,16 @@ test('every showcase site ships both screenshots, and an unpublished one carries
   }
 });
 
+test('every gallery screenshot is fingerprinted, so a re-shot site shows at once', () => {
+  const db = loadDb('data');
+  const shots = [
+    ...db.showcase.sites.flatMap((s) => Object.values(s.images)),
+    ...Object.values(db.showcase.lab.images),
+    ...db.workflows.filter((w) => w.canvas).map((w) => w.canvas),
+  ];
+  for (const path of shots) assert.match(db.assetVersions[path] ?? '', /^[0-9a-f]{8}$/, `${path} has no fingerprint`);
+});
+
 test('a workflow canvas, when set, is a real file', () => {
   const db = loadDb('data');
   for (const w of db.workflows.filter((x) => x.canvas)) assert.ok(existsSync(w.canvas), `${w.id}: missing ${w.canvas}`);

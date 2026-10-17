@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 
@@ -16,6 +16,10 @@ import { join } from 'node:path';
  *
  * CSS is covered completely — no stylesheet `@import`s another, so every file
  * is linked from the HTML and every file gets its own fingerprint.
+ *
+ * The gallery screenshots are listed by folder rather than by hand: they are
+ * re-shot under the same names whenever a client site changes, and a new shot
+ * behind an old URL is exactly the stale-cache problem described above.
  */
 const VERSIONED_ASSETS = [
   'assets/css/tokens.css',
@@ -36,9 +40,19 @@ const VERSIONED_ASSETS = [
   'assets/img/icon-180.png',
 ];
 
+const VERSIONED_DIRS = ['assets/img/showcase', 'assets/img/workflows'];
+
+function listDir(dir) {
+  try {
+    return readdirSync(dir).map((f) => `${dir}/${f}`);
+  } catch {
+    return [];
+  }
+}
+
 function fingerprintAssets() {
   const out = {};
-  for (const file of VERSIONED_ASSETS) {
+  for (const file of [...VERSIONED_ASSETS, ...VERSIONED_DIRS.flatMap(listDir)]) {
     try {
       out[file] = createHash('sha256').update(readFileSync(file)).digest('hex').slice(0, 8);
     } catch {

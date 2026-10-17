@@ -384,8 +384,15 @@ export function projectsList(db, lang) {
 
 /* -------------------------------------------------------------- showcase */
 
-/* Root-relative, so the same markup works from `/` and from `/en/`. */
-const img = (path) => `/${path}`;
+/*
+ * Root-relative, so the same markup works from `/` and from `/en/`, and
+ * fingerprinted: a new screenshot keeps its file name, so without the hash a
+ * browser that saw the old one keeps showing it for hours.
+ */
+const img = (db, path) => {
+  const v = db.assetVersions?.[path];
+  return v ? `/${path}?v=${v}` : `/${path}`;
+};
 
 /**
  * The filter bar for a gallery. Shipped `hidden`: without JavaScript it would
@@ -406,17 +413,17 @@ ${groups
 }
 
 /** A browser window holding the desktop shot, with the phone leaning on it. */
-function deviceStage(s, lang, { phone = true } = {}) {
+function deviceStage(db, s, lang, { phone = true } = {}) {
   const name = s.name[lang];
   const host = s.url ? s.url.replace(/^https?:\/\//, '').replace(/\/$/, '') : name;
   return `<figure class="show__media">
     <span class="browser">
       <span class="browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="browser__url">${e(host)}</span></span>
-      <img src="${img(s.images.desktop)}" alt="${e(name)} — desktop" width="1200" height="750" loading="lazy" decoding="async">
+      <img src="${img(db, s.images.desktop)}" alt="${e(name)} — desktop" width="1200" height="750" loading="lazy" decoding="async">
     </span>${
       phone && s.images.phone
         ? `
-    <span class="phone"><img src="${img(s.images.phone)}" alt="${e(name)} — phone" width="390" height="844" loading="lazy" decoding="async"></span>`
+    <span class="phone"><img src="${img(db, s.images.phone)}" alt="${e(name)} — phone" width="390" height="844" loading="lazy" decoding="async"></span>`
         : ''
     }
   </figure>`;
@@ -428,7 +435,7 @@ function siteCard(db, s, lang) {
     ? `<a class="btn btn--ghost" href="${e(s.url)}"${extAttrs(s.url)}>${e(c.ui.visitSite)}${newTabHint(c.ui.opensInNewTab)}</a>`
     : `<span class="note-private">${e(c.ui.privateSite)}</span>`;
   return `<li class="show" data-filter-item data-group="${e(s.segment)}" id="${e(s.id)}" data-reveal>
-  ${deviceStage(s, lang)}
+  ${deviceStage(db, s, lang)}
   <div class="show__body">
     <p class="card__meta"><span>${e(c.showcase.segments[s.segment])}</span><span>${e(yearOf(s.year, lang))}</span></p>
     <h3 class="card__title">${e(s.name[lang])}</h3>
@@ -457,7 +464,7 @@ export function showcaseLab(db, lang) {
   const c = db.copy[lang];
   const l = db.showcase.lab;
   return `<article class="lab" id="${e(l.id)}" data-reveal>
-  ${deviceStage(l, lang, { phone: false })}
+  ${deviceStage(db, l, lang, { phone: false })}
   <div class="show__body">
     <p class="lab__count"><b data-count>${e(l.count)}</b><span>${e(l.countLabel[lang])}</span></p>
     <h3 class="card__title">${e(l.name[lang])}</h3>
@@ -480,7 +487,7 @@ export function homeShowcase(db, lang) {
   return picks
     .map(
       (s) => `<article data-reveal class="show">
-  ${deviceStage(s, lang)}
+  ${deviceStage(db, s, lang)}
   <div class="show__body">
     <p class="card__meta"><span>${e(c.showcase.segments[s.segment])}</span><span>${e(yearOf(s.year, lang))}</span></p>
     <h3 class="card__title"><a href="${href('showcase', lang)}#${e(s.id)}">${e(s.name[lang])}</a></h3>
@@ -509,7 +516,7 @@ function systemCard(db, w, lang, { compact = false } = {}) {
       }</span>`
     : '';
   const canvasLink = w.canvas
-    ? `<a class="canvas-open" href="${img(w.canvas)}" data-dialog-open="${dialogId}" target="_blank" rel="noopener">${e(c.ui.openCanvas)}${newTabHint(c.ui.opensInNewTab)}</a>`
+    ? `<a class="canvas-open" href="${img(db, w.canvas)}" data-dialog-open="${dialogId}" target="_blank" rel="noopener">${e(c.ui.openCanvas)}${newTabHint(c.ui.opensInNewTab)}</a>`
     : '';
 
   return `<article data-reveal data-filter-item data-group="${e((w.audience ?? []).join(' '))}" class="card system${w.featured ? ' card--featured' : ''}" id="${e(w.id)}">
@@ -545,7 +552,7 @@ function systemCard(db, w, lang, { compact = false } = {}) {
       }</span>
       <form method="dialog"><button class="lightbox__close" aria-label="${e(c.ui.closeCanvas)}">&times;</button></form>
     </div>
-    <div class="lightbox__body"><img src="${img(w.canvas)}" alt="${e(`${name} — ${c.ui.canvasCaption}`)}"${
+    <div class="lightbox__body"><img src="${img(db, w.canvas)}" alt="${e(`${name} — ${c.ui.canvasCaption}`)}"${
       w.canvasSize ? ` width="${w.canvasSize[0]}" height="${w.canvasSize[1]}"` : ''
     } loading="lazy" decoding="async"></div>
   </dialog>`
