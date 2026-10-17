@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-17T18:56:40.115Z",
+  "generated": "2026-10-17T19:26:29.104Z",
   "projects": [
     {
       "id": "smart-scanner",
@@ -3088,19 +3088,19 @@
         "ar": "مصممة منتجات UI/UX"
       },
       "concept": {
-        "en": "The portfolio as an open design file that never stops working: selections move, cursors collaborate, and every project fans out its screens like layers.",
-        "ar": "البورتفوليو ملف تصميم مفتوح لا يتوقّف عن العمل: تحديدات تتحرّك، ومؤشّرات تتعاون، وكل مشروع يفرد شاشاته كطبقات."
+        "en": "The portfolio as a design file that never stops working: on arrival the hero designs itself, one of her skills at a time — research, wireframe, type, colour, prototype.",
+        "ar": "البورتفوليو ملف تصميم لا يتوقّف عن العمل: عند الدخول تصمّم الواجهة نفسها أمامك، مهارةً تلو الأخرى — البحث، والهيكل، والخط، والألوان، والنموذج التفاعلي."
       },
       "highlights": {
         "en": [
+          "An opening where her own toolbar replays each stage of the design",
           "A deck of projects to swipe through, each card fanning its own screens",
-          "A page for every project, with its whole case study screen by screen",
-          "A project board you can drag and zoom"
+          "A page for every project, with its whole case study screen by screen"
         ],
         "ar": [
+          "افتتاحية يعيد فيها شريط أدواتها كل مرحلة من مراحل التصميم",
           "مجموعة مشاريع تُسحب واحداً تلو الآخر، وكل بطاقة تفرد شاشاتها",
-          "صفحة لكل مشروع، فيها دراسة الحالة كاملة شاشةً شاشة",
-          "لوحة مشاريع تُسحب وتُكبَّر"
+          "صفحة لكل مشروع، فيها دراسة الحالة كاملة شاشةً شاشة"
         ]
       },
       "url": "https://nouraldeentofi.github.io/tawheed-malkat/",
