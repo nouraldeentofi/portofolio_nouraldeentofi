@@ -64,7 +64,7 @@ the whole point of the architecture — there is no second place to remember.
 |---|---|
 | `npm run build` | Regenerate every page and artefact from `data/` |
 | `npm run validate` | Check JSON-LD, links, AR/EN parity, accessibility basics |
-| `npm test` | Run the unit tests (58 of them) |
+| `npm test` | Run the unit tests |
 | `npm run check` | All three, in order |
 
 ---
@@ -79,7 +79,8 @@ overwritten on the next build. Edit these instead:
 | Name, contact, links, availability | `data/profile.json` |
 | Jobs and responsibilities | `data/experience.json` |
 | Products and applications | `data/projects.json` |
-| n8n automations | `data/workflows.json` |
+| n8n automation systems (status, diagram, canvas) | `data/workflows.json` |
+| Client websites and the design lab | `data/showcase.json` |
 | Certificates, education, awards | `data/credentials.json` |
 | Recommendations | `data/testimonials.json` |
 | Skill groups | `data/skills.json` |

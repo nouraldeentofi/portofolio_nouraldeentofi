@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-17T16:57:25.146Z",
+  "generated": "2026-10-17T17:38:42.822Z",
   "projects": [
     {
       "id": "smart-scanner",
@@ -417,6 +417,336 @@
   ],
   "workflows": [
     {
+      "id": "universal-web-scraper",
+      "name": {
+        "en": "Universal Web Scraper",
+        "ar": "محرّك سحب البيانات الشامل"
+      },
+      "year": "2026",
+      "kind": {
+        "en": "AI scraping engine",
+        "ar": "محرّك سحب بيانات بالذكاء الاصطناعي"
+      },
+      "summary": {
+        "en": "One link in, the whole site out. A shared engine fetches pages and escalates only as far as it must, reads structured data before it spends anything on AI, and writes the rows into a spreadsheet — with quick jobs and long crawls run as separate, controllable workers.",
+        "ar": "رابط واحد يدخل، والموقع كله يخرج. محرّك مشترك يجلب الصفحات ويتصاعد بقدر الحاجة فقط، ويقرأ البيانات المنظّمة قبل أن ينفق شيئاً على الذكاء الاصطناعي، ثم يكتب الصفوف في جدول — والمهام السريعة والزحف الطويل يعملان كعمّال منفصلين يمكن التحكّم بهم."
+      },
+      "trigger": {
+        "en": "Web app (webhook) and a crawl schedule",
+        "ar": "واجهة ويب (Webhook) وجدول زحف"
+      },
+      "services": [
+        "n8n",
+        "OpenAI",
+        "Google Sheets",
+        "Excel",
+        "n8n Data Tables",
+        "Webhooks"
+      ],
+      "highlights": {
+        "en": [
+          "One engine, called as a sub-workflow by both the quick runner and the crawl worker",
+          "The AI call is skipped entirely when structured data already answers the page",
+          "The crawl worker locks each job, opens a new sheet when a part fills up, and writes one tab per category",
+          "Pause, resume, cancel, restart and delete, routed through a single control endpoint"
+        ],
+        "ar": [
+          "محرّك واحد يستدعيه كلٌّ من المشغّل السريع وعامل الزحف كمسار فرعي",
+          "يُتجاوز استدعاء الذكاء الاصطناعي كلياً حين تكفي البيانات المنظّمة في الصفحة",
+          "عامل الزحف يقفل كل مهمة، ويفتح جدولاً جديداً حين يمتلئ الجزء، ويكتب تبويباً لكل تصنيف",
+          "الإيقاف والاستئناف والإلغاء وإعادة البدء والحذف، كلها عبر نقطة تحكّم واحدة"
+        ]
+      },
+      "outcome": {
+        "en": "Collecting a website into Excel stops being copy-and-paste or a new script per site.",
+        "ar": "لم يعد جمع موقع في ملف إكسل نسخاً ولصقاً ولا أداة جديدة لكل موقع."
+      },
+      "status": "live",
+      "workflowCount": 7,
+      "flow": {
+        "nodes": [
+          {
+            "id": "api",
+            "label": {
+              "en": "Scrape job API",
+              "ar": "واجهة مهام السحب"
+            },
+            "kind": "trigger",
+            "service": "Webhook"
+          },
+          {
+            "id": "crawl-tick",
+            "label": {
+              "en": "Crawl worker tick",
+              "ar": "دورة الزاحف المجدولة"
+            },
+            "kind": "trigger"
+          },
+          {
+            "id": "plan",
+            "label": {
+              "en": "Plan the job",
+              "ar": "تخطيط المهمة"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "quick-loop",
+            "label": {
+              "en": "Quick batch loop",
+              "ar": "حلقة الدفعات السريعة"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "fetch",
+            "label": {
+              "en": "Escalating fetch",
+              "ar": "جلب متدرّج"
+            },
+            "kind": "io",
+            "service": "Engine"
+          },
+          {
+            "id": "needs-ai",
+            "label": {
+              "en": "Needs AI?",
+              "ar": "هل يلزم الذكاء الاصطناعي؟"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "ai-extract",
+            "label": {
+              "en": "AI field extraction",
+              "ar": "استخراج ذكي للحقول"
+            },
+            "kind": "ai",
+            "service": "OpenAI"
+          },
+          {
+            "id": "collect",
+            "label": {
+              "en": "Collect rows",
+              "ar": "تجميع السجلات"
+            },
+            "kind": "data"
+          },
+          {
+            "id": "dedupe",
+            "label": {
+              "en": "Dedupe and merge",
+              "ar": "إزالة التكرار والدمج"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "save",
+            "label": {
+              "en": "Excel and Sheets",
+              "ar": "إكسل وجداول Google"
+            },
+            "kind": "output",
+            "service": "Google Sheets"
+          }
+        ],
+        "edges": [
+          [
+            "api",
+            "plan"
+          ],
+          [
+            "plan",
+            "quick-loop"
+          ],
+          [
+            "quick-loop",
+            "fetch"
+          ],
+          [
+            "crawl-tick",
+            "fetch"
+          ],
+          [
+            "fetch",
+            "needs-ai"
+          ],
+          [
+            "needs-ai",
+            "ai-extract"
+          ],
+          [
+            "needs-ai",
+            "collect"
+          ],
+          [
+            "ai-extract",
+            "collect"
+          ],
+          [
+            "collect",
+            "dedupe"
+          ],
+          [
+            "dedupe",
+            "save"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "cv-screener",
+      "name": {
+        "en": "CV Screener agents",
+        "ar": "وكلاء فارز السير الذاتية"
+      },
+      "year": "2026",
+      "kind": {
+        "en": "AI agents behind a product",
+        "ar": "وكلاء ذكاء اصطناعي خلف منتج"
+      },
+      "summary": {
+        "en": "The AI engine of CV Screener: sibling agents that profile one CV, screen one CV against a job, and summarise a whole pool. The product server calls them; every one checks a secret first, fences the CV as data, and returns typed JSON or a typed error.",
+        "ar": "محرّك الذكاء الاصطناعي في فارز السير الذاتية: وكلاء متشابهون، أحدهم يحلّل سيرة واحدة، والآخر يقيّمها مقابل وظيفة، والثالث يلخّص مجموعة كاملة. يستدعيهم خادم المنتج، وكلٌّ منهم يتحقّق من المفتاح السري أولاً، ويعزل نص السيرة كبيانات، ويُعيد JSON محدّد البنية أو خطأً محدّداً."
+      },
+      "trigger": {
+        "en": "Server-to-server webhook",
+        "ar": "Webhook من الخادم إلى الخادم"
+      },
+      "services": [
+        "n8n",
+        "OpenAI",
+        "Webhooks",
+        "Structured outputs"
+      ],
+      "highlights": {
+        "en": [
+          "A secret header is checked before anything else; a bad call never reaches the model",
+          "The CV text is wrapped in random fences, so instructions hidden inside a CV are read as data",
+          "The model scores with quoted evidence; weighted totals and must-have caps are computed in code",
+          "Set not to store executions, because CVs are personal data"
+        ],
+        "ar": [
+          "يُفحص المفتاح السري قبل أي شيء؛ والطلب غير الصالح لا يصل إلى النموذج أبداً",
+          "يُغلَّف نص السيرة بأسوار عشوائية، فتُقرأ أي تعليمات مخبّأة داخلها كبيانات",
+          "النموذج يقيّم مع اقتباسات داعمة؛ أما المجاميع الموزونة وسقف الشروط الإلزامية فتُحسب بالكود",
+          "لا يحفظ سجلّات التنفيذ، لأن السير الذاتية بيانات شخصية"
+        ]
+      },
+      "outcome": {
+        "en": "Hundreds of CVs become a ranked, explainable pool that a recruiter can defend.",
+        "ar": "تتحوّل مئات السير الذاتية إلى مجموعة مرتّبة وقابلة للتفسير يستطيع المسؤول عن التوظيف الدفاع عنها."
+      },
+      "status": "live",
+      "workflowCount": 4,
+      "flow": {
+        "nodes": [
+          {
+            "id": "webhook",
+            "label": {
+              "en": "CV request webhook",
+              "ar": "استقبال طلب السيرة"
+            },
+            "kind": "trigger",
+            "service": "Webhook"
+          },
+          {
+            "id": "auth",
+            "label": {
+              "en": "Secret header check",
+              "ar": "التحقق من المفتاح السري"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "validate",
+            "label": {
+              "en": "Validate and fence",
+              "ar": "التحقق وعزل النص"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "valid",
+            "label": {
+              "en": "Valid request?",
+              "ar": "هل الطلب صالح؟"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "profile",
+            "label": {
+              "en": "Profile the CV",
+              "ar": "تحليل السيرة الذاتية"
+            },
+            "kind": "ai",
+            "service": "OpenAI"
+          },
+          {
+            "id": "reject",
+            "label": {
+              "en": "Reject request",
+              "ar": "رفض الطلب"
+            },
+            "kind": "output",
+            "service": "Webhook"
+          },
+          {
+            "id": "parse",
+            "label": {
+              "en": "Structural check",
+              "ar": "فحص البنية"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "respond",
+            "label": {
+              "en": "Return JSON",
+              "ar": "إرجاع النتيجة"
+            },
+            "kind": "output",
+            "service": "Webhook"
+          }
+        ],
+        "edges": [
+          [
+            "webhook",
+            "auth"
+          ],
+          [
+            "auth",
+            "validate"
+          ],
+          [
+            "auth",
+            "reject"
+          ],
+          [
+            "validate",
+            "valid"
+          ],
+          [
+            "valid",
+            "profile"
+          ],
+          [
+            "valid",
+            "reject"
+          ],
+          [
+            "profile",
+            "parse"
+          ],
+          [
+            "parse",
+            "respond"
+          ]
+        ]
+      }
+    },
+    {
       "id": "teacher-assistant-bot",
       "name": {
         "en": "Teacher Assistant AI Bot",
@@ -451,18 +781,139 @@
           "Custom tool-calling design with strict business rules",
           "Usage metering and free-trial gating",
           "Session memory across conversations",
-          "Automated lesson reminders scheduled in Saudi time"
+          "Automated lesson reminders scheduled in Saudi time",
+          "Grew in stages: fixed commands without AI, then an AI agent, then a MySQL version with stored procedures as tools"
         ],
         "ar": [
           "تصميم استدعاء أدوات مخصّص بقواعد عمل صارمة",
           "قياس الاستخدام وتقييد الفترة التجريبية",
           "ذاكرة جلسة عبر المحادثات",
-          "تذكيرات دروس مجدولة تلقائياً بتوقيت السعودية"
+          "تذكيرات دروس مجدولة تلقائياً بتوقيت السعودية",
+          "تطوّر على مراحل: أوامر ثابتة بلا ذكاء اصطناعي، ثم وكيل ذكي، ثم نسخة MySQL تستدعي إجراءات مخزّنة كأدوات"
         ]
       },
       "outcome": {
         "en": "A tutor runs an entire practice from a chat window, with no app to learn and no spreadsheet to maintain.",
         "ar": "يدير المدرّس عمله كاملاً من نافذة محادثة، دون تطبيق يتعلّمه ولا جدول بيانات يصونه."
+      },
+      "status": "client",
+      "workflowCount": 5,
+      "flow": {
+        "nodes": [
+          {
+            "id": "tg-in",
+            "label": {
+              "en": "Telegram message",
+              "ar": "رسالة تيليغرام"
+            },
+            "kind": "trigger",
+            "service": "Telegram"
+          },
+          {
+            "id": "verify",
+            "label": {
+              "en": "Verify the request",
+              "ar": "التحقق من الطلب"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "contact",
+            "label": {
+              "en": "Shared a contact?",
+              "ar": "هل شارك جهة اتصال؟"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "lead",
+            "label": {
+              "en": "Capture the lead",
+              "ar": "حفظ العميل المحتمل"
+            },
+            "kind": "data",
+            "service": "Google Sheets"
+          },
+          {
+            "id": "gate",
+            "label": {
+              "en": "Usage gate",
+              "ar": "بوابة الاستخدام"
+            },
+            "kind": "logic",
+            "service": "Google Sheets"
+          },
+          {
+            "id": "notify",
+            "label": {
+              "en": "Alert the owner",
+              "ar": "تنبيه المالك"
+            },
+            "kind": "output",
+            "service": "Telegram"
+          },
+          {
+            "id": "limit",
+            "label": {
+              "en": "Limit reached",
+              "ar": "بلوغ الحد"
+            },
+            "kind": "output",
+            "service": "Telegram"
+          },
+          {
+            "id": "agent",
+            "label": {
+              "en": "Teacher AI agent",
+              "ar": "الوكيل الذكي للمعلّم"
+            },
+            "kind": "ai",
+            "service": "OpenAI · Sheets tools"
+          },
+          {
+            "id": "reply",
+            "label": {
+              "en": "Reply in chat",
+              "ar": "الرد في المحادثة"
+            },
+            "kind": "output",
+            "service": "Telegram"
+          }
+        ],
+        "edges": [
+          [
+            "tg-in",
+            "verify"
+          ],
+          [
+            "verify",
+            "contact"
+          ],
+          [
+            "contact",
+            "lead"
+          ],
+          [
+            "lead",
+            "notify"
+          ],
+          [
+            "contact",
+            "gate"
+          ],
+          [
+            "gate",
+            "limit"
+          ],
+          [
+            "gate",
+            "agent"
+          ],
+          [
+            "agent",
+            "reply"
+          ]
+        ]
       }
     },
     {
@@ -509,6 +960,660 @@
       "outcome": {
         "en": "Manual invoice entry disappears entirely; a photo becomes structured accounting data in about ten seconds.",
         "ar": "يختفي الإدخال اليدوي للفواتير تماماً؛ وتتحوّل الصورة إلى بيانات محاسبية منظّمة خلال نحو عشر ثوانٍ."
+      },
+      "status": "live",
+      "workflowCount": 1,
+      "flow": {
+        "nodes": [
+          {
+            "id": "upload",
+            "label": {
+              "en": "Receipt upload",
+              "ar": "رفع الإيصال"
+            },
+            "kind": "trigger",
+            "service": "Webhook"
+          },
+          {
+            "id": "auth",
+            "label": {
+              "en": "Secret header check",
+              "ar": "التحقق من المفتاح السري"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "type",
+            "label": {
+              "en": "PDF or image?",
+              "ar": "PDF أم صورة؟"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "vision-pdf",
+            "label": {
+              "en": "Read the PDF",
+              "ar": "قراءة ملف PDF"
+            },
+            "kind": "ai",
+            "service": "OpenAI"
+          },
+          {
+            "id": "vision-img",
+            "label": {
+              "en": "Read the image",
+              "ar": "قراءة الصورة"
+            },
+            "kind": "ai",
+            "service": "OpenAI"
+          },
+          {
+            "id": "parse",
+            "label": {
+              "en": "Parse and validate",
+              "ar": "التحليل والتحقق"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "valid",
+            "label": {
+              "en": "Valid receipt?",
+              "ar": "هل الإيصال صالح؟"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "reply",
+            "label": {
+              "en": "Reply to app",
+              "ar": "الرد على التطبيق"
+            },
+            "kind": "output",
+            "service": "Webhook"
+          },
+          {
+            "id": "cleanup",
+            "label": {
+              "en": "Reject and clean up",
+              "ar": "الرفض وحذف الملف"
+            },
+            "kind": "output"
+          },
+          {
+            "id": "backend",
+            "label": {
+              "en": "Post to backend",
+              "ar": "الإرسال إلى الخادم"
+            },
+            "kind": "io"
+          }
+        ],
+        "edges": [
+          [
+            "upload",
+            "auth"
+          ],
+          [
+            "auth",
+            "type"
+          ],
+          [
+            "type",
+            "vision-pdf"
+          ],
+          [
+            "type",
+            "vision-img"
+          ],
+          [
+            "vision-pdf",
+            "parse"
+          ],
+          [
+            "vision-img",
+            "parse"
+          ],
+          [
+            "parse",
+            "valid"
+          ],
+          [
+            "valid",
+            "reply"
+          ],
+          [
+            "valid",
+            "cleanup"
+          ],
+          [
+            "reply",
+            "backend"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "telegram-publisher",
+      "name": {
+        "en": "Telegram Publishing System",
+        "ar": "نظام النشر عبر تيليغرام"
+      },
+      "year": "2026",
+      "kind": {
+        "en": "Content system run from a chat",
+        "ar": "نظام محتوى يُدار من محادثة"
+      },
+      "summary": {
+        "en": "Plan, review, approve and publish posts to LinkedIn, Instagram and Reddit from a Telegram chat. The AI only understands what you meant; every decision after that is made by a deterministic state machine.",
+        "ar": "خطّط لمنشوراتك وراجعها واعتمدها وانشرها على LinkedIn وInstagram وReddit من محادثة تيليغرام. الذكاء الاصطناعي يفهم ما تقصده فقط؛ وكل قرار بعد ذلك تتّخذه آلة حالة محدّدة النتائج."
+      },
+      "trigger": {
+        "en": "Telegram message and a scheduler",
+        "ar": "رسالة تيليغرام ومجدول"
+      },
+      "services": [
+        "n8n",
+        "OpenAI",
+        "Telegram",
+        "LinkedIn",
+        "Instagram",
+        "Reddit",
+        "n8n Data Tables"
+      ],
+      "highlights": {
+        "en": [
+          "Button presses skip the AI and go straight to the state machine",
+          "Only allow-listed chats are processed",
+          "The scheduler locks an approved post before publishing, so nothing goes out twice",
+          "Jobs stuck too long are marked failed, with a retry button"
+        ],
+        "ar": [
+          "ضغطات الأزرار تتجاوز الذكاء الاصطناعي وتذهب مباشرة إلى آلة الحالة",
+          "لا تُعالج إلا المحادثات المسموح بها",
+          "يقفل المجدول المنشور المعتمد قبل نشره، فلا يُنشر شيء مرتين",
+          "المهام العالقة طويلاً تُوسم بالفشل مع زر لإعادة المحاولة"
+        ]
+      },
+      "outcome": {
+        "en": "A content calendar that lives in a chat, with a human approving every post.",
+        "ar": "تقويم محتوى يعيش في محادثة، وإنسان يعتمد كل منشور."
+      },
+      "status": "built",
+      "workflowCount": 4,
+      "flow": {
+        "nodes": [
+          {
+            "id": "tg-in",
+            "label": {
+              "en": "Telegram command",
+              "ar": "أمر تيليجرام"
+            },
+            "kind": "trigger",
+            "service": "Telegram"
+          },
+          {
+            "id": "auth",
+            "label": {
+              "en": "Allowed chat?",
+              "ar": "هل المحادثة مصرح بها؟"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "context",
+            "label": {
+              "en": "Load post context",
+              "ar": "تحميل سياق المنشورات"
+            },
+            "kind": "data"
+          },
+          {
+            "id": "intent",
+            "label": {
+              "en": "Parse intent",
+              "ar": "تحليل النية"
+            },
+            "kind": "ai",
+            "service": "OpenAI"
+          },
+          {
+            "id": "state",
+            "label": {
+              "en": "State machine",
+              "ar": "آلة الحالة"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "store",
+            "label": {
+              "en": "Save post job",
+              "ar": "حفظ مهمة النشر"
+            },
+            "kind": "data"
+          },
+          {
+            "id": "reply",
+            "label": {
+              "en": "Reply in chat",
+              "ar": "الرد في المحادثة"
+            },
+            "kind": "output",
+            "service": "Telegram"
+          },
+          {
+            "id": "scheduler",
+            "label": {
+              "en": "Review and publish scheduler",
+              "ar": "مجدول المراجعة والنشر"
+            },
+            "kind": "trigger"
+          },
+          {
+            "id": "generator",
+            "label": {
+              "en": "Content generator",
+              "ar": "مولد المحتوى"
+            },
+            "kind": "ai",
+            "service": "OpenAI"
+          },
+          {
+            "id": "publisher",
+            "label": {
+              "en": "Multi-platform publisher",
+              "ar": "الناشر الموحد"
+            },
+            "kind": "output"
+          }
+        ],
+        "edges": [
+          [
+            "tg-in",
+            "auth"
+          ],
+          [
+            "auth",
+            "context"
+          ],
+          [
+            "context",
+            "intent"
+          ],
+          [
+            "context",
+            "state"
+          ],
+          [
+            "intent",
+            "state"
+          ],
+          [
+            "state",
+            "store"
+          ],
+          [
+            "store",
+            "reply"
+          ],
+          [
+            "reply",
+            "generator"
+          ],
+          [
+            "scheduler",
+            "generator"
+          ],
+          [
+            "scheduler",
+            "publisher"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "unified-inbox",
+      "name": {
+        "en": "Unified Inbox",
+        "ar": "صندوق الوارد الموحّد"
+      },
+      "year": "2026",
+      "kind": {
+        "en": "Inbox with AI triage",
+        "ar": "صندوق وارد بفرز ذكي"
+      },
+      "summary": {
+        "en": "Messages from every channel land in one inbox. Each one is enriched with its dialect, intent, priority and a summary, plus a draft reply written in the sender's own dialect — and replies leave through an outbox that records every result.",
+        "ar": "تصل الرسائل من كل القنوات إلى صندوق واحد. تُثرى كل رسالة بلهجتها ونيّتها وأولويتها وملخّصها، مع مسودة ردّ بلهجة المرسل نفسه — وتخرج الردود عبر صندوق صادر يسجّل نتيجة كل إرسال."
+      },
+      "trigger": {
+        "en": "Incoming message, webhook and schedule",
+        "ar": "رسالة واردة وWebhook وجدول زمني"
+      },
+      "services": [
+        "n8n",
+        "OpenAI",
+        "Supabase",
+        "Telegram",
+        "Structured outputs"
+      ],
+      "highlights": {
+        "en": [
+          "Greetings and emoji-only messages never reach the model — they are classified locally to save cost",
+          "Every channel is normalised to one contract and written with a single atomic call",
+          "Enrichment continues on error, so no message is ever lost",
+          "The outbox sends one message at a time and records a readable failure reason"
+        ],
+        "ar": [
+          "التحيّات والرسائل المكوّنة من رموز تعبيرية فقط لا تصل إلى النموذج — تُصنّف محلياً توفيراً للكلفة",
+          "كل قناة تُوحَّد إلى عقد واحد وتُكتب باستدعاء ذرّي واحد",
+          "الإثراء يكمل عند الخطأ، فلا تضيع أي رسالة",
+          "صندوق الصادر يرسل رسالة واحدة في كل مرة ويسجّل سبب الفشل بوضوح"
+        ]
+      },
+      "outcome": {
+        "en": "A team answers every customer from one place, starting from a draft that already sounds like them.",
+        "ar": "يردّ الفريق على كل عميل من مكان واحد، بدءاً من مسودة تشبه لهجته أصلاً."
+      },
+      "status": "built",
+      "workflowCount": 3,
+      "flow": {
+        "nodes": [
+          {
+            "id": "tg-in",
+            "label": {
+              "en": "Telegram inbound",
+              "ar": "رسائل تيليجرام الواردة"
+            },
+            "kind": "trigger",
+            "service": "Telegram"
+          },
+          {
+            "id": "hook",
+            "label": {
+              "en": "New message hook",
+              "ar": "تنبيه رسالة جديدة"
+            },
+            "kind": "trigger",
+            "service": "Webhook"
+          },
+          {
+            "id": "outbox",
+            "label": {
+              "en": "Outbox poll",
+              "ar": "فحص صندوق الصادر"
+            },
+            "kind": "trigger"
+          },
+          {
+            "id": "ingest",
+            "label": {
+              "en": "Atomic ingest",
+              "ar": "إدخال ذري للرسالة"
+            },
+            "kind": "data",
+            "service": "Supabase"
+          },
+          {
+            "id": "worth",
+            "label": {
+              "en": "Worth a model call?",
+              "ar": "هل تستحق استدعاء النموذج؟"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "send",
+            "label": {
+              "en": "Send via Telegram",
+              "ar": "الإرسال عبر تيليجرام"
+            },
+            "kind": "output",
+            "service": "Telegram"
+          },
+          {
+            "id": "enrich",
+            "label": {
+              "en": "Dialect-aware enrichment",
+              "ar": "إثراء يراعي اللهجة"
+            },
+            "kind": "ai",
+            "service": "OpenAI"
+          },
+          {
+            "id": "rules",
+            "label": {
+              "en": "Classify locally",
+              "ar": "تصنيف محلي"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "record",
+            "label": {
+              "en": "Record send result",
+              "ar": "تسجيل نتيجة الإرسال"
+            },
+            "kind": "data",
+            "service": "Supabase"
+          },
+          {
+            "id": "save",
+            "label": {
+              "en": "Save enrichment",
+              "ar": "حفظ نتيجة الإثراء"
+            },
+            "kind": "data",
+            "service": "Supabase"
+          }
+        ],
+        "edges": [
+          [
+            "tg-in",
+            "ingest"
+          ],
+          [
+            "hook",
+            "worth"
+          ],
+          [
+            "worth",
+            "enrich"
+          ],
+          [
+            "worth",
+            "rules"
+          ],
+          [
+            "enrich",
+            "save"
+          ],
+          [
+            "rules",
+            "save"
+          ],
+          [
+            "outbox",
+            "send"
+          ],
+          [
+            "send",
+            "record"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "google-review-reply",
+      "name": {
+        "en": "Google Review Reply Manager",
+        "ar": "مدير الردود على تقييمات Google"
+      },
+      "year": "2026",
+      "kind": {
+        "en": "Review management for shops",
+        "ar": "إدارة التقييمات للمحلات"
+      },
+      "summary": {
+        "en": "New Google reviews are picked up on a schedule and answered in the reviewer's own language. Happy reviews get a reply on their own; unhappy ones go to the owner on Telegram, who approves or skips with one tap.",
+        "ar": "تُلتقط تقييمات Google الجديدة دورياً ويُردّ عليها بلغة صاحب التقييم. التقييمات الراضية تحصل على ردّها تلقائياً؛ أما غير الراضية فتصل إلى المالك على تيليغرام ليعتمدها أو يتجاوزها بضغطة واحدة."
+      },
+      "trigger": {
+        "en": "Schedule and a Telegram button",
+        "ar": "جدول زمني وزر في تيليغرام"
+      },
+      "services": [
+        "n8n",
+        "OpenAI",
+        "Google Business Profile",
+        "Telegram",
+        "n8n Data Tables"
+      ],
+      "highlights": {
+        "en": [
+          "Reviews already answered or already tracked are skipped",
+          "High ratings are posted automatically; low ratings wait for the owner",
+          "The owner's tap posts the stored draft and edits the message to confirm",
+          "A one-off helper fetches each new client's account and location"
+        ],
+        "ar": [
+          "تُتجاوز التقييمات التي رُدّ عليها أو المسجّلة مسبقاً",
+          "التقييمات العالية تُنشر تلقائياً؛ والمنخفضة تنتظر المالك",
+          "ضغطة المالك تنشر المسودة المحفوظة وتعدّل الرسالة للتأكيد",
+          "مساعد يُشغَّل مرة واحدة يجلب الحساب والفرع لكل عميل جديد"
+        ]
+      },
+      "outcome": {
+        "en": "Every review gets an answer, and the owner only spends time on the ones that need them.",
+        "ar": "كل تقييم يحصل على رد، والمالك لا يصرف وقته إلا على ما يحتاجه."
+      },
+      "status": "built",
+      "workflowCount": 2,
+      "flow": {
+        "nodes": [
+          {
+            "id": "poll",
+            "label": {
+              "en": "Review poll",
+              "ar": "فحص التقييمات الدوري"
+            },
+            "kind": "trigger"
+          },
+          {
+            "id": "fetch",
+            "label": {
+              "en": "Fetch new reviews",
+              "ar": "جلب التقييمات الجديدة"
+            },
+            "kind": "io",
+            "service": "Google Business Profile"
+          },
+          {
+            "id": "draft",
+            "label": {
+              "en": "Draft reply",
+              "ar": "صياغة الرد"
+            },
+            "kind": "ai",
+            "service": "OpenAI"
+          },
+          {
+            "id": "positive",
+            "label": {
+              "en": "Positive review?",
+              "ar": "هل التقييم إيجابي؟"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "autopost",
+            "label": {
+              "en": "Auto-post reply",
+              "ar": "نشر الرد تلقائيا"
+            },
+            "kind": "output",
+            "service": "Google Business Profile"
+          },
+          {
+            "id": "approval",
+            "label": {
+              "en": "Ask owner approval",
+              "ar": "طلب موافقة المالك"
+            },
+            "kind": "human",
+            "service": "Telegram"
+          },
+          {
+            "id": "tap",
+            "label": {
+              "en": "Approval button tap",
+              "ar": "ضغط زر الموافقة"
+            },
+            "kind": "trigger",
+            "service": "Telegram"
+          },
+          {
+            "id": "decide",
+            "label": {
+              "en": "Approve or skip?",
+              "ar": "موافقة أم تجاهل؟"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "post",
+            "label": {
+              "en": "Post approved reply",
+              "ar": "نشر الرد المعتمد"
+            },
+            "kind": "output",
+            "service": "Google Business Profile"
+          },
+          {
+            "id": "skip",
+            "label": {
+              "en": "Mark as skipped",
+              "ar": "وسم كمتجاهل"
+            },
+            "kind": "data"
+          }
+        ],
+        "edges": [
+          [
+            "poll",
+            "fetch"
+          ],
+          [
+            "fetch",
+            "draft"
+          ],
+          [
+            "draft",
+            "positive"
+          ],
+          [
+            "positive",
+            "autopost"
+          ],
+          [
+            "positive",
+            "approval"
+          ],
+          [
+            "tap",
+            "decide"
+          ],
+          [
+            "decide",
+            "post"
+          ],
+          [
+            "decide",
+            "skip"
+          ]
+        ]
       }
     },
     {
@@ -544,19 +1649,655 @@
           "Deduplication against n8n Data Tables so nothing is seen twice",
           "Telegram delivery of high-scoring matches only",
           "Human-in-the-loop approval before any application is sent",
-          "Semi-automated applications with tailored AI-generated cover letters via Gmail"
+          "Semi-automated applications with tailored AI-generated cover letters via Gmail",
+          "A factory clones the search into a separate daily bot for each user, through the n8n API — automation that builds automation"
         ],
         "ar": [
           "مُقيّم يُخرج JSON منظّماً ويمنح درجة ملاءمة من ١ إلى ١٠",
           "إزالة التكرار مقابل جداول بيانات n8n فلا يتكرّر أي إعلان",
           "إرسال المطابقات عالية التقييم فقط عبر Telegram",
           "موافقة بشرية قبل إرسال أي طلب توظيف",
-          "طلبات شبه آلية مع رسائل تغطية مخصّصة يولّدها الذكاء الاصطناعي وتُرسل عبر Gmail"
+          "طلبات شبه آلية مع رسائل تغطية مخصّصة يولّدها الذكاء الاصطناعي وتُرسل عبر Gmail",
+          "مصنع ينسخ البحث إلى بوت يومي مستقل لكل مستخدم عبر واجهة n8n — أتمتة تبني أتمتة"
         ]
       },
       "outcome": {
         "en": "Daily job hunting collapses into reviewing a short, pre-scored shortlist.",
         "ar": "يتقلّص البحث اليومي عن عمل إلى مراجعة قائمة قصيرة مقيّمة مسبقاً."
+      },
+      "status": "live",
+      "workflowCount": 3,
+      "flow": {
+        "nodes": [
+          {
+            "id": "daily",
+            "label": {
+              "en": "Daily job search",
+              "ar": "البحث اليومي"
+            },
+            "kind": "trigger"
+          },
+          {
+            "id": "search",
+            "label": {
+              "en": "Search job boards",
+              "ar": "البحث في مواقع الوظائف"
+            },
+            "kind": "io",
+            "service": "JSearch"
+          },
+          {
+            "id": "fresh",
+            "label": {
+              "en": "Keep new jobs",
+              "ar": "إبقاء الوظائف الجديدة"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "score",
+            "label": {
+              "en": "AI fit scoring",
+              "ar": "تقييم الملاءمة آليا"
+            },
+            "kind": "ai",
+            "service": "OpenAI"
+          },
+          {
+            "id": "save",
+            "label": {
+              "en": "Save to table",
+              "ar": "الحفظ في الجدول"
+            },
+            "kind": "data"
+          },
+          {
+            "id": "high",
+            "label": {
+              "en": "High score?",
+              "ar": "هل التقييم مرتفع؟"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "email",
+            "label": {
+              "en": "Has apply email?",
+              "ar": "هل يوجد بريد للتقديم؟"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "approval",
+            "label": {
+              "en": "Approve on Telegram",
+              "ar": "الموافقة عبر تيليجرام"
+            },
+            "kind": "human",
+            "service": "Telegram"
+          },
+          {
+            "id": "manual",
+            "label": {
+              "en": "Manual apply alert",
+              "ar": "تنبيه للتقديم اليدوي"
+            },
+            "kind": "output",
+            "service": "Telegram"
+          },
+          {
+            "id": "apply",
+            "label": {
+              "en": "Send application email",
+              "ar": "إرسال طلب التقديم"
+            },
+            "kind": "output",
+            "service": "Gmail"
+          }
+        ],
+        "edges": [
+          [
+            "daily",
+            "search"
+          ],
+          [
+            "search",
+            "fresh"
+          ],
+          [
+            "fresh",
+            "score"
+          ],
+          [
+            "score",
+            "save"
+          ],
+          [
+            "save",
+            "high"
+          ],
+          [
+            "high",
+            "email"
+          ],
+          [
+            "email",
+            "approval"
+          ],
+          [
+            "email",
+            "manual"
+          ],
+          [
+            "approval",
+            "apply"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "receipt-verify",
+      "name": {
+        "en": "Transfer Receipt Check",
+        "ar": "فحص إيصالات التحويل"
+      },
+      "year": "2026",
+      "kind": {
+        "en": "Payment check for registrations",
+        "ar": "فحص الدفع للتسجيلات"
+      },
+      "summary": {
+        "en": "Behind a chess club's tournament registration: the uploaded bank-transfer receipt is read by a vision model, which also says whether it is a transfer at all. The site applies the rules; the workflow only reads.",
+        "ar": "خلف التسجيل في بطولات نادٍ للشطرنج: نموذج رؤية يقرأ إيصال التحويل المرفوع، ويقول أيضاً إن كان تحويلاً أصلاً. الموقع يطبّق القواعد؛ ومسار العمل يقرأ فقط."
+      },
+      "trigger": {
+        "en": "Webhook (receipt upload)",
+        "ar": "Webhook (رفع الإيصال)"
+      },
+      "services": [
+        "n8n",
+        "OpenAI GPT-4.1 Vision",
+        "Webhooks"
+      ],
+      "highlights": {
+        "en": [
+          "Secret, contract version and image size are checked before any model call",
+          "Model failures take their own branch, so the site always gets a JSON answer",
+          "Successful runs are not stored, because receipts carry personal data"
+        ],
+        "ar": [
+          "يُفحص المفتاح السري ونسخة العقد وحجم الصورة قبل أي استدعاء للنموذج",
+          "أخطاء النموذج تذهب إلى فرع خاص، فيحصل الموقع دائماً على رد JSON",
+          "لا تُحفظ التشغيلات الناجحة، لأن الإيصالات تحمل بيانات شخصية"
+        ]
+      },
+      "outcome": {
+        "en": "Registrations are confirmed without anyone opening a receipt by hand.",
+        "ar": "تُؤكَّد التسجيلات دون أن يفتح أحد إيصالاً بيده."
+      },
+      "status": "client",
+      "workflowCount": 1,
+      "flow": {
+        "nodes": [
+          {
+            "id": "upload",
+            "label": {
+              "en": "Receipt upload",
+              "ar": "رفع الإيصال"
+            },
+            "kind": "trigger",
+            "service": "Webhook"
+          },
+          {
+            "id": "check",
+            "label": {
+              "en": "Check the request",
+              "ar": "فحص الطلب"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "allowed",
+            "label": {
+              "en": "Request allowed?",
+              "ar": "هل الطلب مسموح؟"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "read",
+            "label": {
+              "en": "Read receipt with vision",
+              "ar": "قراءة الإيصال بالرؤية"
+            },
+            "kind": "ai",
+            "service": "OpenAI"
+          },
+          {
+            "id": "shape",
+            "label": {
+              "en": "Shape the reply",
+              "ar": "تشكيل الرد"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "failed",
+            "label": {
+              "en": "Model failed",
+              "ar": "فشل النموذج"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "reply",
+            "label": {
+              "en": "Send the reply",
+              "ar": "إرسال الرد"
+            },
+            "kind": "output",
+            "service": "Webhook"
+          }
+        ],
+        "edges": [
+          [
+            "upload",
+            "check"
+          ],
+          [
+            "check",
+            "allowed"
+          ],
+          [
+            "allowed",
+            "read"
+          ],
+          [
+            "allowed",
+            "reply"
+          ],
+          [
+            "read",
+            "shape"
+          ],
+          [
+            "read",
+            "failed"
+          ],
+          [
+            "shape",
+            "reply"
+          ],
+          [
+            "failed",
+            "reply"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "whatsapp-booking",
+      "name": {
+        "en": "WhatsApp Booking Bot",
+        "ar": "بوت الحجز على واتساب"
+      },
+      "year": "2026",
+      "kind": {
+        "en": "Booking bot for shops",
+        "ar": "بوت حجز للمحلات"
+      },
+      "summary": {
+        "en": "A customer taps a service, then a time slot, in WhatsApp buttons. The confirmed slot is written to Google Calendar and confirmed back on WhatsApp.",
+        "ar": "يختار الزبون الخدمة ثم الموعد من أزرار واتساب. يُكتب الموعد المؤكَّد في تقويم Google، ويصل التأكيد على واتساب."
+      },
+      "trigger": {
+        "en": "WhatsApp message",
+        "ar": "رسالة واتساب"
+      },
+      "services": [
+        "n8n",
+        "WhatsApp",
+        "Google Calendar"
+      ],
+      "highlights": {
+        "en": [
+          "Service and time chosen with buttons, not typing",
+          "Every booking lands in Google Calendar",
+          "The customer gets a confirmation on WhatsApp"
+        ],
+        "ar": [
+          "الخدمة والموعد يُختاران بالأزرار لا بالكتابة",
+          "كل حجز يصل إلى تقويم Google",
+          "يصل للزبون تأكيد على واتساب"
+        ]
+      },
+      "outcome": {
+        "en": "A shop takes bookings around the clock without answering the phone.",
+        "ar": "يستقبل المحل الحجوزات طوال اليوم دون أن يردّ على الهاتف."
+      },
+      "status": "built",
+      "workflowCount": 1,
+      "flow": null
+    },
+    {
+      "id": "whatsapp-group",
+      "name": {
+        "en": "WhatsApp Group from a Spreadsheet",
+        "ar": "مجموعة واتساب من جدول"
+      },
+      "year": "2026",
+      "kind": {
+        "en": "Form-driven messaging tool",
+        "ar": "أداة مراسلة تعمل من نموذج"
+      },
+      "summary": {
+        "en": "Upload an Excel or CSV of contacts and a group name: the group is created, everyone is added in throttled batches, and anyone WhatsApp refuses to add receives the invite link instead.",
+        "ar": "ارفع ملف إكسل أو CSV بجهات الاتصال واسم المجموعة: تُنشأ المجموعة، ويُضاف الجميع على دفعات متمهّلة، ومن يرفض واتساب إضافته يصله رابط الدعوة بدلاً من ذلك."
+      },
+      "trigger": {
+        "en": "Form (file upload)",
+        "ar": "نموذج (رفع ملف)"
+      },
+      "services": [
+        "n8n",
+        "Whapi.Cloud",
+        "Excel",
+        "CSV"
+      ],
+      "highlights": {
+        "en": [
+          "Phone columns are detected automatically, normalised and de-duplicated",
+          "Members are added in batches with a pause between them, to stay under spam limits",
+          "Whoever could not be added gets the invite link, one message at a time"
+        ],
+        "ar": [
+          "تُكتشف أعمدة الهواتف تلقائياً وتُوحَّد صيغتها ويُزال تكرارها",
+          "يُضاف الأعضاء على دفعات بينها مهلة، للبقاء تحت حدود مكافحة الإزعاج",
+          "من تعذّرت إضافته يصله رابط الدعوة، رسالةً تلو الأخرى"
+        ]
+      },
+      "outcome": {
+        "en": "A list in a spreadsheet becomes a working group in minutes.",
+        "ar": "تتحوّل قائمة في جدول إلى مجموعة فعّالة خلال دقائق."
+      },
+      "status": "built",
+      "workflowCount": 1,
+      "flow": {
+        "nodes": [
+          {
+            "id": "form",
+            "label": {
+              "en": "Contacts upload form",
+              "ar": "نموذج رفع جهات الاتصال"
+            },
+            "kind": "trigger"
+          },
+          {
+            "id": "read",
+            "label": {
+              "en": "Read the spreadsheet",
+              "ar": "قراءة الجدول"
+            },
+            "kind": "data"
+          },
+          {
+            "id": "prepare",
+            "label": {
+              "en": "Normalize phone numbers",
+              "ar": "توحيد أرقام الهواتف"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "create",
+            "label": {
+              "en": "Create WhatsApp group",
+              "ar": "إنشاء مجموعة واتساب"
+            },
+            "kind": "io",
+            "service": "Whapi"
+          },
+          {
+            "id": "batch",
+            "label": {
+              "en": "Batch the contacts",
+              "ar": "تقسيم جهات الاتصال"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "add",
+            "label": {
+              "en": "Add participants",
+              "ar": "إضافة الأعضاء"
+            },
+            "kind": "io",
+            "service": "Whapi"
+          },
+          {
+            "id": "check",
+            "label": {
+              "en": "Find members not added",
+              "ar": "حصر غير المضافين"
+            },
+            "kind": "logic",
+            "service": "Whapi"
+          },
+          {
+            "id": "invite",
+            "label": {
+              "en": "Send invite link",
+              "ar": "إرسال رابط الدعوة"
+            },
+            "kind": "output",
+            "service": "Whapi"
+          }
+        ],
+        "edges": [
+          [
+            "form",
+            "read"
+          ],
+          [
+            "read",
+            "prepare"
+          ],
+          [
+            "prepare",
+            "create"
+          ],
+          [
+            "create",
+            "batch"
+          ],
+          [
+            "batch",
+            "add"
+          ],
+          [
+            "batch",
+            "check"
+          ],
+          [
+            "check",
+            "invite"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "social-auto-publisher",
+      "name": {
+        "en": "Social Auto-Publisher",
+        "ar": "الناشر الاجتماعي الآلي"
+      },
+      "year": "2026",
+      "kind": {
+        "en": "AI social media studio",
+        "ar": "استوديو محتوى بالذكاء الاصطناعي"
+      },
+      "summary": {
+        "en": "Send a post idea to a Telegram bot and get back captions for each platform and a branded image in your own colours, fonts and logo. Nothing is scheduled until you approve the preview.",
+        "ar": "أرسل فكرة منشور إلى بوت تيليغرام، فتعود إليك نصوص لكل منصة وصورة بهويتك: ألوانك وخطوطك وشعارك. ولا يُجدول شيء قبل أن تعتمد المعاينة."
+      },
+      "trigger": {
+        "en": "Telegram message",
+        "ar": "رسالة تيليغرام"
+      },
+      "services": [
+        "n8n",
+        "OpenAI",
+        "Browserless",
+        "Postiz",
+        "Telegram",
+        "n8n Data Tables"
+      ],
+      "highlights": {
+        "en": [
+          "The brand kit is stored once and edited through chat commands",
+          "A vision pass picks the text zone, logo corner and overlay strength for each background",
+          "The final image is composed as HTML and rendered to PNG"
+        ],
+        "ar": [
+          "تُحفظ الهوية مرة واحدة وتُعدَّل بأوامر في المحادثة",
+          "تحليل بالرؤية يختار مكان النص وزاوية الشعار وقوة الطبقة لكل خلفية",
+          "تُركَّب الصورة النهائية بـ HTML ثم تُحوَّل إلى PNG"
+        ]
+      },
+      "outcome": {
+        "en": "A week of on-brand posts from a handful of chat messages.",
+        "ar": "منشورات أسبوع كامل بهوية ثابتة، من بضع رسائل في محادثة."
+      },
+      "status": "built",
+      "workflowCount": 1,
+      "flow": {
+        "nodes": [
+          {
+            "id": "tg-in",
+            "label": {
+              "en": "Telegram post idea",
+              "ar": "فكرة منشور عبر تيليجرام"
+            },
+            "kind": "trigger",
+            "service": "Telegram"
+          },
+          {
+            "id": "brand",
+            "label": {
+              "en": "Load brand kit",
+              "ar": "تحميل هوية العلامة"
+            },
+            "kind": "data"
+          },
+          {
+            "id": "plan",
+            "label": {
+              "en": "Plan and captions",
+              "ar": "خطة المنشور والنصوص"
+            },
+            "kind": "ai",
+            "service": "OpenAI"
+          },
+          {
+            "id": "settings",
+            "label": {
+              "en": "Settings or post?",
+              "ar": "إعدادات أم منشور؟"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "save-settings",
+            "label": {
+              "en": "Save brand settings",
+              "ar": "حفظ إعدادات الهوية"
+            },
+            "kind": "data"
+          },
+          {
+            "id": "background",
+            "label": {
+              "en": "Background image",
+              "ar": "صورة الخلفية"
+            },
+            "kind": "ai",
+            "service": "OpenAI"
+          },
+          {
+            "id": "layout",
+            "label": {
+              "en": "Vision layout pass",
+              "ar": "تحليل التخطيط بالرؤية"
+            },
+            "kind": "ai",
+            "service": "OpenAI"
+          },
+          {
+            "id": "render",
+            "label": {
+              "en": "Render branded image",
+              "ar": "توليد الصورة النهائية"
+            },
+            "kind": "io",
+            "service": "Browserless"
+          },
+          {
+            "id": "approval",
+            "label": {
+              "en": "Approve on Telegram",
+              "ar": "الموافقة عبر تيليجرام"
+            },
+            "kind": "human",
+            "service": "Telegram"
+          },
+          {
+            "id": "schedule",
+            "label": {
+              "en": "Schedule on Postiz",
+              "ar": "الجدولة على Postiz"
+            },
+            "kind": "output",
+            "service": "Postiz"
+          }
+        ],
+        "edges": [
+          [
+            "tg-in",
+            "brand"
+          ],
+          [
+            "brand",
+            "plan"
+          ],
+          [
+            "plan",
+            "settings"
+          ],
+          [
+            "settings",
+            "save-settings"
+          ],
+          [
+            "settings",
+            "background"
+          ],
+          [
+            "background",
+            "layout"
+          ],
+          [
+            "layout",
+            "render"
+          ],
+          [
+            "render",
+            "approval"
+          ],
+          [
+            "approval",
+            "schedule"
+          ]
+        ]
       }
     },
     {
@@ -575,8 +2316,8 @@
         "ar": "توليد آلي للعملاء المحتملين في السوقين السعودي والأردني: بحث متعدّد الاستعلامات عن الأماكن، واستخراج البريد وأرقام واتساب من المواقع، وترتيب حسب الأولوية، وإضافة آمنة من التكرار إلى جداول مقسّمة."
       },
       "trigger": {
-        "en": "Schedule",
-        "ar": "جدول زمني"
+        "en": "Manual run",
+        "ar": "تشغيل يدوي"
       },
       "services": [
         "n8n",
@@ -601,6 +2342,141 @@
       "outcome": {
         "en": "Manual prospect research became a hands-off scheduled pipeline producing scored, deduplicated lead lists.",
         "ar": "تحوّل البحث اليدوي عن العملاء إلى خط مجدول لا يحتاج تدخّلاً، يُنتج قوائم مقيّمة وخالية من التكرار."
+      },
+      "status": "built",
+      "workflowCount": 3,
+      "flow": {
+        "nodes": [
+          {
+            "id": "run",
+            "label": {
+              "en": "Manual run",
+              "ar": "تشغيل يدوي"
+            },
+            "kind": "trigger"
+          },
+          {
+            "id": "queries",
+            "label": {
+              "en": "Build search queries",
+              "ar": "بناء استعلامات البحث"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "existing",
+            "label": {
+              "en": "Read existing leads",
+              "ar": "قراءة العملاء الحاليين"
+            },
+            "kind": "data",
+            "service": "Google Sheets"
+          },
+          {
+            "id": "search",
+            "label": {
+              "en": "Search places",
+              "ar": "البحث عن الأماكن"
+            },
+            "kind": "io",
+            "service": "Serper"
+          },
+          {
+            "id": "clean",
+            "label": {
+              "en": "Split and dedupe",
+              "ar": "التفكيك وإزالة التكرار"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "website",
+            "label": {
+              "en": "Has a website?",
+              "ar": "هل يوجد موقع؟"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "scrape",
+            "label": {
+              "en": "Scrape contact details",
+              "ar": "استخراج بيانات التواصل"
+            },
+            "kind": "io"
+          },
+          {
+            "id": "merge",
+            "label": {
+              "en": "Merge the leads",
+              "ar": "دمج العملاء"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "fresh",
+            "label": {
+              "en": "Keep only new",
+              "ar": "إبقاء الجديد فقط"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "append",
+            "label": {
+              "en": "Append to sheet",
+              "ar": "الإضافة إلى الجدول"
+            },
+            "kind": "output",
+            "service": "Google Sheets"
+          }
+        ],
+        "edges": [
+          [
+            "run",
+            "queries"
+          ],
+          [
+            "run",
+            "existing"
+          ],
+          [
+            "queries",
+            "search"
+          ],
+          [
+            "search",
+            "clean"
+          ],
+          [
+            "clean",
+            "website"
+          ],
+          [
+            "website",
+            "scrape"
+          ],
+          [
+            "website",
+            "merge"
+          ],
+          [
+            "scrape",
+            "merge"
+          ],
+          [
+            "merge",
+            "fresh"
+          ],
+          [
+            "existing",
+            "fresh"
+          ],
+          [
+            "fresh",
+            "append"
+          ]
+        ]
       }
     },
     {
@@ -642,6 +2518,299 @@
       "outcome": {
         "en": "Lesson review becomes measurable instead of anecdotal.",
         "ar": "تصبح مراجعة الدروس قابلة للقياس بدل أن تكون انطباعية."
+      },
+      "status": "built",
+      "workflowCount": 1,
+      "flow": {
+        "nodes": [
+          {
+            "id": "hook",
+            "label": {
+              "en": "Lesson video URL",
+              "ar": "رابط فيديو الدرس"
+            },
+            "kind": "trigger",
+            "service": "Webhook"
+          },
+          {
+            "id": "normalize",
+            "label": {
+              "en": "Normalize the input",
+              "ar": "توحيد المدخلات"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "transcribe",
+            "label": {
+              "en": "Request transcript",
+              "ar": "طلب التفريغ النصي"
+            },
+            "kind": "io",
+            "service": "AssemblyAI"
+          },
+          {
+            "id": "poll",
+            "label": {
+              "en": "Wait and poll",
+              "ar": "الانتظار والاستعلام"
+            },
+            "kind": "logic",
+            "service": "AssemblyAI"
+          },
+          {
+            "id": "done",
+            "label": {
+              "en": "Transcript finished?",
+              "ar": "هل اكتمل التفريغ؟"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "prompt",
+            "label": {
+              "en": "Build evaluation prompt",
+              "ar": "بناء موجه التقييم"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "ok",
+            "label": {
+              "en": "Transcript OK?",
+              "ar": "هل التفريغ سليم؟"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "analyze",
+            "label": {
+              "en": "Analyze the lesson",
+              "ar": "تحليل الدرس"
+            },
+            "kind": "ai",
+            "service": "OpenAI"
+          },
+          {
+            "id": "error",
+            "label": {
+              "en": "Return an error",
+              "ar": "إرجاع الخطأ"
+            },
+            "kind": "output",
+            "service": "Webhook"
+          },
+          {
+            "id": "result",
+            "label": {
+              "en": "Return the scorecard",
+              "ar": "إرجاع بطاقة التقييم"
+            },
+            "kind": "output",
+            "service": "Webhook"
+          }
+        ],
+        "edges": [
+          [
+            "hook",
+            "normalize"
+          ],
+          [
+            "normalize",
+            "transcribe"
+          ],
+          [
+            "transcribe",
+            "poll"
+          ],
+          [
+            "poll",
+            "done"
+          ],
+          [
+            "done",
+            "prompt"
+          ],
+          [
+            "prompt",
+            "ok"
+          ],
+          [
+            "ok",
+            "analyze"
+          ],
+          [
+            "ok",
+            "error"
+          ],
+          [
+            "analyze",
+            "result"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "ai-email-campaign",
+      "name": {
+        "en": "AI Email Campaigns",
+        "ar": "حملات البريد بالذكاء الاصطناعي"
+      },
+      "year": "2026",
+      "kind": {
+        "en": "Personalised outreach",
+        "ar": "تواصل مخصّص"
+      },
+      "summary": {
+        "en": "Fill in a form with a contact list and, for a job search, your CV. Each contact gets an email written for them, sent one at a time through Gmail with a random pause, and you get a report when it is done.",
+        "ar": "املأ نموذجاً بقائمة جهات الاتصال، وسيرتك الذاتية إن كان البحث عن عمل. يحصل كل شخص على بريد مكتوب له، يُرسل واحداً تلو الآخر عبر Gmail بمهلة عشوائية، ويصلك تقرير حين ينتهي."
+      },
+      "trigger": {
+        "en": "Form",
+        "ar": "نموذج"
+      },
+      "services": [
+        "n8n",
+        "OpenAI",
+        "Gmail",
+        "Google Sheets",
+        "Excel"
+      ],
+      "highlights": {
+        "en": [
+          "Arabic or English column headers are mapped automatically",
+          "Your CV's text is given to the model as context for job-search emails",
+          "Every send is recorded as sent or failed"
+        ],
+        "ar": [
+          "تُطابق عناوين الأعمدة العربية أو الإنجليزية تلقائياً",
+          "يُعطى نص سيرتك للنموذج كسياق في رسائل البحث عن عمل",
+          "كل إرسال يُسجَّل ناجحاً أو فاشلاً"
+        ]
+      },
+      "outcome": {
+        "en": "Personal outreach at the scale of a mail merge.",
+        "ar": "تواصل شخصي بحجم الرسائل الجماعية."
+      },
+      "status": "built",
+      "workflowCount": 1,
+      "flow": {
+        "nodes": [
+          {
+            "id": "form",
+            "label": {
+              "en": "Campaign form",
+              "ar": "نموذج الحملة"
+            },
+            "kind": "trigger"
+          },
+          {
+            "id": "source",
+            "label": {
+              "en": "Excel or sheet?",
+              "ar": "ملف إكسل أم جدول؟"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "cv",
+            "label": {
+              "en": "Read CV text",
+              "ar": "قراءة نص السيرة"
+            },
+            "kind": "data"
+          },
+          {
+            "id": "contacts",
+            "label": {
+              "en": "Clean the contacts",
+              "ar": "تنظيف جهات الاتصال"
+            },
+            "kind": "data",
+            "service": "Google Sheets"
+          },
+          {
+            "id": "combine",
+            "label": {
+              "en": "Attach CV context",
+              "ar": "إرفاق سياق السيرة"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "loop",
+            "label": {
+              "en": "Loop over contacts",
+              "ar": "المرور على جهات الاتصال"
+            },
+            "kind": "logic"
+          },
+          {
+            "id": "write",
+            "label": {
+              "en": "Write personal email",
+              "ar": "كتابة بريد مخصص"
+            },
+            "kind": "ai",
+            "service": "OpenAI"
+          },
+          {
+            "id": "report",
+            "label": {
+              "en": "Email the report",
+              "ar": "إرسال التقرير"
+            },
+            "kind": "output",
+            "service": "Gmail"
+          },
+          {
+            "id": "send",
+            "label": {
+              "en": "Send via Gmail",
+              "ar": "الإرسال عبر Gmail"
+            },
+            "kind": "output",
+            "service": "Gmail"
+          }
+        ],
+        "edges": [
+          [
+            "form",
+            "source"
+          ],
+          [
+            "form",
+            "cv"
+          ],
+          [
+            "source",
+            "contacts"
+          ],
+          [
+            "contacts",
+            "combine"
+          ],
+          [
+            "cv",
+            "combine"
+          ],
+          [
+            "combine",
+            "loop"
+          ],
+          [
+            "loop",
+            "write"
+          ],
+          [
+            "loop",
+            "report"
+          ],
+          [
+            "write",
+            "send"
+          ]
+        ]
       }
     },
     {
@@ -685,7 +2854,303 @@
       "outcome": {
         "en": "Designed to plug straight into a CRM, turning hours of manual triage into a summary line.",
         "ar": "مصمّم ليتّصل مباشرة بنظام إدارة العلاقات، فيحوّل ساعات الفرز اليدوي إلى سطر ملخّص."
-      }
+      },
+      "status": "built",
+      "workflowCount": null,
+      "flow": null
     }
-  ]
+  ],
+  "showcase": [
+    {
+      "id": "aya-rady",
+      "name": {
+        "en": "Aya Rady",
+        "ar": "آية راضي"
+      },
+      "segment": "people",
+      "year": "2026",
+      "role": {
+        "en": "Personal branding strategist for experts and consultants",
+        "ar": "استراتيجية علامة شخصية للخبراء والاستشاريين"
+      },
+      "concept": {
+        "en": "Inside-Out, the name of her programme, drawn as rings: expertise at the centre, the sides she works on around it, and a wave that lights each one until it reaches your name.",
+        "ar": "‏Inside-Out، اسم برنامجها، مرسوماً كدوائر: الخبرة في المركز، والجوانب التي تعمل عليها حولها، وموجة تضيء كل جانب حتى تصل إلى اسمك."
+      },
+      "highlights": {
+        "en": [
+          "A before-and-after case study shown as a real LinkedIn profile",
+          "A gap check that names your first gap and opens a ready message",
+          "Arabic by default, English in one tap"
+        ],
+        "ar": [
+          "دراسة حالة «قبل وبعد» معروضة كملف LinkedIn حقيقي",
+          "فحص للفجوة يسمّي أول فجوة عندك ويفتح رسالة جاهزة",
+          "العربية افتراضياً، والإنجليزية بضغطة واحدة"
+        ]
+      },
+      "url": "https://nouraldeentofi.github.io/aya-rady/",
+      "image": "https://nouraldeentofi.com/assets/img/showcase/aya-rady-desktop.webp"
+    },
+    {
+      "id": "mohammed-alhabbarah",
+      "name": {
+        "en": "Mohammed Alhabbarah",
+        "ar": "محمد الحبارة"
+      },
+      "segment": "people",
+      "year": "2026",
+      "role": {
+        "en": "Head of Learning & Capability Development, Riyadh Metro",
+        "ar": "رئيس التعلّم وتطوير القدرات، مترو الرياض"
+      },
+      "concept": {
+        "en": "A living metro map behind every page — lines that draw themselves, stations that breathe, small trains on the move — taken from his work on Riyadh Metro and his banner line, from the field to impact.",
+        "ar": "خريطة مترو حيّة خلف كل صفحة — خطوط ترسم نفسها، ومحطات تتنفّس، وقطارات صغيرة تتحرّك — مأخوذة من عمله في مترو الرياض ومن شعاره «من الميدان… إلى الأثر»."
+      },
+      "highlights": {
+        "en": [
+          "A page for each of his programmes: scope, role, dates and impact",
+          "A metro-line footer where the page you are on is the lit station",
+          "Tested across screen sizes, both themes, touch and accessibility"
+        ],
+        "ar": [
+          "صفحة لكل برنامج من برامجه: النطاق والدور والتواريخ والأثر",
+          "فوتر على شكل خط مترو، والصفحة الحالية هي المحطة المضيئة",
+          "مُختبر على كل المقاسات، وبالوضعين، وباللمس، وبمعايير الوصول"
+        ]
+      },
+      "url": "https://nouraldeentofi.github.io/mohammed-alhabbarah/",
+      "image": "https://nouraldeentofi.com/assets/img/showcase/mohammed-alhabbarah-desktop.webp"
+    },
+    {
+      "id": "layal-joumaa",
+      "name": {
+        "en": "Layal Joumaa",
+        "ar": "ليال جمعة"
+      },
+      "segment": "people",
+      "year": "2026",
+      "role": {
+        "en": "CV writer, LinkedIn optimisation and personal branding",
+        "ar": "كاتبة CV وخبيرة LinkedIn وعلامة شخصية"
+      },
+      "concept": {
+        "en": "A living marble background in WebGL behind a CV that rewrites itself in the hero — her craft, shown instead of described.",
+        "ar": "خلفية رخامية حيّة بـ WebGL خلف سيرة ذاتية تعيد كتابة نفسها في أول الصفحة — صنعتها معروضة بدل أن تُوصف."
+      },
+      "highlights": {
+        "en": [
+          "A LinkedIn headline checker",
+          "Client stories on a map of where they landed",
+          "A few taps to a ready first message"
+        ],
+        "ar": [
+          "أداة لفحص عنوان LinkedIn",
+          "قصص العملاء على خريطة بالأماكن التي وصلوا إليها",
+          "رسالة أولى جاهزة ببضع ضغطات"
+        ]
+      },
+      "url": "https://nouraldeentofi.github.io/layal-joumaa/",
+      "image": "https://nouraldeentofi.com/assets/img/showcase/layal-joumaa-desktop.webp"
+    },
+    {
+      "id": "salam-aksimi",
+      "name": {
+        "en": "Salam Aksimi",
+        "ar": "سلام اقسيمي"
+      },
+      "segment": "people",
+      "year": "2026",
+      "role": {
+        "en": "Personal branding and content on LinkedIn",
+        "ar": "العلامة الشخصية وصناعة المحتوى على LinkedIn"
+      },
+      "concept": {
+        "en": "Threads and sparks: the sparkle she signs every post with becomes a drawn spark, travelling along threads that connect people and ideas.",
+        "ar": "خيوط وشرارات: الشرارة التي تختم بها كل منشور صارت مرسومة، تمشي على خيوط تصل بين الناس والأفكار."
+      },
+      "highlights": {
+        "en": [
+          "Her stage story as real event badges that flip between years",
+          "A page for every event she spoke at or hosted",
+          "Mobile first, with an app-like dock and a booking button"
+        ],
+        "ar": [
+          "قصتها على المسرح كباجات فعاليات حقيقية تنقلب بين السنوات",
+          "صفحة لكل فعالية تحدّثت فيها أو قدّمتها",
+          "للجوال أولاً، بشريط سفلي يشبه التطبيقات وزر للحجز"
+        ]
+      },
+      "url": "https://nouraldeentofi.github.io/salam-aksimi/",
+      "image": "https://nouraldeentofi.com/assets/img/showcase/salam-aksimi-desktop.webp"
+    },
+    {
+      "id": "tawheed-malkat",
+      "name": {
+        "en": "Tawheed Malkat",
+        "ar": "توحيد ملقط"
+      },
+      "segment": "people",
+      "year": "2026",
+      "role": {
+        "en": "Product designer (UI/UX)",
+        "ar": "مصممة منتجات UI/UX"
+      },
+      "concept": {
+        "en": "The portfolio as an open design file: a dotted canvas, her name as a selected text layer, and a camera that flies through her projects as you scroll.",
+        "ar": "البورتفوليو ملف تصميم مفتوح: كانفاس منقّط، واسمها طبقة نص محدّدة، وكاميرا تتنقّل بين مشاريعها مع التمرير."
+      },
+      "highlights": {
+        "en": [
+          "A scroll-driven camera journey through her projects",
+          "A slider from first research note to clickable prototype",
+          "A project board you can drag and zoom"
+        ],
+        "ar": [
+          "رحلة كاميرا بين مشاريعها يقودها التمرير",
+          "شريط ينقلك من أول ملاحظة بحث حتى النموذج التفاعلي",
+          "لوحة مشاريع تُسحب وتُكبَّر"
+        ]
+      },
+      "url": "https://nouraldeentofi.github.io/tawheed-malkat/",
+      "image": "https://nouraldeentofi.com/assets/img/showcase/tawheed-malkat-desktop.webp"
+    },
+    {
+      "id": "monther-al-ashqar",
+      "name": {
+        "en": "Monther Al-Ashqar",
+        "ar": "منذر الأشقر"
+      },
+      "segment": "people",
+      "year": "2026",
+      "role": {
+        "en": "Senior project manager and owner's representative",
+        "ar": "مدير مشاريع أول وممثل للمالك"
+      },
+      "concept": {
+        "en": "An engineering-grade portfolio on a dark blueprint, leading with the scale of a career spent on site.",
+        "ar": "بورتفوليو بروح هندسية على مخطّط داكن، يبدأ بحجم مسيرة قضاها في المواقع."
+      },
+      "highlights": {
+        "en": [
+          "A page for every major project",
+          "English and Arabic, each under its own path",
+          "Structured data and llms.txt for search engines and AI assistants"
+        ],
+        "ar": [
+          "صفحة لكل مشروع كبير",
+          "الإنجليزية والعربية، لكل منهما مسارها",
+          "بيانات منظّمة وllms.txt لمحركات البحث ومساعدات الذكاء الاصطناعي"
+        ]
+      },
+      "url": null,
+      "image": "https://nouraldeentofi.com/assets/img/showcase/monther-al-ashqar-desktop.webp"
+    },
+    {
+      "id": "gambit-tournaments",
+      "name": {
+        "en": "Gambit Tournaments",
+        "ar": "بطولات چامبت"
+      },
+      "segment": "companies",
+      "year": "2026",
+      "role": {
+        "en": "Tournaments platform for a chess club in Dammam",
+        "ar": "منصّة بطولات لنادي شطرنج في الدمام"
+      },
+      "concept": {
+        "en": "The club's black and gold, built as a full product: upcoming tournaments with live seats, guest registration, and an archive of past tournaments.",
+        "ar": "أسود النادي وذهبه، مبنيّان كمنتج كامل: بطولات قادمة بمقاعد متبقية مباشرة، وتسجيل كضيف، وأرشيف للبطولات السابقة."
+      },
+      "highlights": {
+        "en": [
+          "Transfer receipts checked automatically by an AI workflow in n8n",
+          "Arabic, English and Urdu",
+          "An admin dashboard for tournaments, gallery and registrations"
+        ],
+        "ar": [
+          "إيصالات التحويل تُفحص تلقائياً عبر مسار ذكاء اصطناعي في n8n",
+          "العربية والإنجليزية والأوردو",
+          "لوحة إدارة للبطولات والمعرض والتسجيلات"
+        ]
+      },
+      "url": "https://gambit.nouraldeentofi.com/",
+      "image": "https://nouraldeentofi.com/assets/img/showcase/gambit-tournaments-desktop.webp"
+    },
+    {
+      "id": "prestige-vip-tailor",
+      "name": {
+        "en": "Prestige VIP Tailor",
+        "ar": "خياط برستيج VIP"
+      },
+      "segment": "shops",
+      "year": "2026",
+      "role": {
+        "en": "Men's tailor, Al Khobar",
+        "ar": "خياط ثياب رجالية، الخبر"
+      },
+      "concept": {
+        "en": "From the tailor's world: pattern paper in the background, a fabric swatch book in 3D, and a thobe on a hanger that changes as the customer chooses.",
+        "ar": "من عالم الخياط: ورق باترون في الخلفية، وكتالوج عيّنات قماش ثلاثي الأبعاد، وثوب على علّاقة يتغيّر مع اختيارات الزبون."
+      },
+      "highlights": {
+        "en": [
+          "Design your thobe — collar, sleeve, pocket, buttons, fabric — and it travels with the booking",
+          "A three-step booking that opens WhatsApp with the message ready",
+          "Light by default, with a moon toggle for dark"
+        ],
+        "ar": [
+          "جهّز ثوبك — الياقة والكم والجيب والأزرار والقماش — ويصل اختيارك مع الحجز",
+          "حجز على ثلاث خطوات يفتح واتساب والرسالة جاهزة",
+          "فاتح افتراضياً، مع زر قمر للوضع الداكن"
+        ]
+      },
+      "url": "https://nouraldeentofi.github.io/prestige-vip-tailor/",
+      "image": "https://nouraldeentofi.com/assets/img/showcase/prestige-vip-tailor-desktop.webp"
+    },
+    {
+      "id": "alreem-mashwi",
+      "name": {
+        "en": "Al-Reem Grilled Lamb",
+        "ar": "الريم الخروف المشوي"
+      },
+      "segment": "shops",
+      "year": "2026",
+      "role": {
+        "en": "Charcoal-grilled lamb, Al Khobar",
+        "ar": "خروف مشوي على الفحم، الخبر"
+      },
+      "concept": {
+        "en": "An app on the phone: a bottom bar, an order in steps, and the shop's own photos doing the selling.",
+        "ar": "تطبيق على الجوال: شريط سفلي، وطلب على خطوات، وصور المحل نفسه هي التي تبيع."
+      },
+      "highlights": {
+        "en": [
+          "Orders arrive ready on the shop's WhatsApp",
+          "Photo gallery and Google reviews",
+          "Light and dark modes"
+        ],
+        "ar": [
+          "الطلب يصل جاهزاً على واتساب المحل",
+          "معرض صور وتقييمات Google",
+          "وضع فاتح وداكن"
+        ]
+      },
+      "url": "https://nouraldeentofi.github.io/alreem-mashwi/",
+      "image": "https://nouraldeentofi.com/assets/img/showcase/alreem-mashwi-desktop.webp"
+    }
+  ],
+  "designLab": {
+    "name": {
+      "en": "Portfolio Gallery",
+      "ar": "معرض البورتفوليو"
+    },
+    "count": "120",
+    "tagline": {
+      "en": "Personas, scroll stories, interactive machines and whole worlds — a city builder, a solar system, a museum, a stock exchange — each one a single hand-crafted HTML file.",
+      "ar": "شخصيات، وقصص تمرير، وآلات تفاعلية، وعوالم كاملة — مدينة تُبنى، ومجموعة شمسية، ومتحف، وبورصة — كل واحد منها ملف HTML واحد مصنوع يدوياً."
+    },
+    "url": "https://nouraldeentofi.github.io/portfolio-gallery/"
+  }
 }

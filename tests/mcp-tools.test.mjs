@@ -55,7 +55,7 @@ test('getExperience flags the current roles', () => {
 
 test('getWorkflows returns every automation with its outcome', () => {
   const rows = getWorkflows(db, {});
-  assert.equal(rows.length, 6);
+  assert.equal(rows.length, db.workflows.length);
   assert.ok(rows.every((w) => typeof w.outcome === 'string' && w.outcome.length > 10));
 });
 

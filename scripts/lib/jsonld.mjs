@@ -14,6 +14,7 @@ const PAGE_TITLES = {
   about: { en: 'About', ar: 'نبذة' },
   work: { en: 'Work', ar: 'المسيرة' },
   projects: { en: 'Projects', ar: 'المشاريع' },
+  showcase: { en: 'Showcase', ar: 'معرض المواقع' },
   automation: { en: 'Automation Lab', ar: 'مختبر الأتمتة' },
   chat: { en: 'Chat', ar: 'محادثة' },
   contact: { en: 'Contact', ar: 'تواصل' },
@@ -153,6 +154,32 @@ export function projectsLd(db, lang) {
         author: { '@id': `${base(db)}/#nour` },
         ...(p.url ? { url: p.url } : {}),
         ...(p.stack?.length ? { keywords: p.stack.join(', ') } : {}),
+      },
+    })),
+  };
+}
+
+/**
+ * Client sites as WebSite entries. Nour is the creator; the person or shop
+ * the site belongs to is named in the description, never claimed as author.
+ */
+export function showcaseLd(db, lang) {
+  const { sites, lab } = db.showcase;
+  return {
+    '@context': CTX,
+    '@type': 'ItemList',
+    name: db.copy[lang].showcase.title,
+    itemListElement: [...sites, lab].map((s, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: {
+        '@type': 'WebSite',
+        name: s.name[lang],
+        description: (s.role ?? s.tagline)[lang],
+        creator: { '@id': `${base(db)}/#nour` },
+        image: `${base(db)}/${s.images.desktop}`,
+        ...(s.url ? { url: s.url } : {}),
+        ...(s.year ? { dateCreated: s.year } : {}),
       },
     })),
   };

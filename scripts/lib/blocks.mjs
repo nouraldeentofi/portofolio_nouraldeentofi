@@ -7,6 +7,7 @@
 
 import { escapeHtml, extAttrs, newTabHint, linkifyPeople } from './render.mjs';
 import * as ld from './jsonld.mjs';
+import { flowDiagram } from './diagram.mjs';
 
 const e = escapeHtml;
 const base = (db) => db.profile.site.replace(/\/$/, '');
@@ -20,7 +21,7 @@ const href = (page, lang) => `${langPath(lang)}/${page === '' ? 'index' : page}.
  */
 export const yearOf = (y, lang) => (y && typeof y === 'object' ? y[lang] : y);
 
-const PAGE_KEY = { '': 'home', about: 'about', work: 'work', projects: 'projects', automation: 'automation', chat: 'chat', contact: 'contact' };
+const PAGE_KEY = { '': 'home', about: 'about', work: 'work', projects: 'projects', showcase: 'showcase', automation: 'automation', chat: 'chat', contact: 'contact' };
 
 function period(start, end, presentLabel) {
   return `${start}<span aria-hidden="true"> — </span>${end ?? presentLabel}`;
@@ -115,6 +116,7 @@ export function headLd(db, page, lang) {
     about: [ld.faqLd(db, lang)],
     work: [ld.experienceLd(db, lang), ...ld.reviewsLd(db, lang)],
     projects: [ld.projectsLd(db, lang)],
+    showcase: [ld.showcaseLd(db, lang)],
     automation: [ld.workflowsLd(db, lang)],
     contact: [ld.contactPageLd(db, lang)],
     chat: [],
@@ -128,7 +130,7 @@ export function headLd(db, page, lang) {
 export function homeProof(db, lang) {
   const featured = db.projects.find((p) => p.featured);
   const picks = [
-    { value: String(db.workflows.length), label: { en: 'production workflows', ar: 'مسارات عمل إنتاجية' } },
+    { value: String(workflowTotal(db)), label: { en: 'n8n workflows built', ar: 'مسار عمل مبني في n8n' } },
     ...featured.metrics.slice(0, 3),
     { value: '75%', label: { en: 'AI cost cut by smart routing', ar: 'خفض تكلفة الذكاء الاصطناعي بالتوجيه الذكي' } },
   ];
@@ -380,29 +382,193 @@ export function projectsList(db, lang) {
     .join('\n');
 }
 
-/* ------------------------------------------------------------ automation */
+/* -------------------------------------------------------------- showcase */
 
-export function automationList(db, lang) {
+/* Root-relative, so the same markup works from `/` and from `/en/`. */
+const img = (path) => `/${path}`;
+
+/**
+ * The filter bar for a gallery. Shipped `hidden`: without JavaScript it would
+ * be buttons that do nothing, and every card is already on the page anyway.
+ */
+function filterBar(c, groups, counts, total) {
+  return `<div class="filters" data-filter-bar hidden>
+  <span class="filters__label" aria-hidden="true">${e(c.ui.filterLabel)}</span>
+  <button class="filter" type="button" data-filter="all" aria-pressed="true">${e(c.ui.filterAll)} <span class="filter__count">${total}</span></button>
+${groups
+  .filter(([key]) => counts[key])
+  .map(
+    ([key, label]) =>
+      `  <button class="filter" type="button" data-filter="${e(key)}" aria-pressed="false">${e(label)} <span class="filter__count">${counts[key]}</span></button>`,
+  )
+  .join('\n')}
+</div>`;
+}
+
+/** A browser window holding the desktop shot, with the phone leaning on it. */
+function deviceStage(s, lang, { phone = true } = {}) {
+  const name = s.name[lang];
+  const host = s.url ? s.url.replace(/^https?:\/\//, '').replace(/\/$/, '') : name;
+  return `<figure class="show__media">
+    <span class="browser">
+      <span class="browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="browser__url">${e(host)}</span></span>
+      <img src="${img(s.images.desktop)}" alt="${e(name)} — desktop" width="1200" height="750" loading="lazy" decoding="async">
+    </span>${
+      phone && s.images.phone
+        ? `
+    <span class="phone"><img src="${img(s.images.phone)}" alt="${e(name)} — phone" width="390" height="844" loading="lazy" decoding="async"></span>`
+        : ''
+    }
+  </figure>`;
+}
+
+function siteCard(db, s, lang) {
   const c = db.copy[lang];
-  return db.workflows
-    .map(
-      (w) => `<article data-reveal class="card card--row${w.featured ? ' card--featured' : ''}" id="${e(w.id)}">
-  <div class="card__main">
-    <p class="card__meta"><span>${e(w.kind[lang])}</span><span>${e(yearOf(w.year, lang))}</span></p>
-    <h3 class="card__title">${e(w.name[lang])}</h3>
-    <p class="card__body">${prose(db, w.summary[lang], lang)}</p>
-    ${list(w.highlights[lang].map((h) => prose(db, h, lang)), 'card__list')}
-    <dl class="card__body"><dt>${e(c.ui.outcome)}</dt><dd>${prose(db, w.outcome[lang], lang)}</dd></dl>
+  const foot = s.url
+    ? `<a class="btn btn--ghost" href="${e(s.url)}"${extAttrs(s.url)}>${e(c.ui.visitSite)}${newTabHint(c.ui.opensInNewTab)}</a>`
+    : `<span class="note-private">${e(c.ui.privateSite)}</span>`;
+  return `<li class="show" data-filter-item data-group="${e(s.segment)}" id="${e(s.id)}" data-reveal>
+  ${deviceStage(s, lang)}
+  <div class="show__body">
+    <p class="card__meta"><span>${e(c.showcase.segments[s.segment])}</span><span>${e(yearOf(s.year, lang))}</span></p>
+    <h3 class="card__title">${e(s.name[lang])}</h3>
+    <p class="show__role">${e(s.role[lang])}</p>
+    <dl class="card__body"><dt>${e(c.ui.idea)}</dt><dd>${e(s.concept[lang])}</dd></dl>
+    ${list(s.highlights[lang].map(e), 'card__list')}
+    ${badges(s.tags ?? [])}
+    <div class="card__foot">${foot}</div>
   </div>
-  <aside class="card__aside">
-    <dl class="card__body">
-      <dt>${e(c.ui.trigger)}</dt><dd>${e(w.trigger[lang])}</dd>
-      <dt>${e(c.ui.services)}</dt><dd>${badges(w.services)}</dd>
-    </dl>
-  </aside>
+</li>`;
+}
+
+export function showcaseList(db, lang) {
+  const c = db.copy[lang];
+  const { sites } = db.showcase;
+  const counts = {};
+  for (const s of sites) counts[s.segment] = (counts[s.segment] ?? 0) + 1;
+
+  return `${filterBar(c, Object.entries(c.showcase.segments), counts, sites.length)}
+<ul class="shows" data-filter-list>
+${sites.map((s) => siteCard(db, s, lang)).join('\n')}
+</ul>`;
+}
+
+export function showcaseLab(db, lang) {
+  const c = db.copy[lang];
+  const l = db.showcase.lab;
+  return `<article class="lab" id="${e(l.id)}" data-reveal>
+  ${deviceStage(l, lang, { phone: false })}
+  <div class="show__body">
+    <p class="lab__count"><b data-count>${e(l.count)}</b><span>${e(l.countLabel[lang])}</span></p>
+    <h3 class="card__title">${e(l.name[lang])}</h3>
+    <p class="card__body">${e(l.tagline[lang])}</p>
+    ${badges(l.tags ?? [])}
+    <div class="card__foot"><a class="btn" href="${e(l.url)}"${extAttrs(l.url)}>${e(c.showcase.labButton)}${newTabHint(c.ui.opensInNewTab)}</a></div>
+  </div>
+</article>`;
+}
+
+/** Three sites on the home page — one of each kind where possible. */
+export function homeShowcase(db, lang) {
+  const c = db.copy[lang];
+  const { sites } = db.showcase;
+  const picks = [];
+  for (const seg of ['people', 'shops', 'companies']) {
+    const s = sites.find((x) => x.segment === seg && x.url && !picks.includes(x));
+    if (s) picks.push(s);
+  }
+  return picks
+    .map(
+      (s) => `<article data-reveal class="show">
+  ${deviceStage(s, lang)}
+  <div class="show__body">
+    <p class="card__meta"><span>${e(c.showcase.segments[s.segment])}</span><span>${e(yearOf(s.year, lang))}</span></p>
+    <h3 class="card__title"><a href="${href('showcase', lang)}#${e(s.id)}">${e(s.name[lang])}</a></h3>
+    <p class="show__role">${e(s.role[lang])}</p>
+  </div>
 </article>`,
     )
     .join('\n');
+}
+
+/* ------------------------------------------------------------ automation */
+
+/** Every workflow across every system — the honest count. */
+export const workflowTotal = (db) => db.workflows.reduce((s, w) => s + (w.workflowCount ?? 1), 0);
+
+function systemCard(db, w, lang, { compact = false } = {}) {
+  const c = db.copy[lang];
+  const name = w.name[lang];
+  const dialogId = `canvas-${w.id}`;
+  const count = w.workflowCount
+    ? `<span class="system__count"><b>${e(w.workflowCount)}</b> ${e(c.ui.workflowsUnit)}${
+        w.nodeCount ? ` · <b>${e(w.nodeCount)}</b> ${e(c.ui.nodesUnit)}` : ''
+      }</span>`
+    : '';
+  const canvasLink = w.canvas
+    ? `<a class="canvas-open" href="${img(w.canvas)}" data-dialog-open="${dialogId}" target="_blank" rel="noopener">${e(c.ui.openCanvas)}${newTabHint(c.ui.opensInNewTab)}</a>`
+    : '';
+
+  return `<article data-reveal data-filter-item data-group="${e((w.audience ?? []).join(' '))}" class="card system${w.featured ? ' card--featured' : ''}" id="${e(w.id)}">
+  <p class="card__meta"><span class="status status--${e(w.status)}">${e(c.ui.status[w.status])}</span><span>${e(w.kind[lang])}</span><span>${e(yearOf(w.year, lang))}</span></p>
+  <h3 class="card__title">${e(name)}</h3>
+  <p class="card__body">${prose(db, w.summary[lang], lang)}</p>
+  ${
+    w.flow
+      ? `<figure class="system__diagram">
+    <div class="wf-frame">
+      ${flowDiagram(w.flow, lang, { id: w.id, title: name })}
+    </div>
+    <figcaption class="system__caption">${count}${canvasLink}</figcaption>
+  </figure>`
+      : count || canvasLink
+        ? `<p class="system__caption">${count}${canvasLink}</p>`
+        : ''
+  }
+  <div class="system__detail">
+    ${list(w.highlights[lang].slice(0, compact ? 3 : undefined).map((h) => prose(db, h, lang)), 'card__list')}
+    <dl class="card__body">
+      <dt>${e(c.ui.trigger)}</dt><dd>${e(w.trigger[lang])}</dd>
+      <dt>${e(c.ui.services)}</dt><dd>${badges(w.services)}</dd>
+      ${compact ? '' : `<dt>${e(c.ui.outcome)}</dt><dd>${prose(db, w.outcome[lang], lang)}</dd>`}
+    </dl>
+  </div>${
+    w.canvas
+      ? `
+  <dialog class="lightbox" id="${dialogId}" aria-label="${e(`${name} — ${c.ui.canvasCaption}`)}">
+    <div class="lightbox__head">
+      <span>${e(name)} · ${e(c.ui.canvasCaption)}</span>
+      <form method="dialog"><button class="lightbox__close" aria-label="${e(c.ui.closeCanvas)}">&times;</button></form>
+    </div>
+    <div class="lightbox__body"><img src="${img(w.canvas)}" alt="${e(`${name} — ${c.ui.canvasCaption}`)}" loading="lazy" decoding="async"></div>
+  </dialog>`
+      : ''
+  }
+</article>`;
+}
+
+export function automationSystems(db, lang, tier) {
+  const c = db.copy[lang];
+  const rows = db.workflows.filter((w) => w.tier === tier);
+  return rows.map((w) => systemCard(db, w, lang, { compact: tier !== 'system' })).join('\n');
+}
+
+/** One filter bar drives both tiers — they share the `data-filter-list` scope of the page. */
+export function automationFilters(db, lang) {
+  const c = db.copy[lang];
+  const counts = {};
+  for (const w of db.workflows) for (const a of w.audience ?? []) counts[a] = (counts[a] ?? 0) + 1;
+  return filterBar(c, Object.entries(c.automation.audiences), counts, db.workflows.length);
+}
+
+export function automationLegend(db, lang) {
+  const c = db.copy[lang];
+  return `<ul class="legend">
+${['client', 'live', 'built']
+  .map((s) => `  <li><span class="status status--${s}">${e(c.ui.status[s])}</span></li>`)
+  .join('\n')}
+  <li>${e(c.automation.diagramNote)}</li>
+</ul>`;
 }
 
 export function automationCase(db, lang) {

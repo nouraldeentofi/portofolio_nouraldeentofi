@@ -10,7 +10,7 @@ import * as B from './blocks.mjs';
 import { PAGES } from './sitemap.mjs';
 
 const e = escapeHtml;
-const PAGE_KEY = { '': 'home', about: 'about', work: 'work', projects: 'projects', automation: 'automation', chat: 'chat', contact: 'contact' };
+const PAGE_KEY = { '': 'home', about: 'about', work: 'work', projects: 'projects', showcase: 'showcase', automation: 'automation', chat: 'chat', contact: 'contact' };
 
 /* Which whole-page background each page runs — one visual family, one
    metaphor per page. */
@@ -20,7 +20,10 @@ const PAGE_KEY = { '': 'home', about: 'about', work: 'work', projects: 'projects
    is suppressed. Flip to true to bring it back. */
 const SHOW_MCP_SECTION = false;
 
-const PAGE_VARIANT = { '': 'graph', about: 'orbit', work: 'flow', projects: 'grid', automation: 'branch', chat: 'drift', contact: 'signal' };
+const PAGE_VARIANT = { '': 'graph', about: 'orbit', work: 'flow', projects: 'grid', showcase: 'grid', automation: 'branch', chat: 'drift', contact: 'signal' };
+
+/* The galleries' stylesheet, only where a gallery is on the page. */
+const GALLERY_PAGES = new Set(['', 'showcase', 'automation']);
 
 /**
  * A link to another page *in the same language*.
@@ -184,6 +187,8 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
 <link rel="stylesheet" href="${assetV(db, 'assets/css/layout.css', lang)}">
 <link rel="stylesheet" href="${assetV(db, 'assets/css/components.css', lang)}">
 <link rel="stylesheet" href="${assetV(db, 'assets/css/motion.css', lang)}">${
+    GALLERY_PAGES.has(page) ? `\n<link rel="stylesheet" href="${assetV(db, 'assets/css/gallery.css', lang)}">` : ''
+  }${
     page === 'chat' ? `\n<link rel="stylesheet" href="${assetV(db, 'assets/css/chat.css', lang)}">` : ''
   }
 <link rel="stylesheet" href="${assetV(db, 'assets/css/responsive.css', lang)}">${
@@ -267,6 +272,8 @@ ${section('automation', c.home.automationLabel, c.home.automationLabel, c.home.a
 
 ${section('projects', c.home.projectsLabel, c.home.projectsLabel, c.home.projectsLead, `      <div class="grid grid--3">\n${B.homeProjects(db, lang)}\n      </div>`, { href: rel('projects'), label: c.nav.projects })}
 
+${section('showcase', c.home.showcaseLabel, c.home.showcaseLabel, c.home.showcaseLead, `      <div class="grid grid--3">\n${B.homeShowcase(db, lang)}\n      </div>`, { href: rel('showcase'), label: c.nav.showcase })}
+
 ${section('quotes', c.home.quoteLabel, c.home.quoteLabel, null, `      <div class="grid grid--2">\n${B.homeQuote(db, lang)}\n      </div>`, { href: rel('work'), label: c.nav.work })}
 
   <section class="section">
@@ -336,15 +343,62 @@ ${B.projectsList(db, lang)}
   return shell(db, 'projects', lang, main);
 }
 
+function showcase(db, lang) {
+  const c = db.copy[lang];
+
+  const main = `${heroBlock({ eyebrow: c.nav.showcase, heading: c.showcase.title, headline: c.showcase.lead })}
+
+  <section class="section" id="sites">
+    <div class="container">
+${B.showcaseList(db, lang)}
+    </div>
+  </section>
+
+${section('lab', null, c.showcase.labTitle, c.showcase.labLead, B.showcaseLab(db, lang))}
+
+  <section class="section">
+    <div class="container">
+      <div class="cta">
+        <h2>${e(c.showcase.ctaTitle)}</h2>
+        <p>${e(c.showcase.ctaBody)}</p>
+        <a class="btn" href="${rel('contact')}">${e(c.home.ctaButton)}</a>
+      </div>
+    </div>
+  </section>`;
+
+  return shell(db, 'showcase', lang, main);
+}
+
+/* Both tiers sit under one filter bar. Each section is a filter scope, so a
+   tier with nothing left to show hides itself instead of leaving a heading
+   over an empty grid. */
 function automation(db, lang) {
   const c = db.copy[lang];
 
   const main = `${heroBlock({ eyebrow: c.nav.automation, heading: c.automation.title, headline: c.automation.lead })}
 
-  <section class="section">
+  <section class="section" id="systems" data-filter-scope>
     <div class="container">
-      <div class="stack">
-${B.automationList(db, lang)}
+${B.automationFilters(db, lang)}
+${B.automationLegend(db, lang)}
+      <div class="section__head" data-reveal>
+        <div class="section__titlebar"><h2>${e(c.automation.systemsTitle)}</h2></div>
+        <p class="section__lead">${e(c.automation.systemsLead)}</p>
+      </div>
+      <div class="systems">
+${B.automationSystems(db, lang, 'system')}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="builds" data-filter-scope>
+    <div class="container">
+      <div class="section__head" data-reveal>
+        <div class="section__titlebar"><h2>${e(c.automation.buildsTitle)}</h2></div>
+        <p class="section__lead">${e(c.automation.buildsLead)}</p>
+      </div>
+      <div class="systems systems--compact">
+${B.automationSystems(db, lang, 'build')}
       </div>
     </div>
   </section>
@@ -463,5 +517,5 @@ export function buildRedirects(db) {
   ].map((r) => ({ ...r, html: redirectStub(r.target, r.label) }));
 }
 
-export const TEMPLATES = { '': home, about, work, projects, automation, chat, contact };
+export const TEMPLATES = { '': home, about, work, projects, showcase, automation, chat, contact };
 export { notFound };

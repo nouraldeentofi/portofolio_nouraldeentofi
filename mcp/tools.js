@@ -72,6 +72,9 @@ export function getWorkflows(db, { query = '', lang = 'en' } = {}) {
       services: w.services,
       highlights: w.highlights[lang],
       outcome: w.outcome[lang],
+      status: w.status,
+      workflowCount: w.workflowCount,
+      flow: w.flow ? w.flow.nodes.map((n) => n.label[lang]) : null,
     }));
 }
 

@@ -96,11 +96,83 @@ function initPortrait() {
   });
 }
 
+/* --------------------------------------------------------------- filters */
+
+/* A gallery's cards are all in the HTML; a filter only hides the ones that
+   do not match. The bar ships `hidden` and appears here, because without
+   this script it would be buttons that do nothing. One bar per page. */
+function initFilters() {
+  const bar = document.querySelector('[data-filter-bar]');
+  if (!bar) return;
+  const buttons = [...bar.querySelectorAll('[data-filter]')];
+  const items = [...document.querySelectorAll('[data-filter-item]')];
+  const scopes = [...document.querySelectorAll('[data-filter-scope]')];
+
+  const apply = (key) => {
+    buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filter === key)));
+    items.forEach((item) => {
+      const groups = (item.dataset.group || '').split(' ');
+      item.classList.toggle('is-filtered-out', key !== 'all' && !groups.includes(key));
+    });
+    scopes.forEach((scope) => {
+      const visible = scope.querySelector('[data-filter-item]:not(.is-filtered-out)');
+      scope.classList.toggle('is-empty', !visible);
+    });
+  };
+
+  bar.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-filter]');
+    if (button) apply(button.dataset.filter);
+  });
+
+  bar.hidden = false;
+}
+
+/* --------------------------------------------------------------- dialogs */
+
+/* A link to a full-size image that, with scripts on, opens the dialog that is
+   already in the HTML beside it. Modified clicks still open the file. */
+function initDialogs() {
+  document.querySelectorAll('[data-dialog-open]').forEach((trigger) => {
+    const dialog = document.getElementById(trigger.dataset.dialogOpen);
+    if (!dialog || typeof dialog.showModal !== 'function') return;
+    trigger.addEventListener('click', (event) => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+      event.preventDefault();
+      dialog.showModal();
+    });
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  });
+}
+
+/* -------------------------------------------------------------- diagrams */
+
+/* Pulses run only while a diagram is on screen — dozens of animated paths
+   off-screen would cost battery for nothing. */
+function initDiagrams() {
+  const diagrams = document.querySelectorAll('svg.wf');
+  if (!diagrams.length) return;
+  if (!('IntersectionObserver' in window)) {
+    diagrams.forEach((d) => d.classList.add('is-live'));
+    return;
+  }
+  const io = new IntersectionObserver(
+    (entries) => entries.forEach((entry) => entry.target.classList.toggle('is-live', entry.isIntersecting)),
+    { rootMargin: '80px 0px' },
+  );
+  diagrams.forEach((d) => io.observe(d));
+}
+
 /* ------------------------------------------------------------------ boot */
 
 initTheme();
 initLang();
 initPortrait();
+initFilters();
+initDialogs();
+initDiagrams();
 initHeader();
 initReveal();
 initCounters();

@@ -23,6 +23,7 @@ const VERSIONED_ASSETS = [
   'assets/css/layout.css',
   'assets/css/components.css',
   'assets/css/motion.css',
+  'assets/css/gallery.css',
   'assets/css/chat.css',
   'assets/css/responsive.css',
   'assets/css/rtl.css',
@@ -80,10 +81,20 @@ export function loadDb(dir = 'data') {
   for (const [file, rows, keys] of [
     ['experience.json', experience, ['id', 'role.en', 'role.ar', 'company', 'start', 'bullets.en', 'bullets.ar']],
     ['projects.json', projects, ['id', 'name', 'tagline.en', 'tagline.ar', 'stack']],
-    ['workflows.json', workflows, ['id', 'name.en', 'name.ar', 'summary.en', 'summary.ar', 'services']],
+    ['workflows.json', workflows, ['id', 'name.en', 'name.ar', 'summary.en', 'summary.ar', 'services', 'tier', 'status', 'audience', 'flow']],
   ]) {
     if (!Array.isArray(rows)) throw new Error(`${file}: expected an array`);
     rows.forEach((row, i) => requireKeys(row, keys, `${file}[${i}] (${row.id ?? 'no id'})`));
+  }
+
+  // A status is a claim about a real system. Only the three the page can
+  // explain are allowed, and a flow, when present, must be drawable.
+  for (const w of workflows) {
+    if (!['client', 'live', 'built'].includes(w.status)) throw new Error(`workflows.json (${w.id}): unknown status "${w.status}"`);
+    if (!['system', 'build'].includes(w.tier)) throw new Error(`workflows.json (${w.id}): unknown tier "${w.tier}"`);
+    if (w.flow !== null && (!Array.isArray(w.flow.nodes) || !Array.isArray(w.flow.edges))) {
+      throw new Error(`workflows.json (${w.id}): flow must be null or {nodes, edges}`);
+    }
   }
 
   const credentials = readJson(dir, 'credentials.json');
@@ -98,6 +109,15 @@ export function loadDb(dir = 'data') {
     if (!Array.isArray(rows)) throw new Error(`${file}: expected an array`);
     rows.forEach((row, i) => requireKeys(row, keys, `${file}[${i}] (${row.id ?? 'no id'})`));
   }
+
+  const showcase = readJson(dir, 'showcase.json');
+  if (!Array.isArray(showcase.sites)) throw new Error('showcase.json: expected "sites" to be an array');
+  showcase.sites.forEach((row, i) => {
+    const at = `showcase.json sites[${i}] (${row.id ?? 'no id'})`;
+    requireKeys(row, ['id', 'name.en', 'name.ar', 'segment', 'role.en', 'role.ar', 'concept.en', 'concept.ar', 'highlights.en', 'highlights.ar', 'images.desktop', 'images.phone'], at);
+    if (row.url === null && typeof row.todo !== 'string') throw new Error(`${at}: a null url needs a todo`);
+  });
+  requireKeys(showcase.lab ?? {}, ['id', 'name.en', 'name.ar', 'count', 'tagline.en', 'tagline.ar', 'url', 'images.desktop'], 'showcase.json lab');
 
   const caseStudy = readJson(dir, 'case-study.json');
   requireKeys(caseStudy, ['figures', 'flow.trigger', 'flow.decision', 'flow.branches', 'scale'], 'case-study.json');
@@ -125,6 +145,7 @@ export function loadDb(dir = 'data') {
     credentials,
     testimonials,
     skills,
+    showcase,
     caseStudy,
     links,
     copy,

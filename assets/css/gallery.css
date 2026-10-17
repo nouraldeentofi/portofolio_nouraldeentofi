@@ -1,0 +1,516 @@
+/* The two galleries — Showcase (sites) and the Automation Lab (systems).
+   Loaded only on the pages that carry them, plus the home page teasers. */
+
+/* ------------------------------------------------------------- filters */
+
+/* Rendered with `hidden`: a filter that does nothing without JavaScript
+   should not be on screen without it. main.js reveals and wires it. Every
+   card is already in the HTML either way. */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-block-end: var(--space-6);
+}
+
+.filters[hidden] { display: none; }
+
+.filters__label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--faint);
+  margin-inline-end: var(--space-2);
+}
+
+.filter {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--dim);
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  transition: color 0.16s ease, border-color 0.16s ease, background-color 0.16s ease;
+}
+
+.filter__count {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--faint);
+}
+
+.filter:hover { border-color: color-mix(in srgb, var(--lime) 50%, var(--line)); color: var(--fg); }
+
+.filter[aria-pressed='true'] {
+  color: var(--accent-ink);
+  background: var(--lime);
+  border-color: var(--lime);
+}
+
+.filter[aria-pressed='true'] .filter__count { color: var(--accent-ink); opacity: 0.75; }
+
+.filter:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
+
+[data-filter-item].is-filtered-out { display: none; }
+
+/* ------------------------------------------------------------ showcase */
+
+.shows {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: repeat(auto-fill, minmax(min(460px, 100%), 1fr));
+}
+
+.show {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color 0.2s ease, transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.32s ease;
+}
+
+.show:hover {
+  border-color: color-mix(in srgb, var(--lime) 45%, var(--line));
+  transform: translateY(-3px);
+  box-shadow: var(--shadow), 0 0 0 1px color-mix(in srgb, var(--lime) 28%, transparent);
+}
+
+/* The stage: a browser window with the phone leaning on it. */
+.show__media {
+  position: relative;
+  margin: 0;
+  padding: var(--space-5) var(--space-5) 0;
+  background:
+    radial-gradient(120% 90% at 85% 0%, var(--accent-soft), transparent 60%),
+    linear-gradient(180deg, var(--raised), transparent);
+  border-block-end: 1px solid var(--line);
+}
+
+.browser {
+  position: relative;
+  display: block;
+  border-radius: var(--radius) var(--radius) 0 0;
+  border: 1px solid var(--line-strong);
+  border-block-end: 0;
+  overflow: hidden;
+  background: var(--panel);
+  box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.45);
+}
+
+.browser__bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  block-size: 26px;
+  padding-inline: var(--space-3);
+  border-block-end: 1px solid var(--line);
+  background: var(--raised);
+}
+
+.browser__bar i {
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: 50%;
+  background: var(--line-strong);
+}
+
+.browser__url {
+  margin-inline-start: var(--space-3);
+  flex: 1;
+  min-inline-size: 0;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  direction: ltr;
+  text-align: start;
+}
+
+.browser img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  aspect-ratio: 1200 / 750;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.show:hover .browser img { transform: scale(1.025); }
+
+.phone {
+  position: absolute;
+  inset-block-end: calc(-1 * var(--space-4));
+  inset-inline-end: var(--space-5);
+  inline-size: clamp(84px, 20%, 118px);
+  padding: 5px;
+  border-radius: 18px;
+  background: #0f1216;
+  box-shadow: 0 16px 34px -12px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.phone img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  aspect-ratio: 390 / 844;
+  border-radius: 13px;
+  object-fit: cover;
+  object-position: top;
+}
+
+.show:hover .phone { transform: translateY(-8px); }
+
+.show__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--space-5) var(--space-5);
+  flex: 1;
+}
+
+.show__role {
+  color: var(--mint);
+  font-weight: 700;
+  font-size: 0.92rem;
+  margin-block-start: calc(-1 * var(--space-2));
+}
+
+.show .card__foot { margin-block-start: auto; }
+
+.note-private {
+  font-size: 0.82rem;
+  color: var(--faint);
+  font-family: var(--font-mono);
+}
+
+/* The design lab: one wide feature card under the client work. */
+.lab {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  border: 1px solid color-mix(in srgb, var(--lime) 40%, var(--line));
+  background: linear-gradient(150deg, var(--accent-soft), var(--glass) 60%);
+}
+
+.lab .show__media { padding: 0; background: none; border: 0; }
+.lab .browser { border-block-end: 1px solid var(--line-strong); border-radius: var(--radius); }
+
+.lab__count {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+.lab__count b {
+  font-size: clamp(2.6rem, 2rem + 3vw, 4rem);
+  line-height: 1;
+  font-weight: 800;
+  color: var(--lime);
+  font-variant-numeric: tabular-nums;
+}
+
+.lab__count span { color: var(--dim); font-weight: 700; }
+
+@media (max-width: 860px) {
+  .lab { grid-template-columns: minmax(0, 1fr); padding: var(--space-5); }
+}
+
+/* --------------------------------------------------------------- status */
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 2px var(--space-3);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  color: var(--dim);
+  white-space: nowrap;
+}
+
+.status::before {
+  content: '';
+  inline-size: 7px;
+  block-size: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status--client { color: var(--lime); border-color: color-mix(in srgb, var(--lime) 45%, transparent); }
+.status--client::before { box-shadow: 0 0 0 3px var(--accent-soft); animation: status-pulse 2.2s ease-in-out infinite; }
+.status--live { color: var(--mint); border-color: color-mix(in srgb, var(--mint) 45%, transparent); }
+.status--live::before { animation: status-pulse 2.2s ease-in-out infinite; }
+.status--built { color: var(--dim); }
+.status--built::before { background: transparent; border: 2px solid currentColor; }
+
+@keyframes status-pulse {
+  50% { box-shadow: 0 0 0 5px color-mix(in srgb, currentColor 18%, transparent); }
+}
+
+/* --------------------------------------------------------------- systems */
+
+.systems { display: grid; gap: var(--space-6); }
+
+/* Smaller builds keep the full width too: a diagram is only worth showing
+   at a size where its labels can be read. */
+.systems--compact { gap: var(--space-5); }
+
+.system { gap: var(--space-4); }
+
+.system .card__meta { gap: var(--space-2) var(--space-3); }
+
+.system__diagram {
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+/* A diagram is a picture of a wide thing. On a narrow screen it scrolls
+   sideways inside its own frame rather than shrinking its labels to dust. */
+.wf-frame {
+  position: relative;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(circle, color-mix(in srgb, var(--fg) 9%, transparent) 1px, transparent 1.4px) 0 0 / 18px 18px,
+    color-mix(in srgb, var(--panel) 70%, transparent);
+}
+
+/* Never drawn below about four fifths of its natural size: past that the
+   frame scrolls instead, the way a wide code block does. */
+.wf {
+  display: block;
+  inline-size: 100%;
+  min-inline-size: calc(var(--wf-w) * 0.8);
+  max-inline-size: var(--wf-w);
+  block-size: auto;
+  margin-inline: auto;
+  overflow: visible;
+}
+
+.wf__edge {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 1.6;
+}
+
+.wf__arrow path { fill: var(--line-strong); }
+
+.wf__pulse {
+  fill: none;
+  stroke: var(--lime);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 9 91;
+  stroke-dashoffset: 100;
+  opacity: 0;
+}
+
+.js .wf.is-live .wf__pulse {
+  opacity: 1;
+  animation: wf-pulse 2.6s linear infinite;
+}
+
+@keyframes wf-pulse {
+  from { stroke-dashoffset: 100; }
+  to { stroke-dashoffset: 0; }
+}
+
+.wf__node rect {
+  fill: var(--panel);
+  stroke: var(--line-strong);
+  stroke-width: 1.2;
+  transition: stroke 0.2s ease;
+}
+
+.wf__node:hover rect { stroke: var(--lime); }
+
+.wf__label {
+  fill: var(--fg);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.wf__service {
+  fill: var(--faint);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.wf__mark {
+  fill: var(--panel);
+  stroke: var(--dim);
+  stroke-width: 2;
+}
+
+/* The brand's node mark, read along the flow: a ring where it starts,
+   a filled dot where it lands. */
+.wf__node--trigger rect { stroke: color-mix(in srgb, var(--lime) 70%, var(--line-strong)); }
+.wf__node--trigger .wf__mark { stroke: var(--lime); }
+.wf__node--output .wf__mark { fill: var(--lime); stroke: var(--lime); }
+.wf__node--ai rect { fill: color-mix(in srgb, var(--mint) 9%, var(--panel)); }
+.wf__node--ai .wf__mark { fill: var(--mint); stroke: var(--mint); }
+.wf__node--logic .wf__mark { stroke: var(--mint); }
+.wf__node--data .wf__mark { fill: var(--raised); stroke: var(--faint); }
+.wf__node--human .wf__mark { fill: transparent; stroke: var(--fg); stroke-dasharray: 2 2; }
+
+.system__caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: 0.85rem;
+  color: var(--faint);
+}
+
+.system__count {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+.system__count b { color: var(--fg); }
+
+.canvas-open {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--lime);
+  text-decoration: none;
+  border-block-end: 1px dashed color-mix(in srgb, var(--lime) 55%, transparent);
+}
+
+.canvas-open:hover { border-block-end-style: solid; }
+
+.system__detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: var(--space-5);
+}
+
+@media (max-width: 860px) {
+  .system__detail { grid-template-columns: 1fr; }
+}
+
+.systems--compact .system__detail { grid-template-columns: 1fr; }
+
+/* ------------------------------------------------------------- lightbox */
+
+.lightbox {
+  inline-size: min(1280px, 94vw);
+  max-block-size: 92vh;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+  color: var(--fg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.lightbox::backdrop {
+  background: rgba(8, 10, 12, 0.72);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.lightbox__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-block-end: 1px solid var(--line);
+  font-weight: 700;
+}
+
+.lightbox__close {
+  inline-size: 36px;
+  block-size: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: var(--raised);
+  color: var(--fg);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lightbox__close:hover { border-color: var(--lime); }
+
+.lightbox__body {
+  overflow: auto;
+  max-block-size: calc(92vh - 62px);
+  background: #1b1b1f;
+}
+
+.lightbox__body img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+
+/* --------------------------------------------------------------- legend */
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
+  margin-block-end: var(--space-5);
+  font-size: 0.85rem;
+  color: var(--dim);
+}
+
+.legend li { display: inline-flex; align-items: center; gap: var(--space-2); }
+.legend { list-style: none; padding: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .wf.is-live .wf__pulse { animation: none; opacity: 0; }
+  .status::before { animation: none !important; }
+  .show:hover .browser img,
+  .show:hover .phone { transform: none; }
+}
+
+/* A filter scope with nothing left to show. The tier that carries the filter
+   bar keeps its section so the bar stays reachable; any other tier goes. */
+[data-filter-scope].is-empty .section__head,
+[data-filter-scope].is-empty .systems { display: none; }
+[data-filter-scope].is-empty:not(:has([data-filter-bar])) { display: none; }
+
+/* Monospace is for Latin labels. Arabic set in a mono fallback loses its
+   joins and spacing, so the Arabic page keeps its own face here. */
+html[lang='ar'] .status,
+html[lang='ar'] .filters__label,
+html[lang='ar'] .system__count,
+html[lang='ar'] .note-private {
+  font-family: var(--font-arabic);
+  letter-spacing: 0;
+}

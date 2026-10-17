@@ -78,6 +78,8 @@ export function checkAll({ pages = pageFiles() } = {}) {
     // 5 — content rules.
     if (/Receipt Scanner/.test(html)) fail(`${file}: uses "Receipt Scanner" — the product is "Smart Scanner"`);
     if (/Alessa/i.test(html)) fail(`${file}: mentions Alessa Group, which must stay off the site`);
+    if (/ZATCA/i.test(html)) fail(`${file}: mentions ZATCA, which was taken off the site on request`);
+    if (/manhom/i.test(html)) fail(`${file}: names a crawled site — the scraper's crawl mode is described, never its target`);
 
     // 6 — language attributes.
     const expectDir = lang === 'ar' ? 'rtl' : 'ltr';
@@ -140,7 +142,7 @@ export function checkAll({ pages = pageFiles() } = {}) {
     // wrong function fails silently — the block renderer simply ignores the
     // extra argument and the link never appears. This catches that.
     if (page === '') {
-      const HOME_SECTIONS = ['proof', 'featured', 'automation', 'projects', 'quotes'];
+      const HOME_SECTIONS = ['proof', 'featured', 'automation', 'projects', 'showcase', 'quotes'];
       for (const id of HOME_SECTIONS) {
         const block = html.split(`id="${id}"`)[1]?.split('</section>')[0] ?? '';
         if (!block.includes('class="section__more"')) {

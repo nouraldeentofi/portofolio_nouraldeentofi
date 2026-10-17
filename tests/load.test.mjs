@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { loadDb } from '../scripts/lib/load.mjs';
+import { existsSync } from 'node:fs';
 
 test('loads profile with required identity fields', () => {
   const db = loadDb('data');
@@ -203,4 +204,17 @@ test('linkifyPeople links names without mangling numbers', async () => {
 
   // text with no known name is escaped and otherwise unchanged
   assert.equal(linkifyPeople(db, 'a < b & c', 'en'), 'a &lt; b &amp; c');
+});
+
+test('every showcase site ships both screenshots, and an unpublished one carries a todo', () => {
+  const db = loadDb('data');
+  for (const s of [...db.showcase.sites, db.showcase.lab]) {
+    for (const path of Object.values(s.images)) assert.ok(existsSync(path), `${s.id}: missing ${path}`);
+    if (s.url === null) assert.equal(typeof s.todo, 'string', `${s.id}: null url without a todo`);
+  }
+});
+
+test('a workflow canvas, when set, is a real file', () => {
+  const db = loadDb('data');
+  for (const w of db.workflows.filter((x) => x.canvas)) assert.ok(existsSync(w.canvas), `${w.id}: missing ${w.canvas}`);
 });

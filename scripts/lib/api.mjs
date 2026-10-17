@@ -65,7 +65,27 @@ export function buildApiProjects(db) {
       services: w.services,
       highlights: w.highlights,
       outcome: w.outcome,
+      status: w.status,
+      workflowCount: w.workflowCount,
+      flow: w.flow,
     })),
+    showcase: db.showcase.sites.map((x) => ({
+      id: x.id,
+      name: x.name,
+      segment: x.segment,
+      year: x.year,
+      role: x.role,
+      concept: x.concept,
+      highlights: x.highlights,
+      url: x.url,
+      image: `${base(db)}/${x.images.desktop}`,
+    })),
+    designLab: {
+      name: db.showcase.lab.name,
+      count: db.showcase.lab.count,
+      tagline: db.showcase.lab.tagline,
+      url: db.showcase.lab.url,
+    },
   };
 }
 

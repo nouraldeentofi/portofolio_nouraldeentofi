@@ -1,0 +1,309 @@
+{
+  "sites": [
+    {
+      "id": "aya-rady",
+      "name": { "en": "Aya Rady", "ar": "آية راضي" },
+      "segment": "people",
+      "year": "2026",
+      "role": {
+        "en": "Personal branding strategist for experts and consultants",
+        "ar": "استراتيجية علامة شخصية للخبراء والاستشاريين"
+      },
+      "concept": {
+        "en": "Inside-Out, the name of her programme, drawn as rings: expertise at the centre, the sides she works on around it, and a wave that lights each one until it reaches your name.",
+        "ar": "‏Inside-Out، اسم برنامجها، مرسوماً كدوائر: الخبرة في المركز، والجوانب التي تعمل عليها حولها، وموجة تضيء كل جانب حتى تصل إلى اسمك."
+      },
+      "highlights": {
+        "en": [
+          "A before-and-after case study shown as a real LinkedIn profile",
+          "A gap check that names your first gap and opens a ready message",
+          "Arabic by default, English in one tap"
+        ],
+        "ar": [
+          "دراسة حالة «قبل وبعد» معروضة كملف LinkedIn حقيقي",
+          "فحص للفجوة يسمّي أول فجوة عندك ويفتح رسالة جاهزة",
+          "العربية افتراضياً، والإنجليزية بضغطة واحدة"
+        ]
+      },
+      "tags": ["Arabic + English", "RTL", "JSON-LD", "llms.txt"],
+      "url": "https://nouraldeentofi.github.io/aya-rady/",
+      "images": {
+        "desktop": "assets/img/showcase/aya-rady-desktop.webp",
+        "phone": "assets/img/showcase/aya-rady-phone.webp"
+      }
+    },
+    {
+      "id": "mohammed-alhabbarah",
+      "name": { "en": "Mohammed Alhabbarah", "ar": "محمد الحبارة" },
+      "segment": "people",
+      "year": "2026",
+      "role": {
+        "en": "Head of Learning & Capability Development, Riyadh Metro",
+        "ar": "رئيس التعلّم وتطوير القدرات، مترو الرياض"
+      },
+      "concept": {
+        "en": "A living metro map behind every page — lines that draw themselves, stations that breathe, small trains on the move — taken from his work on Riyadh Metro and his banner line, from the field to impact.",
+        "ar": "خريطة مترو حيّة خلف كل صفحة — خطوط ترسم نفسها، ومحطات تتنفّس، وقطارات صغيرة تتحرّك — مأخوذة من عمله في مترو الرياض ومن شعاره «من الميدان… إلى الأثر»."
+      },
+      "highlights": {
+        "en": [
+          "A page for each of his programmes: scope, role, dates and impact",
+          "A metro-line footer where the page you are on is the lit station",
+          "Tested across screen sizes, both themes, touch and accessibility"
+        ],
+        "ar": [
+          "صفحة لكل برنامج من برامجه: النطاق والدور والتواريخ والأثر",
+          "فوتر على شكل خط مترو، والصفحة الحالية هي المحطة المضيئة",
+          "مُختبر على كل المقاسات، وبالوضعين، وباللمس، وبمعايير الوصول"
+        ]
+      },
+      "tags": ["Arabic + English", "RTL", "Dark mode", "Playwright"],
+      "url": "https://nouraldeentofi.github.io/mohammed-alhabbarah/",
+      "images": {
+        "desktop": "assets/img/showcase/mohammed-alhabbarah-desktop.webp",
+        "phone": "assets/img/showcase/mohammed-alhabbarah-phone.webp"
+      }
+    },
+    {
+      "id": "layal-joumaa",
+      "name": { "en": "Layal Joumaa", "ar": "ليال جمعة" },
+      "segment": "people",
+      "year": "2026",
+      "role": {
+        "en": "CV writer, LinkedIn optimisation and personal branding",
+        "ar": "كاتبة CV وخبيرة LinkedIn وعلامة شخصية"
+      },
+      "concept": {
+        "en": "A living marble background in WebGL behind a CV that rewrites itself in the hero — her craft, shown instead of described.",
+        "ar": "خلفية رخامية حيّة بـ WebGL خلف سيرة ذاتية تعيد كتابة نفسها في أول الصفحة — صنعتها معروضة بدل أن تُوصف."
+      },
+      "highlights": {
+        "en": [
+          "A LinkedIn headline checker",
+          "Client stories on a map of where they landed",
+          "A few taps to a ready first message"
+        ],
+        "ar": [
+          "أداة لفحص عنوان LinkedIn",
+          "قصص العملاء على خريطة بالأماكن التي وصلوا إليها",
+          "رسالة أولى جاهزة ببضع ضغطات"
+        ]
+      },
+      "tags": ["Arabic + English", "WebGL", "RTL", "llms.txt"],
+      "url": "https://nouraldeentofi.github.io/layal-joumaa/",
+      "images": {
+        "desktop": "assets/img/showcase/layal-joumaa-desktop.webp",
+        "phone": "assets/img/showcase/layal-joumaa-phone.webp"
+      }
+    },
+    {
+      "id": "salam-aksimi",
+      "name": { "en": "Salam Aksimi", "ar": "سلام اقسيمي" },
+      "segment": "people",
+      "year": "2026",
+      "role": {
+        "en": "Personal branding and content on LinkedIn",
+        "ar": "العلامة الشخصية وصناعة المحتوى على LinkedIn"
+      },
+      "concept": {
+        "en": "Threads and sparks: the sparkle she signs every post with becomes a drawn spark, travelling along threads that connect people and ideas.",
+        "ar": "خيوط وشرارات: الشرارة التي تختم بها كل منشور صارت مرسومة، تمشي على خيوط تصل بين الناس والأفكار."
+      },
+      "highlights": {
+        "en": [
+          "Her stage story as real event badges that flip between years",
+          "A page for every event she spoke at or hosted",
+          "Mobile first, with an app-like dock and a booking button"
+        ],
+        "ar": [
+          "قصتها على المسرح كباجات فعاليات حقيقية تنقلب بين السنوات",
+          "صفحة لكل فعالية تحدّثت فيها أو قدّمتها",
+          "للجوال أولاً، بشريط سفلي يشبه التطبيقات وزر للحجز"
+        ]
+      },
+      "tags": ["Arabic + English", "RTL", "Dark mode", "Canvas"],
+      "url": "https://nouraldeentofi.github.io/salam-aksimi/",
+      "images": {
+        "desktop": "assets/img/showcase/salam-aksimi-desktop.webp",
+        "phone": "assets/img/showcase/salam-aksimi-phone.webp"
+      }
+    },
+    {
+      "id": "tawheed-malkat",
+      "name": { "en": "Tawheed Malkat", "ar": "توحيد ملقط" },
+      "segment": "people",
+      "year": "2026",
+      "role": {
+        "en": "Product designer (UI/UX)",
+        "ar": "مصممة منتجات UI/UX"
+      },
+      "concept": {
+        "en": "The portfolio as an open design file: a dotted canvas, her name as a selected text layer, and a camera that flies through her projects as you scroll.",
+        "ar": "البورتفوليو ملف تصميم مفتوح: كانفاس منقّط، واسمها طبقة نص محدّدة، وكاميرا تتنقّل بين مشاريعها مع التمرير."
+      },
+      "highlights": {
+        "en": [
+          "A scroll-driven camera journey through her projects",
+          "A slider from first research note to clickable prototype",
+          "A project board you can drag and zoom"
+        ],
+        "ar": [
+          "رحلة كاميرا بين مشاريعها يقودها التمرير",
+          "شريط ينقلك من أول ملاحظة بحث حتى النموذج التفاعلي",
+          "لوحة مشاريع تُسحب وتُكبَّر"
+        ]
+      },
+      "tags": ["Arabic + English", "3D", "RTL", "Dark mode"],
+      "url": "https://nouraldeentofi.github.io/tawheed-malkat/",
+      "images": {
+        "desktop": "assets/img/showcase/tawheed-malkat-desktop.webp",
+        "phone": "assets/img/showcase/tawheed-malkat-phone.webp"
+      }
+    },
+    {
+      "id": "monther-al-ashqar",
+      "name": { "en": "Monther Al-Ashqar", "ar": "منذر الأشقر" },
+      "segment": "people",
+      "year": "2026",
+      "role": {
+        "en": "Senior project manager and owner's representative",
+        "ar": "مدير مشاريع أول وممثل للمالك"
+      },
+      "concept": {
+        "en": "An engineering-grade portfolio on a dark blueprint, leading with the scale of a career spent on site.",
+        "ar": "بورتفوليو بروح هندسية على مخطّط داكن، يبدأ بحجم مسيرة قضاها في المواقع."
+      },
+      "highlights": {
+        "en": [
+          "A page for every major project",
+          "English and Arabic, each under its own path",
+          "Structured data and llms.txt for search engines and AI assistants"
+        ],
+        "ar": [
+          "صفحة لكل مشروع كبير",
+          "الإنجليزية والعربية، لكل منهما مسارها",
+          "بيانات منظّمة وllms.txt لمحركات البحث ومساعدات الذكاء الاصطناعي"
+        ]
+      },
+      "tags": ["English + Arabic", "JSON-LD", "llms.txt"],
+      "url": null,
+      "todo": "Private repository — add the URL once it is published",
+      "images": {
+        "desktop": "assets/img/showcase/monther-al-ashqar-desktop.webp",
+        "phone": "assets/img/showcase/monther-al-ashqar-phone.webp"
+      }
+    },
+    {
+      "id": "gambit-tournaments",
+      "name": { "en": "Gambit Tournaments", "ar": "بطولات چامبت" },
+      "segment": "companies",
+      "year": "2026",
+      "role": {
+        "en": "Tournaments platform for a chess club in Dammam",
+        "ar": "منصّة بطولات لنادي شطرنج في الدمام"
+      },
+      "concept": {
+        "en": "The club's black and gold, built as a full product: upcoming tournaments with live seats, guest registration, and an archive of past tournaments.",
+        "ar": "أسود النادي وذهبه، مبنيّان كمنتج كامل: بطولات قادمة بمقاعد متبقية مباشرة، وتسجيل كضيف، وأرشيف للبطولات السابقة."
+      },
+      "highlights": {
+        "en": [
+          "Transfer receipts checked automatically by an AI workflow in n8n",
+          "Arabic, English and Urdu",
+          "An admin dashboard for tournaments, gallery and registrations"
+        ],
+        "ar": [
+          "إيصالات التحويل تُفحص تلقائياً عبر مسار ذكاء اصطناعي في n8n",
+          "العربية والإنجليزية والأوردو",
+          "لوحة إدارة للبطولات والمعرض والتسجيلات"
+        ]
+      },
+      "tags": ["Next.js", "React", "Prisma", "MySQL", "n8n"],
+      "url": "https://gambit.nouraldeentofi.com/",
+      "images": {
+        "desktop": "assets/img/showcase/gambit-tournaments-desktop.webp",
+        "phone": "assets/img/showcase/gambit-tournaments-phone.webp"
+      }
+    },
+    {
+      "id": "prestige-vip-tailor",
+      "name": { "en": "Prestige VIP Tailor", "ar": "خياط برستيج VIP" },
+      "segment": "shops",
+      "year": "2026",
+      "role": {
+        "en": "Men's tailor, Al Khobar",
+        "ar": "خياط ثياب رجالية، الخبر"
+      },
+      "concept": {
+        "en": "From the tailor's world: pattern paper in the background, a fabric swatch book in 3D, and a thobe on a hanger that changes as the customer chooses.",
+        "ar": "من عالم الخياط: ورق باترون في الخلفية، وكتالوج عيّنات قماش ثلاثي الأبعاد، وثوب على علّاقة يتغيّر مع اختيارات الزبون."
+      },
+      "highlights": {
+        "en": [
+          "Design your thobe — collar, sleeve, pocket, buttons, fabric — and it travels with the booking",
+          "A three-step booking that opens WhatsApp with the message ready",
+          "Light by default, with a moon toggle for dark"
+        ],
+        "ar": [
+          "جهّز ثوبك — الياقة والكم والجيب والأزرار والقماش — ويصل اختيارك مع الحجز",
+          "حجز على ثلاث خطوات يفتح واتساب والرسالة جاهزة",
+          "فاتح افتراضياً، مع زر قمر للوضع الداكن"
+        ]
+      },
+      "tags": ["Arabic", "WhatsApp", "3D", "Mobile first"],
+      "url": "https://nouraldeentofi.github.io/prestige-vip-tailor/",
+      "images": {
+        "desktop": "assets/img/showcase/prestige-vip-tailor-desktop.webp",
+        "phone": "assets/img/showcase/prestige-vip-tailor-phone.webp"
+      }
+    },
+    {
+      "id": "alreem-mashwi",
+      "name": { "en": "Al-Reem Grilled Lamb", "ar": "الريم الخروف المشوي" },
+      "segment": "shops",
+      "year": "2026",
+      "role": {
+        "en": "Charcoal-grilled lamb, Al Khobar",
+        "ar": "خروف مشوي على الفحم، الخبر"
+      },
+      "concept": {
+        "en": "An app on the phone: a bottom bar, an order in steps, and the shop's own photos doing the selling.",
+        "ar": "تطبيق على الجوال: شريط سفلي، وطلب على خطوات، وصور المحل نفسه هي التي تبيع."
+      },
+      "highlights": {
+        "en": [
+          "Orders arrive ready on the shop's WhatsApp",
+          "Photo gallery and Google reviews",
+          "Light and dark modes"
+        ],
+        "ar": [
+          "الطلب يصل جاهزاً على واتساب المحل",
+          "معرض صور وتقييمات Google",
+          "وضع فاتح وداكن"
+        ]
+      },
+      "tags": ["Arabic", "WhatsApp", "Mobile first"],
+      "url": "https://nouraldeentofi.github.io/alreem-mashwi/",
+      "images": {
+        "desktop": "assets/img/showcase/alreem-mashwi-desktop.webp",
+        "phone": "assets/img/showcase/alreem-mashwi-phone.webp"
+      }
+    }
+  ],
+  "lab": {
+    "id": "portfolio-gallery",
+    "name": { "en": "Portfolio Gallery", "ar": "معرض البورتفوليو" },
+    "count": "120",
+    "countLabel": { "en": "portfolio designs", "ar": "تصميم بورتفوليو" },
+    "tagline": {
+      "en": "Personas, scroll stories, interactive machines and whole worlds — a city builder, a solar system, a museum, a stock exchange — each one a single hand-crafted HTML file.",
+      "ar": "شخصيات، وقصص تمرير، وآلات تفاعلية، وعوالم كاملة — مدينة تُبنى، ومجموعة شمسية، ومتحف، وبورصة — كل واحد منها ملف HTML واحد مصنوع يدوياً."
+    },
+    "tags": ["HTML", "CSS", "Canvas", "Three.js", "GSAP", "Web Audio"],
+    "url": "https://nouraldeentofi.github.io/portfolio-gallery/",
+    "images": {
+      "desktop": "assets/img/showcase/portfolio-gallery-desktop.webp",
+      "phone": "assets/img/showcase/portfolio-gallery-phone.webp"
+    }
+  }
+}

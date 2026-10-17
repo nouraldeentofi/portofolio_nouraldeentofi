@@ -45,6 +45,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
 <link rel="stylesheet" href="../assets/css/layout.css?v=8db2bca0">
 <link rel="stylesheet" href="../assets/css/components.css?v=f77e7512">
 <link rel="stylesheet" href="../assets/css/motion.css?v=c05b770e">
+<link rel="stylesheet" href="../assets/css/gallery.css?v=c6deb9ca">
 <link rel="stylesheet" href="../assets/css/responsive.css?v=51f7ace6">
 <script type="application/ld+json">
 {
@@ -387,6 +388,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
           <a href="about.html">About</a>
           <a href="work.html">Work</a>
           <a href="projects.html">Projects</a>
+          <a href="showcase.html">Showcase</a>
           <a href="automation.html">Automation Lab</a>
           <a href="chat.html">Chat</a>
           <a href="contact.html">Contact</a>
@@ -424,8 +426,8 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
       </div>
 <ul class="proof">
   <li class="proof__item">
-    <span class="proof__value" data-count>6</span>
-    <span class="proof__label">production workflows</span>
+    <span class="proof__value" data-count>39</span>
+    <span class="proof__label">n8n workflows built</span>
   </li>
   <li class="proof__item">
     <span class="proof__value" data-count>204</span>
@@ -487,24 +489,24 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
       </div>
       <div class="grid grid--3">
 <article data-reveal class="card">
+  <p class="card__meta"><span>AI scraping engine</span><span>2026</span></p>
+  <h3 class="card__title">Universal Web Scraper</h3>
+  <p class="card__body">One link in, the whole site out. A shared engine fetches pages and escalates only as far as it must, reads structured data before it spends anything on AI, and writes the rows into a spreadsheet — with quick jobs and long crawls run as separate, controllable workers.</p>
+  <ul class="badges"><li class="badge">n8n</li><li class="badge">OpenAI</li><li class="badge">Google Sheets</li><li class="badge">Excel</li></ul>
+  <div class="card__foot"><a class="btn btn--ghost" href="/en/automation.html">View project</a></div>
+</article>
+<article data-reveal class="card">
+  <p class="card__meta"><span>AI agents behind a product</span><span>2026</span></p>
+  <h3 class="card__title">CV Screener agents</h3>
+  <p class="card__body">The AI engine of CV Screener: sibling agents that profile one CV, screen one CV against a job, and summarise a whole pool. The product server calls them; every one checks a secret first, fences the CV as data, and returns typed JSON or a typed error.</p>
+  <ul class="badges"><li class="badge">n8n</li><li class="badge">OpenAI</li><li class="badge">Webhooks</li><li class="badge">Structured outputs</li></ul>
+  <div class="card__foot"><a class="btn btn--ghost" href="/en/automation.html">View project</a></div>
+</article>
+<article data-reveal class="card">
   <p class="card__meta"><span>Telegram AI agent · client project</span><span>2025 — present</span></p>
   <h3 class="card__title">Teacher Assistant AI Bot</h3>
   <p class="card__body">A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia. The tutor manages students, schedules, cancellations, and dues entirely through chat — the AI agent calls custom CRUD tools under strict business rules rather than guessing.</p>
   <ul class="badges"><li class="badge">n8n AI Agent</li><li class="badge">OpenAI</li><li class="badge">Google Sheets</li><li class="badge">MySQL</li></ul>
-  <div class="card__foot"><a class="btn btn--ghost" href="/en/automation.html">View project</a></div>
-</article>
-<article data-reveal class="card">
-  <p class="card__meta"><span>Production document AI pipeline</span><span>2026</span></p>
-  <h3 class="card__title">Smart Scanner Extraction Pipeline</h3>
-  <p class="card__body">The production pipeline behind Smart Scanner. Every invoice — photo or PDF — is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and Saudi e-invoice fields.</p>
-  <ul class="badges"><li class="badge">n8n</li><li class="badge">OpenAI GPT-4.1 Vision</li><li class="badge">PDF Extract</li><li class="badge">Validation</li></ul>
-  <div class="card__foot"><a class="btn btn--ghost" href="/en/automation.html">View project</a></div>
-</article>
-<article data-reveal class="card">
-  <p class="card__meta"><span>Scheduled agent with human-in-the-loop</span><span>2026</span></p>
-  <h3 class="card__title">AI Job-Match Pipeline</h3>
-  <p class="card__body">A scheduled pipeline that runs five daily search queries across LinkedIn, Indeed, and Glassdoor, scores each role&#39;s fit from one to ten with a structured-JSON LLM evaluator, and delivers only the high scorers.</p>
-  <ul class="badges"><li class="badge">n8n</li><li class="badge">JSearch API</li><li class="badge">OpenAI GPT-4.1</li><li class="badge">n8n Data Tables</li></ul>
   <div class="card__foot"><a class="btn btn--ghost" href="/en/automation.html">View project</a></div>
 </article>
       </div>
@@ -568,6 +570,63 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </div>
   </section>
 
+  <section class="section" id="showcase">
+    <div class="container">
+      <div class="section__head" data-reveal>
+        <p class="section__eyebrow">Sites I built</p>
+        <div class="section__titlebar">
+          <h2><a class="section__titlelink" href="showcase.html">Sites I built</a></h2>
+          <a class="section__more" href="showcase.html">Showcase<span class="section__more-arrow" aria-hidden="true">→</span></a>
+        </div>
+        <p class="section__lead">For people, companies and shops — each one starts from who they are, not from a template.</p>
+      </div>
+      <div class="grid grid--3">
+<article data-reveal class="show">
+  <figure class="show__media">
+    <span class="browser">
+      <span class="browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="browser__url">nouraldeentofi.github.io/aya-rady</span></span>
+      <img src="/assets/img/showcase/aya-rady-desktop.webp" alt="Aya Rady — desktop" width="1200" height="750" loading="lazy" decoding="async">
+    </span>
+    <span class="phone"><img src="/assets/img/showcase/aya-rady-phone.webp" alt="Aya Rady — phone" width="390" height="844" loading="lazy" decoding="async"></span>
+  </figure>
+  <div class="show__body">
+    <p class="card__meta"><span>People</span><span>2026</span></p>
+    <h3 class="card__title"><a href="/en/showcase.html#aya-rady">Aya Rady</a></h3>
+    <p class="show__role">Personal branding strategist for experts and consultants</p>
+  </div>
+</article>
+<article data-reveal class="show">
+  <figure class="show__media">
+    <span class="browser">
+      <span class="browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="browser__url">nouraldeentofi.github.io/prestige-vip-tailor</span></span>
+      <img src="/assets/img/showcase/prestige-vip-tailor-desktop.webp" alt="Prestige VIP Tailor — desktop" width="1200" height="750" loading="lazy" decoding="async">
+    </span>
+    <span class="phone"><img src="/assets/img/showcase/prestige-vip-tailor-phone.webp" alt="Prestige VIP Tailor — phone" width="390" height="844" loading="lazy" decoding="async"></span>
+  </figure>
+  <div class="show__body">
+    <p class="card__meta"><span>Shops</span><span>2026</span></p>
+    <h3 class="card__title"><a href="/en/showcase.html#prestige-vip-tailor">Prestige VIP Tailor</a></h3>
+    <p class="show__role">Men&#39;s tailor, Al Khobar</p>
+  </div>
+</article>
+<article data-reveal class="show">
+  <figure class="show__media">
+    <span class="browser">
+      <span class="browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="browser__url">gambit.nouraldeentofi.com</span></span>
+      <img src="/assets/img/showcase/gambit-tournaments-desktop.webp" alt="Gambit Tournaments — desktop" width="1200" height="750" loading="lazy" decoding="async">
+    </span>
+    <span class="phone"><img src="/assets/img/showcase/gambit-tournaments-phone.webp" alt="Gambit Tournaments — phone" width="390" height="844" loading="lazy" decoding="async"></span>
+  </figure>
+  <div class="show__body">
+    <p class="card__meta"><span>Companies</span><span>2026</span></p>
+    <h3 class="card__title"><a href="/en/showcase.html#gambit-tournaments">Gambit Tournaments</a></h3>
+    <p class="show__role">Tournaments platform for a chess club in Dammam</p>
+  </div>
+</article>
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="quotes">
     <div class="container">
       <div class="section__head" data-reveal>
@@ -619,6 +678,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     <a href="about.html"><span>About</span></a>
     <a href="work.html"><span>Work</span></a>
     <a href="projects.html"><span>Projects</span></a>
+    <a href="showcase.html"><span>Sites</span></a>
     <a href="automation.html"><span>Lab</span></a>
     <a href="chat.html"><span>Chat</span></a>
     <a href="contact.html"><span>Contact</span></a>
@@ -629,6 +689,6 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </form>
     <img src="../assets/img/nour.jpg?v=8858f5b0" alt="Nour Aldeen Tofi" width="720" height="720" loading="lazy" decoding="async">
   </dialog>
-<script src="../assets/js/main.js?v=a1501822" type="module"></script>
+<script src="../assets/js/main.js?v=a485f325" type="module"></script>
 </body>
 </html>

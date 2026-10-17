@@ -10,6 +10,7 @@
     "about": "About",
     "work": "Work",
     "projects": "Projects",
+    "showcase": "Showcase",
     "automation": "Automation Lab",
     "chat": "Chat",
     "contact": "Contact"
@@ -19,6 +20,7 @@
     "about": "About",
     "work": "Work",
     "projects": "Projects",
+    "showcase": "Sites",
     "automation": "Lab",
     "chat": "Chat",
     "contact": "Contact"
@@ -46,7 +48,22 @@
     "readTranscript": "Read the full transcript",
     "machineReadable": "Machine-readable",
     "viewPortrait": "View the portrait full size",
-    "closePortrait": "Close"
+    "closePortrait": "Close",
+    "visitSite": "Visit the site",
+    "privateSite": "Private build — shown with the client's permission",
+    "filterAll": "All",
+    "filterLabel": "// filter",
+    "workflowsUnit": "workflows",
+    "nodesUnit": "nodes",
+    "openCanvas": "See the real n8n canvas",
+    "canvasCaption": "The real canvas in n8n",
+    "closeCanvas": "Close",
+    "idea": "The idea",
+    "status": {
+      "client": "Running for a client",
+      "live": "Live",
+      "built": "Built and tested"
+    }
   },
   "home": {
     "eyebrow": "Al Khobar, Saudi Arabia · Arabic & English",
@@ -60,7 +77,9 @@
     "quoteLabel": "What people say",
     "ctaTitle": "Have a process that should run itself?",
     "ctaBody": "Whether it is Arabic document processing, an internal tool nobody enjoys using, or a workflow that quietly eats your team's week — tell me about it.",
-    "ctaButton": "Start a conversation"
+    "ctaButton": "Start a conversation",
+    "showcaseLabel": "Sites I built",
+    "showcaseLead": "For people, companies and shops — each one starts from who they are, not from a template."
   },
   "about": {
     "title": "About",
@@ -140,16 +159,42 @@
     "title": "Projects",
     "lead": "Products and platforms I designed, built, or shipped end to end — from an Arabic-first SaaS to an app on the Play Store."
   },
+  "showcase": {
+    "title": "Showcase",
+    "lead": "Websites I designed and built for people, companies and shops. Each one starts from who they are, not from a template.",
+    "segments": {
+      "people": "People",
+      "companies": "Companies",
+      "shops": "Shops"
+    },
+    "labTitle": "Design lab",
+    "labLead": "Away from client work: a gallery of portfolio designs, built to push what a personal site can be.",
+    "labButton": "Open the gallery",
+    "ctaTitle": "Want a site that could only be yours?",
+    "ctaBody": "Send me your LinkedIn profile or your shop's Google Maps listing, and I will tell you what I would build."
+  },
   "automation": {
     "title": "Automation Lab",
-    "lead": "Production workflows and AI agents built in n8n. Every one of these replaced something a person used to do by hand.",
+    "lead": "Systems and workflows built in n8n with language models. Each one is marked honestly: running for a client, live, or built and tested.",
     "caseTitle": "A case study in cost: one branch, three quarters saved",
     "caseBody": [
       "The mistake in my first workflow was sending every file that arrived at the webhook straight to a vision model. It worked. It also cost roughly three times more than it needed to.",
       "The reason is simple: a PDF usually already contains readable text. A vision model does not need to look at the page when a text model can read it — and reading costs a fraction of seeing.",
       "The fix was a single branching decision placed just after the webhook: if the file is a PDF with extractable text, send the text to a text model; otherwise send the image to the vision model. The per-document cost dropped by about three quarters.",
       "One detail matters more than the branch itself: always keep a fallback. If text extraction returns empty — because the PDF is really just a scanned image — the file has to go back to the vision branch. Without that, the cheap path silently produces nothing."
-    ]
+    ],
+    "systemsTitle": "Systems",
+    "systemsLead": "Each of these is several workflows working as one — shown as the system, not as a pile of parts.",
+    "buildsTitle": "Smaller builds",
+    "buildsLead": "Single-purpose workflows, each one solving a whole job from start to finish.",
+    "audiences": {
+      "shops": "For shops",
+      "hr": "Hiring",
+      "data": "Data",
+      "education": "Education",
+      "content": "Content & messaging"
+    },
+    "diagramNote": "Every diagram is drawn from the real node graph, with names simplified and nothing sensitive in it."
   },
   "chat": {
     "title": "Talk to the portfolio",

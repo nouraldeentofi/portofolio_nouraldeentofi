@@ -18,7 +18,8 @@ Every fact appears in `data/` exactly once:
 | `data/profile.json` | Identity, contact, the `sameAs` link graph, availability |
 | `data/experience.json` | Employment, newest first |
 | `data/projects.json` | Products and applications |
-| `data/workflows.json` | n8n automations |
+| `data/workflows.json` | n8n automation systems: status, audience, curated flow, canvas screenshot |
+| `data/showcase.json` | Client websites (with the owner's permission) and the design lab |
 | `data/credentials.json` | Certifications, education, awards |
 | `data/testimonials.json` | Recommendations |
 | `data/skills.json` | Skills by category |
@@ -35,6 +36,10 @@ These are not style preferences — `npm test` and `npm run validate` fail on th
   that one is correct as written.)
 - Arabic and English copy must expose **identical key sets** and equal array lengths.
 - Unknown facts are `null` with a sibling `todo` string. They must never render as a link.
+- **ZATCA must not appear anywhere**, and the scraper's crawl mode is never tied to the
+  site it was built against.
+- A workflow `status` is a claim: `client` (running for a real client), `live`, or `built`.
+  Diagrams in `flow` are curated from the real n8n node graph — no IDs, prompts or client data.
 - Prose contains **no figures** — every number comes from `data/` so it cannot drift.
 
 ## Code conventions

@@ -152,11 +152,47 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 **Stack.** Model Context Protocol, Node.js, Claude, JSON Schema
 
-## Automation workflows
+## Automation systems
+
+### Universal Web Scraper (2026)
+
+*AI scraping engine* — Live — 7 n8n workflow(s) — trigger: Web app (webhook) and a crawl schedule
+
+**Flow.** Scrape job API → Crawl worker tick → Plan the job → Quick batch loop → Escalating fetch → Needs AI? → AI field extraction → Collect rows → Dedupe and merge → Excel and Sheets
+
+One link in, the whole site out. A shared engine fetches pages and escalates only as far as it must, reads structured data before it spends anything on AI, and writes the rows into a spreadsheet — with quick jobs and long crawls run as separate, controllable workers.
+
+**Services.** n8n, OpenAI, Google Sheets, Excel, n8n Data Tables, Webhooks
+
+- One engine, called as a sub-workflow by both the quick runner and the crawl worker
+- The AI call is skipped entirely when structured data already answers the page
+- The crawl worker locks each job, opens a new sheet when a part fills up, and writes one tab per category
+- Pause, resume, cancel, restart and delete, routed through a single control endpoint
+
+**Outcome.** Collecting a website into Excel stops being copy-and-paste or a new script per site.
+
+### CV Screener agents (2026)
+
+*AI agents behind a product* — Live — 4 n8n workflow(s) — trigger: Server-to-server webhook
+
+**Flow.** CV request webhook → Secret header check → Validate and fence → Valid request? → Profile the CV → Reject request → Structural check → Return JSON
+
+The AI engine of CV Screener: sibling agents that profile one CV, screen one CV against a job, and summarise a whole pool. The product server calls them; every one checks a secret first, fences the CV as data, and returns typed JSON or a typed error.
+
+**Services.** n8n, OpenAI, Webhooks, Structured outputs
+
+- A secret header is checked before anything else; a bad call never reaches the model
+- The CV text is wrapped in random fences, so instructions hidden inside a CV are read as data
+- The model scores with quoted evidence; weighted totals and must-have caps are computed in code
+- Set not to store executions, because CVs are personal data
+
+**Outcome.** Hundreds of CVs become a ranked, explainable pool that a recruiter can defend.
 
 ### Teacher Assistant AI Bot (2025 — present)
 
-*Telegram AI agent · client project* — trigger: Telegram message
+*Telegram AI agent · client project* — Running for a client — 5 n8n workflow(s) — trigger: Telegram message
+
+**Flow.** Telegram message → Verify the request → Shared a contact? → Capture the lead → Usage gate → Alert the owner → Limit reached → Teacher AI agent → Reply in chat
 
 A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia. The tutor manages students, schedules, cancellations, and dues entirely through chat — the AI agent calls custom CRUD tools under strict business rules rather than guessing.
 
@@ -166,12 +202,15 @@ A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia
 - Usage metering and free-trial gating
 - Session memory across conversations
 - Automated lesson reminders scheduled in Saudi time
+- Grew in stages: fixed commands without AI, then an AI agent, then a MySQL version with stored procedures as tools
 
 **Outcome.** A tutor runs an entire practice from a chat window, with no app to learn and no spreadsheet to maintain.
 
 ### Smart Scanner Extraction Pipeline (2026)
 
-*Production document AI pipeline* — trigger: Webhook (image or PDF upload)
+*Production document AI pipeline* — Live — 1 n8n workflow(s) — trigger: Webhook (image or PDF upload)
+
+**Flow.** Receipt upload → Secret header check → PDF or image? → Read the PDF → Read the image → Parse and validate → Valid receipt? → Reply to app → Reject and clean up → Post to backend
 
 The production pipeline behind Smart Scanner. Every invoice — photo or PDF — is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and Saudi e-invoice fields.
 
@@ -184,9 +223,62 @@ The production pipeline behind Smart Scanner. Every invoice — photo or PDF —
 
 **Outcome.** Manual invoice entry disappears entirely; a photo becomes structured accounting data in about ten seconds.
 
+### Telegram Publishing System (2026)
+
+*Content system run from a chat* — Built and tested — 4 n8n workflow(s) — trigger: Telegram message and a scheduler
+
+**Flow.** Telegram command → Allowed chat? → Load post context → Parse intent → State machine → Save post job → Reply in chat → Review and publish scheduler → Content generator → Multi-platform publisher
+
+Plan, review, approve and publish posts to LinkedIn, Instagram and Reddit from a Telegram chat. The AI only understands what you meant; every decision after that is made by a deterministic state machine.
+
+**Services.** n8n, OpenAI, Telegram, LinkedIn, Instagram, Reddit, n8n Data Tables
+
+- Button presses skip the AI and go straight to the state machine
+- Only allow-listed chats are processed
+- The scheduler locks an approved post before publishing, so nothing goes out twice
+- Jobs stuck too long are marked failed, with a retry button
+
+**Outcome.** A content calendar that lives in a chat, with a human approving every post.
+
+### Unified Inbox (2026)
+
+*Inbox with AI triage* — Built and tested — 3 n8n workflow(s) — trigger: Incoming message, webhook and schedule
+
+**Flow.** Telegram inbound → New message hook → Outbox poll → Atomic ingest → Worth a model call? → Send via Telegram → Dialect-aware enrichment → Classify locally → Record send result → Save enrichment
+
+Messages from every channel land in one inbox. Each one is enriched with its dialect, intent, priority and a summary, plus a draft reply written in the sender's own dialect — and replies leave through an outbox that records every result.
+
+**Services.** n8n, OpenAI, Supabase, Telegram, Structured outputs
+
+- Greetings and emoji-only messages never reach the model — they are classified locally to save cost
+- Every channel is normalised to one contract and written with a single atomic call
+- Enrichment continues on error, so no message is ever lost
+- The outbox sends one message at a time and records a readable failure reason
+
+**Outcome.** A team answers every customer from one place, starting from a draft that already sounds like them.
+
+### Google Review Reply Manager (2026)
+
+*Review management for shops* — Built and tested — 2 n8n workflow(s) — trigger: Schedule and a Telegram button
+
+**Flow.** Review poll → Fetch new reviews → Draft reply → Positive review? → Auto-post reply → Ask owner approval → Approval button tap → Approve or skip? → Post approved reply → Mark as skipped
+
+New Google reviews are picked up on a schedule and answered in the reviewer's own language. Happy reviews get a reply on their own; unhappy ones go to the owner on Telegram, who approves or skips with one tap.
+
+**Services.** n8n, OpenAI, Google Business Profile, Telegram, n8n Data Tables
+
+- Reviews already answered or already tracked are skipped
+- High ratings are posted automatically; low ratings wait for the owner
+- The owner's tap posts the stored draft and edits the message to confirm
+- A one-off helper fetches each new client's account and location
+
+**Outcome.** Every review gets an answer, and the owner only spends time on the ones that need them.
+
 ### AI Job-Match Pipeline (2026)
 
-*Scheduled agent with human-in-the-loop* — trigger: Daily schedule
+*Scheduled agent with human-in-the-loop* — Live — 3 n8n workflow(s) — trigger: Daily schedule
+
+**Flow.** Daily job search → Search job boards → Keep new jobs → AI fit scoring → Save to table → High score? → Has apply email? → Approve on Telegram → Manual apply alert → Send application email
 
 A scheduled pipeline that runs five daily search queries across LinkedIn, Indeed, and Glassdoor, scores each role's fit from one to ten with a structured-JSON LLM evaluator, and delivers only the high scorers.
 
@@ -197,12 +289,77 @@ A scheduled pipeline that runs five daily search queries across LinkedIn, Indeed
 - Telegram delivery of high-scoring matches only
 - Human-in-the-loop approval before any application is sent
 - Semi-automated applications with tailored AI-generated cover letters via Gmail
+- A factory clones the search into a separate daily bot for each user, through the n8n API — automation that builds automation
 
 **Outcome.** Daily job hunting collapses into reviewing a short, pre-scored shortlist.
 
+### Transfer Receipt Check (2026)
+
+*Payment check for registrations* — Running for a client — 1 n8n workflow(s) — trigger: Webhook (receipt upload)
+
+**Flow.** Receipt upload → Check the request → Request allowed? → Read receipt with vision → Shape the reply → Model failed → Send the reply
+
+Behind a chess club's tournament registration: the uploaded bank-transfer receipt is read by a vision model, which also says whether it is a transfer at all. The site applies the rules; the workflow only reads.
+
+**Services.** n8n, OpenAI GPT-4.1 Vision, Webhooks
+
+- Secret, contract version and image size are checked before any model call
+- Model failures take their own branch, so the site always gets a JSON answer
+- Successful runs are not stored, because receipts carry personal data
+
+**Outcome.** Registrations are confirmed without anyone opening a receipt by hand.
+
+### WhatsApp Booking Bot (2026)
+
+*Booking bot for shops* — Built and tested — 1 n8n workflow(s) — trigger: WhatsApp message
+
+A customer taps a service, then a time slot, in WhatsApp buttons. The confirmed slot is written to Google Calendar and confirmed back on WhatsApp.
+
+**Services.** n8n, WhatsApp, Google Calendar
+
+- Service and time chosen with buttons, not typing
+- Every booking lands in Google Calendar
+- The customer gets a confirmation on WhatsApp
+
+**Outcome.** A shop takes bookings around the clock without answering the phone.
+
+### WhatsApp Group from a Spreadsheet (2026)
+
+*Form-driven messaging tool* — Built and tested — 1 n8n workflow(s) — trigger: Form (file upload)
+
+**Flow.** Contacts upload form → Read the spreadsheet → Normalize phone numbers → Create WhatsApp group → Batch the contacts → Add participants → Find members not added → Send invite link
+
+Upload an Excel or CSV of contacts and a group name: the group is created, everyone is added in throttled batches, and anyone WhatsApp refuses to add receives the invite link instead.
+
+**Services.** n8n, Whapi.Cloud, Excel, CSV
+
+- Phone columns are detected automatically, normalised and de-duplicated
+- Members are added in batches with a pause between them, to stay under spam limits
+- Whoever could not be added gets the invite link, one message at a time
+
+**Outcome.** A list in a spreadsheet becomes a working group in minutes.
+
+### Social Auto-Publisher (2026)
+
+*AI social media studio* — Built and tested — 1 n8n workflow(s) — trigger: Telegram message
+
+**Flow.** Telegram post idea → Load brand kit → Plan and captions → Settings or post? → Save brand settings → Background image → Vision layout pass → Render branded image → Approve on Telegram → Schedule on Postiz
+
+Send a post idea to a Telegram bot and get back captions for each platform and a branded image in your own colours, fonts and logo. Nothing is scheduled until you approve the preview.
+
+**Services.** n8n, OpenAI, Browserless, Postiz, Telegram, n8n Data Tables
+
+- The brand kit is stored once and edited through chat commands
+- A vision pass picks the text zone, logo corner and overlay strength for each background
+- The final image is composed as HTML and rendered to PNG
+
+**Outcome.** A week of on-brand posts from a handful of chat messages.
+
 ### Smart Lead Finder (2025)
 
-*Scraping and enrichment pipeline* — trigger: Schedule
+*Scraping and enrichment pipeline* — Built and tested — 3 n8n workflow(s) — trigger: Manual run
+
+**Flow.** Manual run → Build search queries → Read existing leads → Search places → Split and dedupe → Has a website? → Scrape contact details → Merge the leads → Keep only new → Append to sheet
 
 Automated B2B lead generation across the Saudi and Jordanian markets: multi-query place search, website scraping to extract emails and WhatsApp numbers, prioritisation scoring, and duplicate-safe appends into segmented sheets.
 
@@ -217,7 +374,9 @@ Automated B2B lead generation across the Saudi and Jordanian markets: multi-quer
 
 ### Lesson Quality Evaluator (2026)
 
-*Video-to-data webhook service* — trigger: Webhook (video upload)
+*Video-to-data webhook service* — Built and tested — 1 n8n workflow(s) — trigger: Webhook (video upload)
+
+**Flow.** Lesson video URL → Normalize the input → Request transcript → Wait and poll → Transcript finished? → Build evaluation prompt → Transcript OK? → Analyze the lesson → Return an error → Return the scorecard
 
 A webhook service that transcribes lesson videos with speaker separation and returns structured JSON scoring teacher quality and student engagement.
 
@@ -229,9 +388,25 @@ A webhook service that transcribes lesson videos with speaker separation and ret
 
 **Outcome.** Lesson review becomes measurable instead of anecdotal.
 
+### AI Email Campaigns (2026)
+
+*Personalised outreach* — Built and tested — 1 n8n workflow(s) — trigger: Form
+
+**Flow.** Campaign form → Excel or sheet? → Read CV text → Clean the contacts → Attach CV context → Loop over contacts → Write personal email → Email the report → Send via Gmail
+
+Fill in a form with a contact list and, for a job search, your CV. Each contact gets an email written for them, sent one at a time through Gmail with a random pause, and you get a report when it is done.
+
+**Services.** n8n, OpenAI, Gmail, Google Sheets, Excel
+
+- Arabic or English column headers are mapped automatically
+- Your CV's text is given to the model as context for job-search emails
+- Every send is recorded as sent or failed
+
+**Outcome.** Personal outreach at the scale of a mail merge.
+
 ### CRM Lead Cleaner (2026)
 
-*Data quality pipeline · proof of concept* — trigger: Webhook or schedule
+*Data quality pipeline · proof of concept* — Built and tested — trigger: Webhook or schedule
 
 Incoming CRM leads arrive scattered — duplicates, malformed emails, missing fields — and cost sales teams hours of manual triage. This pipeline cleans them automatically and reports on what it did.
 
@@ -243,6 +418,100 @@ Incoming CRM leads arrive scattered — duplicates, malformed emails, missing fi
 - Produces a quality summary after each run
 
 **Outcome.** Designed to plug straight into a CRM, turning hours of manual triage into a summary line.
+
+## Websites built for clients
+
+### Aya Rady — Personal branding strategist for experts and consultants
+
+Inside-Out, the name of her programme, drawn as rings: expertise at the centre, the sides she works on around it, and a wave that lights each one until it reaches your name.
+
+- A before-and-after case study shown as a real LinkedIn profile
+- A gap check that names your first gap and opens a ready message
+- Arabic by default, English in one tap
+
+**Live.** https://nouraldeentofi.github.io/aya-rady/
+
+### Mohammed Alhabbarah — Head of Learning & Capability Development, Riyadh Metro
+
+A living metro map behind every page — lines that draw themselves, stations that breathe, small trains on the move — taken from his work on Riyadh Metro and his banner line, from the field to impact.
+
+- A page for each of his programmes: scope, role, dates and impact
+- A metro-line footer where the page you are on is the lit station
+- Tested across screen sizes, both themes, touch and accessibility
+
+**Live.** https://nouraldeentofi.github.io/mohammed-alhabbarah/
+
+### Layal Joumaa — CV writer, LinkedIn optimisation and personal branding
+
+A living marble background in WebGL behind a CV that rewrites itself in the hero — her craft, shown instead of described.
+
+- A LinkedIn headline checker
+- Client stories on a map of where they landed
+- A few taps to a ready first message
+
+**Live.** https://nouraldeentofi.github.io/layal-joumaa/
+
+### Salam Aksimi — Personal branding and content on LinkedIn
+
+Threads and sparks: the sparkle she signs every post with becomes a drawn spark, travelling along threads that connect people and ideas.
+
+- Her stage story as real event badges that flip between years
+- A page for every event she spoke at or hosted
+- Mobile first, with an app-like dock and a booking button
+
+**Live.** https://nouraldeentofi.github.io/salam-aksimi/
+
+### Tawheed Malkat — Product designer (UI/UX)
+
+The portfolio as an open design file: a dotted canvas, her name as a selected text layer, and a camera that flies through her projects as you scroll.
+
+- A scroll-driven camera journey through her projects
+- A slider from first research note to clickable prototype
+- A project board you can drag and zoom
+
+**Live.** https://nouraldeentofi.github.io/tawheed-malkat/
+
+### Monther Al-Ashqar — Senior project manager and owner's representative
+
+An engineering-grade portfolio on a dark blueprint, leading with the scale of a career spent on site.
+
+- A page for every major project
+- English and Arabic, each under its own path
+- Structured data and llms.txt for search engines and AI assistants
+
+### Gambit Tournaments — Tournaments platform for a chess club in Dammam
+
+The club's black and gold, built as a full product: upcoming tournaments with live seats, guest registration, and an archive of past tournaments.
+
+- Transfer receipts checked automatically by an AI workflow in n8n
+- Arabic, English and Urdu
+- An admin dashboard for tournaments, gallery and registrations
+
+**Live.** https://gambit.nouraldeentofi.com/
+
+### Prestige VIP Tailor — Men's tailor, Al Khobar
+
+From the tailor's world: pattern paper in the background, a fabric swatch book in 3D, and a thobe on a hanger that changes as the customer chooses.
+
+- Design your thobe — collar, sleeve, pocket, buttons, fabric — and it travels with the booking
+- A three-step booking that opens WhatsApp with the message ready
+- Light by default, with a moon toggle for dark
+
+**Live.** https://nouraldeentofi.github.io/prestige-vip-tailor/
+
+### Al-Reem Grilled Lamb — Charcoal-grilled lamb, Al Khobar
+
+An app on the phone: a bottom bar, an order in steps, and the shop's own photos doing the selling.
+
+- Orders arrive ready on the shop's WhatsApp
+- Photo gallery and Google reviews
+- Light and dark modes
+
+**Live.** https://nouraldeentofi.github.io/alreem-mashwi/
+
+### Portfolio Gallery
+
+120 portfolio designs. Personas, scroll stories, interactive machines and whole worlds — a city builder, a solar system, a museum, a stock exchange — each one a single hand-crafted HTML file. https://nouraldeentofi.github.io/portfolio-gallery/
 
 ## Experience
 

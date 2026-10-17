@@ -1,5 +1,5 @@
 /** The canonical page list. Everything that walks the site iterates this. */
-export const PAGES = ['', 'about', 'work', 'projects', 'automation', 'chat', 'contact'];
+export const PAGES = ['', 'about', 'work', 'projects', 'showcase', 'automation', 'chat', 'contact'];
 
 export const LANGS = ['en', 'ar'];
 

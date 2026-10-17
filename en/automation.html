@@ -45,6 +45,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
 <link rel="stylesheet" href="../assets/css/layout.css?v=8db2bca0">
 <link rel="stylesheet" href="../assets/css/components.css?v=f77e7512">
 <link rel="stylesheet" href="../assets/css/motion.css?v=c05b770e">
+<link rel="stylesheet" href="../assets/css/gallery.css?v=c6deb9ca">
 <link rel="stylesheet" href="../assets/css/responsive.css?v=51f7ace6">
 <script type="application/ld+json">
 {
@@ -372,6 +373,34 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
           "position": 1,
           "item": {
             "@type": "CreativeWork",
+            "name": "Universal Web Scraper",
+            "description": "One link in, the whole site out. A shared engine fetches pages and escalates only as far as it must, reads structured data before it spends anything on AI, and writes the rows into a spreadsheet — with quick jobs and long crawls run as separate, controllable workers.",
+            "genre": "AI scraping engine",
+            "author": {
+              "@id": "https://nouraldeentofi.com/#nour"
+            },
+            "keywords": "n8n, OpenAI, Google Sheets, Excel, n8n Data Tables, Webhooks"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "CV Screener agents",
+            "description": "The AI engine of CV Screener: sibling agents that profile one CV, screen one CV against a job, and summarise a whole pool. The product server calls them; every one checks a secret first, fences the CV as data, and returns typed JSON or a typed error.",
+            "genre": "AI agents behind a product",
+            "author": {
+              "@id": "https://nouraldeentofi.com/#nour"
+            },
+            "keywords": "n8n, OpenAI, Webhooks, Structured outputs"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "CreativeWork",
             "name": "Teacher Assistant AI Bot",
             "description": "A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia. The tutor manages students, schedules, cancellations, and dues entirely through chat — the AI agent calls custom CRUD tools under strict business rules rather than guessing.",
             "genre": "Telegram AI agent · client project",
@@ -383,7 +412,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
         },
         {
           "@type": "ListItem",
-          "position": 2,
+          "position": 4,
           "item": {
             "@type": "CreativeWork",
             "name": "Smart Scanner Extraction Pipeline",
@@ -397,7 +426,49 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
         },
         {
           "@type": "ListItem",
-          "position": 3,
+          "position": 5,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Telegram Publishing System",
+            "description": "Plan, review, approve and publish posts to LinkedIn, Instagram and Reddit from a Telegram chat. The AI only understands what you meant; every decision after that is made by a deterministic state machine.",
+            "genre": "Content system run from a chat",
+            "author": {
+              "@id": "https://nouraldeentofi.com/#nour"
+            },
+            "keywords": "n8n, OpenAI, Telegram, LinkedIn, Instagram, Reddit, n8n Data Tables"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Unified Inbox",
+            "description": "Messages from every channel land in one inbox. Each one is enriched with its dialect, intent, priority and a summary, plus a draft reply written in the sender's own dialect — and replies leave through an outbox that records every result.",
+            "genre": "Inbox with AI triage",
+            "author": {
+              "@id": "https://nouraldeentofi.com/#nour"
+            },
+            "keywords": "n8n, OpenAI, Supabase, Telegram, Structured outputs"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Google Review Reply Manager",
+            "description": "New Google reviews are picked up on a schedule and answered in the reviewer's own language. Happy reviews get a reply on their own; unhappy ones go to the owner on Telegram, who approves or skips with one tap.",
+            "genre": "Review management for shops",
+            "author": {
+              "@id": "https://nouraldeentofi.com/#nour"
+            },
+            "keywords": "n8n, OpenAI, Google Business Profile, Telegram, n8n Data Tables"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
           "item": {
             "@type": "CreativeWork",
             "name": "AI Job-Match Pipeline",
@@ -411,7 +482,63 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
         },
         {
           "@type": "ListItem",
-          "position": 4,
+          "position": 9,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Transfer Receipt Check",
+            "description": "Behind a chess club's tournament registration: the uploaded bank-transfer receipt is read by a vision model, which also says whether it is a transfer at all. The site applies the rules; the workflow only reads.",
+            "genre": "Payment check for registrations",
+            "author": {
+              "@id": "https://nouraldeentofi.com/#nour"
+            },
+            "keywords": "n8n, OpenAI GPT-4.1 Vision, Webhooks"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "WhatsApp Booking Bot",
+            "description": "A customer taps a service, then a time slot, in WhatsApp buttons. The confirmed slot is written to Google Calendar and confirmed back on WhatsApp.",
+            "genre": "Booking bot for shops",
+            "author": {
+              "@id": "https://nouraldeentofi.com/#nour"
+            },
+            "keywords": "n8n, WhatsApp, Google Calendar"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "WhatsApp Group from a Spreadsheet",
+            "description": "Upload an Excel or CSV of contacts and a group name: the group is created, everyone is added in throttled batches, and anyone WhatsApp refuses to add receives the invite link instead.",
+            "genre": "Form-driven messaging tool",
+            "author": {
+              "@id": "https://nouraldeentofi.com/#nour"
+            },
+            "keywords": "n8n, Whapi.Cloud, Excel, CSV"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Social Auto-Publisher",
+            "description": "Send a post idea to a Telegram bot and get back captions for each platform and a branded image in your own colours, fonts and logo. Nothing is scheduled until you approve the preview.",
+            "genre": "AI social media studio",
+            "author": {
+              "@id": "https://nouraldeentofi.com/#nour"
+            },
+            "keywords": "n8n, OpenAI, Browserless, Postiz, Telegram, n8n Data Tables"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
           "item": {
             "@type": "CreativeWork",
             "name": "Smart Lead Finder",
@@ -425,7 +552,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
         },
         {
           "@type": "ListItem",
-          "position": 5,
+          "position": 14,
           "item": {
             "@type": "CreativeWork",
             "name": "Lesson Quality Evaluator",
@@ -439,7 +566,21 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
         },
         {
           "@type": "ListItem",
-          "position": 6,
+          "position": 15,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "AI Email Campaigns",
+            "description": "Fill in a form with a contact list and, for a job search, your CV. Each contact gets an email written for them, sent one at a time through Gmail with a random pause, and you get a report when it is done.",
+            "genre": "Personalised outreach",
+            "author": {
+              "@id": "https://nouraldeentofi.com/#nour"
+            },
+            "keywords": "n8n, OpenAI, Gmail, Google Sheets, Excel"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 16,
           "item": {
             "@type": "CreativeWork",
             "name": "CRM Lead Cleaner",
@@ -473,6 +614,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
           <a href="about.html">About</a>
           <a href="work.html">Work</a>
           <a href="projects.html">Projects</a>
+          <a href="showcase.html">Showcase</a>
           <a href="automation.html" aria-current="page">Automation Lab</a>
           <a href="chat.html">Chat</a>
           <a href="contact.html">Contact</a>
@@ -489,102 +631,1363 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     <div class="container">
       <p class="hero__eyebrow">Automation Lab</p>
       <h1>Automation Lab</h1>
-      <p class="hero__headline">Production workflows and AI agents built in n8n. Every one of these replaced something a person used to do by hand.</p>
+      <p class="hero__headline">Systems and workflows built in n8n with language models. Each one is marked honestly: running for a client, live, or built and tested.</p>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" id="systems" data-filter-scope>
     <div class="container">
-      <div class="stack">
-<article data-reveal class="card card--row card--featured" id="teacher-assistant-bot">
-  <div class="card__main">
-    <p class="card__meta"><span>Telegram AI agent · client project</span><span>2025 — present</span></p>
-    <h3 class="card__title">Teacher Assistant AI Bot</h3>
-    <p class="card__body">A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia. The tutor manages students, schedules, cancellations, and dues entirely through chat — the AI agent calls custom CRUD tools under strict business rules rather than guessing.</p>
-    <ul class="card__list"><li>Custom tool-calling design with strict business rules</li><li>Usage metering and free-trial gating</li><li>Session memory across conversations</li><li>Automated lesson reminders scheduled in Saudi time</li></ul>
-    <dl class="card__body"><dt>Outcome</dt><dd>A tutor runs an entire practice from a chat window, with no app to learn and no spreadsheet to maintain.</dd></dl>
+<div class="filters" data-filter-bar hidden>
+  <span class="filters__label" aria-hidden="true">// filter</span>
+  <button class="filter" type="button" data-filter="all" aria-pressed="true">All <span class="filter__count">16</span></button>
+  <button class="filter" type="button" data-filter="shops" aria-pressed="false">For shops <span class="filter__count">4</span></button>
+  <button class="filter" type="button" data-filter="hr" aria-pressed="false">Hiring <span class="filter__count">3</span></button>
+  <button class="filter" type="button" data-filter="data" aria-pressed="false">Data <span class="filter__count">4</span></button>
+  <button class="filter" type="button" data-filter="education" aria-pressed="false">Education <span class="filter__count">2</span></button>
+  <button class="filter" type="button" data-filter="content" aria-pressed="false">Content &amp; messaging <span class="filter__count">5</span></button>
+</div>
+<ul class="legend">
+  <li><span class="status status--client">Running for a client</span></li>
+  <li><span class="status status--live">Live</span></li>
+  <li><span class="status status--built">Built and tested</span></li>
+  <li>Every diagram is drawn from the real node graph, with names simplified and nothing sensitive in it.</li>
+</ul>
+      <div class="section__head" data-reveal>
+        <div class="section__titlebar"><h2>Systems</h2></div>
+        <p class="section__lead">Each of these is several workflows working as one — shown as the system, not as a pile of parts.</p>
+      </div>
+      <div class="systems">
+<article data-reveal data-filter-item data-group="data" class="card system" id="universal-web-scraper">
+  <p class="card__meta"><span class="status status--live">Live</span><span>AI scraping engine</span><span>2026</span></p>
+  <h3 class="card__title">Universal Web Scraper</h3>
+  <p class="card__body">One link in, the whole site out. A shared engine fetches pages and escalates only as far as it must, reads structured data before it spends anything on AI, and writes the rows into a spreadsheet — with quick jobs and long crawls run as separate, controllable workers.</p>
+  <figure class="system__diagram">
+    <div class="wf-frame">
+      <svg class="wf" viewBox="0 0 1060 226" width="1060" height="226" role="img" aria-labelledby="wf-universal-web-scraper-en-t wf-universal-web-scraper-en-d" style="--wf-w:1060px">
+    <title id="wf-universal-web-scraper-en-t">Universal Web Scraper</title>
+    <desc id="wf-universal-web-scraper-en-d">Scrape job API / Crawl worker tick → Plan the job → Quick batch loop → Escalating fetch → Needs AI? → AI field extraction → Collect rows → Dedupe and merge → Excel and Sheets</desc>
+    <defs><marker id="wf-a-universal-web-scraper-en" class="wf__arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0.8 L7 4 L0 7.2 Z"/></marker></defs>
+    <path class="wf__edge" d="M184 38 C206 38 206 64 228 64" marker-end="url(#wf-a-universal-web-scraper-en)"/>
+    <path class="wf__pulse" d="M184 38 C206 38 206 64 228 64" pathLength="100" style="animation-delay:0.00s"/>
+    <path class="wf__edge" d="M400 64 C422 64 422 64 444 64" marker-end="url(#wf-a-universal-web-scraper-en)"/>
+    <path class="wf__pulse" d="M400 64 C422 64 422 64 444 64" pathLength="100" style="animation-delay:0.52s"/>
+    <path class="wf__edge" d="M616 64 C638 64 638 64 660 64" marker-end="url(#wf-a-universal-web-scraper-en)"/>
+    <path class="wf__pulse" d="M616 64 C638 64 638 64 660 64" pathLength="100" style="animation-delay:1.04s"/>
+    <path class="wf__edge" d="M184 97 C422 97 422 64 660 64" marker-end="url(#wf-a-universal-web-scraper-en)"/>
+    <path class="wf__pulse" d="M184 97 C422 97 422 64 660 64" pathLength="100" style="animation-delay:0.00s"/>
+    <path class="wf__edge" d="M832 64 C854 64 854 64 876 64" marker-end="url(#wf-a-universal-web-scraper-en)"/>
+    <path class="wf__pulse" d="M832 64 C854 64 854 64 876 64" pathLength="100" style="animation-delay:1.32s"/>
+    <path class="wf__edge" d="M962 83 C962 122.5 962 122.5 962 162" marker-end="url(#wf-a-universal-web-scraper-en)"/>
+    <path class="wf__pulse" d="M962 83 C962 122.5 962 122.5 962 162" pathLength="100" style="animation-delay:1.84s"/>
+    <path class="wf__edge" d="M962 83 C962 126 746 126 746 169" marker-end="url(#wf-a-universal-web-scraper-en)"/>
+    <path class="wf__pulse" d="M962 83 C962 126 746 126 746 169" pathLength="100" style="animation-delay:1.60s"/>
+    <path class="wf__edge" d="M876 188 C854 188 854 188 832 188" marker-end="url(#wf-a-universal-web-scraper-en)"/>
+    <path class="wf__pulse" d="M876 188 C854 188 854 188 832 188" pathLength="100" style="animation-delay:2.12s"/>
+    <path class="wf__edge" d="M660 188 C638 188 638 188 616 188" marker-end="url(#wf-a-universal-web-scraper-en)"/>
+    <path class="wf__pulse" d="M660 188 C638 188 638 188 616 188" pathLength="100" style="animation-delay:2.64s"/>
+    <path class="wf__edge" d="M444 188 C422 188 422 188 400 188" marker-end="url(#wf-a-universal-web-scraper-en)"/>
+    <path class="wf__pulse" d="M444 188 C422 188 422 188 400 188" pathLength="100" style="animation-delay:2.80s"/>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="12" width="172" height="52" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="38" r="4.5"/>
+      <text class="wf__label" x="104" y="34" text-anchor="middle">Scrape job API</text>
+      <text class="wf__service" x="104" y="51" text-anchor="middle">Webhook</text>
+    </g>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="78" width="172" height="38" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="97" r="4.5"/>
+      <text class="wf__label" x="104" y="101.5" text-anchor="middle">Crawl worker tick</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="228" y="45" width="172" height="38" rx="11"/>
+      <circle class="wf__mark" cx="244" cy="64" r="4.5"/>
+      <text class="wf__label" x="320" y="68.5" text-anchor="middle">Plan the job</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="444" y="45" width="172" height="38" rx="11"/>
+      <circle class="wf__mark" cx="460" cy="64" r="4.5"/>
+      <text class="wf__label" x="536" y="68.5" text-anchor="middle">Quick batch loop</text>
+    </g>
+    <g class="wf__node wf__node--io">
+      <rect x="660" y="38" width="172" height="52" rx="11"/>
+      <circle class="wf__mark" cx="676" cy="64" r="4.5"/>
+      <text class="wf__label" x="752" y="60" text-anchor="middle">Escalating fetch</text>
+      <text class="wf__service" x="752" y="77" text-anchor="middle">Engine</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="876" y="45" width="172" height="38" rx="11"/>
+      <circle class="wf__mark" cx="892" cy="64" r="4.5"/>
+      <text class="wf__label" x="968" y="68.5" text-anchor="middle">Needs AI?</text>
+    </g>
+    <g class="wf__node wf__node--ai">
+      <rect x="876" y="162" width="172" height="52" rx="11"/>
+      <circle class="wf__mark" cx="892" cy="188" r="4.5"/>
+      <text class="wf__label" x="968" y="184" text-anchor="middle">AI field extraction</text>
+      <text class="wf__service" x="968" y="201" text-anchor="middle">OpenAI</text>
+    </g>
+    <g class="wf__node wf__node--data">
+      <rect x="660" y="169" width="172" height="38" rx="11"/>
+      <circle class="wf__mark" cx="676" cy="188" r="4.5"/>
+      <text class="wf__label" x="752" y="192.5" text-anchor="middle">Collect rows</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="444" y="169" width="172" height="38" rx="11"/>
+      <circle class="wf__mark" cx="460" cy="188" r="4.5"/>
+      <text class="wf__label" x="536" y="192.5" text-anchor="middle">Dedupe and merge</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="228" y="162" width="172" height="52" rx="11"/>
+      <circle class="wf__mark" cx="244" cy="188" r="4.5"/>
+      <text class="wf__label" x="320" y="184" text-anchor="middle">Excel and Sheets</text>
+      <text class="wf__service" x="320" y="201" text-anchor="middle">Google Sheets</text>
+    </g>
+  </svg>
+    </div>
+    <figcaption class="system__caption"><span class="system__count"><b>7</b> workflows · <b>136</b> nodes</span></figcaption>
+  </figure>
+  <div class="system__detail">
+    <ul class="card__list"><li>One engine, called as a sub-workflow by both the quick runner and the crawl worker</li><li>The AI call is skipped entirely when structured data already answers the page</li><li>The crawl worker locks each job, opens a new sheet when a part fills up, and writes one tab per category</li><li>Pause, resume, cancel, restart and delete, routed through a single control endpoint</li></ul>
+    <dl class="card__body">
+      <dt>Trigger</dt><dd>Web app (webhook) and a crawl schedule</dd>
+      <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">OpenAI</li><li class="badge">Google Sheets</li><li class="badge">Excel</li><li class="badge">n8n Data Tables</li><li class="badge">Webhooks</li></ul></dd>
+      <dt>Outcome</dt><dd>Collecting a website into Excel stops being copy-and-paste or a new script per site.</dd>
+    </dl>
   </div>
-  <aside class="card__aside">
+</article>
+<article data-reveal data-filter-item data-group="hr" class="card system" id="cv-screener">
+  <p class="card__meta"><span class="status status--live">Live</span><span>AI agents behind a product</span><span>2026</span></p>
+  <h3 class="card__title">CV Screener agents</h3>
+  <p class="card__body">The AI engine of CV Screener: sibling agents that profile one CV, screen one CV against a job, and summarise a whole pool. The product server calls them; every one checks a secret first, fences the CV as data, and returns typed JSON or a typed error.</p>
+  <figure class="system__diagram">
+    <div class="wf-frame">
+      <svg class="wf" viewBox="0 0 836 240" width="836" height="240" role="img" aria-labelledby="wf-cv-screener-en-t wf-cv-screener-en-d" style="--wf-w:836px">
+    <title id="wf-cv-screener-en-t">CV Screener agents</title>
+    <desc id="wf-cv-screener-en-d">CV request webhook → Secret header check → Validate and fence → Valid request? → Profile the CV / Reject request → Structural check → Return JSON</desc>
+    <defs><marker id="wf-a-cv-screener-en" class="wf__arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0.8 L7 4 L0 7.2 Z"/></marker></defs>
+    <path class="wf__edge" d="M182 38 C204 38 204 38 226 38" marker-end="url(#wf-a-cv-screener-en)"/>
+    <path class="wf__pulse" d="M182 38 C204 38 204 38 226 38" pathLength="100" style="animation-delay:0.00s"/>
+    <path class="wf__edge" d="M396 38 C418 38 418 38 440 38" marker-end="url(#wf-a-cv-screener-en)"/>
+    <path class="wf__pulse" d="M396 38 C418 38 418 38 440 38" pathLength="100" style="animation-delay:0.52s"/>
+    <path class="wf__edge" d="M311 57 C311 116.5 739 116.5 739 176" marker-end="url(#wf-a-cv-screener-en)"/>
+    <path class="wf__pulse" d="M311 57 C311 116.5 739 116.5 739 176" pathLength="100" style="animation-delay:0.64s"/>
+    <path class="wf__edge" d="M610 38 C632 38 632 38 654 38" marker-end="url(#wf-a-cv-screener-en)"/>
+    <path class="wf__pulse" d="M610 38 C632 38 632 38 654 38" pathLength="100" style="animation-delay:0.80s"/>
+    <path class="wf__edge" d="M739 57 C739 83.5 739 83.5 739 110" marker-end="url(#wf-a-cv-screener-en)"/>
+    <path class="wf__pulse" d="M739 57 C739 83.5 739 83.5 739 110" pathLength="100" style="animation-delay:1.32s"/>
+    <path class="wf__edge" d="M739 57 C739 116.5 739 116.5 739 176" marker-end="url(#wf-a-cv-screener-en)"/>
+    <path class="wf__pulse" d="M739 57 C739 116.5 739 116.5 739 176" pathLength="100" style="animation-delay:1.44s"/>
+    <path class="wf__edge" d="M654 136 C632 136 632 169 610 169" marker-end="url(#wf-a-cv-screener-en)"/>
+    <path class="wf__pulse" d="M654 136 C632 136 632 169 610 169" pathLength="100" style="animation-delay:1.60s"/>
+    <path class="wf__edge" d="M440 169 C418 169 418 169 396 169" marker-end="url(#wf-a-cv-screener-en)"/>
+    <path class="wf__pulse" d="M440 169 C418 169 418 169 396 169" pathLength="100" style="animation-delay:2.12s"/>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="12" width="170" height="52" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="38" r="4.5"/>
+      <text class="wf__label" x="103" y="34" text-anchor="middle">CV request webhook</text>
+      <text class="wf__service" x="103" y="51" text-anchor="middle">Webhook</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="226" y="19" width="170" height="38" rx="11"/>
+      <circle class="wf__mark" cx="242" cy="38" r="4.5"/>
+      <text class="wf__label" x="317" y="42.5" text-anchor="middle">Secret header check</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="440" y="19" width="170" height="38" rx="11"/>
+      <circle class="wf__mark" cx="456" cy="38" r="4.5"/>
+      <text class="wf__label" x="531" y="42.5" text-anchor="middle">Validate and fence</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="654" y="19" width="170" height="38" rx="11"/>
+      <circle class="wf__mark" cx="670" cy="38" r="4.5"/>
+      <text class="wf__label" x="745" y="42.5" text-anchor="middle">Valid request?</text>
+    </g>
+    <g class="wf__node wf__node--ai">
+      <rect x="654" y="110" width="170" height="52" rx="11"/>
+      <circle class="wf__mark" cx="670" cy="136" r="4.5"/>
+      <text class="wf__label" x="745" y="132" text-anchor="middle">Profile the CV</text>
+      <text class="wf__service" x="745" y="149" text-anchor="middle">OpenAI</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="654" y="176" width="170" height="52" rx="11"/>
+      <circle class="wf__mark" cx="670" cy="202" r="4.5"/>
+      <text class="wf__label" x="745" y="198" text-anchor="middle">Reject request</text>
+      <text class="wf__service" x="745" y="215" text-anchor="middle">Webhook</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="440" y="150" width="170" height="38" rx="11"/>
+      <circle class="wf__mark" cx="456" cy="169" r="4.5"/>
+      <text class="wf__label" x="531" y="173.5" text-anchor="middle">Structural check</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="226" y="143" width="170" height="52" rx="11"/>
+      <circle class="wf__mark" cx="242" cy="169" r="4.5"/>
+      <text class="wf__label" x="317" y="165" text-anchor="middle">Return JSON</text>
+      <text class="wf__service" x="317" y="182" text-anchor="middle">Webhook</text>
+    </g>
+  </svg>
+    </div>
+    <figcaption class="system__caption"><span class="system__count"><b>4</b> workflows · <b>38</b> nodes</span></figcaption>
+  </figure>
+  <div class="system__detail">
+    <ul class="card__list"><li>A secret header is checked before anything else; a bad call never reaches the model</li><li>The CV text is wrapped in random fences, so instructions hidden inside a CV are read as data</li><li>The model scores with quoted evidence; weighted totals and must-have caps are computed in code</li><li>Set not to store executions, because CVs are personal data</li></ul>
+    <dl class="card__body">
+      <dt>Trigger</dt><dd>Server-to-server webhook</dd>
+      <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">OpenAI</li><li class="badge">Webhooks</li><li class="badge">Structured outputs</li></ul></dd>
+      <dt>Outcome</dt><dd>Hundreds of CVs become a ranked, explainable pool that a recruiter can defend.</dd>
+    </dl>
+  </div>
+</article>
+<article data-reveal data-filter-item data-group="education" class="card system card--featured" id="teacher-assistant-bot">
+  <p class="card__meta"><span class="status status--client">Running for a client</span><span>Telegram AI agent · client project</span><span>2025 — present</span></p>
+  <h3 class="card__title">Teacher Assistant AI Bot</h3>
+  <p class="card__body">A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia. The tutor manages students, schedules, cancellations, and dues entirely through chat — the AI agent calls custom CRUD tools under strict business rules rather than guessing.</p>
+  <figure class="system__diagram">
+    <div class="wf-frame">
+      <svg class="wf" viewBox="0 0 601 306" width="601" height="306" role="img" aria-labelledby="wf-teacher-assistant-bot-en-t wf-teacher-assistant-bot-en-d" style="--wf-w:601px">
+    <title id="wf-teacher-assistant-bot-en-t">Teacher Assistant AI Bot</title>
+    <desc id="wf-teacher-assistant-bot-en-d">Telegram message → Verify the request → Shared a contact? → Capture the lead / Usage gate → Alert the owner / Limit reached / Teacher AI agent → Reply in chat</desc>
+    <defs><marker id="wf-a-teacher-assistant-bot-en" class="wf__arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0.8 L7 4 L0 7.2 Z"/></marker></defs>
+    <path class="wf__edge" d="M175 38 C197 38 197 38 219 38" marker-end="url(#wf-a-teacher-assistant-bot-en)"/>
+    <path class="wf__pulse" d="M175 38 C197 38 197 38 219 38" pathLength="100" style="animation-delay:0.00s"/>
+    <path class="wf__edge" d="M382 38 C404 38 404 38 426 38" marker-end="url(#wf-a-teacher-assistant-bot-en)"/>
+    <path class="wf__pulse" d="M382 38 C404 38 404 38 426 38" pathLength="100" style="animation-delay:0.52s"/>
+    <path class="wf__edge" d="M507.5 57 C507.5 100 507.5 100 507.5 143" marker-end="url(#wf-a-teacher-assistant-bot-en)"/>
+    <path class="wf__pulse" d="M507.5 57 C507.5 100 507.5 100 507.5 143" pathLength="100" style="animation-delay:1.04s"/>
+    <path class="wf__edge" d="M426 169 C404 169 404 136 382 136" marker-end="url(#wf-a-teacher-assistant-bot-en)"/>
+    <path class="wf__pulse" d="M426 169 C404 169 404 136 382 136" pathLength="100" style="animation-delay:1.20s"/>
+    <path class="wf__edge" d="M507.5 57 C507.5 133 507.5 133 507.5 209" marker-end="url(#wf-a-teacher-assistant-bot-en)"/>
+    <path class="wf__pulse" d="M507.5 57 C507.5 133 507.5 133 507.5 209" pathLength="100" style="animation-delay:0.92s"/>
+    <path class="wf__edge" d="M426 235 C404 235 404 202 382 202" marker-end="url(#wf-a-teacher-assistant-bot-en)"/>
+    <path class="wf__pulse" d="M426 235 C404 235 404 202 382 202" pathLength="100" style="animation-delay:1.44s"/>
+    <path class="wf__edge" d="M426 235 C404 235 404 268 382 268" marker-end="url(#wf-a-teacher-assistant-bot-en)"/>
+    <path class="wf__pulse" d="M426 235 C404 235 404 268 382 268" pathLength="100" style="animation-delay:1.20s"/>
+    <path class="wf__edge" d="M219 268 C197 268 197 202 175 202" marker-end="url(#wf-a-teacher-assistant-bot-en)"/>
+    <path class="wf__pulse" d="M219 268 C197 268 197 202 175 202" pathLength="100" style="animation-delay:1.72s"/>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="12" width="163" height="52" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="38" r="4.5"/>
+      <text class="wf__label" x="99.5" y="34" text-anchor="middle">Telegram message</text>
+      <text class="wf__service" x="99.5" y="51" text-anchor="middle">Telegram</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="219" y="19" width="163" height="38" rx="11"/>
+      <circle class="wf__mark" cx="235" cy="38" r="4.5"/>
+      <text class="wf__label" x="306.5" y="42.5" text-anchor="middle">Verify the request</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="426" y="19" width="163" height="38" rx="11"/>
+      <circle class="wf__mark" cx="442" cy="38" r="4.5"/>
+      <text class="wf__label" x="513.5" y="42.5" text-anchor="middle">Shared a contact?</text>
+    </g>
+    <g class="wf__node wf__node--data">
+      <rect x="426" y="143" width="163" height="52" rx="11"/>
+      <circle class="wf__mark" cx="442" cy="169" r="4.5"/>
+      <text class="wf__label" x="513.5" y="165" text-anchor="middle">Capture the lead</text>
+      <text class="wf__service" x="513.5" y="182" text-anchor="middle">Google Sheets</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="426" y="209" width="163" height="52" rx="11"/>
+      <circle class="wf__mark" cx="442" cy="235" r="4.5"/>
+      <text class="wf__label" x="513.5" y="231" text-anchor="middle">Usage gate</text>
+      <text class="wf__service" x="513.5" y="248" text-anchor="middle">Google Sheets</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="219" y="110" width="163" height="52" rx="11"/>
+      <circle class="wf__mark" cx="235" cy="136" r="4.5"/>
+      <text class="wf__label" x="306.5" y="132" text-anchor="middle">Alert the owner</text>
+      <text class="wf__service" x="306.5" y="149" text-anchor="middle">Telegram</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="219" y="176" width="163" height="52" rx="11"/>
+      <circle class="wf__mark" cx="235" cy="202" r="4.5"/>
+      <text class="wf__label" x="306.5" y="198" text-anchor="middle">Limit reached</text>
+      <text class="wf__service" x="306.5" y="215" text-anchor="middle">Telegram</text>
+    </g>
+    <g class="wf__node wf__node--ai">
+      <rect x="219" y="242" width="163" height="52" rx="11"/>
+      <circle class="wf__mark" cx="235" cy="268" r="4.5"/>
+      <text class="wf__label" x="306.5" y="264" text-anchor="middle">Teacher AI agent</text>
+      <text class="wf__service" x="306.5" y="281" text-anchor="middle">OpenAI · Sheets tools</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="12" y="176" width="163" height="52" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="202" r="4.5"/>
+      <text class="wf__label" x="99.5" y="198" text-anchor="middle">Reply in chat</text>
+      <text class="wf__service" x="99.5" y="215" text-anchor="middle">Telegram</text>
+    </g>
+  </svg>
+    </div>
+    <figcaption class="system__caption"><span class="system__count"><b>5</b> workflows · <b>74</b> nodes</span></figcaption>
+  </figure>
+  <div class="system__detail">
+    <ul class="card__list"><li>Custom tool-calling design with strict business rules</li><li>Usage metering and free-trial gating</li><li>Session memory across conversations</li><li>Automated lesson reminders scheduled in Saudi time</li><li>Grew in stages: fixed commands without AI, then an AI agent, then a MySQL version with stored procedures as tools</li></ul>
     <dl class="card__body">
       <dt>Trigger</dt><dd>Telegram message</dd>
       <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n AI Agent</li><li class="badge">OpenAI</li><li class="badge">Google Sheets</li><li class="badge">MySQL</li><li class="badge">Telegram Bot API</li><li class="badge">Webhooks</li></ul></dd>
+      <dt>Outcome</dt><dd>A tutor runs an entire practice from a chat window, with no app to learn and no spreadsheet to maintain.</dd>
     </dl>
-  </aside>
-</article>
-<article data-reveal class="card card--row" id="smart-scanner-pipeline">
-  <div class="card__main">
-    <p class="card__meta"><span>Production document AI pipeline</span><span>2026</span></p>
-    <h3 class="card__title">Smart Scanner Extraction Pipeline</h3>
-    <p class="card__body">The production pipeline behind Smart Scanner. Every invoice — photo or PDF — is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and Saudi e-invoice fields.</p>
-    <ul class="card__list"><li>Rejects any file that is not a genuine invoice, before anything is saved</li><li>Extracts 70+ fields plus line items: vendor, buyer, totals, VAT, dates</li><li>Classifies every line item into per-company expense categories at extraction time</li><li>Refuses politely and explains why when required data is missing — accuracy before speed</li></ul>
-    <dl class="card__body"><dt>Outcome</dt><dd>Manual invoice entry disappears entirely; a photo becomes structured accounting data in about ten seconds.</dd></dl>
   </div>
-  <aside class="card__aside">
+</article>
+<article data-reveal data-filter-item data-group="data" class="card system" id="smart-scanner-pipeline">
+  <p class="card__meta"><span class="status status--live">Live</span><span>Production document AI pipeline</span><span>2026</span></p>
+  <h3 class="card__title">Smart Scanner Extraction Pipeline</h3>
+  <p class="card__body">The production pipeline behind Smart Scanner. Every invoice — photo or PDF — is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and Saudi e-invoice fields.</p>
+  <figure class="system__diagram">
+    <div class="wf-frame">
+      <svg class="wf" viewBox="0 0 836 292" width="836" height="292" role="img" aria-labelledby="wf-smart-scanner-pipeline-en-t wf-smart-scanner-pipeline-en-d" style="--wf-w:836px">
+    <title id="wf-smart-scanner-pipeline-en-t">Smart Scanner Extraction Pipeline</title>
+    <desc id="wf-smart-scanner-pipeline-en-d">Receipt upload → Secret header check → PDF or image? → Read the PDF / Read the image → Parse and validate → Valid receipt? → Reply to app / Reject and clean up → Post to backend</desc>
+    <defs><marker id="wf-a-smart-scanner-pipeline-en" class="wf__arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0.8 L7 4 L0 7.2 Z"/></marker></defs>
+    <path class="wf__edge" d="M182 71 C204 71 204 71 226 71" marker-end="url(#wf-a-smart-scanner-pipeline-en)"/>
+    <path class="wf__pulse" d="M182 71 C204 71 204 71 226 71" pathLength="100" style="animation-delay:0.00s"/>
+    <path class="wf__edge" d="M396 71 C418 71 418 71 440 71" marker-end="url(#wf-a-smart-scanner-pipeline-en)"/>
+    <path class="wf__pulse" d="M396 71 C418 71 418 71 440 71" pathLength="100" style="animation-delay:0.52s"/>
+    <path class="wf__edge" d="M610 71 C632 71 632 38 654 38" marker-end="url(#wf-a-smart-scanner-pipeline-en)"/>
+    <path class="wf__pulse" d="M610 71 C632 71 632 38 654 38" pathLength="100" style="animation-delay:1.04s"/>
+    <path class="wf__edge" d="M610 71 C632 71 632 104 654 104" marker-end="url(#wf-a-smart-scanner-pipeline-en)"/>
+    <path class="wf__pulse" d="M610 71 C632 71 632 104 654 104" pathLength="100" style="animation-delay:0.80s"/>
+    <path class="wf__edge" d="M739 64 C739 136.5 739 136.5 739 209" marker-end="url(#wf-a-smart-scanner-pipeline-en)"/>
+    <path class="wf__pulse" d="M739 64 C739 136.5 739 136.5 739 209" pathLength="100" style="animation-delay:1.32s"/>
+    <path class="wf__edge" d="M739 130 C739 169.5 739 169.5 739 209" marker-end="url(#wf-a-smart-scanner-pipeline-en)"/>
+    <path class="wf__pulse" d="M739 130 C739 169.5 739 169.5 739 209" pathLength="100" style="animation-delay:1.44s"/>
+    <path class="wf__edge" d="M654 228 C632 228 632 228 610 228" marker-end="url(#wf-a-smart-scanner-pipeline-en)"/>
+    <path class="wf__pulse" d="M654 228 C632 228 632 228 610 228" pathLength="100" style="animation-delay:1.60s"/>
+    <path class="wf__edge" d="M440 228 C418 228 418 202 396 202" marker-end="url(#wf-a-smart-scanner-pipeline-en)"/>
+    <path class="wf__pulse" d="M440 228 C418 228 418 202 396 202" pathLength="100" style="animation-delay:2.12s"/>
+    <path class="wf__edge" d="M440 228 C418 228 418 261 396 261" marker-end="url(#wf-a-smart-scanner-pipeline-en)"/>
+    <path class="wf__pulse" d="M440 228 C418 228 418 261 396 261" pathLength="100" style="animation-delay:2.24s"/>
+    <path class="wf__edge" d="M226 202 C204 202 204 228 182 228" marker-end="url(#wf-a-smart-scanner-pipeline-en)"/>
+    <path class="wf__pulse" d="M226 202 C204 202 204 228 182 228" pathLength="100" style="animation-delay:2.40s"/>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="45" width="170" height="52" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="71" r="4.5"/>
+      <text class="wf__label" x="103" y="67" text-anchor="middle">Receipt upload</text>
+      <text class="wf__service" x="103" y="84" text-anchor="middle">Webhook</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="226" y="52" width="170" height="38" rx="11"/>
+      <circle class="wf__mark" cx="242" cy="71" r="4.5"/>
+      <text class="wf__label" x="317" y="75.5" text-anchor="middle">Secret header check</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="440" y="52" width="170" height="38" rx="11"/>
+      <circle class="wf__mark" cx="456" cy="71" r="4.5"/>
+      <text class="wf__label" x="531" y="75.5" text-anchor="middle">PDF or image?</text>
+    </g>
+    <g class="wf__node wf__node--ai">
+      <rect x="654" y="12" width="170" height="52" rx="11"/>
+      <circle class="wf__mark" cx="670" cy="38" r="4.5"/>
+      <text class="wf__label" x="745" y="34" text-anchor="middle">Read the PDF</text>
+      <text class="wf__service" x="745" y="51" text-anchor="middle">OpenAI</text>
+    </g>
+    <g class="wf__node wf__node--ai">
+      <rect x="654" y="78" width="170" height="52" rx="11"/>
+      <circle class="wf__mark" cx="670" cy="104" r="4.5"/>
+      <text class="wf__label" x="745" y="100" text-anchor="middle">Read the image</text>
+      <text class="wf__service" x="745" y="117" text-anchor="middle">OpenAI</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="654" y="209" width="170" height="38" rx="11"/>
+      <circle class="wf__mark" cx="670" cy="228" r="4.5"/>
+      <text class="wf__label" x="745" y="232.5" text-anchor="middle">Parse and validate</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="440" y="209" width="170" height="38" rx="11"/>
+      <circle class="wf__mark" cx="456" cy="228" r="4.5"/>
+      <text class="wf__label" x="531" y="232.5" text-anchor="middle">Valid receipt?</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="226" y="176" width="170" height="52" rx="11"/>
+      <circle class="wf__mark" cx="242" cy="202" r="4.5"/>
+      <text class="wf__label" x="317" y="198" text-anchor="middle">Reply to app</text>
+      <text class="wf__service" x="317" y="215" text-anchor="middle">Webhook</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="226" y="242" width="170" height="38" rx="11"/>
+      <circle class="wf__mark" cx="242" cy="261" r="4.5"/>
+      <text class="wf__label" x="317" y="265.5" text-anchor="middle">Reject and clean up</text>
+    </g>
+    <g class="wf__node wf__node--io">
+      <rect x="12" y="209" width="170" height="38" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="228" r="4.5"/>
+      <text class="wf__label" x="103" y="232.5" text-anchor="middle">Post to backend</text>
+    </g>
+  </svg>
+    </div>
+    <figcaption class="system__caption"><span class="system__count"><b>1</b> workflows · <b>15</b> nodes</span></figcaption>
+  </figure>
+  <div class="system__detail">
+    <ul class="card__list"><li>Rejects any file that is not a genuine invoice, before anything is saved</li><li>Extracts 70+ fields plus line items: vendor, buyer, totals, VAT, dates</li><li>Classifies every line item into per-company expense categories at extraction time</li><li>Refuses politely and explains why when required data is missing — accuracy before speed</li></ul>
     <dl class="card__body">
       <dt>Trigger</dt><dd>Webhook (image or PDF upload)</dd>
       <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">OpenAI GPT-4.1 Vision</li><li class="badge">PDF Extract</li><li class="badge">Validation</li><li class="badge">Deduplication</li><li class="badge">Webhooks</li></ul></dd>
+      <dt>Outcome</dt><dd>Manual invoice entry disappears entirely; a photo becomes structured accounting data in about ten seconds.</dd>
     </dl>
-  </aside>
-</article>
-<article data-reveal class="card card--row" id="ai-job-match">
-  <div class="card__main">
-    <p class="card__meta"><span>Scheduled agent with human-in-the-loop</span><span>2026</span></p>
-    <h3 class="card__title">AI Job-Match Pipeline</h3>
-    <p class="card__body">A scheduled pipeline that runs five daily search queries across LinkedIn, Indeed, and Glassdoor, scores each role&#39;s fit from one to ten with a structured-JSON LLM evaluator, and delivers only the high scorers.</p>
-    <ul class="card__list"><li>Structured-JSON evaluator scoring fit on a 1–10 scale</li><li>Deduplication against n8n Data Tables so nothing is seen twice</li><li>Telegram delivery of high-scoring matches only</li><li>Human-in-the-loop approval before any application is sent</li><li>Semi-automated applications with tailored AI-generated cover letters via Gmail</li></ul>
-    <dl class="card__body"><dt>Outcome</dt><dd>Daily job hunting collapses into reviewing a short, pre-scored shortlist.</dd></dl>
   </div>
-  <aside class="card__aside">
+</article>
+<article data-reveal data-filter-item data-group="content" class="card system" id="telegram-publisher">
+  <p class="card__meta"><span class="status status--built">Built and tested</span><span>Content system run from a chat</span><span>2026</span></p>
+  <h3 class="card__title">Telegram Publishing System</h3>
+  <p class="card__body">Plan, review, approve and publish posts to LinkedIn, Instagram and Reddit from a Telegram chat. The AI only understands what you meant; every decision after that is made by a deterministic state machine.</p>
+  <figure class="system__diagram">
+    <div class="wf-frame">
+      <svg class="wf" viewBox="0 0 956 226" width="956" height="226" role="img" aria-labelledby="wf-telegram-publisher-en-t wf-telegram-publisher-en-d" style="--wf-w:956px">
+    <title id="wf-telegram-publisher-en-t">Telegram Publishing System</title>
+    <desc id="wf-telegram-publisher-en-d">Telegram command / Review and publish scheduler → Allowed chat? / Multi-platform publisher → Load post context → Parse intent → State machine → Save post job → Reply in chat → Content generator</desc>
+    <defs><marker id="wf-a-telegram-publisher-en" class="wf__arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0.8 L7 4 L0 7.2 Z"/></marker></defs>
+    <path class="wf__edge" d="M212 38 C234 38 234 38 256 38" marker-end="url(#wf-a-telegram-publisher-en)"/>
+    <path class="wf__pulse" d="M212 38 C234 38 234 38 256 38" pathLength="100" style="animation-delay:0.00s"/>
+    <path class="wf__edge" d="M456 38 C478 38 478 64 500 64" marker-end="url(#wf-a-telegram-publisher-en)"/>
+    <path class="wf__pulse" d="M456 38 C478 38 478 64 500 64" pathLength="100" style="animation-delay:0.52s"/>
+    <path class="wf__edge" d="M700 64 C722 64 722 64 744 64" marker-end="url(#wf-a-telegram-publisher-en)"/>
+    <path class="wf__pulse" d="M700 64 C722 64 722 64 744 64" pathLength="100" style="animation-delay:1.04s"/>
+    <path class="wf__edge" d="M600 83 C600 126 844 126 844 169" marker-end="url(#wf-a-telegram-publisher-en)"/>
+    <path class="wf__pulse" d="M600 83 C600 126 844 126 844 169" pathLength="100" style="animation-delay:0.80s"/>
+    <path class="wf__edge" d="M844 90 C844 129.5 844 129.5 844 169" marker-end="url(#wf-a-telegram-publisher-en)"/>
+    <path class="wf__pulse" d="M844 90 C844 129.5 844 129.5 844 169" pathLength="100" style="animation-delay:1.32s"/>
+    <path class="wf__edge" d="M744 188 C722 188 722 188 700 188" marker-end="url(#wf-a-telegram-publisher-en)"/>
+    <path class="wf__pulse" d="M744 188 C722 188 722 188 700 188" pathLength="100" style="animation-delay:1.84s"/>
+    <path class="wf__edge" d="M500 188 C478 188 478 188 456 188" marker-end="url(#wf-a-telegram-publisher-en)"/>
+    <path class="wf__pulse" d="M500 188 C478 188 478 188 456 188" pathLength="100" style="animation-delay:2.00s"/>
+    <path class="wf__edge" d="M256 188 C234 188 234 188 212 188" marker-end="url(#wf-a-telegram-publisher-en)"/>
+    <path class="wf__pulse" d="M256 188 C234 188 234 188 212 188" pathLength="100" style="animation-delay:2.52s"/>
+    <path class="wf__edge" d="M112 116 C112 139 112 139 112 162" marker-end="url(#wf-a-telegram-publisher-en)"/>
+    <path class="wf__pulse" d="M112 116 C112 139 112 139 112 162" pathLength="100" style="animation-delay:0.24s"/>
+    <path class="wf__edge" d="M212 97 C234 97 234 90 256 90" marker-end="url(#wf-a-telegram-publisher-en)"/>
+    <path class="wf__pulse" d="M212 97 C234 97 234 90 256 90" pathLength="100" style="animation-delay:0.00s"/>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="12" width="200" height="52" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="38" r="4.5"/>
+      <text class="wf__label" x="118" y="34" text-anchor="middle">Telegram command</text>
+      <text class="wf__service" x="118" y="51" text-anchor="middle">Telegram</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="256" y="19" width="200" height="38" rx="11"/>
+      <circle class="wf__mark" cx="272" cy="38" r="4.5"/>
+      <text class="wf__label" x="362" y="42.5" text-anchor="middle">Allowed chat?</text>
+    </g>
+    <g class="wf__node wf__node--data">
+      <rect x="500" y="45" width="200" height="38" rx="11"/>
+      <circle class="wf__mark" cx="516" cy="64" r="4.5"/>
+      <text class="wf__label" x="606" y="68.5" text-anchor="middle">Load post context</text>
+    </g>
+    <g class="wf__node wf__node--ai">
+      <rect x="744" y="38" width="200" height="52" rx="11"/>
+      <circle class="wf__mark" cx="760" cy="64" r="4.5"/>
+      <text class="wf__label" x="850" y="60" text-anchor="middle">Parse intent</text>
+      <text class="wf__service" x="850" y="77" text-anchor="middle">OpenAI</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="744" y="169" width="200" height="38" rx="11"/>
+      <circle class="wf__mark" cx="760" cy="188" r="4.5"/>
+      <text class="wf__label" x="850" y="192.5" text-anchor="middle">State machine</text>
+    </g>
+    <g class="wf__node wf__node--data">
+      <rect x="500" y="169" width="200" height="38" rx="11"/>
+      <circle class="wf__mark" cx="516" cy="188" r="4.5"/>
+      <text class="wf__label" x="606" y="192.5" text-anchor="middle">Save post job</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="256" y="162" width="200" height="52" rx="11"/>
+      <circle class="wf__mark" cx="272" cy="188" r="4.5"/>
+      <text class="wf__label" x="362" y="184" text-anchor="middle">Reply in chat</text>
+      <text class="wf__service" x="362" y="201" text-anchor="middle">Telegram</text>
+    </g>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="78" width="200" height="38" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="97" r="4.5"/>
+      <text class="wf__label" x="118" y="101.5" text-anchor="middle">Review and publish scheduler</text>
+    </g>
+    <g class="wf__node wf__node--ai">
+      <rect x="12" y="162" width="200" height="52" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="188" r="4.5"/>
+      <text class="wf__label" x="118" y="184" text-anchor="middle">Content generator</text>
+      <text class="wf__service" x="118" y="201" text-anchor="middle">OpenAI</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="256" y="71" width="200" height="38" rx="11"/>
+      <circle class="wf__mark" cx="272" cy="90" r="4.5"/>
+      <text class="wf__label" x="362" y="94.5" text-anchor="middle">Multi-platform publisher</text>
+    </g>
+  </svg>
+    </div>
+    <figcaption class="system__caption"><span class="system__count"><b>4</b> workflows · <b>75</b> nodes</span></figcaption>
+  </figure>
+  <div class="system__detail">
+    <ul class="card__list"><li>Button presses skip the AI and go straight to the state machine</li><li>Only allow-listed chats are processed</li><li>The scheduler locks an approved post before publishing, so nothing goes out twice</li><li>Jobs stuck too long are marked failed, with a retry button</li></ul>
+    <dl class="card__body">
+      <dt>Trigger</dt><dd>Telegram message and a scheduler</dd>
+      <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">OpenAI</li><li class="badge">Telegram</li><li class="badge">LinkedIn</li><li class="badge">Instagram</li><li class="badge">Reddit</li><li class="badge">n8n Data Tables</li></ul></dd>
+      <dt>Outcome</dt><dd>A content calendar that lives in a chat, with a human approving every post.</dd>
+    </dl>
+  </div>
+</article>
+<article data-reveal data-filter-item data-group="content" class="card system" id="unified-inbox">
+  <p class="card__meta"><span class="status status--built">Built and tested</span><span>Inbox with AI triage</span><span>2026</span></p>
+  <h3 class="card__title">Unified Inbox</h3>
+  <p class="card__body">Messages from every channel land in one inbox. Each one is enriched with its dialect, intent, priority and a summary, plus a draft reply written in the sender&#39;s own dialect — and replies leave through an outbox that records every result.</p>
+  <figure class="system__diagram">
+    <div class="wf-frame">
+      <svg class="wf" viewBox="0 0 956 194" width="956" height="194" role="img" aria-labelledby="wf-unified-inbox-en-t wf-unified-inbox-en-d" style="--wf-w:956px">
+    <title id="wf-unified-inbox-en-t">Unified Inbox</title>
+    <desc id="wf-unified-inbox-en-d">Telegram inbound / New message hook / Outbox poll → Atomic ingest / Worth a model call? / Send via Telegram → Dialect-aware enrichment / Classify locally / Record send result → Save enrichment</desc>
+    <defs><marker id="wf-a-unified-inbox-en" class="wf__arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0.8 L7 4 L0 7.2 Z"/></marker></defs>
+    <path class="wf__edge" d="M212 38 C234 38 234 38 256 38" marker-end="url(#wf-a-unified-inbox-en)"/>
+    <path class="wf__pulse" d="M212 38 C234 38 234 38 256 38" pathLength="100" style="animation-delay:0.00s"/>
+    <path class="wf__edge" d="M212 104 C234 104 234 97 256 97" marker-end="url(#wf-a-unified-inbox-en)"/>
+    <path class="wf__pulse" d="M212 104 C234 104 234 97 256 97" pathLength="100" style="animation-delay:0.12s"/>
+    <path class="wf__edge" d="M456 97 C478 97 478 38 500 38" marker-end="url(#wf-a-unified-inbox-en)"/>
+    <path class="wf__pulse" d="M456 97 C478 97 478 38 500 38" pathLength="100" style="animation-delay:0.64s"/>
+    <path class="wf__edge" d="M456 97 C478 97 478 97 500 97" marker-end="url(#wf-a-unified-inbox-en)"/>
+    <path class="wf__pulse" d="M456 97 C478 97 478 97 500 97" pathLength="100" style="animation-delay:0.40s"/>
+    <path class="wf__edge" d="M700 38 C722 38 722 97 744 97" marker-end="url(#wf-a-unified-inbox-en)"/>
+    <path class="wf__pulse" d="M700 38 C722 38 722 97 744 97" pathLength="100" style="animation-delay:0.92s"/>
+    <path class="wf__edge" d="M700 97 C722 97 722 97 744 97" marker-end="url(#wf-a-unified-inbox-en)"/>
+    <path class="wf__pulse" d="M700 97 C722 97 722 97 744 97" pathLength="100" style="animation-delay:1.04s"/>
+    <path class="wf__edge" d="M212 163 C234 163 234 156 256 156" marker-end="url(#wf-a-unified-inbox-en)"/>
+    <path class="wf__pulse" d="M212 163 C234 163 234 156 256 156" pathLength="100" style="animation-delay:0.00s"/>
+    <path class="wf__edge" d="M456 156 C478 156 478 156 500 156" marker-end="url(#wf-a-unified-inbox-en)"/>
+    <path class="wf__pulse" d="M456 156 C478 156 478 156 500 156" pathLength="100" style="animation-delay:0.52s"/>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="12" width="200" height="52" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="38" r="4.5"/>
+      <text class="wf__label" x="118" y="34" text-anchor="middle">Telegram inbound</text>
+      <text class="wf__service" x="118" y="51" text-anchor="middle">Telegram</text>
+    </g>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="78" width="200" height="52" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="104" r="4.5"/>
+      <text class="wf__label" x="118" y="100" text-anchor="middle">New message hook</text>
+      <text class="wf__service" x="118" y="117" text-anchor="middle">Webhook</text>
+    </g>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="144" width="200" height="38" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="163" r="4.5"/>
+      <text class="wf__label" x="118" y="167.5" text-anchor="middle">Outbox poll</text>
+    </g>
+    <g class="wf__node wf__node--data">
+      <rect x="256" y="12" width="200" height="52" rx="11"/>
+      <circle class="wf__mark" cx="272" cy="38" r="4.5"/>
+      <text class="wf__label" x="362" y="34" text-anchor="middle">Atomic ingest</text>
+      <text class="wf__service" x="362" y="51" text-anchor="middle">Supabase</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="256" y="78" width="200" height="38" rx="11"/>
+      <circle class="wf__mark" cx="272" cy="97" r="4.5"/>
+      <text class="wf__label" x="362" y="101.5" text-anchor="middle">Worth a model call?</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="256" y="130" width="200" height="52" rx="11"/>
+      <circle class="wf__mark" cx="272" cy="156" r="4.5"/>
+      <text class="wf__label" x="362" y="152" text-anchor="middle">Send via Telegram</text>
+      <text class="wf__service" x="362" y="169" text-anchor="middle">Telegram</text>
+    </g>
+    <g class="wf__node wf__node--ai">
+      <rect x="500" y="12" width="200" height="52" rx="11"/>
+      <circle class="wf__mark" cx="516" cy="38" r="4.5"/>
+      <text class="wf__label" x="606" y="34" text-anchor="middle">Dialect-aware enrichment</text>
+      <text class="wf__service" x="606" y="51" text-anchor="middle">OpenAI</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="500" y="78" width="200" height="38" rx="11"/>
+      <circle class="wf__mark" cx="516" cy="97" r="4.5"/>
+      <text class="wf__label" x="606" y="101.5" text-anchor="middle">Classify locally</text>
+    </g>
+    <g class="wf__node wf__node--data">
+      <rect x="500" y="130" width="200" height="52" rx="11"/>
+      <circle class="wf__mark" cx="516" cy="156" r="4.5"/>
+      <text class="wf__label" x="606" y="152" text-anchor="middle">Record send result</text>
+      <text class="wf__service" x="606" y="169" text-anchor="middle">Supabase</text>
+    </g>
+    <g class="wf__node wf__node--data">
+      <rect x="744" y="71" width="200" height="52" rx="11"/>
+      <circle class="wf__mark" cx="760" cy="97" r="4.5"/>
+      <text class="wf__label" x="850" y="93" text-anchor="middle">Save enrichment</text>
+      <text class="wf__service" x="850" y="110" text-anchor="middle">Supabase</text>
+    </g>
+  </svg>
+    </div>
+    <figcaption class="system__caption"><span class="system__count"><b>3</b> workflows · <b>16</b> nodes</span></figcaption>
+  </figure>
+  <div class="system__detail">
+    <ul class="card__list"><li>Greetings and emoji-only messages never reach the model — they are classified locally to save cost</li><li>Every channel is normalised to one contract and written with a single atomic call</li><li>Enrichment continues on error, so no message is ever lost</li><li>The outbox sends one message at a time and records a readable failure reason</li></ul>
+    <dl class="card__body">
+      <dt>Trigger</dt><dd>Incoming message, webhook and schedule</dd>
+      <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">OpenAI</li><li class="badge">Supabase</li><li class="badge">Telegram</li><li class="badge">Structured outputs</li></ul></dd>
+      <dt>Outcome</dt><dd>A team answers every customer from one place, starting from a draft that already sounds like them.</dd>
+    </dl>
+  </div>
+</article>
+<article data-reveal data-filter-item data-group="shops" class="card system" id="google-review-reply">
+  <p class="card__meta"><span class="status status--built">Built and tested</span><span>Review management for shops</span><span>2026</span></p>
+  <h3 class="card__title">Google Review Reply Manager</h3>
+  <p class="card__body">New Google reviews are picked up on a schedule and answered in the reviewer&#39;s own language. Happy reviews get a reply on their own; unhappy ones go to the owner on Telegram, who approves or skips with one tap.</p>
+  <figure class="system__diagram">
+    <div class="wf-frame">
+      <svg class="wf" viewBox="0 0 1050 194" width="1050" height="194" role="img" aria-labelledby="wf-google-review-reply-en-t wf-google-review-reply-en-d" style="--wf-w:1050px">
+    <title id="wf-google-review-reply-en-t">Google Review Reply Manager</title>
+    <desc id="wf-google-review-reply-en-d">Review poll / Approval button tap → Fetch new reviews / Approve or skip? → Draft reply / Post approved reply / Mark as skipped → Positive review? → Auto-post reply / Ask owner approval</desc>
+    <defs><marker id="wf-a-google-review-reply-en" class="wf__arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0.8 L7 4 L0 7.2 Z"/></marker></defs>
+    <path class="wf__edge" d="M182 64 C204 64 204 71 226 71" marker-end="url(#wf-a-google-review-reply-en)"/>
+    <path class="wf__pulse" d="M182 64 C204 64 204 71 226 71" pathLength="100" style="animation-delay:0.00s"/>
+    <path class="wf__edge" d="M396 71 C418 71 418 38 440 38" marker-end="url(#wf-a-google-review-reply-en)"/>
+    <path class="wf__pulse" d="M396 71 C418 71 418 38 440 38" pathLength="100" style="animation-delay:0.52s"/>
+    <path class="wf__edge" d="M610 38 C632 38 632 97 654 97" marker-end="url(#wf-a-google-review-reply-en)"/>
+    <path class="wf__pulse" d="M610 38 C632 38 632 97 654 97" pathLength="100" style="animation-delay:1.04s"/>
+    <path class="wf__edge" d="M824 97 C846 97 846 64 868 64" marker-end="url(#wf-a-google-review-reply-en)"/>
+    <path class="wf__pulse" d="M824 97 C846 97 846 64 868 64" pathLength="100" style="animation-delay:1.20s"/>
+    <path class="wf__edge" d="M824 97 C846 97 846 130 868 130" marker-end="url(#wf-a-google-review-reply-en)"/>
+    <path class="wf__pulse" d="M824 97 C846 97 846 130 868 130" pathLength="100" style="animation-delay:1.32s"/>
+    <path class="wf__edge" d="M182 123 C204 123 204 130 226 130" marker-end="url(#wf-a-google-review-reply-en)"/>
+    <path class="wf__pulse" d="M182 123 C204 123 204 130 226 130" pathLength="100" style="animation-delay:0.24s"/>
+    <path class="wf__edge" d="M396 130 C418 130 418 104 440 104" marker-end="url(#wf-a-google-review-reply-en)"/>
+    <path class="wf__pulse" d="M396 130 C418 130 418 104 440 104" pathLength="100" style="animation-delay:0.40s"/>
+    <path class="wf__edge" d="M396 130 C418 130 418 163 440 163" marker-end="url(#wf-a-google-review-reply-en)"/>
+    <path class="wf__pulse" d="M396 130 C418 130 418 163 440 163" pathLength="100" style="animation-delay:0.52s"/>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="45" width="170" height="38" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="64" r="4.5"/>
+      <text class="wf__label" x="103" y="68.5" text-anchor="middle">Review poll</text>
+    </g>
+    <g class="wf__node wf__node--io">
+      <rect x="226" y="45" width="170" height="52" rx="11"/>
+      <circle class="wf__mark" cx="242" cy="71" r="4.5"/>
+      <text class="wf__label" x="317" y="67" text-anchor="middle">Fetch new reviews</text>
+      <text class="wf__service" x="317" y="84" text-anchor="middle">Google Business Profile</text>
+    </g>
+    <g class="wf__node wf__node--ai">
+      <rect x="440" y="12" width="170" height="52" rx="11"/>
+      <circle class="wf__mark" cx="456" cy="38" r="4.5"/>
+      <text class="wf__label" x="531" y="34" text-anchor="middle">Draft reply</text>
+      <text class="wf__service" x="531" y="51" text-anchor="middle">OpenAI</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="654" y="78" width="170" height="38" rx="11"/>
+      <circle class="wf__mark" cx="670" cy="97" r="4.5"/>
+      <text class="wf__label" x="745" y="101.5" text-anchor="middle">Positive review?</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="868" y="38" width="170" height="52" rx="11"/>
+      <circle class="wf__mark" cx="884" cy="64" r="4.5"/>
+      <text class="wf__label" x="959" y="60" text-anchor="middle">Auto-post reply</text>
+      <text class="wf__service" x="959" y="77" text-anchor="middle">Google Business Profile</text>
+    </g>
+    <g class="wf__node wf__node--human">
+      <rect x="868" y="104" width="170" height="52" rx="11"/>
+      <circle class="wf__mark" cx="884" cy="130" r="4.5"/>
+      <text class="wf__label" x="959" y="126" text-anchor="middle">Ask owner approval</text>
+      <text class="wf__service" x="959" y="143" text-anchor="middle">Telegram</text>
+    </g>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="97" width="170" height="52" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="123" r="4.5"/>
+      <text class="wf__label" x="103" y="119" text-anchor="middle">Approval button tap</text>
+      <text class="wf__service" x="103" y="136" text-anchor="middle">Telegram</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="226" y="111" width="170" height="38" rx="11"/>
+      <circle class="wf__mark" cx="242" cy="130" r="4.5"/>
+      <text class="wf__label" x="317" y="134.5" text-anchor="middle">Approve or skip?</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="440" y="78" width="170" height="52" rx="11"/>
+      <circle class="wf__mark" cx="456" cy="104" r="4.5"/>
+      <text class="wf__label" x="531" y="100" text-anchor="middle">Post approved reply</text>
+      <text class="wf__service" x="531" y="117" text-anchor="middle">Google Business Profile</text>
+    </g>
+    <g class="wf__node wf__node--data">
+      <rect x="440" y="144" width="170" height="38" rx="11"/>
+      <circle class="wf__mark" cx="456" cy="163" r="4.5"/>
+      <text class="wf__label" x="531" y="167.5" text-anchor="middle">Mark as skipped</text>
+    </g>
+  </svg>
+    </div>
+    <figcaption class="system__caption"><span class="system__count"><b>2</b> workflows · <b>26</b> nodes</span></figcaption>
+  </figure>
+  <div class="system__detail">
+    <ul class="card__list"><li>Reviews already answered or already tracked are skipped</li><li>High ratings are posted automatically; low ratings wait for the owner</li><li>The owner&#39;s tap posts the stored draft and edits the message to confirm</li><li>A one-off helper fetches each new client&#39;s account and location</li></ul>
+    <dl class="card__body">
+      <dt>Trigger</dt><dd>Schedule and a Telegram button</dd>
+      <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">OpenAI</li><li class="badge">Google Business Profile</li><li class="badge">Telegram</li><li class="badge">n8n Data Tables</li></ul></dd>
+      <dt>Outcome</dt><dd>Every review gets an answer, and the owner only spends time on the ones that need them.</dd>
+    </dl>
+  </div>
+</article>
+<article data-reveal data-filter-item data-group="hr" class="card system" id="ai-job-match">
+  <p class="card__meta"><span class="status status--live">Live</span><span>Scheduled agent with human-in-the-loop</span><span>2026</span></p>
+  <h3 class="card__title">AI Job-Match Pipeline</h3>
+  <p class="card__body">A scheduled pipeline that runs five daily search queries across LinkedIn, Indeed, and Glassdoor, scores each role&#39;s fit from one to ten with a structured-JSON LLM evaluator, and delivers only the high scorers.</p>
+  <figure class="system__diagram">
+    <div class="wf-frame">
+      <svg class="wf" viewBox="0 0 1155 240" width="1155" height="240" role="img" aria-labelledby="wf-ai-job-match-en-t wf-ai-job-match-en-d" style="--wf-w:1155px">
+    <title id="wf-ai-job-match-en-t">AI Job-Match Pipeline</title>
+    <desc id="wf-ai-job-match-en-d">Daily job search → Search job boards → Keep new jobs → AI fit scoring → Save to table → High score? → Has apply email? → Approve on Telegram / Manual apply alert → Send application email</desc>
+    <defs><marker id="wf-a-ai-job-match-en" class="wf__arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0.8 L7 4 L0 7.2 Z"/></marker></defs>
+    <path class="wf__edge" d="M203 38 C225 38 225 38 247 38" marker-end="url(#wf-a-ai-job-match-en)"/>
+    <path class="wf__pulse" d="M203 38 C225 38 225 38 247 38" pathLength="100" style="animation-delay:0.00s"/>
+    <path class="wf__edge" d="M438 38 C460 38 460 38 482 38" marker-end="url(#wf-a-ai-job-match-en)"/>
+    <path class="wf__pulse" d="M438 38 C460 38 460 38 482 38" pathLength="100" style="animation-delay:0.52s"/>
+    <path class="wf__edge" d="M673 38 C695 38 695 38 717 38" marker-end="url(#wf-a-ai-job-match-en)"/>
+    <path class="wf__pulse" d="M673 38 C695 38 695 38 717 38" pathLength="100" style="animation-delay:1.04s"/>
+    <path class="wf__edge" d="M908 38 C930 38 930 38 952 38" marker-end="url(#wf-a-ai-job-match-en)"/>
+    <path class="wf__pulse" d="M908 38 C930 38 930 38 952 38" pathLength="100" style="animation-delay:1.20s"/>
+    <path class="wf__edge" d="M1047.5 57 C1047.5 103.5 1047.5 103.5 1047.5 150" marker-end="url(#wf-a-ai-job-match-en)"/>
+    <path class="wf__pulse" d="M1047.5 57 C1047.5 103.5 1047.5 103.5 1047.5 150" pathLength="100" style="animation-delay:1.72s"/>
+    <path class="wf__edge" d="M952 169 C930 169 930 169 908 169" marker-end="url(#wf-a-ai-job-match-en)"/>
+    <path class="wf__pulse" d="M952 169 C930 169 930 169 908 169" pathLength="100" style="animation-delay:2.24s"/>
+    <path class="wf__edge" d="M717 169 C695 169 695 136 673 136" marker-end="url(#wf-a-ai-job-match-en)"/>
+    <path class="wf__pulse" d="M717 169 C695 169 695 136 673 136" pathLength="100" style="animation-delay:2.40s"/>
+    <path class="wf__edge" d="M717 169 C695 169 695 202 673 202" marker-end="url(#wf-a-ai-job-match-en)"/>
+    <path class="wf__pulse" d="M717 169 C695 169 695 202 673 202" pathLength="100" style="animation-delay:2.52s"/>
+    <path class="wf__edge" d="M482 136 C460 136 460 169 438 169" marker-end="url(#wf-a-ai-job-match-en)"/>
+    <path class="wf__pulse" d="M482 136 C460 136 460 169 438 169" pathLength="100" style="animation-delay:3.04s"/>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="19" width="191" height="38" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="38" r="4.5"/>
+      <text class="wf__label" x="113.5" y="42.5" text-anchor="middle">Daily job search</text>
+    </g>
+    <g class="wf__node wf__node--io">
+      <rect x="247" y="12" width="191" height="52" rx="11"/>
+      <circle class="wf__mark" cx="263" cy="38" r="4.5"/>
+      <text class="wf__label" x="348.5" y="34" text-anchor="middle">Search job boards</text>
+      <text class="wf__service" x="348.5" y="51" text-anchor="middle">JSearch</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="482" y="19" width="191" height="38" rx="11"/>
+      <circle class="wf__mark" cx="498" cy="38" r="4.5"/>
+      <text class="wf__label" x="583.5" y="42.5" text-anchor="middle">Keep new jobs</text>
+    </g>
+    <g class="wf__node wf__node--ai">
+      <rect x="717" y="12" width="191" height="52" rx="11"/>
+      <circle class="wf__mark" cx="733" cy="38" r="4.5"/>
+      <text class="wf__label" x="818.5" y="34" text-anchor="middle">AI fit scoring</text>
+      <text class="wf__service" x="818.5" y="51" text-anchor="middle">OpenAI</text>
+    </g>
+    <g class="wf__node wf__node--data">
+      <rect x="952" y="19" width="191" height="38" rx="11"/>
+      <circle class="wf__mark" cx="968" cy="38" r="4.5"/>
+      <text class="wf__label" x="1053.5" y="42.5" text-anchor="middle">Save to table</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="952" y="150" width="191" height="38" rx="11"/>
+      <circle class="wf__mark" cx="968" cy="169" r="4.5"/>
+      <text class="wf__label" x="1053.5" y="173.5" text-anchor="middle">High score?</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="717" y="150" width="191" height="38" rx="11"/>
+      <circle class="wf__mark" cx="733" cy="169" r="4.5"/>
+      <text class="wf__label" x="818.5" y="173.5" text-anchor="middle">Has apply email?</text>
+    </g>
+    <g class="wf__node wf__node--human">
+      <rect x="482" y="110" width="191" height="52" rx="11"/>
+      <circle class="wf__mark" cx="498" cy="136" r="4.5"/>
+      <text class="wf__label" x="583.5" y="132" text-anchor="middle">Approve on Telegram</text>
+      <text class="wf__service" x="583.5" y="149" text-anchor="middle">Telegram</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="482" y="176" width="191" height="52" rx="11"/>
+      <circle class="wf__mark" cx="498" cy="202" r="4.5"/>
+      <text class="wf__label" x="583.5" y="198" text-anchor="middle">Manual apply alert</text>
+      <text class="wf__service" x="583.5" y="215" text-anchor="middle">Telegram</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="247" y="143" width="191" height="52" rx="11"/>
+      <circle class="wf__mark" cx="263" cy="169" r="4.5"/>
+      <text class="wf__label" x="348.5" y="165" text-anchor="middle">Send application email</text>
+      <text class="wf__service" x="348.5" y="182" text-anchor="middle">Gmail</text>
+    </g>
+  </svg>
+    </div>
+    <figcaption class="system__caption"><span class="system__count"><b>3</b> workflows · <b>47</b> nodes</span></figcaption>
+  </figure>
+  <div class="system__detail">
+    <ul class="card__list"><li>Structured-JSON evaluator scoring fit on a 1–10 scale</li><li>Deduplication against n8n Data Tables so nothing is seen twice</li><li>Telegram delivery of high-scoring matches only</li><li>Human-in-the-loop approval before any application is sent</li><li>Semi-automated applications with tailored AI-generated cover letters via Gmail</li><li>A factory clones the search into a separate daily bot for each user, through the n8n API — automation that builds automation</li></ul>
     <dl class="card__body">
       <dt>Trigger</dt><dd>Daily schedule</dd>
       <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">JSearch API</li><li class="badge">OpenAI GPT-4.1</li><li class="badge">n8n Data Tables</li><li class="badge">Telegram</li><li class="badge">Gmail</li></ul></dd>
+      <dt>Outcome</dt><dd>Daily job hunting collapses into reviewing a short, pre-scored shortlist.</dd>
     </dl>
-  </aside>
-</article>
-<article data-reveal class="card card--row" id="smart-lead-finder">
-  <div class="card__main">
-    <p class="card__meta"><span>Scraping and enrichment pipeline</span><span>2025</span></p>
-    <h3 class="card__title">Smart Lead Finder</h3>
-    <p class="card__body">Automated B2B lead generation across the Saudi and Jordanian markets: multi-query place search, website scraping to extract emails and WhatsApp numbers, prioritisation scoring, and duplicate-safe appends into segmented sheets.</p>
-    <ul class="card__list"><li>Multi-query place search across two markets</li><li>Extracts emails and WhatsApp numbers from company websites</li><li>Prioritisation scoring so the best prospects surface first</li><li>Duplicate-safe appends into segmented sheets</li></ul>
-    <dl class="card__body"><dt>Outcome</dt><dd>Manual prospect research became a hands-off scheduled pipeline producing scored, deduplicated lead lists.</dd></dl>
   </div>
-  <aside class="card__aside">
+</article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="builds" data-filter-scope>
+    <div class="container">
+      <div class="section__head" data-reveal>
+        <div class="section__titlebar"><h2>Smaller builds</h2></div>
+        <p class="section__lead">Single-purpose workflows, each one solving a whole job from start to finish.</p>
+      </div>
+      <div class="systems systems--compact">
+<article data-reveal data-filter-item data-group="shops" class="card system" id="receipt-verify">
+  <p class="card__meta"><span class="status status--client">Running for a client</span><span>Payment check for registrations</span><span>2026</span></p>
+  <h3 class="card__title">Transfer Receipt Check</h3>
+  <p class="card__body">Behind a chess club&#39;s tournament registration: the uploaded bank-transfer receipt is read by a vision model, which also says whether it is a transfer at all. The site applies the rules; the workflow only reads.</p>
+  <figure class="system__diagram">
+    <div class="wf-frame">
+      <svg class="wf" viewBox="0 0 712 212" width="712" height="212" role="img" aria-labelledby="wf-receipt-verify-en-t wf-receipt-verify-en-d" style="--wf-w:712px">
+    <title id="wf-receipt-verify-en-t">Transfer Receipt Check</title>
+    <desc id="wf-receipt-verify-en-d">Receipt upload → Check the request → Request allowed? → Read receipt with vision → Shape the reply / Model failed → Send the reply</desc>
+    <defs><marker id="wf-a-receipt-verify-en" class="wf__arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0.8 L7 4 L0 7.2 Z"/></marker></defs>
+    <path class="wf__edge" d="M212 38 C234 38 234 38 256 38" marker-end="url(#wf-a-receipt-verify-en)"/>
+    <path class="wf__pulse" d="M212 38 C234 38 234 38 256 38" pathLength="100" style="animation-delay:0.00s"/>
+    <path class="wf__edge" d="M456 38 C478 38 478 38 500 38" marker-end="url(#wf-a-receipt-verify-en)"/>
+    <path class="wf__pulse" d="M456 38 C478 38 478 38 500 38" pathLength="100" style="animation-delay:0.52s"/>
+    <path class="wf__edge" d="M600 57 C600 93 600 93 600 129" marker-end="url(#wf-a-receipt-verify-en)"/>
+    <path class="wf__pulse" d="M600 57 C600 93 600 93 600 129" pathLength="100" style="animation-delay:1.04s"/>
+    <path class="wf__edge" d="M600 57 C600 93 112 93 112 129" marker-end="url(#wf-a-receipt-verify-en)"/>
+    <path class="wf__pulse" d="M600 57 C600 93 112 93 112 129" pathLength="100" style="animation-delay:0.80s"/>
+    <path class="wf__edge" d="M500 155 C478 155 478 129 456 129" marker-end="url(#wf-a-receipt-verify-en)"/>
+    <path class="wf__pulse" d="M500 155 C478 155 478 129 456 129" pathLength="100" style="animation-delay:1.32s"/>
+    <path class="wf__edge" d="M500 155 C478 155 478 181 456 181" marker-end="url(#wf-a-receipt-verify-en)"/>
+    <path class="wf__pulse" d="M500 155 C478 155 478 181 456 181" pathLength="100" style="animation-delay:1.44s"/>
+    <path class="wf__edge" d="M256 129 C234 129 234 155 212 155" marker-end="url(#wf-a-receipt-verify-en)"/>
+    <path class="wf__pulse" d="M256 129 C234 129 234 155 212 155" pathLength="100" style="animation-delay:1.60s"/>
+    <path class="wf__edge" d="M256 181 C234 181 234 155 212 155" marker-end="url(#wf-a-receipt-verify-en)"/>
+    <path class="wf__pulse" d="M256 181 C234 181 234 155 212 155" pathLength="100" style="animation-delay:1.72s"/>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="12" width="200" height="52" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="38" r="4.5"/>
+      <text class="wf__label" x="118" y="34" text-anchor="middle">Receipt upload</text>
+      <text class="wf__service" x="118" y="51" text-anchor="middle">Webhook</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="256" y="19" width="200" height="38" rx="11"/>
+      <circle class="wf__mark" cx="272" cy="38" r="4.5"/>
+      <text class="wf__label" x="362" y="42.5" text-anchor="middle">Check the request</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="500" y="19" width="200" height="38" rx="11"/>
+      <circle class="wf__mark" cx="516" cy="38" r="4.5"/>
+      <text class="wf__label" x="606" y="42.5" text-anchor="middle">Request allowed?</text>
+    </g>
+    <g class="wf__node wf__node--ai">
+      <rect x="500" y="129" width="200" height="52" rx="11"/>
+      <circle class="wf__mark" cx="516" cy="155" r="4.5"/>
+      <text class="wf__label" x="606" y="151" text-anchor="middle">Read receipt with vision</text>
+      <text class="wf__service" x="606" y="168" text-anchor="middle">OpenAI</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="256" y="110" width="200" height="38" rx="11"/>
+      <circle class="wf__mark" cx="272" cy="129" r="4.5"/>
+      <text class="wf__label" x="362" y="133.5" text-anchor="middle">Shape the reply</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="256" y="162" width="200" height="38" rx="11"/>
+      <circle class="wf__mark" cx="272" cy="181" r="4.5"/>
+      <text class="wf__label" x="362" y="185.5" text-anchor="middle">Model failed</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="12" y="129" width="200" height="52" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="155" r="4.5"/>
+      <text class="wf__label" x="118" y="151" text-anchor="middle">Send the reply</text>
+      <text class="wf__service" x="118" y="168" text-anchor="middle">Webhook</text>
+    </g>
+  </svg>
+    </div>
+    <figcaption class="system__caption"><span class="system__count"><b>1</b> workflows · <b>7</b> nodes</span></figcaption>
+  </figure>
+  <div class="system__detail">
+    <ul class="card__list"><li>Secret, contract version and image size are checked before any model call</li><li>Model failures take their own branch, so the site always gets a JSON answer</li><li>Successful runs are not stored, because receipts carry personal data</li></ul>
     <dl class="card__body">
-      <dt>Trigger</dt><dd>Schedule</dd>
-      <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">Serper.dev Google SERP API</li><li class="badge">HTTP scraping</li><li class="badge">Google Sheets</li></ul></dd>
+      <dt>Trigger</dt><dd>Webhook (receipt upload)</dd>
+      <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">OpenAI GPT-4.1 Vision</li><li class="badge">Webhooks</li></ul></dd>
+      
     </dl>
-  </aside>
-</article>
-<article data-reveal class="card card--row" id="lesson-quality-evaluator">
-  <div class="card__main">
-    <p class="card__meta"><span>Video-to-data webhook service</span><span>2026</span></p>
-    <h3 class="card__title">Lesson Quality Evaluator</h3>
-    <p class="card__body">A webhook service that transcribes lesson videos with speaker separation and returns structured JSON scoring teacher quality and student engagement.</p>
-    <ul class="card__list"><li>Speaker diarization separates teacher from student</li><li>Structured outputs guarantee a parseable result every time</li><li>Returns a score, not a transcript — the caller gets data, not homework</li></ul>
-    <dl class="card__body"><dt>Outcome</dt><dd>Lesson review becomes measurable instead of anecdotal.</dd></dl>
   </div>
-  <aside class="card__aside">
+</article>
+<article data-reveal data-filter-item data-group="shops" class="card system" id="whatsapp-booking">
+  <p class="card__meta"><span class="status status--built">Built and tested</span><span>Booking bot for shops</span><span>2026</span></p>
+  <h3 class="card__title">WhatsApp Booking Bot</h3>
+  <p class="card__body">A customer taps a service, then a time slot, in WhatsApp buttons. The confirmed slot is written to Google Calendar and confirmed back on WhatsApp.</p>
+  <p class="system__caption"><span class="system__count"><b>1</b> workflows</span></p>
+  <div class="system__detail">
+    <ul class="card__list"><li>Service and time chosen with buttons, not typing</li><li>Every booking lands in Google Calendar</li><li>The customer gets a confirmation on WhatsApp</li></ul>
+    <dl class="card__body">
+      <dt>Trigger</dt><dd>WhatsApp message</dd>
+      <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">WhatsApp</li><li class="badge">Google Calendar</li></ul></dd>
+      
+    </dl>
+  </div>
+</article>
+<article data-reveal data-filter-item data-group="content" class="card system" id="whatsapp-group">
+  <p class="card__meta"><span class="status status--built">Built and tested</span><span>Form-driven messaging tool</span><span>2026</span></p>
+  <h3 class="card__title">WhatsApp Group from a Spreadsheet</h3>
+  <p class="card__body">Upload an Excel or CSV of contacts and a group name: the group is created, everyone is added in throttled batches, and anyone WhatsApp refuses to add receives the invite link instead.</p>
+  <figure class="system__diagram">
+    <div class="wf-frame">
+      <svg class="wf" viewBox="0 0 948 240" width="948" height="240" role="img" aria-labelledby="wf-whatsapp-group-en-t wf-whatsapp-group-en-d" style="--wf-w:948px">
+    <title id="wf-whatsapp-group-en-t">WhatsApp Group from a Spreadsheet</title>
+    <desc id="wf-whatsapp-group-en-d">Contacts upload form → Read the spreadsheet → Normalize phone numbers → Create WhatsApp group → Batch the contacts → Add participants / Find members not added → Send invite link</desc>
+    <defs><marker id="wf-a-whatsapp-group-en" class="wf__arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0.8 L7 4 L0 7.2 Z"/></marker></defs>
+    <path class="wf__edge" d="M210 38 C232 38 232 38 254 38" marker-end="url(#wf-a-whatsapp-group-en)"/>
+    <path class="wf__pulse" d="M210 38 C232 38 232 38 254 38" pathLength="100" style="animation-delay:0.00s"/>
+    <path class="wf__edge" d="M452 38 C474 38 474 38 496 38" marker-end="url(#wf-a-whatsapp-group-en)"/>
+    <path class="wf__pulse" d="M452 38 C474 38 474 38 496 38" pathLength="100" style="animation-delay:0.52s"/>
+    <path class="wf__edge" d="M694 38 C716 38 716 38 738 38" marker-end="url(#wf-a-whatsapp-group-en)"/>
+    <path class="wf__pulse" d="M694 38 C716 38 716 38 738 38" pathLength="100" style="animation-delay:1.04s"/>
+    <path class="wf__edge" d="M837 64 C837 107 837 107 837 150" marker-end="url(#wf-a-whatsapp-group-en)"/>
+    <path class="wf__pulse" d="M837 64 C837 107 837 107 837 150" pathLength="100" style="animation-delay:1.20s"/>
+    <path class="wf__edge" d="M738 169 C716 169 716 136 694 136" marker-end="url(#wf-a-whatsapp-group-en)"/>
+    <path class="wf__pulse" d="M738 169 C716 169 716 136 694 136" pathLength="100" style="animation-delay:1.72s"/>
+    <path class="wf__edge" d="M738 169 C716 169 716 202 694 202" marker-end="url(#wf-a-whatsapp-group-en)"/>
+    <path class="wf__pulse" d="M738 169 C716 169 716 202 694 202" pathLength="100" style="animation-delay:1.84s"/>
+    <path class="wf__edge" d="M496 202 C474 202 474 169 452 169" marker-end="url(#wf-a-whatsapp-group-en)"/>
+    <path class="wf__pulse" d="M496 202 C474 202 474 169 452 169" pathLength="100" style="animation-delay:2.00s"/>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="19" width="198" height="38" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="38" r="4.5"/>
+      <text class="wf__label" x="117" y="42.5" text-anchor="middle">Contacts upload form</text>
+    </g>
+    <g class="wf__node wf__node--data">
+      <rect x="254" y="19" width="198" height="38" rx="11"/>
+      <circle class="wf__mark" cx="270" cy="38" r="4.5"/>
+      <text class="wf__label" x="359" y="42.5" text-anchor="middle">Read the spreadsheet</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="496" y="19" width="198" height="38" rx="11"/>
+      <circle class="wf__mark" cx="512" cy="38" r="4.5"/>
+      <text class="wf__label" x="601" y="42.5" text-anchor="middle">Normalize phone numbers</text>
+    </g>
+    <g class="wf__node wf__node--io">
+      <rect x="738" y="12" width="198" height="52" rx="11"/>
+      <circle class="wf__mark" cx="754" cy="38" r="4.5"/>
+      <text class="wf__label" x="843" y="34" text-anchor="middle">Create WhatsApp group</text>
+      <text class="wf__service" x="843" y="51" text-anchor="middle">Whapi</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="738" y="150" width="198" height="38" rx="11"/>
+      <circle class="wf__mark" cx="754" cy="169" r="4.5"/>
+      <text class="wf__label" x="843" y="173.5" text-anchor="middle">Batch the contacts</text>
+    </g>
+    <g class="wf__node wf__node--io">
+      <rect x="496" y="110" width="198" height="52" rx="11"/>
+      <circle class="wf__mark" cx="512" cy="136" r="4.5"/>
+      <text class="wf__label" x="601" y="132" text-anchor="middle">Add participants</text>
+      <text class="wf__service" x="601" y="149" text-anchor="middle">Whapi</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="496" y="176" width="198" height="52" rx="11"/>
+      <circle class="wf__mark" cx="512" cy="202" r="4.5"/>
+      <text class="wf__label" x="601" y="198" text-anchor="middle">Find members not added</text>
+      <text class="wf__service" x="601" y="215" text-anchor="middle">Whapi</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="254" y="143" width="198" height="52" rx="11"/>
+      <circle class="wf__mark" cx="270" cy="169" r="4.5"/>
+      <text class="wf__label" x="359" y="165" text-anchor="middle">Send invite link</text>
+      <text class="wf__service" x="359" y="182" text-anchor="middle">Whapi</text>
+    </g>
+  </svg>
+    </div>
+    <figcaption class="system__caption"><span class="system__count"><b>1</b> workflows · <b>13</b> nodes</span></figcaption>
+  </figure>
+  <div class="system__detail">
+    <ul class="card__list"><li>Phone columns are detected automatically, normalised and de-duplicated</li><li>Members are added in batches with a pause between them, to stay under spam limits</li><li>Whoever could not be added gets the invite link, one message at a time</li></ul>
+    <dl class="card__body">
+      <dt>Trigger</dt><dd>Form (file upload)</dd>
+      <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">Whapi.Cloud</li><li class="badge">Excel</li><li class="badge">CSV</li></ul></dd>
+      
+    </dl>
+  </div>
+</article>
+<article data-reveal data-filter-item data-group="content shops" class="card system" id="social-auto-publisher">
+  <p class="card__meta"><span class="status status--built">Built and tested</span><span>AI social media studio</span><span>2026</span></p>
+  <h3 class="card__title">Social Auto-Publisher</h3>
+  <p class="card__body">Send a post idea to a Telegram bot and get back captions for each platform and a branded image in your own colours, fonts and logo. Nothing is scheduled until you approve the preview.</p>
+  <figure class="system__diagram">
+    <div class="wf-frame">
+      <svg class="wf" viewBox="0 0 1085 226" width="1085" height="226" role="img" aria-labelledby="wf-social-auto-publisher-en-t wf-social-auto-publisher-en-d" style="--wf-w:1085px">
+    <title id="wf-social-auto-publisher-en-t">Social Auto-Publisher</title>
+    <desc id="wf-social-auto-publisher-en-d">Telegram post idea → Load brand kit → Plan and captions → Settings or post? → Save brand settings / Background image → Vision layout pass → Render branded image → Approve on Telegram → Schedule on Postiz</desc>
+    <defs><marker id="wf-a-social-auto-publisher-en" class="wf__arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0.8 L7 4 L0 7.2 Z"/></marker></defs>
+    <path class="wf__edge" d="M189 64 C211 64 211 64 233 64" marker-end="url(#wf-a-social-auto-publisher-en)"/>
+    <path class="wf__pulse" d="M189 64 C211 64 211 64 233 64" pathLength="100" style="animation-delay:0.00s"/>
+    <path class="wf__edge" d="M410 64 C432 64 432 64 454 64" marker-end="url(#wf-a-social-auto-publisher-en)"/>
+    <path class="wf__pulse" d="M410 64 C432 64 432 64 454 64" pathLength="100" style="animation-delay:0.52s"/>
+    <path class="wf__edge" d="M631 64 C653 64 653 64 675 64" marker-end="url(#wf-a-social-auto-publisher-en)"/>
+    <path class="wf__pulse" d="M631 64 C653 64 653 64 675 64" pathLength="100" style="animation-delay:1.04s"/>
+    <path class="wf__edge" d="M852 64 C874 64 874 31 896 31" marker-end="url(#wf-a-social-auto-publisher-en)"/>
+    <path class="wf__pulse" d="M852 64 C874 64 874 31 896 31" pathLength="100" style="animation-delay:1.20s"/>
+    <path class="wf__edge" d="M852 64 C874 64 874 90 896 90" marker-end="url(#wf-a-social-auto-publisher-en)"/>
+    <path class="wf__pulse" d="M852 64 C874 64 874 90 896 90" pathLength="100" style="animation-delay:1.32s"/>
+    <path class="wf__edge" d="M984.5 116 C984.5 139 984.5 139 984.5 162" marker-end="url(#wf-a-social-auto-publisher-en)"/>
+    <path class="wf__pulse" d="M984.5 116 C984.5 139 984.5 139 984.5 162" pathLength="100" style="animation-delay:1.84s"/>
+    <path class="wf__edge" d="M896 188 C874 188 874 188 852 188" marker-end="url(#wf-a-social-auto-publisher-en)"/>
+    <path class="wf__pulse" d="M896 188 C874 188 874 188 852 188" pathLength="100" style="animation-delay:2.00s"/>
+    <path class="wf__edge" d="M675 188 C653 188 653 188 631 188" marker-end="url(#wf-a-social-auto-publisher-en)"/>
+    <path class="wf__pulse" d="M675 188 C653 188 653 188 631 188" pathLength="100" style="animation-delay:2.52s"/>
+    <path class="wf__edge" d="M454 188 C432 188 432 188 410 188" marker-end="url(#wf-a-social-auto-publisher-en)"/>
+    <path class="wf__pulse" d="M454 188 C432 188 432 188 410 188" pathLength="100" style="animation-delay:3.04s"/>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="38" width="177" height="52" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="64" r="4.5"/>
+      <text class="wf__label" x="106.5" y="60" text-anchor="middle">Telegram post idea</text>
+      <text class="wf__service" x="106.5" y="77" text-anchor="middle">Telegram</text>
+    </g>
+    <g class="wf__node wf__node--data">
+      <rect x="233" y="45" width="177" height="38" rx="11"/>
+      <circle class="wf__mark" cx="249" cy="64" r="4.5"/>
+      <text class="wf__label" x="327.5" y="68.5" text-anchor="middle">Load brand kit</text>
+    </g>
+    <g class="wf__node wf__node--ai">
+      <rect x="454" y="38" width="177" height="52" rx="11"/>
+      <circle class="wf__mark" cx="470" cy="64" r="4.5"/>
+      <text class="wf__label" x="548.5" y="60" text-anchor="middle">Plan and captions</text>
+      <text class="wf__service" x="548.5" y="77" text-anchor="middle">OpenAI</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="675" y="45" width="177" height="38" rx="11"/>
+      <circle class="wf__mark" cx="691" cy="64" r="4.5"/>
+      <text class="wf__label" x="769.5" y="68.5" text-anchor="middle">Settings or post?</text>
+    </g>
+    <g class="wf__node wf__node--data">
+      <rect x="896" y="12" width="177" height="38" rx="11"/>
+      <circle class="wf__mark" cx="912" cy="31" r="4.5"/>
+      <text class="wf__label" x="990.5" y="35.5" text-anchor="middle">Save brand settings</text>
+    </g>
+    <g class="wf__node wf__node--ai">
+      <rect x="896" y="64" width="177" height="52" rx="11"/>
+      <circle class="wf__mark" cx="912" cy="90" r="4.5"/>
+      <text class="wf__label" x="990.5" y="86" text-anchor="middle">Background image</text>
+      <text class="wf__service" x="990.5" y="103" text-anchor="middle">OpenAI</text>
+    </g>
+    <g class="wf__node wf__node--ai">
+      <rect x="896" y="162" width="177" height="52" rx="11"/>
+      <circle class="wf__mark" cx="912" cy="188" r="4.5"/>
+      <text class="wf__label" x="990.5" y="184" text-anchor="middle">Vision layout pass</text>
+      <text class="wf__service" x="990.5" y="201" text-anchor="middle">OpenAI</text>
+    </g>
+    <g class="wf__node wf__node--io">
+      <rect x="675" y="162" width="177" height="52" rx="11"/>
+      <circle class="wf__mark" cx="691" cy="188" r="4.5"/>
+      <text class="wf__label" x="769.5" y="184" text-anchor="middle">Render branded image</text>
+      <text class="wf__service" x="769.5" y="201" text-anchor="middle">Browserless</text>
+    </g>
+    <g class="wf__node wf__node--human">
+      <rect x="454" y="162" width="177" height="52" rx="11"/>
+      <circle class="wf__mark" cx="470" cy="188" r="4.5"/>
+      <text class="wf__label" x="548.5" y="184" text-anchor="middle">Approve on Telegram</text>
+      <text class="wf__service" x="548.5" y="201" text-anchor="middle">Telegram</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="233" y="162" width="177" height="52" rx="11"/>
+      <circle class="wf__mark" cx="249" cy="188" r="4.5"/>
+      <text class="wf__label" x="327.5" y="184" text-anchor="middle">Schedule on Postiz</text>
+      <text class="wf__service" x="327.5" y="201" text-anchor="middle">Postiz</text>
+    </g>
+  </svg>
+    </div>
+    <figcaption class="system__caption"><span class="system__count"><b>1</b> workflows · <b>33</b> nodes</span></figcaption>
+  </figure>
+  <div class="system__detail">
+    <ul class="card__list"><li>The brand kit is stored once and edited through chat commands</li><li>A vision pass picks the text zone, logo corner and overlay strength for each background</li><li>The final image is composed as HTML and rendered to PNG</li></ul>
+    <dl class="card__body">
+      <dt>Trigger</dt><dd>Telegram message</dd>
+      <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">OpenAI</li><li class="badge">Browserless</li><li class="badge">Postiz</li><li class="badge">Telegram</li><li class="badge">n8n Data Tables</li></ul></dd>
+      
+    </dl>
+  </div>
+</article>
+<article data-reveal data-filter-item data-group="data" class="card system" id="smart-lead-finder">
+  <p class="card__meta"><span class="status status--built">Built and tested</span><span>Scraping and enrichment pipeline</span><span>2025</span></p>
+  <h3 class="card__title">Smart Lead Finder</h3>
+  <p class="card__body">Automated B2B lead generation across the Saudi and Jordanian markets: multi-query place search, website scraping to extract emails and WhatsApp numbers, prioritisation scoring, and duplicate-safe appends into segmented sheets.</p>
+  <figure class="system__diagram">
+    <div class="wf-frame">
+      <svg class="wf" viewBox="0 0 1155 226" width="1155" height="226" role="img" aria-labelledby="wf-smart-lead-finder-en-t wf-smart-lead-finder-en-d" style="--wf-w:1155px">
+    <title id="wf-smart-lead-finder-en-t">Smart Lead Finder</title>
+    <desc id="wf-smart-lead-finder-en-d">Manual run → Build search queries / Read existing leads → Search places → Split and dedupe → Has a website? → Scrape contact details → Merge the leads → Keep only new → Append to sheet</desc>
+    <defs><marker id="wf-a-smart-lead-finder-en" class="wf__arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0.8 L7 4 L0 7.2 Z"/></marker></defs>
+    <path class="wf__edge" d="M203 64 C225 64 225 31 247 31" marker-end="url(#wf-a-smart-lead-finder-en)"/>
+    <path class="wf__pulse" d="M203 64 C225 64 225 31 247 31" pathLength="100" style="animation-delay:0.00s"/>
+    <path class="wf__edge" d="M203 64 C225 64 225 90 247 90" marker-end="url(#wf-a-smart-lead-finder-en)"/>
+    <path class="wf__pulse" d="M203 64 C225 64 225 90 247 90" pathLength="100" style="animation-delay:0.12s"/>
+    <path class="wf__edge" d="M438 31 C460 31 460 64 482 64" marker-end="url(#wf-a-smart-lead-finder-en)"/>
+    <path class="wf__pulse" d="M438 31 C460 31 460 64 482 64" pathLength="100" style="animation-delay:0.64s"/>
+    <path class="wf__edge" d="M673 64 C695 64 695 64 717 64" marker-end="url(#wf-a-smart-lead-finder-en)"/>
+    <path class="wf__pulse" d="M673 64 C695 64 695 64 717 64" pathLength="100" style="animation-delay:0.80s"/>
+    <path class="wf__edge" d="M908 64 C930 64 930 64 952 64" marker-end="url(#wf-a-smart-lead-finder-en)"/>
+    <path class="wf__pulse" d="M908 64 C930 64 930 64 952 64" pathLength="100" style="animation-delay:1.32s"/>
+    <path class="wf__edge" d="M1047.5 83 C1047.5 126 1047.5 126 1047.5 169" marker-end="url(#wf-a-smart-lead-finder-en)"/>
+    <path class="wf__pulse" d="M1047.5 83 C1047.5 126 1047.5 126 1047.5 169" pathLength="100" style="animation-delay:1.84s"/>
+    <path class="wf__edge" d="M1047.5 83 C1047.5 126 812.5 126 812.5 169" marker-end="url(#wf-a-smart-lead-finder-en)"/>
+    <path class="wf__pulse" d="M1047.5 83 C1047.5 126 812.5 126 812.5 169" pathLength="100" style="animation-delay:1.60s"/>
+    <path class="wf__edge" d="M952 188 C930 188 930 188 908 188" marker-end="url(#wf-a-smart-lead-finder-en)"/>
+    <path class="wf__pulse" d="M952 188 C930 188 930 188 908 188" pathLength="100" style="animation-delay:2.12s"/>
+    <path class="wf__edge" d="M717 188 C695 188 695 188 673 188" marker-end="url(#wf-a-smart-lead-finder-en)"/>
+    <path class="wf__pulse" d="M717 188 C695 188 695 188 673 188" pathLength="100" style="animation-delay:2.64s"/>
+    <path class="wf__edge" d="M342.5 116 C342.5 142.5 577.5 142.5 577.5 169" marker-end="url(#wf-a-smart-lead-finder-en)"/>
+    <path class="wf__pulse" d="M342.5 116 C342.5 142.5 577.5 142.5 577.5 169" pathLength="100" style="animation-delay:0.40s"/>
+    <path class="wf__edge" d="M482 188 C460 188 460 188 438 188" marker-end="url(#wf-a-smart-lead-finder-en)"/>
+    <path class="wf__pulse" d="M482 188 C460 188 460 188 438 188" pathLength="100" style="animation-delay:2.92s"/>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="45" width="191" height="38" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="64" r="4.5"/>
+      <text class="wf__label" x="113.5" y="68.5" text-anchor="middle">Manual run</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="247" y="12" width="191" height="38" rx="11"/>
+      <circle class="wf__mark" cx="263" cy="31" r="4.5"/>
+      <text class="wf__label" x="348.5" y="35.5" text-anchor="middle">Build search queries</text>
+    </g>
+    <g class="wf__node wf__node--data">
+      <rect x="247" y="64" width="191" height="52" rx="11"/>
+      <circle class="wf__mark" cx="263" cy="90" r="4.5"/>
+      <text class="wf__label" x="348.5" y="86" text-anchor="middle">Read existing leads</text>
+      <text class="wf__service" x="348.5" y="103" text-anchor="middle">Google Sheets</text>
+    </g>
+    <g class="wf__node wf__node--io">
+      <rect x="482" y="38" width="191" height="52" rx="11"/>
+      <circle class="wf__mark" cx="498" cy="64" r="4.5"/>
+      <text class="wf__label" x="583.5" y="60" text-anchor="middle">Search places</text>
+      <text class="wf__service" x="583.5" y="77" text-anchor="middle">Serper</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="717" y="45" width="191" height="38" rx="11"/>
+      <circle class="wf__mark" cx="733" cy="64" r="4.5"/>
+      <text class="wf__label" x="818.5" y="68.5" text-anchor="middle">Split and dedupe</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="952" y="45" width="191" height="38" rx="11"/>
+      <circle class="wf__mark" cx="968" cy="64" r="4.5"/>
+      <text class="wf__label" x="1053.5" y="68.5" text-anchor="middle">Has a website?</text>
+    </g>
+    <g class="wf__node wf__node--io">
+      <rect x="952" y="169" width="191" height="38" rx="11"/>
+      <circle class="wf__mark" cx="968" cy="188" r="4.5"/>
+      <text class="wf__label" x="1053.5" y="192.5" text-anchor="middle">Scrape contact details</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="717" y="169" width="191" height="38" rx="11"/>
+      <circle class="wf__mark" cx="733" cy="188" r="4.5"/>
+      <text class="wf__label" x="818.5" y="192.5" text-anchor="middle">Merge the leads</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="482" y="169" width="191" height="38" rx="11"/>
+      <circle class="wf__mark" cx="498" cy="188" r="4.5"/>
+      <text class="wf__label" x="583.5" y="192.5" text-anchor="middle">Keep only new</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="247" y="162" width="191" height="52" rx="11"/>
+      <circle class="wf__mark" cx="263" cy="188" r="4.5"/>
+      <text class="wf__label" x="348.5" y="184" text-anchor="middle">Append to sheet</text>
+      <text class="wf__service" x="348.5" y="201" text-anchor="middle">Google Sheets</text>
+    </g>
+  </svg>
+    </div>
+    <figcaption class="system__caption"><span class="system__count"><b>3</b> workflows · <b>51</b> nodes</span></figcaption>
+  </figure>
+  <div class="system__detail">
+    <ul class="card__list"><li>Multi-query place search across two markets</li><li>Extracts emails and WhatsApp numbers from company websites</li><li>Prioritisation scoring so the best prospects surface first</li></ul>
+    <dl class="card__body">
+      <dt>Trigger</dt><dd>Manual run</dd>
+      <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">Serper.dev Google SERP API</li><li class="badge">HTTP scraping</li><li class="badge">Google Sheets</li></ul></dd>
+      
+    </dl>
+  </div>
+</article>
+<article data-reveal data-filter-item data-group="education" class="card system" id="lesson-quality-evaluator">
+  <p class="card__meta"><span class="status status--built">Built and tested</span><span>Video-to-data webhook service</span><span>2026</span></p>
+  <h3 class="card__title">Lesson Quality Evaluator</h3>
+  <p class="card__body">A webhook service that transcribes lesson videos with speaker separation and returns structured JSON scoring teacher quality and student engagement.</p>
+  <figure class="system__diagram">
+    <div class="wf-frame">
+      <svg class="wf" viewBox="0 0 1190 240" width="1190" height="240" role="img" aria-labelledby="wf-lesson-quality-evaluator-en-t wf-lesson-quality-evaluator-en-d" style="--wf-w:1190px">
+    <title id="wf-lesson-quality-evaluator-en-t">Lesson Quality Evaluator</title>
+    <desc id="wf-lesson-quality-evaluator-en-d">Lesson video URL → Normalize the input → Request transcript → Wait and poll → Transcript finished? → Build evaluation prompt → Transcript OK? → Analyze the lesson / Return an error → Return the scorecard</desc>
+    <defs><marker id="wf-a-lesson-quality-evaluator-en" class="wf__arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0.8 L7 4 L0 7.2 Z"/></marker></defs>
+    <path class="wf__edge" d="M210 38 C232 38 232 38 254 38" marker-end="url(#wf-a-lesson-quality-evaluator-en)"/>
+    <path class="wf__pulse" d="M210 38 C232 38 232 38 254 38" pathLength="100" style="animation-delay:0.00s"/>
+    <path class="wf__edge" d="M452 38 C474 38 474 38 496 38" marker-end="url(#wf-a-lesson-quality-evaluator-en)"/>
+    <path class="wf__pulse" d="M452 38 C474 38 474 38 496 38" pathLength="100" style="animation-delay:0.52s"/>
+    <path class="wf__edge" d="M694 38 C716 38 716 38 738 38" marker-end="url(#wf-a-lesson-quality-evaluator-en)"/>
+    <path class="wf__pulse" d="M694 38 C716 38 716 38 738 38" pathLength="100" style="animation-delay:1.04s"/>
+    <path class="wf__edge" d="M936 38 C958 38 958 38 980 38" marker-end="url(#wf-a-lesson-quality-evaluator-en)"/>
+    <path class="wf__pulse" d="M936 38 C958 38 958 38 980 38" pathLength="100" style="animation-delay:1.20s"/>
+    <path class="wf__edge" d="M1079 57 C1079 103.5 1079 103.5 1079 150" marker-end="url(#wf-a-lesson-quality-evaluator-en)"/>
+    <path class="wf__pulse" d="M1079 57 C1079 103.5 1079 103.5 1079 150" pathLength="100" style="animation-delay:1.72s"/>
+    <path class="wf__edge" d="M980 169 C958 169 958 169 936 169" marker-end="url(#wf-a-lesson-quality-evaluator-en)"/>
+    <path class="wf__pulse" d="M980 169 C958 169 958 169 936 169" pathLength="100" style="animation-delay:2.24s"/>
+    <path class="wf__edge" d="M738 169 C716 169 716 136 694 136" marker-end="url(#wf-a-lesson-quality-evaluator-en)"/>
+    <path class="wf__pulse" d="M738 169 C716 169 716 136 694 136" pathLength="100" style="animation-delay:2.40s"/>
+    <path class="wf__edge" d="M738 169 C716 169 716 202 694 202" marker-end="url(#wf-a-lesson-quality-evaluator-en)"/>
+    <path class="wf__pulse" d="M738 169 C716 169 716 202 694 202" pathLength="100" style="animation-delay:2.52s"/>
+    <path class="wf__edge" d="M496 136 C474 136 474 169 452 169" marker-end="url(#wf-a-lesson-quality-evaluator-en)"/>
+    <path class="wf__pulse" d="M496 136 C474 136 474 169 452 169" pathLength="100" style="animation-delay:3.04s"/>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="12" width="198" height="52" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="38" r="4.5"/>
+      <text class="wf__label" x="117" y="34" text-anchor="middle">Lesson video URL</text>
+      <text class="wf__service" x="117" y="51" text-anchor="middle">Webhook</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="254" y="19" width="198" height="38" rx="11"/>
+      <circle class="wf__mark" cx="270" cy="38" r="4.5"/>
+      <text class="wf__label" x="359" y="42.5" text-anchor="middle">Normalize the input</text>
+    </g>
+    <g class="wf__node wf__node--io">
+      <rect x="496" y="12" width="198" height="52" rx="11"/>
+      <circle class="wf__mark" cx="512" cy="38" r="4.5"/>
+      <text class="wf__label" x="601" y="34" text-anchor="middle">Request transcript</text>
+      <text class="wf__service" x="601" y="51" text-anchor="middle">AssemblyAI</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="738" y="12" width="198" height="52" rx="11"/>
+      <circle class="wf__mark" cx="754" cy="38" r="4.5"/>
+      <text class="wf__label" x="843" y="34" text-anchor="middle">Wait and poll</text>
+      <text class="wf__service" x="843" y="51" text-anchor="middle">AssemblyAI</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="980" y="19" width="198" height="38" rx="11"/>
+      <circle class="wf__mark" cx="996" cy="38" r="4.5"/>
+      <text class="wf__label" x="1085" y="42.5" text-anchor="middle">Transcript finished?</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="980" y="150" width="198" height="38" rx="11"/>
+      <circle class="wf__mark" cx="996" cy="169" r="4.5"/>
+      <text class="wf__label" x="1085" y="173.5" text-anchor="middle">Build evaluation prompt</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="738" y="150" width="198" height="38" rx="11"/>
+      <circle class="wf__mark" cx="754" cy="169" r="4.5"/>
+      <text class="wf__label" x="843" y="173.5" text-anchor="middle">Transcript OK?</text>
+    </g>
+    <g class="wf__node wf__node--ai">
+      <rect x="496" y="110" width="198" height="52" rx="11"/>
+      <circle class="wf__mark" cx="512" cy="136" r="4.5"/>
+      <text class="wf__label" x="601" y="132" text-anchor="middle">Analyze the lesson</text>
+      <text class="wf__service" x="601" y="149" text-anchor="middle">OpenAI</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="496" y="176" width="198" height="52" rx="11"/>
+      <circle class="wf__mark" cx="512" cy="202" r="4.5"/>
+      <text class="wf__label" x="601" y="198" text-anchor="middle">Return an error</text>
+      <text class="wf__service" x="601" y="215" text-anchor="middle">Webhook</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="254" y="143" width="198" height="52" rx="11"/>
+      <circle class="wf__mark" cx="270" cy="169" r="4.5"/>
+      <text class="wf__label" x="359" y="165" text-anchor="middle">Return the scorecard</text>
+      <text class="wf__service" x="359" y="182" text-anchor="middle">Webhook</text>
+    </g>
+  </svg>
+    </div>
+    <figcaption class="system__caption"><span class="system__count"><b>1</b> workflows · <b>12</b> nodes</span></figcaption>
+  </figure>
+  <div class="system__detail">
+    <ul class="card__list"><li>Speaker diarization separates teacher from student</li><li>Structured outputs guarantee a parseable result every time</li><li>Returns a score, not a transcript — the caller gets data, not homework</li></ul>
     <dl class="card__body">
       <dt>Trigger</dt><dd>Webhook (video upload)</dd>
       <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">AssemblyAI Speaker Diarization</li><li class="badge">OpenAI GPT-4.1 Structured Outputs</li></ul></dd>
+      
     </dl>
-  </aside>
-</article>
-<article data-reveal class="card card--row" id="crm-lead-cleaner">
-  <div class="card__main">
-    <p class="card__meta"><span>Data quality pipeline · proof of concept</span><span>2026</span></p>
-    <h3 class="card__title">CRM Lead Cleaner</h3>
-    <p class="card__body">Incoming CRM leads arrive scattered — duplicates, malformed emails, missing fields — and cost sales teams hours of manual triage. This pipeline cleans them automatically and reports on what it did.</p>
-    <ul class="card__list"><li>Removes duplicates and validates email addresses</li><li>Flags missing fields rather than silently dropping records</li><li>Splits results into Clean and Rejected, with a reason on every rejection</li><li>Produces a quality summary after each run</li></ul>
-    <dl class="card__body"><dt>Outcome</dt><dd>Designed to plug straight into a CRM, turning hours of manual triage into a summary line.</dd></dl>
   </div>
-  <aside class="card__aside">
+</article>
+<article data-reveal data-filter-item data-group="hr content" class="card system" id="ai-email-campaign">
+  <p class="card__meta"><span class="status status--built">Built and tested</span><span>Personalised outreach</span><span>2026</span></p>
+  <h3 class="card__title">AI Email Campaigns</h3>
+  <p class="card__body">Fill in a form with a contact list and, for a job search, your CV. Each contact gets an email written for them, sent one at a time through Gmail with a random pause, and you get a report when it is done.</p>
+  <figure class="system__diagram">
+    <div class="wf-frame">
+      <svg class="wf" viewBox="0 0 864 278" width="864" height="278" role="img" aria-labelledby="wf-ai-email-campaign-en-t wf-ai-email-campaign-en-d" style="--wf-w:864px">
+    <title id="wf-ai-email-campaign-en-t">AI Email Campaigns</title>
+    <desc id="wf-ai-email-campaign-en-d">Campaign form → Excel or sheet? / Read CV text → Clean the contacts → Attach CV context → Loop over contacts → Write personal email / Email the report → Send via Gmail</desc>
+    <defs><marker id="wf-a-ai-email-campaign-en" class="wf__arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0.8 L7 4 L0 7.2 Z"/></marker></defs>
+    <path class="wf__edge" d="M189 57 C211 57 211 31 233 31" marker-end="url(#wf-a-ai-email-campaign-en)"/>
+    <path class="wf__pulse" d="M189 57 C211 57 211 31 233 31" pathLength="100" style="animation-delay:0.00s"/>
+    <path class="wf__edge" d="M189 57 C211 57 211 83 233 83" marker-end="url(#wf-a-ai-email-campaign-en)"/>
+    <path class="wf__pulse" d="M189 57 C211 57 211 83 233 83" pathLength="100" style="animation-delay:0.12s"/>
+    <path class="wf__edge" d="M410 31 C432 31 432 57 454 57" marker-end="url(#wf-a-ai-email-campaign-en)"/>
+    <path class="wf__pulse" d="M410 31 C432 31 432 57 454 57" pathLength="100" style="animation-delay:0.64s"/>
+    <path class="wf__edge" d="M631 57 C653 57 653 57 675 57" marker-end="url(#wf-a-ai-email-campaign-en)"/>
+    <path class="wf__pulse" d="M631 57 C653 57 653 57 675 57" pathLength="100" style="animation-delay:0.80s"/>
+    <path class="wf__edge" d="M410 83 C542.5 83 542.5 57 675 57" marker-end="url(#wf-a-ai-email-campaign-en)"/>
+    <path class="wf__pulse" d="M410 83 C542.5 83 542.5 57 675 57" pathLength="100" style="animation-delay:0.52s"/>
+    <path class="wf__edge" d="M763.5 76 C763.5 132 763.5 132 763.5 188" marker-end="url(#wf-a-ai-email-campaign-en)"/>
+    <path class="wf__pulse" d="M763.5 76 C763.5 132 763.5 132 763.5 188" pathLength="100" style="animation-delay:1.44s"/>
+    <path class="wf__edge" d="M675 207 C653 207 653 174 631 174" marker-end="url(#wf-a-ai-email-campaign-en)"/>
+    <path class="wf__pulse" d="M675 207 C653 207 653 174 631 174" pathLength="100" style="animation-delay:1.60s"/>
+    <path class="wf__edge" d="M675 207 C653 207 653 240 631 240" marker-end="url(#wf-a-ai-email-campaign-en)"/>
+    <path class="wf__pulse" d="M675 207 C653 207 653 240 631 240" pathLength="100" style="animation-delay:1.72s"/>
+    <path class="wf__edge" d="M454 174 C432 174 432 207 410 207" marker-end="url(#wf-a-ai-email-campaign-en)"/>
+    <path class="wf__pulse" d="M454 174 C432 174 432 207 410 207" pathLength="100" style="animation-delay:2.24s"/>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="38" width="177" height="38" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="57" r="4.5"/>
+      <text class="wf__label" x="106.5" y="61.5" text-anchor="middle">Campaign form</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="233" y="12" width="177" height="38" rx="11"/>
+      <circle class="wf__mark" cx="249" cy="31" r="4.5"/>
+      <text class="wf__label" x="327.5" y="35.5" text-anchor="middle">Excel or sheet?</text>
+    </g>
+    <g class="wf__node wf__node--data">
+      <rect x="233" y="64" width="177" height="38" rx="11"/>
+      <circle class="wf__mark" cx="249" cy="83" r="4.5"/>
+      <text class="wf__label" x="327.5" y="87.5" text-anchor="middle">Read CV text</text>
+    </g>
+    <g class="wf__node wf__node--data">
+      <rect x="454" y="31" width="177" height="52" rx="11"/>
+      <circle class="wf__mark" cx="470" cy="57" r="4.5"/>
+      <text class="wf__label" x="548.5" y="53" text-anchor="middle">Clean the contacts</text>
+      <text class="wf__service" x="548.5" y="70" text-anchor="middle">Google Sheets</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="675" y="38" width="177" height="38" rx="11"/>
+      <circle class="wf__mark" cx="691" cy="57" r="4.5"/>
+      <text class="wf__label" x="769.5" y="61.5" text-anchor="middle">Attach CV context</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="675" y="188" width="177" height="38" rx="11"/>
+      <circle class="wf__mark" cx="691" cy="207" r="4.5"/>
+      <text class="wf__label" x="769.5" y="211.5" text-anchor="middle">Loop over contacts</text>
+    </g>
+    <g class="wf__node wf__node--ai">
+      <rect x="454" y="148" width="177" height="52" rx="11"/>
+      <circle class="wf__mark" cx="470" cy="174" r="4.5"/>
+      <text class="wf__label" x="548.5" y="170" text-anchor="middle">Write personal email</text>
+      <text class="wf__service" x="548.5" y="187" text-anchor="middle">OpenAI</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="454" y="214" width="177" height="52" rx="11"/>
+      <circle class="wf__mark" cx="470" cy="240" r="4.5"/>
+      <text class="wf__label" x="548.5" y="236" text-anchor="middle">Email the report</text>
+      <text class="wf__service" x="548.5" y="253" text-anchor="middle">Gmail</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="233" y="181" width="177" height="52" rx="11"/>
+      <circle class="wf__mark" cx="249" cy="207" r="4.5"/>
+      <text class="wf__label" x="327.5" y="203" text-anchor="middle">Send via Gmail</text>
+      <text class="wf__service" x="327.5" y="220" text-anchor="middle">Gmail</text>
+    </g>
+  </svg>
+    </div>
+    <figcaption class="system__caption"><span class="system__count"><b>1</b> workflows · <b>22</b> nodes</span></figcaption>
+  </figure>
+  <div class="system__detail">
+    <ul class="card__list"><li>Arabic or English column headers are mapped automatically</li><li>Your CV&#39;s text is given to the model as context for job-search emails</li><li>Every send is recorded as sent or failed</li></ul>
+    <dl class="card__body">
+      <dt>Trigger</dt><dd>Form</dd>
+      <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">OpenAI</li><li class="badge">Gmail</li><li class="badge">Google Sheets</li><li class="badge">Excel</li></ul></dd>
+      
+    </dl>
+  </div>
+</article>
+<article data-reveal data-filter-item data-group="data" class="card system" id="crm-lead-cleaner">
+  <p class="card__meta"><span class="status status--built">Built and tested</span><span>Data quality pipeline · proof of concept</span><span>2026</span></p>
+  <h3 class="card__title">CRM Lead Cleaner</h3>
+  <p class="card__body">Incoming CRM leads arrive scattered — duplicates, malformed emails, missing fields — and cost sales teams hours of manual triage. This pipeline cleans them automatically and reports on what it did.</p>
+  
+  <div class="system__detail">
+    <ul class="card__list"><li>Removes duplicates and validates email addresses</li><li>Flags missing fields rather than silently dropping records</li><li>Splits results into Clean and Rejected, with a reason on every rejection</li></ul>
     <dl class="card__body">
       <dt>Trigger</dt><dd>Webhook or schedule</dd>
       <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">Email validation</li><li class="badge">Google Sheets</li></ul></dd>
+      
     </dl>
-  </aside>
+  </div>
 </article>
       </div>
     </div>
@@ -688,6 +2091,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     <a href="about.html"><span>About</span></a>
     <a href="work.html"><span>Work</span></a>
     <a href="projects.html"><span>Projects</span></a>
+    <a href="showcase.html"><span>Sites</span></a>
     <a href="automation.html" aria-current="page"><span>Lab</span></a>
     <a href="chat.html"><span>Chat</span></a>
     <a href="contact.html"><span>Contact</span></a>
@@ -698,6 +2102,6 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </form>
     <img src="../assets/img/nour.jpg?v=8858f5b0" alt="Nour Aldeen Tofi" width="720" height="720" loading="lazy" decoding="async">
   </dialog>
-<script src="../assets/js/main.js?v=a1501822" type="module"></script>
+<script src="../assets/js/main.js?v=a485f325" type="module"></script>
 </body>
 </html>

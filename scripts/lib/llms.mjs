@@ -52,11 +52,20 @@ export function buildLlmsTxt(db, lang = 'en') {
   }
   L.push('');
 
-  L.push('## Automation workflows');
+  L.push('## Automation systems');
   L.push('');
   for (const w of db.workflows) {
-    L.push(`- ${w.name[lang]} (${yearOf(w.year, lang)}): ${w.summary[lang]}`);
+    L.push(`- ${w.name[lang]} (${yearOf(w.year, lang)}, ${c.ui.status[w.status]}): ${w.summary[lang]}`);
   }
+  L.push('');
+
+  L.push('## Websites built for clients');
+  L.push('');
+  for (const x of db.showcase.sites) {
+    const link = x.url ? `[${x.name[lang]}](${x.url})` : x.name[lang];
+    L.push(`- ${link} — ${x.role[lang]}. ${x.concept[lang]}`);
+  }
+  L.push(`- [${db.showcase.lab.name[lang]}](${db.showcase.lab.url}) — ${db.showcase.lab.count} ${db.showcase.lab.countLabel[lang]}. ${db.showcase.lab.tagline[lang]}`);
   L.push('');
 
   L.push('## Experience');
@@ -144,12 +153,16 @@ export function buildLlmsFullTxt(db, lang = 'en') {
     if (p.context) { L.push(`**Context.** ${p.context[lang]}`); L.push(''); }
   }
 
-  L.push('## Automation workflows');
+  L.push('## Automation systems');
   L.push('');
   for (const w of db.workflows) {
     L.push(`### ${w.name[lang]} (${yearOf(w.year, lang)})`);
     L.push('');
-    L.push(`*${w.kind[lang]}* — trigger: ${w.trigger[lang]}`);
+    L.push(`*${w.kind[lang]}* — ${c.ui.status[w.status]}${w.workflowCount ? ` — ${w.workflowCount} n8n workflow(s)` : ''} — trigger: ${w.trigger[lang]}`);
+    if (w.flow) {
+      L.push('');
+      L.push(`**Flow.** ${w.flow.nodes.map((n) => n.label[lang]).join(' → ')}`);
+    }
     L.push('');
     L.push(w.summary[lang]);
     L.push('');
@@ -160,6 +173,22 @@ export function buildLlmsFullTxt(db, lang = 'en') {
     L.push(`**Outcome.** ${w.outcome[lang]}`);
     L.push('');
   }
+
+  L.push('## Websites built for clients');
+  L.push('');
+  for (const x of db.showcase.sites) {
+    L.push(`### ${x.name[lang]} — ${x.role[lang]}`);
+    L.push('');
+    L.push(x.concept[lang]);
+    L.push('');
+    for (const h of x.highlights[lang]) L.push(`- ${h}`);
+    L.push('');
+    if (x.url) { L.push(`**Live.** ${x.url}`); L.push(''); }
+  }
+  L.push(`### ${db.showcase.lab.name[lang]}`);
+  L.push('');
+  L.push(`${db.showcase.lab.count} ${db.showcase.lab.countLabel[lang]}. ${db.showcase.lab.tagline[lang]} ${db.showcase.lab.url}`);
+  L.push('');
 
   L.push('## Experience');
   L.push('');
