@@ -365,6 +365,109 @@
       ]
     },
     {
+      "name": "Nour Motion Studio",
+      "description": "Pick a size and a style, add ready-made scenes, and export a motion video — free, in the browser, with no account and no server.",
+      "highlights": [
+        "318 ready-made templates",
+        "349 scene transitions",
+        "217 animated backgrounds",
+        "85 camera moves",
+        "86 sound effects generated in the browser"
+      ],
+      "keywords": [
+        "JavaScript",
+        "Canvas",
+        "WebCodecs",
+        "Mediabunny",
+        "Web Audio API",
+        "IndexedDB",
+        "MP4",
+        "WebM",
+        "RTL"
+      ],
+      "url": "https://nouraldeentofi.github.io/motion-studio/",
+      "roles": [
+        "Full build — design, editor, and rendering engine"
+      ]
+    },
+    {
+      "name": "Braille Certificate Maker",
+      "description": "Fill in a training certificate and get a print-ready PDF — with a full Arabic Braille version a blind trainee can read by touch, and a file for Braille embossers.",
+      "highlights": [
+        "3 certificate types",
+        "3 ways to print raised Braille",
+        "9 automated Braille tests",
+        "0 data stored or sent"
+      ],
+      "keywords": [
+        "HTML",
+        "JavaScript",
+        "Canvas",
+        "jsPDF",
+        "QR codes",
+        "Unified Arabic Braille",
+        "BRF",
+        "Hijri calendar",
+        "GitHub Actions",
+        "RTL"
+      ],
+      "url": "https://nouraldeentofi.github.io/braille-certificate/",
+      "roles": [
+        "Full build — design, Braille translation, and PDF output"
+      ]
+    },
+    {
+      "name": "Khatm · ختم",
+      "description": "An open-source e-invoicing program for businesses in Saudi Arabia — with a public demo that issues and signs invoices entirely in the browser.",
+      "highlights": [
+        "6 document types: invoices, credit and debit notes",
+        "19 official sample invoices the hashing is tested on",
+        "100 parallel invoices, numbered with no gap"
+      ],
+      "keywords": [
+        "TypeScript",
+        "PostgreSQL",
+        "Drizzle ORM",
+        "UBL 2.1",
+        "XML C14N",
+        "ECDSA",
+        "AES-GCM",
+        "React",
+        "esbuild",
+        "Vitest",
+        "Playwright",
+        "GitHub Actions"
+      ],
+      "url": "https://nouraldeentofi.github.io/khatm/",
+      "roles": [
+        "Full build — invoicing library, database, and demo"
+      ]
+    },
+    {
+      "name": "The Complete Umrah Guide",
+      "description": "An interactive Umrah checklist in the order the rites are performed, in ten languages — built to be used one-handed and offline, inside the Haram.",
+      "highlights": [
+        "35 steps in performance order",
+        "10 languages",
+        "5 writing systems",
+        "0 dependencies"
+      ],
+      "keywords": [
+        "HTML",
+        "JavaScript",
+        "PWA",
+        "Service worker",
+        "Web Speech API",
+        "i18n",
+        "RTL",
+        "JSON-LD"
+      ],
+      "url": "https://nouraldeentofi.github.io/The-Complete-Umrah-Guide/",
+      "roles": [
+        "Full build — content, design, and offline app"
+      ]
+    },
+    {
       "name": "DFS Dashboard",
       "description": "A unified CRM and quotation platform that replaced scattered manual processes across every department.",
       "highlights": [

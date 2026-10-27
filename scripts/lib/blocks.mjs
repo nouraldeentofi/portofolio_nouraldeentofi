@@ -184,10 +184,14 @@ export function homeAutomation(db, lang) {
     .join('\n');
 }
 
+/** The home page shows a handful; the projects page has every one. */
+const HOME_PROJECTS = 6;
+
 export function homeProjects(db, lang) {
   const c = db.copy[lang];
   return db.projects
     .filter((p) => !p.featured)
+    .slice(0, HOME_PROJECTS)
     .map(
       (p) => `<article data-reveal class="card">
   <p class="card__meta"><span>${e(p.category[lang])}</span><span>${e(yearOf(p.year, lang))}</span></p>
@@ -349,9 +353,14 @@ ${db.credentials
 
 export function projectsList(db, lang) {
   const c = db.copy[lang];
-  return db.projects
+  const counts = {};
+  for (const p of db.projects) counts[p.group] = (counts[p.group] ?? 0) + 1;
+  const cards = db.projects
     .map(
-      (p) => `<article data-reveal class="card card--row${p.featured ? ' card--featured' : ''}" id="${e(p.id)}">
+      (p) => `<article data-reveal data-filter-item data-group="${e(p.group)}" class="card card--row${p.featured ? ' card--featured' : ''}${
+        p.images ? ' has-media' : ''
+      }" id="${e(p.id)}">${p.images ? `
+  <div class="card__media">${deviceStage(db, p, lang)}</div>` : ''}
   <div class="card__main">
     <p class="card__meta"><span>${e(p.category[lang])}</span><span>${e(yearOf(p.year, lang))}</span></p>
     <h3 class="card__title">${e(p.name)}</h3>
@@ -380,6 +389,10 @@ export function projectsList(db, lang) {
 </article>`,
     )
     .join('\n');
+  return `${filterBar(c, Object.entries(c.projects.groups), counts, db.projects.length)}
+<div class="stack" data-filter-list>
+${cards}
+</div>`;
 }
 
 /* -------------------------------------------------------------- showcase */
@@ -414,7 +427,8 @@ ${groups
 
 /** A browser window holding the desktop shot, with the phone leaning on it. */
 function deviceStage(db, s, lang, { phone = true } = {}) {
-  const name = s.name[lang];
+  // A project's name is one string; a site's is per language.
+  const name = typeof s.name === 'string' ? s.name : s.name[lang];
   const host = s.url ? s.url.replace(/^https?:\/\//, '').replace(/\/$/, '') : name;
   return `<figure class="show__media">
     <span class="browser">

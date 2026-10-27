@@ -23,7 +23,7 @@ const SHOW_MCP_SECTION = false;
 const PAGE_VARIANT = { '': 'graph', about: 'orbit', work: 'flow', projects: 'grid', showcase: 'grid', automation: 'branch', chat: 'drift', contact: 'signal' };
 
 /* The galleries' stylesheet, only where a gallery is on the page. */
-const GALLERY_PAGES = new Set(['', 'showcase', 'automation']);
+const GALLERY_PAGES = new Set(['', 'projects', 'showcase', 'automation']);
 
 /**
  * A link to another page *in the same language*.
@@ -334,9 +334,7 @@ function projects(db, lang) {
 
   <section class="section">
     <div class="container">
-      <div class="stack">
 ${B.projectsList(db, lang)}
-      </div>
     </div>
   </section>`;
 

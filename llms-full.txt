@@ -94,6 +94,70 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 **Stack.** n8n, OpenAI, Excel, Google Sheets, JSON-LD, Sitemap crawling, Proxy pool, Webhooks, JavaScript
 
+### Nour Motion Studio (2026)
+
+*Motion-graphics studio* — Pick a size and a style, add ready-made scenes, and export a motion video — free, in the browser, with no account and no server.
+
+**Problem.** Making a short motion video for LinkedIn, Reels, or YouTube usually means a paid subscription, a professional editor that takes weeks to learn, or an online service that keeps your project and your files.
+
+**What he built.** An Arabic, right-to-left studio that runs entirely in the browser — no API key, no server, no subscription. A short wizard asks for the size and the style, then for a ready video idea or hand-picked scenes. Every template previews large and playing before it is added, and can be added as a new scene, merged into the current one, or swapped in for it. All of a scene's text sits in one place, a double tap writes straight onto the video, and a quick toolbar over any element enlarges, shrinks, recolours, animates, copies, or deletes it. Around that: a searchable library of animated backgrounds, including the living node mesh from this site; transitions previewed between your own scenes; camera moves with parallax depth; sound effects generated in the browser, plus your own voice-over; any moment saved as a PNG or JPG poster; and video themes, with day and night modes for the studio itself. The video is encoded on the visitor's own device with WebCodecs, falling back to real-time WebM recording where encoding is not supported. Projects autosave in the browser, and every frame carries a soft diagonal watermark that only the owner's password removes.
+
+**Role.** Full build — design, editor, and rendering engine
+
+**Numbers.** 318 ready-made templates · 349 scene transitions · 217 animated backgrounds · 85 camera moves · 86 sound effects generated in the browser
+
+**Stack.** JavaScript, Canvas, WebCodecs, Mediabunny, Web Audio API, IndexedDB, MP4, WebM, RTL
+
+**Live.** https://nouraldeentofi.github.io/motion-studio/
+
+### Braille Certificate Maker (2026)
+
+*Accessibility tool* — Fill in a training certificate and get a print-ready PDF — with a full Arabic Braille version a blind trainee can read by touch, and a file for Braille embossers.
+
+**Problem.** A training certificate is usually printed for sighted readers only, so a blind trainee receives a document they cannot read for themselves. And Braille printed on an ordinary printer comes out as flat ink that cannot be felt.
+
+**What he built.** A free, single-page tool in Arabic. The form covers what Saudi certificates carry — the four-part name, ID or residency number, nationality, programme, training hours, period, grade, and licence number — and issues completion, pass, and attendance certificates, with wording that switches between masculine and feminine. Hijri dates on the Umm al-Qura calendar are computed alongside the Gregorian, and the logo, signatures, stamp, and a verification QR code can be added, with a live preview of every page. The PDF opens with the certificate for sighted readers, followed by Braille pages holding the full text in Unified Arabic Braille — issuer, title, name, ID, programme, hours, period, grade, date, and signatures. The dots are standard-size and drawn as separate shapes so they can be printed in raised UV ink, with a light printed transcription between the lines that can be switched off. A second button downloads the text as a BRF file that Braille embossers read directly, and an in-page guide explains three ways to make the dots raised: an embosser, swell paper, or a raised-ink print shop. Nothing is stored or sent anywhere; automated checks hold the page to that promise, and tests match the Braille output against the unified table.
+
+**Role.** Full build — design, Braille translation, and PDF output
+
+**Numbers.** 3 certificate types · 3 ways to print raised Braille · 9 automated Braille tests · 0 data stored or sent
+
+**Stack.** HTML, JavaScript, Canvas, jsPDF, QR codes, Unified Arabic Braille, BRF, Hijri calendar, GitHub Actions, RTL
+
+**Live.** https://nouraldeentofi.github.io/braille-certificate/
+
+### Khatm · ختم (2026)
+
+*E-invoicing platform · open source* — An open-source e-invoicing program for businesses in Saudi Arabia — with a public demo that issues and signs invoices entirely in the browser.
+
+**Problem.** E-invoicing in the Kingdom's integration phase asks for more than a printed PDF: every invoice is a signed electronic file with a QR code, numbered in an unbroken chain and never edited once issued — corrections go through credit and debit notes. The hashing and signing must match the official reference exactly.
+
+**What he built.** A TypeScript monorepo in three parts. An invoicing library builds UBL invoices, hashes them over canonical XML, signs them with ECDSA, generates the QR code and the device's certificate request, and handles onboarding and submission through the official API. A PostgreSQL schema adds guards at the database level: triggers stop an issued invoice from being edited or deleted, stop the counter from going back or skipping, and protect the audit log. The issuing core locks the device row for the whole transaction, so invoices issued in parallel keep an unbroken count and hash chain. Device keys and secrets are encrypted with AES-GCM under a master key kept outside the database, and amounts are calculated in exact decimals. The public demo runs the same library in the browser without changing a line: the seller's invoices grouped by customer, tax invoices for businesses and simplified invoices for individuals, credit and debit notes from an invoice's page, printing to PDF, sending over WhatsApp, and the signed XML file for the accountant. It signs with a public test certificate, sends nothing anywhere, and keeps everything in the visitor's browser; end-to-end tests issue every document type in a real browser and pass each through the official validator.
+
+**Role.** Full build — invoicing library, database, and demo
+
+**Numbers.** 6 document types: invoices, credit and debit notes · 19 official sample invoices the hashing is tested on · 100 parallel invoices, numbered with no gap
+
+**Stack.** TypeScript, PostgreSQL, Drizzle ORM, UBL 2.1, XML C14N, ECDSA, AES-GCM, React, esbuild, Vitest, Playwright, GitHub Actions
+
+**Live.** https://nouraldeentofi.github.io/khatm/
+
+### The Complete Umrah Guide (2026)
+
+*Offline guide · PWA* — An interactive Umrah checklist in the order the rites are performed, in ten languages — built to be used one-handed and offline, inside the Haram.
+
+**Problem.** Umrah guidance is everywhere, yet hard to use in the moment: long PDFs you cannot read while walking, videos you cannot open in a crowd, and articles that bury the order of the rites in paragraphs. Inside the Haram the signal is often weak, and a large share of pilgrims cannot read.
+
+**What he built.** A single HTML file with no dependencies and no build step. The rites are laid out as steps grouped into phases, from preparation and ihram at the miqat to shaving or shortening the hair, with each supplication placed at the moment it is said. Tap counters track the circuits of tawaf and sa'i, with undo, and completing the last circuit ticks its step. The guide also covers the prohibitions of ihram and the miqat locations, including what to do when arriving by air. A speaker button reads every supplication aloud in Arabic and every step in the selected language through the browser's own speech engine, for pilgrims who cannot read. Switching language rewrites the direction, fonts, and numerals across five writing systems, from Urdu Nastaliq to Chinese, without losing your place. It installs to the home screen and keeps working offline, keeps progress for a week, and can download a standalone copy in any language that runs from the phone with no connection at all; three text sizes and a print layout cover the rest. The content follows the Hanbali school as practised in the Two Holy Mosques, was reconciled against the official booklet given to pilgrims, and every correction is logged in the repository.
+
+**Role.** Full build — content, design, and offline app
+
+**Numbers.** 35 steps in performance order · 10 languages · 5 writing systems · 0 dependencies
+
+**Stack.** HTML, JavaScript, PWA, Service worker, Web Speech API, i18n, RTL, JSON-LD
+
+**Live.** https://nouraldeentofi.github.io/The-Complete-Umrah-Guide/
+
 ### DFS Dashboard (2025–2026)
 
 *Internal platform* — A unified CRM and quotation platform that replaced scattered manual processes across every department.
@@ -483,6 +547,46 @@ The hero is an engineering sheet: a tower elevation draws itself floor by floor 
 
 **Live.** https://nouraldeentofi.github.io/monther-al-ashqar/
 
+### Othman Almashaqba — Technology leader, ERP and IT governance, Riyadh
+
+Threads arrive tangled at the start of the line and leave as ordered lanes once they pass behind his portrait, the way he puts a process in order before he automates it. A band of them heads every page and straightens further as you scroll.
+
+- Each of his programmes in its place on a scale of Odoo versions, opened with a tap
+- A lens passes over a clear process and a confused one to show what technology enlarges
+- Pick a topic and the email opens with its subject and greeting ready
+
+**Live.** https://nouraldeentofi.github.io/othman-almashaqba/
+
+### Dr. Hamad Al-Thiapi — AI and digital transformation leader in government
+
+Convergence: gold routes cross a night sky over Najd and all meet at his portrait, with light travelling along them, the way networks settle on one path, the subject of his doctorate. Najdi parapets edge every section.
+
+- His doctoral question drawn as a diagram you switch between classic BGP and SDN
+- A journey whose gold line swings out with each scholarship abroad and comes home
+- Tested at every screen size, in both languages and both themes
+
+**Live.** https://nouraldeentofi.github.io/hamad-al-thiapi/
+
+### Mazen Alobaidi — General manager, IT and digital transformation
+
+The stack: in the hero, isometric planes float one above another, server boxes and databases below and a target on top, while gold pulses climb between the layers. On the home page his roles stack the same way, each tagged with its layer, and a light climbs from his first role to today.
+
+- Every area of expertise names where he practised it before he led it
+- Notes from the field: short reads he wrote on running technology
+- A message form that opens a ready email for the visitor to review
+
+**Live.** https://nouraldeentofi.github.io/mazen-alobaidi/
+
+### Ayman Alawwad — PMO manager, portfolio and program governance
+
+Drafted on linen: behind the page a portfolio roadmap draws itself in ink, task bars, dependency lines and diamond milestones, while a red status line drifts slowly across the plan. Linen and ink come from his LinkedIn banner, the deep red from his shemagh.
+
+- Four engagements, each told as the mandate, the complexity, how he led and the result
+- An executive bio, short and long, ready to copy for organisers and media
+- His leadership programme as a dated path, module by module
+
+**Live.** https://nouraldeentofi.github.io/ayman-alawwad/
+
 ### Gambit Tournaments — Tournaments platform for a chess club in Dammam
 
 The club's black and gold, built as a full product: upcoming tournaments with live seats, guest registration, and an archive of past tournaments.
@@ -492,6 +596,46 @@ The club's black and gold, built as a full product: upcoming tournaments with li
 - An admin dashboard for tournaments, gallery and registrations
 
 **Live.** https://gambit.nouraldeentofi.com/
+
+### Al-Bader Transport — Transport, logistics and contracting, Madinah
+
+Al-Bader is the full moon, so the site opens at night: the logo's three road lines sweep in and climb into a moon, then the night folds into the hero's moon over Madinah, with Uhud on the horizon, city lights, and long-exposure trails on the highway. Further down, lights travel along route lanes and a truck drives from step to step.
+
+- A quote request that fills in the WhatsApp message as you type
+- Each service shown as a technical drawing on a drafting grid
+- On the phone it works like an app: a bottom bar and a quote in three steps
+
+**Live.** https://nouraldeentofi.github.io/albader-transport/
+
+### Arabian Access — Business setup consultancy, Riyadh
+
+Built on their logo: two waves in two colours, the firm and its client, moving together. They flow through the hero and draw themselves across the stages of the work, over the star lattice etched on the glass of their Al Malaz reception, with points of light travelling along its lines. The real reception photo drifts in a slow zoom beside a glass card that steps through the setup journey.
+
+- A switch for foreign investors, local entrepreneurs and established companies, each with its own services
+- A three-step consultation request that opens WhatsApp with the message ready
+- A live open-or-closed badge on Riyadh time
+
+**Live.** https://nouraldeentofi.github.io/arabian-access/
+
+### Saudi Brothers — Hajj services for domestic pilgrims, Makkah and Al-Qassim
+
+From Al-Qassim to the holy sites. A gold eight-pointed star draws itself, the Talbiyah appears word by word, and the page opens from the heart of the star. The hero is a living scene of Arafat's mountains, the tents of Mina and the dunes, under a rising dawn sun in light mode and a crescent, stars and tent lights in dark.
+
+- A journey card where a marker travels from Al-Qassim to Makkah, Mina, Arafat and Muzdalifah
+- A live countdown to the Day of Arafah, on the Umm al-Qura calendar
+- A review form that previews the card as you type and sends it on WhatsApp
+
+**Live.** https://nouraldeentofi.github.io/saudi-brothers-hajj/
+
+### Al-Hemaya Al-Kamela — Fire alarm and fire suppression systems, Khamis Mushait
+
+The site is a fire alarm control panel. Each section is a zone with its own lamp, which blinks amber while it is checked and settles green as you reach it, and an LCD readout in the header names the zone. Behind the hero, flow runs through a sprinkler network past pressure gauges; the inspection request is a hanging tag, and the company's history is an engraved equipment data plate.
+
+- An inspection request on a three-step tag that opens WhatsApp with the message ready
+- A live lamp that says whether the showroom is open right now
+- Photos of the real showroom shelves, each opening full screen
+
+**Live.** https://nouraldeentofi.github.io/alhemaya-alkamela/
 
 ### Prestige VIP Tailor — Men's tailor, Al Khobar
 

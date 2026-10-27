@@ -240,6 +240,166 @@
       }
     },
     {
+      "id": "othman-almashaqba",
+      "name": {
+        "en": "Othman Almashaqba",
+        "ar": "عثمان المشاقبة"
+      },
+      "segment": "people",
+      "year": "2026",
+      "role": {
+        "en": "Technology leader, ERP and IT governance, Riyadh",
+        "ar": "قائد تقنية، ERP وحوكمة تقنية المعلومات، الرياض"
+      },
+      "concept": {
+        "en": "Threads arrive tangled at the start of the line and leave as ordered lanes once they pass behind his portrait, the way he puts a process in order before he automates it. A band of them heads every page and straightens further as you scroll.",
+        "ar": "خيوط تدخل متشابكة من بداية السطر، وتخرج مسارات مستقيمة مرتّبة بعد أن تمرّ خلف صورته، كما يرتّب العملية قبل أن يؤتمتها. وفي رأس كل صفحة شريط منها يزداد استقامةً كلما نزلت في الصفحة."
+      },
+      "highlights": {
+        "en": [
+          "Each of his programmes in its place on a scale of Odoo versions, opened with a tap",
+          "A lens passes over a clear process and a confused one to show what technology enlarges",
+          "Pick a topic and the email opens with its subject and greeting ready"
+        ],
+        "ar": [
+          "كل برنامج من برامجه في مكانه على مقياس إصدارات Odoo، ويُفتح بلمسة",
+          "عدسة تمرّ على عملية واضحة وأخرى مرتبكة لتُظهر ما تكبّره التقنية",
+          "اختر موضوعاً فيُفتح البريد وعنوانه والتحية جاهزان"
+        ]
+      },
+      "tags": [
+        "Arabic + English",
+        "RTL",
+        "Dark mode",
+        "Canvas"
+      ],
+      "url": "https://nouraldeentofi.github.io/othman-almashaqba/",
+      "images": {
+        "desktop": "assets/img/showcase/othman-almashaqba-desktop.webp",
+        "phone": "assets/img/showcase/othman-almashaqba-phone.webp"
+      }
+    },
+    {
+      "id": "hamad-al-thiapi",
+      "name": {
+        "en": "Dr. Hamad Al-Thiapi",
+        "ar": "د. حمد الذيابي"
+      },
+      "segment": "people",
+      "year": "2026",
+      "role": {
+        "en": "AI and digital transformation leader in government",
+        "ar": "قائد في الذكاء الاصطناعي والتحول الرقمي بالقطاع الحكومي"
+      },
+      "concept": {
+        "en": "Convergence: gold routes cross a night sky over Najd and all meet at his portrait, with light travelling along them, the way networks settle on one path, the subject of his doctorate. Najdi parapets edge every section.",
+        "ar": "التقارب: مسارات ذهبية تعبر سماء نجد ليلاً وتلتقي كلها عند صورته، والضوء يسري فيها، كما تتفق الشبكات على مسار واحد، وهو موضوع الدكتوراه التي أعدّها. وشُرفات نجدية تحدّ كل قسم."
+      },
+      "highlights": {
+        "en": [
+          "His doctoral question drawn as a diagram you switch between classic BGP and SDN",
+          "A journey whose gold line swings out with each scholarship abroad and comes home",
+          "Tested at every screen size, in both languages and both themes"
+        ],
+        "ar": [
+          "سؤال الدكتوراه مرسوماً كمخطط تبدّل فيه بين BGP التقليدي وSDN",
+          "مسيرة يخرج خطها الذهبي مع كل ابتعاث ثم يعود إلى الوطن",
+          "مُختبر على كل المقاسات، وباللغتين، وبالوضعين"
+        ]
+      },
+      "tags": [
+        "Arabic + English",
+        "RTL",
+        "Dark mode",
+        "JSON-LD"
+      ],
+      "url": "https://nouraldeentofi.github.io/hamad-al-thiapi/",
+      "images": {
+        "desktop": "assets/img/showcase/hamad-al-thiapi-desktop.webp",
+        "phone": "assets/img/showcase/hamad-al-thiapi-phone.webp"
+      }
+    },
+    {
+      "id": "mazen-alobaidi",
+      "name": {
+        "en": "Mazen Alobaidi",
+        "ar": "مازن العبيدي"
+      },
+      "segment": "people",
+      "year": "2026",
+      "role": {
+        "en": "General manager, IT and digital transformation",
+        "ar": "المدير العام لتقنية المعلومات والتحول الرقمي"
+      },
+      "concept": {
+        "en": "The stack: in the hero, isometric planes float one above another, server boxes and databases below and a target on top, while gold pulses climb between the layers. On the home page his roles stack the same way, each tagged with its layer, and a light climbs from his first role to today.",
+        "ar": "الطبقات: في أول الصفحة ألواح متساوية القياس تطفو بعضها فوق بعض، صناديق خوادم وقواعد بيانات في الأسفل وهدف في الأعلى، ونبضات ذهبية تصعد بين الطبقات. وفي الرئيسية تتراكب أدواره بالطريقة نفسها، كلٌّ موسوم بطبقته، وضوء يصعد من أول دور له إلى اليوم."
+      },
+      "highlights": {
+        "en": [
+          "Every area of expertise names where he practised it before he led it",
+          "Notes from the field: short reads he wrote on running technology",
+          "A message form that opens a ready email for the visitor to review"
+        ],
+        "ar": [
+          "كل مجال خبرة يذكر أين مارسه قبل أن يقوده",
+          "أفكار من الميدان: مقالات قصيرة كتبها عن إدارة التقنية",
+          "نموذج رسالة يفتح بريداً جاهزاً يراجعه الزائر قبل الإرسال"
+        ]
+      },
+      "tags": [
+        "Arabic + English",
+        "RTL",
+        "Dark mode",
+        "llms.txt"
+      ],
+      "url": "https://nouraldeentofi.github.io/mazen-alobaidi/",
+      "images": {
+        "desktop": "assets/img/showcase/mazen-alobaidi-desktop.webp",
+        "phone": "assets/img/showcase/mazen-alobaidi-phone.webp"
+      }
+    },
+    {
+      "id": "ayman-alawwad",
+      "name": {
+        "en": "Ayman Alawwad",
+        "ar": "أيمن العواد"
+      },
+      "segment": "people",
+      "year": "2026",
+      "role": {
+        "en": "PMO manager, portfolio and program governance",
+        "ar": "مدير مكتب إدارة المشاريع، حوكمة المحافظ والبرامج"
+      },
+      "concept": {
+        "en": "Drafted on linen: behind the page a portfolio roadmap draws itself in ink, task bars, dependency lines and diamond milestones, while a red status line drifts slowly across the plan. Linen and ink come from his LinkedIn banner, the deep red from his shemagh.",
+        "ar": "مرسوم على الكتان: خلف الصفحة خارطة طريق لمحفظة مشاريع ترسم نفسها بالحبر، أشرطة مهام وخطوط ترابط ومعالم على شكل معيّن، وخط حالة أحمر ينزاح ببطء عبر الخطة. الكتان والحبر من غلاف حسابه على LinkedIn، والأحمر الداكن من شماغه."
+      },
+      "highlights": {
+        "en": [
+          "Four engagements, each told as the mandate, the complexity, how he led and the result",
+          "An executive bio, short and long, ready to copy for organisers and media",
+          "His leadership programme as a dated path, module by module"
+        ],
+        "ar": [
+          "أربعة مشاريع، كلٌّ منها قصة: التكليف، والتعقيد، وكيف قاده، والنتيجة",
+          "نبذة تنفيذية قصيرة وأخرى طويلة، جاهزتان للنسخ للمنظّمين والإعلام",
+          "برنامجه القيادي مساراً مؤرّخاً، وحدةً بعد وحدة"
+        ]
+      },
+      "tags": [
+        "English",
+        "Dark mode",
+        "JSON-LD",
+        "llms.txt"
+      ],
+      "url": "https://nouraldeentofi.github.io/ayman-alawwad/",
+      "images": {
+        "desktop": "assets/img/showcase/ayman-alawwad-desktop.webp",
+        "phone": "assets/img/showcase/ayman-alawwad-phone.webp"
+      }
+    },
+    {
       "id": "gambit-tournaments",
       "name": {
         "en": "Gambit Tournaments",
@@ -278,6 +438,166 @@
       "images": {
         "desktop": "assets/img/showcase/gambit-tournaments-desktop.webp",
         "phone": "assets/img/showcase/gambit-tournaments-phone.webp"
+      }
+    },
+    {
+      "id": "albader-transport",
+      "name": {
+        "en": "Al-Bader Transport",
+        "ar": "البدر للنقليات"
+      },
+      "segment": "companies",
+      "year": "2026",
+      "role": {
+        "en": "Transport, logistics and contracting, Madinah",
+        "ar": "نقل وخدمات لوجستية ومقاولات، المدينة المنورة"
+      },
+      "concept": {
+        "en": "Al-Bader is the full moon, so the site opens at night: the logo's three road lines sweep in and climb into a moon, then the night folds into the hero's moon over Madinah, with Uhud on the horizon, city lights, and long-exposure trails on the highway. Further down, lights travel along route lanes and a truck drives from step to step.",
+        "ar": "البدر هو القمر في تمامه، لذلك يبدأ الموقع ليلًا: خطوط الطريق الثلاثة في الشعار تنساب وتصعد إلى القمر، ثم ينطوي الليل في قمر الواجهة فوق المدينة المنورة، وأُحد في الأفق، وأضواء المدينة، وآثار أضواء السيارات ممتدة على الطريق السريع. وفي الأسفل أضواء تسري على مسارات الطرق، وشاحنة تنتقل من خطوة إلى خطوة."
+      },
+      "highlights": {
+        "en": [
+          "A quote request that fills in the WhatsApp message as you type",
+          "Each service shown as a technical drawing on a drafting grid",
+          "On the phone it works like an app: a bottom bar and a quote in three steps"
+        ],
+        "ar": [
+          "طلب عرض سعر تُملأ فيه رسالة واتساب أثناء الكتابة",
+          "كل خدمة مرسومة رسمًا هندسيًا على شبكة تخطيط",
+          "وعلى الجوال يعمل كتطبيق: شريط سفلي وطلب عرض سعر على ثلاث خطوات"
+        ]
+      },
+      "tags": [
+        "Arabic",
+        "WhatsApp",
+        "Canvas",
+        "Mobile first"
+      ],
+      "url": "https://nouraldeentofi.github.io/albader-transport/",
+      "images": {
+        "desktop": "assets/img/showcase/albader-transport-desktop.webp",
+        "phone": "assets/img/showcase/albader-transport-phone.webp"
+      }
+    },
+    {
+      "id": "arabian-access",
+      "name": {
+        "en": "Arabian Access",
+        "ar": "أريبيان أكسس"
+      },
+      "segment": "companies",
+      "year": "2026",
+      "role": {
+        "en": "Business setup consultancy, Riyadh",
+        "ar": "استشارات تأسيس الأعمال، الرياض"
+      },
+      "concept": {
+        "en": "Built on their logo: two waves in two colours, the firm and its client, moving together. They flow through the hero and draw themselves across the stages of the work, over the star lattice etched on the glass of their Al Malaz reception, with points of light travelling along its lines. The real reception photo drifts in a slow zoom beside a glass card that steps through the setup journey.",
+        "ar": "مبنيّ على شعارهم: موجتان بلونين، الشركة وعميلها، تمضيان معًا. تنسابان في الواجهة وترسمان نفسيهما عبر مراحل العمل، فوق نقشة النجوم المحفورة على زجاج استقبال مكتبهم في الملز، ونقاط ضوء تسري على خطوطها. وصورة الاستقبال الحقيقية تقترب ببطء بجانب بطاقة زجاجية تتنقّل بين مراحل التأسيس."
+      },
+      "highlights": {
+        "en": [
+          "A switch for foreign investors, local entrepreneurs and established companies, each with its own services",
+          "A three-step consultation request that opens WhatsApp with the message ready",
+          "A live open-or-closed badge on Riyadh time"
+        ],
+        "ar": [
+          "مفتاح للمستثمر الأجنبي ورائد الأعمال المحلي والشركة القائمة، لكلٍّ منها خدماته",
+          "طلب استشارة على ثلاث خطوات يفتح واتساب والرسالة جاهزة",
+          "شارة حيّة بتوقيت الرياض تبيّن إن كان المكتب مفتوحًا أو مغلقًا"
+        ]
+      },
+      "tags": [
+        "Arabic + English",
+        "RTL",
+        "Dark mode",
+        "WhatsApp"
+      ],
+      "url": "https://nouraldeentofi.github.io/arabian-access/",
+      "images": {
+        "desktop": "assets/img/showcase/arabian-access-desktop.webp",
+        "phone": "assets/img/showcase/arabian-access-phone.webp"
+      }
+    },
+    {
+      "id": "saudi-brothers-hajj",
+      "name": {
+        "en": "Saudi Brothers",
+        "ar": "إخوان السعودية"
+      },
+      "segment": "companies",
+      "year": "2026",
+      "role": {
+        "en": "Hajj services for domestic pilgrims, Makkah and Al-Qassim",
+        "ar": "خدمات حجاج الداخل، مكة المكرمة والقصيم"
+      },
+      "concept": {
+        "en": "From Al-Qassim to the holy sites. A gold eight-pointed star draws itself, the Talbiyah appears word by word, and the page opens from the heart of the star. The hero is a living scene of Arafat's mountains, the tents of Mina and the dunes, under a rising dawn sun in light mode and a crescent, stars and tent lights in dark.",
+        "ar": "من القصيم إلى المشاعر. نجمة ذهبية ثمانية الرؤوس ترسم نفسها، وتظهر التلبية كلمة كلمة، ثم تنفتح الصفحة من قلب النجمة. والواجهة مشهد حيّ لجبال عرفات وخيام منى والكثبان، تحت شمس فجر تشرق في الوضع الفاتح، وهلال ونجوم وأضواء الخيام في الوضع الداكن."
+      },
+      "highlights": {
+        "en": [
+          "A journey card where a marker travels from Al-Qassim to Makkah, Mina, Arafat and Muzdalifah",
+          "A live countdown to the Day of Arafah, on the Umm al-Qura calendar",
+          "A review form that previews the card as you type and sends it on WhatsApp"
+        ],
+        "ar": [
+          "بطاقة رحلة تتنقّل فيها نقطة من القصيم إلى مكة ومنى وعرفات ومزدلفة",
+          "عدّ تنازلي حيّ ليوم عرفة بتقويم أم القرى",
+          "نموذج تقييم يعرض البطاقة أثناء الكتابة ويرسلها على واتساب"
+        ]
+      },
+      "tags": [
+        "Arabic",
+        "WhatsApp",
+        "Mobile first",
+        "JSON-LD"
+      ],
+      "url": "https://nouraldeentofi.github.io/saudi-brothers-hajj/",
+      "images": {
+        "desktop": "assets/img/showcase/saudi-brothers-hajj-desktop.webp",
+        "phone": "assets/img/showcase/saudi-brothers-hajj-phone.webp"
+      }
+    },
+    {
+      "id": "alhemaya-alkamela",
+      "name": {
+        "en": "Al-Hemaya Al-Kamela",
+        "ar": "الحماية الكاملة"
+      },
+      "segment": "companies",
+      "year": "2026",
+      "role": {
+        "en": "Fire alarm and fire suppression systems, Khamis Mushait",
+        "ar": "أنظمة إنذار الحريق والإطفاء، خميس مشيط"
+      },
+      "concept": {
+        "en": "The site is a fire alarm control panel. Each section is a zone with its own lamp, which blinks amber while it is checked and settles green as you reach it, and an LCD readout in the header names the zone. Behind the hero, flow runs through a sprinkler network past pressure gauges; the inspection request is a hanging tag, and the company's history is an engraved equipment data plate.",
+        "ar": "الموقع لوحة تحكم لإنذار الحريق. كل قسم منطقة لها مصباحها، يومض بلون كهرماني أثناء الفحص ثم يستقر أخضر حين تصل إليه، وشاشة LCD في الترويسة تعرض اسم المنطقة. وخلف الواجهة شبكة رشاشات يجري فيها التدفق مرورًا بمقاييس الضغط، وطلب الفحص بطاقة معلّقة، وتاريخ الشركة لوحة بيانات معدّات محفورة."
+      },
+      "highlights": {
+        "en": [
+          "An inspection request on a three-step tag that opens WhatsApp with the message ready",
+          "A live lamp that says whether the showroom is open right now",
+          "Photos of the real showroom shelves, each opening full screen"
+        ],
+        "ar": [
+          "طلب زيارة فحص على بطاقة من ثلاث خطوات تفتح واتساب والرسالة جاهزة",
+          "مصباح حيّ يبيّن إن كان المعرض مفتوحًا الآن",
+          "صور رفوف المعرض الحقيقية، تُفتح كل منها بملء الشاشة"
+        ]
+      },
+      "tags": [
+        "Arabic",
+        "WhatsApp",
+        "Dark mode",
+        "llms.txt"
+      ],
+      "url": "https://nouraldeentofi.github.io/alhemaya-alkamela/",
+      "images": {
+        "desktop": "assets/img/showcase/alhemaya-alkamela-desktop.webp",
+        "phone": "assets/img/showcase/alhemaya-alkamela-phone.webp"
       }
     },
     {

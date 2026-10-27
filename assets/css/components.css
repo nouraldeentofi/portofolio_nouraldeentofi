@@ -597,6 +597,33 @@
   }
 }
 
+/* A project with a live product carries its screenshots: beside the text on
+   wide screens, above it on phones, so the product is seen before it is read. */
+.card--row.has-media {
+  grid-template-areas: "main media" "main aside";
+  grid-template-rows: auto 1fr;
+}
+.card--row.has-media .card__main { grid-area: main; }
+.card--row.has-media .card__aside { grid-area: aside; }
+.card--row.has-media .card__media {
+  grid-area: media;
+  padding-inline-start: var(--space-6);
+  border-inline-start: 1px solid var(--line);
+  padding-block-end: var(--space-4);
+}
+.card__media .show__media {
+  padding: 0;
+  background: none;
+  border: 0;
+}
+.card__media .browser { border-block-end: 1px solid var(--line-strong); border-radius: var(--radius); }
+.card__media .phone { inset-block-end: calc(-1 * var(--space-3)); inset-inline-end: var(--space-3); inline-size: clamp(64px, 22%, 96px); }
+
+@media (max-width: 860px) {
+  .card--row.has-media { grid-template-columns: minmax(0, 1fr); grid-template-areas: "media" "main" "aside"; grid-template-rows: auto; }
+  .card--row.has-media .card__media { padding-inline-start: 0; border-inline-start: 0; }
+}
+
 /* Metrics inside a card are a quiet fact row, not a wall of tiles. */
 .proof--inline {
   display: flex;

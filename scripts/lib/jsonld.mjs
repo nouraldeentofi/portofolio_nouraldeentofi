@@ -153,6 +153,7 @@ export function projectsLd(db, lang) {
         datePublished: String(p.year).slice(0, 4),
         author: { '@id': `${base(db)}/#nour` },
         ...(p.url ? { url: p.url } : {}),
+        ...(p.images ? { image: `${base(db)}/${p.images.desktop}` } : {}),
         ...(p.stack?.length ? { keywords: p.stack.join(', ') } : {}),
       },
     })),

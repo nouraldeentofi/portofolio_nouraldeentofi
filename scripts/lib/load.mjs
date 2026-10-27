@@ -40,7 +40,7 @@ const VERSIONED_ASSETS = [
   'assets/img/icon-180.png',
 ];
 
-const VERSIONED_DIRS = ['assets/img/showcase', 'assets/img/workflows'];
+const VERSIONED_DIRS = ['assets/img/showcase', 'assets/img/workflows', 'assets/img/projects'];
 
 function listDir(dir) {
   try {
@@ -99,6 +99,12 @@ export function loadDb(dir = 'data') {
   ]) {
     if (!Array.isArray(rows)) throw new Error(`${file}: expected an array`);
     rows.forEach((row, i) => requireKeys(row, keys, `${file}[${i}] (${row.id ?? 'no id'})`));
+  }
+
+  // A project's group is a filter on the projects page, so it must be one the
+  // bar has a label for.
+  for (const p of projects) {
+    if (!['ai', 'tools', 'apps'].includes(p.group)) throw new Error(`projects.json (${p.id}): unknown group "${p.group}"`);
   }
 
   // A status is a claim about a real system. Only the three the page can

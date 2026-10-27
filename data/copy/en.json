@@ -158,7 +158,12 @@
   },
   "projects": {
     "title": "Projects",
-    "lead": "Products and platforms I designed, built, or shipped end to end — from an Arabic-first SaaS to an app on the Play Store."
+    "lead": "Products, tools and platforms I designed, built, or shipped end to end — from an Arabic-first SaaS to free tools that run in the browser and an app on the Play Store.",
+    "groups": {
+      "ai": "AI products",
+      "tools": "Free tools",
+      "apps": "Apps & platforms"
+    }
   },
   "showcase": {
     "title": "Showcase",

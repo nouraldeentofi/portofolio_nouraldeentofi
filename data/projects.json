@@ -3,6 +3,7 @@
     "id": "smart-scanner",
     "name": "Smart Scanner",
     "featured": true,
+    "group": "ai",
     "year": "2026",
     "category": { "en": "AI SaaS product", "ar": "منتج SaaS بالذكاء الاصطناعي" },
     "tagline": {
@@ -40,6 +41,7 @@
     "id": "cv-screener",
     "name": "CV Screener",
     "featured": false,
+    "group": "ai",
     "year": "2026",
     "category": { "en": "AI SaaS product", "ar": "منتج SaaS بالذكاء الاصطناعي" },
     "tagline": {
@@ -71,6 +73,7 @@
     "id": "universal-web-scraper",
     "name": "Universal Web Scraper",
     "featured": false,
+    "group": "ai",
     "year": "2026",
     "category": { "en": "AI automation product", "ar": "منتج أتمتة بالذكاء الاصطناعي" },
     "tagline": {
@@ -99,9 +102,163 @@
     "todo": "Add the scraper website URL once it is public"
   },
   {
+    "id": "motion-studio",
+    "name": "Nour Motion Studio",
+    "featured": false,
+    "group": "tools",
+    "year": "2026",
+    "category": { "en": "Motion-graphics studio", "ar": "استوديو موشن جرافيك" },
+    "tagline": {
+      "en": "Pick a size and a style, add ready-made scenes, and export a motion video — free, in the browser, with no account and no server.",
+      "ar": "اختر المقاس والنمط، وأضف مشاهد جاهزة، ثم صدّر فيديو موشن — مجاناً وداخل المتصفح، دون حساب ولا خادم."
+    },
+    "problem": {
+      "en": "Making a short motion video for LinkedIn, Reels, or YouTube usually means a paid subscription, a professional editor that takes weeks to learn, or an online service that keeps your project and your files.",
+      "ar": "صناعة فيديو موشن قصير للينكدإن أو الريلز أو يوتيوب تعني عادةً اشتراكاً مدفوعاً، أو برنامج مونتاج احترافياً يحتاج أسابيع لتعلّمه، أو خدمة على الإنترنت تحتفظ بمشروعك وملفاتك."
+    },
+    "built": {
+      "en": "An Arabic, right-to-left studio that runs entirely in the browser — no API key, no server, no subscription. A short wizard asks for the size and the style, then for a ready video idea or hand-picked scenes. Every template previews large and playing before it is added, and can be added as a new scene, merged into the current one, or swapped in for it. All of a scene's text sits in one place, a double tap writes straight onto the video, and a quick toolbar over any element enlarges, shrinks, recolours, animates, copies, or deletes it. Around that: a searchable library of animated backgrounds, including the living node mesh from this site; transitions previewed between your own scenes; camera moves with parallax depth; sound effects generated in the browser, plus your own voice-over; any moment saved as a PNG or JPG poster; and video themes, with day and night modes for the studio itself. The video is encoded on the visitor's own device with WebCodecs, falling back to real-time WebM recording where encoding is not supported. Projects autosave in the browser, and every frame carries a soft diagonal watermark that only the owner's password removes.",
+      "ar": "استوديو عربي من اليمين إلى اليسار يعمل كاملاً داخل المتصفح — بلا مفتاح API ولا خادم ولا اشتراك. يسأل معالج قصير عن المقاس والنمط، ثم عن فكرة فيديو جاهزة أو مشاهد يختارها المستخدم بنفسه. يُعرض كل قالب كبيراً وهو يعمل قبل إضافته، ويمكن إضافته مشهداً جديداً، أو دمج عناصره في المشهد الحالي، أو استبداله به. نصوص المشهد كلها في مكان واحد، ونقرتان على النص تتيحان الكتابة فوق الفيديو مباشرة، وشريط أدوات سريع فوق أي عنصر يكبّره ويصغّره ويغيّر لونه ويحرّكه وينسخه ويحذفه. وحول ذلك: مكتبة خلفيات متحركة فيها بحث، منها شبكة العُقد الحية من هذا الموقع؛ وانتقالات تُعايَن بين مشاهدك الحقيقية؛ وحركات كاميرا بعمق بارالاكس؛ ومؤثرات صوتية تتولّد داخل المتصفح، مع تعليق صوتي خاص بك؛ وحفظ أي لحظة بوستراً بصيغة PNG أو JPG؛ وثيمات للفيديو، مع وضع نهاري وليلي للاستوديو نفسه. يُرمَّز الفيديو على جهاز الزائر نفسه عبر WebCodecs، ويُسجَّل بصيغة WebM في الوقت الحقيقي حيث لا يتوفر الترميز. تُحفظ المشاريع تلقائياً في المتصفح، ويحمل كل إطار علامة مائية مائلة وناعمة لا يزيلها إلا كلمة سر صاحب الموقع."
+    },
+    "role": {
+      "en": "Full build — design, editor, and rendering engine",
+      "ar": "البناء الكامل — التصميم والمحرّر ومحرّك الرسم"
+    },
+    "metrics": [
+      { "value": "318", "label": { "en": "ready-made templates", "ar": "قالب جاهز" } },
+      { "value": "349", "label": { "en": "scene transitions", "ar": "انتقال بين المشاهد" } },
+      { "value": "217", "label": { "en": "animated backgrounds", "ar": "خلفية متحركة" } },
+      { "value": "85", "label": { "en": "camera moves", "ar": "حركة كاميرا" } },
+      { "value": "86", "label": { "en": "sound effects generated in the browser", "ar": "مؤثر صوتي يتولّد في المتصفح" } }
+    ],
+    "stack": ["JavaScript", "Canvas", "WebCodecs", "Mediabunny", "Web Audio API", "IndexedDB", "MP4", "WebM", "RTL"],
+    "url": "https://nouraldeentofi.github.io/motion-studio/",
+    "images": {
+      "desktop": "assets/img/projects/motion-studio-desktop.webp",
+      "phone": "assets/img/projects/motion-studio-phone.webp"
+    }
+  },
+  {
+    "id": "braille-certificate",
+    "name": "Braille Certificate Maker",
+    "featured": false,
+    "group": "tools",
+    "year": "2026",
+    "category": { "en": "Accessibility tool", "ar": "أداة إتاحة للمكفوفين" },
+    "tagline": {
+      "en": "Fill in a training certificate and get a print-ready PDF — with a full Arabic Braille version a blind trainee can read by touch, and a file for Braille embossers.",
+      "ar": "املأ بيانات شهادة التدريب، فتحصل على ملف PDF جاهز للطباعة — ومعه نسخة برايل عربية كاملة يقرؤها المتدرب الكفيف باللمس، وملف لطابعات برايل."
+    },
+    "problem": {
+      "en": "A training certificate is usually printed for sighted readers only, so a blind trainee receives a document they cannot read for themselves. And Braille printed on an ordinary printer comes out as flat ink that cannot be felt.",
+      "ar": "تُطبع شهادة التدريب عادةً للمبصرين فقط، فيتسلّم المتدرب الكفيف وثيقة لا يستطيع قراءتها بنفسه. وحتى نص برايل إذا طُبع على طابعة عادية خرج حبراً مسطّحاً لا يُحَسّ باللمس."
+    },
+    "built": {
+      "en": "A free, single-page tool in Arabic. The form covers what Saudi certificates carry — the four-part name, ID or residency number, nationality, programme, training hours, period, grade, and licence number — and issues completion, pass, and attendance certificates, with wording that switches between masculine and feminine. Hijri dates on the Umm al-Qura calendar are computed alongside the Gregorian, and the logo, signatures, stamp, and a verification QR code can be added, with a live preview of every page. The PDF opens with the certificate for sighted readers, followed by Braille pages holding the full text in Unified Arabic Braille — issuer, title, name, ID, programme, hours, period, grade, date, and signatures. The dots are standard-size and drawn as separate shapes so they can be printed in raised UV ink, with a light printed transcription between the lines that can be switched off. A second button downloads the text as a BRF file that Braille embossers read directly, and an in-page guide explains three ways to make the dots raised: an embosser, swell paper, or a raised-ink print shop. Nothing is stored or sent anywhere; automated checks hold the page to that promise, and tests match the Braille output against the unified table.",
+      "ar": "أداة مجانية بالعربية في صفحة واحدة. تغطي حقولها ما تحمله الشهادات على العرف السعودي — الاسم الرباعي، ورقم الهوية أو الإقامة، والجنسية، والبرنامج، وعدد الساعات، والفترة، والتقدير، ورقم الترخيص — وتُصدر شهادات إتمام واجتياز وحضور، بصياغة تتغيّر تلقائياً بين المذكر والمؤنث. يُحسب التاريخ الهجري بتقويم أم القرى مع الميلادي، ويمكن إضافة الشعار والتوقيعات والختم ورمز QR للتحقق، مع معاينة مباشرة لكل صفحة. يبدأ ملف PDF بالشهادة للمبصرين، تليها صفحات برايل فيها نص الشهادة كاملاً بطريقة برايل العربية الموحدة — الجهة والعنوان والاسم والهوية والبرنامج والساعات والفترة والتقدير والتاريخ والتوقيعات. النقاط بالمقاس القياسي ومرسومة أشكالاً منفصلة لتسهل طباعتها بحبر UV بارز، وبين الأسطر ترجمة مطبوعة فاتحة يمكن إطفاؤها. وزر ثانٍ ينزّل النص بصيغة BRF التي تقرؤها طابعات برايل مباشرة، ودليل داخل الصفحة يشرح ثلاث طرق لجعل النقاط بارزة: طابعة برايل، والورق الانتفاخي، والمطبعة بحبر بارز. لا يُحفظ شيء ولا يُرسل إلى أي جهة؛ وفحوص آلية تُلزم الصفحة بهذا الوعد، واختبارات تطابق ترجمة برايل مع الجدول الموحد."
+    },
+    "role": {
+      "en": "Full build — design, Braille translation, and PDF output",
+      "ar": "البناء الكامل — التصميم وترجمة برايل وإخراج ملف PDF"
+    },
+    "metrics": [
+      { "value": "3", "label": { "en": "certificate types", "ar": "أنواع شهادات" } },
+      { "value": "3", "label": { "en": "ways to print raised Braille", "ar": "طرق لطباعة برايل بارز" } },
+      { "value": "9", "label": { "en": "automated Braille tests", "ar": "اختبارات برايل آلية" } },
+      { "value": "0", "label": { "en": "data stored or sent", "ar": "بيانات تُحفظ أو تُرسل" } }
+    ],
+    "stack": ["HTML", "JavaScript", "Canvas", "jsPDF", "QR codes", "Unified Arabic Braille", "BRF", "Hijri calendar", "GitHub Actions", "RTL"],
+    "url": "https://nouraldeentofi.github.io/braille-certificate/",
+    "images": {
+      "desktop": "assets/img/projects/braille-certificate-desktop.webp",
+      "phone": "assets/img/projects/braille-certificate-phone.webp"
+    }
+  },
+  {
+    "id": "khatm",
+    "name": "Khatm · ختم",
+    "featured": false,
+    "group": "apps",
+    "year": "2026",
+    "category": { "en": "E-invoicing platform · open source", "ar": "منصة فوترة إلكترونية · مفتوحة المصدر" },
+    "tagline": {
+      "en": "An open-source e-invoicing program for businesses in Saudi Arabia — with a public demo that issues and signs invoices entirely in the browser.",
+      "ar": "برنامج فوترة إلكترونية مفتوح المصدر للمنشآت في المملكة — مع نسخة عرض عامة تُصدر الفواتير وتوقّعها كاملاً داخل المتصفح."
+    },
+    "problem": {
+      "en": "E-invoicing in the Kingdom's integration phase asks for more than a printed PDF: every invoice is a signed electronic file with a QR code, numbered in an unbroken chain and never edited once issued — corrections go through credit and debit notes. The hashing and signing must match the official reference exactly.",
+      "ar": "الفوترة الإلكترونية في مرحلة الربط والتكامل في المملكة تطلب أكثر من ملف PDF مطبوع: كل فاتورة ملف إلكتروني موقّع ومعه رمز QR، مرقّم في سلسلة لا تنقطع، ولا يُعدَّل بعد إصداره — وأي تصحيح يكون بإشعار دائن أو مدين. والتجزئة والتوقيع يجب أن يطابقا المرجع الرسمي تماماً."
+    },
+    "built": {
+      "en": "A TypeScript monorepo in three parts. An invoicing library builds UBL invoices, hashes them over canonical XML, signs them with ECDSA, generates the QR code and the device's certificate request, and handles onboarding and submission through the official API. A PostgreSQL schema adds guards at the database level: triggers stop an issued invoice from being edited or deleted, stop the counter from going back or skipping, and protect the audit log. The issuing core locks the device row for the whole transaction, so invoices issued in parallel keep an unbroken count and hash chain. Device keys and secrets are encrypted with AES-GCM under a master key kept outside the database, and amounts are calculated in exact decimals. The public demo runs the same library in the browser without changing a line: the seller's invoices grouped by customer, tax invoices for businesses and simplified invoices for individuals, credit and debit notes from an invoice's page, printing to PDF, sending over WhatsApp, and the signed XML file for the accountant. It signs with a public test certificate, sends nothing anywhere, and keeps everything in the visitor's browser; end-to-end tests issue every document type in a real browser and pass each through the official validator.",
+      "ar": "مستودع TypeScript من ثلاثة أجزاء. مكتبة فوترة تبني الفاتورة بصيغة UBL، وتحسب بصمتها على صيغة XML الموحّدة، وتوقّعها بـ ECDSA، وتولّد رمز QR وطلب شهادة الجهاز، وتتولّى الربط والإرسال عبر الواجهة البرمجية الرسمية. ومخطط PostgreSQL يضيف حمايات على مستوى قاعدة البيانات: محفّزات تمنع تعديل الفاتورة الصادرة أو حذفها، وتمنع رجوع العدّاد أو قفزه، وتحمي سجل التدقيق. ونواة الإصدار تقفل صف الجهاز طوال معاملة الإصدار، فتحتفظ الفواتير الصادرة بالتوازي بعدّاد متصل وسلسلة بصمات سليمة. مفاتيح الأجهزة والأسرار مشفّرة بـ AES-GCM بمفتاح رئيسي خارج القاعدة، والمبالغ تُحسب بأعداد عشرية دقيقة. ونسخة العرض العامة تشغّل المكتبة نفسها داخل المتصفح دون تعديل سطر واحد: فواتير البائع مصنّفة حسب العميل، وفاتورة ضريبية للمنشأة ومبسطة للفرد، وإشعار دائن أو مدين من صفحة الفاتورة، وطباعة وحفظ PDF، وإرسال عبر واتساب، وملف XML الموقّع للمحاسب. وهي توقّع بشهادة اختبار عامة، ولا ترسل شيئاً إلى أي جهة، وتُبقي كل شيء في متصفح الزائر؛ واختبارات شاملة تُصدر كل أنواع المستندات في متصفح حقيقي وتمرّر كلاً منها على المدقّق الرسمي."
+    },
+    "role": {
+      "en": "Full build — invoicing library, database, and demo",
+      "ar": "البناء الكامل — مكتبة الفوترة وقاعدة البيانات ونسخة العرض"
+    },
+    "metrics": [
+      {
+        "value": "6",
+        "label": {
+          "en": "document types: invoices, credit and debit notes",
+          "ar": "أنواع مستندات: فواتير وإشعارات دائنة ومدينة"
+        }
+      },
+      {
+        "value": "19",
+        "label": {
+          "en": "official sample invoices the hashing is tested on",
+          "ar": "عينة رسمية تُختبر عليها بصمة الفاتورة"
+        }
+      },
+      { "value": "100", "label": { "en": "parallel invoices, numbered with no gap", "ar": "فاتورة متوازية دون فجوة في الترقيم" } }
+    ],
+    "stack": ["TypeScript", "PostgreSQL", "Drizzle ORM", "UBL 2.1", "XML C14N", "ECDSA", "AES-GCM", "React", "esbuild", "Vitest", "Playwright", "GitHub Actions"],
+    "url": "https://nouraldeentofi.github.io/khatm/",
+    "images": { "desktop": "assets/img/projects/khatm-desktop.webp", "phone": "assets/img/projects/khatm-phone.webp" }
+  },
+  {
+    "id": "umrah-guide",
+    "name": "The Complete Umrah Guide",
+    "featured": false,
+    "group": "tools",
+    "year": "2026",
+    "category": { "en": "Offline guide · PWA", "ar": "دليل يعمل دون إنترنت · PWA" },
+    "tagline": {
+      "en": "An interactive Umrah checklist in the order the rites are performed, in ten languages — built to be used one-handed and offline, inside the Haram.",
+      "ar": "قائمة تفاعلية لمناسك العمرة بترتيب أدائها، بعشر لغات — مصمّمة لتُستخدم بيد واحدة ودون إنترنت داخل الحرم."
+    },
+    "problem": {
+      "en": "Umrah guidance is everywhere, yet hard to use in the moment: long PDFs you cannot read while walking, videos you cannot open in a crowd, and articles that bury the order of the rites in paragraphs. Inside the Haram the signal is often weak, and a large share of pilgrims cannot read.",
+      "ar": "إرشادات العمرة موجودة في كل مكان، لكن يصعب استخدامها وقت الحاجة: ملفات PDF طويلة لا تُقرأ أثناء المشي، ومقاطع فيديو لا تُفتح وسط الزحام، ومقالات تدفن ترتيب المناسك في فقرات طويلة. والإشارة داخل الحرم ضعيفة غالباً، ونسبة كبيرة من المعتمرين لا يقرؤون."
+    },
+    "built": {
+      "en": "A single HTML file with no dependencies and no build step. The rites are laid out as steps grouped into phases, from preparation and ihram at the miqat to shaving or shortening the hair, with each supplication placed at the moment it is said. Tap counters track the circuits of tawaf and sa'i, with undo, and completing the last circuit ticks its step. The guide also covers the prohibitions of ihram and the miqat locations, including what to do when arriving by air. A speaker button reads every supplication aloud in Arabic and every step in the selected language through the browser's own speech engine, for pilgrims who cannot read. Switching language rewrites the direction, fonts, and numerals across five writing systems, from Urdu Nastaliq to Chinese, without losing your place. It installs to the home screen and keeps working offline, keeps progress for a week, and can download a standalone copy in any language that runs from the phone with no connection at all; three text sizes and a print layout cover the rest. The content follows the Hanbali school as practised in the Two Holy Mosques, was reconciled against the official booklet given to pilgrims, and every correction is logged in the repository.",
+      "ar": "ملف HTML واحد بلا مكتبات ولا خطوات بناء. المناسك خطوات مجمّعة في مراحل، من الاستعداد والإحرام عند الميقات حتى الحلق أو التقصير، وكل دعاء في موضعه لحظة قوله. عدّادات باللمس تحسب أشواط الطواف والسعي مع إمكانية التراجع، وإتمام الشوط الأخير يعلّم خطوته تلقائياً. ويضم الدليل محظورات الإحرام والمواقيت، ومنها ما يفعله القادم جواً. وزر سماعة يقرأ كل دعاء بالعربية وكل خطوة باللغة المختارة عبر محرّك النطق في المتصفح نفسه، لمن لا يقرأ من المعتمرين. وتبديل اللغة يغيّر اتجاه الصفحة وخطوطها وأرقامها عبر خمسة أنظمة كتابة، من النستعليق الأردي إلى الصينية، دون أن يفقد المستخدم موضعه. يُثبَّت على الشاشة الرئيسية ويعمل دون إنترنت، ويحفظ التقدّم أسبوعاً، ويمكن تنزيل نسخة مستقلة بأي لغة تعمل من ذاكرة الهاتف دون أي اتصال؛ ومعه ثلاثة أحجام للخط ونسخة مهيّأة للطباعة. المحتوى على المذهب الحنبلي كما يُعمل به في بلاد الحرمين، وقوبل على كتيّب دليل المعتمر الرسمي الذي يوزَّع على المعتمرين، وكل تصحيح موثّق في المستودع."
+    },
+    "role": {
+      "en": "Full build — content, design, and offline app",
+      "ar": "البناء الكامل — المحتوى والتصميم والتطبيق دون اتصال"
+    },
+    "metrics": [
+      { "value": "35", "label": { "en": "steps in performance order", "ar": "خطوة بترتيب الأداء" } },
+      { "value": "10", "label": { "en": "languages", "ar": "لغات" } },
+      { "value": "5", "label": { "en": "writing systems", "ar": "أنظمة كتابة" } },
+      { "value": "0", "label": { "en": "dependencies", "ar": "مكتبات خارجية" } }
+    ],
+    "stack": ["HTML", "JavaScript", "PWA", "Service worker", "Web Speech API", "i18n", "RTL", "JSON-LD"],
+    "url": "https://nouraldeentofi.github.io/The-Complete-Umrah-Guide/",
+    "images": {
+      "desktop": "assets/img/projects/umrah-guide-desktop.webp",
+      "phone": "assets/img/projects/umrah-guide-phone.webp"
+    }
+  },
+  {
     "id": "dfs-dashboard",
     "name": "DFS Dashboard",
     "featured": false,
+    "group": "apps",
     "year": "2025–2026",
     "category": { "en": "Internal platform", "ar": "منصّة داخلية" },
     "tagline": {
@@ -129,6 +286,7 @@
     "id": "goldentag",
     "name": "GoldenTag",
     "featured": false,
+    "group": "apps",
     "year": "2025",
     "category": { "en": "Mobile app · Google Play", "ar": "تطبيق موبايل · Google Play" },
     "tagline": {
@@ -155,6 +313,7 @@
     "id": "business-card-extractor",
     "name": "Business Card Extractor",
     "featured": false,
+    "group": "ai",
     "year": "2026",
     "category": { "en": "AI web app", "ar": "تطبيق ويب بالذكاء الاصطناعي" },
     "tagline": {
@@ -182,6 +341,7 @@
     "id": "mcp-search-server",
     "name": "MCP Search Server",
     "featured": false,
+    "group": "ai",
     "year": "2026",
     "category": { "en": "AI tooling", "ar": "أدوات ذكاء اصطناعي" },
     "tagline": {
