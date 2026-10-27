@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sofia Marchetti — Brand Designer & Motion Artist</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #faf7f2;
+      --ink:     #0e0b07;
+      --warm:    #1a1208;
+      --accent:  #e8500a;
+      --gold:    #c9920a;
+      --cream:   #f0e9dc;
+      --rust:    #9c3a0e;
+      --sage:    #4a6741;
+      --surface: #ffffff;
+      --border:  #d4c9b8;
+      --muted:   #7a6e61;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--ink); overflow-x: hidden; }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+    /* ── CURSOR ── */
+    .cursor {
+      position: fixed; width: 18px; height: 18px; border-radius: 50%;
+      background: var(--accent); pointer-events: none; z-index: 9999;
+      mix-blend-mode: multiply; transition: transform .15s, width .2s, height .2s;
+      transform: translate(-50%, -50%);
+    }
+    .cursor-ring {
+      position: fixed; width: 44px; height: 44px; border-radius: 50%;
+      border: 1.5px solid var(--accent); pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform .35s cubic-bezier(.2,1,.3,1), width .3s, height .3s, opacity .3s;
+      opacity: .5;
+    }
+    body:has(a:hover) .cursor { width: 28px; height: 28px; }
+    body:has(a:hover) .cursor-ring { width: 60px; height: 60px; opacity: .3; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 5%;
+      background: var(--ink);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      transition: background .3s, box-shadow .3s;
+    }
+    nav.scrolled {
+      background: var(--ink);
+      box-shadow: 0 2px 24px rgba(0,0,0,.35);
+    }
+    .logo-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 900; color: var(--bg);
+      letter-spacing: -1px;
+    }
+    .nav-right { display: flex; align-items: center; gap: 2.5rem; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: .82rem; font-weight: 600; letter-spacing: 1.5px;
+      text-transform: uppercase; text-decoration: none; color: rgba(250,247,242,.6);
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-available {
+      display: flex; align-items: center; gap: .5rem;
+      font-size: .75rem; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; color: #6ec46a;
+    }
+    .avail-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #6ec46a; animation: blink 2s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1}50%{opacity:.3} }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh; display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative; overflow: hidden;
+    }
+    .hero-left {
+      background: var(--ink); display: flex; flex-direction: column;
+      justify-content: flex-end; padding: 8rem 5% 5rem;
+      position: relative; overflow: hidden;
+    }
+    #hero-canvas-left {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      opacity: .6;
+    }
+    .hero-left-content { position: relative; z-index: 2; }
+    .hero-number {
+      font-family: 'Space Mono', monospace;
+      font-size: .75rem; color: var(--accent); letter-spacing: 3px;
+      margin-bottom: 2rem; opacity: .8;
+    }
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 7vw, 6rem);
+      font-weight: 900; line-height: .95; color: var(--bg);
+      letter-spacing: -2px; margin-bottom: 1.5rem;
+    }
+    .hero-name em { font-style: italic; color: var(--accent); }
+    .hero-tagline {
+      font-size: .9rem; color: rgba(250,247,242,.5); line-height: 1.7;
+      max-width: 340px; margin-bottom: 3rem;
+    }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: .75rem;
+      padding: 1rem 2rem; background: var(--accent); color: #fff;
+      font-size: .85rem; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; text-decoration: none; border-radius: 4px;
+      transition: background .2s, transform .2s;
+    }
+    .hero-cta:hover { background: var(--rust); transform: translateY(-2px); }
+    .hero-right {
+      background: var(--cream); position: relative; overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    .hero-right-top {
+      flex: 1; position: relative; overflow: hidden;
+    }
+    #hero-canvas-right {
+      width: 100%; height: 100%; display: block;
+    }
+    .hero-right-bottom {
+      padding: 2.5rem 2.5rem;
+      border-top: 1px solid var(--border);
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;
+    }
+    .hero-stat { }
+    .hero-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-weight: 700; color: var(--ink); line-height: 1;
+    }
+    .hero-stat-num span { color: var(--accent); }
+    .hero-stat-label {
+      font-size: .75rem; color: var(--muted); letter-spacing: .5px;
+      margin-top: .3rem; text-transform: uppercase; font-weight: 600;
+    }
+    .hero-scroll-hint {
+      position: absolute; bottom: 2rem; right: 2rem;
+      display: flex; align-items: center; gap: .75rem;
+      font-size: .7rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--muted); writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+    .scroll-track {
+      width: 1px; height: 60px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      overflow: hidden; background: var(--accent); padding: .85rem 0;
+      border-top: 1px solid var(--rust); border-bottom: 1px solid var(--rust);
+    }
+    .marquee-track {
+      display: flex; gap: 3rem; white-space: nowrap;
+      animation: marquee 22s linear infinite;
+    }
+    .marquee-item {
+      display: flex; align-items: center; gap: 1rem; flex-shrink: 0;
+      font-family: 'Space Mono', monospace;
+      font-size: .75rem; letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,.85);
+    }
+    .marquee-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,.5); }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* ── WORK SECTION ── */
+    #work { padding: 7rem 5%; }
+    .section-header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 4rem;
+    }
+    .section-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: .72rem; color: var(--accent); letter-spacing: 3px;
+      text-transform: uppercase; margin-bottom: .5rem;
+    }
+    .section-h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900;
+      letter-spacing: -1.5px; line-height: 1.05;
+    }
+    .section-h2 em { font-style: italic; color: var(--accent); }
+    .see-all {
+      font-size: .8rem; font-weight: 600; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--muted); text-decoration: none;
+      border-bottom: 1px solid var(--border); padding-bottom: 2px;
+      transition: color .2s, border-color .2s;
+    }
+    .see-all:hover { color: var(--accent); border-color: var(--accent); }
+
+    .work-grid {
+      display: grid; grid-template-columns: 1.4fr 1fr; grid-template-rows: auto auto;
+      gap: 1.5rem;
+    }
+    .work-card {
+      border-radius: 8px; overflow: hidden; position: relative;
+      background: var(--surface); border: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .work-card:first-child { grid-row: 1 / 3; }
+    .work-thumb {
+      width: 100%; display: block;
+      transition: transform .6s cubic-bezier(.2,1,.3,1);
+    }
+    .work-card:first-child .work-thumb { height: 560px; object-fit: cover; }
+    .work-card:not(:first-child) .work-thumb { height: 260px; }
+    .work-card:hover .work-thumb { transform: scale(1.04); }
+    .work-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(14,11,7,.85) 0%, transparent 55%);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 2rem;
+    }
+    .work-tags { display: flex; gap: .5rem; margin-bottom: .75rem; }
+    .work-tag {
+      padding: .2rem .65rem; border-radius: 3px; font-size: .7rem;
+      font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    }
+    .wt-orange { background: var(--accent); color: #fff; }
+    .wt-cream  { background: rgba(240,233,220,.2); color: var(--cream); border: 1px solid rgba(240,233,220,.3); }
+    .work-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; font-weight: 700; color: var(--bg); margin-bottom: .25rem;
+    }
+    .work-sub { font-size: .8rem; color: rgba(250,247,242,.55); }
+    .work-arrow {
+      position: absolute; top: 1.25rem; right: 1.25rem; width: 36px; height: 36px;
+      border-radius: 50%; background: rgba(255,255,255,.12);
+      backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1rem;
+      transition: background .2s, transform .2s;
+    }
+    .work-card:hover .work-arrow { background: var(--accent); transform: rotate(45deg); }
+
+    /* ── ABOUT STRIP ── */
+    #about {
+      display: grid; grid-template-columns: 1fr 1fr; min-height: 80vh;
+    }
+    .about-visual {
+      background: var(--ink); position: relative; overflow: hidden;
+    }
+    #about-canvas { width: 100%; height: 100%; display: block; }
+    .about-text-col {
+      padding: 6rem 5%; display: flex; flex-direction: column; justify-content: center;
+      background: var(--cream);
+    }
+    .about-intro {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 3vw, 2.2rem); font-weight: 700;
+      line-height: 1.3; margin-bottom: 1.75rem;
+    }
+    .about-intro em { font-style: italic; color: var(--accent); }
+    .about-body { color: var(--muted); line-height: 1.85; margin-bottom: 2rem; }
+    .about-divider { width: 40px; height: 2px; background: var(--accent); margin: 2rem 0; }
+    .about-details { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .about-detail-label {
+      font-size: .7rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: .35rem;
+    }
+    .about-detail-val { font-size: .9rem; color: var(--ink); font-weight: 500; }
+
+    /* ── SERVICES ── */
+    #services { padding: 7rem 5%; background: var(--ink); }
+    #services .section-h2 { color: var(--bg); }
+    #services .section-eyebrow { color: var(--accent); }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px;
+      background: var(--muted); margin-top: 3.5rem;
+      border: 1.5px solid var(--muted);
+    }
+    .service-cell {
+      background: var(--warm); padding: 2.5rem 2rem;
+      transition: background .3s;
+    }
+    .service-cell:hover { background: #2a1a08; }
+    .service-num {
+      font-family: 'Space Mono', monospace; font-size: .72rem;
+      color: var(--accent); letter-spacing: 2px; margin-bottom: 1.5rem;
+    }
+    .service-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+    .service-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-weight: 700; color: var(--bg); margin-bottom: .75rem;
+    }
+    .service-desc { font-size: .85rem; color: var(--muted); line-height: 1.75; }
+    .service-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1.25rem; }
+    .s-tag {
+      font-size: .7rem; padding: .2rem .6rem; border-radius: 3px;
+      background: rgba(232,80,10,.12); color: var(--accent);
+      font-family: 'Space Mono', monospace; letter-spacing: .5px;
+    }
+
+    /* ── PROCESS ── */
+    #process { padding: 7rem 5%; }
+    .process-steps {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+      margin-top: 4rem; border: 1px solid var(--border);
+    }
+    .process-step {
+      padding: 2.5rem 2rem; border-right: 1px solid var(--border);
+      position: relative; transition: background .3s;
+    }
+    .process-step:last-child { border-right: none; }
+    .process-step:hover { background: var(--cream); }
+    .step-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem; font-weight: 900; color: var(--border);
+      line-height: 1; margin-bottom: 1.5rem;
+      transition: color .3s;
+    }
+    .process-step:hover .step-num { color: var(--accent); }
+    .step-title {
+      font-size: 1rem; font-weight: 700; margin-bottom: .75rem;
+    }
+    .step-desc { font-size: .84rem; color: var(--muted); line-height: 1.7; }
+    .step-arrow {
+      position: absolute; right: 1.5rem; bottom: 2rem;
+      font-size: 1.2rem; color: var(--border);
+      transition: color .3s, transform .3s;
+    }
+    .process-step:hover .step-arrow { color: var(--accent); transform: translateX(4px); }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials { padding: 7rem 5%; background: var(--cream); }
+    .testimonials-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+      margin-top: 4rem;
+    }
+    .testimonial-card {
+      background: var(--surface); padding: 2rem; border-radius: 8px;
+      border: 1px solid var(--border); position: relative;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .testimonial-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(14,11,7,.1); }
+    .quote-mark {
+      font-family: 'Playfair Display', serif; font-size: 4rem;
+      color: var(--accent); line-height: .8; margin-bottom: 1rem; opacity: .4;
+    }
+    .testimonial-text {
+      font-size: .9rem; line-height: 1.8; color: var(--warm); margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+    .testimonial-author { display: flex; align-items: center; gap: .75rem; }
+    .author-avatar {
+      width: 42px; height: 42px; border-radius: 50%; display: block;
+      flex-shrink: 0; border: 2px solid var(--border);
+    }
+    .author-name { font-weight: 700; font-size: .875rem; }
+    .author-role { font-size: .75rem; color: var(--muted); }
+    .stars { color: var(--gold); font-size: .85rem; margin-bottom: .75rem; }
+
+    /* ── CONTACT ── */
+    #contact {
+      min-height: 80vh; display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .contact-left {
+      background: var(--accent); padding: 6rem 5%;
+      display: flex; flex-direction: column; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    #contact-canvas {
+      position: absolute; inset: 0; width: 100%; height: 100%; opacity: .25;
+    }
+    .contact-left-content { position: relative; z-index: 2; }
+    .contact-label {
+      font-family: 'Space Mono', monospace; font-size: .72rem;
+      color: rgba(255,255,255,.6); letter-spacing: 3px; text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .contact-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 900;
+      color: #fff; line-height: 1.05; letter-spacing: -1px; margin-bottom: 1.5rem;
+    }
+    .contact-sub { color: rgba(255,255,255,.7); line-height: 1.7; margin-bottom: 3rem; }
+    .contact-socials { display: flex; gap: 1rem; }
+    .social-btn {
+      padding: .65rem 1.25rem; border-radius: 4px;
+      border: 1.5px solid rgba(255,255,255,.3); color: #fff;
+      font-size: .78rem; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; text-decoration: none;
+      transition: background .2s, border-color .2s;
+    }
+    .social-btn:hover { background: rgba(255,255,255,.15); border-color: #fff; }
+    .contact-right {
+      background: var(--surface); padding: 6rem 5%;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .contact-right h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.75rem; font-weight: 700; margin-bottom: 2rem;
+    }
+    .c-form { display: flex; flex-direction: column; gap: 1.25rem; }
+    .c-field { display: flex; flex-direction: column; gap: .4rem; }
+    .c-field label {
+      font-size: .72rem; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .c-field input,
+    .c-field select,
+    .c-field textarea {
+      padding: .9rem 1rem; border: 1.5px solid var(--border);
+      border-radius: 4px; font-family: 'DM Sans', sans-serif;
+      font-size: .9rem; background: var(--bg); color: var(--ink);
+      outline: none; transition: border-color .2s;
+      resize: none;
+    }
+    .c-field input:focus,
+    .c-field select:focus,
+    .c-field textarea:focus { border-color: var(--accent); }
+    .c-field textarea { min-height: 110px; }
+    .c-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .c-submit {
+      padding: 1rem 2rem; background: var(--ink); color: #fff;
+      border: none; border-radius: 4px; cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .85rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; transition: background .2s, transform .2s;
+    }
+    .c-submit:hover { background: var(--accent); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink); padding: 2rem 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif; font-size: 1.1rem;
+      font-weight: 900; color: var(--bg);
+    }
+    .footer-copy { font-size: .78rem; color: var(--muted); }
+    .footer-back {
+      font-size: .75rem; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--accent); text-decoration: none;
+      transition: opacity .2s;
+    }
+    .footer-back:hover { opacity: .7; }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media(max-width: 900px) {
+      #hero, #about, #contact { grid-template-columns: 1fr; }
+      .hero-left { min-height: 60vh; }
+      .work-grid { grid-template-columns: 1fr; }
+      .work-card:first-child { grid-row: auto; }
+      .services-grid, .testimonials-grid, .process-steps { grid-template-columns: 1fr; }
+      .process-step { border-right: none; border-bottom: 1px solid var(--border); }
+      .c-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="logo-mark">SM.</div>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-available"><span class="avail-dot"></span>Open to work</div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-left">
+    <canvas id="hero-canvas-left"></canvas>
+    <div class="hero-left-content">
+      <div class="hero-number">001 / Portfolio 2026</div>
+      <h1 class="hero-name">Marcus<br /><em>Rivera</em></h1>
+      <p class="hero-tagline">
+        Brand Designer & Motion Artist creating identities that
+        live and breathe across every touchpoint.
+      </p>
+      <a href="#work" class="hero-cta">View Selected Work →</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-right-top">
+      <canvas id="hero-canvas-right"></canvas>
+    </div>
+    <div class="hero-right-bottom">
+      <div class="hero-stat">
+        <div class="hero-stat-num">9<span>+</span></div>
+        <div class="hero-stat-label">Years crafting brands</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">60<span>+</span></div>
+        <div class="hero-stat-label">Brands launched</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">4</div>
+        <div class="hero-stat-label">Awwwards honors</div>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <div class="scroll-track"></div>
+      <span>Scroll</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── MARQUEE ── -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Brand Identity <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Motion Design <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Logo Systems <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Visual Direction <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Typography <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Packaging Design <span class="marquee-dot"></span></span>
+    <span class="marquee-item">UI / UX Design <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Art Direction <span class="marquee-dot"></span></span>
+    <!-- duplicate for seamless loop -->
+    <span class="marquee-item">Brand Identity <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Motion Design <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Logo Systems <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Visual Direction <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Typography <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Packaging Design <span class="marquee-dot"></span></span>
+    <span class="marquee-item">UI / UX Design <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Art Direction <span class="marquee-dot"></span></span>
+  </div>
+</div>
+
+<!-- ── WORK ── -->
+<section id="work">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-eyebrow">// selected work</div>
+      <h2 class="section-h2">Brands I've<br /><em>Shaped</em></h2>
+    </div>
+    <a href="#" class="see-all">All Projects →</a>
+  </div>
+  <div class="work-grid">
+    <div class="work-card reveal">
+      <canvas class="work-thumb" id="wc1" width="800" height="1120"></canvas>
+      <div class="work-overlay">
+        <div class="work-tags"><span class="work-tag wt-orange">Featured</span><span class="work-tag wt-cream">Brand Identity</span></div>
+        <div class="work-title">Aurum Spirits — Rebrand</div>
+        <div class="work-sub">Luxury distillery · San Francisco, CA</div>
+      </div>
+      <div class="work-arrow">↗</div>
+    </div>
+    <div class="work-card reveal" style="transition-delay:.1s">
+      <canvas class="work-thumb" id="wc2" width="640" height="520"></canvas>
+      <div class="work-overlay">
+        <div class="work-tags"><span class="work-tag wt-cream">Motion</span><span class="work-tag wt-cream">UI Design</span></div>
+        <div class="work-title">Tempo — Fintech App</div>
+        <div class="work-sub">Digital banking identity</div>
+      </div>
+      <div class="work-arrow">↗</div>
+    </div>
+    <div class="work-card reveal" style="transition-delay:.2s">
+      <canvas class="work-thumb" id="wc3" width="640" height="520"></canvas>
+      <div class="work-overlay">
+        <div class="work-tags"><span class="work-tag wt-cream">Packaging</span><span class="work-tag wt-cream">Print</span></div>
+        <div class="work-title">Verdure Botanics</div>
+        <div class="work-sub">Sustainable skincare brand</div>
+      </div>
+      <div class="work-arrow">↗</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="about-visual">
+    <canvas id="about-canvas"></canvas>
+  </div>
+  <div class="about-text-col reveal">
+    <div class="section-eyebrow">// about me</div>
+    <p class="about-intro">
+      Design is a conversation<br />between <em>form</em> and intention.
+    </p>
+    <p class="about-body">
+      I'm Sofia Marchetti, a brand designer and motion artist with 9+ years of experience
+      helping companies find their visual voice. My work sits at the intersection of
+      strategy and craft — every mark, every frame, every colour choice serves a purpose.
+    </p>
+    <p class="about-body">
+      Previously at Pentagram and Wolff Olins. Now independent, working with
+      startups, cultural institutions, and global brands who want design
+      that actually means something.
+    </p>
+    <div class="about-divider"></div>
+    <div class="about-details">
+      <div>
+        <div class="about-detail-label">Based in</div>
+        <div class="about-detail-val">Barcelona, Spain</div>
+      </div>
+      <div>
+        <div class="about-detail-label">Education</div>
+        <div class="about-detail-val">RCA London, MA</div>
+      </div>
+      <div>
+        <div class="about-detail-label">Availability</div>
+        <div class="about-detail-val" style="color:var(--sage)">Open · Q2 2026</div>
+      </div>
+      <div>
+        <div class="about-detail-label">Languages</div>
+        <div class="about-detail-val">EN · ES · PT</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section id="services">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-eyebrow">// what I do</div>
+      <h2 class="section-h2">Services &<br /><em>Expertise</em></h2>
+    </div>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-cell">
+      <div class="service-num">01</div>
+      <span class="service-icon">🎯</span>
+      <div class="service-title">Brand Strategy & Identity</div>
+      <div class="service-desc">
+        From naming and positioning to full visual systems. I build brands that hold
+        up across every context, from a business card to a stadium billboard.
+      </div>
+      <div class="service-tags">
+        <span class="s-tag">Naming</span><span class="s-tag">Logo</span>
+        <span class="s-tag">Guidelines</span><span class="s-tag">Tone of Voice</span>
+      </div>
+    </div>
+    <div class="service-cell">
+      <div class="service-num">02</div>
+      <span class="service-icon">✦</span>
+      <div class="service-title">Motion & Animation</div>
+      <div class="service-desc">
+        Bringing identities to life with purposeful motion — from logo animations
+        and UI micro-interactions to full title sequences and brand films.
+      </div>
+      <div class="service-tags">
+        <span class="s-tag">After Effects</span><span class="s-tag">Lottie</span>
+        <span class="s-tag">CSS Motion</span>
+      </div>
+    </div>
+    <div class="service-cell">
+      <div class="service-num">03</div>
+      <span class="service-icon">📦</span>
+      <div class="service-title">Packaging & Print</div>
+      <div class="service-desc">
+        Tactile, shelf-stopping packaging design informed by manufacturing constraints,
+        sustainability goals, and a deep love for paper.
+      </div>
+      <div class="service-tags">
+        <span class="s-tag">Packaging</span><span class="s-tag">Collateral</span>
+        <span class="s-tag">Editorial</span>
+      </div>
+    </div>
+    <div class="service-cell">
+      <div class="service-num">04</div>
+      <span class="service-icon">🖥️</span>
+      <div class="service-title">Digital & UI Design</div>
+      <div class="service-desc">
+        Translating brand language into pixel-perfect digital products. Figma
+        design systems, web design, and app interfaces with real usability.
+      </div>
+      <div class="service-tags">
+        <span class="s-tag">Figma</span><span class="s-tag">Design Systems</span>
+        <span class="s-tag">Web</span>
+      </div>
+    </div>
+    <div class="service-cell">
+      <div class="service-num">05</div>
+      <span class="service-icon">🎨</span>
+      <div class="service-title">Art Direction</div>
+      <div class="service-desc">
+        Visual direction for campaigns, editorial shoots, and brand content.
+        I work with photographers, illustrators, and videographers to ensure coherence.
+      </div>
+      <div class="service-tags">
+        <span class="s-tag">Campaigns</span><span class="s-tag">Photography</span>
+        <span class="s-tag">Social</span>
+      </div>
+    </div>
+    <div class="service-cell">
+      <div class="service-num">06</div>
+      <span class="service-icon">🤝</span>
+      <div class="service-title">Brand Consulting</div>
+      <div class="service-desc">
+        Embedded creative direction and audit services for companies who need
+        a senior design voice without the full-time commitment.
+      </div>
+      <div class="service-tags">
+        <span class="s-tag">Audit</span><span class="s-tag">Strategy</span>
+        <span class="s-tag">Embedded</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROCESS ── -->
+<section id="process">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-eyebrow">// how I work</div>
+      <h2 class="section-h2">A Disciplined<br /><em>Process</em></h2>
+    </div>
+  </div>
+  <div class="process-steps reveal">
+    <div class="process-step">
+      <div class="step-num">01</div>
+      <div class="step-title">Discover</div>
+      <div class="step-desc">Deep-dive into your audience, competitors, and ambitions. No assumptions, only research.</div>
+      <span class="step-arrow">→</span>
+    </div>
+    <div class="process-step">
+      <div class="step-num">02</div>
+      <div class="step-title">Define</div>
+      <div class="step-desc">Crystallise a strategic position and creative direction before a single pixel is drawn.</div>
+      <span class="step-arrow">→</span>
+    </div>
+    <div class="process-step">
+      <div class="step-num">03</div>
+      <div class="step-title">Design</div>
+      <div class="step-desc">Iterative design sprints with clear checkpoints. Concepts grounded in strategy, not trend.</div>
+      <span class="step-arrow">→</span>
+    </div>
+    <div class="process-step">
+      <div class="step-num">04</div>
+      <div class="step-title">Deliver</div>
+      <div class="step-desc">Production-ready files, guidelines, and handoff sessions so your team can run with it.</div>
+      <span class="step-arrow">✓</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section id="testimonials">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-eyebrow">// kind words</div>
+      <h2 class="section-h2">What Clients<br /><em>Say</em></h2>
+    </div>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal">
+      <canvas class="author-avatar" id="av1" width="84" height="84" style="display:block;margin-bottom:1rem;"></canvas>
+      <div class="stars">★★★★★</div>
+      <div class="quote-mark">"</div>
+      <div class="testimonial-text">
+        Marcus didn't just design our logo — he gave us a language. Every asset from the brand book
+        feels intentional and alive. The rebrand drove a 40% uplift in brand recall in our first quarter.
+      </div>
+      <div class="testimonial-author">
+        <div>
+          <div class="author-name">Isabelle Moreau</div>
+          <div class="author-role">CMO, Aurum Spirits</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal" style="transition-delay:.1s">
+      <canvas class="author-avatar" id="av2" width="84" height="84" style="display:block;margin-bottom:1rem;"></canvas>
+      <div class="stars">★★★★★</div>
+      <div class="quote-mark">"</div>
+      <div class="testimonial-text">
+        We brought Marcus in for our Series A rebrand and he delivered something that felt like
+        it came from a team of ten. His process is rigorous, his taste is impeccable.
+      </div>
+      <div class="testimonial-author">
+        <div>
+          <div class="author-name">Jordan Lee</div>
+          <div class="author-role">Founder & CEO, Tempo</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal" style="transition-delay:.2s">
+      <canvas class="author-avatar" id="av3" width="84" height="84" style="display:block;margin-bottom:1rem;"></canvas>
+      <div class="stars">★★★★★</div>
+      <div class="quote-mark">"</div>
+      <div class="testimonial-text">
+        The packaging Marcus created for Verdure became our most-shared asset on social media within
+        a week of launch. Functional, beautiful, and on-brand in every single detail.
+      </div>
+      <div class="testimonial-author">
+        <div>
+          <div class="author-name">Priya Nair</div>
+          <div class="author-role">Creative Director, Verdure Botanics</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="contact-left">
+    <canvas id="contact-canvas"></canvas>
+    <div class="contact-left-content reveal">
+      <div class="contact-label">// Let's create together</div>
+      <h2 class="contact-headline">Have a project in mind?</h2>
+      <p class="contact-sub">
+        I'm always open to hearing about bold, interesting problems.
+        Tell me about your brand and let's see what we can build together.
+      </p>
+      <div class="contact-socials">
+        <a href="#" class="social-btn">Dribbble</a>
+        <a href="#" class="social-btn">LinkedIn</a>
+        <a href="#" class="social-btn">Instagram</a>
+      </div>
+    </div>
+  </div>
+  <div class="contact-right">
+    <h3>Send a Message</h3>
+    <form class="c-form" onsubmit="handleSend(event)">
+      <div class="c-row">
+        <div class="c-field">
+          <label>First Name</label>
+          <input type="text" placeholder="Jamie" />
+        </div>
+        <div class="c-field">
+          <label>Last Name</label>
+          <input type="text" placeholder="Smith" />
+        </div>
+      </div>
+      <div class="c-field">
+        <label>Email</label>
+        <input type="email" placeholder="jamie@company.com" />
+      </div>
+      <div class="c-field">
+        <label>Project Type</label>
+        <select>
+          <option>Brand Identity</option>
+          <option>Motion Design</option>
+          <option>Packaging & Print</option>
+          <option>UI / UX Design</option>
+          <option>Art Direction</option>
+          <option>Brand Consulting</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="c-field">
+        <label>Tell me about your project</label>
+        <textarea placeholder="What are you working on? What's the timeline and budget range?"></textarea>
+      </div>
+      <button type="submit" class="c-submit">Send Message →</button>
+    </form>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">Sofia Marchetti.</div>
+  <div class="footer-copy">© 2026 Sofia Marchetti. All rights reserved. Barcelona, Spain.</div>
+  <a href="#hero" class="footer-back">Back to Top ↑</a>
+  <div class="footer-copy" style="width:100%;text-align:center;margin-top:1rem;letter-spacing:2px;text-transform:uppercase">Made by Nour</div>
+</footer>
+
+<script>
+/* ─ Seeded RNG ─ */
+function rng(seed) {
+  let s = seed;
+  return () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+}
+
+/* ─ Custom Cursor ─ */
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let cx = 0, cy = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { cx = e.clientX; cy = e.clientY; });
+(function animCursor() {
+  cur.style.left = cx + 'px'; cur.style.top = cy + 'px';
+  rx += (cx - rx) * .12; ry += (cy - ry) * .12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
+})();
+
+/* ─ Hero Left: Ink marbling ─ */
+(function() {
+  const canvas = document.getElementById('hero-canvas-left');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width  = canvas.offsetWidth || 600;
+  const H = canvas.height = canvas.offsetHeight || 800;
+  const r = rng(77);
+  ctx.fillStyle = '#0e0b07'; ctx.fillRect(0, 0, W, H);
+
+  // Flowing curves
+  for (let i = 0; i < 30; i++) {
+    const x0 = r() * W, y0 = r() * H;
+    const x1 = r() * W, y1 = r() * H;
+    const x2 = r() * W, y2 = r() * H;
+    const alpha = r() * .15 + .03;
+    const colors = ['#e8500a','#c9920a','#9c3a0e','#faf7f2'];
+    ctx.strokeStyle = colors[Math.floor(r() * colors.length)];
+    ctx.globalAlpha = alpha;
+    ctx.lineWidth = r() * 40 + 5;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(x0, y0);
+    ctx.quadraticCurveTo(x1, y1, x2, y2);
+    ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
+  // Grid lines
+  ctx.strokeStyle = 'rgba(232,80,10,.12)';
+  ctx.lineWidth = 1;
+  for (let x = 0; x < W; x += 40) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+  }
+  for (let y = 0; y < H; y += 40) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  }
+})();
+
+/* ─ Hero Right: Typographic collage ─ */
+(function() {
+  const canvas = document.getElementById('hero-canvas-right');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width  = canvas.offsetWidth || 600;
+  const H = canvas.height = canvas.offsetHeight || 500;
+  const r = rng(212);
+  ctx.fillStyle = '#f0e9dc'; ctx.fillRect(0, 0, W, H);
+
+  // Color blocks
+  const blocks = [
+    { x: 0, y: 0, w: W*.55, h: H*.4, color: '#e8500a' },
+    { x: W*.6, y: H*.15, w: W*.38, h: H*.45, color: '#0e0b07' },
+    { x: W*.1, y: H*.5, w: W*.3, h: H*.4, color: '#c9920a' },
+    { x: W*.55, y: H*.7, w: W*.43, h: H*.28, color: '#4a6741' },
+  ];
+  blocks.forEach(b => {
+    ctx.fillStyle = b.color;
+    ctx.fillRect(b.x, b.y, b.w, b.h);
+  });
+
+  // Text overlays
+  ctx.textBaseline = 'top';
+  const texts = [
+    { text: 'BRAND', x: 20, y: 30, font: '900 80px serif', color: '#fff' },
+    { text: 'IDENTITY', x: 15, y: 108, font: '700 42px serif', color: 'rgba(255,255,255,.45)' },
+    { text: '©2026', x: W*.62, y: H*.18, font: '400 14px monospace', color: 'rgba(250,247,242,.55)' },
+    { text: 'MOTION', x: W*.63, y: H*.25, font: '900 46px serif', color: '#faf7f2' },
+    { text: 'DESIGN', x: W*.63, y: H*.37, font: 'italic 700 30px serif', color: 'rgba(250,247,242,.4)' },
+    { text: 'ART &', x: W*.12, y: H*.52, font: '700 26px serif', color: '#fff' },
+    { text: 'CRAFT', x: W*.12, y: H*.61, font: '900 50px serif', color: '#fff' },
+    { text: 'MR', x: W*.57, y: H*.72, font: '900 italic 72px serif', color: '#faf7f2' },
+    { text: 'BARCELONA', x: W*.57, y: H*.855, font: '700 11px monospace', color: 'rgba(250,247,242,.55)' },
+  ];
+  texts.forEach(t => {
+    ctx.font = t.font; ctx.fillStyle = t.color; ctx.fillText(t.text, t.x, t.y);
+  });
+
+  // Circle accent
+  ctx.strokeStyle = '#e8500a'; ctx.lineWidth = 3; ctx.globalAlpha = .6;
+  ctx.beginPath(); ctx.arc(W*.2, H*.8, 38, 0, Math.PI * 2); ctx.stroke();
+  ctx.globalAlpha = 1;
+
+  // Crosshair
+  ctx.strokeStyle = 'rgba(232,80,10,.5)'; ctx.lineWidth = 1;
+  const chx = W*.78, chy = H*.08;
+  ctx.beginPath(); ctx.moveTo(chx - 15, chy); ctx.lineTo(chx + 15, chy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(chx, chy - 15); ctx.lineTo(chx, chy + 15); ctx.stroke();
+  ctx.beginPath(); ctx.arc(chx, chy, 10, 0, Math.PI * 2); ctx.stroke();
+})();
+
+/* ─ Work card thumbnails ─ */
+function drawWorkCard(id, seed, style) {
+  const canvas = document.getElementById(id);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const r = rng(seed);
+  ctx.fillStyle = style.bg; ctx.fillRect(0, 0, W, H);
+
+  if (style.type === 'luxury') {
+    // Dark gold luxury feel
+    // Diagonal stripes
+    ctx.strokeStyle = 'rgba(201,146,10,.12)'; ctx.lineWidth = 1;
+    for (let i = -H; i < W + H; i += 28) {
+      ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i + H, H); ctx.stroke();
+    }
+    // Central symbol — abstract monogram
+    const cx = W/2, cy = H/2;
+    ctx.strokeStyle = '#c9920a'; ctx.lineWidth = 2; ctx.globalAlpha = .5;
+    for (let i = 0; i < 12; i++) {
+      const a = (Math.PI * 2 / 12) * i;
+      ctx.beginPath();
+      ctx.moveTo(cx + Math.cos(a) * 120, cy + Math.sin(a) * 120);
+      ctx.lineTo(cx + Math.cos(a + Math.PI) * 120, cy + Math.sin(a + Math.PI) * 120);
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = '#c9920a'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(cx, cy, 120, 0, Math.PI * 2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(cx, cy, 80, 0, Math.PI * 2); ctx.stroke();
+    // A — central letter
+    ctx.fillStyle = '#c9920a'; ctx.font = '900 italic 140px serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.globalAlpha = .8;
+    ctx.fillText('A', cx, cy + 8);
+    ctx.globalAlpha = 1;
+    // Corner accent
+    ctx.strokeStyle = 'rgba(201,146,10,.3)'; ctx.lineWidth = 1;
+    [[20,20],[W-20,20],[20,H-20],[W-20,H-20]].forEach(([x,y]) => {
+      ctx.strokeRect(x-10, y-10, 20, 20);
+    });
+
+  } else if (style.type === 'fintech') {
+    // Clean dark fintech
+    // Grid
+    ctx.strokeStyle = 'rgba(91,138,245,.08)'; ctx.lineWidth = 1;
+    for (let x = 0; x < W; x += 36) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for (let y = 0; y < H; y += 36) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+    // Chart line
+    const pts = [];
+    for (let i = 0; i <= 20; i++) pts.push({ x: (i / 20) * W, y: H*.3 + Math.sin(i * .7) * 60 + r() * 40 - (i * 4) });
+    ctx.strokeStyle = '#5b8af5'; ctx.lineWidth = 3; ctx.lineJoin = 'round';
+    ctx.beginPath(); pts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+    ctx.stroke();
+    // Gradient fill under chart
+    const grad = ctx.createLinearGradient(0, H*.1, 0, H*.7);
+    grad.addColorStop(0, 'rgba(91,138,245,.2)'); grad.addColorStop(1, 'transparent');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    pts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+    ctx.lineTo(W, H*.7); ctx.lineTo(0, H*.7); ctx.closePath(); ctx.fill();
+    // Logo text
+    ctx.fillStyle = '#fff'; ctx.font = '900 52px sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('TEMPO', W/2, H*.75);
+    ctx.font = '400 14px monospace'; ctx.fillStyle = 'rgba(255,255,255,.4)';
+    ctx.fillText('banking · redefined', W/2, H*.84);
+
+  } else if (style.type === 'botanical') {
+    // Sage green botanical
+    // Leaf shapes
+    const drawLeaf = (lx, ly, rot, size, color) => {
+      ctx.save(); ctx.translate(lx, ly); ctx.rotate(rot);
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(0, -size);
+      ctx.bezierCurveTo(size*.6, -size*.5, size*.6, size*.5, 0, size);
+      ctx.bezierCurveTo(-size*.6, size*.5, -size*.6, -size*.5, 0, -size);
+      ctx.fill();
+      // Vein
+      ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0, -size*.7); ctx.lineTo(0, size*.7); ctx.stroke();
+      ctx.restore();
+    };
+    const leafColors = ['#4a6741','#5a7d50','#3d5536','#6b9460'];
+    for (let i = 0; i < 16; i++) {
+      drawLeaf(r()*W, r()*H, r()*Math.PI*2, r()*60+25, leafColors[Math.floor(r()*leafColors.length)]);
+    }
+    // Center circle label
+    ctx.fillStyle = '#faf7f2';
+    ctx.beginPath(); ctx.arc(W/2, H/2, 100, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#4a6741'; ctx.lineWidth = 2; ctx.globalAlpha = .5;
+    ctx.beginPath(); ctx.arc(W/2, H/2, 110, 0, Math.PI * 2); ctx.stroke();
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = '#4a6741'; ctx.font = '900 20px serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('VERDURE', W/2, H/2 - 14);
+    ctx.font = 'italic 14px serif'; ctx.fillStyle = '#7a6e61';
+    ctx.fillText('botanics', W/2, H/2 + 14);
+  }
+
+  // Vignette
+  const vig = ctx.createRadialGradient(W/2,H/2,H*.2,W/2,H/2,H*.85);
+  vig.addColorStop(0,'transparent'); vig.addColorStop(1,'rgba(8,6,3,.6)');
+  ctx.fillStyle = vig; ctx.fillRect(0, 0, W, H);
+}
+
+drawWorkCard('wc1', 55, { bg: '#1a1208', type: 'luxury' });
+drawWorkCard('wc2', 66, { bg: '#0a0d18', type: 'fintech' });
+drawWorkCard('wc3', 77, { bg: '#1a2318', type: 'botanical' });
+
+/* ─ About canvas: abstract portrait ─ */
+(function() {
+  const canvas = document.getElementById('about-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width  = canvas.offsetWidth || 500;
+  const H = canvas.height = canvas.offsetHeight || 600;
+  const r = rng(88);
+  ctx.fillStyle = '#0e0b07'; ctx.fillRect(0, 0, W, H);
+
+  // Background wash of warm tones
+  for (let i = 0; i < 20; i++) {
+    const bx = r()*W, by = r()*H, br = r()*200+60;
+    const grad = ctx.createRadialGradient(bx, by, 0, bx, by, br);
+    const cols = ['rgba(232,80,10,','rgba(201,146,10,','rgba(156,58,14,'];
+    grad.addColorStop(0, cols[Math.floor(r()*cols.length)] + (r()*.12+.03) + ')');
+    grad.addColorStop(1, 'transparent');
+    ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
+  }
+
+  // Halftone-like dots
+  const dotR = rng(55);
+  for (let x = 10; x < W; x += 20) {
+    for (let y = 10; y < H; y += 20) {
+      const dist = Math.sqrt((x-W/2)**2 + (y-H*.4)**2);
+      const size = Math.max(0, (1 - dist/280)) * 4.5;
+      if (size > .4) {
+        ctx.fillStyle = 'rgba(232,80,10,' + (size/4.5 * .6) + ')';
+        ctx.beginPath();
+        ctx.arc(x + (dotR()-.5)*4, y + (dotR()-.5)*4, size, 0, Math.PI*2);
+        ctx.fill();
+      }
+    }
+  }
+
+  // Abstract face silhouette (geometric)
+  const cx = W/2, cy = H*.42;
+  // Halo ring
+  ctx.strokeStyle = 'rgba(232,80,10,.25)'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(cx, cy, 170, 0, Math.PI*2); ctx.stroke();
+  ctx.setLineDash([5,12]);
+  ctx.strokeStyle = 'rgba(201,146,10,.2)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.arc(cx, cy, 145, 0, Math.PI*2); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Head shape
+  const headGrad = ctx.createLinearGradient(cx-100, cy-130, cx+100, cy+140);
+  headGrad.addColorStop(0, '#d4a07a'); headGrad.addColorStop(.5, '#c08050'); headGrad.addColorStop(1, '#8a5530');
+  ctx.fillStyle = headGrad;
+  ctx.beginPath(); ctx.ellipse(cx, cy, 92, 118, 0, 0, Math.PI*2); ctx.fill();
+
+  // Hair
+  const hairG = ctx.createLinearGradient(cx, cy-120, cx, cy+10);
+  hairG.addColorStop(0, '#1a0800'); hairG.addColorStop(1, '#3d1500');
+  ctx.fillStyle = hairG;
+  ctx.beginPath();
+  ctx.moveTo(cx-92, cy+10);
+  ctx.bezierCurveTo(cx-100, cy-60, cx-60, cy-160, cx, cy-130);
+  ctx.bezierCurveTo(cx+60, cy-160, cx+100, cy-60, cx+92, cy+10);
+  ctx.bezierCurveTo(cx+70, cy-40, cx+40, cy-80, cx, cy-80);
+  ctx.bezierCurveTo(cx-40, cy-80, cx-70, cy-40, cx-92, cy+10);
+  ctx.fill();
+
+  // Beard
+  const beardG = ctx.createLinearGradient(cx, cy+60, cx, cy+140);
+  beardG.addColorStop(0, '#2a0e00'); beardG.addColorStop(1, 'transparent');
+  ctx.fillStyle = beardG;
+  ctx.beginPath();
+  ctx.moveTo(cx-60, cy+60);
+  ctx.bezierCurveTo(cx-70, cy+110, cx-30, cy+150, cx, cy+145);
+  ctx.bezierCurveTo(cx+30, cy+150, cx+70, cy+110, cx+60, cy+60);
+  ctx.fill();
+
+  // Eyes
+  [[cx-32, cy-18], [cx+32, cy-18]].forEach(([ex, ey]) => {
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.ellipse(ex, ey, 20, 12, 0, 0, Math.PI*2); ctx.fill();
+    const iris = ctx.createRadialGradient(ex,ey,0,ex,ey,10);
+    iris.addColorStop(0,'#6b3a10'); iris.addColorStop(1,'#2a1200');
+    ctx.fillStyle = iris; ctx.beginPath(); ctx.arc(ex, ey, 10, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(ex, ey, 5, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.beginPath(); ctx.arc(ex+4, ey-4, 2.5, 0, Math.PI*2); ctx.fill();
+    // Thick brow
+    ctx.strokeStyle = '#1a0800'; ctx.lineWidth = 5; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(ex-18, ey-22); ctx.quadraticCurveTo(ex, ey-30, ex+18, ey-22); ctx.stroke();
+  });
+
+  // Nose
+  ctx.strokeStyle = 'rgba(120,60,20,.55)'; ctx.lineWidth = 2; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(cx, cy-5); ctx.quadraticCurveTo(cx+12, cy+20, cx+16, cy+32); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx+16, cy+32); ctx.quadraticCurveTo(cx+8, cy+40, cx-8, cy+40); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx-8, cy+40); ctx.quadraticCurveTo(cx-16, cy+38, cx-16, cy+32); ctx.stroke();
+
+  // Mouth
+  ctx.strokeStyle = 'rgba(120,50,20,.6)'; ctx.lineWidth = 2.5; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(cx-24, cy+56); ctx.quadraticCurveTo(cx, cy+64, cx+24, cy+56); ctx.stroke();
+
+  // Body shoulders
+  const bodyG = ctx.createLinearGradient(cx, cy+118, cx, H);
+  bodyG.addColorStop(0,'#2a1a08'); bodyG.addColorStop(1,'#0e0b07');
+  ctx.fillStyle = bodyG;
+  ctx.beginPath();
+  ctx.moveTo(0, H);
+  ctx.bezierCurveTo(W*.1, cy+140, cx-70, cy+120, cx-50, cy+118);
+  ctx.bezierCurveTo(cx-20, cy+112, cx+20, cy+112, cx+50, cy+118);
+  ctx.bezierCurveTo(cx+70, cy+120, W*.9, cy+140, W, H);
+  ctx.closePath(); ctx.fill();
+
+  // Collar accent
+  ctx.strokeStyle = 'rgba(232,80,10,.4)'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(cx-15, cy+120); ctx.lineTo(cx, cy+140); ctx.lineTo(cx+15, cy+120); ctx.stroke();
+
+  // Decorative overlay text
+  ctx.font = '700 11px monospace'; ctx.fillStyle = 'rgba(232,80,10,.35)';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  ctx.fillText('BRAND  ·  MOTION  ·  IDENTITY', cx, H - 60);
+
+  // Bottom nameplate
+  ctx.fillStyle = 'rgba(14,11,7,.9)';
+  const nW = 200, nH = 48, nX = cx-nW/2, nY = H-50;
+  ctx.beginPath(); ctx.roundRect(nX, nY, nW, nH, 6); ctx.fill();
+  ctx.strokeStyle = 'rgba(232,80,10,.35)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.roundRect(nX, nY, nW, nH, 6); ctx.stroke();
+  ctx.fillStyle = '#faf7f2'; ctx.font = 'bold 16px serif'; ctx.textAlign = 'center';
+  ctx.fillText('Sofia Marchetti', cx, nY + 14);
+  ctx.fillStyle = '#e8500a'; ctx.font = '11px monospace';
+  ctx.fillText('Brand Designer', cx, nY + 34);
+})();
+
+/* ─ Contact canvas: abstract geometry ─ */
+(function() {
+  const canvas = document.getElementById('contact-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width  = canvas.offsetWidth || 600;
+  const H = canvas.height = canvas.offsetHeight || 600;
+  const r = rng(33);
+  // Concentric circles
+  for (let i = 0; i < 8; i++) {
+    const radius = 60 + i * 60;
+    ctx.strokeStyle = 'rgba(255,255,255,' + (.15 - i*.015) + ')';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.arc(W*.15, H*.85, radius, 0, Math.PI*2); ctx.stroke();
+  }
+  // Diagonal lines
+  ctx.strokeStyle = 'rgba(255,255,255,.08)'; ctx.lineWidth = 1;
+  for (let i = 0; i < 20; i++) {
+    ctx.beginPath();
+    ctx.moveTo(r()*W, 0); ctx.lineTo(r()*W, H); ctx.stroke();
+  }
+  // Scattered dots
+  for (let i = 0; i < 40; i++) {
+    ctx.fillStyle = 'rgba(255,255,255,' + (r()*.4+.05) + ')';
+    ctx.beginPath(); ctx.arc(r()*W, r()*H, r()*3+.5, 0, Math.PI*2); ctx.fill();
+  }
+})();
+
+/* ─ Author avatars: abstract geometric portraits ─ */
+[
+  { id: 'av1', seed: 11, bg: '#1a1208', hair: '#f4d0a0', skin: '#f9e0c0' },
+  { id: 'av2', seed: 22, bg: '#0a0d18', hair: '#1a0800', skin: '#d4a07a' },
+  { id: 'av3', seed: 33, bg: '#1a2318', hair: '#1a0a14', skin: '#e8c0a0' },
+].forEach(({ id, seed, bg, hair, skin }) => {
+  const canvas = document.getElementById(id);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const cx = W/2, cy = H/2;
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+  // Face
+  ctx.fillStyle = skin;
+  ctx.beginPath(); ctx.ellipse(cx, cy+4, 28, 34, 0, 0, Math.PI*2); ctx.fill();
+  // Hair
+  ctx.fillStyle = hair;
+  ctx.beginPath(); ctx.ellipse(cx, cy-14, 30, 24, 0, Math.PI, 0); ctx.fill();
+  // Eyes
+  ctx.fillStyle = '#2a1200';
+  ctx.beginPath(); ctx.ellipse(cx-9, cy-2, 5, 4, 0, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(cx+9, cy-2, 5, 4, 0, 0, Math.PI*2); ctx.fill();
+  // Smile
+  ctx.strokeStyle = 'rgba(140,70,40,.6)'; ctx.lineWidth = 1.5; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.arc(cx, cy+10, 8, .1, Math.PI-.1); ctx.stroke();
+});
+
+/* ─ Scroll reveal ─ */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: .1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+/* ─ Nav active ─ */
+window.addEventListener('scroll', () => {
+  document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+/* ─ Contact form ─ */
+function handleSend(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.c-submit');
+  btn.textContent = 'Message Sent ✓';
+  btn.style.background = '#4a6741';
+  setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; e.target.reset(); }, 3000);
+}
+</script>
+</body>
+</html>

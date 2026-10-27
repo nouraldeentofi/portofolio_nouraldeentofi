@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOUR — Episode 26: The Frontend Arc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:ital,wght@0,400;0,700;0,900;1,400&family=Noto+Sans+JP:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#fffdf5;--ink:#101010;--red:#e63946;--yellow:#ffd60a;--blue:#1d7fd1;--halftone:rgba(16,16,16,.16)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Nunito',sans-serif;background:var(--paper);color:var(--ink);overflow-x:hidden}
+  ::selection{background:var(--yellow)}
+
+  /* speed lines + halftone fixed bg */
+  #speed{position:fixed;inset:-25%;z-index:0;opacity:.14;pointer-events:none;
+    background:repeating-conic-gradient(from 0deg at 50% 50%,var(--ink) 0deg .7deg,transparent .7deg 6deg)}
+  #tone{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+    background:radial-gradient(var(--halftone) 1px,transparent 1.5px);background-size:9px 9px}
+
+  main{position:relative;z-index:2}
+  .panel{background:#fff;border:5px solid var(--ink);box-shadow:10px 10px 0 var(--ink);position:relative}
+
+  /* ===== HERO ===== */
+  #hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8vh 5vw;position:relative;overflow:hidden}
+  .ep{font-family:'Noto Sans JP',sans-serif;font-weight:900;letter-spacing:6px;font-size:clamp(12px,1.8vw,16px);background:var(--ink);color:var(--yellow);padding:8px 18px;display:inline-block;transform:rotate(-2deg)}
+  h1{font-family:'Bangers',cursive;font-size:clamp(72px,15vw,220px);line-height:.9;letter-spacing:4px;
+    color:var(--red);-webkit-text-stroke:3px var(--ink);text-shadow:8px 8px 0 var(--ink);margin:18px 0 8px}
+  #hero .arc{font-family:'Bangers',cursive;font-size:clamp(24px,4vw,44px);letter-spacing:3px;color:var(--ink)}
+  #hero .jp{font-family:'Noto Sans JP',sans-serif;font-weight:900;font-size:clamp(14px,2vw,20px);color:var(--red);margin-top:10px;letter-spacing:8px}
+  .sfx{position:absolute;font-family:'Bangers',cursive;color:var(--yellow);-webkit-text-stroke:2.5px var(--ink);
+    text-shadow:5px 5px 0 var(--ink);font-size:clamp(38px,6vw,84px);pointer-events:none;z-index:3}
+  #hint{margin-top:44px;font-family:'Bangers',cursive;letter-spacing:3px;font-size:20px;color:var(--ink);animation:shake 1.4s infinite}
+  @keyframes shake{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(10px) rotate(2deg)}}
+
+  /* ===== STAT CARD ===== */
+  #statSec{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:12vh 5vw}
+  #statCard{max-width:680px;padding:40px 44px;transform:rotate(-1deg)}
+  .label{font-family:'Bangers',cursive;letter-spacing:2px;font-size:15px;background:var(--red);color:#fff;padding:5px 14px;display:inline-block;transform:rotate(-2deg);margin-bottom:14px;border:3px solid var(--ink)}
+  h2{font-family:'Bangers',cursive;font-size:clamp(30px,5vw,54px);letter-spacing:2px;line-height:1;margin-bottom:12px}
+  h2 .r{color:var(--red)}
+  p{font-size:16.5px;line-height:1.65;font-weight:700}
+  p+p{margin-top:10px}
+  .statgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px;font-weight:900;font-size:14px}
+  .statgrid div{border:3px solid var(--ink);padding:8px 12px;background:var(--paper)}
+  .statgrid b{color:var(--red)}
+  @media(max-width:620px){.statgrid{grid-template-columns:1fr}}
+
+  /* ===== HORIZONTAL MANGA STRIP ===== */
+  #stripWrap{position:relative;overflow:hidden}
+  #strip{display:flex;height:100vh;width:500vw}
+  .page{width:100vw;height:100vh;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:10vh 7vw;position:relative}
+  .page .panel{max-width:560px;padding:38px 40px;transform:rotate(var(--tilt,1deg))}
+  .pageno{position:absolute;bottom:26px;right:34px;font-family:'Bangers',cursive;font-size:22px;letter-spacing:2px;opacity:.55}
+  .meta{font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:12px;letter-spacing:2px;color:var(--blue);margin-bottom:8px}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .tag{font-weight:900;font-size:12.5px;padding:5px 12px;border:3px solid var(--ink);background:var(--yellow);transform:rotate(-1deg)}
+  .tag.b{background:#fff;transform:rotate(1deg)}
+  .bigsfx{position:absolute;font-family:'Bangers',cursive;font-size:clamp(50px,8vw,110px);color:var(--red);
+    -webkit-text-stroke:3px var(--ink);text-shadow:6px 6px 0 var(--ink);transform:rotate(-8deg);pointer-events:none}
+
+  /* ===== POWER LEVELS ===== */
+  #power{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:12vh 5vw}
+  #powerCard{max-width:720px;width:100%;padding:40px 44px;transform:rotate(.6deg)}
+  .pw{margin-top:14px}
+  .pw .row{display:flex;justify-content:space-between;font-weight:900;font-size:14.5px;margin-bottom:5px}
+  .pw .num{font-family:'Bangers',cursive;letter-spacing:1px;color:var(--red);font-size:18px}
+  .bar{height:20px;border:3.5px solid var(--ink);background:#fff;position:relative;overflow:hidden}
+  .fill{height:100%;width:0;background:repeating-linear-gradient(45deg,var(--red) 0 14px,#ff6b74 14px 28px)}
+  .fill.y{background:repeating-linear-gradient(45deg,var(--yellow) 0 14px,#ffe566 14px 28px)}
+  .fill.b{background:repeating-linear-gradient(45deg,var(--blue) 0 14px,#5da9e6 14px 28px)}
+
+  /* ===== SCROLLS (certs) ===== */
+  #scrolls{min-height:90vh;display:flex;align-items:center;justify-content:center;padding:12vh 5vw}
+  #scrollCard{max-width:720px;padding:40px 44px;transform:rotate(-0.8deg)}
+  .scrollgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+  @media(max-width:620px){.scrollgrid{grid-template-columns:1fr}}
+  .scroll{border:3px solid var(--ink);background:#fff8e1;padding:11px 14px;font-weight:800;font-size:13.5px;position:relative;line-height:1.35}
+  .scroll::before{content:'巻';position:absolute;top:-12px;left:-12px;width:26px;height:26px;background:var(--red);color:#fff;
+    font-family:'Noto Sans JP';font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center;border:3px solid var(--ink);border-radius:50%}
+  .scroll b{color:var(--red)}
+
+  /* ===== FINALE ===== */
+  #finale{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10vh 5vw;position:relative;overflow:hidden}
+  #tbc{font-family:'Bangers',cursive;font-size:clamp(44px,9vw,120px);letter-spacing:4px;color:var(--ink);line-height:.95}
+  #tbc .r{color:var(--red);-webkit-text-stroke:2px var(--ink);text-shadow:6px 6px 0 var(--ink)}
+  #finale .nextep{font-family:'Noto Sans JP',sans-serif;font-weight:900;letter-spacing:4px;margin-top:14px;font-size:clamp(13px,2vw,17px)}
+  .btnrow{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px;justify-content:center}
+  .btn{font-family:'Bangers',cursive;letter-spacing:2px;font-size:19px;padding:14px 26px;border:4px solid var(--ink);
+    background:var(--red);color:#fff;text-decoration:none;box-shadow:7px 7px 0 var(--ink);transition:transform .15s,box-shadow .15s}
+  .btn.y{background:var(--yellow);color:var(--ink)}
+  .btn.w{background:#fff;color:var(--ink)}
+  .btn:hover{transform:translate(3px,3px);box-shadow:3px 3px 0 var(--ink)}
+  #arrow{position:absolute;bottom:6vh;right:6vw;font-family:'Bangers',cursive;font-size:18px;letter-spacing:2px;transform:rotate(-6deg);opacity:.7}
+  .splat{position:absolute;z-index:0;opacity:.9;pointer-events:none}
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    #strip{display:block!important;width:auto!important;height:auto!important}
+    .page{width:100%!important;height:auto!important;min-height:70vh}
+  }
+  /* fallback if GSAP fails to load */
+  html.nofx #strip{display:block;width:auto;height:auto}
+  html.nofx .page{width:100%;height:auto;min-height:70vh}
+</style>
+</head>
+<body>
+
+<div id="speed"></div><div id="tone"></div>
+
+<main>
+  <!-- HERO -->
+  <section id="hero">
+    <svg class="splat" style="top:8%;left:6%;width:130px" viewBox="0 0 100 100"><path d="M50 8 L58 34 L86 26 L66 48 L92 62 L62 60 L68 90 L48 66 L28 88 L36 58 L8 56 L34 44 L20 16 L46 34Z" fill="var(--red)"/></svg>
+    <svg class="splat" style="bottom:10%;right:7%;width:100px" viewBox="0 0 100 100"><path d="M50 8 L58 34 L86 26 L66 48 L92 62 L62 60 L68 90 L48 66 L28 88 L36 58 L8 56 L34 44 L20 16 L46 34Z" fill="var(--yellow)"/></svg>
+    <div class="sfx" style="top:16%;right:12%" data-sfx>ドン!!</div>
+    <div class="sfx" style="bottom:22%;left:9%;color:var(--red)" data-sfx>ゴゴゴ…</div>
+    <div class="ep">EPISODE 26 · 第26話</div>
+    <h1 data-slam>NOUR</h1>
+    <div class="arc">— THE FRONTEND ARC —</div>
+    <div class="jp">ヌール・アルディーン・トフィ</div>
+    <p style="max-width:520px;margin-top:16px">A young developer from Riyadh with a supervisor's eye and a competitive programmer's reflexes. His quest: ship interfaces so clean they make senpai notice.</p>
+    <div id="hint">▼ SCROLL, HERO, SCROLL! ▼</div>
+  </section>
+
+  <!-- STAT CARD -->
+  <section id="statSec">
+    <div class="panel" id="statCard" data-reveal>
+      <span class="label">CHARACTER FILE · キャラクター</span>
+      <h2>NOUR ALDEEN <span class="r">TOFI</span></h2>
+      <p>Class: <strong>Frontend Developer / Software Engineering Supervisor.</strong> Guild: Distinctive Frontier Co. (Riyadh). ~3 years of ranked matches in production codebases. Dual-wields code and coordination.</p>
+      <div class="statgrid">
+        <div>HOMETOWN → <b>Riyadh, Saudi Arabia</b></div>
+        <div>EDUCATION → <b>B.Tech IT, Univ. of Kalamoon '24</b></div>
+        <div>SPECIAL TRAINING → <b>ICPC / ACPC 2021</b></div>
+        <div>LANGUAGES → <b>Arabic + English</b></div>
+        <div>HOBBY SKILLS → <b>Anime · Chess · Badminton</b></div>
+        <div>ALIGNMENT → <b>Chaotic Clean-Code</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HORIZONTAL STRIP -->
+  <div id="stripWrap">
+    <div id="strip">
+      <div class="page">
+        <div class="bigsfx" style="top:12%;left:8%" data-pop>バン!</div>
+        <div class="panel" style="--tilt:-1.4deg">
+          <span class="label">CH.1 · FIRST MISSION</span>
+          <div class="meta">JUN 2023 → FEB 2024</div>
+          <h2>MINICODELEADER <span class="r">— React rookie</span></h2>
+          <p>Every shōnen starts with a nobody. Component-driven React development, first real codebase, first merge conflicts survived. Training arc complete.</p>
+          <div class="tags"><span class="tag">React</span><span class="tag b">Components</span><span class="tag b">Grit</span></div>
+        </div>
+        <div class="pageno">PAGE 1 / 5</div>
+      </div>
+      <div class="page">
+        <div class="bigsfx" style="top:14%;right:9%" data-pop>シュッ!</div>
+        <div class="panel" style="--tilt:1.2deg">
+          <span class="label">CH.2 · NEW CITY</span>
+          <div class="meta">SEP 2024 → APR 2025 · RIYADH</div>
+          <h2>KHWARIZM <span class="r">TECHNOLOGIES</span></h2>
+          <p>Our hero moves to the capital. Production React under real deadlines, side-by-side with designers and backend warriors. Power level rising.</p>
+          <div class="tags"><span class="tag">Production React</span><span class="tag b">Teamwork</span></div>
+        </div>
+        <div class="pageno">PAGE 2 / 5</div>
+      </div>
+      <div class="page">
+        <div class="bigsfx" style="bottom:16%;left:10%" data-pop>ドドド!</div>
+        <div class="panel" style="--tilt:-1deg">
+          <span class="label">CH.3 · THE GUILD</span>
+          <div class="meta">JAN 2025 → JAN 2026</div>
+          <h2>DISTINCTIVE <span class="r">FRONTIER CO.</span></h2>
+          <p>Frontend Developer &amp; Project Coordinator at a safety equipment guild. Builds scalable UI by day, coordinates quests by… also day. Two jobs, one paycheck, classic protagonist behavior.</p>
+          <div class="tags"><span class="tag">React UI Systems</span><span class="tag b">Coordination</span></div>
+        </div>
+        <div class="pageno">PAGE 3 / 5</div>
+      </div>
+      <div class="page">
+        <div class="bigsfx" style="top:10%;left:38%" data-pop>覚醒!!</div>
+        <div class="panel" style="--tilt:1.6deg">
+          <span class="label">CH.4 · POWER AWAKENING</span>
+          <div class="meta">JAN 2026 → PRESENT</div>
+          <h2>SOFTWARE ENGINEERING <span class="r">SUPERVISOR</span></h2>
+          <p>The promotion episode. Now leads the frontend squad: coding standards, architecture calls, backend alliances, product ideas forged into shipped features. The student becomes the senpai.</p>
+          <div class="tags"><span class="tag">Team Leadership</span><span class="tag b">Standards</span><span class="tag b">Architecture</span></div>
+        </div>
+        <div class="pageno">PAGE 4 / 5</div>
+      </div>
+      <div class="page">
+        <div class="bigsfx" style="bottom:14%;right:8%" data-pop>キラ✦</div>
+        <div class="panel" style="--tilt:-1.2deg">
+          <span class="label">CH.5 · SIDE QUEST</span>
+          <div class="meta">MAR 2025 → PRESENT · NEXLEAD (REMOTE)</div>
+          <h2>THE GOLDENTAG <span class="r">TREASURE</span></h2>
+          <p>Freelance Project Coordinator: requirements, scope, user stories on Trello, quality across the whole party. Loot drop: <strong>GoldenTag</strong>, a jewelry store management app on Google Play — inventory, barcode scanning, USD/SYP rates, sales logs.</p>
+          <div class="tags"><span class="tag">GoldenTag</span><span class="tag b">Google Play</span><span class="tag b">Client Quests</span></div>
+        </div>
+        <div class="pageno">PAGE 5 / 5</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POWER LEVELS -->
+  <section id="power">
+    <div class="panel" id="powerCard" data-reveal>
+      <span class="label">POWER SCAN · 戦闘力</span>
+      <h2>SPECIAL <span class="r">TECHNIQUES</span></h2>
+      <div class="pw"><div class="row"><span>REACT — Ultimate Move</span><span class="num" data-count="9001">0</span></div><div class="bar"><div class="fill" data-fill="96"></div></div></div>
+      <div class="pw"><div class="row"><span>TYPESCRIPT — Type Barrier</span><span class="num" data-count="8400">0</span></div><div class="bar"><div class="fill b" data-fill="90"></div></div></div>
+      <div class="pw"><div class="row"><span>TAILWIND CSS — Speed Style</span><span class="num" data-count="8200">0</span></div><div class="bar"><div class="fill y" data-fill="88"></div></div></div>
+      <div class="pw"><div class="row"><span>JAVASCRIPT — Origin Art</span><span class="num" data-count="8600">0</span></div><div class="bar"><div class="fill" data-fill="92"></div></div></div>
+      <div class="pw"><div class="row"><span>PROJECT COORDINATION — Commander Aura</span><span class="num" data-count="8800">0</span></div><div class="bar"><div class="fill b" data-fill="94"></div></div></div>
+      <div class="pw"><div class="row"><span>PYTHON / AI — Hidden Technique</span><span class="num" data-count="6500">0</span></div><div class="bar"><div class="fill y" data-fill="70"></div></div></div>
+      <p style="margin-top:16px;font-size:13.5px">Scouter note: React reading exceeds 9000. Device warranty void. Also carries: Git, Jira, Trello, Prompt Engineering, Clean Code discipline.</p>
+    </div>
+  </section>
+
+  <!-- SCROLLS -->
+  <section id="scrolls">
+    <div class="panel" id="scrollCard" data-reveal>
+      <span class="label">FORBIDDEN SCROLLS COLLECTED · 免許皆伝</span>
+      <h2>TRAINING <span class="r">COMPLETED</span></h2>
+      <div class="scrollgrid">
+        <div class="scroll"><b>Advanced React</b> — Meta Dojo, 2025</div>
+        <div class="scroll"><b>TypeScript in React</b> — Coursera, 2025</div>
+        <div class="scroll"><b>Foundations of Project Mgmt</b> — Google, 2025</div>
+        <div class="scroll"><b>Project Initiation</b> — Google, 2025</div>
+        <div class="scroll"><b>Python for DS, AI & Dev</b> — IBM, 2024</div>
+        <div class="scroll"><b>GenAI Prompt Engineering</b> — IBM, 2024</div>
+        <div class="scroll"><b>Tailwind From Scratch</b> — Packt, 2024</div>
+        <div class="scroll"><b>Clean Code Basics</b> — Scrimba, 2024</div>
+        <div class="scroll"><b>Jira: Roadmaps & User Stories</b> — Coursera, 2025</div>
+        <div class="scroll"><b>ICPC / ACPC Tournament</b> — 2021 Arc</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINALE -->
+  <section id="finale">
+    <div class="sfx" style="top:12%;left:10%" data-sfx>ゴゴゴゴ</div>
+    <div id="tbc" data-slam>TO BE CONTINUED<br><span class="r">IN YOUR PROJECT…</span></div>
+    <div class="nextep">次回 — NEXT EPISODE: "THE CLIENT APPEARS!"</div>
+    <p style="max-width:540px;margin-top:16px;font-weight:800">Websites · React frontends · logos · business cards · social media graphics · project coordination. Summon the protagonist:</p>
+    <div class="btnrow">
+      <a class="btn" href="mailto:nouraldeentofi@gmail.com">SUMMON VIA EMAIL</a>
+      <a class="btn y" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LINKEDIN</a>
+      <a class="btn w" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">WEBSITE</a>
+    </div>
+    <div id="arrow">つづく →</div>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* speed lines rotate slowly + intensify on scroll */
+if(!reduced){
+  gsap.to('#speed',{rotation:360,duration:120,repeat:-1,ease:'none'});
+  ScrollTrigger.create({trigger:'main',start:'top top',end:'bottom bottom',scrub:true,
+    onUpdate(s){document.getElementById('speed').style.opacity=.10+Math.abs(s.getVelocity())/9000*.5;}});
+}
+
+/* hero slam-in */
+if(!reduced){
+  gsap.from('[data-slam]',{scale:2.2,opacity:0,rotation:-6,duration:.7,ease:'power4.out'});
+  gsap.from('.ep,.arc,.jp',{y:40,opacity:0,stagger:.12,delay:.3,duration:.6,ease:'back.out(1.7)'});
+}
+gsap.utils.toArray('[data-sfx]').forEach(s=>{
+  gsap.from(s,{scale:0,rotation:20,duration:.6,ease:'elastic.out(1,.4)',delay:Math.random()*.6,
+    scrollTrigger:{trigger:s,start:'top 85%'}});
+  if(!reduced) gsap.to(s,{y:-10,rotation:'+=3',duration:2,repeat:-1,yoyo:true,ease:'sine.inOut'});
+});
+
+/* generic reveals */
+gsap.utils.toArray('[data-reveal]').forEach(p=>{
+  gsap.from(p,{opacity:0,y:reduced?0:80,rotation:reduced?0:-3,scale:reduced?1:.94,duration:.7,ease:'back.out(1.3)',
+    scrollTrigger:{trigger:p,start:'top 78%',toggleActions:'play none none reverse'}});
+});
+
+/* horizontal manga strip (vertical stack when reduced motion) */
+if(!reduced){
+  const horiz=gsap.to('#strip',{x:()=>-(document.getElementById('strip').scrollWidth-innerWidth),ease:'none',
+    scrollTrigger:{trigger:'#stripWrap',start:'top top',end:()=>'+='+(document.getElementById('strip').scrollWidth-innerWidth),
+      pin:true,scrub:1,invalidateOnRefresh:true,anticipatePin:1}});
+  gsap.utils.toArray('[data-pop]').forEach(el=>{
+    gsap.from(el,{scale:0,rotation:-30,duration:.7,ease:'elastic.out(1,.45)',
+      scrollTrigger:{trigger:el,containerAnimation:horiz,start:'left 75%'}});
+  });
+  gsap.utils.toArray('.page .panel').forEach(el=>{
+    gsap.from(el,{opacity:0,scale:.85,duration:.5,ease:'power3.out',
+      scrollTrigger:{trigger:el,containerAnimation:horiz,start:'left 80%'}});
+  });
+}
+
+/* power bars + counters */
+ScrollTrigger.create({trigger:'#powerCard',start:'top 65%',once:true,onEnter(){
+  gsap.utils.toArray('.fill').forEach(f=>gsap.to(f,{width:f.dataset.fill+'%',duration:reduced?0:1.4,ease:'power2.out'}));
+  gsap.utils.toArray('[data-count]').forEach(n=>{
+    const target=+n.dataset.count;const o={v:0};
+    gsap.to(o,{v:target,duration:reduced?0:1.6,ease:'power2.out',onUpdate(){n.textContent=Math.round(o.v).toLocaleString();},
+      onComplete(){if(target>9000){n.textContent='9,001!!';gsap.fromTo(n,{scale:1.8,color:'#e63946'},{scale:1,duration:.5,ease:'back.out(2)'});}}});
+  });
+}});
+
+/* scroll certs stagger */
+gsap.from('.scroll',{opacity:0,x:-30,rotation:-2,stagger:.06,duration:.45,ease:'power2.out',
+  scrollTrigger:{trigger:'.scrollgrid',start:'top 80%'}});
+
+/* finale slam */
+gsap.from('#tbc',{scale:.4,opacity:0,rotation:4,duration:.8,ease:'elastic.out(1,.5)',
+  scrollTrigger:{trigger:'#finale',start:'top 60%'}});
+gsap.to('#hint',{opacity:0,scrollTrigger:{trigger:'#hero',start:'top top',end:'30% top',scrub:true}});
+</script>
+<script>
+if(!window.gsap||!window.ScrollTrigger){document.documentElement.classList.add('nofx');}
+</script>
+</body>
+</html>

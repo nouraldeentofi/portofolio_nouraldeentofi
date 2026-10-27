@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — The Descent · 4,000m</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;700&family=Archivo:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --strato:#0b1e3f; --high:#1d4e89; --mid:#4a90c2; --low:#8fc1e3; --dawn:#f2b880; --ground:#e8d5a3;
+    --orange:#ff5c00; --white:#f7f9fc; --ink:#0a1626; --hud:#9fe870;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:auto}
+  body{
+    font-family:'Archivo',sans-serif;color:var(--white);
+    background:var(--strato);overflow-x:hidden;
+  }
+  ::selection{background:var(--orange);color:#fff}
+
+  /* ============ FIXED SKY ============ */
+  #sky{position:fixed;inset:0;z-index:0;background:linear-gradient(180deg,var(--strato),var(--high));}
+  #stars{position:absolute;inset:0;opacity:1;transition:opacity .3s}
+  .star{position:absolute;background:#fff;border-radius:50%;animation:twinkle 3s infinite}
+  @keyframes twinkle{0%,100%{opacity:.9}50%{opacity:.2}}
+  .cloud{position:absolute;background:rgba(255,255,255,.85);border-radius:100px;filter:blur(6px)}
+  .cloud::before,.cloud::after{content:'';position:absolute;background:inherit;border-radius:50%}
+  .cloud::before{width:60%;height:160%;top:-70%;left:15%}
+  .cloud::after{width:45%;height:120%;top:-45%;right:12%}
+  .windline{position:absolute;width:2px;background:linear-gradient(180deg,transparent,rgba(255,255,255,.5),transparent);border-radius:2px}
+
+  /* ============ AVATAR (falls with you) ============ */
+  #jumper{position:fixed;left:50%;top:38vh;transform:translateX(-50%);z-index:5;width:120px;pointer-events:none;transform-origin:center}
+  #jumperInner{animation:wobble 2.6s ease-in-out infinite;transform-origin:50% 30%}
+  @keyframes wobble{0%,100%{transform:rotate(-4deg) translateY(0)}50%{transform:rotate(4deg) translateY(8px)}}
+  /* CSS-drawn skydiver */
+  .head{width:52px;height:52px;background:#e8b98a;border-radius:50%;margin:0 auto;position:relative;border:3px solid var(--ink)}
+  .helmet{position:absolute;top:-8px;left:-3px;width:52px;height:34px;background:var(--orange);border-radius:28px 28px 6px 6px;border:3px solid var(--ink)}
+  .goggles{position:absolute;top:16px;left:4px;width:38px;height:14px;background:#173a5e;border-radius:8px;border:2px solid var(--ink)}
+  .goggles::after{content:'';position:absolute;top:2px;left:4px;width:12px;height:4px;background:rgba(255,255,255,.7);border-radius:4px}
+  .smile{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:16px;height:8px;border:2.5px solid var(--ink);border-top:none;border-radius:0 0 12px 12px}
+  .torso{width:56px;height:64px;background:var(--orange);border-radius:16px 16px 10px 10px;margin:-4px auto 0;border:3px solid var(--ink);position:relative}
+  .torso::after{content:'NT';position:absolute;top:8px;left:50%;transform:translateX(-50%);font-family:'Anton';font-size:14px;color:#fff;letter-spacing:1px}
+  .arm{position:absolute;width:14px;height:52px;background:var(--orange);border:3px solid var(--ink);border-radius:10px}
+  .arm.l{left:-16px;top:2px;transform:rotate(38deg);transform-origin:top center;animation:armL 2.6s ease-in-out infinite}
+  .arm.r{right:-16px;top:2px;transform:rotate(-38deg);transform-origin:top center;animation:armR 2.6s ease-in-out infinite}
+  @keyframes armL{0%,100%{transform:rotate(38deg)}50%{transform:rotate(52deg)}}
+  @keyframes armR{0%,100%{transform:rotate(-38deg)}50%{transform:rotate(-52deg)}}
+  .leg{position:absolute;width:15px;height:46px;background:#173a5e;border:3px solid var(--ink);border-radius:10px;top:56px}
+  .leg.l{left:8px;transform:rotate(14deg);transform-origin:top center}
+  .leg.r{right:8px;transform:rotate(-14deg);transform-origin:top center}
+  /* parachute — hidden until deploy */
+  #chute{position:absolute;left:50%;top:-120px;transform:translateX(-50%) scale(0);width:220px;transform-origin:bottom center}
+  #chute .canopy{width:220px;height:90px;background:repeating-linear-gradient(90deg,var(--orange) 0 36px,#fff 36px 72px);border-radius:110px 110px 14px 14px;border:3px solid var(--ink)}
+  #chute .cords{position:absolute;top:88px;left:50%;transform:translateX(-50%);width:150px;height:60px}
+  #chute .cords span{position:absolute;top:0;width:2px;height:64px;background:var(--ink)}
+  #chute .cords span:nth-child(1){left:0;transform:rotate(28deg);transform-origin:top}
+  #chute .cords span:nth-child(2){left:50%;height:60px}
+  #chute .cords span:nth-child(3){right:0;transform:rotate(-28deg);transform-origin:top}
+
+  /* ============ HUD ============ */
+  #hud{position:fixed;top:24px;right:24px;z-index:20;font-family:'IBM Plex Mono',monospace;text-align:right;
+    background:rgba(6,15,30,.55);border:1px solid rgba(159,232,112,.35);border-radius:10px;padding:14px 18px;backdrop-filter:blur(6px)}
+  #alt{font-size:clamp(26px,4vw,40px);font-weight:700;color:var(--hud);line-height:1;letter-spacing:1px}
+  #alt span{font-size:.45em;opacity:.7}
+  #spd{font-size:12px;color:var(--hud);opacity:.75;margin-top:6px}
+  #chapter{position:fixed;top:24px;left:24px;z-index:20;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:2px;
+    color:var(--hud);background:rgba(6,15,30,.55);border:1px solid rgba(159,232,112,.35);border-radius:10px;padding:12px 16px;backdrop-filter:blur(6px);max-width:46vw}
+  #progressBar{position:fixed;left:0;top:0;height:3px;background:var(--orange);width:0;z-index:30}
+
+  /* ============ CONTENT ============ */
+  main{position:relative;z-index:10}
+  section{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:14vh 6vw;position:relative}
+  .card{max-width:640px;background:rgba(7,17,33,.66);border:1px solid rgba(255,255,255,.14);border-radius:18px;
+    padding:42px 44px;backdrop-filter:blur(10px);box-shadow:0 30px 80px rgba(0,0,0,.35)}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:3px;color:var(--orange);text-transform:uppercase;margin-bottom:14px}
+  h1{font-family:'Anton',sans-serif;font-size:clamp(52px,9vw,120px);line-height:.95;text-transform:uppercase;letter-spacing:1px}
+  h2{font-family:'Anton',sans-serif;font-size:clamp(30px,4.6vw,52px);line-height:1.02;text-transform:uppercase;margin-bottom:16px}
+  p{font-size:16.5px;line-height:1.65;color:rgba(247,249,252,.88)}
+  p+p{margin-top:12px}
+  .meta{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--hud);margin-bottom:10px;letter-spacing:1px}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .tag{font-family:'IBM Plex Mono',monospace;font-size:12px;padding:6px 12px;border:1px solid rgba(255,255,255,.28);border-radius:999px;color:#fff}
+  .tag.hot{border-color:var(--orange);color:var(--orange)}
+  a{color:var(--hud);text-decoration:none;border-bottom:1px dashed rgba(159,232,112,.5)}
+  a:hover{color:#fff;border-color:#fff}
+
+  /* hero */
+  #hero{flex-direction:column;text-align:center}
+  #plane{font-size:12px;font-family:'IBM Plex Mono',monospace;letter-spacing:3px;color:rgba(255,255,255,.65);margin-bottom:8px}
+  .planeArt{width:min(420px,80vw);margin:0 auto 26px;display:block}
+  #hero .sub{font-family:'IBM Plex Mono',monospace;color:var(--hud);letter-spacing:2px;font-size:clamp(12px,1.6vw,15px);margin-top:18px}
+  #jumpHint{margin-top:44px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:3px;color:var(--orange);animation:bounce 1.6s infinite}
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
+
+  /* skill drops */
+  .dropzone{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+  .drop{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:14px;background:var(--orange);color:#fff;
+    padding:10px 16px;border-radius:10px;border:2px solid rgba(0,0,0,.25);box-shadow:0 8px 0 rgba(0,0,0,.25)}
+  .drop.alt{background:#173a5e}
+
+  /* certs strip */
+  .certs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+  .cert{font-size:13px;padding:12px 14px;border:1px dashed rgba(255,255,255,.3);border-radius:10px;line-height:1.4}
+  .cert b{color:var(--hud);font-weight:600}
+  @media(max-width:640px){.certs{grid-template-columns:1fr}.card{padding:30px 24px}}
+
+  /* landing */
+  #landing{background:none}
+  #groundFill{position:fixed;bottom:-100vh;left:0;width:100%;height:100vh;z-index:2;
+    background:linear-gradient(180deg,var(--ground),#caa96b);}
+  #groundFill::before{content:'';position:absolute;top:-40px;left:0;width:200%;height:80px;
+    background:radial-gradient(60px 40px at 40px 60px,#b5cf8f 30%,transparent 32%) 0 0/140px 80px repeat-x}
+  .contactRow{display:flex;flex-wrap:wrap;gap:14px;margin-top:24px}
+  .btn{font-family:'IBM Plex Mono',monospace;font-weight:700;letter-spacing:1px;font-size:14px;padding:14px 22px;border-radius:12px;
+    border:2px solid var(--orange);color:#fff;background:var(--orange);transition:transform .2s,box-shadow .2s;box-shadow:0 10px 24px rgba(255,92,0,.35)}
+  .btn.ghost{background:transparent;color:var(--orange)}
+  .btn:hover{transform:translateY(-3px)}
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+
+<div id="sky">
+  <div id="stars"></div>
+  <div id="cloudLayerFar"></div>
+  <div id="cloudLayerNear"></div>
+  <div id="windLayer"></div>
+</div>
+<div id="groundFill"></div>
+
+<div id="jumper" aria-hidden="true">
+  <div id="chute"><div class="canopy"></div><div class="cords"><span></span><span></span><span></span></div></div>
+  <div id="jumperInner">
+    <div class="head"><div class="helmet"></div><div class="goggles"></div><div class="smile"></div></div>
+    <div class="torso"><div class="arm l"></div><div class="arm r"></div><div class="leg l"></div><div class="leg r"></div></div>
+  </div>
+</div>
+
+<div id="progressBar"></div>
+<div id="hud" role="status">
+  <div id="alt">4000<span> M</span></div>
+  <div id="spd">▼ 0 KM/H · FREEFALL</div>
+</div>
+<div id="chapter">FLIGHT NT-2026 · RIYADH DROPZONE</div>
+
+<main>
+  <!-- 4000m -->
+  <section id="hero">
+    <svg class="planeArt" viewBox="0 0 420 120" fill="none" aria-hidden="true">
+      <path d="M30 70 L300 70 Q345 70 365 52 L400 22 L378 70 Q370 86 340 88 L60 88 Q38 88 30 70Z" fill="#f7f9fc" stroke="#0a1626" stroke-width="4"/>
+      <rect x="88" y="52" width="150" height="12" rx="6" fill="#173a5e"/>
+      <path d="M150 88 L128 114 L166 114 Z" fill="#ff5c00" stroke="#0a1626" stroke-width="4"/>
+      <circle cx="330" cy="60" r="5" fill="#173a5e"/><circle cx="308" cy="60" r="5" fill="#173a5e"/><circle cx="286" cy="60" r="5" fill="#173a5e"/>
+    </svg>
+    <div id="plane">ALTITUDE 4,000 M · DOOR OPEN · GERONIMOOOO</div>
+    <h1>Nour Aldeen<br>Tofi</h1>
+    <div class="sub">FRONTEND DEVELOPER & SOFTWARE ENGINEERING SUPERVISOR</div>
+    <div id="jumpHint">▼ SCROLL TO JUMP ▼</div>
+  </section>
+
+  <!-- 3500m — about -->
+  <section>
+    <div class="card" data-reveal>
+      <div class="eyebrow">3,500 M — Who's falling</div>
+      <h2>Three years of building, one big leap</h2>
+      <p>I'm a frontend developer and software engineering supervisor based in Riyadh, Saudi Arabia. For ~3 years I've shipped modern, scalable web apps with React and TypeScript — and led the teams building them.</p>
+      <p>Rare combo on this flight manifest: I write the code <em>and</em> run the project. Requirements, scope, delivery, clean commits — all the way to the ground.</p>
+      <div class="tags"><span class="tag hot">Riyadh, KSA</span><span class="tag">B.Tech IT — University of Kalamoon</span><span class="tag">Arabic + English</span></div>
+    </div>
+  </section>
+
+  <!-- 3000m — current role -->
+  <section>
+    <div class="card" data-reveal>
+      <div class="eyebrow">3,000 M — Current altitude</div>
+      <div class="meta">JAN 2026 → PRESENT</div>
+      <h2>Software Engineering Supervisor</h2>
+      <p><strong>Distinctive Frontier Co. for Safety Equipment — Riyadh.</strong> Fitting, right? A safety equipment company, and here I am skydiving.</p>
+      <p>I lead frontend development: scalable React UI systems, coding standards, backend collaboration, and turning product ideas into shipped features that match business goals. Before the promotion I spent a year here as Frontend Developer & Project Coordinator.</p>
+      <div class="tags"><span class="tag hot">React</span><span class="tag hot">Team Leadership</span><span class="tag">UI Architecture</span><span class="tag">Code Standards</span></div>
+    </div>
+  </section>
+
+  <!-- 2500m — NexLead -->
+  <section>
+    <div class="card" data-reveal>
+      <div class="eyebrow">2,500 M — Side wind</div>
+      <div class="meta">MAR 2025 → PRESENT · REMOTE</div>
+      <h2>Freelance Project Coordinator — NexLead</h2>
+      <p>Client-facing coordination: gathering requirements, defining scope and acceptance criteria, slicing work into user stories on Trello, and steering frontend, backend and UI/UX quality through to release.</p>
+      <p><strong>Flagship drop: GoldenTag</strong> — a jewelry store management app on Google Play. Inventory, employees, barcode scanning, USD/SYP exchange rates, sales logging, TXT export.</p>
+      <div class="tags"><span class="tag hot">GoldenTag · Google Play</span><span class="tag">Trello</span><span class="tag">Cost & Timeline</span><span class="tag">Release Mgmt</span></div>
+    </div>
+  </section>
+
+  <!-- 2000m — earlier roles -->
+  <section>
+    <div class="card" data-reveal>
+      <div class="eyebrow">2,000 M — Earlier jumps</div>
+      <div class="meta">SEP 2024 → APR 2025</div>
+      <h2>Frontend Developer — Khwarizm Technologies</h2>
+      <p>Riyadh. Modern web interfaces, production React work, tight collaboration with design and backend.</p>
+      <div class="meta" style="margin-top:22px">JUN 2023 → FEB 2024</div>
+      <h2 style="font-size:clamp(24px,3.4vw,38px)">Frontend Developer (React) — Minicodeleader</h2>
+      <p>First jump out of the plane: component-driven React development, learning to fall with style.</p>
+    </div>
+  </section>
+
+  <!-- 1500m — skills -->
+  <section>
+    <div class="card" data-reveal>
+      <div class="eyebrow">1,500 M — Gear check</div>
+      <h2>Everything strapped in</h2>
+      <div class="dropzone">
+        <span class="drop" data-drop>React</span><span class="drop" data-drop>TypeScript</span>
+        <span class="drop" data-drop>Tailwind CSS</span><span class="drop" data-drop>JavaScript</span>
+        <span class="drop alt" data-drop>Git</span><span class="drop alt" data-drop>Jira</span>
+        <span class="drop alt" data-drop>Trello</span><span class="drop" data-drop>Python · DS/AI</span>
+        <span class="drop alt" data-drop>Prompt Engineering</span><span class="drop alt" data-drop>Requirements Gathering</span>
+        <span class="drop" data-drop>Clean Code</span><span class="drop alt" data-drop>Team Leadership</span>
+      </div>
+      <p style="margin-top:20px">Also rated for: ICPC/ACPC competitive programming — collegiate algorithmic combat, 2021. Old habits: I still solve problems on the way down.</p>
+    </div>
+  </section>
+
+  <!-- 1000m — certs -->
+  <section>
+    <div class="card" data-reveal>
+      <div class="eyebrow">1,000 M — Flight licenses</div>
+      <h2>Certified for this altitude</h2>
+      <div class="certs">
+        <div class="cert"><b>Advanced React</b> — Meta, 2025</div>
+        <div class="cert"><b>TypeScript in React</b> — Coursera, 2025</div>
+        <div class="cert"><b>Foundations of Project Mgmt</b> — Google, 2025</div>
+        <div class="cert"><b>Project Initiation</b> — Google, 2025</div>
+        <div class="cert"><b>Python for DS, AI & Dev</b> — IBM, 2024</div>
+        <div class="cert"><b>GenAI Prompt Engineering</b> — IBM, 2024</div>
+        <div class="cert"><b>Tailwind CSS From Scratch</b> — Packt, 2024</div>
+        <div class="cert"><b>Clean Code Basics</b> — Scrimba, 2024</div>
+        <div class="cert"><b>Jira Roadmaps & User Stories</b> — Coursera, 2025</div>
+        <div class="cert"><b>ICPC / ACPC</b> — Contestant, 2021</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 500m→0 — landing -->
+  <section id="landing">
+    <div class="card" data-reveal style="text-align:center">
+      <div class="eyebrow">500 M — CHUTE DEPLOYED · SOFT LANDING</div>
+      <h2>Land a project with me</h2>
+      <p>Websites, React frontends, logos, brand cards, social visuals — or a coordinator to fly your whole dev team home safely.</p>
+      <div class="contactRow" style="justify-content:center">
+        <a class="btn" href="mailto:nouraldeentofi@gmail.com">EMAIL ME</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LINKEDIN</a>
+        <a class="btn ghost" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">WEBSITE</a>
+      </div>
+      <p style="margin-top:22px;font-family:'IBM Plex Mono',monospace;font-size:12px;opacity:.7">TOUCHDOWN CONFIRMED · RIYADH DZ · ALT 0 M<br>Off-duty: anime · chess · badminton · movies</p>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---- build stars, clouds, wind ---- */
+const stars = document.getElementById('stars');
+for(let i=0;i<70;i++){const s=document.createElement('div');s.className='star';
+  const sz=Math.random()*2.4+1;s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*3}s`;stars.appendChild(s);}
+function makeClouds(layer,count,scaleMin,scaleMax,op){
+  const el=document.getElementById(layer);
+  for(let i=0;i<count;i++){const c=document.createElement('div');c.className='cloud';
+    const w=140+Math.random()*220, h=w*0.3;
+    c.style.cssText=`width:${w}px;height:${h}px;left:${Math.random()*100}%;top:${Math.random()*400}vh;opacity:${op};transform:scale(${scaleMin+Math.random()*(scaleMax-scaleMin)})`;
+    el.appendChild(c);}
+}
+makeClouds('cloudLayerFar',16,.5,.8,.35);
+makeClouds('cloudLayerNear',12,.9,1.5,.7);
+const wind=document.getElementById('windLayer');
+for(let i=0;i<26;i++){const w=document.createElement('div');w.className='windline';
+  w.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;height:${40+Math.random()*120}px;opacity:${.15+Math.random()*.35}`;wind.appendChild(w);}
+
+if(!reduced){
+  /* clouds rush upward = you are falling. Loop them. */
+  gsap.utils.toArray('#cloudLayerNear .cloud').forEach(c=>{
+    gsap.to(c,{y:'-=520vh',ease:'none',scrollTrigger:{trigger:'main',start:'top top',end:'bottom bottom',scrub:0.6}});
+  });
+  gsap.utils.toArray('#cloudLayerFar .cloud').forEach(c=>{
+    gsap.to(c,{y:'-=260vh',ease:'none',scrollTrigger:{trigger:'main',start:'top top',end:'bottom bottom',scrub:1.2}});
+  });
+  /* wind streaks loop fast */
+  gsap.utils.toArray('.windline').forEach(w=>{
+    gsap.fromTo(w,{yPercent:-120},{yPercent:1400,duration:1.1+Math.random()*1.4,repeat:-1,ease:'none',delay:Math.random()*2});
+  });
+}
+
+/* ---- sky color through altitude ---- */
+const skyStops=[
+  {p:0.00,c:'linear-gradient(180deg,#0b1e3f,#1d4e89)'},
+  {p:0.25,c:'linear-gradient(180deg,#1d4e89,#4a90c2)'},
+  {p:0.55,c:'linear-gradient(180deg,#4a90c2,#8fc1e3)'},
+  {p:0.80,c:'linear-gradient(180deg,#8fc1e3,#f2b880)'},
+  {p:1.00,c:'linear-gradient(180deg,#f2b880,#e8d5a3)'}
+];
+const sky=document.getElementById('sky');
+
+/* ---- master scroll state ---- */
+const altEl=document.getElementById('alt'), spdEl=document.getElementById('spd');
+const chuteEl=document.getElementById('chute'), jumper=document.getElementById('jumper');
+let deployed=false;
+ScrollTrigger.create({
+  trigger:'main',start:'top top',end:'bottom bottom',scrub:true,
+  onUpdate(self){
+    const p=self.progress;
+    const alt=Math.max(0,Math.round(4000*(1-p)));
+    altEl.innerHTML=alt+'<span> M</span>';
+    const spd=p<0.02?Math.round(p*50*199):(p>0.88?Math.round(28+(1-p)*180):199);
+    spdEl.textContent='▼ '+spd+' KM/H · '+(p>0.88?'UNDER CANOPY':(p<0.02?'IN THE DOOR':'FREEFALL'));
+    document.getElementById('progressBar').style.width=(p*100)+'%';
+    /* sky */
+    for(let i=skyStops.length-1;i>=0;i--){if(p>=skyStops[i].p-0.001){sky.style.background=skyStops[i].c;break;}}
+    document.getElementById('stars').style.opacity=Math.max(0,1-p*3.2);
+    /* chute deploy at 88% */
+    if(p>0.88&&!deployed){deployed=true;
+      gsap.to(chuteEl,{scale:1,duration:reduced?0:.7,ease:'elastic.out(1,.55)'});
+      gsap.to('#jumperInner',{y:26,duration:.5,ease:'power2.out'});
+    } else if(p<=0.88&&deployed){deployed=false;
+      gsap.to(chuteEl,{scale:0,duration:.3});gsap.to('#jumperInner',{y:0,duration:.3});}
+    /* ground rises at the very end */
+    gsap.set('#groundFill',{bottom:(-100+Math.max(0,(p-0.9)/0.1)*100)+'vh'});
+    /* jumper drifts & tilts subtly with progress */
+    if(!reduced) gsap.set(jumper,{rotate:Math.sin(p*14)*7,x:Math.sin(p*9)*40});
+  }
+});
+
+/* chapter label per section */
+const chapters=['FLIGHT NT-2026 · RIYADH DROPZONE','CH.1 — WHO IS FALLING','CH.2 — DISTINCTIVE FRONTIER','CH.3 — NEXLEAD · GOLDENTAG','CH.4 — EARLIER JUMPS','CH.5 — GEAR CHECK','CH.6 — LICENSES','CH.7 — TOUCHDOWN'];
+gsap.utils.toArray('main section').forEach((s,i)=>{
+  ScrollTrigger.create({trigger:s,start:'top center',end:'bottom center',
+    onToggle(self){if(self.isActive)document.getElementById('chapter').textContent=chapters[i]||'';}});
+});
+
+/* card reveals */
+gsap.utils.toArray('[data-reveal]').forEach(card=>{
+  gsap.from(card,{opacity:0,y:reduced?0:70,scale:reduced?1:.96,duration:.8,ease:'power2.out',
+    scrollTrigger:{trigger:card,start:'top 78%',toggleActions:'play none none reverse'}});
+});
+/* skill chips drop in like gear */
+gsap.from('[data-drop]',{opacity:0,y:-40,rotation:()=>gsap.utils.random(-14,14),stagger:.06,duration:.5,ease:'bounce.out',
+  scrollTrigger:{trigger:'.dropzone',start:'top 80%'}});
+
+/* hero exit: plane flies off as you jump */
+gsap.to('.planeArt',{x:'60vw',y:'-20vh',rotate:6,opacity:0,ease:'power1.in',
+  scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom 40%',scrub:true}});
+gsap.to('#jumpHint',{opacity:0,scrollTrigger:{trigger:'#hero',start:'top top',end:'20% top',scrub:true}});
+</script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — LAUNCHPAD · Your Project, To Orbit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--night:#0a0e1c;--panel:#141a2e;--fg:#e8eefc;--dim:rgba(232,238,252,.6);--grn:#59f08a;--red:#ff5e5e;--amb:#ffc14d}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'IBM Plex Mono',monospace;background:linear-gradient(180deg,#101636,var(--night) 60%);
+    color:var(--fg);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--amb);color:#0a0e1c}
+  h1{font-family:'Orbitron',sans-serif;font-weight:800;font-size:clamp(20px,4vw,34px);letter-spacing:.1em;text-align:center}
+  h1 span{color:var(--amb)}
+  .sub{font-size:10px;letter-spacing:.3em;color:var(--dim);margin:8px 0 24px;text-transform:uppercase;text-align:center}
+
+  #site{width:min(880px,96vw);display:grid;grid-template-columns:1fr 300px;gap:18px}
+  @media(max-width:760px){#site{grid-template-columns:1fr}}
+
+  /* pad scene */
+  #pad{position:relative;background:linear-gradient(180deg,#0c1228 0%,#141a3a 70%,#1c1430 100%);
+    border:1px solid rgba(232,238,252,.15);border-radius:18px;overflow:hidden;min-height:460px}
+  .star{position:absolute;background:#fff;border-radius:50%;animation:tw 3s infinite}
+  @keyframes tw{50%{opacity:.2}}
+  #rocket{position:absolute;left:50%;bottom:60px;transform:translateX(-50%);width:74px;transition:none;z-index:4}
+  #flame{position:absolute;left:50%;top:99%;transform:translateX(-50%);width:26px;height:0;z-index:3;
+    background:radial-gradient(ellipse at 50% 0%,#fff,#ffc14d 40%,#ff5e2e 75%,transparent);
+    border-radius:0 0 50% 50%;filter:blur(1px);transition:height .3s}
+  #smoke{position:absolute;left:0;right:0;bottom:40px;height:0;z-index:2;pointer-events:none}
+  #tower{position:absolute;left:calc(50% + 44px);bottom:60px;width:14px;height:210px;z-index:3;
+    background:repeating-linear-gradient(0deg,#3a4258 0 14px,#232a40 14px 28px)}
+  #ground{position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(180deg,#2a2138,#17121f);z-index:3}
+  #payloadLb{position:absolute;left:50%;bottom:290px;transform:translateX(-50%);z-index:5;font-size:9px;
+    letter-spacing:.2em;color:var(--amb);background:rgba(10,14,28,.7);padding:5px 10px;border-radius:4px;white-space:nowrap}
+  #countdown{position:absolute;top:18px;left:50%;transform:translateX(-50%);z-index:6;font-family:'Orbitron';
+    font-weight:800;font-size:clamp(28px,6vw,48px);color:var(--amb);text-shadow:0 0 24px rgba(255,193,77,.6);display:none}
+  #orbitMsg{position:absolute;inset:0;z-index:7;display:none;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;background:rgba(10,14,28,.82);backdrop-filter:blur(4px);padding:6%}
+  #orbitMsg h2{font-family:'Orbitron';font-size:clamp(18px,3.4vw,28px);color:var(--grn);letter-spacing:.08em}
+  #orbitMsg p{font-size:12px;line-height:1.8;color:var(--dim);max-width:420px;margin-top:12px}
+  #orbitMsg p b{color:var(--fg)}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+  .btn{font-size:11px;letter-spacing:.16em;padding:12px 20px;border:1px solid var(--grn);color:var(--grn);
+    border-radius:8px;text-transform:uppercase}
+  .btn:hover{background:var(--grn);color:#0a0e1c}
+
+  /* console */
+  #console{background:var(--panel);border:1px solid rgba(232,238,252,.15);border-radius:18px;padding:18px}
+  #console .t{font-size:10px;letter-spacing:.25em;color:var(--amb);text-transform:uppercase;text-align:center;margin-bottom:14px}
+  .sw{display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:10px;cursor:pointer;transition:background .2s}
+  .sw:hover{background:rgba(232,238,252,.06)}
+  .tog{width:44px;height:24px;border-radius:14px;background:#2a3148;position:relative;flex-shrink:0;transition:background .25s}
+  .tog::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#8a93ab;transition:all .25s}
+  .sw.on .tog{background:rgba(89,240,138,.3)}
+  .sw.on .tog::after{left:23px;background:var(--grn);box-shadow:0 0 12px var(--grn)}
+  .sw .nm{font-size:11px;font-weight:600;letter-spacing:.04em}
+  .sw .ds{display:block;font-size:9px;color:var(--dim);letter-spacing:.02em;margin-top:2px}
+  #launchB{width:100%;margin-top:14px;font-family:'Orbitron';font-weight:800;font-size:15px;letter-spacing:.14em;
+    border:none;border-radius:12px;padding:17px;cursor:pointer;background:#3a2430;color:#8a5a6a;transition:all .3s}
+  #launchB.armed{background:var(--red);color:#fff;box-shadow:0 0 30px rgba(255,94,94,.5);animation:pulse 1.2s infinite}
+  @keyframes pulse{50%{box-shadow:0 0 50px rgba(255,94,94,.8)}}
+  #status{margin-top:10px;font-size:9px;letter-spacing:.2em;color:var(--dim);text-align:center;text-transform:uppercase;line-height:1.9}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>🚀 MISSION: <span>YOUR PROJECT</span></h1>
+<div class="sub">Pre-flight checklist · flip all six switches · then hit launch · جهّز الإطلاق</div>
+
+<div id="site">
+  <div id="pad">
+    <div id="countdown">10</div>
+    <svg id="rocket" viewBox="0 0 74 220">
+      <path d="M37 0 C52 30 56 60 56 96 L18 96 C18 60 22 30 37 0Z" fill="#e8eefc"/>
+      <path d="M37 0 C44 16 48 32 50 48 L24 48 C26 32 30 16 37 0Z" fill="#ff5e2e"/>
+      <circle cx="37" cy="66" r="9" fill="#141a2e" stroke="#8a93ab" stroke-width="3"/>
+      <rect x="18" y="96" width="38" height="70" rx="4" fill="#c9d2e8"/>
+      <text x="37" y="135" text-anchor="middle" font-family="Orbitron" font-size="11" font-weight="800" fill="#141a2e">YOUR</text>
+      <text x="37" y="150" text-anchor="middle" font-family="Orbitron" font-size="10" font-weight="800" fill="#141a2e">PROJECT</text>
+      <path d="M18 166 L2 210 L18 196 Z" fill="#ff5e2e"/>
+      <path d="M56 166 L72 210 L56 196 Z" fill="#ff5e2e"/>
+      <rect x="24" y="166" width="26" height="30" rx="3" fill="#8a93ab"/>
+    </svg>
+    <div id="flame"></div>
+    <div id="payloadLb">PAYLOAD: YOUR PROJECT · PILOT: N.A. TOFI</div>
+    <div id="tower"></div><div id="ground"></div><div id="smoke"></div>
+    <div id="orbitMsg">
+      <h2>✓ ORBIT ACHIEVED</h2>
+      <p>That's what happens when all systems are checked by <b>Nour Aldeen Tofi</b> — frontend developer &amp; software engineering supervisor. Your project, launched properly: on time, on spec, no explosions.</p>
+      <div class="btns">
+        <a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Launch%20my%20project&body=Mission%20brief%3A%20">📡 Start your mission</a>
+        <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="console">
+    <div class="t">— Pre-flight systems —</div>
+    <div class="sw" data-i="0"><div class="tog"></div><div><span class="nm">FRONTEND ENGINES</span><span class="ds">React · TypeScript · Tailwind — supervisor grade</span></div></div>
+    <div class="sw" data-i="1"><div class="tog"></div><div><span class="nm">DESIGN THRUSTERS</span><span class="ds">logos · business cards · social visuals</span></div></div>
+    <div class="sw" data-i="2"><div class="tog"></div><div><span class="nm">COORDINATION GYRO</span><span class="ds">scope · user stories · timelines (GoldenTag-proven)</span></div></div>
+    <div class="sw" data-i="3"><div class="tog"></div><div><span class="nm">QUALITY SHIELDS</span><span class="ds">clean code · ICPC-grade problem solving</span></div></div>
+    <div class="sw" data-i="4"><div class="tog"></div><div><span class="nm">COMMS ARRAY</span><span class="ds">Arabic + English · fast replies</span></div></div>
+    <div class="sw" data-i="5"><div class="tog"></div><div><span class="nm">CERTIFIED FUEL</span><span class="ds">Meta · Google ×2 · IBM ×2 · +5 more</span></div></div>
+    <button id="launchB">LAUNCH 🚀</button>
+    <div id="status">SYSTEMS GREEN: <span id="okN">0</span>/6 — FLIP THE SWITCHES</div>
+  </div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* stars */
+const pad=document.getElementById('pad');
+for(let i=0;i<40;i++){const s=document.createElement('div');s.className='star';
+  const z=Math.random()*2+1;
+  s.style.cssText=`width:${z}px;height:${z}px;left:${Math.random()*100}%;top:${Math.random()*60}%;animation-delay:${Math.random()*3}s`;
+  pad.appendChild(s);}
+let AC=null;
+function beep(f,t,type,v){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type=type||'square';o.frequency.value=f;
+  g.gain.setValueAtTime(v||.05,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+(t||.1));
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+(t||.12));}catch(e){}}
+function rumble(dur){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const b=AC.createBuffer(1,AC.sampleRate*dur,AC.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length);
+  const s=AC.createBufferSource();s.buffer=b;
+  const f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=160;
+  const g=AC.createGain();g.gain.value=.22;
+  s.connect(f);f.connect(g);g.connect(AC.destination);s.start();}catch(e){}}
+
+let on=new Set(),launching=false;
+document.querySelectorAll('.sw').forEach(sw=>sw.onclick=()=>{
+  if(launching)return;
+  const i=+sw.dataset.i;
+  sw.classList.toggle('on');
+  if(sw.classList.contains('on')){on.add(i);beep(500+i*80,.12,'sine',.06);}
+  else{on.delete(i);beep(280,.1,'sine',.05);}
+  document.getElementById('okN').textContent=on.size;
+  const armed=on.size===6;
+  document.getElementById('launchB').classList.toggle('armed',armed);
+  document.getElementById('status').innerHTML=armed
+    ?'ALL SYSTEMS GREEN — <b style="color:#59f08a">CLEARED FOR LAUNCH</b>'
+    :`SYSTEMS GREEN: <span id="okN">${on.size}</span>/6 — FLIP THE SWITCHES`;
+});
+document.getElementById('launchB').onclick=async()=>{
+  if(on.size<6||launching)return;
+  launching=true;
+  const cd=document.getElementById('countdown');
+  cd.style.display='block';
+  for(let n=reduced?3:10;n>=1;n--){
+    cd.textContent='T-'+n;
+    beep(n<=3?880:520,.12,'sine',.07);
+    await new Promise(r=>setTimeout(r,reduced?150:650));
+  }
+  cd.textContent='LIFTOFF';
+  rumble(2.5);
+  document.getElementById('flame').style.height='90px';
+  /* smoke puffs */
+  if(!reduced)for(let i=0;i<14;i++){
+    const p=document.createElement('div');
+    p.style.cssText=`position:absolute;bottom:44px;left:calc(50% + ${(Math.random()-.5)*120}px);
+      width:${24+Math.random()*36}px;height:${24+Math.random()*36}px;border-radius:50%;z-index:2;
+      background:radial-gradient(circle,rgba(220,225,240,.8),transparent 70%)`;
+    pad.appendChild(p);
+    p.animate([{transform:'scale(.4)',opacity:.9},{transform:`translate(${(Math.random()-.5)*160}px,-40px) scale(2)`,opacity:0}],
+      {duration:1600+Math.random()*800,easing:'ease-out'}).onfinish=()=>p.remove();
+  }
+  const rocket=document.getElementById('rocket'),flame=document.getElementById('flame');
+  const dur=reduced?400:2600;
+  rocket.animate([{transform:'translateX(-50%) translateY(0)'},
+    {transform:'translateX(-50%) translateY(-6px)',offset:.15},
+    {transform:'translateX(-50%) translateY(-640px)'}],
+    {duration:dur,easing:'cubic-bezier(.6,0,.8,.4)',fill:'forwards'});
+  flame.animate([{opacity:1},{opacity:1,offset:.9},{opacity:0}],{duration:dur,fill:'forwards'});
+  flame.style.position='absolute';
+  /* flame follows rocket via same animation on wrapper — simpler: attach flame under rocket visually by animating同 */
+  flame.animate([{transform:'translateX(-50%) translateY(0)'},
+    {transform:'translateX(-50%) translateY(-640px)'}],{duration:dur,easing:'cubic-bezier(.6,0,.8,.4)',fill:'forwards'});
+  setTimeout(()=>{
+    cd.style.display='none';
+    document.getElementById('orbitMsg').style.display='flex';
+    beep(660,.2,'triangle',.08);beep(880,.3,'triangle',.08);
+  },dur+300);
+};
+</script>
+</body>
+</html>

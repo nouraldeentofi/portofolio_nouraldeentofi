@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — QUEST · The Kingdom of Deadline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@500;700&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--dungeon:#1a141e;--fg:#efe6d8;--dim:rgba(239,230,216,.65);--gold17:#d4a94e;--green13:#5edc8a;--red18:#e06a5a}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;color:var(--fg);min-height:100vh;
+    background:radial-gradient(80vw 60vh at 50% 100%,#2c1e30,var(--dungeon) 60%,#100a14);
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold17);color:#1a141e}
+  h1{font-family:'Grenze Gotisch';font-weight:700;font-size:clamp(26px,5.2vw,46px)}
+  h1 span{color:var(--gold17)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--dim);
+    margin:8px 0 16px;text-transform:uppercase;text-align:center}
+
+  #hudQ{display:flex;gap:10px;margin-bottom:12px;font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.1em;flex-wrap:wrap;justify-content:center}
+  #hudQ span{background:rgba(212,169,78,.1);border:1px solid rgba(212,169,78,.35);padding:8px 14px;border-radius:99px}
+  #hudQ b{color:var(--gold17)}
+
+  #book2{width:min(680px,96vw);background:rgba(16,10,20,.7);border:1px solid rgba(212,169,78,.35);
+    border-radius:16px;padding:28px 32px;backdrop-filter:blur(4px);box-shadow:0 24px 60px rgba(0,0,0,.5)}
+  #sceneArt2{font-size:52px;text-align:center;margin-bottom:10px;filter:drop-shadow(0 0 20px rgba(212,169,78,.3))}
+  #passage{font-size:14.5px;line-height:1.85;color:var(--dim);min-height:120px}
+  #passage b{color:var(--fg)}
+  #passage em{color:var(--gold17);font-style:normal}
+  #choices{display:flex;flex-direction:column;gap:9px;margin-top:18px}
+  .choice{font-family:'Karla';font-weight:700;font-size:13px;text-align:left;background:rgba(212,169,78,.08);
+    border:1.5px solid rgba(212,169,78,.4);border-radius:10px;padding:13px 16px;cursor:pointer;color:var(--fg);
+    transition:all .2s}
+  .choice:hover{background:rgba(212,169,78,.2);transform:translateX(4px)}
+  .choice small{display:block;font-weight:400;font-size:10.5px;color:var(--dim);margin-top:2px}
+  #inv{margin-top:14px;border-top:1px dashed rgba(212,169,78,.35);padding-top:10px;
+    font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.08em;color:var(--dim)}
+  #inv b{color:var(--green13)}
+  .btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 18px;border-radius:99px;
+    border:2px solid var(--gold17);color:var(--gold17);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--gold17);color:#1a141e}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>⚔️ THE KINGDOM OF <span>DEADLINE</span></h1>
+<div class="sub">A branching adventure · your choices matter · every path leads somewhere true · مغامرة نصية</div>
+<div id="hudQ"><span>CHAPTER <b id="chQ">1</b></span><span>ITEMS <b id="itQ">0</b></span><span>HERO: YOU</span></div>
+
+<div id="book2">
+  <div id="sceneArt2">🏰</div>
+  <div id="passage"></div>
+  <div id="choices"></div>
+  <div id="inv">🎒 INVENTORY: <span id="invList">empty (like most projects at the start)</span></div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let inv=[],ch=1;
+const NODES={
+ start:{art:'🏰',
+  p:`You are a <b>project owner</b> in the Kingdom of Deadline. Your idea — a small glowing orb — pulses in your hands. But the kingdom is dangerous: the <em>Swamp of Scope Creep</em> to the west, the <em>Mountains of Missed Launch</em> to the east.<br><br>A hooded traveler approaches. "I know a builder," he says. "They call him <b>the Engineer of Riyadh</b>."`,
+  c:[['Follow the traveler','Seek the Engineer of Riyadh','engineer'],
+     ['Build it yourself','How hard can it be?','solo'],
+     ['Ask about the swamp','Know your enemies first','swamp']]},
+ solo:{art:'🔥',
+  p:`You attempt the build alone. Three months pass. Your orb is now… a <b>tangle of spaghetti</b> that whispers "!important" in the night. The Swamp of Scope Creep has entered your home.<br><br>The traveler finds you again, gently unjudging. "The Engineer has rescued worse," he says.`,
+  c:[['Swallow pride, seek the Engineer','It\'s time','engineer'],
+     ['Inspect the spaghetti','Morbid curiosity','spaghetti']]},
+ spaghetti:{art:'🍝',
+  p:`You look closer. The code contains: 14 nested callbacks, a function named <b>"finalFINAL_v3_REAL"</b>, and CSS that only works during a full moon.<br><br>You gain an item: <em>Humility</em>. It is more useful than it sounds.`,
+  item:'Humility',
+  c:[['To the Engineer. Now.','No more detours','engineer']]},
+ swamp:{art:'🌫',
+  p:`The traveler nods gravely. "The Swamp swallows projects whole. It starts with <b>'can we add just one thing?'</b> and ends with a product nobody remembers ordering."<br><br>"The Engineer carries a blade against it — forged of <em>scope documents and user stories</em>. He learned it shipping <b>GoldenTag</b> through the swamp to Google Play."`,
+  item:'Map of the Swamp',
+  c:[['Seek this Engineer','He sounds prepared','engineer']]},
+ engineer:{art:'🧙‍♂️',
+  p:`In a bright workshop in <b>Riyadh</b>, you find him: <b>Nour Aldeen Tofi</b> — not a wizard, though the certifications on the wall glow like runes: <em>Meta, Google ×2, IBM ×2, ICPC 2021, B.Tech of Kalamoon</em>.<br><br>"Show me the orb," he says. You do. He smiles. "Good idea. Wrong armor. What does it need?"`,
+  c:[['"A website, to be seen"','The classic quest','path_web'],
+     ['"A frontend, to be used"','React & TypeScript sorcery','path_react'],
+     ['"A brand, to be remembered"','Logos & identity','path_brand'],
+     ['"Honestly? Everything"','The full campaign','path_all']]},
+ path_web:{art:'🌐',
+  p:`"A website," he nods, and begins. You watch the ritual: <b>requirements first</b> (he listens more than he talks), then structure, then speed. Days later your orb sits inside a <em>fast, modern, mobile-first site</em>.<br><br>Travelers from distant lands (Google) begin finding it.`,
+  item:'A Real Website',
+  c:[['Continue to the launch','The final gate','launch']]},
+ path_react:{art:'⚛️',
+  p:`"Ah, a machine of many parts." He draws <b>React sigils</b>, binds them with <em>TypeScript wards</em> so no bug may shapeshift, and lays <em>Tailwind enchantments</em> for beauty. The components click together like a well-cut dungeon door.<br><br>"Supervisor-grade," he says. It is not a boast. It's his title.`,
+  item:'Enchanted Frontend',
+  c:[['Continue to the launch','The final gate','launch']]},
+ path_brand:{art:'🎨',
+  p:`"To be remembered…" He sketches. Rejects. Sketches again. Then — there it is: <b>your mark</b>. A logo that looks obvious only after someone talented made it. Business cards heavy in the hand, social visuals that match like a royal guard's uniforms.`,
+  item:'A Brand With a Face',
+  c:[['Continue to the launch','The final gate','launch']]},
+ path_all:{art:'👑',
+  p:`He grins — the grin of a man who does this daily. "The full campaign, then." Website. Frontend. Brand. Social. And above it all, <b>coordination</b>: scope held, timeline honored, quality guarded like a treasury.<br><br>You watch the Swamp of Scope Creep <em>recede</em> from your borders.`,
+  item:'The Full Arsenal',
+  c:[['To the launch','Everything is ready','launch']]},
+ launch:{art:'🚀',
+  p:`The final gate: <b>Launch Day</b>. In lesser tales, this is where projects die. But your builder has crossed this gate before — <em>GoldenTag</em> passed through it onto Google Play, and every feature at Distinctive Frontier follows weekly.<br><br>The gate opens. Your project walks through. <b>Alive. Shipped. Yours.</b><br><br>THE END — or rather, <em>the beginning</em>.`,
+  final:true,
+  c:[['⟲ Play another path','Different choices, same reliable ending','start']]}
+};
+let AC=null;
+function pageS(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const b=AC.createBuffer(1,AC.sampleRate*.2,AC.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length)*.5;
+  const s=AC.createBufferSource();s.buffer=b;
+  const f=AC.createBiquadFilter();f.type='bandpass';f.frequency.value=2000;
+  const g=AC.createGain();g.gain.value=.06;
+  s.connect(f);f.connect(g);g.connect(AC.destination);s.start();}catch(e){}}
+function questChime(){[523,659,784,1047].forEach((f,i)=>setTimeout(()=>{
+  try{const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;
+  g.gain.setValueAtTime(.06,AC.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.45);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.5);}catch(e){}},i*140));}
+
+function go2(key){
+  pageS();
+  const n=NODES[key];
+  if(key==='start'){inv=[];ch=1;}else ch++;
+  document.getElementById('chQ').textContent=ch;
+  if(n.item&&!inv.includes(n.item)){inv.push(n.item);}
+  document.getElementById('itQ').textContent=inv.length;
+  document.getElementById('invList').innerHTML=inv.length?inv.map(i=>`<b>${i}</b>`).join(' · '):'empty (like most projects at the start)';
+  document.getElementById('sceneArt2').textContent=n.art;
+  const pass=document.getElementById('passage');
+  if(reduced){pass.innerHTML=n.p;}
+  else{
+    pass.innerHTML='';
+    const tokens=n.p.match(/<[^>]+>|[\s\S]/g)||[];
+    let out='',i=0;
+    const iv=setInterval(()=>{
+      for(let k=0;k<4&&i<tokens.length;k++)out+=tokens[i++];
+      pass.innerHTML=out;
+      if(i>=tokens.length)clearInterval(iv);
+    },12);
+  }
+  const cEl=document.getElementById('choices');cEl.innerHTML='';
+  n.c.forEach(([t,s2,next])=>{
+    const b=document.createElement('button');b.className='choice';
+    b.innerHTML=`${t}<small>${s2}</small>`;
+    b.onclick=()=>go2(next);
+    cEl.appendChild(b);
+  });
+  const old=document.querySelector('#book2 .btns');if(old)old.remove();
+  if(n.final){
+    questChime();
+    const d=document.createElement('div');d.className='btns';
+    d.innerHTML=`<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Beginning%20my%20quest&body=The%20orb%20is%20in%20hand.%20The%20quest%3A%20">⚔️ Begin your real quest</a>
+      <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`;
+    document.getElementById('book2').appendChild(d);
+  }
+}
+go2('start');
+</script>
+</body>
+</html>

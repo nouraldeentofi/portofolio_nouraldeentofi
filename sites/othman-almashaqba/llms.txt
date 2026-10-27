@@ -1,0 +1,29 @@
+# Othman Almashaqba (عثمان المشاقبة)
+
+> Othman Almashaqba (عثمان المشاقبة) is a technology leader based in Riyadh, Saudi Arabia. Since 2014 he has worked across Jordan, the UAE and Saudi Arabia on technology strategy, ERP modernisation, digital transformation and IT governance. He has led more than ten enterprise ERP transformation programmes, including Odoo from version 8 to 19, and works on ERP strategy at Meela Investment Company in Riyadh.
+
+## Facts
+
+- Name: Othman Almashaqba (Arabic: عثمان المشاقبة). Also written Othman Al-Mashaqba, Othman Almashaqbeh.
+- Headline: Technology Leader | CTO / IT Director | Digital Transformation, ERP & IT Governance | Secure, Scalable Operations.
+- Based in Riyadh, Saudi Arabia. Has worked since 2014 across Jordan, the UAE and Saudi Arabia.
+- Now (since July 2025): ERP strategy (Enterprise Resources Planning Project Manager) at Meela Investment Company, Riyadh: leads enterprise ERP strategy, aligns ERP architecture with investment operations and executive decision-making, oversees scalability, integrations and data governance, advises management on technology investment and risk.
+- 2022 – June 2025: led technology at Alomran Group (Saudi Arabia; on LinkedIn: Information Technology Manager): enterprise technology strategy, ERP transformation on Odoo across several functions, infrastructure performance +20% through cloud migration and automation, IT governance on COBIT and ITIL, technology costs −15%.
+- 2021 – 2023: IT Manager in Jordan at Marshall School (2021), Smart Rock (2021–2023) and CellBay Jordan (2021–2023), including an ERP transformation on Odoo 13 at CellBay.
+- 2020 – 2021: IT Manager, ERP (Odoo) & technical support at No Errors IT Services, Dubai: IT team, policies, security controls and budgets; enterprise data migrations at 99.9% accuracy.
+- 2018 – 2020: Odoo developer (Python) at Shahwan, Jordan: Odoo modules from version 8 to 13; HR, payroll, timesheet and support modules.
+- 2014 – 2018: technical support and data analyst for UNICEF projects in Jordan.
+
+## Pages
+
+- [Home](https://nouraldeentofi.com/sites/othman-almashaqba/): Who he is, how he thinks, the journey, Odoo 8–19, research and contact
+- [Story](https://nouraldeentofi.com/sites/othman-almashaqba/story.html): His career from 2010 to today as one story: UNICEF, Shahwan, Dubai, Jordan, Alomran, Meela
+- [Approach](https://nouraldeentofi.com/sites/othman-almashaqba/approach.html): How he works: process before automation, four steps, convictions, COBIT/ITIL/ISO 27001
+- [Work](https://nouraldeentofi.com/sites/othman-almashaqba/work.html): ERP programmes on Odoo 8–19, a Saudi integrated Odoo scope, results before and after, six fields
+- [Knowledge](https://nouraldeentofi.com/sites/othman-almashaqba/knowledge.html): Education, research manuscripts, certifications, languages, current interests
+- [Contact](https://nouraldeentofi.com/sites/othman-almashaqba/contact.html): Email, phone, LinkedIn, and answers to common questions
+
+## More
+
+- [Full profile for AI assistants](https://nouraldeentofi.com/sites/othman-almashaqba/llms-full.txt)
+- [LinkedIn](https://www.linkedin.com/in/othman-almashaqba-b243a2b9/)

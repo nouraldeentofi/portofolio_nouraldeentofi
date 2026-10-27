@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — SUSHI TRAIN · Grab a Service</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--shop2:#1e1a16;--shopd2:#141110;--wood3:#8a5a33;--fg:#f7f0e4;--dim:rgba(247,240,228,.6);--red8:#d43a3a;--green9:#3a9e6e}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Zen Maru Gothic',sans-serif;color:var(--fg);min-height:100vh;
+    background:radial-gradient(80vw 60vh at 50% 0%,#2e2820,var(--shop2) 55%,var(--shopd2));
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--red8);color:#fff}
+  h1{font-weight:900;font-size:clamp(24px,4.8vw,42px)}
+  h1 span{color:var(--red8)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.26em;color:var(--dim);
+    margin:8px 0 18px;text-transform:uppercase;text-align:center}
+  #curtain{display:flex;gap:6px;margin-bottom:14px}
+  .noren{width:60px;height:34px;background:var(--red8);border-radius:0 0 8px 8px;display:flex;align-items:center;
+    justify-content:center;font-size:15px;font-weight:900;color:#fff}
+
+  /* belt */
+  #beltWrap{position:relative;width:min(760px,97vw);height:150px;background:linear-gradient(180deg,#3a3028,#2a2219);
+    border-radius:16px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.5), inset 0 4px 14px rgba(0,0,0,.5)}
+  #beltTrack{position:absolute;bottom:0;left:0;right:0;height:34px;
+    background:repeating-linear-gradient(90deg,#4a4238 0 34px,#3a342c 34px 68px)}
+  .plate{position:absolute;bottom:18px;width:104px;cursor:pointer;text-align:center;transition:transform .15s;z-index:3}
+  .plate:hover{transform:translateY(-8px)}
+  .dish{width:96px;height:20px;margin:0 auto;border-radius:50%;background:radial-gradient(ellipse at 50% 30%,#fff,#d8d2c4)}
+  .dish.gold{background:radial-gradient(ellipse at 50% 30%,#f5d98a,#c9a24a)}
+  .food{font-size:30px;margin-bottom:-8px;filter:drop-shadow(0 3px 3px rgba(0,0,0,.35))}
+  .pl{font-family:'IBM Plex Mono';font-size:7.5px;letter-spacing:.04em;background:rgba(0,0,0,.55);color:#fff;
+    padding:2px 7px;border-radius:99px;margin-top:5px;display:inline-block;white-space:nowrap}
+
+  /* table / bill */
+  #table2{width:min(760px,97vw);margin-top:14px;display:grid;grid-template-columns:1fr 220px;gap:14px}
+  @media(max-width:640px){#table2{grid-template-columns:1fr}}
+  #plateStack{background:rgba(247,240,228,.06);border:1px solid rgba(247,240,228,.15);border-radius:14px;
+    padding:14px 18px;min-height:120px}
+  #plateStack .t{font-weight:900;font-size:13px;margin-bottom:8px}
+  #eaten{display:flex;gap:8px;flex-wrap:wrap}
+  .mini{background:#fff;color:#2a2018;border-radius:9px;padding:6px 10px;font-size:10.5px;font-weight:700;
+    display:flex;align-items:center;gap:5px;animation:min .35s cubic-bezier(.2,1.4,.4,1)}
+  @keyframes min{from{transform:scale(.5);opacity:0}}
+  #dishInfo{font-size:12px;line-height:1.65;color:var(--dim);margin-top:10px;min-height:54px}
+  #dishInfo b{color:var(--fg)}
+  #bill2{background:#f7f0e4;color:#2a2018;border-radius:14px;padding:16px 18px;font-family:'IBM Plex Mono'}
+  #bill2 .bt{font-weight:600;font-size:11px;letter-spacing:.14em;border-bottom:2px solid #2a2018;padding-bottom:6px;margin-bottom:8px}
+  .bl{display:flex;justify-content:space-between;font-size:10px;padding:3px 0;color:#5c5246}
+  #bTotal{display:flex;justify-content:space-between;font-size:12px;font-weight:600;border-top:1.5px dashed #8a7a66;
+    margin-top:8px;padding-top:8px}
+  .btns{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+  .btn{font-size:10px;letter-spacing:.1em;padding:11px;border-radius:99px;background:#2a2018;color:#f7f0e4;
+    text-transform:uppercase;font-weight:600;text-align:center}
+  .btn.g{background:none;border:2px solid #2a2018;color:#2a2018}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="curtain"><div class="noren">ノ</div><div class="noren">ー</div><div class="noren">ル</div></div>
+<h1>🍣 NOUR <span>KAITEN</span></h1>
+<div class="sub">The service train never stops · grab plates before they pass · gold plates are rare · اقطف الأطباق</div>
+
+<div id="beltWrap"><div id="beltTrack"></div></div>
+
+<div id="table2">
+  <div id="plateStack">
+    <div class="t">🥢 Your table (<span id="pn2">0</span> plates)</div>
+    <div id="eaten"></div>
+    <div id="dishInfo">Plates pass at chef's pace. Every dish is a real service by <b>Nour Aldeen Tofi</b> — grab what your project is hungry for.</div>
+  </div>
+  <div id="bill2">
+    <div class="bt">お会計 — THE BILL</div>
+    <div id="blines"><div class="bl"><span>NOTHING YET</span><span>—</span></div></div>
+    <div id="bTotal"><span>TOTAL</span><span id="btV">0 SAR*</span></div>
+    <div style="font-size:8px;color:#8a7a66;margin-top:6px">*prices are conversations, not surprises</div>
+    <div class="btns">
+      <a class="btn" id="orderMail" href="mailto:nouraldeentofi@gmail.com">🍣 Order for real</a>
+      <a class="btn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const MENU=[
+ ['🍣','WEBSITE NIGIRI','Websites — landing pages, portfolios, business sites. Fresh daily.',false],
+ ['🍱','REACT BENTO','Full React frontends — TypeScript + Tailwind, supervisor-grade.',false],
+ ['🍙','LOGO ONIGIRI','Logos & business cards — identity wrapped tight.',false],
+ ['🥟','SOCIAL GYOZA','Social media visual packs — Instagram & LinkedIn.',false],
+ ['🍜','COORD RAMEN','Project coordination — the deep broth that shipped GoldenTag.',false],
+ ['🍵','CLEAN-CODE TEA','Clean code discipline — served with everything.',false],
+ ['🏆','GOLD ICPC ROLL','RARE: ICPC 2021 + ten certifications on one plate.',true]
+];
+const belt=document.getElementById('beltWrap');
+let plates=[],grabbed=[],AC=null;
+function tick2(f){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f||600;
+  g.gain.setValueAtTime(.05,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.14);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.16);}catch(e){}}
+
+let spawnI=0;
+function spawnPlate(){
+  const gold=Math.random()<.14;
+  const item=gold?MENU[6]:MENU[spawnI++%6];
+  const el=document.createElement('div');el.className='plate';
+  el.innerHTML=`<div class="food">${item[0]}</div><div class="dish${item[3]||gold?' gold':''}"></div><div class="pl">${item[1]}</div>`;
+  belt.appendChild(el);
+  const p={el,x:belt.clientWidth+60,item,speed:reduced?.5:1.1+Math.random()*.4};
+  el.onclick=()=>grab(p);
+  plates.push(p);
+}
+function grab(p){
+  if(!plates.includes(p))return;
+  tick2(p.item[3]?1100:800);
+  plates=plates.filter(x=>x!==p);
+  p.el.remove();
+  grabbed.push(p.item);
+  const m=document.createElement('div');m.className='mini';
+  m.innerHTML=`<span>${p.item[0]}</span><span>${p.item[1]}</span>`;
+  document.getElementById('eaten').appendChild(m);
+  document.getElementById('pn2').textContent=grabbed.length;
+  document.getElementById('dishInfo').innerHTML=`<b>${p.item[1]}:</b> ${p.item[2]}`;
+  /* bill */
+  const bl=document.getElementById('blines');bl.innerHTML='';
+  grabbed.forEach(g2=>{const d=document.createElement('div');d.className='bl';
+    d.innerHTML=`<span>${g2[0]} ${g2[1]}</span><span>${g2[3]?'PRICELESS':'FAIR'}</span>`;bl.appendChild(d);});
+  document.getElementById('btV').textContent=grabbed.length?'A FAIR QUOTE':'0 SAR*';
+  const items=grabbed.map(g2=>'- '+g2[1]).join('%0A');
+  document.getElementById('orderMail').href=
+    `mailto:nouraldeentofi@gmail.com?subject=Kaiten%20order&body=From%20the%20belt%20I%20grabbed%3A%0A${items}%0A%0AMy%20project%3A%20`;
+}
+setInterval(spawnPlate,reduced?3600:2100);
+spawnPlate();
+(function move(){
+  for(const p of [...plates]){
+    p.x-=p.speed;
+    p.el.style.left=p.x+'px';
+    if(p.x<-130){p.el.remove();plates=plates.filter(x=>x!==p);}
+  }
+  requestAnimationFrame(move);
+})();
+</script>
+</body>
+</html>

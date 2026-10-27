@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — STRINGS · A Playable Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Jost:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0d0a10;--gold:#d9b36a;--goldhi:#ffe9b8;--ivory:#f0e9dc;--dim:rgba(240,233,220,.55);--wine:#9e4756;--line:rgba(217,179,106,.25)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Jost',sans-serif;background:var(--bg);color:var(--ivory);overflow-x:hidden}
+  ::selection{background:var(--gold);color:#0d0a10}
+  a{color:inherit;text-decoration:none}
+
+  /* ===== HARP HERO ===== */
+  #stage{position:relative;height:100vh;overflow:hidden;
+    background:radial-gradient(90vh 60vh at 50% -10%,rgba(217,179,106,.12),transparent 60%),
+               radial-gradient(80vh 50vh at 50% 115%,rgba(158,71,86,.14),transparent 60%),var(--bg)}
+  #harp{position:absolute;inset:0;width:100%;height:100%}
+  #stageTitle{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;z-index:3;mix-blend-mode:screen}
+  #stageTitle .over{font-size:11px;letter-spacing:.55em;color:var(--gold);text-transform:uppercase;font-weight:300}
+  #stageTitle h1{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(52px,9.4vw,130px);line-height:.95;margin:18px 0 14px;
+    text-shadow:0 0 60px rgba(217,179,106,.35)}
+  #stageTitle h1 em{font-style:italic;color:var(--goldhi)}
+  #stageTitle .under{font-size:12px;letter-spacing:.4em;color:var(--dim);text-transform:uppercase;font-weight:300}
+  .slabel{position:absolute;top:16px;z-index:2;transform:translateX(-50%);font-size:9.5px;letter-spacing:.28em;
+    color:var(--dim);text-transform:uppercase;writing-mode:vertical-rl;pointer-events:none;transition:color .3s,text-shadow .3s}
+  .slabel.lit{color:var(--goldhi);text-shadow:0 0 14px rgba(255,233,184,.9)}
+  #playHint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:3;font-size:10.5px;
+    letter-spacing:.45em;color:var(--dim);text-transform:uppercase;animation:hb 2.6s infinite}
+  @keyframes hb{0%,100%{opacity:.35}50%{opacity:1}}
+  #mute{position:absolute;top:22px;right:24px;z-index:4;font-family:'Jost';font-size:10px;letter-spacing:.3em;
+    border:1px solid var(--line);background:rgba(13,10,16,.5);color:var(--gold);padding:11px 18px;cursor:pointer;
+    text-transform:uppercase;transition:all .25s}
+  #mute:hover{background:var(--gold);color:#0d0a10}
+
+  /* ===== PROGRAM (sections) ===== */
+  section{max-width:860px;margin:0 auto;padding:14vh 6vw;position:relative}
+  .mvt{font-size:10.5px;letter-spacing:.5em;color:var(--gold);text-transform:uppercase;text-align:center;font-weight:300}
+  .mvt::before,.mvt::after{content:'———';letter-spacing:0;margin:0 18px;color:var(--line)}
+  h2{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(34px,5.6vw,60px);line-height:1.05;
+    text-align:center;margin:22px 0 30px}
+  h2 em{font-style:italic;color:var(--goldhi)}
+  .lead{font-size:15.5px;font-weight:300;line-height:1.9;color:var(--dim);text-align:center;max-width:620px;margin:0 auto}
+  .lead b{color:var(--ivory);font-weight:600}
+
+  .piece{display:grid;grid-template-columns:96px 1fr auto;gap:22px;align-items:baseline;padding:24px 0;border-top:1px solid rgba(240,233,220,.1)}
+  .piece:last-of-type{border-bottom:1px solid rgba(240,233,220,.1)}
+  .piece .no{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:var(--gold)}
+  .piece .nm{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(19px,2.8vw,27px)}
+  .piece .dur{font-size:11px;letter-spacing:.2em;color:var(--dim)}
+  .piece .desc{grid-column:2/4;font-size:13px;font-weight:300;color:var(--dim);line-height:1.7;max-width:600px}
+  @media(max-width:640px){.piece{grid-template-columns:60px 1fr}.piece .dur{display:none}.piece .desc{grid-column:1/3}}
+
+  .etudes{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(240,233,220,.12);border:1px solid rgba(240,233,220,.12);margin-top:34px}
+  .etude{background:var(--bg);padding:20px 22px;font-size:12.5px;font-weight:300;color:var(--dim);line-height:1.6}
+  .etude b{display:block;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:17px;color:var(--ivory);margin-bottom:4px}
+  @media(max-width:640px){.etudes{grid-template-columns:1fr}}
+
+  .enc{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:40px}
+  .encbtn{font-size:11px;letter-spacing:.35em;text-transform:uppercase;padding:18px 34px;border:1px solid var(--gold);
+    color:var(--gold);transition:all .3s}
+  .encbtn:hover{background:var(--gold);color:#0d0a10;box-shadow:0 0 46px rgba(217,179,106,.4)}
+  footer{text-align:center;padding:40px 6vw 60px;font-size:10px;letter-spacing:.4em;color:var(--dim);text-transform:uppercase}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div id="stage">
+  <canvas id="harp"></canvas>
+  <div id="stageTitle">
+    <div class="over">Tonight · In Concert · Riyadh</div>
+    <h1>Nour Aldeen <em>Tofi</em></h1>
+    <div class="under">Frontend Developer · Software Engineering Supervisor</div>
+  </div>
+  <button id="mute">♪ Sound: On</button>
+  <div id="playHint">Sweep across the strings — each skill has a note</div>
+</div>
+
+<main>
+  <section>
+    <div class="mvt">Movement I · The Player</div>
+    <h2>Three years <em>in tune</em></h2>
+    <p class="lead"><b>Riyadh, Saudi Arabia.</b> I build modern, scalable web applications — React, TypeScript, Tailwind — and conduct the teams that ship them. Requirements, scope, delivery: both hands on the instrument. Education: <b>B.Tech IT, University of Kalamoon</b> (2019–2024). Trained under pressure at the <b>ICPC/ACPC 2021</b>. Arabic &amp; English.</p>
+  </section>
+
+  <section data-chord="1">
+    <div class="mvt">Movement II · Repertoire</div>
+    <h2>Selected <em>performances</em></h2>
+    <div class="piece"><div class="no">i.</div><div class="nm">Software Engineering Supervisor — Distinctive Frontier Co.</div><div class="dur">2026 → ongoing</div>
+      <div class="desc">Principal chair. Leads frontend engineering: scalable React systems, coding standards, backend harmony, product ideas resolved into shipped features. Riyadh.</div></div>
+    <div class="piece"><div class="no">ii.</div><div class="nm">Project Coordinator — NexLead</div><div class="dur">2025 → ongoing</div>
+      <div class="desc">Freelance, remote. Requirements → user stories → releases. Premiere: <b style="color:var(--goldhi)">GoldenTag</b> on Google Play — jewelry store management with inventory, barcode scanning, USD/SYP rates, sales logging.</div></div>
+    <div class="piece"><div class="no">iii.</div><div class="nm">Frontend + Coordination — Distinctive Frontier Co.</div><div class="dur">2025</div>
+      <div class="desc">A year performing two parts simultaneously — earned the podium.</div></div>
+    <div class="piece"><div class="no">iv.</div><div class="nm">Frontend Developer — Khwarizm Technologies</div><div class="dur">2024–25</div>
+      <div class="desc">Production React, Riyadh. Ensemble work with design and backend.</div></div>
+    <div class="piece"><div class="no">v.</div><div class="nm">React Developer — Minicodeleader</div><div class="dur">2023–24</div>
+      <div class="desc">First public performance. Component études, daily.</div></div>
+  </section>
+
+  <section data-chord="2">
+    <div class="mvt">Movement III · Études</div>
+    <h2>Studies <em>completed</em></h2>
+    <div class="etudes">
+      <div class="etude"><b>Advanced React</b>Meta — 2025</div>
+      <div class="etude"><b>TypeScript in React</b>Coursera — 2025</div>
+      <div class="etude"><b>Foundations of Project Management</b>Google — 2025</div>
+      <div class="etude"><b>Project Initiation</b>Google — 2025</div>
+      <div class="etude"><b>Python for DS, AI &amp; Development</b>IBM — 2024</div>
+      <div class="etude"><b>GenAI Prompt Engineering</b>IBM — 2024</div>
+      <div class="etude"><b>Tailwind CSS From Scratch</b>Packt — 2024</div>
+      <div class="etude"><b>Clean Code Basics</b>Scrimba — 2024</div>
+      <div class="etude"><b>Jira — Roadmaps &amp; User Stories</b>Coursera — 2025</div>
+      <div class="etude"><b>Learn Markdown</b>Scrimba — 2025</div>
+    </div>
+  </section>
+
+  <section data-chord="3">
+    <div class="mvt">Finale · Booking</div>
+    <h2>Commission <em>a piece</em></h2>
+    <p class="lead">Websites · React frontends · logos · business cards · social visuals · project coordination. Intermission interests: anime, chess, badminton, film.</p>
+    <div class="enc">
+      <a class="encbtn" href="mailto:nouraldeentofi@gmail.com">Email</a>
+      <a class="encbtn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="encbtn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+    </div>
+  </section>
+</main>
+<footer>Program subject to enthusiasm · © 2026 Nour Aldeen Tofi</footer>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* ============ VERLET STRINGS ============ */
+const stage=document.getElementById('stage'),cv=document.getElementById('harp'),ctx=cv.getContext('2d');
+const LABELS=['REACT','TYPESCRIPT','TAILWIND','JAVASCRIPT','PYTHON','GIT','JIRA','TRELLO','PROMPT ENG','CLEAN CODE','LEADERSHIP','COORDINATION'];
+const NS=LABELS.length,PTS=22;
+let W,H,strings=[],labels=[];
+/* pentatonic across strings */
+const SEMIS=[0,3,5,7,10,12,15,17,19,22,24,27];
+function size(){
+  W=cv.width=stage.clientWidth;H=cv.height=stage.clientHeight;
+  strings=[];
+  for(let s=0;s<NS;s++){
+    const x=W*(0.10+0.80*s/(NS-1));
+    const pts=[];
+    for(let i=0;i<PTS;i++)pts.push({x,y:H*i/(PTS-1),px:x,py:H*i/(PTS-1)});
+    strings.push({x,pts,energy:0});
+    if(labels[s])labels[s].style.left=x+'px';
+  }
+}
+/* labels */
+LABELS.forEach((t,i)=>{const l=document.createElement('div');l.className='slabel';l.textContent=t;
+  stage.appendChild(l);labels.push(l);});
+size();addEventListener('resize',size);
+
+/* audio */
+let AC=null,muted=false;
+function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}}
+  if(AC&&AC.state==='suspended')AC.resume();return AC;}
+function pluckSound(i,vel){
+  if(muted)return;const A=ac();if(!A)return;
+  const f=110*Math.pow(2,SEMIS[i]/12);
+  const o=A.createOscillator(),g=A.createGain(),fl=A.createBiquadFilter();
+  o.type='triangle';o.frequency.value=f;
+  fl.type='lowpass';fl.frequency.value=f*4;
+  const v=Math.min(.22,.06+vel*.02);
+  g.gain.setValueAtTime(v,A.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,A.currentTime+1.6);
+  o.connect(fl);fl.connect(g);g.connect(A.destination);
+  o.start();o.stop(A.currentTime+1.7);
+}
+document.getElementById('mute').onclick=e=>{muted=!muted;
+  e.target.textContent=muted?'♪ Sound: Off':'♪ Sound: On';if(!muted)ac();};
+
+/* pluck on crossing */
+let pmx=null,pmy=null;
+function tryPluck(nx,ny){
+  if(pmx===null){pmx=nx;pmy=ny;return;}
+  const rect=stage.getBoundingClientRect();
+  if(ny>=rect.top&&ny<=rect.bottom){
+    const lx=pmx,ly=pmy-rect.top,cx2=nx,cy2=ny-rect.top;
+    strings.forEach((s,i)=>{
+      if((lx-s.x)*(cx2-s.x)<0){ /* crossed */
+        const vel=Math.abs(cx2-lx);
+        const yy=Math.max(2,Math.min(PTS-3,Math.round(cy2/H*(PTS-1))));
+        if(!reduced){
+          const amp=Math.min(60,8+vel*1.4)*(cx2>lx?1:-1);
+          s.pts[yy].x+=amp;s.pts[Math.max(1,yy-1)].x+=amp*.55;s.pts[Math.min(PTS-2,yy+1)].x+=amp*.55;
+        }
+        s.energy=1;pluckSound(i,vel);
+        labels[i].classList.add('lit');
+        clearTimeout(labels[i]._t);labels[i]._t=setTimeout(()=>labels[i].classList.remove('lit'),700);
+      }
+    });
+  }
+  pmx=nx;pmy=ny;
+}
+addEventListener('pointermove',e=>tryPluck(e.clientX,e.clientY));
+addEventListener('pointerdown',e=>{ac();
+  const rect=stage.getBoundingClientRect();
+  if(e.clientY<rect.top||e.clientY>rect.bottom)return;
+  /* tap pluck nearest string */
+  let best=0,bd=1e9;
+  strings.forEach((s,i)=>{const d=Math.abs(e.clientX-s.x);if(d<bd){bd=d;best=i;}});
+  if(bd<40){const s=strings[best],yy=Math.max(2,Math.min(PTS-3,Math.round((e.clientY-rect.top)/H*(PTS-1))));
+    if(!reduced)s.pts[yy].x+=30*(Math.random()<.5?-1:1);
+    s.energy=1;pluckSound(best,14);
+    labels[best].classList.add('lit');setTimeout(()=>labels[best].classList.remove('lit'),700);}
+});
+
+/* section chords */
+document.querySelectorAll('[data-chord]').forEach(sec=>{
+  let played=false;
+  new IntersectionObserver(es=>es.forEach(en=>{
+    if(en.isIntersecting&&!played&&AC){played=true;
+      const base=+sec.dataset.chord;
+      [0,2,4].forEach((o,k)=>setTimeout(()=>pluckSound((base*2+o)%NS,6),k*140));
+    }}),{threshold:.4}).observe(sec);
+});
+
+/* sim + draw */
+function step(){
+  for(const s of strings){
+    for(let i=1;i<PTS-1;i++){
+      const p=s.pts[i];
+      const vx=(p.x-p.px)*.996;
+      p.px=p.x;p.x+=vx;
+      p.x+=(s.x-p.x)*0.018; /* tension back to rest */
+    }
+    for(let k=0;k<3;k++){
+      for(let i=1;i<PTS-1;i++){
+        const p=s.pts[i],a=s.pts[i-1],b=s.pts[i+1];
+        p.x+=((a.x+b.x)/2-p.x)*.45;
+      }
+    }
+    s.energy*=.985;
+  }
+  ctx.clearRect(0,0,W,H);
+  for(let i=0;i<strings.length;i++){
+    const s=strings[i];
+    const glow=.25+s.energy*.75;
+    ctx.strokeStyle=`rgba(217,179,106,${glow})`;
+    ctx.lineWidth=s.energy>.4?1.8:1.1;
+    ctx.shadowColor='rgba(255,233,184,.9)';
+    ctx.shadowBlur=s.energy*22;
+    ctx.beginPath();
+    ctx.moveTo(s.pts[0].x,s.pts[0].y);
+    for(let j=1;j<PTS-1;j++){
+      const p=s.pts[j],n=s.pts[j+1];
+      ctx.quadraticCurveTo(p.x,p.y,(p.x+n.x)/2,(p.y+n.y)/2);
+    }
+    ctx.lineTo(s.pts[PTS-1].x,s.pts[PTS-1].y);
+    ctx.stroke();
+    /* anchor pegs */
+    ctx.shadowBlur=0;ctx.fillStyle='rgba(217,179,106,.8)';
+    ctx.beginPath();ctx.arc(s.x,4,2.5,0,7);ctx.fill();
+    ctx.beginPath();ctx.arc(s.x,H-4,2.5,0,7);ctx.fill();
+  }
+  requestAnimationFrame(step);
+}
+step();
+</script>
+</body>
+</html>

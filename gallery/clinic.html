@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Nour — CLINIC · Project Diagnosis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@0;1&family=Caveat:wght@600&family=Karla:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--mint:#e8f4ef;--teal:#1d7a6b;--tealD:#125248;--paper:#fdfcf6;--ink:#22302c;--dim:rgba(34,48,44,.65);--red:#c04545}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;background:linear-gradient(180deg,var(--mint),#d8ebe2);color:var(--ink);
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:5vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--teal);color:#fff}
+  h1{font-family:'Libre Baskerville',serif;font-size:clamp(22px,4.4vw,38px)}
+  h1 span{color:var(--teal)}
+  .sub{font-size:12px;letter-spacing:.22em;color:var(--dim);margin:8px 0 26px;text-transform:uppercase;text-align:center}
+
+  #room{width:min(760px,96vw);display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:700px){#room{grid-template-columns:1fr}}
+  .panel{background:var(--paper);border:2px solid rgba(29,122,107,.3);border-radius:16px;padding:24px 26px;
+    box-shadow:0 16px 40px rgba(18,82,72,.14)}
+  .panel .t{font-family:'Libre Baskerville',serif;font-size:15px;color:var(--teal);margin-bottom:14px}
+
+  /* symptoms */
+  .sym{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:#fff;border:2px solid rgba(34,48,44,.18);
+    border-radius:12px;padding:13px 14px;margin-bottom:10px;cursor:pointer;font-family:'Karla';font-weight:700;font-size:13px;
+    color:var(--ink);transition:all .2s}
+  .sym:hover{border-color:var(--teal);transform:translateX(4px)}
+  .sym.picked{border-color:var(--teal);background:var(--mint)}
+  .sym .em{font-size:20px}
+  .sym small{display:block;font-weight:400;font-size:11px;color:var(--dim)}
+
+  /* Rx pad */
+  #rx{position:relative;min-height:380px;background:var(--paper);
+    background-image:repeating-linear-gradient(0deg,transparent 0 30px,rgba(29,122,107,.08) 30px 31px)}
+  #rxHead{display:flex;justify-content:space-between;border-bottom:3px double var(--teal);padding-bottom:10px;margin-bottom:14px}
+  #rxHead .dr{font-family:'Libre Baskerville',serif;font-size:14px}
+  #rxHead .dr small{display:block;font-size:10px;color:var(--dim);font-family:'Karla'}
+  #rxSym{font-size:36px;color:var(--teal);font-family:'Libre Baskerville',serif;font-style:italic}
+  #rxBody{font-family:'Caveat',cursive;font-size:21px;line-height:30px;color:#1a3d6e;min-height:180px}
+  #rxBody .dx{color:var(--red)}
+  #stamp{position:absolute;right:20px;bottom:64px;transform:rotate(-12deg) scale(0);
+    border:3px solid var(--teal);color:var(--teal);border-radius:8px;padding:8px 14px;
+    font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;transition:transform .3s cubic-bezier(.2,1.5,.4,1)}
+  #stamp.show{transform:rotate(-12deg) scale(1)}
+  #sig{position:absolute;right:24px;bottom:20px;font-family:'Caveat',cursive;font-size:24px;color:#1a3d6e;opacity:0;transition:opacity .5s}
+  #sig.show{opacity:1}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  .btn{font-weight:700;font-size:11.5px;letter-spacing:.1em;padding:12px 20px;border-radius:99px;
+    background:var(--teal);color:#fff;text-transform:uppercase;transition:transform .15s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn.g{background:transparent;border:2px solid var(--teal);color:var(--teal)}
+  #trust{width:min(760px,96vw);margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .badge{background:#fff;border:1.5px solid rgba(29,122,107,.35);border-radius:99px;padding:9px 16px;
+    font-size:11px;font-weight:700;color:var(--dim)}
+  .badge b{color:var(--teal)}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>🩺 Clinic of <span>Dr. Nour</span></h1>
+<div class="sub">Project health specialist · Riyadh · walk-ins welcome · العيادة مفتوحة</div>
+
+<div id="room">
+  <div class="panel">
+    <div class="t">Tell the doctor what hurts — اشرحلي وين الوجع</div>
+    <button class="sym" data-s="0"><span class="em">🕸️</span><span>My business has no website<small>invisible online · losing customers daily</small></span></button>
+    <button class="sym" data-s="1"><span class="em">🐌</span><span>My website is slow &amp; ugly<small>visitors leave in 3 seconds</small></span></button>
+    <button class="sym" data-s="2"><span class="em">🎨</span><span>My brand looks unprofessional<small>no logo, no cards, no identity</small></span></button>
+    <button class="sym" data-s="3"><span class="em">📉</span><span>My social media is dead<small>no posts, no visuals, no engagement</small></span></button>
+    <button class="sym" data-s="4"><span class="em">🌪️</span><span>My dev team is chaos<small>missed deadlines · unclear scope</small></span></button>
+  </div>
+
+  <div class="panel" id="rx">
+    <div id="rxHead">
+      <div class="dr">Dr. Nour Aldeen Tofi<small>Frontend Developer · SW Engineering Supervisor · ~3 yrs practice</small></div>
+      <div id="rxSym">℞</div>
+    </div>
+    <div id="rxBody">Select a symptom and I'll write your prescription…</div>
+    <div id="stamp">✚ Dr. Nour · Riyadh</div>
+    <div id="sig">Nour A. Tofi</div>
+  </div>
+</div>
+
+<div id="trust">
+  <span class="badge">✓ <b>Supervisor</b> @ Distinctive Frontier Co.</span>
+  <span class="badge">✓ Shipped <b>GoldenTag</b> to Google Play</span>
+  <span class="badge">✓ <b>Meta · Google ×2 · IBM ×2</b> certified</span>
+  <span class="badge">✓ <b>ICPC</b> 2021 · B.Tech IT</span>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const RX=[
+ {dx:'Diagnosis: Acute Web Absence.',
+  tx:['℞ One custom website — modern, fast, mobile-ready','℞ Built with React or clean HTML/CSS','℞ Delivered with care by a supervisor-level dev','Dosage: one project, results visible immediately.']},
+ {dx:'Diagnosis: Chronic Slow-Site Syndrome.',
+  tx:['℞ Frontend rebuild — React + Tailwind CSS','℞ Performance & clean-code treatment','℞ Modern design that keeps visitors','Dosage: apply once, enjoy for years.']},
+ {dx:'Diagnosis: Brand Identity Deficiency.',
+  tx:['℞ Logo design — memorable & professional','℞ Business cards (print-ready)','℞ Full visual identity refresh','Dosage: apply to all customer touchpoints.']},
+ {dx:'Diagnosis: Social Media Flatline.',
+  tx:['℞ Social media visuals — Instagram & LinkedIn','℞ Consistent, branded post designs','℞ Content that actually gets engagement','Dosage: weekly, or as needed.']},
+ {dx:'Diagnosis: Project Coordination Collapse.',
+  tx:['℞ Professional project coordination (remote)','℞ Clear scope, user stories, timelines — Trello/Jira','℞ Quality control across frontend/backend/UI','Proven: GoldenTag shipped to Google Play this way.']}
+];
+let AC=null;
+function pen(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const b=AC.createBuffer(1,AC.sampleRate*.06,AC.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length)*.5;
+  const s=AC.createBufferSource();s.buffer=b;
+  const f=AC.createBiquadFilter();f.type='bandpass';f.frequency.value=3400;
+  const g=AC.createGain();g.gain.value=.05;
+  s.connect(f);f.connect(g);g.connect(AC.destination);s.start();}catch(e){}}
+function thump(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=140;
+  g.gain.setValueAtTime(.12,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.2);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.22);}catch(e){}}
+
+let writing=false;
+document.querySelectorAll('.sym').forEach(b=>b.onclick=()=>{
+  if(writing)return;
+  document.querySelectorAll('.sym').forEach(x=>x.classList.remove('picked'));
+  b.classList.add('picked');
+  prescribe(+b.dataset.s);
+});
+async function prescribe(i){
+  writing=true;
+  const body=document.getElementById('rxBody');
+  document.getElementById('stamp').classList.remove('show');
+  document.getElementById('sig').classList.remove('show');
+  const lines=[`<span class="dx">${RX[i].dx}</span>`,...RX[i].tx,
+    `Follow-up: <a href="mailto:nouraldeentofi@gmail.com" style="text-decoration:underline">nouraldeentofi@gmail.com</a>`];
+  body.innerHTML='';
+  for(const line of lines){
+    const d=document.createElement('div');
+    body.appendChild(d);
+    if(reduced){d.innerHTML=line;continue;}
+    /* type by token to keep tags atomic */
+    const tokens=line.match(/<[^>]+>|[\s\S]/g)||[];
+    let out='';
+    for(const t of tokens){out+=t;d.innerHTML=out;
+      if(t.length===1&&Math.random()<.4)pen();
+      await new Promise(r=>setTimeout(r,t.startsWith('<')?0:18));}
+    await new Promise(r=>setTimeout(r,140));
+  }
+  thump();
+  document.getElementById('stamp').classList.add('show');
+  setTimeout(()=>document.getElementById('sig').classList.add('show'),300);
+  /* CTA buttons */
+  const cta=document.createElement('div');cta.className='btns';
+  cta.innerHTML=`<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Project%20Consultation&body=Dr.%20Nour%2C%20my%20project%20has%20symptoms...">📅 Book a consultation</a>
+    <a class="btn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`;
+  document.getElementById('rxBody').appendChild(cta);
+  writing=false;
+}
+</script>
+</body>
+</html>

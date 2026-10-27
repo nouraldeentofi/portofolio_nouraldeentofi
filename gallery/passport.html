@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — PASSPORT · Stamped &amp; Admitted</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--cover:#1d4d3b;--coverd:#123527;--page:#f4eddc;--ink:#2a2419;--dim:rgba(42,36,25,.6);
+        --stampR:#b3402e;--stampB:#2e4a8f;--stampP:#6b3f8f;--gold:#c8a24a}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Spectral',serif;background:radial-gradient(90vw 70vh at 50% 20%,#3d6b57,#16281f);
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:6vh 4vw;color:var(--page)}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold);color:var(--ink)}
+  h1{font-size:clamp(20px,3.6vw,32px);font-weight:600;text-align:center}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.35em;opacity:.7;margin:8px 0 34px;text-transform:uppercase;text-align:center}
+
+  #book{position:relative;width:min(880px,94vw);aspect-ratio:3/2;perspective:2200px}
+  .spread{position:absolute;inset:0;display:flex}
+  .half{width:50%;height:100%;background:var(--page);position:relative;overflow:hidden;color:var(--ink)}
+  .half.left{border-radius:14px 3px 3px 14px;box-shadow:inset -14px 0 24px rgba(42,36,25,.12)}
+  .half.right{border-radius:3px 14px 14px 3px;box-shadow:inset 14px 0 24px rgba(42,36,25,.12)}
+  .half::after{content:'';position:absolute;inset:0;pointer-events:none;
+    background:repeating-linear-gradient(0deg,transparent 0 26px,rgba(42,36,25,.03) 26px 27px)}
+  .pg{padding:34px 36px;height:100%;display:flex;flex-direction:column}
+  .pgno{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.3em;color:var(--dim);margin-top:auto;text-align:center}
+
+  /* flipping page */
+  #flip{position:absolute;left:50%;top:0;width:50%;height:100%;transform-origin:left center;
+    transform-style:preserve-3d;z-index:10;pointer-events:none}
+  #flip .face{position:absolute;inset:0;backface-visibility:hidden;background:var(--page);overflow:hidden;color:var(--ink)}
+  #flip .front{border-radius:3px 14px 14px 3px}
+  #flip .back{transform:rotateY(180deg);border-radius:14px 3px 3px 14px}
+  .flipping{transition:transform 1s cubic-bezier(.4,.1,.2,1)}
+
+  /* cover */
+  .coverFace{background:linear-gradient(160deg,#276450,var(--cover) 55%,var(--coverd))!important;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;color:var(--gold)!important;
+    border:2px solid rgba(200,162,74,.5)}
+  .emblem{width:110px;height:110px;border:3px double var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:44px}
+  .coverFace .t1{font-size:13px;letter-spacing:.5em;font-family:'IBM Plex Mono',monospace}
+  .coverFace .t2{font-size:clamp(17px,2.6vw,24px);letter-spacing:.24em;font-weight:600;text-align:center}
+
+  /* id page */
+  .photo{width:110px;height:132px;background:linear-gradient(180deg,#cfe0d5,#9db8a8);border:1px solid var(--dim);
+    display:flex;align-items:center;justify-content:center;font-size:56px;margin-bottom:14px}
+  .fld{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--dim);margin-top:9px;text-transform:uppercase}
+  .val{font-size:14.5px;font-weight:600}
+  .mrz{margin-top:auto;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--dim);
+    border-top:2px solid var(--ink);padding-top:8px;word-break:break-all}
+
+  /* visa pages */
+  .vtitle{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.35em;color:var(--dim);
+    text-transform:uppercase;text-align:center;margin-bottom:16px}
+  .stamp{position:relative;border:3px solid;padding:12px 16px;margin:12px 4px;transform:rotate(var(--r,-4deg));
+    max-width:92%;background:rgba(255,255,255,.25)}
+  .stamp.round{border-radius:50%;width:170px;height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:16px;margin:8px auto}
+  .stamp .co{font-weight:700;font-size:15px;letter-spacing:.06em;text-transform:uppercase}
+  .stamp .role{font-size:12px;font-style:italic}
+  .stamp .dt{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;margin-top:4px}
+  .stamp .adm{font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:700;letter-spacing:.3em;margin-top:5px}
+  .sR{color:var(--stampR);border-color:var(--stampR)}
+  .sB{color:var(--stampB);border-color:var(--stampB)}
+  .sP{color:var(--stampP);border-color:var(--stampP)}
+  .sG{color:#22683f;border-color:#22683f}
+  .note{font-size:12.5px;line-height:1.65;color:var(--dim);font-style:italic;margin-top:8px}
+  .declare{font-size:13px;line-height:1.9}
+  .declare b{font-weight:700}
+  .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .btn{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;padding:11px 18px;
+    border:2px solid var(--ink);color:var(--ink);transition:all .2s;text-transform:uppercase}
+  .btn:hover{background:var(--ink);color:var(--page)}
+
+  #nav{display:flex;gap:14px;margin-top:26px;align-items:center}
+  .nbtn{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;padding:13px 24px;cursor:pointer;
+    border:1px solid rgba(200,162,74,.6);background:rgba(0,0,0,.25);color:var(--gold);border-radius:8px;
+    transition:all .25s;text-transform:uppercase}
+  .nbtn:hover{background:var(--gold);color:var(--coverd)}
+  #pgInd{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.25em;opacity:.7}
+  @media (prefers-reduced-motion: reduce){.flipping{transition:none!important}*{animation:none!important}}
+  @media(max-width:640px){.pg{padding:20px 18px}.stamp.round{width:130px;height:130px}}
+</style>
+</head>
+<body>
+<h1>Republic of Frontend — Official Passport</h1>
+<div class="sub">Holder: Nour Aldeen Tofi · Click to flip the pages · كل ختم قصة</div>
+
+<div id="book">
+  <div class="spread"><div class="half left" id="hl"></div><div class="half right" id="hr"></div></div>
+  <div id="flip"><div class="face front" id="ff"></div><div class="face back" id="fb"></div></div>
+</div>
+
+<div id="nav">
+  <button class="nbtn" id="prev">← Back</button>
+  <span id="pgInd">COVER</span>
+  <button class="nbtn" id="next">Flip page →</button>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const P={
+cover:`<div class="coverFace face" style="position:static;height:100%">
+  <div class="t1">REPUBLIC OF FRONTEND</div>
+  <div class="emblem">⚛</div>
+  <div class="t2">PASSPORT<br>جواز سفر مهني</div>
+  <div class="t1">N.A. TOFI · EST. 2019</div></div>`,
+blank:`<div class="pg"><div class="vtitle">— This page intentionally awaits stamps —</div><div class="pgno"></div></div>`,
+id:`<div class="pg">
+  <div class="photo">👨‍💻</div>
+  <div class="fld">Surname / Given names</div><div class="val">TOFI, Nour Aldeen</div>
+  <div class="fld">Profession</div><div class="val">Frontend Developer & Software Engineering Supervisor</div>
+  <div class="fld">Residence</div><div class="val">Riyadh, Saudi Arabia</div>
+  <div class="fld">Languages</div><div class="val">Arabic · English</div>
+  <div class="mrz">P&lt;FRONTEND&lt;&lt;TOFI&lt;&lt;NOUR&lt;ALDEEN&lt;&lt;REACT&lt;TS&lt;TAILWIND&lt;&lt;&lt;RYD2026</div>
+  <div class="pgno">PAGE 01 · IDENTITY</div></div>`,
+edu:`<div class="pg"><div class="vtitle">Visas · Foundation Territory</div>
+  <div class="stamp round sB" data-slam><div class="co">Univ. of Kalamoon</div><div class="role">B.Tech Information Technology</div><div class="dt">2019 — 2024</div><div class="adm">GRADUATED</div></div>
+  <div class="stamp sR" style="--r:3deg" data-slam><div class="co">ICPC / ACPC Arena</div><div class="role">Competitive programming — team leadership under the clock</div><div class="dt">SEP 2021</div><div class="adm">★ CONTESTANT</div></div>
+  <div class="pgno">PAGE 02 · FOUNDATIONS</div></div>`,
+early:`<div class="pg"><div class="vtitle">Visas · First Employments</div>
+  <div class="stamp sP" style="--r:-3deg" data-slam><div class="co">Minicodeleader</div><div class="role">Frontend Developer (React) — component-driven work</div><div class="dt">JUN 2023 — FEB 2024</div><div class="adm">ADMITTED</div></div>
+  <div class="stamp sG" style="--r:4deg" data-slam><div class="co">Khwarizm Technologies</div><div class="role">Frontend Developer — production React, Riyadh</div><div class="dt">SEP 2024 — APR 2025</div><div class="adm">ADMITTED</div></div>
+  <div class="pgno">PAGE 03 · EARLY VISAS</div></div>`,
+now:`<div class="pg"><div class="vtitle">Visas · Current Residencies</div>
+  <div class="stamp sB" style="--r:-2deg" data-slam><div class="co">Distinctive Frontier Co.</div><div class="role">Frontend Dev & Project Coordination → <b>Software Engineering Supervisor</b></div><div class="dt">JAN 2025 — PRESENT · PROMOTED JAN 2026</div><div class="adm">PERMANENT RESIDENT</div></div>
+  <div class="stamp round sR" data-slam><div class="co">NexLead</div><div class="role">Freelance Project Coordinator · GoldenTag → Google Play</div><div class="dt">MAR 2025 —</div><div class="adm">MULTI-ENTRY</div></div>
+  <div class="pgno">PAGE 04 · ACTIVE VISAS</div></div>`,
+skills:`<div class="pg"><div class="vtitle">Customs Declaration</div>
+  <div class="declare">The holder declares the following goods:<br>
+  <b>React · TypeScript · Tailwind CSS · JavaScript</b> — professional grade<br>
+  Python (DS/AI) · Git · Jira · Trello · Prompt Engineering<br>
+  Clean code — quantity: excessive<br>Team leadership — field-tested</div>
+  <div class="note">Certificates attached: Meta Advanced React '25 · TS in React '25 · Google PM ×2 '25 · IBM Python & GenAI '24 · Tailwind '24 · Clean Code '24 · Jira suite '25.</div>
+  <div class="stamp sG" style="--r:2deg;margin-top:14px" data-slam><div class="adm" style="margin:0">NOTHING TO HIDE — CLEARED</div></div>
+  <div class="pgno">PAGE 05 · CUSTOMS</div></div>`,
+contact:`<div class="pg"><div class="vtitle">Final Entry Permit</div>
+  <div class="stamp round sR" data-slam style="width:190px;height:190px"><div class="co">YOUR PROJECT</div><div class="role">websites · React · logos · cards · social · coordination</div><div class="adm">ENTRY PERMITTED</div></div>
+  <div class="btnrow" style="justify-content:center">
+    <a class="btn" href="mailto:nouraldeentofi@gmail.com">Email</a>
+    <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a></div>
+  <div class="note" style="text-align:center">Border hobbies declared: anime · chess · badminton · film</div>
+  <div class="pgno">PAGE 06 · WELCOME</div></div>`};
+
+/* spreads: [left, right] */
+const SPREADS=[
+ ['blank','cover'],
+ ['id','edu'],
+ ['early','now'],
+ ['skills','contact']
+];
+const NAMES=['COVER','PAGES 01–02','PAGES 03–04','PAGES 05–06'];
+let cur=0,busy=false;
+const hl=document.getElementById('hl'),hr=document.getElementById('hr'),
+      flip=document.getElementById('flip'),ff=document.getElementById('ff'),fb=document.getElementById('fb');
+function render(){
+  hl.innerHTML=P[SPREADS[cur][0]];hr.innerHTML=P[SPREADS[cur][1]];
+  document.getElementById('pgInd').textContent=NAMES[cur];
+  slams(hr);slams(hl);
+}
+function slams(container){
+  if(reduced)return;
+  container.querySelectorAll('[data-slam]').forEach((s,i)=>{
+    s.animate([{transform:`rotate(var(--r,-4deg)) scale(2.2)`,opacity:0},
+      {transform:`rotate(var(--r,-4deg)) scale(1)`,opacity:1}],
+      {duration:420,delay:300+i*260,easing:'cubic-bezier(.2,1.4,.4,1)',fill:'backwards'});
+  });
+}
+function go(dir){
+  if(busy)return;
+  const nxt=cur+dir;
+  if(nxt<0||nxt>=SPREADS.length)return;
+  busy=true;
+  if(reduced){cur=nxt;render();busy=false;return;}
+  if(dir>0){
+    ff.innerHTML=P[SPREADS[cur][1]];
+    fb.innerHTML=P[SPREADS[nxt][0]];
+    hr.innerHTML=P[SPREADS[nxt][1]];
+    flip.style.transform='rotateY(0deg)';
+    flip.classList.add('flipping');
+    requestAnimationFrame(()=>requestAnimationFrame(()=>flip.style.transform='rotateY(-180deg)'));
+    setTimeout(()=>{flip.classList.remove('flipping');flip.style.transform='rotateY(0)';
+      cur=nxt;render();busy=false;},1020);
+  }else{
+    ff.innerHTML=P[SPREADS[nxt][1]];
+    fb.innerHTML=P[SPREADS[cur][0]];
+    hl.innerHTML=P[SPREADS[nxt][0]];
+    flip.classList.remove('flipping');
+    flip.style.transform='rotateY(-180deg)';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      flip.classList.add('flipping');flip.style.transform='rotateY(0deg)';}));
+    setTimeout(()=>{flip.classList.remove('flipping');
+      cur=nxt;render();busy=false;},1020);
+  }
+}
+document.getElementById('next').onclick=()=>go(1);
+document.getElementById('prev').onclick=()=>go(-1);
+document.getElementById('book').addEventListener('click',e=>{
+  const r=document.getElementById('book').getBoundingClientRect();
+  go(e.clientX>r.left+r.width/2?1:-1);
+});
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1);});
+render();
+</script>
+</body>
+</html>

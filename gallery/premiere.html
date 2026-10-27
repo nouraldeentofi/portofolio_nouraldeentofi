@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOUR ALDEEN TOFI — Official Trailer · NT Pictures</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Libre+Franklin:ital,wght@0,300;0,400;0,600;1,400&family=Courier+Prime&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#070605;--coal:#0e0c0a;--gold:#d4af37;--goldlight:#f3dd8e;--red:#7f1d1d;--bone:#efe9dc;--dim:rgba(239,233,220,.72)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Libre Franklin',sans-serif;background:var(--black);color:var(--bone);overflow-x:hidden}
+  ::selection{background:var(--gold);color:#000}
+
+  /* letterbox + grain + vignette */
+  .bar{position:fixed;left:0;width:100%;height:7vh;background:#000;z-index:40}
+  #barT{top:0}#barB{bottom:0}
+  #grain{position:fixed;inset:-100px;z-index:35;pointer-events:none;opacity:.11;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E")}
+  #vig{position:fixed;inset:0;z-index:34;pointer-events:none;background:radial-gradient(ellipse at center,transparent 52%,rgba(0,0,0,.75))}
+  #flicker{position:fixed;inset:0;z-index:33;pointer-events:none;background:#fff;opacity:0}
+
+  main{position:relative;z-index:10}
+  section{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14vh 6vw;position:relative}
+
+  .cardTitle{font-family:'Cinzel',serif;font-weight:600;color:var(--gold);letter-spacing:.35em;text-transform:uppercase;
+    font-size:clamp(15px,2.6vw,26px);line-height:1.8}
+  .megaTitle{font-family:'Cinzel',serif;font-weight:700;font-size:clamp(44px,9vw,120px);line-height:1.04;letter-spacing:.06em;
+    background:linear-gradient(100deg,#8a6d1f 0%,var(--gold) 25%,var(--goldlight) 50%,var(--gold) 75%,#8a6d1f 100%);
+    background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--dim);font-weight:300;font-size:clamp(15px,2vw,19px);max-width:600px;margin-top:22px;line-height:1.7}
+  .small{font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:3px;color:var(--dim)}
+
+  /* rating card */
+  #rating{background:#0c3b1e}
+  #rating .frame{border:6px solid #fff;padding:5vh 6vw;max-width:760px}
+  #rating h2{font-family:'Libre Franklin';font-weight:600;font-size:clamp(17px,2.6vw,26px);letter-spacing:.06em;line-height:1.5}
+  #rating .small{color:#cfe8d8}
+
+  /* scene text blocks */
+  .scene p.big{font-family:'Cinzel',serif;font-weight:600;font-size:clamp(26px,4.6vw,52px);line-height:1.25;max-width:900px;color:var(--bone)}
+  .scene p.big em{color:var(--gold);font-style:normal}
+  .fact{border:1px solid rgba(212,175,55,.4);background:rgba(212,175,55,.05);border-radius:4px;
+    padding:26px 30px;max-width:640px;margin-top:30px;text-align:left}
+  .fact .role{font-family:'Cinzel',serif;color:var(--gold);font-size:clamp(17px,2.4vw,23px);letter-spacing:.06em}
+  .fact .when{font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:2px;color:var(--dim);margin:6px 0 10px}
+  .fact p{color:var(--dim);font-weight:300;font-size:15.5px;line-height:1.65}
+
+  /* reviews (certs) */
+  .reviews{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;max-width:900px;margin-top:34px}
+  .review{border-top:1px solid rgba(212,175,55,.5);padding-top:14px;text-align:left}
+  .stars{color:var(--gold);letter-spacing:3px;font-size:14px}
+  .review q{display:block;font-family:'Cinzel',serif;font-size:15.5px;margin:8px 0 4px;color:var(--bone);quotes:'“' '”'}
+  .review span{font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:1.5px;color:var(--dim)}
+
+  /* credits crawl */
+  #creditsSec{display:block;padding:0;height:220vh;position:relative}
+  #creditsPin{height:100vh;overflow:hidden;display:flex;justify-content:center;position:relative}
+  #crawl{position:absolute;top:100vh;text-align:center;width:min(640px,90vw)}
+  #crawl h3{font-family:'Cinzel',serif;color:var(--gold);letter-spacing:.3em;font-size:15px;margin:44px 0 10px;text-transform:uppercase}
+  #crawl .line{font-weight:300;font-size:16px;color:var(--dim);margin:6px 0;display:flex;justify-content:space-between;gap:20px}
+  #crawl .line b{color:var(--bone);font-weight:600;text-align:left}
+  #crawl .line span{text-align:right}
+  #crawl .logo{font-family:'Cinzel',serif;font-weight:700;font-size:34px;color:var(--gold);margin-top:70px;letter-spacing:.2em}
+
+  /* post credits / contact */
+  .btnrow{display:flex;flex-wrap:wrap;gap:16px;margin-top:36px;justify-content:center}
+  .btn{font-family:'Cinzel',serif;font-weight:600;letter-spacing:.2em;font-size:14px;padding:16px 30px;text-transform:uppercase;
+    border:1px solid var(--gold);color:var(--gold);text-decoration:none;transition:all .25s;background:transparent}
+  .btn.solid{background:var(--gold);color:#000}
+  .btn:hover{background:var(--goldlight);border-color:var(--goldlight);color:#000;letter-spacing:.26em}
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    #creditsSec{height:auto;padding:10vh 0}
+    #creditsPin{height:auto;overflow:visible}
+    #crawl{position:static}
+  }
+  /* fallback if GSAP fails to load */
+  html.nofx #creditsSec{height:auto;padding:10vh 0}
+  html.nofx #creditsPin{height:auto;overflow:visible}
+  html.nofx #crawl{position:static}
+</style>
+</head>
+<body>
+
+<div class="bar" id="barT"></div><div class="bar" id="barB"></div>
+<div id="grain"></div><div id="vig"></div><div id="flicker"></div>
+
+<main>
+  <!-- RATING CARD -->
+  <section id="rating">
+    <div class="frame" data-scene>
+      <div class="small" style="margin-bottom:18px">NT PICTURES · FEATURE PREVIEW</div>
+      <h2>THE FOLLOWING PORTFOLIO HAS BEEN RATED<br><span style="font-size:2.2em;font-weight:700">H</span> — FOR HIREABLE</h2>
+      <div class="small" style="margin-top:18px">SUITABLE FOR ALL CLIENTS · RECRUITERS STRONGLY ADVISED</div>
+    </div>
+  </section>
+
+  <!-- TITLE -->
+  <section>
+    <div data-scene>
+      <div class="cardTitle">NT Pictures presents</div>
+      <div class="megaTitle" id="shimmer" style="margin:26px 0 8px">NOUR ALDEEN<br>TOFI</div>
+      <div class="cardTitle" style="font-size:clamp(12px,1.8vw,17px)">A Frontend Story · Filmed on location in Riyadh</div>
+      <div class="sub">Frontend Developer &amp; Software Engineering Supervisor. Three years in production. No stunt doubles — he writes his own code.</div>
+      <div class="small" style="margin-top:44px;animation:pulse 2s infinite">▼ SCROLL TO ROLL FILM ▼</div>
+    </div>
+  </section>
+
+  <!-- ACT CARDS -->
+  <section class="scene">
+    <div data-scene>
+      <div class="cardTitle">In a city of sand and skyscrapers…</div>
+      <p class="big" style="margin-top:26px">one developer refused to choose between <em>writing the code</em> and <em>running the project.</em></p>
+      <div class="fact">
+        <div class="role">The Protagonist</div>
+        <div class="when">RIYADH, SAUDI ARABIA · B.TECH IT, UNIVERSITY OF KALAMOON (2019–2024)</div>
+        <p>~3 years building modern, scalable web applications with React and TypeScript — while gathering requirements, leading teams, and delivering end-to-end. Bilingual: Arabic &amp; English.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene">
+    <div data-scene>
+      <div class="cardTitle">This January…</div>
+      <p class="big" style="margin-top:26px">the studio gave him <em>the director's chair.</em></p>
+      <div class="fact">
+        <div class="role">Software Engineering Supervisor — Distinctive Frontier Co.</div>
+        <div class="when">JAN 2026 → PRESENT · RIYADH (PREV: FRONTEND DEV & PROJECT COORDINATION, JAN 2025–JAN 2026)</div>
+        <p>Leads frontend development at a safety equipment company: scalable React UI systems, coding standards, backend collaboration, product ideas turned into shipped features.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene">
+    <div data-scene>
+      <div class="cardTitle">But every hero has a double life…</div>
+      <p class="big" style="margin-top:26px">by night, he coordinates <em>an entire crew.</em></p>
+      <div class="fact">
+        <div class="role">Freelance Project Coordinator — NexLead</div>
+        <div class="when">MAR 2025 → PRESENT · REMOTE</div>
+        <p>Requirements, scope, acceptance criteria, user stories on Trello, quality across frontend/backend/UI-UX, timelines, cost estimates, Google Play releases. Featured production: <strong style="color:var(--goldlight)">GoldenTag</strong> — jewelry store management app (inventory, barcode scanning, USD/SYP rates, sales logging).</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene">
+    <div data-scene>
+      <div class="cardTitle">From the training grounds of the ICPC…</div>
+      <p class="big" style="margin-top:26px">a past forged in <em>competitive programming.</em></p>
+      <div class="fact">
+        <div class="role">The Origin Story</div>
+        <div class="when">ICPC / ACPC 2021 · KHWARIZM TECHNOLOGIES 2024–25 · MINICODELEADER 2023–24</div>
+        <p>Collegiate algorithmic combat, then production React at Khwarizm Technologies in Riyadh, after a first arc of component-driven development at Minicodeleader. Stack: React · TypeScript · Tailwind CSS · JavaScript · Python (DS/AI) · Git · Jira · Trello · Prompt Engineering.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="scene">
+    <div data-scene>
+      <div class="cardTitle">Critics agree</div>
+      <div class="reviews">
+        <div class="review"><div class="stars">★★★★★</div><q>Advanced React</q><span>— META, 2025</span></div>
+        <div class="review"><div class="stars">★★★★★</div><q>TypeScript in React</q><span>— COURSERA, 2025</span></div>
+        <div class="review"><div class="stars">★★★★★</div><q>Foundations of Project Management</q><span>— GOOGLE, 2025</span></div>
+        <div class="review"><div class="stars">★★★★★</div><q>Project Initiation</q><span>— GOOGLE, 2025</span></div>
+        <div class="review"><div class="stars">★★★★★</div><q>Python for DS, AI &amp; Development</q><span>— IBM, 2024</span></div>
+        <div class="review"><div class="stars">★★★★★</div><q>GenAI Prompt Engineering</q><span>— IBM, 2024</span></div>
+        <div class="review"><div class="stars">★★★★★</div><q>Tailwind CSS From Scratch</q><span>— PACKT, 2024</span></div>
+        <div class="review"><div class="stars">★★★★★</div><q>Clean Code Basics</q><span>— SCRIMBA, 2024</span></div>
+        <div class="review"><div class="stars">★★★★★</div><q>Jira: Roadmaps &amp; User Stories</q><span>— COURSERA, 2025</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREDITS CRAWL -->
+  <section id="creditsSec">
+    <div id="creditsPin">
+      <div id="crawl">
+        <h3>Cast</h3>
+        <div class="line"><b>React</b><span>The Framework</span></div>
+        <div class="line"><b>TypeScript</b><span>The Voice of Reason</span></div>
+        <div class="line"><b>Tailwind CSS</b><span>Wardrobe</span></div>
+        <div class="line"><b>JavaScript</b><span>The Origin</span></div>
+        <div class="line"><b>Python</b><span>The Mysterious Ally</span></div>
+        <h3>Crew</h3>
+        <div class="line"><b>Directed by</b><span>Nour Aldeen Tofi</span></div>
+        <div class="line"><b>Written by</b><span>Nour Aldeen Tofi</span></div>
+        <div class="line"><b>Produced at</b><span>Distinctive Frontier Co.</span></div>
+        <div class="line"><b>Second Unit</b><span>NexLead (Remote)</span></div>
+        <div class="line"><b>Stunts</b><span>Git Merge Conflicts</span></div>
+        <div class="line"><b>Project Mgmt</b><span>Jira · Trello</span></div>
+        <h3>Special Thanks</h3>
+        <div class="line"><b>University of Kalamoon</b><span>B.Tech IT, 2019–2024</span></div>
+        <div class="line"><b>ICPC / ACPC</b><span>The Training Arc, 2021</span></div>
+        <div class="line"><b>Off Screen</b><span>Anime · Chess · Badminton · Movies</span></div>
+        <div class="logo">NT</div>
+        <div class="small" style="margin-top:10px">NO FRAMEWORKS WERE HARMED IN THE MAKING OF THIS CAREER</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POST-CREDITS -->
+  <section>
+    <div data-scene>
+      <div class="cardTitle">…you stayed after the credits?</div>
+      <p class="big" style="margin-top:26px">Then you're exactly the kind of person he wants to <em>work with.</em></p>
+      <div class="sub">Now casting: websites, React frontends, logos, business cards, social media graphics, and full project coordination.</div>
+      <div class="btnrow">
+        <a class="btn solid" href="mailto:nouraldeentofi@gmail.com">Book the Lead</a>
+        <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+      </div>
+      <div class="small" style="margin-top:40px">A NOUR ALDEEN TOFI PRODUCTION · RIYADH · MMXXVI</div>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* gold shimmer */
+if(!reduced) gsap.to('#shimmer',{backgroundPosition:'-200% 0',duration:5,repeat:-1,ease:'none'});
+
+/* film grain jitter + occasional projector flicker */
+if(!reduced){
+  setInterval(()=>{gsap.set('#grain',{x:gsap.utils.random(-30,30),y:gsap.utils.random(-30,30)});},90);
+  (function flick(){
+    gsap.timeline({delay:gsap.utils.random(4,9),onComplete:flick})
+      .to('#flicker',{opacity:.06,duration:.04}).to('#flicker',{opacity:0,duration:.07})
+      .to('#flicker',{opacity:.04,duration:.04},'+=0.1').to('#flicker',{opacity:0,duration:.06});
+  })();
+}
+
+/* scenes: cinematic push-in — scale down from 1.14 & fade like a camera settling */
+gsap.utils.toArray('[data-scene]').forEach(sc=>{
+  gsap.fromTo(sc,{opacity:0,scale:reduced?1:1.12,filter:'blur(6px)'},
+    {opacity:1,scale:1,filter:'blur(0px)',duration:1.1,ease:'power2.out',
+     scrollTrigger:{trigger:sc,start:'top 70%',toggleActions:'play none none reverse'}});
+  /* slow drift while in view (Ken Burns) */
+  if(!reduced) gsap.fromTo(sc,{y:40},{y:-40,ease:'none',
+    scrollTrigger:{trigger:sc,start:'top bottom',end:'bottom top',scrub:1.4}});
+});
+
+/* letterbox bars breathe: widen during title moments */
+if(!reduced){
+  gsap.utils.toArray('.cardTitle').forEach(t=>{
+    ScrollTrigger.create({trigger:t,start:'top 60%',end:'bottom 30%',
+      onEnter(){gsap.to('.bar',{height:'9vh',duration:.7,ease:'power2.out'});},
+      onLeave(){gsap.to('.bar',{height:'7vh',duration:.7});},
+      onEnterBack(){gsap.to('.bar',{height:'9vh',duration:.7});},
+      onLeaveBack(){gsap.to('.bar',{height:'7vh',duration:.7});}});
+  });
+}
+
+/* title letter-spacing expands on entry */
+gsap.utils.toArray('.cardTitle').forEach(t=>{
+  gsap.from(t,{letterSpacing:'0.06em',opacity:0,duration:1.2,ease:'power2.out',
+    scrollTrigger:{trigger:t,start:'top 75%',toggleActions:'play none none reverse'}});
+});
+
+/* reviews stagger */
+gsap.from('.review',{opacity:0,y:30,stagger:.09,duration:.6,ease:'power2.out',
+  scrollTrigger:{trigger:'.reviews',start:'top 78%'}});
+
+/* credits crawl — pinned, scrubbed upward */
+if(!reduced){
+  gsap.to('#crawl',{top:()=>-(document.getElementById('crawl').offsetHeight+100),ease:'none',
+    scrollTrigger:{trigger:'#creditsSec',start:'top top',end:'bottom bottom',scrub:0.6,pin:'#creditsPin'}});
+}
+</script>
+<script>
+if(!window.gsap||!window.ScrollTrigger){document.documentElement.classList.add('nofx');}
+</script>
+</body>
+</html>

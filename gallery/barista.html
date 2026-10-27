@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Café Nour — BARISTA · Order a Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Nunito+Sans:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{--cream:#f2e8da;--brown:#4a3226;--brownD:#33211a;--tan:#c9a276;--fg:#f7efe2;--dim:rgba(74,50,38,.65);--accent:#c05a2e}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Nunito Sans',sans-serif;background:linear-gradient(180deg,#5c4030,var(--brown) 55%,var(--brownD));
+    color:var(--cream);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:5vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--accent);color:#fff}
+  h1{font-family:'Yeseva One',serif;font-size:clamp(26px,5vw,46px)}
+  h1 span{color:var(--tan)}
+  .sub{font-size:11.5px;letter-spacing:.26em;opacity:.75;margin:8px 0 26px;text-transform:uppercase;text-align:center}
+
+  #cafe{width:min(820px,96vw);display:grid;grid-template-columns:280px 1fr;gap:18px}
+  @media(max-width:720px){#cafe{grid-template-columns:1fr}}
+
+  /* menu board */
+  #menu{background:#241812;border:3px solid var(--tan);border-radius:16px;padding:18px;
+    box-shadow:0 20px 44px rgba(0,0,0,.4)}
+  #menu .t{font-family:'Yeseva One';font-size:16px;color:var(--tan);text-align:center;margin-bottom:14px;letter-spacing:.06em}
+  .item{width:100%;background:transparent;border:none;border-bottom:1px dashed rgba(201,162,118,.35);
+    padding:12px 4px;cursor:pointer;color:var(--cream);text-align:left;font-family:'Nunito Sans';transition:background .2s;border-radius:6px}
+  .item:hover{background:rgba(201,162,118,.12)}
+  .item .r1{display:flex;justify-content:space-between;font-weight:900;font-size:13.5px}
+  .item .r1 .pr{color:var(--tan)}
+  .item .r2{font-size:10.5px;color:rgba(242,232,218,.6);margin-top:3px;font-style:italic}
+
+  /* counter */
+  #counter{background:linear-gradient(180deg,#6e4e38,#553a29);border-radius:16px;padding:20px;position:relative;
+    box-shadow:0 20px 44px rgba(0,0,0,.4);display:flex;flex-direction:column;align-items:center;min-height:430px}
+  #machine{width:220px;height:120px;background:linear-gradient(180deg,#8a8f99,#5c616b);border-radius:14px;position:relative;
+    box-shadow:0 10px 24px rgba(0,0,0,.4), inset 0 2px 0 rgba(255,255,255,.3)}
+  #machine .brandM{position:absolute;top:10px;left:50%;transform:translateX(-50%);font-family:'Yeseva One';
+    font-size:11px;color:#2c2f35;letter-spacing:.2em}
+  #spout{position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);width:16px;height:18px;background:#3a3e45;border-radius:0 0 5px 5px}
+  #machine .lightM{position:absolute;top:12px;right:14px;width:9px;height:9px;border-radius:50%;background:#3a3e45;transition:all .3s}
+  #machine .lightM.on{background:#7dff8a;box-shadow:0 0 10px #7dff8a}
+  #stream{position:absolute;top:120px;left:50%;transform:translateX(-50%);width:5px;height:0;
+    background:linear-gradient(180deg,#6e4526,#4a2c14);transition:height .3s;border-radius:3px}
+  #cupZone{margin-top:54px;height:150px;display:flex;align-items:flex-end;justify-content:center;position:relative}
+  #cup{position:relative;width:110px;height:96px;opacity:0;transition:opacity .4s}
+  #cup.show{opacity:1}
+  #cupBody{position:absolute;bottom:0;width:110px;height:86px;background:linear-gradient(180deg,#fdf8ef,#e8ddc8);
+    border-radius:8px 8px 26px 26px;overflow:hidden;border:2px solid #d4c4a8}
+  #coffeeFill{position:absolute;bottom:0;left:0;right:0;height:0;background:linear-gradient(180deg,#8a5c34,#5c3a1e);transition:height 1.6s ease}
+  #latteArt{position:absolute;top:8px;left:50%;transform:translate(-50%,0) scale(0);font-size:34px;transition:transform .5s cubic-bezier(.2,1.4,.4,1)}
+  #latteArt.show{transform:translate(-50%,0) scale(1)}
+  #handle{position:absolute;right:-22px;bottom:24px;width:30px;height:40px;border:7px solid #e8ddc8;border-left:none;border-radius:0 20px 20px 0}
+  .steam{position:absolute;bottom:100px;width:8px;height:26px;border-radius:8px;background:rgba(255,255,255,.35);
+    filter:blur(3px);opacity:0}
+  #sleeve{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);width:114px;background:#c05a2e;
+    color:#fff;font-size:8.5px;font-weight:900;text-align:center;padding:5px 0;letter-spacing:.08em;
+    border-radius:4px;opacity:0;transition:opacity .5s}
+  #sleeve.show{opacity:1}
+  #orderTxt{margin-top:16px;text-align:center;min-height:120px;max-width:420px}
+  #orderTxt .k{font-size:9.5px;letter-spacing:.3em;color:var(--tan);text-transform:uppercase;font-weight:900}
+  #orderTxt h2{font-family:'Yeseva One';font-size:clamp(17px,3vw,24px);margin:8px 0 6px}
+  #orderTxt p{font-size:12px;line-height:1.65;color:rgba(242,232,218,.75)}
+  #orderTxt p b{color:var(--cream)}
+  .btns{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .btn{font-size:10.5px;font-weight:900;letter-spacing:.12em;padding:11px 18px;border-radius:99px;
+    border:2px solid var(--tan);color:var(--tan);text-transform:uppercase}
+  .btn:hover{background:var(--tan);color:#33211a}
+  #loyal{margin-top:18px;font-size:10px;letter-spacing:.2em;color:rgba(242,232,218,.6);text-transform:uppercase;text-align:center;line-height:2}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<h1>☕ Café <span>Nour</span></h1>
+<div class="sub">Every drink on the menu is a service · brewed in Riyadh since 2023 · قهوتك عالحساب</div>
+
+<div id="cafe">
+  <div id="menu">
+    <div class="t">— MENU · قائمة اليوم —</div>
+    <button class="item" data-i="0"><div class="r1"><span>☕ Espresso "Landing Page"</span><span class="pr">Single</span></div><div class="r2">short, strong, converts fast — a one-page website</div></button>
+    <button class="item" data-i="1"><div class="r1"><span>🥛 React Latte</span><span class="pr">Double</span></div><div class="r2">smooth full frontend — TypeScript foam, Tailwind art</div></button>
+    <button class="item" data-i="2"><div class="r1"><span>🎨 Logo Macchiato</span><span class="pr">Signature</span></div><div class="r2">your brand mark, hand-poured</div></button>
+    <button class="item" data-i="3"><div class="r1"><span>📱 Social Media Frappé</span><span class="pr">Monthly</span></div><div class="r2">refreshing visual content, served weekly</div></button>
+    <button class="item" data-i="4"><div class="r1"><span>🧭 Coordination Cold Brew</span><span class="pr">Slow-drip</span></div><div class="r2">patient, precise project management — GoldenTag blend</div></button>
+  </div>
+
+  <div id="counter">
+    <div id="machine"><div class="brandM">NOURPRESSO</div><div class="lightM" id="mlight"></div><div id="spout"></div></div>
+    <div id="stream"></div>
+    <div id="cupZone">
+      <div id="cup">
+        <div id="cupBody"><div id="coffeeFill"></div><div id="latteArt">⚛</div></div>
+        <div id="handle"></div><div id="sleeve">CAFÉ NOUR · nouraldeentofi@gmail.com</div>
+      </div>
+    </div>
+    <div id="orderTxt">
+      <div class="k">Counter open</div>
+      <h2>What are you having?</h2>
+      <p>Pick from the menu — the barista is also a <b>software engineering supervisor</b>, so the coffee comes with clean code.</p>
+    </div>
+    <div id="loyal">LOYALTY CARD: FIRST CONSULTATION FREE ✓<br>BARISTA CERTS: META · GOOGLE ×2 · IBM ×2</div>
+  </div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const DRINKS=[
+ {art:'☕',k:'ORDER № 1 · ESPRESSO',h:'Landing Page — served hot',
+  p:`A single-page website: <b>modern, fast, mobile-first.</b> Perfect for a business that needs to exist online <b>yesterday</b>. Built with React or clean HTML/CSS by a supervisor-level developer.`},
+ {art:'⚛',k:'ORDER № 2 · REACT LATTE',h:'Full Frontend — double shot',
+  p:`Complete React frontends: components, dashboards, whole UIs. <b>TypeScript</b> foam on top, <b>Tailwind</b> latte art. The same stack he leads daily at Distinctive Frontier Co.`},
+ {art:'🎨',k:'ORDER № 3 · LOGO MACCHIATO',h:'Brand Identity — signature pour',
+  p:`A logo people remember + <b>business cards</b> ready for print. Your brand, hand-poured with taste.`},
+ {art:'📱',k:'ORDER № 4 · SOCIAL FRAPPÉ',h:'Social Media Visuals — monthly',
+  p:`Instagram &amp; LinkedIn post designs — <b>consistent, branded, engaging.</b> Your feed stops looking thirsty.`},
+ {art:'🧭',k:'ORDER № 5 · COLD BREW',h:'Project Coordination — slow-drip perfection',
+  p:`He runs your remote team: scope, user stories, timelines, quality. <b>Proof in the cup: GoldenTag</b>, shipped to Google Play exactly this way.`}
+];
+let AC=null,brewing=false;
+function snd(f,t,type,v){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type=type||'sine';o.frequency.value=f;
+  g.gain.setValueAtTime(v||.05,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+(t||.2));
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+(t||.22));}catch(e){}}
+function grind(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const b=AC.createBuffer(1,AC.sampleRate*1.1,AC.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length)*.7;
+  const s=AC.createBufferSource();s.buffer=b;
+  const f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=900;
+  const g=AC.createGain();g.gain.value=.08;
+  s.connect(f);f.connect(g);g.connect(AC.destination);s.start();}catch(e){}}
+
+document.querySelectorAll('.item').forEach(b=>b.onclick=()=>{
+  if(brewing)return;brew(+b.dataset.i);
+});
+async function brew(i){
+  brewing=true;
+  const d=DRINKS[i];
+  const ot=document.getElementById('orderTxt');
+  ot.innerHTML=`<div class="k">${d.k}</div><h2>Brewing…</h2><p>The NOURPRESSO is working. Listen to that grind.</p>`;
+  document.getElementById('mlight').classList.add('on');
+  document.getElementById('cup').classList.add('show');
+  document.getElementById('coffeeFill').style.height='0';
+  document.getElementById('latteArt').classList.remove('show');
+  document.getElementById('sleeve').classList.remove('show');
+  grind();
+  await wait(reduced?100:1100);
+  document.getElementById('stream').style.height='54px';
+  snd(220,.9,'sawtooth',.03);
+  document.getElementById('coffeeFill').style.height='72px';
+  await wait(reduced?100:1700);
+  document.getElementById('stream').style.height='0';
+  document.getElementById('latteArt').textContent=d.art;
+  document.getElementById('latteArt').classList.add('show');
+  /* steam */
+  if(!reduced)for(let s=0;s<3;s++){
+    const st=document.createElement('div');st.className='steam';
+    st.style.left=`calc(50% + ${(s-1)*18}px)`;
+    document.getElementById('cupZone').appendChild(st);
+    st.animate([{opacity:0,transform:'translateY(0)'},{opacity:.7,transform:'translateY(-20px)'},
+      {opacity:0,transform:'translateY(-46px)'}],{duration:1800,delay:s*300,iterations:3}).onfinish=()=>st.remove();
+  }
+  document.getElementById('sleeve').classList.add('show');
+  snd(880,.2);snd(1100,.25);
+  document.getElementById('mlight').classList.remove('on');
+  ot.innerHTML=`<div class="k">${d.k} — READY</div><h2>${d.h}</h2><p>${d.p}</p>
+    <div class="btns">
+      <a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Order%20from%20Caf%C3%A9%20Nour&body=One%20${encodeURIComponent(d.h)}%2C%20please.%20My%20project%3A%20">Order this ☕</a>
+      <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+    </div>`;
+  brewing=false;
+}
+function wait(ms){return new Promise(r=>setTimeout(r,ms));}
+</script>
+</body>
+</html>

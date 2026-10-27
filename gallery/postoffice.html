@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — POST OFFICE · Write Him a Letter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Lora:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--desk:#7a5a3a;--deskd:#5c4229;--paper:#fdf9ee;--ink:#2c2418;--dim:rgba(44,36,24,.6);--wax:#b3402e;--gold:#c9a24a}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Lora',serif;background:linear-gradient(180deg,#8a6a45,var(--desk) 50%,var(--deskd));
+    color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:5vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--wax);color:#fff}
+  h1{color:#f5ead0;font-size:clamp(24px,4.6vw,40px);text-shadow:0 2px 10px rgba(0,0,0,.3)}
+  h1 em{color:var(--gold)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.3em;color:rgba(245,234,208,.75);
+    margin:8px 0 26px;text-transform:uppercase;text-align:center}
+
+  #deskArea{width:min(720px,96vw);display:flex;flex-direction:column;gap:16px}
+  #letter{background:var(--paper);border-radius:6px;padding:34px 38px;position:relative;
+    box-shadow:0 24px 60px rgba(0,0,0,.4);
+    background-image:repeating-linear-gradient(0deg,transparent 0 32px,rgba(44,36,24,.07) 32px 33px)}
+  #letter .to{font-size:14px;color:var(--dim);margin-bottom:8px}
+  #letter .to b{color:var(--ink)}
+  #msg{width:100%;min-height:150px;border:none;background:transparent;resize:vertical;
+    font-family:'Homemade Apple',cursive;font-size:17px;line-height:33px;color:#1a3d6e;outline:none}
+  #letter .from{text-align:right;font-family:'Homemade Apple',cursive;font-size:15px;color:#1a3d6e;margin-top:10px}
+  /* stamp corner */
+  #stampSlot{position:absolute;top:20px;right:22px;width:86px;height:100px;border:2px dashed rgba(44,36,24,.3);
+    border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--dim);
+    text-align:center;padding:6px}
+  #stampSlot.filled{border-style:solid;border-color:transparent}
+  .stampDesign{width:100%;height:100%;border-radius:4px;padding:8px 6px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:4px;color:#fff;position:relative;
+    -webkit-mask:radial-gradient(circle 5px at 0 0,transparent 4px,#000 5px) -5px -5px/20px 20px}
+  .stampDesign .se{font-size:26px}
+  .stampDesign .sn{font-size:8px;font-weight:700;letter-spacing:.1em;text-align:center;font-family:'IBM Plex Mono'}
+  #postmark{position:absolute;top:34px;right:96px;width:84px;height:84px;border:2.5px solid rgba(44,36,24,.5);
+    border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono';font-size:8px;color:rgba(44,36,24,.55);transform:rotate(-12deg) scale(0);
+    transition:transform .3s cubic-bezier(.2,1.5,.4,1);text-align:center;letter-spacing:.06em}
+  #postmark.show{transform:rotate(-12deg) scale(1)}
+
+  /* stamp picker */
+  #stampBar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:rgba(253,249,238,.14);
+    border:1px solid rgba(245,234,208,.3);border-radius:14px;padding:12px 16px}
+  #stampBar .lb{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;color:#f5ead0;text-transform:uppercase}
+  .pick{width:56px;height:66px;border:none;border-radius:4px;cursor:pointer;padding:0;overflow:hidden;
+    transition:transform .15s;background:none}
+  .pick:hover{transform:translateY(-4px) rotate(-3deg)}
+  .pick .stampDesign{-webkit-mask:none}
+
+  /* templates + wax + send */
+  #tools{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .tmpl{font-family:'Lora';font-style:italic;font-size:12px;background:rgba(253,249,238,.9);border:none;
+    border-radius:99px;padding:11px 18px;cursor:pointer;color:var(--ink);transition:transform .15s}
+  .tmpl:hover{transform:translateY(-2px)}
+  #waxB{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;border:none;border-radius:99px;
+    padding:14px 26px;background:var(--wax);color:#fff;cursor:pointer;text-transform:uppercase;
+    box-shadow:0 4px 0 #7a281c}
+  #waxB:active{transform:translateY(3px);box-shadow:0 1px 0 #7a281c}
+  #sendB{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;border-radius:99px;
+    padding:14px 26px;background:var(--gold);color:#3a2a10;text-transform:uppercase;font-weight:600;
+    box-shadow:0 4px 0 #8a6a28;display:inline-block}
+  #sendB.off{opacity:.45;pointer-events:none}
+  /* wax seal */
+  #seal{position:absolute;bottom:18px;left:50%;transform:translate(-50%,0) scale(0);width:74px;height:74px;
+    border-radius:50%;background:radial-gradient(circle at 38% 32%,#d4604a,var(--wax) 60%,#8a2a1c);
+    display:flex;align-items:center;justify-content:center;color:#f5d9c9;font-family:'Lora';font-weight:600;
+    font-size:22px;box-shadow:0 6px 16px rgba(0,0,0,.4), inset 0 2px 4px rgba(255,255,255,.3);
+    transition:transform .35s cubic-bezier(.2,1.6,.4,1)}
+  #seal.show{transform:translate(-50%,0) scale(1)}
+  #promise{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.2em;color:rgba(245,234,208,.7);
+    text-align:center;text-transform:uppercase;line-height:2}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<h1>📮 The <em>Nour</em> Post Office</h1>
+<div class="sub">Write a real letter · pick a stamp · seal it with wax · it becomes a real email · اكتبلي</div>
+
+<div id="deskArea">
+  <div id="stampBar"><span class="lb">Choose a stamp →</span></div>
+
+  <div id="letter">
+    <div id="stampSlot">place<br>stamp<br>here</div>
+    <div id="postmark">RIYADH<br>★<br><span id="pmDate"></span><br>KSA</div>
+    <div class="to">To: <b>Nour Aldeen Tofi</b> — Frontend Developer &amp; SW Engineering Supervisor, Riyadh</div>
+    <textarea id="msg" placeholder="Dear Nour, I have a project in mind…" spellcheck="false"></textarea>
+    <div class="from">— yours, a future collaborator</div>
+    <div id="seal">N</div>
+  </div>
+
+  <div id="tools">
+    <button class="tmpl" data-t="0">✍ "I need a website…"</button>
+    <button class="tmpl" data-t="1">✍ "Design my logo…"</button>
+    <button class="tmpl" data-t="2">✍ "Run my project…"</button>
+    <button id="waxB">🕯 Seal with wax</button>
+    <a id="sendB" class="off" href="#">✉ Send the letter</a>
+  </div>
+  <div id="promise">He reads every letter · replies fast · Arabic + English · proof of delivery: GoldenTag on Google Play<br>
+    prefer modern mail? <a href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener" style="text-decoration:underline">LINKEDIN</a> ·
+    <a href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener" style="text-decoration:underline">WEBSITE</a></div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.getElementById('pmDate').textContent=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase();
+
+const STAMPS=[
+ {e:'⚛️',n:'REACT · 5 SAR',bg:'linear-gradient(160deg,#2e6fb8,#173a5e)'},
+ {e:'🕌',n:'RIYADH · 3 SAR',bg:'linear-gradient(160deg,#c9822e,#7a4a14)'},
+ {e:'💍',n:'GOLDENTAG · 7 SAR',bg:'linear-gradient(160deg,#c9a24a,#8a6a28)'},
+ {e:'♟️',n:'CHESS · 2 SAR',bg:'linear-gradient(160deg,#3a3f47,#17191d)'}
+];
+const TMPLS=[
+ "Dear Nour,\nMy business needs a website that actually looks professional. I heard you build fast, modern React sites.\nCan we talk this week?",
+ "Dear Nour,\nMy brand has no face — I need a logo and business cards that people remember.\nWhat do you need from me to start?",
+ "Dear Nour,\nMy dev project is drifting: unclear scope, missed deadlines.\nI need a coordinator who has actually shipped (I saw GoldenTag). Help?"
+];
+let AC=null;
+function snd(f,t,type,v){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type=type||'sine';o.frequency.value=f;
+  g.gain.setValueAtTime(v||.06,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+(t||.15));
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+(t||.17));}catch(e){}}
+
+/* stamps */
+const bar=document.getElementById('stampBar');
+STAMPS.forEach((s)=>{
+  const b=document.createElement('button');b.className='pick';
+  b.innerHTML=`<div class="stampDesign" style="background:${s.bg}"><span class="se">${s.e}</span><span class="sn">${s.n}</span></div>`;
+  b.onclick=()=>{
+    snd(700,.12);
+    const slot=document.getElementById('stampSlot');
+    slot.classList.add('filled');
+    slot.innerHTML=`<div class="stampDesign" style="background:${s.bg}"><span class="se">${s.e}</span><span class="sn">${s.n}</span></div>`;
+    setTimeout(()=>{document.getElementById('postmark').classList.add('show');snd(300,.2,'sine',.1);},reduced?50:400);
+    checkReady();
+  };
+  bar.appendChild(b);
+});
+/* templates */
+document.querySelectorAll('.tmpl').forEach(b=>b.onclick=()=>{
+  document.getElementById('msg').value=TMPLS[+b.dataset.t];
+  snd(520,.08);checkReady();
+});
+document.getElementById('msg').addEventListener('input',checkReady);
+
+/* wax seal */
+let sealed=false;
+document.getElementById('waxB').onclick=()=>{
+  if(sealed)return;sealed=true;
+  snd(180,.3,'sine',.12);
+  document.getElementById('seal').classList.add('show');
+  checkReady();
+};
+function checkReady(){
+  const ok=document.getElementById('msg').value.trim().length>4;
+  const send=document.getElementById('sendB');
+  send.classList.toggle('off',!ok);
+  const body=encodeURIComponent(document.getElementById('msg').value+'\n\n(sealed with wax at the Nour Post Office 🕯)');
+  send.href=`mailto:nouraldeentofi@gmail.com?subject=A%20letter%20for%20Nour&body=${body}`;
+}
+document.getElementById('sendB').addEventListener('click',()=>{
+  snd(880,.2);snd(1100,.3);
+  if(!reduced)document.getElementById('letter').animate(
+    [{transform:'none',opacity:1},{transform:'translateY(-40px) rotate(-3deg)',opacity:.4},{transform:'none',opacity:1}],
+    {duration:900,easing:'ease-in-out'});
+});
+</script>
+</body>
+</html>

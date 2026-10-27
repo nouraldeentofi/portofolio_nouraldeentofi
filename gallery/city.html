@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOURVILLE — Build the City of Your Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chango&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--sky3:#8fd0e8;--night3:#141c36;--grass2:#6ab86a;--fg:#22303a;--dim:rgba(34,48,58,.65);--acc:#e05a3a}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;color:var(--fg);min-height:100vh;transition:background 1.5s;
+    background:linear-gradient(180deg,var(--sky3),#c9e8d8);display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  body.night{background:linear-gradient(180deg,var(--night3),#243050);color:#e8ecf8}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--acc);color:#fff}
+  h1{font-family:'Chango';font-size:clamp(22px,4.6vw,40px)}
+  h1 span{color:var(--acc)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.26em;opacity:.7;
+    margin:8px 0 14px;text-transform:uppercase;text-align:center}
+  #stats{display:flex;gap:10px;margin-bottom:12px;font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;flex-wrap:wrap;justify-content:center}
+  #stats span{background:rgba(255,255,255,.5);padding:9px 14px;border-radius:99px}
+  body.night #stats span{background:rgba(255,255,255,.12)}
+  #stats b{color:var(--acc)}
+
+  #cityBox{position:relative;width:min(820px,97vw);height:380px;border-radius:18px;overflow:hidden;
+    background:linear-gradient(180deg,transparent 55%,var(--grass2) 55%);box-shadow:0 24px 60px rgba(0,0,0,.25)}
+  body.night #cityBox{background:linear-gradient(180deg,transparent 55%,#2a4a2e 55%)}
+  #sun3{position:absolute;top:24px;right:40px;width:54px;height:54px;border-radius:50%;
+    background:radial-gradient(circle at 36% 30%,#fff6c9,#ffd23f);box-shadow:0 0 40px rgba(255,210,63,.7);transition:all 1.5s}
+  body.night #sun3{background:radial-gradient(circle at 36% 30%,#f0f4ff,#c2cdea);box-shadow:0 0 30px rgba(194,205,234,.5)}
+  .cloud3{position:absolute;background:rgba(255,255,255,.85);border-radius:99px;animation:dr2 linear infinite}
+  body.night .cloud3{background:rgba(255,255,255,.12)}
+  @keyframes dr2{from{transform:translateX(-140px)}to{transform:translateX(1000px)}}
+  #road4{position:absolute;left:0;right:0;bottom:56px;height:30px;background:#4a505c}
+  #road4::after{content:'';position:absolute;left:0;right:0;top:13px;height:3px;
+    background:repeating-linear-gradient(90deg,#f0e6c8 0 20px,transparent 20px 44px)}
+  .carC{position:absolute;bottom:62px;font-size:20px;z-index:6}
+  #lots{position:absolute;left:0;right:0;bottom:86px;display:flex;justify-content:space-around;align-items:flex-end;padding:0 3%}
+  .lot{position:relative;width:12%;max-width:96px;text-align:center;cursor:pointer}
+  .lot .ghost{border:2.5px dashed rgba(34,48,58,.4);border-radius:8px 8px 0 0;height:60px;display:flex;
+    align-items:center;justify-content:center;font-size:20px;opacity:.65;transition:all .2s;background:rgba(255,255,255,.2)}
+  body.night .lot .ghost{border-color:rgba(232,236,248,.4)}
+  .lot:hover .ghost{opacity:1;transform:translateY(-3px)}
+  .lot .lotLb{font-family:'IBM Plex Mono';font-size:8px;letter-spacing:.06em;margin-top:4px;opacity:.7;text-transform:uppercase}
+  .bld3{position:relative;border-radius:8px 8px 0 0;animation:rise2 .7s cubic-bezier(.2,1.2,.4,1);
+    box-shadow:0 8px 20px rgba(0,0,0,.25);overflow:hidden}
+  @keyframes rise2{from{transform:translateY(100%) scaleY(.2);opacity:0}}
+  .bld3 .winsC{position:absolute;inset:8px 7px auto;display:grid;grid-template-columns:1fr 1fr;gap:4px}
+  .bld3 .winsC i{height:8px;border-radius:2px;background:rgba(255,255,255,.4);transition:all 1s}
+  body.night .bld3 .winsC i{background:#ffd97a;box-shadow:0 0 6px rgba(255,217,122,.7)}
+  .bld3 .bIc{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:17px}
+
+  #panelC{width:min(820px,97vw);margin-top:14px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+  #dayB{font-family:'Chango';font-size:12px;border:none;border-radius:99px;padding:12px 20px;cursor:pointer;
+    background:var(--fg);color:#fff}
+  body.night #dayB{background:#e8ecf8;color:#141c36}
+  #mayor{margin-top:14px;max-width:600px;text-align:center;min-height:96px}
+  #mayor .k{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.28em;color:var(--acc);text-transform:uppercase;font-weight:600}
+  #mayor h2{font-family:'Chango';font-size:clamp(16px,3.2vw,24px);margin:8px 0 6px}
+  #mayor p{font-size:12.5px;line-height:1.7;opacity:.85}
+  .btns{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 18px;border-radius:99px;
+    background:var(--acc);color:#fff;text-transform:uppercase;font-weight:600}
+  .btn.g{background:none;border:2px solid var(--acc);color:var(--acc)}
+  .confC{position:fixed;z-index:80;width:8px;height:12px;pointer-events:none}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>🏙 NOUR<span>VILLE</span></h1>
+<div class="sub">Population: your project · click the empty lots to build the whole city · ابنيها حي بحي</div>
+<div id="stats"><span>DISTRICTS <b id="dN">0</b>/6</span><span>POPULATION <b id="pop">0</b></span><span>MAYOR: N.A. TOFI</span></div>
+
+<div id="cityBox">
+  <div id="sun3"></div>
+  <div class="cloud3" style="top:30px;width:90px;height:26px;animation-duration:70s"></div>
+  <div class="cloud3" style="top:64px;width:60px;height:18px;animation-duration:95s;animation-delay:-40s"></div>
+  <div id="lots"></div>
+  <div id="road4"></div>
+</div>
+
+<div id="panelC"><button id="dayB">🌙 Nightfall</button></div>
+
+<div id="mayor">
+  <div class="k">From the mayor's office</div>
+  <h2>Every business starts as an empty lot</h2>
+  <p>Six districts wait. Each one is a real service by <b>Nour Aldeen Tofi</b> — build them all and watch what a complete digital presence looks like.</p>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const DISTRICTS=[
+ {ic:'🌐',nm:'WEB TOWER',h:110,col:'linear-gradient(180deg,#5c8ac9,#2e5a99)',lb:'website district',
+  k:'DISTRICT 1 · WEB TOWER',p:'The tallest building downtown: <b>your website</b> — landing pages, portfolios, business sites. Modern, fast, mobile-first. Every city needs an address people can find.'},
+ {ic:'⚛️',nm:'REACT LABS',h:88,col:'linear-gradient(180deg,#4ac0e0,#1d7a9e)',lb:'frontend district',
+  k:'DISTRICT 2 · REACT LABS',p:'The tech quarter: <b>React frontends</b> in TypeScript + Tailwind, engineered at supervisor grade (Distinctive Frontier Co., 2026→).'},
+ {ic:'🎨',nm:'DESIGN QTR',h:72,col:'linear-gradient(180deg,#e88ab8,#b3457a)',lb:'brand district',
+  k:'DISTRICT 3 · DESIGN QUARTER',p:'The stylish streets: <b>logos, business cards, visual identity.</b> This district makes the whole city photogenic.'},
+ {ic:'📱',nm:'SOCIAL PLAZA',h:80,col:'linear-gradient(180deg,#8a7ae0,#4a3ab3)',lb:'social district',
+  k:'DISTRICT 4 · SOCIAL PLAZA',p:'The loudest square in town: <b>Instagram &amp; LinkedIn visuals</b> — consistent, branded, alive. Population: your followers.'},
+ {ic:'🧭',nm:'COORD HQ',h:96,col:'linear-gradient(180deg,#5cb98a,#2e7a54)',lb:'operations district',
+  k:'DISTRICT 5 · COORDINATION HQ',p:'City hall: <b>project coordination</b> — scope, user stories, timelines, releases. The department that shipped GoldenTag to Google Play.'},
+ {ic:'🏆',nm:'PROOF PARK',h:64,col:'linear-gradient(180deg,#e8b93c,#b3822e)',lb:'trust district',
+  k:'DISTRICT 6 · PROOF PARK',p:'The monuments: <b>Meta, Google ×2, IBM ×2 certifications · ICPC 2021 · B.Tech IT.</b> Tourists (clients) love this part.'}
+];
+let AC=null;
+function hammer3(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  [0,0.12,0.24].forEach(t=>{const o=AC.createOscillator(),g=AC.createGain();
+    o.type='sine';o.frequency.value=180;
+    g.gain.setValueAtTime(.1,AC.currentTime+t);
+    g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+t+.1);
+    o.connect(g);g.connect(AC.destination);o.start(AC.currentTime+t);o.stop(AC.currentTime+t+.12);});}catch(e){}}
+function fanfC(){[523,659,784,1047].forEach((f,i)=>setTimeout(()=>{
+  try{const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;
+  g.gain.setValueAtTime(.07,AC.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.35);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.4);}catch(e){}},i*140));}
+
+const lots=document.getElementById('lots');
+let built=0,pop=0;
+DISTRICTS.forEach((d,i)=>{
+  const lot=document.createElement('div');lot.className='lot';
+  lot.innerHTML=`<div class="ghost">➕</div><div class="lotLb">${d.lb}</div>`;
+  lot.onclick=()=>{
+    if(lot.dataset.done)return;
+    lot.dataset.done=1;
+    hammer3();
+    let wins='';for(let w=0;w<Math.floor(d.h/16)*2;w++)wins+='<i></i>';
+    lot.innerHTML=`<div class="bld3" style="height:${d.h}px;background:${d.col}">
+      <div class="winsC">${wins}</div><div class="bIc">${d.ic}</div></div>
+      <div class="lotLb">${d.nm}</div>`;
+    built++;pop+=120+Math.floor(Math.random()*300);
+    document.getElementById('dN').textContent=built;
+    document.getElementById('pop').textContent=pop.toLocaleString();
+    setM(d.k,d.nm+' — open for business!',d.p);
+    if(built===1)spawnCar();
+    if(built===3)spawnCar();
+    if(built>=DISTRICTS.length){
+      fanfC();
+      if(!reduced)confettiC();
+      setM('🎉 CITY COMPLETE — RIBBON CUT','Nourville is fully operational',
+        `Six districts, one builder: <b>Nour Aldeen Tofi</b> — frontend developer &amp; SW engineering supervisor, Riyadh · AR+EN. Your business deserves a skyline like this.`,true);
+    }
+  };
+  lots.appendChild(lot);
+});
+function setM(k,h,p,final){
+  document.querySelector('#mayor .k').textContent=k;
+  document.querySelector('#mayor h2').textContent=h;
+  document.querySelector('#mayor p').innerHTML=p;
+  const old=document.querySelector('#mayor .btns');if(old)old.remove();
+  if(final){
+    const d=document.createElement('div');d.className='btns';
+    d.innerHTML=`<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Build%20my%20city&body=Nourville%20convinced%20me.%20My%20empty%20lot%3A%20">🏗 Build my city</a>
+      <a class="btn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`;
+    document.getElementById('mayor').appendChild(d);
+  }
+}
+function spawnCar(){
+  const c=document.createElement('div');c.className='carC';
+  c.textContent=Math.random()<.5?'🚗':'🚙';
+  document.getElementById('cityBox').appendChild(c);
+  if(!reduced)c.animate([{left:'-40px'},{left:'110%'}],
+    {duration:9000+Math.random()*5000,iterations:Infinity,easing:'linear',delay:Math.random()*4000});
+  else c.style.left='40%';
+}
+function confettiC(){
+  for(let i=0;i<60;i++){
+    const c=document.createElement('div');c.className='confC';
+    c.style.cssText=`left:${40+Math.random()*20}vw;top:26vh;background:${['#e05a3a','#ffd23f','#5cb98a','#5c8ac9'][i%4]}`;
+    document.body.appendChild(c);
+    c.animate([{transform:'translate(0,0) rotate(0)',opacity:1},
+      {transform:`translate(${(Math.random()-.5)*50}vw,${30+Math.random()*40}vh) rotate(${Math.random()*720}deg)`,opacity:0}],
+      {duration:1500+Math.random()*900,easing:'cubic-bezier(.2,.6,.6,1)'}).onfinish=()=>c.remove();
+  }
+}
+document.getElementById('dayB').onclick=e=>{
+  document.body.classList.toggle('night');
+  e.target.textContent=document.body.classList.contains('night')?'☀️ Daybreak':'🌙 Nightfall';
+};
+</script>
+</body>
+</html>

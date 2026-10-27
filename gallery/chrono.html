@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — CHRONO·DRIVE · 2019 → 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poiret+One&family=Josefin+Sans:wght@300;400;600&family=Cutive+Mono&display=swap" rel="stylesheet">
+<style>
+  :root{--void:#14101f;--deep:#0c0916;--brass:#b08d57;--brasslight:#e6c891;--amber:#ffc15e;--ivory:#f4ecdd;--teal:#4fd1b5}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Josefin Sans',sans-serif;background:radial-gradient(ellipse at 50% 45%,var(--void),var(--deep) 75%);color:var(--ivory);overflow-x:hidden}
+  ::selection{background:var(--amber);color:#14101f}
+
+  /* ===== 3D VIEWPORT ===== */
+  #viewport{position:fixed;inset:0;z-index:5;perspective:950px;overflow:hidden}
+  #world{position:absolute;left:50%;top:50%;transform-style:preserve-3d}
+  .station{position:absolute;left:0;top:0;transform-style:preserve-3d;width:min(620px,88vw);
+    margin-left:calc(min(620px,88vw)/-2);opacity:0;will-change:transform,opacity}
+  .stInner{transform:translateY(-50%)}
+  .ring{position:absolute;left:50%;top:0;width:170vmin;height:170vmin;margin:-85vmin 0 0 -85vmin;border-radius:50%;
+    pointer-events:none;
+    background:
+      repeating-conic-gradient(from 0deg,var(--brass) 0deg 1.4deg,transparent 1.4deg 8deg);
+    -webkit-mask:radial-gradient(circle,transparent 63%,#000 64%,#000 66%,transparent 67%);
+    mask:radial-gradient(circle,transparent 63%,#000 64%,#000 66%,transparent 67%);opacity:.85}
+  .ring.g{background:repeating-conic-gradient(from 4deg,var(--teal) 0deg .8deg,transparent .8deg 12deg)}
+  .yearTag{position:absolute;left:50%;top:0;transform:translate(-50%,-50%) translateY(-56vmin);
+    font-family:'Poiret One';font-size:clamp(20px,3vw,30px);letter-spacing:.5em;color:var(--brasslight)}
+
+  .plate{background:rgba(20,16,31,.82);border:1px solid rgba(176,141,87,.55);border-radius:8px;padding:38px 42px;
+    box-shadow:0 0 60px rgba(255,193,94,.12), inset 0 0 30px rgba(176,141,87,.08);backdrop-filter:blur(4px);position:relative}
+  .plate::before{content:'';position:absolute;inset:7px;border:1px solid rgba(176,141,87,.3);border-radius:5px;pointer-events:none}
+  .plate .rivet{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--brass);box-shadow:inset -1px -1px 2px rgba(0,0,0,.6)}
+  .rivet.tl{top:10px;left:10px}.rivet.tr{top:10px;right:10px}.rivet.bl{bottom:10px;left:10px}.rivet.br{bottom:10px;right:10px}
+  .stamp{font-family:'Cutive Mono',monospace;font-size:11.5px;letter-spacing:3px;color:var(--amber);margin-bottom:12px;text-transform:uppercase}
+  h1{font-family:'Poiret One';font-weight:400;font-size:clamp(46px,8vw,96px);line-height:1.04;letter-spacing:.04em}
+  h2{font-family:'Poiret One';font-size:clamp(26px,3.8vw,42px);line-height:1.1;margin-bottom:12px;letter-spacing:.03em;color:var(--brasslight)}
+  h2 b{color:var(--amber);font-weight:400}
+  p{font-weight:300;font-size:16px;line-height:1.7;color:rgba(244,236,221,.88)}
+  p+p{margin-top:10px}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .tag{font-family:'Cutive Mono',monospace;font-size:11.5px;padding:6px 12px;border:1px solid rgba(79,209,181,.5);border-radius:3px;color:var(--teal)}
+  a{color:var(--amber);text-decoration:none;border-bottom:1px dotted rgba(255,193,94,.5)}
+  a:hover{color:#fff}
+
+  /* warp streaks */
+  .streak{position:absolute;left:50%;top:50%;width:2px;background:linear-gradient(180deg,transparent,var(--amber),transparent);
+    opacity:0;transform-origin:center -30vmin;border-radius:2px}
+
+  /* ===== HUD ===== */
+  #hud{position:fixed;top:22px;left:50%;transform:translateX(-50%);z-index:30;display:flex;gap:14px;align-items:center;
+    font-family:'Cutive Mono',monospace;background:rgba(12,9,22,.75);border:1px solid rgba(176,141,87,.5);
+    border-radius:40px;padding:10px 26px;backdrop-filter:blur(6px)}
+  #hud .lbl{font-size:10px;letter-spacing:3px;color:var(--brass)}
+  #yearNow{font-size:clamp(22px,3.4vw,32px);color:var(--amber);letter-spacing:4px;min-width:4.4ch;text-align:center}
+  #gearL,#gearR{width:26px;height:26px;color:var(--brass)}
+  #speedo{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:30;font-family:'Cutive Mono',monospace;
+    font-size:10.5px;letter-spacing:3px;color:var(--brass);text-align:center}
+  #speedo b{color:var(--amber)}
+
+  /* scroll driver (invisible) */
+  #track{position:relative;z-index:1}
+  .seg{height:170vh}
+
+  /* buttons */
+  .btnrow{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+  .btn{font-family:'Cutive Mono',monospace;font-size:13px;letter-spacing:2px;padding:13px 22px;border-radius:3px;
+    border:1px solid var(--amber);color:var(--amber);background:transparent;text-decoration:none;transition:all .25s}
+  .btn.solid{background:var(--amber);color:#14101f}
+  .btn:hover{background:var(--brasslight);border-color:var(--brasslight);color:#14101f;transform:translateY(-2px)}
+
+  /* boot overlay */
+  #boot{position:fixed;inset:0;z-index:60;background:var(--deep);display:flex;flex-direction:column;align-items:center;justify-content:center;
+    font-family:'Cutive Mono',monospace;letter-spacing:3px;color:var(--amber);text-align:center;gap:14px}
+  #boot .big{font-family:'Poiret One';font-size:clamp(30px,5vw,52px);letter-spacing:.4em;color:var(--brasslight)}
+
+  /* reduced-motion fallback: flat document */
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    #viewport{position:static;perspective:none;overflow:visible}
+    #world{position:static;transform:none!important}
+    .station{position:static;opacity:1!important;transform:none!important;margin:60px auto;width:min(620px,88vw)}
+    .stInner{transform:none}
+    .ring,.streak,#boot,.yearTag,#speedo{display:none}
+    .seg{display:none}
+  }
+  @media(max-width:640px){.plate{padding:28px 24px}}
+  /* graceful fallback if GSAP fails to load */
+  html.nofx #viewport{position:static;perspective:none;overflow:visible}
+  html.nofx #world{position:static;transform:none!important}
+  html.nofx .station{position:static;opacity:1!important;transform:none!important;margin:60px auto;width:min(620px,88vw)}
+  html.nofx .stInner{transform:none}
+  html.nofx .ring,html.nofx .streak,html.nofx .yearTag,html.nofx #speedo{display:none}
+  html.nofx .seg{display:none}
+  html.nofx #hud{position:static;transform:none;margin:20px auto;width:fit-content}
+</style>
+</head>
+<body>
+
+<div id="boot" aria-hidden="true">
+  <div class="big">CHRONO·DRIVE</div>
+  <div id="bootline">CALIBRATING TEMPORAL COILS…</div>
+</div>
+
+<div id="hud" role="status">
+  <svg id="gearL" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8a4 4 0 100 8 4 4 0 000-8zm9.4 5.5l-1.9-.3a7.6 7.6 0 000-2.4l1.9-.3a.5.5 0 00.4-.6l-.7-2a.5.5 0 00-.6-.3l-1.8.6a7.6 7.6 0 00-1.7-1.7l.6-1.8a.5.5 0 00-.3-.6l-2-.7a.5.5 0 00-.6.4l-.3 1.9a7.6 7.6 0 00-2.4 0l-.3-1.9a.5.5 0 00-.6-.4l-2 .7a.5.5 0 00-.3.6l.6 1.8A7.6 7.6 0 005.7 8.2l-1.8-.6a.5.5 0 00-.6.3l-.7 2a.5.5 0 00.4.6l1.9.3a7.6 7.6 0 000 2.4l-1.9.3a.5.5 0 00-.4.6l.7 2a.5.5 0 00.6.3l1.8-.6a7.6 7.6 0 001.7 1.7l-.6 1.8a.5.5 0 00.3.6l2 .7a.5.5 0 00.6-.4l.3-1.9a7.6 7.6 0 002.4 0l.3 1.9a.5.5 0 00.6.4l2-.7a.5.5 0 00.3-.6l-.6-1.8a7.6 7.6 0 001.7-1.7l1.8.6a.5.5 0 00.6-.3l.7-2a.5.5 0 00-.4-.6z"/></svg>
+  <div><div class="lbl">TEMPORAL POSITION</div><div id="yearNow">2019</div></div>
+  <svg id="gearR" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8a4 4 0 100 8 4 4 0 000-8zm9.4 5.5l-1.9-.3a7.6 7.6 0 000-2.4l1.9-.3a.5.5 0 00.4-.6l-.7-2a.5.5 0 00-.6-.3l-1.8.6a7.6 7.6 0 00-1.7-1.7l.6-1.8a.5.5 0 00-.3-.6l-2-.7a.5.5 0 00-.6.4l-.3 1.9a7.6 7.6 0 00-2.4 0l-.3-1.9a.5.5 0 00-.6-.4l-2 .7a.5.5 0 00-.3.6l.6 1.8A7.6 7.6 0 005.7 8.2l-1.8-.6a.5.5 0 00-.6.3l-.7 2a.5.5 0 00.4.6l1.9.3a7.6 7.6 0 000 2.4l-1.9.3a.5.5 0 00-.4.6l.7 2a.5.5 0 00.6.3l1.8-.6a7.6 7.6 0 001.7 1.7l-.6 1.8a.5.5 0 00.3.6l2 .7a.5.5 0 00.6-.4l.3-1.9a7.6 7.6 0 002.4 0l.3 1.9a.5.5 0 00.6.4l2-.7a.5.5 0 00.3-.6l-.6-1.8a7.6 7.6 0 001.7-1.7l1.8.6a.5.5 0 00.6-.3l.7-2a.5.5 0 00-.4-.6z"/></svg>
+</div>
+<div id="speedo">TEMPORAL VELOCITY <b id="vel">0.00</b> YRS/S · SCROLL TO ENGAGE THE DRIVE</div>
+
+<div id="viewport" aria-hidden="false">
+  <div id="world">
+    <!-- Station 0 · hero -->
+    <div class="station" data-year="2019">
+      <div class="ring"></div>
+      <div class="stInner">
+        <div class="plate" style="text-align:center">
+          <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+          <div class="stamp">CHRONO·DRIVE MK.26 · PASSENGER MANIFEST: 1</div>
+          <h1>Nour Aldeen Tofi</h1>
+          <p style="margin-top:10px;font-size:17px">Frontend Developer &amp; Software Engineering Supervisor — Riyadh.<br>You are about to travel through seven years of his timeline.<br><b style="color:var(--amber)">Scroll = throttle.</b> Please keep hands inside the website.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2019 -->
+    <div class="station" data-year="2019">
+      <div class="ring g"></div><div class="yearTag">2019</div>
+      <div class="stInner"><div class="plate">
+        <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+        <div class="stamp">Waypoint 01 · Origin</div>
+        <h2>University of <b>Kalamoon</b></h2>
+        <p>B.Tech in Information Technology begins. First lines of code, first all-nighters, first inkling that the browser is the best canvas there is. (Degree completed August 2024.)</p>
+        <div class="tags"><span class="tag">B.TECH IT</span><span class="tag">2019 → 2024</span></div>
+      </div></div>
+    </div>
+
+    <!-- 2021 -->
+    <div class="station" data-year="2021">
+      <div class="ring"></div><div class="yearTag">2021</div>
+      <div class="stInner"><div class="plate">
+        <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+        <div class="stamp">Waypoint 02 · The Arena</div>
+        <h2>ICPC / <b>ACPC</b></h2>
+        <p>Collegiate competitive programming. Hard problems, harder time limits, team leadership under pressure. The algorithmic reflexes from this era still fire on every code review.</p>
+        <div class="tags"><span class="tag">PROBLEM SOLVING</span><span class="tag">TEAM LEADERSHIP</span></div>
+      </div></div>
+    </div>
+
+    <!-- 2023 -->
+    <div class="station" data-year="2023">
+      <div class="ring g"></div><div class="yearTag">2023</div>
+      <div class="stInner"><div class="plate">
+        <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+        <div class="stamp">Waypoint 03 · First Engine Room</div>
+        <h2>Minicodeleader — <b>React Developer</b></h2>
+        <p>Jun 2023 → Feb 2024. First professional post: component-driven React development. Learned that clean code is a courtesy to your future self.</p>
+        <div class="tags"><span class="tag">REACT</span><span class="tag">COMPONENTS</span></div>
+      </div></div>
+    </div>
+
+    <!-- 2024 -->
+    <div class="station" data-year="2024">
+      <div class="ring"></div><div class="yearTag">2024</div>
+      <div class="stInner"><div class="plate">
+        <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+        <div class="stamp">Waypoint 04 · New Coordinates: Riyadh</div>
+        <h2>Khwarizm <b>Technologies</b></h2>
+        <p>Sep 2024 → Apr 2025. Graduated, relocated, leveled up: production React interfaces in the Saudi capital, shoulder-to-shoulder with designers and backend engineers. IBM Python &amp; GenAI certifications banked the same year.</p>
+        <div class="tags"><span class="tag">PRODUCTION REACT</span><span class="tag">IBM PYTHON · GENAI</span></div>
+      </div></div>
+    </div>
+
+    <!-- 2025 -->
+    <div class="station" data-year="2025">
+      <div class="ring g"></div><div class="yearTag">2025</div>
+      <div class="stInner"><div class="plate">
+        <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+        <div class="stamp">Waypoint 05 · Twin Timelines</div>
+        <h2>Distinctive Frontier <b>+ NexLead</b></h2>
+        <p>Frontend Developer &amp; Project Coordinator at Distinctive Frontier Co. by day; freelance Project Coordinator at NexLead in parallel — requirements, scope, Trello boards, releases. Shipped <b style="color:var(--amber)">GoldenTag</b> to Google Play: jewelry store management with barcode scanning, USD/SYP rates, sales logs.</p>
+        <p>Certification cascade: Meta Advanced React · Google Project Management ×2 · Jira suite · TypeScript in React.</p>
+        <div class="tags"><span class="tag">GOLDENTAG</span><span class="tag">META · GOOGLE CERTS</span><span class="tag">COORDINATION</span></div>
+      </div></div>
+    </div>
+
+    <!-- 2026 -->
+    <div class="station" data-year="2026">
+      <div class="ring"></div><div class="yearTag">2026</div>
+      <div class="stInner"><div class="plate">
+        <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+        <div class="stamp">Waypoint 06 · Present Day</div>
+        <h2>Software Engineering <b>Supervisor</b></h2>
+        <p>Jan 2026 → now. Leading frontend at Distinctive Frontier Co.: scalable React UI systems, coding standards, backend alignment, ideas turned into shipped product. The timeline you're standing in.</p>
+        <div class="tags"><span class="tag">REACT</span><span class="tag">TYPESCRIPT</span><span class="tag">TAILWIND</span><span class="tag">LEADERSHIP</span><span class="tag">GIT · JIRA</span></div>
+      </div></div>
+    </div>
+
+    <!-- Arrival / contact -->
+    <div class="station" data-year="NOW">
+      <div class="ring g"></div>
+      <div class="stInner"><div class="plate" style="text-align:center">
+        <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+        <div class="stamp">ARRIVAL · DRIVE DISENGAGED · DOORS OPEN</div>
+        <h2 style="font-size:clamp(30px,5vw,52px)">The next timeline<br>is <b>yours to write</b></h2>
+        <p>Websites · React frontends · logos · business cards · social graphics · full project coordination. Board with the engineer who's already seen how it ends: shipped.</p>
+        <div class="btnrow" style="justify-content:center">
+          <a class="btn solid" href="mailto:nouraldeentofi@gmail.com">TRANSMIT MESSAGE</a>
+          <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LINKEDIN</a>
+          <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">WEBSITE</a>
+        </div>
+        <p style="margin-top:18px;font-family:'Cutive Mono',monospace;font-size:11px;letter-spacing:2px;opacity:.7">CABIN ENTERTAINMENT: ANIME · CHESS · BADMINTON · MOVIES<br>RIYADH, SAUDI ARABIA · AR + EN</p>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<div id="track"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const stations=gsap.utils.toArray('.station');
+const GAP=1500, DEPTH=(stations.length-1)*GAP;
+
+/* place stations along -Z */
+stations.forEach((s,i)=>{ s.dataset.z=-i*GAP; });
+
+/* scroll track height: one segment per hop */
+const track=document.getElementById('track');
+for(let i=0;i<stations.length;i++){const d=document.createElement('div');d.className='seg';track.appendChild(d);}
+
+/* warp streaks */
+const vp=document.getElementById('viewport'),world=document.getElementById('world');
+const streaks=[];
+if(!reduced)for(let i=0;i<36;i++){
+  const st=document.createElement('div');st.className='streak';
+  const ang=Math.random()*360, len=30+Math.random()*100;
+  st.style.height=len+'px';
+  st.style.transform=`rotate(${ang}deg) translateY(${18+Math.random()*38}vmin)`;
+  vp.appendChild(st);streaks.push(st);
+}
+
+function render(p,vel){
+  const worldZ=p*DEPTH;
+  if(!reduced) world.style.transform=`translate(-50%,0) translateZ(${worldZ}px)`;
+  stations.forEach((s,i)=>{
+    const eff=(+s.dataset.z)+worldZ; /* 0 = at camera plane */
+    let o;
+    if(eff<-GAP*1.6) o=0;
+    else if(eff<-300) o=1-((-eff-300)/(GAP*1.6-300));
+    else if(eff<=120) o=1;
+    else o=Math.max(0,1-(eff-120)/260);
+    s.style.opacity=o.toFixed(3);
+    s.style.transform=`translateZ(${s.dataset.z}px)`;
+    s.style.pointerEvents=(eff>-500&&eff<200)?'auto':'none';
+  });
+  /* streaks glow with velocity */
+  const sp=Math.min(1,Math.abs(vel)/2500);
+  streaks.forEach(st=>st.style.opacity=(sp*.8*Math.random()).toFixed(2));
+  /* HUD */
+  const years=[2019,2019,2021,2023,2024,2025,2026,2026];
+  const f=p*(stations.length-1), i=Math.min(stations.length-2,Math.floor(f)), t=f-i;
+  const y=Math.round(years[i]+(years[i+1]-years[i])*t);
+  document.getElementById('yearNow').textContent=p>0.985?'NOW':y;
+  document.getElementById('vel').textContent=(sp*9.99).toFixed(2);
+  if(!reduced){
+    document.getElementById('gearL').style.transform=`rotate(${p*720}deg)`;
+    document.getElementById('gearR').style.transform=`rotate(${-p*720}deg)`;
+  }
+}
+
+if(!reduced){
+  ScrollTrigger.create({trigger:'#track',start:'top top',end:'bottom bottom',scrub:true,
+    onUpdate(self){render(self.progress,self.getVelocity());}});
+  render(0,0);
+}else{
+  document.getElementById('speedo').style.display='none';
+  document.getElementById('hud').style.position='static';
+  document.getElementById('hud').style.transform='none';
+  document.getElementById('hud').style.margin='20px auto';
+}
+
+/* stations gently breathe */
+if(!reduced) gsap.utils.toArray('.ring').forEach((r,i)=>{
+  gsap.to(r,{rotation:i%2?360:-360,duration:60+i*8,repeat:-1,ease:'none'});
+});
+
+/* boot sequence */
+const bootLines=['CALIBRATING TEMPORAL COILS…','SPOOLING BRASS GYROSCOPES…','LOADING TIMELINE: N.A. TOFI…','DRIVE READY. SCROLL TO ENGAGE.'];
+if(!reduced){
+  let bi=0;const bl=document.getElementById('bootline');
+  const iv=setInterval(()=>{bi++;if(bi<bootLines.length){bl.textContent=bootLines[bi];}else{clearInterval(iv);
+    gsap.to('#boot',{opacity:0,duration:.8,onComplete:()=>document.getElementById('boot').remove()});}},650);
+}else{document.getElementById('boot').remove();}
+</script>
+<script>
+/* if GSAP failed to load (offline), fall back to a flat readable page */
+if(!window.gsap||!window.ScrollTrigger){
+  document.documentElement.classList.add('nofx');
+  var _b=document.getElementById('boot');if(_b)_b.remove();
+}
+</script>
+</body>
+</html>

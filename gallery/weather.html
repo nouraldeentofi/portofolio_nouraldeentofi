@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — WEATHER · Climate Control</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--fg:#f2f5fa;--dim:rgba(242,245,250,.65);--acc:#ffd23f}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Sora',sans-serif;color:var(--fg);min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh;
+    background:linear-gradient(180deg,#7ab8d9,#b8d9e8);transition:background 1.4s}
+  body.sun{background:linear-gradient(180deg,#6ab4e0,#cfe8f0)}
+  body.rain{background:linear-gradient(180deg,#4a6a80,#7a94a8)}
+  body.storm{background:linear-gradient(180deg,#2a3444,#4a5468)}
+  body.night{background:linear-gradient(180deg,#101830,#243050)}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--acc);color:#243050}
+  h1{font-weight:800;font-size:clamp(22px,4.4vw,38px);text-shadow:0 2px 10px rgba(0,0,0,.25)}
+  h1 span{color:var(--acc)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--dim);
+    margin:8px 0 20px;text-transform:uppercase;text-align:center}
+
+  /* city scene */
+  #scene{position:relative;width:min(820px,96vw);height:300px;border-radius:18px;overflow:hidden;
+    box-shadow:0 24px 60px rgba(0,0,0,.3);background:transparent}
+  #orb2{position:absolute;top:26px;right:60px;width:64px;height:64px;border-radius:50%;transition:all 1.2s;
+    background:radial-gradient(circle at 36% 30%,#fff6c9,#ffd23f);box-shadow:0 0 50px rgba(255,210,63,.8)}
+  body.night #orb2{background:radial-gradient(circle at 36% 30%,#f0f4ff,#c2cdea);box-shadow:0 0 40px rgba(194,205,234,.6)}
+  body.rain #orb2,body.storm #orb2{opacity:.25}
+  .cloudW{position:absolute;background:rgba(255,255,255,.9);border-radius:99px;filter:blur(1px);transition:background 1.2s;animation:dr linear infinite}
+  body.storm .cloudW,body.rain .cloudW{background:rgba(90,100,116,.9)}
+  body.night .cloudW{background:rgba(60,70,100,.7)}
+  @keyframes dr{from{transform:translateX(-140px)}to{transform:translateX(900px)}}
+  /* skyline */
+  #city{position:absolute;bottom:0;left:0;right:0;height:170px;display:flex;align-items:flex-end;gap:6px;padding:0 16px;z-index:3}
+  .bld{flex:1;background:linear-gradient(180deg,#3a4456,#2a3242);border-radius:6px 6px 0 0;position:relative;transition:background 1.2s}
+  body.night .bld{background:linear-gradient(180deg,#1c2438,#141a2a)}
+  .bld .win{position:absolute;inset:10px 8px auto;display:grid;grid-template-columns:1fr 1fr;gap:5px}
+  .bld .win i{height:9px;border-radius:2px;background:rgba(255,255,255,.25);transition:all 1s}
+  body.night .bld .win i{background:rgba(255,210,63,.85);box-shadow:0 0 6px rgba(255,210,63,.6)}
+  .bld .roofsign{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-family:'IBM Plex Mono';
+    font-size:8px;letter-spacing:.1em;background:#ffd23f;color:#243050;padding:3px 8px;border-radius:3px;white-space:nowrap;font-weight:600}
+  #fx{position:absolute;inset:0;z-index:4;pointer-events:none}
+  #flash2{position:absolute;inset:0;background:#fff;opacity:0;z-index:5;pointer-events:none}
+
+  /* console */
+  #panel2{width:min(820px,96vw);margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .wbtn{font-family:'Sora';font-weight:700;font-size:13px;border:none;border-radius:99px;padding:13px 22px;
+    cursor:pointer;background:rgba(255,255,255,.25);color:var(--fg);backdrop-filter:blur(6px);
+    border:2px solid transparent;transition:all .25s}
+  .wbtn:hover{transform:translateY(-2px)}
+  .wbtn.on{border-color:var(--acc);background:rgba(255,255,255,.35);color:#243050}
+  body.night .wbtn.on,body.storm .wbtn.on{color:var(--fg)}
+
+  #report{margin-top:18px;width:min(680px,95vw);background:rgba(10,16,30,.55);border:1px solid rgba(255,255,255,.2);
+    border-radius:16px;padding:24px 28px;backdrop-filter:blur(8px);text-align:center}
+  #report .k{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.3em;color:var(--acc);text-transform:uppercase}
+  #report h2{font-weight:800;font-size:clamp(18px,3.4vw,27px);margin:8px 0 6px}
+  #report p{font-size:13px;line-height:1.7;color:var(--dim)}
+  #report p b{color:var(--fg)}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .btn{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.12em;padding:12px 20px;border-radius:99px;
+    border:2px solid var(--acc);color:var(--acc);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--acc);color:#243050}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body class="sun">
+<h1>🌦 NOUR <span>CLIMATE</span> CONTROL</h1>
+<div class="sub">Whatever the weather, the work ships · press the buttons · تحكم بالطقس</div>
+
+<div id="scene">
+  <div id="orb2"></div>
+  <div class="cloudW" style="top:30px;width:100px;height:30px;animation-duration:70s"></div>
+  <div class="cloudW" style="top:66px;width:70px;height:22px;animation-duration:95s;animation-delay:-40s"></div>
+  <div id="city"></div>
+  <div id="fx"></div><div id="flash2"></div>
+</div>
+
+<div id="panel2">
+  <button class="wbtn on" data-w="sun">☀️ Sunny</button>
+  <button class="wbtn" data-w="rain">🌧 Rain</button>
+  <button class="wbtn" data-w="storm">⛈ Storm</button>
+  <button class="wbtn" data-w="night">🌙 Night</button>
+</div>
+
+<div id="report">
+  <div class="k" id="rk">FORECAST · CLEAR SKIES</div>
+  <h2 id="rh">On sunny days, we build.</h2>
+  <p id="rp">Perfect conditions: <b>websites, React frontends, logos, social visuals</b> — the everyday craft of Nour Aldeen Tofi, frontend developer &amp; software engineering supervisor in Riyadh.</p>
+  <div class="btns" id="rb"></div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const REPORTS={
+ sun:{k:'FORECAST · CLEAR SKIES',h:'On sunny days, we build.',
+  p:`Perfect conditions: <b>websites, React frontends, logos, social visuals</b> — the everyday craft of Nour Aldeen Tofi, frontend developer &amp; software engineering supervisor in Riyadh. React · TypeScript · Tailwind, daily.`},
+ rain:{k:'FORECAST · HEAVY REQUIREMENTS',h:'When it pours, coordination keeps you dry.',
+  p:`Scope changes raining down? <b>Project coordination</b> is the umbrella: requirements → user stories → releases (NexLead, 2025→). Proof it works in any weather: <b>GoldenTag</b>, shipped to Google Play.`},
+ storm:{k:'FORECAST · PRODUCTION STORM',h:'In the storm, you want an ICPC brain.',
+  p:`Deadlines thundering, bugs striking? <b>ICPC/ACPC 2021</b> reflexes + supervisor calm (Distinctive Frontier Co., 2026→). Clean code is the lightning rod — problems ground safely.`},
+ night:{k:'FORECAST · QUIET NIGHT',h:'While the city sleeps, the certs stack up.',
+  p:`Night shift energy: <b>Meta Advanced React '25 · Google PM ×2 '25 · IBM Python &amp; GenAI '24</b> + more, on top of a B.Tech IT (Kalamoon 2019–24). The lights in those windows? That's learning.`}
+};
+const CTA=`<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=All-weather%20developer&body=Forecast%20says%20we%20should%20talk%3A%20">☔ Hire all-weather dev</a>
+ <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+ <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`;
+document.getElementById('rb').innerHTML=CTA;
+
+/* skyline */
+const city=document.getElementById('city');
+const HTS=[80,120,150,100,165,90,130,110];
+HTS.forEach((h,i)=>{
+  const b=document.createElement('div');b.className='bld';b.style.height=h+'px';
+  let wins='';for(let w=0;w<Math.floor(h/22)*2;w++)wins+='<i></i>';
+  b.innerHTML=`<div class="win">${wins}</div>${i===4?'<div class="roofsign">NOUR DEV CO.</div>':''}`;
+  city.appendChild(b);
+});
+/* fx */
+const fx=document.getElementById('fx');
+let drops=[],mode='sun';
+function makeDrops(n){
+  fx.innerHTML='';drops=[];
+  for(let i=0;i<n;i++){
+    const d=document.createElement('div');
+    d.style.cssText=`position:absolute;top:${-20-Math.random()*100}px;left:${Math.random()*100}%;
+      width:2px;height:${10+Math.random()*8}px;background:rgba(220,235,250,.7);border-radius:2px`;
+    fx.appendChild(d);drops.push({el:d,y:-20-Math.random()*200,s:4+Math.random()*4,x:Math.random()*100});
+  }
+}
+let AC=null,rainG=null,rainSrc=null;
+function rainSound(on,vol){
+  try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+    if(!rainSrc){
+      const b=AC.createBuffer(1,AC.sampleRate*2,AC.sampleRate),dd=b.getChannelData(0);
+      for(let i=0;i<dd.length;i++)dd[i]=Math.random()*2-1;
+      rainSrc=AC.createBufferSource();rainSrc.buffer=b;rainSrc.loop=true;
+      const f=AC.createBiquadFilter();f.type='highpass';f.frequency.value=1200;
+      rainG=AC.createGain();rainG.gain.value=0;
+      rainSrc.connect(f);f.connect(rainG);rainG.connect(AC.destination);rainSrc.start();
+    }
+    rainG.gain.value=on?(vol||.04):0;
+  }catch(e){}}
+function thunder(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const b=AC.createBuffer(1,AC.sampleRate*1.4,AC.sampleRate),dd=b.getChannelData(0);
+  for(let i=0;i<dd.length;i++)dd[i]=(Math.random()*2-1)*Math.pow(1-i/dd.length,2);
+  const s=AC.createBufferSource();s.buffer=b;
+  const f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=220;
+  const g=AC.createGain();g.gain.value=.3;
+  s.connect(f);f.connect(g);g.connect(AC.destination);s.start();}catch(e){}}
+
+let stormTimer=null;
+function setWeather(w){
+  mode=w;
+  document.body.className=w;
+  document.querySelectorAll('.wbtn').forEach(b=>b.classList.toggle('on',b.dataset.w===w));
+  const r=REPORTS[w];
+  document.getElementById('rk').textContent=r.k;
+  document.getElementById('rh').textContent=r.h;
+  document.getElementById('rp').innerHTML=r.p;
+  clearInterval(stormTimer);stormTimer=null;
+  if(w==='rain'){makeDrops(reduced?0:80);rainSound(true,.04);}
+  else if(w==='storm'){makeDrops(reduced?0:130);rainSound(true,.07);
+    if(!reduced)stormTimer=setInterval(()=>{
+      if(Math.random()<.5){thunder();
+        document.getElementById('flash2').animate([{opacity:0},{opacity:.7,offset:.08},{opacity:0}],{duration:500});}
+    },2600);}
+  else{makeDrops(0);rainSound(false);}
+}
+document.querySelectorAll('.wbtn').forEach(b=>b.onclick=()=>setWeather(b.dataset.w));
+/* rain loop */
+(function fall(){
+  for(const d of drops){
+    d.y+=d.s;
+    if(d.y>310){d.y=-20;d.x=Math.random()*100;d.el.style.left=d.x+'%';}
+    d.el.style.transform=`translateY(${d.y}px)`;
+  }
+  requestAnimationFrame(fall);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The 7 Wonders of Nour — A World Tour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--parch2:#efe4cc;--ink7:#3a2e1c;--dim:rgba(58,46,28,.62);--gold15:#a8823c;--red16:#a8402e}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;color:var(--ink7);min-height:100vh;
+    background:linear-gradient(180deg,#f5ecd8,var(--parch2));display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold15);color:#fff}
+  h1{font-family:'Cinzel';font-weight:800;font-size:clamp(22px,4.6vw,40px);letter-spacing:.04em;text-align:center}
+  h1 span{color:var(--red16)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--dim);
+    margin:8px 0 16px;text-transform:uppercase;text-align:center}
+
+  /* world map strip */
+  #mapW{position:relative;width:min(820px,97vw);height:120px;background:#e0d2b0;border:2.5px solid var(--ink7);
+    border-radius:14px;overflow:hidden;box-shadow:0 16px 40px rgba(58,46,28,.18)}
+  #mapW::before{content:'';position:absolute;inset:0;opacity:.25;
+    background:radial-gradient(24% 40% at 18% 40%,#b8a074 0 60%,transparent 61%),
+    radial-gradient(18% 34% at 44% 56%,#b8a074 0 60%,transparent 61%),
+    radial-gradient(26% 44% at 74% 38%,#b8a074 0 60%,transparent 61%)}
+  .wSpot{position:absolute;top:50%;transform:translate(-50%,-50%);text-align:center;cursor:pointer;z-index:3;transition:transform .2s}
+  .wSpot:hover{transform:translate(-50%,-50%) scale(1.2)}
+  .wSpot .wi{font-size:24px;filter:drop-shadow(0 3px 3px rgba(0,0,0,.25))}
+  .wSpot .wl{font-family:'IBM Plex Mono';font-size:6.5px;letter-spacing:.04em;color:var(--dim);text-transform:uppercase;white-space:nowrap}
+  .wSpot.seenW .wl{color:var(--red16);font-weight:600}
+  #camel{position:absolute;top:56%;font-size:22px;z-index:4;transform:translate(-50%,-50%);transition:none}
+
+  /* wonder view */
+  #view{width:min(820px,97vw);margin-top:14px;background:#faf4e2;border:2.5px solid var(--ink7);border-radius:16px;
+    overflow:hidden;box-shadow:0 20px 50px rgba(58,46,28,.18)}
+  #vista{height:190px;display:flex;align-items:center;justify-content:center;position:relative;transition:background 1s;
+    background:linear-gradient(180deg,#ffe2b8,#e8b96a)}
+  #monument{font-size:96px;filter:drop-shadow(0 14px 20px rgba(0,0,0,.3));transition:all .6s}
+  #plaque{padding:22px 28px}
+  #plaque .k{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.26em;color:var(--red16);text-transform:uppercase;font-weight:600}
+  #plaque h2{font-family:'Cinzel';font-weight:800;font-size:clamp(18px,3.6vw,27px);margin:8px 0 6px}
+  #plaque p{font-size:13px;line-height:1.75;color:var(--dim)}
+  #plaque p b{color:var(--ink7)}
+  #stampsW{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.2em;color:var(--dim);margin-top:10px;text-transform:uppercase}
+  .btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 18px;border-radius:99px;
+    background:var(--ink7);color:var(--parch2);text-transform:uppercase;font-weight:600}
+  .btn.g{background:none;border:2px solid var(--ink7);color:var(--ink7)}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>THE 7 WONDERS <span>OF NOUR</span></h1>
+<div class="sub">A grand tour · click a wonder, the camel walks there · عجائب الدنيا</div>
+
+<div id="mapW"><div id="camel">🐪</div></div>
+
+<div id="view">
+  <div id="vista"><div id="monument">🗺</div></div>
+  <div id="plaque">
+    <div class="k">The traveler's codex</div>
+    <h2>Seven monuments await</h2>
+    <p>Ancient travelers listed seven wonders. This map lists seven too — each built from a real achievement. <b>Pick your first destination.</b></p>
+    <div id="stampsW">PASSPORT STAMPS: <span id="sW">0</span>/7</div>
+  </div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const WONDERS=[
+ {x:7,ic:'🏛',nm:'ACADEMY',bg:'linear-gradient(180deg,#cfe0e8,#8ab0c0)',
+  k:'WONDER I · THE GREAT ACADEMY OF KALAMOON',h:'Pillars of Foundation',
+  p:'Erected 2019–2024: a <b>B.Tech in Information Technology</b>. Historians note the unusually deep foundations — everything after stands on them.'},
+ {x:20,ic:'⚔️',nm:'COLOSSEUM',bg:'linear-gradient(180deg,#e8c8b0,#c08a5c)',
+  k:'WONDER II · THE COLOSSEUM OF ICPC',h:'Arena of the Merciless Clock',
+  p:'Site of the legendary <b>2021 games</b> — algorithms fought under time pressure. The champion\'s reflexes are said to still be active.'},
+ {x:34,ic:'🗿',nm:'COLOSSUS',bg:'linear-gradient(180deg,#c8e0f5,#7aa8d0)',
+  k:'WONDER III · THE COLOSSUS OF REACT',h:'Guardian of the Component Harbor',
+  p:'A giant raised in <b>2023 (Minicodeleader)</b> and reinforced at <b>Khwarizm (2024–25)</b>. Ships (projects) pass safely between its TypeScript legs.'},
+ {x:48,ic:'🕌',nm:'GARDENS',bg:'linear-gradient(180deg,#d0e8c8,#8ab87a)',
+  k:'WONDER IV · THE HANGING GARDENS OF DESIGN',h:'Beauty, Irrigated Daily',
+  p:'Terraces of <b>logos, brand identity and social visuals</b> — proof that engineering and beauty can share one architect.'},
+ {x:62,ic:'🗼',nm:'LIGHTHOUSE',bg:'linear-gradient(180deg,#c8d8f0,#8098c8)',
+  k:'WONDER V · THE LIGHTHOUSE OF COORDINATION',h:'No Project Lost at Sea',
+  p:'Its beam: <b>scope, user stories, timelines.</b> The famous vessel <b>GoldenTag</b> followed this exact light into the Google Play harbor.'},
+ {x:76,ic:'🏰',nm:'CITADEL',bg:'linear-gradient(180deg,#e8d0d8,#c090a8)',
+  k:'WONDER VI · THE CITADEL OF THE SUPERVISOR',h:'Seat of Standards (2026 →)',
+  p:'The newest wonder: <b>Software Engineering Supervisor at Distinctive Frontier Co.</b> From these walls, clean code and coordinated releases govern the land.'},
+ {x:91,ic:'❓',nm:'YOURS',bg:'linear-gradient(180deg,#ffe2b8,#e8a05c)',
+  k:'WONDER VII · THE UNBUILT WONDER',h:'Reserved: Your Project',
+  p:'Every list keeps one spot open. The seventh wonder is <b>whatever we build together</b> — website, frontend, brand, or all of it. Architect on site: Riyadh · AR+EN.',final:true}
+];
+let AC=null;
+function stepC(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=260;
+  g.gain.setValueAtTime(.05,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.14);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.16);}catch(e){}}
+function tada2(){[523,659,784,1047].forEach((f,i)=>setTimeout(()=>{
+  try{const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;
+  g.gain.setValueAtTime(.06,AC.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.4);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.45);}catch(e){}},i*130));}
+
+const mapW=document.getElementById('mapW'),camel=document.getElementById('camel');
+let camelX=4,seen=new Set(),walking=false;
+camel.style.left=camelX+'%';
+WONDERS.forEach((w,i)=>{
+  const s=document.createElement('div');s.className='wSpot';s.style.left=w.x+'%';
+  s.innerHTML=`<div class="wi">${w.ic}</div><div class="wl">${w.nm}</div>`;
+  s.onclick=()=>visit(i,s);
+  mapW.appendChild(s);
+});
+async function visit(i,el){
+  if(walking)return;walking=true;
+  const w=WONDERS[i];
+  /* camel walks */
+  const from=camelX,to=w.x;
+  const dur=reduced?100:Math.abs(to-from)*40;
+  camel.style.transform=`translate(-50%,-50%) scaleX(${to<from?-1:1})`;
+  const t0=performance.now();
+  let stepT=0;
+  await new Promise(res=>{
+    (function wk(t){
+      const p=Math.min(1,(t-t0)/dur);
+      camelX=from+(to-from)*p;
+      camel.style.left=camelX+'%';
+      camel.style.top=(56+Math.sin(p*20)*3)+'%';
+      if(t-stepT>240){stepC();stepT=t;}
+      p<1?requestAnimationFrame(wk):res();
+    })(t0);
+  });
+  if(!seen.has(i)){seen.add(i);el.classList.add('seenW');
+    document.getElementById('sW').textContent=seen.size;}
+  /* show wonder */
+  document.getElementById('vista').style.background=w.bg;
+  const m=document.getElementById('monument');
+  if(!reduced)m.animate([{transform:'scale(.5)',opacity:0},{transform:'scale(1.1)',opacity:1},{transform:'scale(1)'}],
+    {duration:600,easing:'cubic-bezier(.2,1.2,.4,1)'});
+  m.textContent=w.ic;
+  document.querySelector('#plaque .k').textContent=w.k;
+  document.querySelector('#plaque h2').textContent=w.h;
+  document.querySelector('#plaque p').innerHTML=w.p;
+  const old=document.querySelector('#plaque .btns');if(old)old.remove();
+  if(w.final||seen.size>=7){
+    tada2();
+    const d=document.createElement('div');d.className='btns';
+    d.innerHTML=`<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=The%20seventh%20wonder&body=Toured%20all%20six.%20Let%27s%20build%20the%20seventh%3A%20">🏗 Build wonder VII</a>
+      <a class="btn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`;
+    document.getElementById('plaque').insertBefore(d,document.getElementById('stampsW'));
+  }
+  walking=false;
+}
+</script>
+</body>
+</html>

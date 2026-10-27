@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — AGES · A Civilization in Seven Eras</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--fg:#f2ecdc;--dim:rgba(242,236,220,.65);--gold8:#d4af5e}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;color:var(--fg);min-height:100vh;transition:background 1.4s;
+    background:linear-gradient(180deg,#4a3a28,#2a2014);display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold8);color:#2a2014}
+  h1{font-family:'Cinzel';font-weight:800;font-size:clamp(22px,4.6vw,40px);letter-spacing:.06em;text-align:center}
+  h1 span{color:var(--gold8)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--dim);
+    margin:8px 0 16px;text-transform:uppercase;text-align:center}
+
+  /* era timeline */
+  #eras{display:flex;gap:6px;width:min(760px,96vw);margin-bottom:16px}
+  .eraDot{flex:1;height:10px;border-radius:6px;background:rgba(255,255,255,.15);position:relative;transition:background .5s}
+  .eraDot.on{background:var(--gold8);box-shadow:0 0 12px rgba(212,175,94,.6)}
+  .eraDot .el2{position:absolute;top:14px;left:50%;transform:translateX(-50%);font-size:12px;opacity:.8}
+
+  /* civilization scene */
+  #civ{position:relative;width:min(760px,96vw);height:300px;border-radius:18px;overflow:hidden;
+    box-shadow:0 24px 60px rgba(0,0,0,.5);background:linear-gradient(180deg,rgba(255,255,255,.06),transparent 40%)}
+  #ground3{position:absolute;bottom:0;left:0;right:0;height:60px;background:rgba(0,0,0,.3)}
+  #wonder{position:absolute;left:50%;bottom:52px;transform:translateX(-50%);font-size:100px;
+    filter:drop-shadow(0 12px 20px rgba(0,0,0,.5));transition:all .6s}
+  #eraTag{position:absolute;top:16px;left:50%;transform:translateX(-50%);font-family:'Cinzel';font-weight:800;
+    font-size:clamp(13px,2.6vw,19px);letter-spacing:.2em;color:var(--gold8);text-shadow:0 2px 8px rgba(0,0,0,.5);
+    white-space:nowrap;text-transform:uppercase}
+  .popC{position:absolute;bottom:56px;font-size:20px;transition:all .8s}
+
+  #advanceB{margin-top:16px;font-family:'Cinzel';font-weight:800;font-size:15px;letter-spacing:.1em;border:none;
+    border-radius:12px;padding:15px 34px;background:var(--gold8);color:#2a2014;cursor:pointer;
+    box-shadow:0 5px 0 #8a6e38;transition:transform .1s,box-shadow .1s}
+  #advanceB:active{transform:translateY(4px);box-shadow:0 1px 0 #8a6e38}
+
+  #chronicle{margin-top:18px;max-width:620px;text-align:center;min-height:110px}
+  #chronicle .k{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.28em;color:var(--gold8);text-transform:uppercase;font-weight:600}
+  #chronicle h2{font-family:'Cinzel';font-weight:800;font-size:clamp(17px,3.4vw,26px);margin:8px 0 6px;letter-spacing:.04em}
+  #chronicle p{font-size:13px;line-height:1.75;color:var(--dim)}
+  #chronicle p b{color:var(--fg)}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.12em;padding:12px 20px;border-radius:99px;
+    border:2px solid var(--gold8);color:var(--gold8);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--gold8);color:#2a2014}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>THE SEVEN AGES OF <span>NOUR</span></h1>
+<div class="sub">A civilization, advanced one era at a time · press ADVANCE · سبعة عصور</div>
+
+<div id="eras"></div>
+
+<div id="civ">
+  <div id="eraTag">THE STONE AGE</div>
+  <div id="wonder">🪨</div>
+  <div id="ground3"></div>
+</div>
+
+<button id="advanceB">⏩ ADVANCE THE AGE</button>
+
+<div id="chronicle">
+  <div class="k">The chronicle · صفحة أولى</div>
+  <h2>Before code, there was curiosity</h2>
+  <p>Every civilization starts with someone picking up a rock and wondering. This one starts in Syria-then-Riyadh with someone picking up a keyboard. <b>Press advance.</b></p>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const AGES=[
+ {tag:'THE STONE AGE',w:'🪨',bg:'linear-gradient(180deg,#4a3a28,#2a2014)',em:'🔥',
+  k:'AGE I · PRE-CODE',h:'Before code, there was curiosity',
+  p:'Every civilization starts with someone picking up a rock and wondering. This one picks up a keyboard. <b>Press advance.</b>'},
+ {tag:'AGE OF LEARNING',w:'🏛️',bg:'linear-gradient(180deg,#3a4a5c,#1c2836)',em:'📜',
+  k:'AGE II · 2019–2024',h:'The Academy rises',
+  p:'The first wonder: <b>a B.Tech in Information Technology, University of Kalamoon.</b> Five years of pillars — each one a fundamental. Philosophy of the era: understand before building.'},
+ {tag:'AGE OF CONTESTS',w:'⚔️',bg:'linear-gradient(180deg,#5c2e2e,#2a1414)',em:'🛡️',
+  k:'AGE III · 2021',h:'The Gladiator era',
+  p:'The arena opens: <b>ICPC/ACPC 2021</b>. Algorithms as combat, the clock as opponent. The civilization gains a permanent technology: <b>reflexes under pressure.</b>'},
+ {tag:'AGE OF CRAFT',w:'⚒️',bg:'linear-gradient(180deg,#3a4a3a,#1c2a1c)',em:'🏘️',
+  k:'AGE IV · 2023–2025',h:'The Guild workshops',
+  p:'Industry arrives: <b>React at Minicodeleader (2023–24)</b>, then production forges at <b>Khwarizm Technologies, Riyadh (2024–25)</b>. Trade routes open with design and backend nations.'},
+ {tag:'AGE OF GOLD',w:'🏰',bg:'linear-gradient(180deg,#5c4a1e,#2e2410)',em:'💰',
+  k:'AGE V · 2025',h:'The Golden era',
+  p:'Prosperity: parallel kingdoms managed at once — <b>Distinctive Frontier + freelance NexLead.</b> The era\'s great treasure ship, <b>GoldenTag</b>, sails to Google Play with inventory, barcode scanning and USD/SYP rates aboard.'},
+ {tag:'AGE OF EMPIRE',w:'👑',bg:'linear-gradient(180deg,#2e2a4a,#141224)',em:'🏙️',
+  k:'AGE VI · 2026 →',h:'The Empire of Standards',
+  p:'Coronation: <b>Software Engineering Supervisor, Distinctive Frontier Co. (Jan 2026).</b> The empire codifies its laws — clean code, architecture, coordinated delivery. Meta, Google ×2 and IBM ×2 send certified ambassadors.'},
+ {tag:'THE SPACE AGE',w:'🚀',bg:'linear-gradient(180deg,#101830,#060a16)',em:'🌟',
+  k:'AGE VII · NEXT',h:'The age that needs a co-founder',
+  p:'Every previous age was built alone or in teams he led. The next one is built <b>with you</b>: websites · React frontends · logos · business cards · social visuals · coordination. <b>Riyadh · AR+EN.</b> History is watching.',final:true}
+];
+const erasBar=document.getElementById('eras');
+AGES.forEach((a,i)=>{
+  const d=document.createElement('div');d.className='eraDot'+(i===0?' on':'');
+  d.innerHTML=`<span class="el2">${a.w}</span>`;
+  erasBar.appendChild(d);
+});
+let AC=null;
+function drum(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  [0,.18].forEach(t=>{const o=AC.createOscillator(),g=AC.createGain();
+    o.type='sine';o.frequency.value=90;
+    g.gain.setValueAtTime(.14,AC.currentTime+t);
+    g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+t+.22);
+    o.connect(g);g.connect(AC.destination);o.start(AC.currentTime+t);o.stop(AC.currentTime+t+.25);});}catch(e){}}
+function hornA(){[392,523,659,784].forEach((f,i)=>setTimeout(()=>{
+  try{const o=AC.createOscillator(),g=AC.createGain();o.type='sawtooth';o.frequency.value=f;
+  g.gain.setValueAtTime(.045,AC.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.5);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.55);}catch(e){}},i*160));}
+
+let age=0;
+const civ=document.getElementById('civ');
+document.getElementById('advanceB').onclick=()=>{
+  if(age>=AGES.length-1)return;
+  age++;
+  drum();
+  const a=AGES[age];
+  document.body.style.background=a.bg;
+  document.querySelectorAll('.eraDot').forEach((d,i)=>d.classList.toggle('on',i<=age));
+  const w=document.getElementById('wonder');
+  if(!reduced){
+    w.animate([{transform:'translateX(-50%) scale(1)',opacity:1},
+      {transform:'translateX(-50%) scale(.6)',opacity:0}],{duration:300,fill:'forwards'}).onfinish=()=>{
+      w.textContent=a.w;
+      w.animate([{transform:'translateX(-50%) scale(.5)',opacity:0},
+        {transform:'translateX(-50%) scale(1.1)',opacity:1},{transform:'translateX(-50%) scale(1)'}],
+        {duration:600,easing:'cubic-bezier(.2,1.3,.4,1)',fill:'forwards'});
+    };
+  }else w.textContent=a.w;
+  document.getElementById('eraTag').textContent=a.tag;
+  /* population emojis accumulate */
+  const p=document.createElement('div');p.className='popC';p.textContent=a.em;
+  p.style.left=(10+Math.random()*30)+'%';
+  if(Math.random()<.5)p.style.left=(60+Math.random()*30)+'%';
+  civ.appendChild(p);
+  /* chronicle */
+  document.querySelector('#chronicle .k').textContent=a.k;
+  document.querySelector('#chronicle h2').textContent=a.h;
+  document.querySelector('#chronicle p').innerHTML=a.p;
+  const old=document.querySelector('#chronicle .btns');if(old)old.remove();
+  if(a.final){
+    hornA();
+    document.getElementById('advanceB').textContent='✦ HISTORY COMPLETE';
+    document.getElementById('advanceB').disabled=true;
+    document.getElementById('advanceB').style.opacity=.5;
+    const d=document.createElement('div');d.className='btns';
+    d.innerHTML=`<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Co-founding%20the%20Space%20Age&body=Seven%20ages%20witnessed.%20Let%27s%20build%20the%20eighth%3A%20">🚀 Co-found the next age</a>
+      <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`;
+    document.getElementById('chronicle').appendChild(d);
+  }
+};
+</script>
+</body>
+</html>

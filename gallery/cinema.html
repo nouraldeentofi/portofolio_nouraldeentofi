@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cinema Nour — Pick Your Seat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bevan&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--hall:#1c1022;--halld:#120a18;--red2:#c0392e;--fg:#f5ecdc;--dim:rgba(245,236,220,.6);--gold2:#e8b93c;--seatA:#3a2a4a;--seatT:#5ee0a0}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;color:var(--fg);min-height:100vh;
+    background:radial-gradient(80vw 60vh at 50% 0%,#2e1c3a,var(--hall) 55%,var(--halld));
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold2);color:#1c1022}
+  h1{font-family:'Bevan',serif;font-size:clamp(22px,4.6vw,40px);color:var(--gold2);text-shadow:0 3px 0 rgba(0,0,0,.4)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--dim);
+    margin:8px 0 22px;text-transform:uppercase;text-align:center}
+
+  #now{background:rgba(192,57,46,.15);border:1px solid rgba(232,185,60,.4);border-radius:12px;
+    padding:10px 22px;font-size:12px;text-align:center;margin-bottom:18px;line-height:1.7}
+  #now b{color:var(--gold2)}
+
+  #theater{width:min(640px,96vw);background:rgba(18,10,24,.6);border:1px solid rgba(232,185,60,.25);
+    border-radius:18px;padding:24px;backdrop-filter:blur(4px)}
+  #screenC{height:34px;background:linear-gradient(180deg,#f5ecdc,#c9c0ae);border-radius:8px 8px 60% 60%;
+    display:flex;align-items:center;justify-content:center;color:#1c1022;font-family:'IBM Plex Mono';
+    font-size:9px;letter-spacing:.4em;margin-bottom:26px;box-shadow:0 10px 40px rgba(245,236,220,.25)}
+  #seats{display:grid;grid-template-columns:repeat(10,1fr);gap:7px;max-width:480px;margin:0 auto}
+  .seat{aspect-ratio:1;border:none;border-radius:6px 6px 3px 3px;background:var(--seatA);cursor:pointer;
+    transition:all .15s;position:relative}
+  .seat:hover{background:#5c4472;transform:translateY(-2px)}
+  .seat.taken{background:#241830;cursor:not-allowed;opacity:.5}
+  .seat.sel{background:var(--seatT);box-shadow:0 0 14px rgba(94,224,160,.6)}
+  .rowLbl{display:flex;justify-content:space-between;max-width:480px;margin:12px auto 0;
+    font-family:'IBM Plex Mono';font-size:9px;color:var(--dim);letter-spacing:.2em}
+  #legendC{display:flex;gap:16px;justify-content:center;margin-top:14px;font-size:10px;color:var(--dim)}
+  .lg2{display:flex;align-items:center;gap:6px}
+  .sw2{width:13px;height:13px;border-radius:4px}
+
+  /* ticket */
+  #tix{margin-top:20px;width:min(520px,95vw);display:none;background:#f5ecdc;color:#2a1c14;border-radius:12px;
+    overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.55)}
+  #tix.show{display:block;animation:tin .5s cubic-bezier(.2,1.2,.4,1)}
+  @keyframes tin{from{transform:translateY(24px) rotate(-2deg);opacity:0}}
+  #tixTop{background:var(--red2);color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
+  #tixTop .t{font-family:'Bevan';font-size:14px;letter-spacing:.04em}
+  #tixTop .adm{font-family:'IBM Plex Mono';font-size:9px;letter-spacing:.2em}
+  #tixBody{padding:16px 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  .tf .l{font-family:'IBM Plex Mono';font-size:8px;letter-spacing:.16em;color:#8a7a66;text-transform:uppercase}
+  .tf .v{font-weight:700;font-size:14px}
+  #feature{grid-column:1/-1;border-top:1.5px dashed #c9baa0;padding-top:10px;font-size:12px;line-height:1.65;color:#5c4c3c}
+  #feature b{color:#2a1c14}
+  .btns{grid-column:1/-1;display:flex;gap:9px;flex-wrap:wrap;margin-top:6px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 16px;border-radius:99px;
+    background:#2a1c14;color:#f5ecdc;text-transform:uppercase;font-weight:600}
+  .btn.g{background:none;border:2px solid #2a1c14;color:#2a1c14}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>🎬 CINEMA NOUR</h1>
+<div class="sub">One legendary feature, always showing · pick any green-lit seat · اختار كرسيك</div>
+
+<div id="now">NOW SHOWING: <b>"THE DEVELOPER WHO DELIVERS"</b> — starring Nour Aldeen Tofi<br>
+runtime: ~3 years and counting · rated H for Hireable · subtitles: AR + EN</div>
+
+<div id="theater">
+  <div id="screenC">S C R E E N</div>
+  <div id="seats"></div>
+  <div class="rowLbl"><span>ROW A — FRONT</span><span>ROW E — BACK</span></div>
+  <div id="legendC">
+    <span class="lg2"><span class="sw2" style="background:var(--seatA)"></span>Available</span>
+    <span class="lg2"><span class="sw2" style="background:#241830;opacity:.6"></span>Taken (by happy clients)</span>
+    <span class="lg2"><span class="sw2" style="background:var(--seatT)"></span>Yours</span>
+  </div>
+</div>
+
+<div id="tix">
+  <div id="tixTop"><span class="t">CINEMA NOUR</span><span class="adm">ADMIT ONE · FREE FOREVER</span></div>
+  <div id="tixBody">
+    <div class="tf"><div class="l">Seat</div><div class="v" id="tSeat">—</div></div>
+    <div class="tf"><div class="l">Screen</div><div class="v">1 (THE ONLY ONE)</div></div>
+    <div class="tf"><div class="l">Snacks</div><div class="v">CLEAN CODE 🍿</div></div>
+    <div id="feature"><b>Tonight's feature:</b> Frontend developer &amp; software engineering supervisor (Distinctive Frontier Co., '26→). Co-starring React, TypeScript &amp; Tailwind. Famous scenes: <b>GoldenTag → Google Play</b>, ICPC '21, ten certifications. Filmed on location in Riyadh.</div>
+    <div class="btns">
+      <a class="btn" id="tMail" href="mailto:nouraldeentofi@gmail.com">🎟 Book the sequel (your project)</a>
+      <a class="btn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let AC=null;
+function pop(f){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f||600;
+  g.gain.setValueAtTime(.06,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.15);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.17);}catch(e){}}
+const ROWS='ABCDE';
+const seats=document.getElementById('seats');
+const takenSet=new Set();
+/* random taken seats — "happy clients" */
+while(takenSet.size<14)takenSet.add(Math.floor(Math.random()*50));
+let selEl=null;
+for(let i=0;i<50;i++){
+  const b=document.createElement('button');b.className='seat'+(takenSet.has(i)?' taken':'');
+  const id=ROWS[Math.floor(i/10)]+(i%10+1);
+  b.title=id;
+  b.onclick=()=>{
+    if(b.classList.contains('taken')){pop(220);return;}
+    if(selEl)selEl.classList.remove('sel');
+    selEl=b;b.classList.add('sel');
+    pop(880);
+    document.getElementById('tSeat').textContent=id;
+    document.getElementById('tMail').href=
+      `mailto:nouraldeentofi@gmail.com?subject=${encodeURIComponent('Seat '+id+' at Cinema Nour')}&body=${encodeURIComponent('Loved the feature from seat '+id+'. Now let\'s film my project: ')}`;
+    document.getElementById('tix').classList.add('show');
+  };
+  seats.appendChild(b);
+}
+</script>
+</body>
+</html>

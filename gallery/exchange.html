@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOUR EXCHANGE — The Only Stock That Ships</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--floor:#0c1018;--fg:#e8ecf4;--dim:rgba(232,236,244,.6);--green12:#4adc7a;--red12:#ff5e4a;--gold9:#ffd23f}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'IBM Plex Mono',monospace;color:var(--fg);min-height:100vh;
+    background:radial-gradient(80vw 60vh at 50% 0%,#141c2c,var(--floor));
+    display:flex;flex-direction:column;align-items:center;padding:0 0 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold9);color:#0c1018}
+
+  /* ticker tape */
+  #tape{width:100%;background:#060810;border-bottom:1px solid rgba(255,210,63,.3);overflow:hidden;white-space:nowrap;padding:9px 0}
+  #tapeIn{display:inline-block;animation:tape 24s linear infinite;font-size:11px;letter-spacing:.1em}
+  #tapeIn b.up{color:var(--green12)}#tapeIn b.dn{color:var(--red12)}
+  @keyframes tape{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  h1{font-family:'Archivo';font-weight:900;font-size:clamp(22px,4.6vw,40px);margin-top:3vh}
+  h1 span{color:var(--gold9)}
+  .sub{font-size:10px;letter-spacing:.26em;color:var(--dim);margin:8px 0 16px;text-transform:uppercase;text-align:center;padding:0 4vw}
+
+  #board4{width:min(860px,96vw);display:grid;grid-template-columns:1fr 250px;gap:16px}
+  @media(max-width:740px){#board4{grid-template-columns:1fr}}
+  /* chart */
+  #chartBox{background:#080c14;border:1px solid rgba(255,210,63,.25);border-radius:14px;padding:16px;position:relative}
+  #quote{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+  #sym{font-family:'Archivo';font-weight:900;font-size:19px}
+  #px{font-size:24px;color:var(--green12)}
+  #chg{font-size:11px;color:var(--green12)}
+  #chart4{width:100%;height:210px}
+  #news{margin-top:10px;font-size:10px;letter-spacing:.06em;color:var(--gold9);min-height:30px;line-height:1.6}
+
+  /* trade panel */
+  #trade{background:#080c14;border:1px solid rgba(255,210,63,.25);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px}
+  #trade .t{font-family:'Archivo';font-weight:900;font-size:12px;letter-spacing:.1em;text-align:center;color:var(--gold9)}
+  .pos{display:flex;justify-content:space-between;font-size:10.5px;letter-spacing:.08em;padding:6px 0;border-bottom:1px dashed rgba(232,236,244,.15)}
+  .pos b{color:var(--green12)}
+  #buyB{font-family:'Archivo';font-weight:900;font-size:14px;border:none;border-radius:10px;padding:14px;
+    background:var(--green12);color:#0c2a14;cursor:pointer;box-shadow:0 4px 0 #1d7a3c;transition:transform .1s,box-shadow .1s}
+  #buyB:active{transform:translateY(3px);box-shadow:0 1px 0 #1d7a3c}
+  #trade .note2{font-size:8.5px;color:var(--dim);letter-spacing:.06em;line-height:1.7;text-align:center}
+
+  #analyst{margin-top:16px;max-width:640px;text-align:center;min-height:100px;padding:0 4vw}
+  #analyst .k{font-size:10px;letter-spacing:.28em;color:var(--gold9);text-transform:uppercase;font-weight:600}
+  #analyst h2{font-family:'Archivo';font-weight:900;font-size:clamp(16px,3.2vw,24px);margin:8px 0 6px}
+  #analyst p{font-size:12px;line-height:1.75;color:var(--dim)}
+  #analyst p b{color:var(--fg)}
+  .btns{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+  .btn{font-size:10.5px;letter-spacing:.1em;padding:11px 18px;border-radius:99px;border:2px solid var(--gold9);
+    color:var(--gold9);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--gold9);color:#0c1018}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="tape"><span id="tapeIn"></span></div>
+
+<h1>📈 NOUR <span>EXCHANGE</span></h1>
+<div class="sub">Ticker: NOUR · the only stock backed by shipped products · اشتري بدري</div>
+
+<div id="board4">
+  <div id="chartBox">
+    <div id="quote"><span id="sym">NOUR</span><span id="px">100.00</span><span id="chg">▲ +0.00%</span></div>
+    <canvas id="chart4"></canvas>
+    <div id="news">📰 MARKET OPEN — analysts bullish on Riyadh-based developer…</div>
+  </div>
+  <div id="trade">
+    <div class="t">YOUR PORTFOLIO</div>
+    <div class="pos"><span>SHARES HELD</span><b id="shares">0</b></div>
+    <div class="pos"><span>AVG. PRICE</span><b id="avg">—</b></div>
+    <div class="pos"><span>VALUE</span><b id="val">0.00</b></div>
+    <div class="pos"><span>RETURN</span><b id="ret">—</b></div>
+    <button id="buyB">💰 BUY 10 SHARES</button>
+    <div class="note2">commission: 0 · risk: he has literally never missed a ship date on this chart</div>
+  </div>
+</div>
+
+<div id="analyst">
+  <div class="k">Analyst coverage</div>
+  <h2>Strong buy. Obviously.</h2>
+  <p>Fundamentals: <b>~3 years professional growth</b>, promoted to Software Engineering Supervisor (Jan 2026), shipped GoldenTag to Google Play, ten certifications on the balance sheet. The chart only knows one direction.</p>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* tape */
+const TAPE='NOUR ▲+4.2% · <b class="up">REACT ▲+9.0%</b> · TSCRPT ▲+3.1% · <b class="up">GLDTAG ▲+12.4%</b> · SPGHTI-CODE <b class="dn">▼-22%</b> · DDLNE-MISSED <b class="dn">▼-31%</b> · COORD ▲+7.7% · CLNCODE ▲+5.5% ····· ';
+document.getElementById('tapeIn').innerHTML=TAPE+TAPE;
+
+const NEWS=[
+ '📰 BREAKING: NOUR promoted to Software Engineering Supervisor — shares surge',
+ '📰 GoldenTag ships to Google Play — analysts raise price target',
+ '📰 Earnings call: "clean code compounds," says management',
+ '📰 Meta, Google and IBM certifications added to balance sheet',
+ '📰 ICPC-2021 reflexes cited in quarterly efficiency report',
+ '📰 Rumor: your project considering a strategic partnership…'
+];
+const cv=document.getElementById('chart4'),ctx=cv.getContext('2d');
+function sizeC(){cv.width=cv.clientWidth*2;cv.height=420;}
+sizeC();addEventListener('resize',sizeC);
+let AC=null;
+function cha(f){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f||900;
+  g.gain.setValueAtTime(.05,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.15);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.17);}catch(e){}}
+
+let prices=[100],t=0;
+function step3(){
+  t++;
+  const last=prices[prices.length-1];
+  /* upward drift with dips */
+  const drift=.22,noise=(Math.random()-.42)*1.6;
+  prices.push(Math.max(80,last+drift+noise));
+  if(prices.length>140)prices.shift();
+  draw2();
+  const p=prices[prices.length-1];
+  document.getElementById('px').textContent=p.toFixed(2);
+  const chg=((p-100)/100*100);
+  const el=document.getElementById('chg');
+  el.textContent=(chg>=0?'▲ +':'▼ ')+chg.toFixed(2)+'%';
+  el.style.color=chg>=0?'#4adc7a':'#ff5e4a';
+  updatePort();
+  if(t%90===0)document.getElementById('news').textContent=NEWS[Math.floor(t/90)%NEWS.length];
+}
+function draw2(){
+  ctx.clearRect(0,0,cv.width,cv.height);
+  /* grid */
+  ctx.strokeStyle='rgba(232,236,244,.07)';ctx.lineWidth=1;
+  for(let y=0;y<cv.height;y+=52){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(cv.width,y);ctx.stroke();}
+  const min=Math.min(...prices)-3,max=Math.max(...prices)+3;
+  const X=i=>i/(prices.length-1)*cv.width;
+  const Y=v=>cv.height-(v-min)/(max-min)*cv.height;
+  /* area */
+  const grad=ctx.createLinearGradient(0,0,0,cv.height);
+  grad.addColorStop(0,'rgba(74,220,122,.35)');grad.addColorStop(1,'rgba(74,220,122,0)');
+  ctx.beginPath();ctx.moveTo(0,cv.height);
+  prices.forEach((p,i)=>ctx.lineTo(X(i),Y(p)));
+  ctx.lineTo(cv.width,cv.height);ctx.closePath();
+  ctx.fillStyle=grad;ctx.fill();
+  /* line */
+  ctx.beginPath();
+  prices.forEach((p,i)=>i?ctx.lineTo(X(i),Y(p)):ctx.moveTo(X(i),Y(p)));
+  ctx.strokeStyle='#4adc7a';ctx.lineWidth=3;
+  ctx.shadowColor='#4adc7a';ctx.shadowBlur=10;
+  ctx.stroke();ctx.shadowBlur=0;
+  /* last dot */
+  const li=prices.length-1;
+  ctx.fillStyle='#fff';
+  ctx.beginPath();ctx.arc(X(li),Y(prices[li]),5,0,7);ctx.fill();
+}
+setInterval(step3,reduced?600:250);
+
+/* portfolio */
+let shares=0,cost=0,buys=0;
+document.getElementById('buyB').onclick=()=>{
+  const p=prices[prices.length-1];
+  shares+=10;cost+=p*10;buys++;
+  cha(700+buys*60);
+  document.getElementById('shares').textContent=shares;
+  document.getElementById('avg').textContent=(cost/shares).toFixed(2);
+  updatePort();
+  if(buys===3){
+    document.querySelector('#analyst .k').textContent='INSIDER TIP · مضمونة';
+    document.querySelector('#analyst h2').textContent='You keep buying. Smart.';
+    document.querySelector('#analyst p').innerHTML=
+      `The real trade isn't shares — it's <b>hiring the underlying asset</b>: websites, React frontends, logos, business cards, social visuals, project coordination. Dividends paid in shipped work.`;
+    const old=document.querySelector('#analyst .btns');if(old)old.remove();
+    const d=document.createElement('div');d.className='btns';
+    d.innerHTML=`<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Acquiring%20NOUR&body=Portfolio%20says%20strong%20buy.%20My%20project%3A%20">💼 Acquire the asset</a>
+      <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`;
+    document.getElementById('analyst').appendChild(d);
+  }
+};
+function updatePort(){
+  if(!shares)return;
+  const p=prices[prices.length-1];
+  document.getElementById('val').textContent=(p*shares).toFixed(2);
+  const r=((p*shares-cost)/cost*100);
+  const el=document.getElementById('ret');
+  el.textContent=(r>=0?'+':'')+r.toFixed(1)+'%';
+  el.style.color=r>=0?'#4adc7a':'#ff5e4a';
+}
+</script>
+</body>
+</html>

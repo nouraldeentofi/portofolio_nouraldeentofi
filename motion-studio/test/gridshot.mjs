@@ -1,0 +1,23 @@
+// usage: node test/gridshot.mjs <cells.json|.mjs> <out.png> [cols] [cellW]
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const { chromium } = require('playwright');
+import fs from 'fs';
+import path from 'path';
+const [,, cellsFile, out, cols = '4', cellW = '270'] = process.argv;
+let cells;
+if (cellsFile.endsWith('.mjs')) cells = (await import(path.resolve(cellsFile))).default;
+else cells = JSON.parse(fs.readFileSync(cellsFile, 'utf8'));
+const browser = await chromium.launch();
+const page = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
+page.on('pageerror', e => console.log('pageerror:', e.message));
+page.on('console', m => { if (m.type() === 'error') console.log('console:', m.text()); });
+await page.goto('http://localhost:8765/test/grid.html');
+await page.waitForFunction(() => window.ready);
+const times = await page.evaluate(async ([cells, cols, cellW]) => window.grid(cells, cols, cellW), [cells, +cols, +cellW]);
+const el = await page.$('#c');
+await el.screenshot({ path: out });
+const errs = await page.evaluate(() => window.errors);
+console.log('avg ms/cell', (times.reduce((a,b)=>a+b,0)/times.length).toFixed(1), 'max', Math.max(...times).toFixed(1));
+if (errs.length) console.log('ERRORS:\n' + [...new Set(errs)].slice(0, 30).join('\n'));
+await browser.close();

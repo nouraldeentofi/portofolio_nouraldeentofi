@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grand Hotel Nour — Ring the Bell</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--lobby:#2a1e1a;--lobbyd:#1a1210;--wood2:#6e4a30;--marble:#f2ead8;--fg:#f5eee0;--dim:rgba(245,238,224,.6);
+        --gold3:#cfa54e;--wine2:#7a3040}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;color:var(--fg);min-height:100vh;
+    background:radial-gradient(80vw 60vh at 50% 0%,#3d2c24,var(--lobby) 55%,var(--lobbyd));
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold3);color:#2a1e1a}
+  h1{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(26px,5.2vw,46px)}
+  h1 em{color:var(--gold3)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--dim);
+    margin:8px 0 24px;text-transform:uppercase;text-align:center}
+
+  /* reception desk */
+  #desk2{width:min(680px,96vw);position:relative}
+  #counterTop2{background:linear-gradient(180deg,#f6efdd,var(--marble));height:26px;border-radius:10px 10px 0 0;
+    box-shadow:0 4px 10px rgba(0,0,0,.4)}
+  #deskBody{background:linear-gradient(180deg,#7d5636,var(--wood2) 40%,#54371f);border-radius:0 0 16px 16px;
+    padding:24px;display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:start;
+    box-shadow:0 30px 60px rgba(0,0,0,.5)}
+  @media(max-width:560px){#deskBody{grid-template-columns:1fr;justify-items:center}}
+  /* bell */
+  #bellZone{text-align:center}
+  #bell2{width:96px;height:74px;margin:0 auto;cursor:pointer;position:relative;transition:transform .08s}
+  #bell2:active{transform:translateY(3px)}
+  #dome{width:80px;height:44px;margin:0 auto;border-radius:44px 44px 6px 6px;
+    background:radial-gradient(circle at 36% 26%,#f0d9a0,var(--gold3) 60%,#8a6a28);
+    box-shadow:0 6px 14px rgba(0,0,0,.4), inset 0 2px 0 rgba(255,255,255,.5)}
+  #knob2{width:14px;height:14px;border-radius:50%;background:#8a6a28;margin:-52px auto 38px;position:relative;top:-6px}
+  #bellBase{width:96px;height:12px;border-radius:8px;background:#3a2a18;margin-top:2px}
+  #bellLbl{font-family:'IBM Plex Mono';font-size:8.5px;letter-spacing:.24em;color:#e8d9b8;margin-top:8px;
+    text-transform:uppercase;animation:hb 2.2s infinite}
+  @keyframes hb{0%,100%{opacity:.45}50%{opacity:1}}
+  /* concierge speech */
+  #speech{background:var(--marble);color:#2a1e1a;border-radius:14px;padding:16px 20px;min-height:110px;position:relative}
+  #speech::before{content:'';position:absolute;left:-9px;top:26px;border:9px solid transparent;border-right-color:var(--marble)}
+  #speech .who{font-family:'IBM Plex Mono';font-size:8.5px;letter-spacing:.22em;color:#8a7050;text-transform:uppercase}
+  #speech p{font-size:13.5px;line-height:1.65;margin-top:6px}
+  #speech p b{color:var(--wine2)}
+  @media(max-width:560px){#speech::before{display:none}}
+
+  /* key wall */
+  #keywall{width:min(680px,96vw);margin-top:18px;background:rgba(26,18,16,.7);border:1px solid rgba(207,165,78,.3);
+    border-radius:16px;padding:18px}
+  #keywall .t{font-family:'Cormorant Garamond';font-size:17px;color:var(--gold3);text-align:center;margin-bottom:14px}
+  #hooks{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}
+  .hook{background:#241812;border:1.5px solid rgba(207,165,78,.3);border-radius:12px;padding:12px 10px;
+    text-align:center;cursor:pointer;transition:all .2s}
+  .hook:hover{border-color:var(--gold3);transform:translateY(-3px)}
+  .hook .keyIc{font-size:24px;display:inline-block;transition:transform .3s}
+  .hook:hover .keyIc{transform:rotate(-16deg)}
+  .hook .rno{font-family:'IBM Plex Mono';font-size:10px;color:var(--gold3);letter-spacing:.1em;margin-top:4px}
+  .hook .rnm{font-size:10.5px;font-weight:700;margin-top:2px}
+
+  /* room card modal */
+  #modalH{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;
+    background:rgba(15,10,8,.8);backdrop-filter:blur(6px);padding:5vw}
+  #modalH.open{display:flex}
+  #roomCard{max-width:480px;width:100%;background:var(--marble);color:#2a1e1a;border-radius:16px;padding:34px 36px;
+    position:relative;box-shadow:0 40px 100px rgba(0,0,0,.7)}
+  #roomCard .k{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.28em;color:var(--wine2);text-transform:uppercase}
+  #roomCard h2{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(22px,3.8vw,32px);margin:8px 0}
+  #roomCard p{font-size:13.5px;line-height:1.7;color:rgba(42,30,26,.8)}
+  #roomCard p b{color:#2a1e1a}
+  .amen{font-family:'IBM Plex Mono';font-size:10.5px;line-height:2;color:#6e5a48;border-top:1.5px dashed #c9b896;
+    margin-top:12px;padding-top:10px}
+  .btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 18px;border-radius:99px;
+    background:#2a1e1a;color:var(--marble);text-transform:uppercase;font-weight:600}
+  .btn.g{background:none;border:2px solid #2a1e1a;color:#2a1e1a}
+  #hclose{position:absolute;top:12px;right:16px;border:none;background:#e0d4ba;width:32px;height:32px;border-radius:50%;cursor:pointer;font-weight:700}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>Grand Hotel <em>Nour</em> ★★★★★</h1>
+<div class="sub">Est. 2023 · Riyadh · every room is a service · دقّ الجرس</div>
+
+<div id="desk2">
+  <div id="counterTop2"></div>
+  <div id="deskBody">
+    <div id="bellZone">
+      <div id="bell2"><div id="knob2"></div><div id="dome"></div><div id="bellBase"></div></div>
+      <div id="bellLbl">◈ Ring for service ◈</div>
+    </div>
+    <div id="speech">
+      <div class="who">Front desk · N.A. Tofi, concierge &amp; engineer</div>
+      <p id="sp2">Welcome to the Grand Hotel Nour. <b>Ring the bell</b> and I'll tell you about the house — or take a key from the wall below to tour a room.</p>
+    </div>
+  </div>
+</div>
+
+<div id="keywall">
+  <div class="t">— The Key Wall · choose a room —</div>
+  <div id="hooks"></div>
+</div>
+
+<div id="modalH"><div id="roomCard"><button id="hclose">✕</button><div id="rc"></div></div></div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const LINES=[
+ 'Ah, a guest! We\'ve had this establishment since <b>2023</b> — started small at Minicodeleader, expanded through Khwarizm, and now the flagship: <b>Distinctive Frontier Co.</b>, where I supervise the whole engineering floor.',
+ 'The house specialty? <b>React with TypeScript</b>, served with Tailwind. Our most famous guest, <b>GoldenTag</b>, checked out straight onto Google Play. Five stars.',
+ 'Certifications on the wall behind me: <b>Meta, Google ×2, IBM ×2</b>, and more. And yes — that trophy is from <b>ICPC 2021</b>.',
+ 'Between shifts I play chess and badminton, watch anime and films. A good concierge is a whole person, you understand. Now — <b>take a key from the wall.</b>'
+];
+const ROOMS=[
+ {no:'101',nm:'Website Suite',ic:'🗝️',k:'Room 101 · Ground floor',h:'The Website Suite',
+  p:`Our most requested room: <b>landing pages, portfolios, business sites</b> — modern, fast, mobile-ready. Housekeeping (clean code) included daily.`,
+  am:'AMENITIES: React or HTML/CSS · responsive views · SEO minibar'},
+ {no:'202',nm:'React Penthouse',ic:'🗝️',k:'Room 202 · Executive floor',h:'The React Penthouse',
+  p:`Full frontend luxury: <b>components, dashboards, complete UIs</b> in TypeScript + Tailwind, at supervisor grade. The view is all clean architecture.`,
+  am:'AMENITIES: state management · reusable components · zero prop-drilling'},
+ {no:'303',nm:'Brand Boutique',ic:'🗝️',k:'Room 303 · Design wing',h:'The Brand Boutique',
+  p:`<b>Logos, business cards, full visual identity.</b> Guests leave looking unrecognizably professional.`,
+  am:'AMENITIES: print-ready files · every format · taste included'},
+ {no:'404',nm:'Social Salon',ic:'🗝️',k:'Room 404 · (always found)',h:'The Social Salon',
+  p:`<b>Instagram &amp; LinkedIn visuals</b> — consistent, branded, engaging. The one 404 that actually delivers.`,
+  am:'AMENITIES: weekly packs · branded templates · engagement breakfast'},
+ {no:'505',nm:'Coordination Hall',ic:'🗝️',k:'Room 505 · Operations',h:'The Coordination Hall',
+  p:`Full <b>project management</b>: scope, user stories, timelines, quality. This hall hosted the GoldenTag launch party.`,
+  am:'AMENITIES: Trello/Jira boards · cost estimates · release service'},
+ {no:'★',nm:'Presidential You',ic:'👑',k:'Presidential suite · reserved',h:'Reserved under your name',
+  p:`This suite stays empty until <b>your project</b> checks in. Concierge: Nour Aldeen Tofi — Riyadh · AR+EN · replies fast.`,
+  am:'CHECK-IN: anytime · CHECK-OUT: only when you\'re thrilled',
+  btns:true}
+];
+let AC=null,lineI=0;
+function ding3(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=1660;
+  const o2=AC.createOscillator(),g2=AC.createGain();o2.type='sine';o2.frequency.value=2140;
+  g.gain.setValueAtTime(.09,AC.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+1.3);
+  g2.gain.setValueAtTime(.04,AC.currentTime);g2.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.8);
+  o.connect(g);o2.connect(g2);g.connect(AC.destination);g2.connect(AC.destination);
+  o.start();o2.start();o.stop(AC.currentTime+1.35);o2.stop(AC.currentTime+.85);}catch(e){}}
+function jingleK(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  [2200,1800,2400].forEach((f,i)=>{const o=AC.createOscillator(),g=AC.createGain();
+    o.type='triangle';o.frequency.value=f;
+    g.gain.setValueAtTime(.03,AC.currentTime+i*.06);
+    g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+i*.06+.2);
+    o.connect(g);g.connect(AC.destination);o.start(AC.currentTime+i*.06);o.stop(AC.currentTime+i*.06+.22);});}catch(e){}}
+
+document.getElementById('bell2').onclick=()=>{
+  ding3();
+  if(!reduced)document.getElementById('dome').animate(
+    [{transform:'scaleY(1)'},{transform:'scaleY(.92)'},{transform:'scaleY(1)'}],{duration:180});
+  document.getElementById('sp2').innerHTML=LINES[lineI%LINES.length];
+  lineI++;
+};
+const hooks=document.getElementById('hooks');
+ROOMS.forEach((r,i)=>{
+  const h=document.createElement('button');h.className='hook';
+  h.innerHTML=`<span class="keyIc">${r.ic}</span><div class="rno">ROOM ${r.no}</div><div class="rnm">${r.nm}</div>`;
+  h.onclick=()=>{jingleK();openRoom(r);};
+  hooks.appendChild(h);
+});
+function openRoom(r){
+  let btns=`<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=${encodeURIComponent('Booking: '+r.h)}&body=${encodeURIComponent('I\'d like to check in. My project: ')}">🛎 Book this room</a>`;
+  if(r.btns)btns+=`<a class="btn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`;
+  document.getElementById('rc').innerHTML=
+    `<div class="k">${r.k}</div><h2>${r.h}</h2><p>${r.p}</p><div class="amen">${r.am}</div><div class="btns">${btns}</div>`;
+  document.getElementById('modalH').classList.add('open');
+}
+document.getElementById('hclose').onclick=()=>document.getElementById('modalH').classList.remove('open');
+document.getElementById('modalH').addEventListener('pointerdown',e=>{
+  if(e.target===document.getElementById('modalH'))document.getElementById('modalH').classList.remove('open');});
+addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('modalH').classList.remove('open');});
+</script>
+</body>
+</html>

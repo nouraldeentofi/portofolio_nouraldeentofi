@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOURLAND — The Career Theme Park</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--park:#7ac8e8;--parkd:#4a9ec0;--grass3:#7ac06a;--fg:#22303a;--dim:rgba(34,48,58,.65);--pink3:#ff5e9c;--yellow4:#ffd23f}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Baloo 2',sans-serif;color:var(--fg);min-height:100vh;
+    background:linear-gradient(180deg,var(--park),#b8e2f0 45%,var(--grass3) 45.5%,#5a9e4e);
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--pink3);color:#fff}
+  h1{font-weight:800;font-size:clamp(26px,5.2vw,46px);color:#fff;text-shadow:0 3px 0 var(--pink3), 0 6px 14px rgba(0,0,0,.25)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.26em;color:#1c4a5e;
+    margin:8px 0 14px;text-transform:uppercase;text-align:center;font-weight:600}
+  #wrist{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.14em;background:#fff;border-radius:99px;
+    padding:10px 18px;margin-bottom:14px;box-shadow:0 6px 16px rgba(0,0,0,.15)}
+  #wrist b{color:var(--pink3)}
+
+  #parkMap{width:min(820px,97vw);display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+  .ride{background:#fff;border-radius:18px;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;
+    box-shadow:0 14px 34px rgba(0,0,0,.18);border:3px solid transparent}
+  .ride:hover{transform:translateY(-5px);box-shadow:0 22px 44px rgba(0,0,0,.25)}
+  .ride.done{border-color:var(--yellow4)}
+  .rideTop{position:relative;height:120px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .rideBody{padding:12px 16px 16px}
+  .rideBody .rn{font-weight:800;font-size:15px}
+  .rideBody .rd{font-size:11px;color:var(--dim);line-height:1.5;margin-top:2px}
+  .rideBody .stamp2{font-family:'IBM Plex Mono';font-size:8.5px;letter-spacing:.12em;color:#2e8a5c;
+    font-weight:600;margin-top:6px;display:none;text-transform:uppercase}
+  .ride.done .stamp2{display:block}
+  /* ferris */
+  #wheel{position:relative;width:96px;height:96px}
+  #wheelRim{position:absolute;inset:0;border:5px solid #e05a3a;border-radius:50%;animation:spinW 14s linear infinite}
+  .cab2{position:absolute;width:16px;height:14px;background:var(--yellow4);border-radius:4px;left:50%;top:-8px;margin-left:-8px}
+  @keyframes spinW{to{transform:rotate(360deg)}}
+  #wheelPole{position:absolute;left:50%;top:50%;width:6px;height:60px;background:#8a5a33;transform:translateX(-50%)}
+  /* coaster */
+  #coasterTrack{position:absolute;inset:0}
+  #coasterCar{position:absolute;font-size:22px;offset-path:path('M-20 90 Q60 20 115 70 Q170 115 250 40');
+    animation:coast 4s ease-in-out infinite}
+  @keyframes coast{from{offset-distance:0%}to{offset-distance:100%}}
+  /* modal per ride */
+  #rideModal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;
+    background:rgba(20,40,60,.6);backdrop-filter:blur(6px);padding:5vw}
+  #rideModal.open{display:flex}
+  #rideBox{max-width:500px;width:100%;background:#fff;border-radius:22px;padding:34px 36px;text-align:center;
+    position:relative;box-shadow:0 40px 100px rgba(0,0,0,.4)}
+  #rideBox .big3{font-size:56px}
+  #rideBox .k{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.26em;color:var(--pink3);text-transform:uppercase;font-weight:600;margin-top:6px}
+  #rideBox h2{font-weight:800;font-size:clamp(19px,3.6vw,27px);margin:8px 0}
+  #rideBox p{font-size:13px;line-height:1.7;color:var(--dim)}
+  #rideBox p b{color:var(--fg)}
+  #rmClose{position:absolute;top:12px;right:16px;border:none;background:#eef2f5;width:34px;height:34px;border-radius:50%;cursor:pointer;font-weight:800}
+  .btns{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:12px 18px;border-radius:99px;
+    background:var(--pink3);color:#fff;text-transform:uppercase;font-weight:600}
+  .btn.g{background:none;border:2px solid var(--pink3);color:var(--pink3)}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>🎡 NOURLAND</h1>
+<div class="sub">The career theme park · 6 attractions · ride them all for the golden wristband · بوابة مفتوحة</div>
+<div id="wrist">🎟 WRISTBAND: <b id="rides">0</b>/6 ATTRACTIONS RIDDEN</div>
+
+<div id="parkMap"></div>
+
+<div id="rideModal"><div id="rideBox">
+  <button id="rmClose">✕</button><div id="rmBody"></div>
+</div></div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const RIDES=[
+ {ic:'🎢',bg:'linear-gradient(160deg,#ffd9e8,#ffb8d0)',nm:'The Career Coaster',d:'2019 → 2026 with loops',special:'coaster',
+  k:'RIDE 1 · THE CAREER COASTER',h:'Buckle up: 2019–2026',
+  p:`Slow climb (<b>B.Tech, Kalamoon</b>), first drop (<b>ICPC 2021</b>), loops through <b>Minicodeleader</b> and <b>Khwarizm</b>, then the big ascent: <b>Supervisor at Distinctive Frontier, Jan 2026</b>. Keep hands inside the sprint at all times.`},
+ {ic:'🎡',bg:'linear-gradient(160deg,#d0ecff,#a8d8f0)',nm:'The Skill Wheel',d:'12 gondolas of expertise',special:'wheel',
+  k:'RIDE 2 · THE SKILL WHEEL',h:'Round and round the stack goes',
+  p:`Each gondola holds one skill: <b>React, TypeScript, Tailwind, JavaScript, Python, Git, Jira, Trello</b>, prompt engineering, clean code, leadership, requirements. Best view from the top: the whole project.`},
+ {ic:'👻',bg:'linear-gradient(160deg,#e0d8f5,#b8a8e8)',nm:'The Haunted Codebase',d:'scarier than any ghost',
+  k:'RIDE 3 · THE HAUNTED CODEBASE',h:'Legacy code… if it still compiles',
+  p:`Dare to enter: <b>jQuery spaghetti! Undocumented functions! CSS with 14 !importants!</b> Nour walks in with a flashlight (clean-code discipline, Scrimba '24) and walks out with a refactored repo. The ghosts fear him now.`},
+ {ic:'🎠',bg:'linear-gradient(160deg,#fff0d0,#ffe0a0)',nm:'The Design Carousel',d:'brand identity, spinning',
+  k:'RIDE 4 · THE DESIGN CAROUSEL',h:'Logos, cards, visuals — round and beautiful',
+  p:`A gentle ride with gorgeous horses: <b>logo design, business cards, social media visuals.</b> Everything matches, everything shines, and the music is your brand identity.`},
+ {ic:'🛝',bg:'linear-gradient(160deg,#d0f5e0,#a0e8c0)',nm:'The Delivery Slide',d:'idea in, product out',
+  k:'RIDE 5 · THE DELIVERY SLIDE',h:'Wheeee — straight to production',
+  p:`Climb the ladder (requirements, scope, user stories) and enjoy the frictionless slide to release. <b>GoldenTag took this exact slide down to Google Play.</b> No queue, because coordination.`},
+ {ic:'🎪',bg:'linear-gradient(160deg,#ffe0e0,#ffc0c0)',nm:'The Grand Tent',d:'the finale show',final:true,
+  k:'RIDE 6 · THE GRAND TENT',h:'Ladies & gentlemen… your project!',
+  p:`The big show needs one more performer: <b>you.</b> Websites · React frontends · logos · business cards · social visuals · coordination. Ringmaster: <b>Nour Aldeen Tofi</b>, Riyadh · AR+EN. The spotlight is warm, we promise.`}
+];
+let AC=null;
+function wee(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';
+  o.frequency.setValueAtTime(400,AC.currentTime);
+  o.frequency.exponentialRampToValueAtTime(900,AC.currentTime+.25);
+  o.frequency.exponentialRampToValueAtTime(500,AC.currentTime+.5);
+  g.gain.setValueAtTime(.06,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.55);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.6);}catch(e){}}
+function fanfP(){[523,659,784,1047,1319].forEach((f,i)=>setTimeout(()=>{
+  try{const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;
+  g.gain.setValueAtTime(.07,AC.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.35);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.4);}catch(e){}},i*120));}
+
+const map=document.getElementById('parkMap');
+let ridden=new Set();
+RIDES.forEach((r,i)=>{
+  const el=document.createElement('div');el.className='ride';
+  let topInner=`<span style="font-size:52px">${r.ic}</span>`;
+  if(r.special==='wheel')topInner=`<div id="wheel"><div id="wheelPole"></div><div id="wheelRim">
+    ${[0,60,120,180,240,300].map(a=>`<div class="cab2" style="transform:rotate(${a}deg) translateY(-48px)"></div>`).join('')}
+  </div></div>`;
+  if(r.special==='coaster')topInner=`<div id="coasterTrack">
+    <svg width="100%" height="100%" viewBox="0 0 260 120" preserveAspectRatio="none">
+      <path d="M-20 90 Q60 20 115 70 Q170 115 250 40" fill="none" stroke="#e05a3a" stroke-width="5"/>
+    </svg><div id="coasterCar">🎢</div></div>`;
+  el.innerHTML=`<div class="rideTop" style="background:${r.bg}">${topInner}</div>
+    <div class="rideBody"><div class="rn">${r.nm}</div><div class="rd">${r.d}</div>
+    <div class="stamp2">✓ RIDDEN — STAMPED ON WRISTBAND</div></div>`;
+  el.onclick=()=>ride(i,el);
+  map.appendChild(el);
+});
+function ride(i,el){
+  wee();
+  const r=RIDES[i];
+  if(!ridden.has(i)){ridden.add(i);el.classList.add('done');
+    document.getElementById('rides').textContent=ridden.size;}
+  const all=ridden.size>=RIDES.length;
+  if(all)fanfP();
+  document.getElementById('rmBody').innerHTML=
+    `<div class="big3">${r.ic}</div><div class="k">${r.k}</div><h2>${r.h}</h2><p>${r.p}</p>
+     ${all?'<p style="margin-top:10px"><b style="color:#e05a3a">🏅 GOLDEN WRISTBAND EARNED — you rode everything!</b></p>':''}
+     <div class="btns">
+       ${(r.final||all)?`<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Golden%20wristband&body=Rode%20all%20of%20Nourland.%20My%20project%20wants%20in%3A%20">🎪 Join the show</a>
+       <a class="btn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+       <a class="btn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`
+       :`<a class="btn g" href="mailto:nouraldeentofi@gmail.com">✉ Ask the ringmaster</a>`}
+     </div>`;
+  document.getElementById('rideModal').classList.add('open');
+}
+document.getElementById('rmClose').onclick=()=>document.getElementById('rideModal').classList.remove('open');
+document.getElementById('rideModal').addEventListener('pointerdown',e=>{
+  if(e.target===document.getElementById('rideModal'))document.getElementById('rideModal').classList.remove('open');});
+addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('rideModal').classList.remove('open');});
+</script>
+</body>
+</html>

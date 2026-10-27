@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — WHACK · Smash the Problems</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Titan+One&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--fair:#2a8a5c;--faird:#1c5c3c;--fg:#fdf8ec;--dim:rgba(253,248,236,.65);--acc:#ffd23f;--red5:#e05a3a;--dirt:#6e4a2a}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;color:var(--fg);min-height:100vh;
+    background:radial-gradient(80vw 60vh at 50% 0%,#38a870,var(--fair) 55%,var(--faird));
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh;cursor:none}
+  a{color:inherit;text-decoration:none;cursor:pointer}
+  button{cursor:pointer}
+  ::selection{background:var(--acc);color:#2a5c3c}
+  h1{font-family:'Titan One';font-size:clamp(24px,5vw,44px);text-shadow:0 3px 0 rgba(0,0,0,.25)}
+  h1 span{color:var(--acc)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.26em;color:var(--dim);
+    margin:6px 0 16px;text-transform:uppercase;text-align:center}
+
+  #hud3{display:flex;gap:14px;margin-bottom:14px;flex-wrap:wrap;justify-content:center;
+    font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.14em}
+  #hud3 span{background:rgba(0,0,0,.25);padding:10px 16px;border-radius:99px}
+  #hud3 b{color:var(--acc)}
+
+  #lawn{position:relative;width:min(620px,95vw);height:340px;border-radius:20px;
+    background:linear-gradient(180deg,#3aa870,#2a8a5c);box-shadow:0 24px 60px rgba(0,0,0,.35), inset 0 0 60px rgba(0,0,0,.15)}
+  .hole{position:absolute;width:110px;height:74px}
+  .dirtM{position:absolute;bottom:0;left:0;right:0;height:30px;border-radius:50%;
+    background:radial-gradient(ellipse at 50% 30%,#3a2814,var(--dirt));box-shadow:inset 0 6px 12px rgba(0,0,0,.5)}
+  .mole{position:absolute;bottom:12px;left:50%;transform:translateX(-50%) translateY(100%);width:74px;text-align:center;
+    transition:transform .18s cubic-bezier(.3,1.3,.4,1);z-index:2}
+  .mole .face2{font-size:44px;filter:drop-shadow(0 4px 5px rgba(0,0,0,.35))}
+  .mole .tag2{font-family:'IBM Plex Mono';font-size:8px;font-weight:600;background:rgba(0,0,0,.55);color:#fff;
+    padding:3px 7px;border-radius:99px;white-space:nowrap;letter-spacing:.04em}
+  .hole.up .mole{transform:translateX(-50%) translateY(0)}
+  .holeMask{position:absolute;bottom:-24px;left:-10px;right:-10px;height:40px;background:inherit;z-index:3}
+  .bonk{position:absolute;font-family:'Titan One';font-size:22px;color:var(--acc);z-index:9;pointer-events:none;
+    text-shadow:0 2px 0 rgba(0,0,0,.4)}
+
+  /* hammer cursor */
+  #hammer2{position:fixed;z-index:50;font-size:38px;pointer-events:none;transform:translate(-30%,-70%) rotate(-20deg);
+    transition:transform .08s;filter:drop-shadow(0 4px 5px rgba(0,0,0,.4))}
+  #hammer2.smash{transform:translate(-30%,-70%) rotate(28deg)}
+  #startB2{font-family:'Titan One';font-size:16px;border:none;border-radius:14px;padding:15px 32px;margin-top:16px;
+    background:var(--acc);color:#5c3a00;box-shadow:0 5px 0 #b8912e;transition:transform .1s,box-shadow .1s}
+  #startB2:active{transform:translateY(4px);box-shadow:0 1px 0 #b8912e}
+
+  #result3{margin-top:16px;max-width:560px;text-align:center;min-height:80px}
+  #result3 .k{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.28em;color:var(--acc);text-transform:uppercase;font-weight:600}
+  #result3 h2{font-family:'Titan One';font-size:clamp(17px,3.4vw,26px);margin:8px 0 6px}
+  #result3 p{font-size:12.5px;line-height:1.7;color:var(--dim)}
+  #result3 p b{color:var(--fg)}
+  .btns{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 18px;border-radius:99px;
+    border:2px solid var(--acc);color:var(--acc);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--acc);color:#5c3a00}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}
+    body{cursor:auto}#hammer2{display:none}}
+</style>
+</head>
+<body>
+<h1>🔨 WHACK-A-<span>PROBLEM</span></h1>
+<div class="sub">The problems pop up — he puts them down · 30 seconds · دقّ المشاكل</div>
+
+<div id="hud3"><span>SCORE <b id="sc3">0</b></span><span>TIME <b id="tm3">30</b>s</span><span>BEST <b id="bs3">0</b></span></div>
+
+<div id="lawn"></div>
+<button id="startB2">▶ START SHIFT</button>
+
+<div id="result3">
+  <div class="k">The metaphor is not subtle</div>
+  <h2>Bugs · deadlines · scope creep…</h2>
+  <p>These pop up in every project. The difference is having someone <b>fast enough to whack them daily</b>. Press start.</p>
+</div>
+
+<div id="hammer2">🔨</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const PROBLEMS=[
+ ['🐛','BUG'],['⏰','DEADLINE'],['🌀','SCOPE CREEP'],['🧨','LEGACY CODE'],['👻','GHOST CLIENT'],['📉','SLOW SITE']
+];
+const lawn=document.getElementById('lawn');
+const HOLES=[[6,8],[40,4],[72,8],[10,48],[42,44],[74,48]];
+let holes=[];
+HOLES.forEach(([x,y])=>{
+  const h=document.createElement('div');h.className='hole';
+  h.style.left=x+'%';h.style.top=y+'%';
+  h.innerHTML=`<div class="mole"><div class="face2">🐛</div><div class="tag2">BUG</div></div>
+    <div class="dirtM"></div>`;
+  lawn.appendChild(h);
+  holes.push({el:h,up:false,timer:null});
+});
+let AC=null;
+function bonkS(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='square';
+  o.frequency.setValueAtTime(300,AC.currentTime);
+  o.frequency.exponentialRampToValueAtTime(90,AC.currentTime+.1);
+  g.gain.setValueAtTime(.12,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.16);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.18);}catch(e){}}
+function popS(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';
+  o.frequency.setValueAtTime(250,AC.currentTime);
+  o.frequency.exponentialRampToValueAtTime(520,AC.currentTime+.1);
+  g.gain.setValueAtTime(.05,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.14);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.16);}catch(e){}}
+
+/* hammer follows cursor */
+const ham=document.getElementById('hammer2');
+addEventListener('pointermove',e=>{ham.style.left=e.clientX+'px';ham.style.top=e.clientY+'px';});
+addEventListener('pointerdown',()=>{ham.classList.add('smash');setTimeout(()=>ham.classList.remove('smash'),110);});
+
+let score=0,best=0,timeLeft=30,running=false,spawnIv=null,clockIv=null;
+function popUp(){
+  const free=holes.filter(h=>!h.up);
+  if(!free.length)return;
+  const h=free[Math.floor(Math.random()*free.length)];
+  const p=PROBLEMS[Math.floor(Math.random()*PROBLEMS.length)];
+  h.el.querySelector('.face2').textContent=p[0];
+  h.el.querySelector('.tag2').textContent=p[1];
+  h.up=true;h.el.classList.add('up');
+  popS();
+  h.timer=setTimeout(()=>{h.up=false;h.el.classList.remove('up');},reduced?2600:900+Math.random()*700);
+}
+holes.forEach(h=>{
+  h.el.addEventListener('pointerdown',e=>{
+    if(!running||!h.up)return;
+    h.up=false;h.el.classList.remove('up');clearTimeout(h.timer);
+    score++;document.getElementById('sc3').textContent=score;
+    bonkS();
+    const b=document.createElement('div');b.className='bonk';
+    b.textContent=['BONK!','FIXED!','SHIPPED!','SOLVED!'][score%4];
+    const r=lawn.getBoundingClientRect();
+    b.style.left=(e.clientX-r.left-20)+'px';b.style.top=(e.clientY-r.top-30)+'px';
+    lawn.appendChild(b);
+    b.animate([{transform:'translateY(0) scale(1)',opacity:1},{transform:'translateY(-40px) scale(1.3)',opacity:0}],
+      {duration:600}).onfinish=()=>b.remove();
+  });
+});
+document.getElementById('startB2').onclick=()=>{
+  if(running)return;
+  running=true;score=0;timeLeft=30;
+  document.getElementById('sc3').textContent=0;
+  document.getElementById('tm3').textContent=30;
+  document.getElementById('startB2').textContent='… WHACKING …';
+  setR('Shift in progress','GO GO GO!','Every problem you whack, he whacks daily — for real projects.');
+  spawnIv=setInterval(popUp,reduced?1000:520);
+  clockIv=setInterval(()=>{
+    timeLeft--;document.getElementById('tm3').textContent=timeLeft;
+    if(timeLeft<=0)end();
+  },1000);
+};
+function end(){
+  running=false;clearInterval(spawnIv);clearInterval(clockIv);
+  holes.forEach(h=>{h.up=false;h.el.classList.remove('up');clearTimeout(h.timer);});
+  best=Math.max(best,score);document.getElementById('bs3').textContent=best;
+  document.getElementById('startB2').textContent='↺ ANOTHER SHIFT';
+  const grade=score>=20?'SUPERVISOR LEVEL':score>=12?'SENIOR WHACKER':'TRAINEE (CUTE)';
+  setR('Shift report · '+grade,`${score} problems whacked!`,
+    `Nour's daily average is higher 😄 — <b>bugs, deadlines, scope creep</b>: handled since 2023, supervised since 2026. Want a problem-whacker on retainer? Websites · React · logos · social · coordination.`,
+    `<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Whacked%20${score}%20problems&body=My%20project%20has%20moles%3A%20">🔨 Hire the pro</a>
+     <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+     <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`);
+}
+function setR(k,h,p,btns){
+  document.querySelector('#result3 .k').textContent=k;
+  document.querySelector('#result3 h2').textContent=h;
+  document.querySelector('#result3 p').innerHTML=p;
+  const old=document.querySelector('#result3 .btns');if(old)old.remove();
+  if(btns){const d=document.createElement('div');d.className='btns';d.innerHTML=btns;
+    document.getElementById('result3').appendChild(d);}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — CARWASH · Projects In, Shine Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--sky:#bfe2f0;--road:#5c6270;--roadd:#454a56;--tunnel:#2a6ea8;--tunneld:#1c4a74;--fg:#20303a;--dim:rgba(32,48,58,.65);
+        --foam:#ffffff;--acc:#ff7a3c}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Baloo 2',sans-serif;background:linear-gradient(180deg,var(--sky),#e2f2f8);color:var(--fg);
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:5vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--acc);color:#fff}
+  h1{font-weight:800;font-size:clamp(24px,4.8vw,42px);text-align:center}
+  h1 span{color:var(--acc)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.24em;color:var(--dim);
+    margin:8px 0 24px;text-transform:uppercase;text-align:center}
+
+  #scene{position:relative;width:min(880px,97vw);height:330px;border-radius:18px;overflow:hidden;
+    background:linear-gradient(180deg,#d8eef7 0%,#c2e2ef 62%,var(--road) 62%,var(--roadd));
+    box-shadow:0 24px 60px rgba(28,74,116,.3)}
+  /* tunnel */
+  #tunnel{position:absolute;left:50%;transform:translateX(-50%);top:34px;width:340px;height:230px;z-index:6;
+    background:linear-gradient(180deg,var(--tunnel),var(--tunneld));border-radius:18px 18px 0 0;
+    box-shadow:0 14px 34px rgba(0,0,0,.3)}
+  #tunnel .signW{position:absolute;top:12px;left:50%;transform:translateX(-50%);font-weight:800;font-size:17px;
+    color:#fff;letter-spacing:.08em;white-space:nowrap}
+  #tunnel .signW small{display:block;font-family:'IBM Plex Mono';font-size:8px;letter-spacing:.24em;opacity:.8;text-align:center}
+  #mouthL,#mouthR{position:absolute;bottom:0;width:76px;height:150px;background:#0e2438;border-radius:12px 12px 0 0}
+  #mouthL{left:12px}#mouthR{right:12px}
+  .flapstrip{position:absolute;bottom:60px;width:76px;height:90px;display:flex;justify-content:space-around;z-index:2}
+  .flap{width:9px;height:90px;background:linear-gradient(180deg,#ffd23f,#e8a03c);border-radius:0 0 5px 5px;
+    transform-origin:top;animation:fl 1.6s ease-in-out infinite}
+  .flap:nth-child(2){animation-delay:.2s}.flap:nth-child(3){animation-delay:.4s}.flap:nth-child(4){animation-delay:.6s}
+  @keyframes fl{50%{transform:rotate(8deg)}}
+  /* rollers visible in tunnel window */
+  #windowT{position:absolute;left:96px;right:96px;top:64px;bottom:60px;background:#123a5c;border-radius:10px;overflow:hidden}
+  .roller{position:absolute;top:-8px;bottom:-8px;width:34px;border-radius:18px;
+    background:repeating-linear-gradient(0deg,#3ca8e8 0 9px,#78c8f0 9px 18px);animation:spin 1s linear infinite}
+  @keyframes spin{to{background-position:0 18px}}
+  .roller.r1{left:14px}.roller.r2{left:60px;animation-duration:.8s}.roller.r3{right:60px;animation-duration:1.2s}.roller.r4{right:14px}
+  #stageLbl{position:absolute;left:50%;transform:translateX(-50%);bottom:14px;font-family:'IBM Plex Mono';
+    font-size:10px;letter-spacing:.2em;color:#9fd8f5;white-space:nowrap;z-index:3}
+
+  /* car */
+  #car{position:absolute;bottom:34px;left:-170px;z-index:5;width:150px;transition:none}
+  #carBody{position:relative;width:150px;height:46px;border-radius:14px 20px 8px 8px;
+    background:linear-gradient(180deg,#b8a88a,#8a7a5c);box-shadow:0 5px 10px rgba(0,0,0,.3);transition:background 1s}
+  #carTop{position:absolute;top:-24px;left:28px;width:66px;height:28px;border-radius:12px 16px 0 0;
+    background:#8a7a5c;transition:background 1s}
+  #winF{position:absolute;top:-20px;left:34px;width:24px;height:19px;background:#d8eef7;border-radius:6px 0 0 0}
+  #carLbl{position:absolute;top:12px;left:50%;transform:translateX(-50%);font-family:'IBM Plex Mono';
+    font-size:8px;font-weight:600;color:#fff;white-space:nowrap;letter-spacing:.04em;text-shadow:0 1px 2px rgba(0,0,0,.4)}
+  .dirt{position:absolute;border-radius:50%;background:#5c4a2e;opacity:.85;transition:opacity .6s}
+  .wheelC{position:absolute;bottom:-12px;width:26px;height:26px;border-radius:50%;background:#20242c;border:5px solid #3c424e}
+  .wheelC.a{left:16px}.wheelC.b{right:16px}
+  .sparkle{position:absolute;color:#fff;font-size:16px;opacity:0;text-shadow:0 0 8px #fff}
+  #steam2{position:absolute;inset:0;pointer-events:none;z-index:7}
+
+  /* controls + stages readout */
+  #bar{width:min(880px,97vw);margin-top:16px;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap}
+  #washB{font-family:'Baloo 2';font-weight:800;font-size:16px;border:none;border-radius:14px;padding:15px 30px;
+    cursor:pointer;background:var(--acc);color:#fff;box-shadow:0 5px 0 #b84e1e;transition:transform .1s,box-shadow .1s}
+  #washB:active{transform:translateY(4px);box-shadow:0 1px 0 #b84e1e}
+  #washB:disabled{filter:grayscale(.6);pointer-events:none}
+  #stageTxt{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;background:#fff;
+    border-radius:99px;padding:12px 20px;border:2px solid rgba(32,48,58,.2);font-weight:600;min-width:280px;text-align:center}
+  #story{margin-top:18px;max-width:600px;text-align:center;min-height:100px}
+  #story .k{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.3em;color:var(--acc);text-transform:uppercase;font-weight:600}
+  #story h2{font-weight:800;font-size:clamp(18px,3.4vw,27px);margin:8px 0 6px}
+  #story p{font-size:13.5px;line-height:1.65;color:var(--dim)}
+  #story p b{color:var(--fg)}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .btn{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.12em;padding:12px 20px;border-radius:99px;
+    background:var(--fg);color:#fff;text-transform:uppercase;font-weight:600}
+  .btn.g{background:transparent;border:2px solid var(--fg);color:var(--fg)}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>🚗 NOUR <span>WASH</span> &amp; SHINE</h1>
+<div class="sub">Messy projects in — successful projects out · guaranteed · غسيل مشاريع</div>
+
+<div id="scene">
+  <div id="tunnel">
+    <div class="signW">NOUR WASH<small>PROJECT CLEANING CO.</small></div>
+    <div id="windowT">
+      <div class="roller r1"></div><div class="roller r2"></div><div class="roller r3"></div><div class="roller r4"></div>
+      <div id="stageLbl">— IDLE —</div>
+    </div>
+    <div id="mouthL"><div class="flapstrip"><div class="flap"></div><div class="flap"></div><div class="flap"></div><div class="flap"></div></div></div>
+    <div id="mouthR"><div class="flapstrip"><div class="flap"></div><div class="flap"></div><div class="flap"></div><div class="flap"></div></div></div>
+  </div>
+  <div id="car">
+    <div id="carTop"></div><div id="winF"></div>
+    <div id="carBody"><span id="carLbl">YOUR PROJECT (BEFORE)</span></div>
+    <div class="wheelC a"></div><div class="wheelC b"></div>
+  </div>
+  <div id="steam2"></div>
+</div>
+
+<div id="bar">
+  <button id="washB">🧽 START THE WASH</button>
+  <div id="stageTxt">READY — YOUR PROJECT LOOKS… ROUGH</div>
+</div>
+
+<div id="story">
+  <div class="k">Service menu</div>
+  <h2>Every stage is a real service</h2>
+  <p>Soap = <b>clean code</b> · Brushes = <b>React rebuild</b> · Rinse = <b>design polish</b> · Dry = <b>coordination</b>. Press start and watch the transformation.</p>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const STAGES=[
+ ['PRE-RINSE — REQUIREMENTS','First: understand the mess. Requirements gathering & scope — the habit of a real project coordinator (NexLead, 2025→).'],
+ ['SOAP — CLEAN CODE','Deep foam of clean code (Scrimba \'24 + daily practice). The grime of spaghetti code dissolves.'],
+ ['BRUSHES — REACT REBUILD','Heavy rotation: React + TypeScript + Tailwind, supervisor grade (Distinctive Frontier Co., 2026 →).'],
+ ['RINSE — DESIGN POLISH','Logos, layouts, visuals rinsed to a professional gleam.'],
+ ['HOT DRY — DELIVERY','Coordinated finish: timelines kept, quality checked — the same process that shipped GoldenTag to Google Play.']
+];
+let AC=null;
+function spray(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const b=AC.createBuffer(1,AC.sampleRate*.9,AC.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length)*.7;
+  const s=AC.createBufferSource();s.buffer=b;
+  const f=AC.createBiquadFilter();f.type='highpass';f.frequency.value=2400;
+  const g=AC.createGain();g.gain.value=.06;
+  s.connect(f);f.connect(g);g.connect(AC.destination);s.start();}catch(e){}}
+function dingC(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  [880,1100].forEach((fr,i)=>{const o=AC.createOscillator(),g=AC.createGain();
+    o.type='sine';o.frequency.value=fr;
+    g.gain.setValueAtTime(.07,AC.currentTime+i*.15);
+    g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+i*.15+.5);
+    o.connect(g);g.connect(AC.destination);o.start(AC.currentTime+i*.15);o.stop(AC.currentTime+i*.15+.55);});}catch(e){}}
+
+/* dirt spots */
+const carBody=document.getElementById('carBody');
+const dirts=[];
+for(let i=0;i<9;i++){
+  const d=document.createElement('div');d.className='dirt';
+  const s=6+Math.random()*12;
+  d.style.cssText=`width:${s}px;height:${s*.7}px;left:${8+Math.random()*120}px;top:${6+Math.random()*30}px`;
+  carBody.appendChild(d);dirts.push(d);
+}
+let washing=false;
+document.getElementById('washB').onclick=async()=>{
+  if(washing)return;washing=true;
+  const car=document.getElementById('car'),scene=document.getElementById('scene');
+  const W=scene.clientWidth;
+  document.getElementById('washB').disabled=true;
+  /* drive in */
+  setStage('DRIVING IN…');
+  await slide(car,-170,W/2-170,reduced?200:1600);
+  /* stages */
+  for(let i=0;i<STAGES.length;i++){
+    setStage(STAGES[i][0]);
+    story('Stage '+(i+1)+' / 5',STAGES[i][0],STAGES[i][1]);
+    spray();
+    if(!reduced)foam();
+    /* progressively clean + repaint */
+    const p=(i+1)/STAGES.length;
+    dirts.forEach((d,di)=>{if(di/dirts.length<p)d.style.opacity=0;});
+    if(i>=2){
+      carBody.style.background='linear-gradient(180deg,#ff9a5c,#e05a2e)';
+      document.getElementById('carTop').style.background='#e05a2e';
+    }
+    await wait(reduced?180:1500);
+  }
+  document.getElementById('carLbl').textContent='YOUR PROJECT (AFTER) ✓';
+  /* drive out + sparkles */
+  setStage('SHINE CHECK — PASSED ✓');
+  await slide(car,W/2-170,W+40,reduced?200:1700);
+  dingC();
+  if(!reduced)for(let i=0;i<6;i++){
+    const sp=document.createElement('div');sp.className='sparkle';sp.textContent='✦';
+    sp.style.cssText=`left:${W-140+Math.random()*100}px;bottom:${50+Math.random()*80}px`;
+    scene.appendChild(sp);
+    sp.animate([{opacity:0,transform:'scale(.4)'},{opacity:1,transform:'scale(1.2)'},{opacity:0,transform:'scale(.6)'}],
+      {duration:900,delay:i*140}).onfinish=()=>sp.remove();
+  }
+  story('The after photo · النتيجة',
+    'That shine? That\'s your project with Nour.',
+    `<b>Nour Aldeen Tofi</b> — frontend developer &amp; software engineering supervisor, Riyadh. Websites · React frontends · logos · business cards · social visuals · coordination. Drive in messy, drive out proud.`,
+    `<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Wash%20my%20project&body=It%27s%20a%20bit%20dusty%3A%20">🧽 Book a wash</a>
+     <a class="btn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+     <a class="btn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`);
+  /* reset for replay */
+  setTimeout(()=>{
+    car.style.left='-170px';
+    dirts.forEach(d=>d.style.opacity=.85);
+    carBody.style.background='';document.getElementById('carTop').style.background='';
+    document.getElementById('carLbl').textContent='YOUR PROJECT (BEFORE)';
+    document.getElementById('washB').disabled=false;
+    document.getElementById('washB').textContent='↺ WASH ANOTHER PROJECT';
+    setStage('READY FOR THE NEXT ONE');
+    washing=false;
+  },reduced?400:1400);
+};
+function foam(){
+  const scene=document.getElementById('scene');
+  for(let i=0;i<10;i++){
+    const f=document.createElement('div');
+    f.style.cssText=`position:absolute;z-index:8;left:${scene.clientWidth/2-120+Math.random()*240}px;
+      bottom:${40+Math.random()*140}px;width:${12+Math.random()*22}px;height:${12+Math.random()*22}px;
+      border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,rgba(255,255,255,.5));pointer-events:none`;
+    scene.appendChild(f);
+    f.animate([{transform:'translateY(0)',opacity:.95},{transform:'translateY(-50px)',opacity:0}],
+      {duration:1100+Math.random()*500}).onfinish=()=>f.remove();
+  }
+}
+function slide(el,from,to,ms){return new Promise(res=>{
+  const a=el.animate([{left:from+'px'},{left:to+'px'}],{duration:ms,easing:'ease-in-out',fill:'forwards'});
+  a.onfinish=()=>{el.style.left=to+'px';res();};});}
+function wait(ms){return new Promise(r=>setTimeout(r,ms));}
+function setStage(t){document.getElementById('stageTxt').textContent=t;
+  document.getElementById('stageLbl').textContent='— '+t+' —';}
+function story(k,h,p,btns){
+  document.querySelector('#story .k').textContent=k;
+  document.querySelector('#story h2').innerHTML=h;
+  document.querySelector('#story p').innerHTML=p;
+  const old=document.querySelector('#story .btns');if(old)old.remove();
+  if(btns){const d=document.createElement('div');d.className='btns';d.innerHTML=btns;
+    document.getElementById('story').appendChild(d);}
+}
+</script>
+</body>
+</html>

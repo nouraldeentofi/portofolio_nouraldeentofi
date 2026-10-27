@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — RECEIPT · Print the Résumé</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Rubik:wght@500;800&display=swap" rel="stylesheet">
+<style>
+  :root{--desk:#4a4e57;--deskd:#33363d;--printer:#23252b;--paper:#fdfcf7;--ink:#2b2b28;--faint:rgba(43,43,40,.65);
+        --accent:#e05243;--led:#59d97d}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Rubik',sans-serif;background:linear-gradient(180deg,#5a5f6a,var(--desk) 40%,var(--deskd));
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:5vh 4vw 10vh;color:#e8e9ec}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--accent);color:#fff}
+  h1{font-weight:800;font-size:clamp(22px,4.2vw,36px)}
+  h1 span{color:#ffb1a8}
+  .sub{font-family:'Cutive Mono',monospace;font-size:11px;letter-spacing:.25em;opacity:.75;margin:8px 0 26px;text-transform:uppercase;text-align:center}
+
+  /* printer */
+  #printer{width:min(460px,94vw);background:linear-gradient(180deg,#2e3138,var(--printer));border-radius:18px 18px 10px 10px;
+    padding:18px 20px 8px;box-shadow:0 30px 60px rgba(0,0,0,.5), inset 0 2px 0 rgba(255,255,255,.12);z-index:5;position:relative}
+  #ptop{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  #plogo{font-family:'Cutive Mono',monospace;font-size:12px;letter-spacing:.2em;color:#9aa0ad}
+  #pled{display:flex;align-items:center;gap:7px;font-family:'Cutive Mono',monospace;font-size:10px;color:#9aa0ad}
+  #dot{width:9px;height:9px;border-radius:50%;background:#3a3d45;transition:all .3s}
+  #dot.on{background:var(--led);box-shadow:0 0 10px var(--led)}
+  #dot.busy{background:#ffb54d;box-shadow:0 0 10px #ffb54d;animation:bl .5s infinite}
+  @keyframes bl{50%{opacity:.4}}
+  #slot{height:12px;background:#0d0e11;border-radius:6px;box-shadow:inset 0 3px 8px #000}
+  #pbtns{display:flex;gap:10px;justify-content:center;padding:14px 0 10px}
+  .pb{font-family:'Rubik';font-weight:800;font-size:12px;letter-spacing:.1em;border:none;border-radius:9px;
+    padding:13px 22px;cursor:pointer;background:var(--accent);color:#fff;box-shadow:0 5px 0 #9c3225;
+    transition:transform .1s,box-shadow .1s;text-transform:uppercase}
+  .pb:active{transform:translateY(4px);box-shadow:0 1px 0 #9c3225}
+  .pb.g{background:#3a3d45;box-shadow:0 5px 0 #1c1e22}
+  .pb.g:active{box-shadow:0 1px 0 #1c1e22}
+  .pb:disabled{filter:grayscale(.6);pointer-events:none}
+
+  /* paper */
+  #paperWrap{width:min(400px,88vw);margin-top:-6px;z-index:4;perspective:800px}
+  #paper{background:var(--paper);color:var(--ink);font-family:'Cutive Mono',monospace;font-size:12.5px;line-height:1.75;
+    padding:26px 24px 30px;box-shadow:0 20px 50px rgba(0,0,0,.45);overflow:hidden;max-height:0;
+    clip-path:polygon(0 0,100% 0,100% calc(100% - 9px),97% 100%,94% calc(100% - 7px),90% 100%,86% calc(100% - 8px),82% 100%,78% calc(100% - 6px),74% 100%,70% calc(100% - 9px),66% 100%,62% calc(100% - 7px),58% 100%,54% calc(100% - 8px),50% 100%,46% calc(100% - 7px),42% 100%,38% calc(100% - 9px),34% 100%,30% calc(100% - 7px),26% 100%,22% calc(100% - 8px),18% 100%,14% calc(100% - 6px),10% 100%,6% calc(100% - 8px),3% 100%,0 calc(100% - 9px))}
+  #paper .row{display:flex;justify-content:space-between;gap:8px;opacity:0}
+  #paper .row.vis{opacity:1}
+  #paper .row span:last-child{white-space:nowrap}
+  #paper .c{justify-content:center;text-align:center}
+  #paper .b{font-weight:700}
+  #paper .big{font-size:15px;letter-spacing:.12em}
+  #paper .dashes{letter-spacing:1px;overflow:hidden;white-space:nowrap;color:var(--faint)}
+  #paper .sm{font-size:10.5px;color:var(--faint)}
+  #barcode{height:44px;margin:8px 4px 2px;opacity:0;
+    background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 7px,transparent 7px 9px,var(--ink) 9px 10px,transparent 10px 13px,var(--ink) 13px 16px,transparent 16px 18px)}
+  #barcode.vis{opacity:1}
+  #paper a{text-decoration:underline;color:var(--ink)}
+  #paper .torncut{border-top:2px dashed rgba(43,43,40,.4);margin:10px 0}
+
+  #torn{position:fixed;z-index:60;pointer-events:none;display:none}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<h1>RÉSUMÉ <span>THERMAL™</span></h1>
+<div class="sub">Point-of-hire terminal · Riyadh branch · فاتورتك تكرم</div>
+
+<div id="printer">
+  <div id="ptop"><div id="plogo">NT-POS 26</div><div id="pled"><span id="dot"></span><span id="ledtxt">READY</span></div></div>
+  <div id="slot"></div>
+  <div id="pbtns">
+    <button class="pb" id="printB">⎙ Print résumé</button>
+    <button class="pb g" id="tearB" disabled>✂ Tear off</button>
+  </div>
+</div>
+
+<div id="paperWrap"><div id="paper"></div></div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const paper=document.getElementById('paper');
+const D='—'.repeat(46);
+const LINES=[
+ ['c big b','NOUR ALDEEN TOFI'],
+ ['c sm','FRONTEND DEVELOPER & SW ENG SUPERVISOR'],
+ ['c sm','RIYADH, SAUDI ARABIA · AR + EN'],
+ ['dashes',D],
+ ['','CASHIER: LIFE','REG: 26'],
+ ['','DATE: 2019 → 2026','LANE: 1'],
+ ['dashes',D],
+ ['b','ITEM','QTY  PRICE'],
+ ['','B.TECH IT (KALAMOON 19-24)','1  EARNED'],
+ ['','ICPC/ACPC CONTEST 2021','1  RATED'],
+ ['','REACT DEV @ MINICODELEADER','8mo  SOLID'],
+ ['','FRONTEND @ KHWARIZM TECH','8mo  SOLID'],
+ ['','FRONTEND+COORD @ D.FRONTIER','1yr  RARE'],
+ ['b','SUPERVISOR @ D.FRONTIER 26→','1  ACTIVE'],
+ ['b','PROJ COORD @ NEXLEAD 25→','1  ACTIVE'],
+ ['','↳ GOLDENTAG → GOOGLE PLAY','1  GOLD'],
+ ['dashes',D],
+ ['b','SKILLS DEPT.',''],
+ ['','REACT / TYPESCRIPT / TAILWIND','x∞'],
+ ['','JAVASCRIPT / PYTHON DS-AI','x∞'],
+ ['','GIT / JIRA / TRELLO / PROMPTS','x∞'],
+ ['','CLEAN CODE','NO REFUNDS'],
+ ['dashes',D],
+ ['b','CERT COUPONS APPLIED',''],
+ ['sm','META ADV REACT 25 / TS-REACT 25',''],
+ ['sm','GOOGLE PM x2 25 / IBM PY+GENAI 24',''],
+ ['sm','TAILWIND 24 / CLEAN CODE 24 / JIRA 25',''],
+ ['dashes',D],
+ ['b big','TOTAL','PRICELESS'],
+ ['','VAT (VALUE ADDED TALENT)','15%'],
+ ['','LOYALTY PTS: ANIME·CHESS·BADMINTON','+9999'],
+ ['dashes',D],
+ ['c b','*** THANK YOU FOR HIRING ***'],
+ ['c sm','RETURNS ACCEPTED: NEVER NEEDED'],
+ ['BARCODE'],
+ ['c sm','SCAN TO CONTACT:'],
+ ['c','<a href="mailto:nouraldeentofi@gmail.com">nouraldeentofi@gmail.com</a>'],
+ ['c sm','<a href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LINKEDIN</a> · <a href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">WEBSITE</a>'],
+ ['c sm','CUSTOMER COPY — HIRE RESPONSIBLY']
+];
+
+let AC=null;
+function tick(f){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='square';o.frequency.value=f||1400;
+  g.gain.setValueAtTime(.02,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.04);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.05);}catch(e){}}
+function motor(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sawtooth';o.frequency.value=55;
+  g.gain.setValueAtTime(.03,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.5);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.55);}catch(e){}}
+
+function buildPaper(){
+  paper.innerHTML='';
+  LINES.forEach(l=>{
+    if(l[0]==='BARCODE'){const b=document.createElement('div');b.id='barcode';paper.appendChild(b);return;}
+    const row=document.createElement('div');
+    row.className='row '+l[0];
+    row.innerHTML=`<span>${l[1]||''}</span>`+(l[2]!==undefined?`<span>${l[2]}</span>`:'');
+    paper.appendChild(row);
+  });
+}
+buildPaper();
+
+let printing=false,printed=false;
+const dot=document.getElementById('dot'),ledtxt=document.getElementById('ledtxt');
+document.getElementById('printB').onclick=async()=>{
+  if(printing)return;printing=true;
+  document.getElementById('printB').disabled=true;
+  document.getElementById('tearB').disabled=true;
+  buildPaper();
+  paper.style.maxHeight='0px';
+  dot.className='busy';ledtxt.textContent='PRINTING…';
+  motor();
+  const rows=[...paper.children];
+  let h=40;
+  for(const r of rows){
+    r.classList.add('vis');
+    h+=r.offsetHeight||18;
+    paper.style.maxHeight=h+'px';
+    tick(1200+Math.random()*600);
+    if(!reduced)await new Promise(res=>setTimeout(res,r.classList.contains('dashes')?60:110));
+  }
+  paper.style.maxHeight='2000px';
+  dot.className='on';ledtxt.textContent='DONE';
+  printing=false;printed=true;
+  document.getElementById('printB').disabled=false;
+  document.getElementById('printB').textContent='⎙ Reprint';
+  document.getElementById('tearB').disabled=false;
+};
+document.getElementById('tearB').onclick=()=>{
+  if(!printed)return;
+  tick(500);tick(800);
+  const r=paper.getBoundingClientRect();
+  const clone=paper.cloneNode(true);
+  Object.assign(clone.style,{position:'fixed',left:r.left+'px',top:r.top+'px',width:r.width+'px',
+    maxHeight:'none',zIndex:80,margin:0});
+  document.body.appendChild(clone);
+  paper.style.maxHeight='0px';printed=false;
+  document.getElementById('tearB').disabled=true;
+  ledtxt.textContent='READY';
+  if(reduced){clone.remove();return;}
+  clone.animate([
+    {transform:'rotate(0deg) translateY(0)',opacity:1},
+    {transform:'rotate(-7deg) translateY(30px)',opacity:1,offset:.3},
+    {transform:'rotate(5deg) translateY(120vh)',opacity:.9}
+  ],{duration:1400,easing:'cubic-bezier(.4,0,.8,1)'}).onfinish=()=>clone.remove();
+};
+/* boot led */
+setTimeout(()=>{dot.className='on';},600);
+</script>
+</body>
+</html>

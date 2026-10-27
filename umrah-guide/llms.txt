@@ -1,0 +1,60 @@
+# دليل العمرة الشامل — Umrah Checklist
+
+> An interactive, offline-first Umrah checklist in 10 languages. One HTML file,
+> zero dependencies, zero build step. Covers the rites in performance order from
+> the mīqāt to taḥallul, with ṭawāf/saʿī counters, duʿās, iḥrām prohibitions, and
+> the five mīqāt locations. Free, open source, no accounts, no tracking.
+
+- Live: https://nouraldeentofi.com/umrah-guide/
+- Source: https://github.com/nouraldeentofi/umrah-checklist
+- Author: Nour Aldeen Tofi — https://nouraldeentofi.com
+- Code license: MIT. Content: free to redistribute, not to sell. See CONTENT-NOTICE.md
+
+## What it covers
+
+The eight phases of Umrah, 35 steps in performance order:
+1. Preparation and iḥrām at the mīqāt (ghusl, garments, prayer, intention, conditional intention)
+2. The talbiyah on the way to Makkah
+3. Entering al-Masjid al-Ḥarām
+4. Ṭawāf — seven circuits (idṭibāʿ, raml, the Black Stone, the Yemeni corner)
+5. After ṭawāf — two rakʿahs at Maqām Ibrāhīm, Zamzam
+6. Saʿī between Ṣafā and Marwah — seven laps
+7. Ḥalq or taqṣīr, and release from iḥrām
+8. Iḥrām prohibitions and the five mīqāt locations
+
+## Languages
+
+Arabic (default), English, Urdu, Hindi, French, Spanish, Spanish (Argentina),
+Filipino, Japanese, Chinese. Contributions of further languages are welcome —
+see CONTRIBUTING.md.
+
+## Religious basis
+
+Follows the Ḥanbalī madhhab as taught and practised in the Ḥaramayn, checked
+against the fatwas of Shaykh Ibn ʿUthaymīn and Shaykh Ibn Bāz. Known differences
+are noted rather than hidden (e.g. ḥalq/taqṣīr is a wājib for the majority and a
+rukn in the Shāfiʿī school). This is a checklist and study aid, not a fatwa.
+
+The first draft was written with LLM assistance, then put through two review
+passes against published references. The primary source is Dalil al-Mu'tamir,
+compiled by Talal ibn Ahmad al-'Aqil, published by the Committee for the
+Distribution of Religious Publications to Pilgrims (Jeddah, 1426 AH,
+ISBN 9960-49-505-1) — the official booklet distributed to pilgrims in the
+Haramayn. Every correction is documented in REVIEW.md. Human scholarly review
+is still outstanding. See CONTENT-NOTICE.md for the full source list.
+
+## Notable engineering
+
+- Read-aloud via Web Speech API: du'as spoken in ar-SA at reduced rate, step
+  explanations spoken in the selected locale; voice resolution falls back from
+  exact BCP 47 tag to language prefix. No audio files, works offline.
+- Text-size control (3 levels), persisted
+- 10 locales across 5 writing systems with per-script typography and font stacks
+- Runtime bidirectional layout — `dir` flips on the same DOM, nothing duplicated
+- Locale-aware numerals (Arabic-Indic ٠-٩, Eastern Arabic ۰-۹)
+- Self-contained export: clones the live DOM, serialises the Arabic i18n base
+  into an injected script, emits a standalone multilingual HTML file with state
+- Three-tier storage fallback (window.storage → localStorage → memory), 7-day TTL
+- PWA: cache-first shell, stale-while-revalidate font caching for offline use
+- JSON-LD HowTo + WebApplication structured data
+- ~200 KB total, single file, no dependencies, no build

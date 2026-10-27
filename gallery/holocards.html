@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LEO · TCG — Holographic Portfolio Binder</title>
+<link href="https://fonts.googleapis.com/css2?family=Bungee:wght@400&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Cinzel:wght@600;700;800&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  /* Binder background */
+  --bg1: #07070d;
+  --bg2: #131527;
+  --bg-felt: #0d0e1c;
+
+  /* Card frame palette */
+  --card-cream: #f6e7c3;
+  --card-cream-d: #d9c898;
+  --gold: #e6b938;
+  --gold-d: #8a6818;
+
+  --text: #2a2118;
+  --muted: #6b5e44;
+
+  /* Type colors (energy types) */
+  --t-water: #4ea6ff;
+  --t-fire: #ff6b3a;
+  --t-grass: #5cc25a;
+  --t-electric: #ffcd2a;
+  --t-psychic: #c562d6;
+  --t-fairy: #ff95c5;
+  --t-dark: #4a4054;
+  --t-metal: #8a96a3;
+}
+
+html, body { background: var(--bg1); color: #e9e4d6 }
+body{
+  font-family:'Inter',sans-serif;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, #1b1f3a 0%, transparent 60%),
+    radial-gradient(ellipse 70% 60% at 50% 100%, #2a1530 0%, transparent 60%),
+    var(--bg1);
+  overflow-x: hidden;
+}
+
+/* sparkle background */
+body::before{
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(1px 1px at 15% 22%, rgba(255,255,255,.7), transparent 60%),
+    radial-gradient(1px 1px at 78% 14%, rgba(255,235,180,.6), transparent 60%),
+    radial-gradient(1.5px 1.5px at 42% 64%, rgba(255,255,255,.6), transparent 60%),
+    radial-gradient(1px 1px at 88% 72%, rgba(180,220,255,.6), transparent 60%),
+    radial-gradient(1.5px 1.5px at 22% 88%, rgba(255,200,160,.6), transparent 60%),
+    radial-gradient(1px 1px at 56% 32%, rgba(255,255,255,.5), transparent 60%);
+  background-size: 600px 600px;
+  animation: drift 30s linear infinite;
+  opacity: .6;
+}
+@keyframes drift{ to{ background-position: 600px 600px } }
+
+/* ─── HEADER ─── */
+header{
+  position: relative; z-index: 2;
+  padding: 64px 6% 28px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.eyebrow{
+  font-family:'JetBrains Mono', monospace;
+  font-size: .75rem; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 18px;
+}
+h1.bigtitle{
+  font-family:'Bungee', sans-serif;
+  font-size: clamp(2.4rem, 7vw, 4.6rem);
+  letter-spacing: -1px; line-height: .95;
+  background: linear-gradient(180deg, #fff 0%, #ffe17e 60%, #ff8e3a 80%, #c0541e 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  text-shadow: 0 6px 0 rgba(0,0,0,.4);
+  filter: drop-shadow(0 4px 30px rgba(255,170,80,.18));
+}
+header .sub{
+  color: #cbc6b6; max-width: 580px; margin: 16px auto 0; line-height: 1.7;
+  font-size: 1rem;
+}
+.set-meta{
+  display:flex; justify-content:center; gap:28px; flex-wrap:wrap; margin-top: 22px;
+  font-family:'JetBrains Mono', monospace;
+  color: var(--muted); font-size: .78rem; letter-spacing: 2px;
+}
+.set-meta span b{ color:#fff8d0 }
+
+/* ─── SECTION LABEL ─── */
+section{ position: relative; z-index: 2; padding: 60px 6% }
+.section-h{
+  text-align:center; margin-bottom: 42px;
+}
+.section-h .tag{
+  display:inline-block;
+  font-family:'JetBrains Mono', monospace;
+  font-size: .7rem; letter-spacing: 5px; text-transform: uppercase;
+  color: var(--gold); padding: 4px 12px;
+  border: 1px solid var(--gold-d); border-radius: 2px;
+  margin-bottom: 12px;
+}
+.section-h h2{
+  font-family:'Bungee', sans-serif;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  letter-spacing: -.5px;
+  background: linear-gradient(180deg,#fff,#cbc4a0);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.section-h p{
+  color: #b8b29a; max-width: 600px; margin: 12px auto 0; font-size: .95rem;
+}
+
+/* ════════════════════════════════════════════
+   THE CARD — generic
+════════════════════════════════════════════ */
+.card-stage{
+  perspective: 1400px;
+  display:inline-block;
+}
+.card{
+  width: 280px; height: 392px;
+  border-radius: 14px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(0) rotateY(0);
+  transition: transform .15s ease-out, box-shadow .25s;
+  box-shadow:
+    0 22px 50px rgba(0,0,0,.6),
+    0 2px 0 rgba(255,255,255,.15) inset,
+    0 -2px 0 rgba(0,0,0,.4) inset;
+  cursor: grab;
+  user-select: none;
+}
+.card.lg{ width: 320px; height: 448px }
+.card.sm{ width: 220px; height: 308px }
+
+/* Outer cream/gold frame */
+.card-frame{
+  position:absolute;inset:0;
+  border-radius: 14px;
+  padding: 10px;
+  background:
+    linear-gradient(140deg, var(--card-cream) 0%, var(--card-cream-d) 100%);
+  border: 1px solid rgba(0,0,0,.25);
+  display:flex; flex-direction:column;
+  overflow:hidden;
+}
+.card-frame::before{
+  content:''; position:absolute; inset:6px;
+  border: 1.5px solid rgba(0,0,0,.3);
+  border-radius: 10px;
+  pointer-events:none;
+}
+
+/* Header row: name + HP + type */
+.card-head{
+  display:flex; justify-content:space-between; align-items:center;
+  padding: 4px 10px 6px;
+  color: var(--text);
+}
+.card-stage1{
+  font-size: .65rem; font-weight: 700;
+  font-family:'JetBrains Mono', monospace;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--muted);
+  margin-bottom: -2px;
+}
+.card-name{
+  font-family:'Inter', sans-serif;
+  font-weight: 900; font-size: 1.2rem;
+  letter-spacing: -.5px;
+  line-height: 1.1;
+  flex:1;
+}
+.card-hp{
+  display:flex; align-items: baseline; gap: 4px;
+}
+.card-hp .lbl{ font-size:.62rem; font-weight: 800; color:#a83030; letter-spacing:1px }
+.card-hp .num{
+  font-family:'Bungee', sans-serif;
+  font-size: 1.5rem;
+  color: #a83030;
+  text-shadow: 1px 1px 0 rgba(0,0,0,.1);
+}
+.type-dot{
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid rgba(0,0,0,.3);
+  margin-left: 6px;
+  display:flex; align-items:center; justify-content:center;
+  font-size: 14px; font-weight: 800;
+  box-shadow: 0 2px 4px rgba(0,0,0,.3), 0 1px 0 rgba(255,255,255,.4) inset;
+}
+.t-water{ background: radial-gradient(circle at 30% 30%, #7cc3ff, #1e6bc7); color: #fff }
+.t-fire{ background: radial-gradient(circle at 30% 30%, #ffb27a, #c43a10); color: #fff }
+.t-grass{ background: radial-gradient(circle at 30% 30%, #a3e29a, #3a8f38); color: #fff }
+.t-electric{ background: radial-gradient(circle at 30% 30%, #fff099, #e0a800); color: #604200 }
+.t-psychic{ background: radial-gradient(circle at 30% 30%, #e5a0ee, #8a30a0); color: #fff }
+.t-fairy{ background: radial-gradient(circle at 30% 30%, #ffc5db, #d04687); color: #fff }
+.t-dark{ background: radial-gradient(circle at 30% 30%, #7a6e85, #2a242e); color: #fff }
+.t-metal{ background: radial-gradient(circle at 30% 30%, #c8d2dc, #4a5560); color: #fff }
+
+/* Art window */
+.card-art{
+  margin: 0 8px;
+  height: 160px;
+  border: 2px solid rgba(0,0,0,.4);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #cfd9eb, #5e8db8);
+}
+.card.lg .card-art{ height: 195px }
+.card-art canvas{ width:100%; height:100%; display:block }
+.card-art .art-label{
+  position:absolute; bottom: 4px; left:6px;
+  font-family:'JetBrains Mono', monospace;
+  font-size: .55rem; color: rgba(0,0,0,.55);
+  letter-spacing: 1px;
+}
+
+/* Sub-name (latin / species line) */
+.card-species{
+  text-align:center;
+  font-family:'JetBrains Mono', monospace;
+  font-size: .62rem; letter-spacing: 1.5px;
+  color: var(--muted);
+  margin: 6px 10px 4px;
+  text-transform: uppercase;
+}
+
+/* Body — abilities */
+.card-body{
+  flex: 1;
+  padding: 4px 10px 6px;
+  color: var(--text);
+  display:flex; flex-direction:column; gap: 6px;
+  overflow: hidden;
+}
+.ability{
+  display:flex; gap: 8px; align-items: flex-start;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(0,0,0,.12);
+}
+.ability:last-child{ border-bottom: none }
+.ab-cost{ display:flex; gap: 2px; flex-shrink: 0; padding-top:1px }
+.ab-cost .e{
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 1px solid rgba(0,0,0,.35);
+  box-shadow: 0 1px 1px rgba(0,0,0,.2);
+}
+.ab-info{ flex:1 }
+.ab-name{
+  font-weight: 800; font-size: .82rem;
+  display:flex; justify-content:space-between; gap:8px;
+  line-height: 1.2;
+}
+.ab-dmg{
+  font-family:'Bungee', sans-serif;
+  color: #a83030;
+  font-size: 1rem;
+  text-shadow: 1px 1px 0 rgba(0,0,0,.05);
+}
+.ab-desc{
+  font-size: .66rem; color: var(--muted);
+  line-height: 1.4; margin-top: 1px;
+  font-style: italic;
+}
+
+/* Footer row: weak / resist / retreat */
+.card-foot{
+  border-top: 1.5px solid rgba(0,0,0,.45);
+  margin: 4px 6px 0;
+  padding: 5px 4px;
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  font-family:'JetBrains Mono', monospace;
+  font-size: .56rem; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 1px;
+  text-align: center;
+}
+.card-foot .lbl{ display:block; margin-bottom:2px; font-size:.5rem }
+.foot-icon{
+  display:inline-flex; align-items:center; justify-content:center;
+  width: 16px; height: 16px; border-radius: 50%;
+  margin: 0 2px;
+}
+.card-meta{
+  padding: 3px 10px 6px;
+  display:flex; justify-content:space-between; align-items:center;
+  font-family:'JetBrains Mono', monospace;
+  font-size: .52rem; color: rgba(0,0,0,.5);
+  letter-spacing: 1px;
+}
+.card-meta .illus{ font-style: italic }
+.card-meta .num{ font-weight: 700 }
+.rarity{
+  font-size: .75rem;
+  font-weight: 900;
+  margin-left: 4px;
+}
+
+/* Card flavor / description (bottom strip) */
+.card-flavor{
+  margin: 0 10px;
+  padding: 4px 0;
+  border-top: 1px dotted rgba(0,0,0,.2);
+  font-style: italic;
+  font-size: .62rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* ════════════════════════════════════════════
+   HOLOGRAPHIC FOIL OVERLAY
+   — uses a layered conic gradient + mask
+   — animates with mouse position
+════════════════════════════════════════════ */
+.holo-overlay{
+  position:absolute; inset:0;
+  border-radius: 14px;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity .25s;
+  mix-blend-mode: color-dodge;
+}
+.card:hover .holo-overlay{ opacity: .9 }
+.card.holo .holo-overlay{ opacity: .55 }
+.card.holo:hover .holo-overlay{ opacity: 1 }
+
+.holo-shine{
+  position:absolute; inset:-30%;
+  background:
+    conic-gradient(
+      from var(--ang, 0deg) at 50% 50%,
+      hsla(0,100%,70%,.0) 0deg,
+      hsla(20,100%,75%,.55) 60deg,
+      hsla(60,100%,75%,.55) 110deg,
+      hsla(150,100%,75%,.55) 170deg,
+      hsla(220,100%,75%,.55) 230deg,
+      hsla(290,100%,75%,.55) 290deg,
+      hsla(0,100%,70%,.0) 360deg
+    );
+  transform: translate(var(--mx, 0%), var(--my, 0%));
+  filter: blur(1px);
+}
+.holo-grid{
+  position:absolute; inset:0;
+  background:
+    repeating-linear-gradient(135deg,
+      rgba(255,255,255,.15) 0px,
+      rgba(255,255,255,.15) 1px,
+      transparent 1px, transparent 4px),
+    repeating-linear-gradient(45deg,
+      rgba(255,255,255,.10) 0px,
+      rgba(255,255,255,.10) 1px,
+      transparent 1px, transparent 4px);
+  mix-blend-mode: overlay;
+}
+.holo-spark{
+  position:absolute; inset:0;
+  background:
+    radial-gradient(2px 2px at 12% 18%, #fff, transparent 60%),
+    radial-gradient(1px 1px at 72% 32%, #fff, transparent 60%),
+    radial-gradient(2px 2px at 38% 78%, #fff, transparent 60%),
+    radial-gradient(1px 1px at 86% 64%, #fff, transparent 60%),
+    radial-gradient(2px 2px at 22% 52%, #fff, transparent 60%),
+    radial-gradient(1px 1px at 56% 12%, #fff, transparent 60%);
+  background-size: 100% 100%;
+  mix-blend-mode: screen;
+  opacity: .7;
+}
+
+/* Rainbow rare style for hero */
+.card.rainbow .card-frame{
+  background:
+    linear-gradient(135deg,
+      #fff4b6 0%, #f7c3ff 25%, #b6f7ff 50%, #c3ffb6 75%, #ffd8a0 100%);
+  animation: rainbowShift 7s linear infinite;
+  background-size: 200% 200%;
+}
+@keyframes rainbowShift{ to{ background-position: 200% 0 } }
+
+/* ════════════════════════════════════════════
+   HERO — Trainer Card
+════════════════════════════════════════════ */
+.hero{
+  display:grid; grid-template-columns: 1fr 1fr; gap: 60px;
+  align-items: center; max-width: 1100px; margin: 0 auto;
+  padding-top: 36px;
+}
+.hero-text h2{
+  font-family:'Bungee', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  line-height: 1; letter-spacing: -1px;
+  background: linear-gradient(180deg,#fff 0%, #ffe17e 70%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom: 18px;
+}
+.hero-text .role{
+  font-family:'JetBrains Mono', monospace;
+  font-size: .8rem; letter-spacing: 3px;
+  color: var(--gold); text-transform: uppercase;
+  margin-bottom: 22px;
+}
+.hero-text p{ color: #cbc6b6; line-height: 1.7; margin-bottom: 18px; font-size: 1rem }
+.hero-stats{
+  display: grid; grid-template-columns: repeat(2,1fr); gap: 8px;
+  margin-top: 18px; max-width: 380px;
+}
+.hero-stat{
+  padding: 10px 14px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+}
+.hero-stat .n{
+  font-family:'Bungee', sans-serif; font-size: 1.4rem;
+  color: var(--gold);
+}
+.hero-stat .l{ font-size:.7rem; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase }
+.hero-actions{ display:flex; gap: 12px; margin-top: 24px; flex-wrap: wrap }
+.btn{
+  padding: 12px 22px; border-radius: 999px;
+  font-weight: 700; font-size: .82rem; letter-spacing: 1px;
+  text-transform: uppercase; cursor:pointer;
+  border: 2px solid transparent;
+  font-family: 'Inter', sans-serif;
+  text-decoration: none; display:inline-block;
+  transition: transform .15s, filter .15s, background .15s;
+}
+.btn-primary{
+  background: linear-gradient(135deg,#ffd34a,#ff8a3a);
+  color: #2a1500;
+  box-shadow: 0 6px 0 rgba(140,60,0,.5), 0 12px 24px rgba(255,140,40,.3);
+}
+.btn-primary:hover{ transform: translateY(-2px); filter: brightness(1.05) }
+.btn-primary:active{ transform: translateY(2px); box-shadow: 0 2px 0 rgba(140,60,0,.5) }
+.btn-ghost{
+  background: rgba(255,255,255,.05); color: #f0e9d4; border-color: rgba(255,255,255,.15);
+}
+.btn-ghost:hover{ background: rgba(255,255,255,.1) }
+
+.hero-card-wrap{
+  display:flex; justify-content:center; align-items:center;
+  position: relative;
+}
+.hero-card-wrap::before{
+  content:''; position:absolute; inset:-30px;
+  background: radial-gradient(closest-side, rgba(255,200,90,.25), transparent 70%);
+  pointer-events: none;
+  filter: blur(8px);
+}
+.float{ animation: float 5s ease-in-out infinite }
+@keyframes float{ 0%,100%{transform: translateY(0)} 50%{transform: translateY(-10px)} }
+
+/* ════════════════════════════════════════════
+   BINDER GRID — Projects
+════════════════════════════════════════════ */
+.binder{
+  position: relative;
+  max-width: 1240px; margin: 0 auto;
+  padding: 36px;
+  background:
+    radial-gradient(ellipse at center, rgba(20,18,38,.6), transparent 70%),
+    repeating-linear-gradient(45deg, rgba(255,255,255,.02) 0 2px, transparent 2px 14px),
+    linear-gradient(160deg, #0d0f22, #0a0a16);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 22px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.5), 0 1px 0 rgba(255,255,255,.05) inset;
+}
+.binder-rings{
+  position:absolute; top:18px; left:50%; transform:translateX(-50%);
+  display:flex; gap: 80px;
+}
+.binder-ring{
+  width: 22px; height: 22px; border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #c5cbd6, #4a5560 70%);
+  border: 1px solid rgba(0,0,0,.3);
+  box-shadow: inset 0 0 0 4px rgba(0,0,0,.4), 0 2px 4px rgba(0,0,0,.5);
+}
+.binder-page{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  margin: 26px auto 0;
+  max-width: 980px;
+  padding-top: 14px;
+}
+.binder-slot{
+  display:flex; justify-content:center; align-items:center;
+  min-height: 392px;
+  border: 1px dashed rgba(255,255,255,.08);
+  border-radius: 14px;
+  padding: 6px;
+  background: rgba(0,0,0,.15);
+}
+.binder-empty{
+  font-family:'JetBrains Mono', monospace;
+  font-size: .7rem; letter-spacing: 2px;
+  color: rgba(255,255,255,.18);
+  text-transform: uppercase;
+}
+
+/* ════════════════════════════════════════════
+   ENERGY TYPES — Skills row
+════════════════════════════════════════════ */
+.energy-row{
+  display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px; max-width: 1100px; margin: 0 auto;
+}
+.energy-card{
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 16px; padding: 22px 20px;
+  transition: border-color .2s, transform .2s, background .2s;
+  position: relative; overflow: hidden;
+}
+.energy-card:hover{
+  transform: translateY(-4px);
+  background: rgba(255,255,255,.06);
+}
+.energy-card .e-orb{
+  width: 50px; height: 50px; border-radius: 50%;
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom: 14px;
+  border: 3px solid rgba(255,255,255,.1);
+  box-shadow: 0 4px 14px rgba(0,0,0,.4);
+  font-size: 22px;
+}
+.energy-card h3{
+  font-family:'Bungee', sans-serif;
+  font-size: 1rem; letter-spacing: 0;
+  margin-bottom: 4px;
+  color:#fff;
+}
+.energy-card .sub{
+  font-family:'JetBrains Mono', monospace;
+  font-size: .68rem; letter-spacing: 1.5px;
+  color: var(--gold); text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.energy-list{
+  list-style: none; font-size: .82rem;
+  color: #cdc6b3;
+}
+.energy-list li{
+  display:flex; justify-content:space-between;
+  padding: 5px 0;
+  border-bottom: 1px dotted rgba(255,255,255,.08);
+  font-family:'JetBrains Mono', monospace;
+  font-size: .76rem;
+}
+.energy-list li:last-child{border:none}
+.energy-list li .v{ color: var(--gold); font-weight:700 }
+.energy-card.water  .e-orb{ background: radial-gradient(circle at 30% 30%, #7cc3ff, #1e6bc7); color:#fff }
+.energy-card.fire   .e-orb{ background: radial-gradient(circle at 30% 30%, #ffb27a, #c43a10); color:#fff }
+.energy-card.metal  .e-orb{ background: radial-gradient(circle at 30% 30%, #c8d2dc, #4a5560); color:#fff }
+.energy-card.fairy  .e-orb{ background: radial-gradient(circle at 30% 30%, #ffc5db, #d04687); color:#fff }
+
+/* ════════════════════════════════════════════
+   EVOLUTION CHAIN — Experience
+════════════════════════════════════════════ */
+.evo-track{
+  max-width: 1100px; margin: 0 auto;
+  display:flex; align-items: center; gap: 14px;
+  overflow-x: auto;
+  padding: 16px 4px 20px;
+  scrollbar-width: thin;
+}
+.evo-track::-webkit-scrollbar{ height: 6px }
+.evo-track::-webkit-scrollbar-thumb{ background: rgba(255,255,255,.15); border-radius: 3px }
+.evo-stage{
+  flex: 0 0 240px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px;
+  padding: 18px;
+  position: relative;
+}
+.evo-stage .lvl{
+  display:inline-block;
+  padding: 3px 9px; border-radius: 4px;
+  background: var(--gold); color: #2a1500;
+  font-family:'JetBrains Mono', monospace;
+  font-size: .62rem; font-weight: 800; letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.evo-stage .year{
+  font-family:'JetBrains Mono', monospace;
+  font-size: .68rem; color: var(--muted);
+  letter-spacing: 1px; margin-bottom: 4px;
+}
+.evo-stage h4{
+  font-weight:800; font-size: 1.02rem; margin-bottom: 4px;
+  color: #fff;
+}
+.evo-stage .where{
+  font-size: .78rem; color: #d6cfb8;
+  font-style: italic; margin-bottom: 10px;
+}
+.evo-stage p{
+  font-size: .8rem; color: #b8b095; line-height: 1.55;
+}
+.evo-arrow{
+  flex: 0 0 32px;
+  display:flex; align-items:center; justify-content:center;
+  color: var(--gold);
+  font-size: 1.6rem;
+  font-family:'Bungee', sans-serif;
+  filter: drop-shadow(0 0 8px rgba(255,200,80,.3));
+}
+
+/* ════════════════════════════════════════════
+   TRADE FORM — Contact
+════════════════════════════════════════════ */
+.trade-table{
+  max-width: 720px; margin: 0 auto;
+  background:
+    radial-gradient(ellipse at top, rgba(255,200,90,.05), transparent 70%),
+    rgba(255,255,255,.03);
+  border: 1px solid rgba(255,200,90,.2);
+  border-radius: 22px;
+  padding: 38px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.4);
+}
+.trade-table h3{
+  font-family:'Bungee', sans-serif;
+  text-align:center;
+  font-size: 1.4rem;
+  background: linear-gradient(180deg,#fff,#ffd380);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom: 6px;
+}
+.trade-table .sub{
+  text-align:center; color: var(--muted);
+  font-family:'JetBrains Mono', monospace;
+  font-size: .76rem; letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.trade-form{ display:flex; flex-direction:column; gap: 14px }
+.trade-row{ display:flex; flex-direction:column; gap:6px }
+.trade-row label{
+  font-family:'JetBrains Mono', monospace;
+  font-size: .7rem; letter-spacing: 2px;
+  color: var(--gold); text-transform: uppercase;
+}
+.trade-row input,
+.trade-row textarea{
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(0,0,0,.3);
+  border: 1px solid rgba(255,255,255,.1);
+  color: #f0e9d4;
+  font: inherit; font-size: .92rem;
+  outline: none;
+  transition: border-color .2s, background .2s;
+}
+.trade-row input:focus,
+.trade-row textarea:focus{
+  border-color: var(--gold);
+  background: rgba(0,0,0,.45);
+}
+.trade-row textarea{ min-height: 130px; resize: vertical }
+.trade-submit{
+  margin-top: 10px;
+  padding: 14px 24px;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background: linear-gradient(135deg, #ffd34a, #ff8a3a);
+  color: #2a1500;
+  font-family:'Bungee', sans-serif;
+  font-size: 1rem; letter-spacing: 1px;
+  cursor:pointer;
+  box-shadow: 0 6px 0 rgba(140,60,0,.5), 0 12px 24px rgba(255,140,40,.25);
+  transition: transform .15s, filter .15s;
+}
+.trade-submit:hover{ transform: translateY(-2px); filter: brightness(1.05) }
+.trade-submit:active{ transform: translateY(2px); box-shadow: 0 2px 0 rgba(140,60,0,.5) }
+
+/* ─── FOOTER ─── */
+footer{
+  text-align:center; padding: 50px 6%;
+  border-top: 1px solid rgba(255,255,255,.06);
+  color: var(--muted); font-size: .82rem;
+  font-family:'JetBrains Mono', monospace;
+  letter-spacing: 1.5px;
+  position: relative; z-index: 2;
+}
+footer .logo{
+  display:inline-block;
+  font-family:'Bungee', sans-serif;
+  background: linear-gradient(180deg,#fff,#ffd380);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  font-size: 1.1rem;
+  letter-spacing: -.5px;
+}
+
+/* ─── REVEAL ─── */
+.reveal{ opacity:0; transform: translateY(20px); transition: opacity .8s ease, transform .8s ease }
+.reveal.in{ opacity:1; transform: none }
+
+@media (max-width: 880px){
+  .hero{ grid-template-columns: 1fr; gap: 30px; text-align: center }
+  .hero-stats{ margin-left: auto; margin-right: auto }
+  .hero-actions{ justify-content: center }
+  .binder-page{ grid-template-columns: 1fr; max-width: 320px }
+  .binder-rings{ display:none }
+  .binder{ padding: 20px }
+  .energy-row{ grid-template-columns: 1fr 1fr }
+}
+@media (max-width: 520px){
+  .energy-row{ grid-template-columns: 1fr }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header>
+  <div class="eyebrow">◆ Set N · MMXXVI · First Edition ◆</div>
+  <h1 class="bigtitle">LEO &middot; TCG</h1>
+  <p class="sub">A holographic trading-card portfolio. Hover or tilt a card. Each project is a foil rare — every skill a typed energy.</p>
+  <div class="set-meta">
+    <span>Series <b>LEO</b></span>
+    <span>Cards <b>14 / 64</b></span>
+    <span>Pulled <b>4★ Rainbow Rare</b></span>
+  </div>
+</header>
+
+<!-- ═══════════ TRAINER (Hero) ═══════════ -->
+<section>
+  <div class="hero">
+    <div class="hero-text reveal">
+      <div class="role">Trainer Card · Lv. 99</div>
+      <h2>Builds with<br>full-stack energy.</h2>
+      <p>Leo Tanaka — full-stack developer & creative technologist in San Francisco. Seven years across SaaS, fintech, and creative tools. Obsessed with the seam between design and engineering.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="n">7+</div><div class="l">Years</div></div>
+        <div class="hero-stat"><div class="n">42</div><div class="l">Projects</div></div>
+        <div class="hero-stat"><div class="n">18</div><div class="l">Clients</div></div>
+        <div class="hero-stat"><div class="n">3.2k</div><div class="l">GH Stars</div></div>
+      </div>
+      <div class="hero-actions">
+        <a href="#binder" class="btn btn-primary">Open the Binder</a>
+        <a href="#trade" class="btn btn-ghost">Propose a Trade</a>
+      </div>
+    </div>
+    <div class="hero-card-wrap reveal">
+      <div class="card-stage">
+        <div class="card lg holo rainbow float" data-tilt>
+          <div class="card-frame">
+            <div class="card-head">
+              <div>
+                <div class="card-stage1">★ Rainbow Rare · Trainer</div>
+                <div class="card-name">L. Tanaka</div>
+              </div>
+              <div style="display:flex;align-items:center">
+                <div class="card-hp"><span class="lbl">HP</span><span class="num">240</span></div>
+                <div class="type-dot t-fairy">★</div>
+              </div>
+            </div>
+            <div class="card-art">
+              <canvas id="trainerArt" width="600" height="380"></canvas>
+              <div class="art-label">Illus. L.T.</div>
+            </div>
+            <div class="card-species">Full-Stack · Creative Technologist · SF</div>
+            <div class="card-body">
+              <div class="ability">
+                <div class="ab-cost">
+                  <div class="e t-water"></div>
+                  <div class="e t-electric"></div>
+                </div>
+                <div class="ab-info">
+                  <div class="ab-name">Pixel Perfect <span class="ab-dmg">90</span></div>
+                  <div class="ab-desc">Flip 3 coins. For each heads, shipped feature is +20.</div>
+                </div>
+              </div>
+              <div class="ability">
+                <div class="ab-cost">
+                  <div class="e t-fire"></div>
+                  <div class="e t-fire"></div>
+                  <div class="e t-metal"></div>
+                </div>
+                <div class="ab-info">
+                  <div class="ab-name">Ship It <span class="ab-dmg">150</span></div>
+                  <div class="ab-desc">Discard 2 backlog tickets to deal 50 extra damage.</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-foot">
+              <div><span class="lbl">Weakness</span>
+                <span class="foot-icon t-dark"></span>×2
+              </div>
+              <div><span class="lbl">Resistance</span>
+                <span class="foot-icon t-grass"></span>−30
+              </div>
+              <div><span class="lbl">Retreat</span>
+                <span class="foot-icon t-metal"></span>
+              </div>
+            </div>
+            <div class="card-flavor">"The trick isn't to choose between design and engineering — it's to make them rhyme."</div>
+            <div class="card-meta">
+              <span class="illus">illus. leo</span>
+              <span><span class="num">★★★★</span><span class="rarity" style="color:#c45cff">RR</span></span>
+              <span class="num">001 / 064</span>
+            </div>
+          </div>
+          <div class="holo-overlay">
+            <div class="holo-shine"></div>
+            <div class="holo-grid"></div>
+            <div class="holo-spark"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ BINDER / PROJECTS ═══════════ -->
+<section id="binder">
+  <div class="section-h reveal">
+    <span class="tag">◆ Binder · Page 01 ◆</span>
+    <h2>Selected Pulls</h2>
+    <p>Four foil cards from this set. Tilt to catch the holo. Click for the flavor.</p>
+  </div>
+
+  <div class="binder reveal">
+    <div class="binder-rings">
+      <div class="binder-ring"></div>
+      <div class="binder-ring"></div>
+      <div class="binder-ring"></div>
+    </div>
+    <div class="binder-page">
+
+      <!-- CARD 1 — Flowboard -->
+      <div class="binder-slot">
+        <div class="card holo" data-tilt>
+          <div class="card-frame">
+            <div class="card-head">
+              <div>
+                <div class="card-stage1">Stage 2 · ★ Holo</div>
+                <div class="card-name">Flowboard</div>
+              </div>
+              <div style="display:flex;align-items:center">
+                <div class="card-hp"><span class="lbl">HP</span><span class="num">180</span></div>
+                <div class="type-dot t-water">▲</div>
+              </div>
+            </div>
+            <div class="card-art">
+              <canvas data-art="1" width="600" height="380"></canvas>
+              <div class="art-label">Illus. L.T.</div>
+            </div>
+            <div class="card-species">Pteridium organizans · SaaS · Realtime</div>
+            <div class="card-body">
+              <div class="ability">
+                <div class="ab-cost">
+                  <div class="e t-water"></div>
+                  <div class="e t-water"></div>
+                </div>
+                <div class="ab-info">
+                  <div class="ab-name">Live Sync <span class="ab-dmg">60</span></div>
+                  <div class="ab-desc">All players on this board take 10 damage. CRDTs handle conflicts.</div>
+                </div>
+              </div>
+              <div class="ability">
+                <div class="ab-cost">
+                  <div class="e t-water"></div>
+                  <div class="e t-water"></div>
+                  <div class="e t-electric"></div>
+                </div>
+                <div class="ab-info">
+                  <div class="ab-name">Notion-Linear Combo <span class="ab-dmg">120</span></div>
+                  <div class="ab-desc">Serves 12,000+ teams. Add an extra 30 if Featured.</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-foot">
+              <div><span class="lbl">Weakness</span><span class="foot-icon t-fire"></span>×2</div>
+              <div><span class="lbl">Resist.</span><span class="foot-icon t-metal"></span>−20</div>
+              <div><span class="lbl">Retreat</span><span class="foot-icon t-metal"></span><span class="foot-icon t-metal"></span></div>
+            </div>
+            <div class="card-flavor">"PM software that doesn't make you want to quit. Built it because the alternatives kept making the team quit."</div>
+            <div class="card-meta">
+              <span class="illus">illus. leo</span>
+              <span>★★★ <span class="rarity" style="color:#ff8a3a">H</span></span>
+              <span class="num">012 / 064</span>
+            </div>
+          </div>
+          <div class="holo-overlay">
+            <div class="holo-shine"></div>
+            <div class="holo-grid"></div>
+            <div class="holo-spark"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2 — Verdant -->
+      <div class="binder-slot">
+        <div class="card" data-tilt>
+          <div class="card-frame">
+            <div class="card-head">
+              <div>
+                <div class="card-stage1">Stage 1 · Rare</div>
+                <div class="card-name">Verdant</div>
+              </div>
+              <div style="display:flex;align-items:center">
+                <div class="card-hp"><span class="lbl">HP</span><span class="num">120</span></div>
+                <div class="type-dot t-grass">✿</div>
+              </div>
+            </div>
+            <div class="card-art">
+              <canvas data-art="2" width="600" height="380"></canvas>
+              <div class="art-label">Illus. L.T.</div>
+            </div>
+            <div class="card-species">Folium carbonum · Mobile · Fintech</div>
+            <div class="card-body">
+              <div class="ability">
+                <div class="ab-cost"><div class="e t-grass"></div></div>
+                <div class="ab-info">
+                  <div class="ab-name">Auto-Score <span class="ab-dmg">30</span></div>
+                  <div class="ab-desc">Reveal the opponent's hand of transactions and score them.</div>
+                </div>
+              </div>
+              <div class="ability">
+                <div class="ab-cost">
+                  <div class="e t-grass"></div>
+                  <div class="e t-grass"></div>
+                  <div class="e t-water"></div>
+                </div>
+                <div class="ab-info">
+                  <div class="ab-name">Offset <span class="ab-dmg">80</span></div>
+                  <div class="ab-desc">Heal 40 damage from all environmentally-conscious Pokémon.</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-foot">
+              <div><span class="lbl">Weakness</span><span class="foot-icon t-fire"></span>×2</div>
+              <div><span class="lbl">Resist.</span><span class="foot-icon t-water"></span>−20</div>
+              <div><span class="lbl">Retreat</span><span class="foot-icon t-metal"></span></div>
+            </div>
+            <div class="card-flavor">"Cross-platform app that turns your bank statement into a footprint. iOS + Android, no judgement."</div>
+            <div class="card-meta">
+              <span class="illus">illus. leo</span>
+              <span>★★ <span class="rarity" style="color:#5cc25a">R</span></span>
+              <span class="num">021 / 064</span>
+            </div>
+          </div>
+          <div class="holo-overlay">
+            <div class="holo-shine"></div>
+            <div class="holo-grid"></div>
+            <div class="holo-spark"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 3 — Lumina -->
+      <div class="binder-slot">
+        <div class="card holo" data-tilt>
+          <div class="card-frame">
+            <div class="card-head">
+              <div>
+                <div class="card-stage1">Stage 2 · ★ Holo</div>
+                <div class="card-name">Lumina</div>
+              </div>
+              <div style="display:flex;align-items:center">
+                <div class="card-hp"><span class="lbl">HP</span><span class="num">160</span></div>
+                <div class="type-dot t-psychic">✦</div>
+              </div>
+            </div>
+            <div class="card-art">
+              <canvas data-art="3" width="600" height="380"></canvas>
+              <div class="art-label">Illus. L.T.</div>
+            </div>
+            <div class="card-species">Anthos generativum · WebGL · OSS</div>
+            <div class="card-body">
+              <div class="ability">
+                <div class="ab-cost"><div class="e t-psychic"></div></div>
+                <div class="ab-info">
+                  <div class="ab-name">Procedural Art <span class="ab-dmg">40</span></div>
+                  <div class="ab-desc">Choose 1 of 18 algorithms. Each adds +10 damage and a star.</div>
+                </div>
+              </div>
+              <div class="ability">
+                <div class="ab-cost">
+                  <div class="e t-psychic"></div>
+                  <div class="e t-psychic"></div>
+                </div>
+                <div class="ab-info">
+                  <div class="ab-name">Export SVG <span class="ab-dmg">100</span></div>
+                  <div class="ab-desc">Vectors persist between turns. Currently at 3.2k stars.</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-foot">
+              <div><span class="lbl">Weakness</span><span class="foot-icon t-dark"></span>×2</div>
+              <div><span class="lbl">Resist.</span><span class="foot-icon t-fire"></span>−30</div>
+              <div><span class="lbl">Retreat</span><span class="foot-icon t-metal"></span></div>
+            </div>
+            <div class="card-flavor">"An open-source generative-art engine. Eighteen algorithms. Export anywhere. Built for the curious."</div>
+            <div class="card-meta">
+              <span class="illus">illus. leo</span>
+              <span>★★★ <span class="rarity" style="color:#c562d6">H</span></span>
+              <span class="num">033 / 064</span>
+            </div>
+          </div>
+          <div class="holo-overlay">
+            <div class="holo-shine"></div>
+            <div class="holo-grid"></div>
+            <div class="holo-spark"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 4 — DocuMind -->
+      <div class="binder-slot">
+        <div class="card holo" data-tilt>
+          <div class="card-frame">
+            <div class="card-head">
+              <div>
+                <div class="card-stage1">Stage 1 · ★ Holo</div>
+                <div class="card-name">DocuMind</div>
+              </div>
+              <div style="display:flex;align-items:center">
+                <div class="card-hp"><span class="lbl">HP</span><span class="num">140</span></div>
+                <div class="type-dot t-metal">⌬</div>
+              </div>
+            </div>
+            <div class="card-art">
+              <canvas data-art="4" width="600" height="380"></canvas>
+              <div class="art-label">Illus. L.T.</div>
+            </div>
+            <div class="card-species">Arbor sapientiae · Python · RAG</div>
+            <div class="card-body">
+              <div class="ability">
+                <div class="ab-cost">
+                  <div class="e t-metal"></div>
+                  <div class="e t-electric"></div>
+                </div>
+                <div class="ab-info">
+                  <div class="ab-name">Cite Sources <span class="ab-dmg">50</span></div>
+                  <div class="ab-desc">Reveal the top 3 documents from the deck. No hallucinations.</div>
+                </div>
+              </div>
+              <div class="ability">
+                <div class="ab-cost">
+                  <div class="e t-metal"></div>
+                  <div class="e t-metal"></div>
+                  <div class="e t-electric"></div>
+                </div>
+                <div class="ab-info">
+                  <div class="ab-name">Ingest Confluence <span class="ab-dmg">110</span></div>
+                  <div class="ab-desc">Used by 200+ companies. Add 20 for each PDF in play.</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-foot">
+              <div><span class="lbl">Weakness</span><span class="foot-icon t-fire"></span>×2</div>
+              <div><span class="lbl">Resist.</span><span class="foot-icon t-psychic"></span>−20</div>
+              <div><span class="lbl">Retreat</span><span class="foot-icon t-metal"></span><span class="foot-icon t-metal"></span></div>
+            </div>
+            <div class="card-flavor">"Ask your docs anything. RAG-based document Q&A for enterprise teams. Cites everything."</div>
+            <div class="card-meta">
+              <span class="illus">illus. leo</span>
+              <span>★★★ <span class="rarity" style="color:#8a96a3">H</span></span>
+              <span class="num">044 / 064</span>
+            </div>
+          </div>
+          <div class="holo-overlay">
+            <div class="holo-shine"></div>
+            <div class="holo-grid"></div>
+            <div class="holo-spark"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty slots -->
+      <div class="binder-slot"><div class="binder-empty">— Empty slot —</div></div>
+      <div class="binder-slot"><div class="binder-empty">— Empty slot —</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ENERGY TYPES / SKILLS ═══════════ -->
+<section id="energy">
+  <div class="section-h reveal">
+    <span class="tag">◆ Energy Types ◆</span>
+    <h2>Type Coverage</h2>
+    <p>The four energy types this trainer is super-effective with. All abilities cost a mix.</p>
+  </div>
+  <div class="energy-row reveal">
+
+    <div class="energy-card water">
+      <div class="e-orb">▲</div>
+      <h3>Water</h3>
+      <div class="sub">Frontmatter / UI</div>
+      <ul class="energy-list">
+        <li><span>React / Next.js</span><span class="v">95</span></li>
+        <li><span>TypeScript</span><span class="v">90</span></li>
+        <li><span>CSS &amp; Motion</span><span class="v">88</span></li>
+        <li><span>WebGL / Three</span><span class="v">72</span></li>
+      </ul>
+    </div>
+
+    <div class="energy-card fire">
+      <div class="e-orb">✦</div>
+      <h3>Fire</h3>
+      <div class="sub">Backmatter / API</div>
+      <ul class="energy-list">
+        <li><span>Node / Express</span><span class="v">92</span></li>
+        <li><span>Postgres / Redis</span><span class="v">87</span></li>
+        <li><span>GraphQL / REST</span><span class="v">89</span></li>
+        <li><span>Python / FastAPI</span><span class="v">75</span></li>
+      </ul>
+    </div>
+
+    <div class="energy-card metal">
+      <div class="e-orb">⌬</div>
+      <h3>Metal</h3>
+      <div class="sub">Infrastructure</div>
+      <ul class="energy-list">
+        <li><span>AWS</span><span class="v">83</span></li>
+        <li><span>Docker / K8s</span><span class="v">78</span></li>
+        <li><span>CI / CD</span><span class="v">85</span></li>
+        <li><span>Terraform</span><span class="v">65</span></li>
+      </ul>
+    </div>
+
+    <div class="energy-card fairy">
+      <div class="e-orb">★</div>
+      <h3>Fairy</h3>
+      <div class="sub">Design / Craft</div>
+      <ul class="energy-list">
+        <li><span>Figma / Proto</span><span class="v">88</span></li>
+        <li><span>Design Systems</span><span class="v">85</span></li>
+        <li><span>User Research</span><span class="v">70</span></li>
+        <li><span>A11y (WCAG)</span><span class="v">82</span></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════ EVOLUTION CHAIN / EXPERIENCE ═══════════ -->
+<section id="evolution">
+  <div class="section-h reveal">
+    <span class="tag">◆ Evolution Chain ◆</span>
+    <h2>How the Card Levels</h2>
+    <p>Each stage gains +1 to all stats and unlocks a new ability. Seven years of EVs.</p>
+  </div>
+
+  <div class="evo-track reveal">
+
+    <div class="evo-stage">
+      <span class="lvl">Lv. 18 · Basic</span>
+      <div class="year">2017 — 2019</div>
+      <h4>UC Berkeley</h4>
+      <div class="where">B.S. Computer Science · Honors</div>
+      <p>Studied HCI, distributed systems, computer graphics. Senior thesis: procedural terrain in WebGL.</p>
+    </div>
+    <div class="evo-arrow">▶</div>
+
+    <div class="evo-stage">
+      <span class="lvl">Lv. 35 · Stage 1</span>
+      <div class="year">2019 — 2021</div>
+      <h4>Pixel &amp; Co.</h4>
+      <div class="where">Frontend Developer · New York</div>
+      <p>Shipped 14 client sites across media, healthcare, e-commerce. Became the team's CSS motion specialist.</p>
+    </div>
+    <div class="evo-arrow">▶</div>
+
+    <div class="evo-stage">
+      <span class="lvl">Lv. 60 · Stage 2</span>
+      <div class="year">2021 — 2023</div>
+      <h4>Mosaic Finance</h4>
+      <div class="where">Full-Stack Engineer · Remote</div>
+      <p>Core dashboard for 400k+ investors. Owned the real-time portfolio sync. Drove REST → GraphQL migration.</p>
+    </div>
+    <div class="evo-arrow">▶</div>
+
+    <div class="evo-stage" style="border-color: rgba(255,200,90,.35); background: rgba(255,200,90,.04)">
+      <span class="lvl">Lv. 99 · Final</span>
+      <div class="year">2023 — present</div>
+      <h4>Veritas Labs</h4>
+      <div class="where">Senior Full-Stack Engineer · SF</div>
+      <p>Leads 5 engineers on a dev-first observability platform. Re-architected ingestion — p99 down 60%. Owns the cross-product component library.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════ TRADE / CONTACT ═══════════ -->
+<section id="trade">
+  <div class="section-h reveal">
+    <span class="tag">◆ Trade Request ◆</span>
+    <h2>Propose a Trade</h2>
+    <p>Offering: <b style="color:#ffd380">your idea</b>. Receiving: <b style="color:#ffd380">a built thing</b>. Trades reviewed within 48 hours.</p>
+  </div>
+
+  <div class="trade-table reveal">
+    <h3>Trainer ↔ Trainer</h3>
+    <div class="sub">— Trade Slip · Form #001 —</div>
+    <form class="trade-form" onsubmit="handleTrade(event)">
+      <div class="trade-row">
+        <label>Your Trainer Name</label>
+        <input type="text" placeholder="Alex Hartwell" />
+      </div>
+      <div class="trade-row">
+        <label>Your Address (Pokémail)</label>
+        <input type="email" placeholder="alex@studio.com" />
+      </div>
+      <div class="trade-row">
+        <label>Card You're Offering</label>
+        <input type="text" placeholder="Project, role, or collaboration" />
+      </div>
+      <div class="trade-row">
+        <label>Your Message</label>
+        <textarea placeholder="Hi Leo — I'm looking to trade a..."></textarea>
+      </div>
+      <button type="submit" class="trade-submit" id="tradeBtn">Send Trade Request &raquo;</button>
+    </form>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <p><span class="logo">LEO · TCG</span> &nbsp;·&nbsp; Set 01 &nbsp;·&nbsp; © MMXXVI</p>
+  <p style="margin-top:8px; font-size:.72rem">Pulled with care from a binder by <b style="color:#ffd380">Leo Tanaka</b></p>
+</footer>
+
+<script>
+/* ════════════════════════════════════════════
+   CARD TILT + HOLO PARALLAX
+════════════════════════════════════════════ */
+(function(){
+  const cards = document.querySelectorAll('[data-tilt]');
+  cards.forEach(card=>{
+    let raf=null;
+
+    function setTilt(rx, ry, mx, my, ang){
+      card.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+      const overlay = card.querySelector('.holo-shine');
+      if (overlay){
+        overlay.style.setProperty('--mx', mx+'%');
+        overlay.style.setProperty('--my', my+'%');
+        overlay.style.setProperty('--ang', ang+'deg');
+      }
+    }
+
+    card.addEventListener('mousemove', e=>{
+      const rect = card.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width;  // 0..1
+      const py = (e.clientY - rect.top)  / rect.height;
+      const rx = (py - .5) * -16;
+      const ry = (px - .5) *  16;
+      const mx = (px - .5) * 30;
+      const my = (py - .5) * 30;
+      const ang = (px + py) * 180;
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(()=>setTilt(rx, ry, mx, my, ang));
+    });
+
+    card.addEventListener('mouseleave', ()=>{
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(()=>setTilt(0, 0, 0, 0, 0));
+    });
+
+    // Touch tilt
+    card.addEventListener('touchmove', e=>{
+      const t = e.touches[0];
+      const rect = card.getBoundingClientRect();
+      const px = (t.clientX - rect.left) / rect.width;
+      const py = (t.clientY - rect.top)  / rect.height;
+      const rx = (py - .5) * -12;
+      const ry = (px - .5) *  12;
+      const mx = (px - .5) * 30;
+      const my = (py - .5) * 30;
+      const ang = (px + py) * 180;
+      setTilt(rx, ry, mx, my, ang);
+    }, { passive: true });
+  });
+})();
+
+/* ════════════════════════════════════════════
+   CARD ART (canvas) — one per project
+════════════════════════════════════════════ */
+function rng(seed){ let s=seed; return ()=>{ s=(s*9301+49297)%233280; return s/233280 }; }
+
+function drawArt(canvas, kind){
+  const ctx = canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height;
+  const r = rng(({1:11,2:22,3:33,4:44}[kind]) || 7);
+
+  // sky / bg gradient — varies per type
+  const grads = {
+    1: ['#7eb6ff','#1a3b6e','#0b1626'],   // water
+    2: ['#a3e29a','#3a8f38','#15331a'],   // grass
+    3: ['#dca5ff','#7a30c0','#1b0a2c'],   // psychic
+    4: ['#c8d2dc','#4a5560','#1a1d22'],   // metal
+    trainer: ['#ffd884','#ff7a3a','#3a0e0e'],
+  };
+  const palette = grads[kind] || grads[1];
+  const g = ctx.createLinearGradient(0,0,0,H);
+  g.addColorStop(0, palette[0]);
+  g.addColorStop(.55, palette[1]);
+  g.addColorStop(1, palette[2]);
+  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+
+  // sun/moon glow
+  ctx.fillStyle = 'rgba(255,255,255,.18)';
+  ctx.beginPath(); ctx.arc(W*.78, H*.28, 60, 0, Math.PI*2); ctx.fill();
+  const sg = ctx.createRadialGradient(W*.78, H*.28, 0, W*.78, H*.28, 130);
+  sg.addColorStop(0,'rgba(255,255,255,.5)'); sg.addColorStop(1,'transparent');
+  ctx.fillStyle = sg; ctx.fillRect(0,0,W,H);
+
+  // mountain horizon
+  ctx.fillStyle = 'rgba(0,0,0,.4)';
+  ctx.beginPath();
+  ctx.moveTo(0, H*.7);
+  for (let x=0;x<=W;x+=40){
+    const y = H*.7 + Math.sin(x*.01 + 1)*30 - r()*16;
+    ctx.lineTo(x, y);
+  }
+  ctx.lineTo(W,H); ctx.lineTo(0,H); ctx.closePath(); ctx.fill();
+
+  // foreground depending on kind
+  if (kind === 1){
+    // FLOWBOARD — geometric grid floating boards
+    ctx.fillStyle = 'rgba(255,255,255,.2)';
+    for (let i=0;i<6;i++){
+      const x = 60 + i*85 + (i%2)*20;
+      const y = H*.5 - (i%3)*30;
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(-.1);
+      // board
+      ctx.fillStyle = 'rgba(255,255,255,.85)';
+      ctx.fillRect(-40,-30,80,60);
+      ctx.fillStyle = '#1e6bc7';
+      ctx.fillRect(-36, -26, 30, 6);
+      ctx.fillStyle = 'rgba(0,0,0,.2)';
+      for (let k=0;k<3;k++) ctx.fillRect(-36, -14 + k*10, 60 - k*10, 4);
+      ctx.restore();
+    }
+    // particle waves
+    for (let i=0;i<40;i++){
+      ctx.fillStyle = `rgba(255,255,255,${r()*.4+.2})`;
+      ctx.beginPath(); ctx.arc(r()*W, H*.55 + r()*H*.4, r()*2+.6, 0, Math.PI*2); ctx.fill();
+    }
+  } else if (kind === 2){
+    // VERDANT — single big leaf
+    ctx.save();
+    ctx.translate(W*.5, H*.6);
+    ctx.rotate(-.15);
+    // leaf body
+    ctx.fillStyle = 'rgba(60,160,80,.95)';
+    ctx.strokeStyle = '#16331a'; ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(0, 110);
+    ctx.bezierCurveTo(110, 70, 130, -70, 0, -130);
+    ctx.bezierCurveTo(-130, -70, -110, 70, 0, 110);
+    ctx.fill(); ctx.stroke();
+    // veins
+    ctx.strokeStyle = '#16331a'; ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(0,110); ctx.lineTo(0,-130);
+    for (let i=-100;i<100;i+=20){
+      ctx.moveTo(0, i);
+      ctx.bezierCurveTo(20,i-6,40,i-12,60, i-(i+130)*.3);
+      ctx.moveTo(0, i);
+      ctx.bezierCurveTo(-20,i-6,-40,i-12,-60, i-(i+130)*.3);
+    }
+    ctx.stroke();
+    ctx.restore();
+    // dewdrops
+    for (let i=0;i<6;i++){
+      const x=r()*W, y=H*.4+r()*H*.4;
+      ctx.fillStyle = 'rgba(255,255,255,.6)';
+      ctx.beginPath(); ctx.arc(x,y,3,0,Math.PI*2); ctx.fill();
+    }
+  } else if (kind === 3){
+    // LUMINA — radial bloom
+    const cx=W*.5, cy=H*.55;
+    for (let p=0;p<12;p++){
+      const a = (p/12)*Math.PI*2;
+      ctx.save(); ctx.translate(cx,cy); ctx.rotate(a);
+      const grd = ctx.createLinearGradient(0,0,0,-110);
+      grd.addColorStop(0,'rgba(255,200,255,.9)');
+      grd.addColorStop(1,'rgba(255,255,255,0)');
+      ctx.fillStyle = grd;
+      ctx.beginPath();
+      ctx.moveTo(0,0);
+      ctx.bezierCurveTo(28,-30,28,-80,0,-110);
+      ctx.bezierCurveTo(-28,-80,-28,-30,0,0);
+      ctx.fill();
+      ctx.restore();
+    }
+    // center
+    const cg = ctx.createRadialGradient(cx,cy,0,cx,cy,40);
+    cg.addColorStop(0,'#fff'); cg.addColorStop(.4,'#ffd84a'); cg.addColorStop(1,'rgba(255,180,90,0)');
+    ctx.fillStyle = cg; ctx.beginPath(); ctx.arc(cx,cy,40,0,Math.PI*2); ctx.fill();
+    // sparkles
+    for (let i=0;i<30;i++){
+      const x=r()*W, y=r()*H*.9, sz=r()*2+.5;
+      ctx.fillStyle = `rgba(255,255,255,${r()*.8+.2})`;
+      ctx.beginPath(); ctx.arc(x,y,sz,0,Math.PI*2); ctx.fill();
+    }
+  } else if (kind === 4){
+    // DOCUMIND — wireframe brain/graph
+    const nodes=[];
+    for (let i=0;i<18;i++) nodes.push({x:r()*W, y:r()*H*.7+H*.1, R:r()*8+5});
+    // connections
+    for (let i=0;i<nodes.length;i++){
+      const a=nodes[i];
+      const order = nodes.map((b,j)=>({j,d:Math.hypot(a.x-b.x,a.y-b.y)})).sort((x,y)=>x.d-y.d).slice(1,4);
+      order.forEach(o=>{
+        const b = nodes[o.j];
+        ctx.strokeStyle = 'rgba(220,235,255,.4)';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+      });
+    }
+    // nodes
+    nodes.forEach(n=>{
+      const g = ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.R);
+      g.addColorStop(0,'#e8efff'); g.addColorStop(1,'#5a6678');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(n.x,n.y,n.R,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle = '#1a1d22'; ctx.lineWidth = 1.5; ctx.stroke();
+    });
+  }
+
+  // border / vignette
+  const v = ctx.createRadialGradient(W/2,H/2, H*.3, W/2,H/2, H*.8);
+  v.addColorStop(0,'transparent'); v.addColorStop(1,'rgba(0,0,0,.55)');
+  ctx.fillStyle = v; ctx.fillRect(0,0,W,H);
+}
+
+/* Trainer card art = different stylized portrait */
+function drawTrainer(){
+  const c = document.getElementById('trainerArt'); if (!c) return;
+  const ctx = c.getContext('2d');
+  const W=c.width, H=c.height;
+  // sky
+  const g = ctx.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,'#ffe17e'); g.addColorStop(.5,'#ff8a4a'); g.addColorStop(1,'#5a1410');
+  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+  // sun
+  ctx.fillStyle = 'rgba(255,255,255,.6)';
+  ctx.beginPath(); ctx.arc(W*.5,H*.35,70,0,Math.PI*2); ctx.fill();
+  const sg = ctx.createRadialGradient(W*.5,H*.35,0,W*.5,H*.35,180);
+  sg.addColorStop(0,'rgba(255,255,255,.6)'); sg.addColorStop(1,'transparent');
+  ctx.fillStyle=sg; ctx.fillRect(0,0,W,H);
+
+  // silhouette mountains
+  ctx.fillStyle = 'rgba(0,0,0,.45)';
+  ctx.beginPath();
+  ctx.moveTo(0,H*.7);
+  ctx.lineTo(W*.2, H*.5);
+  ctx.lineTo(W*.35, H*.62);
+  ctx.lineTo(W*.55, H*.4);
+  ctx.lineTo(W*.75, H*.58);
+  ctx.lineTo(W, H*.5);
+  ctx.lineTo(W,H); ctx.lineTo(0,H); ctx.closePath(); ctx.fill();
+
+  // a stylized "N" monogram in the center foreground
+  ctx.save();
+  ctx.translate(W*.5, H*.72);
+  // pedestal
+  ctx.fillStyle = 'rgba(0,0,0,.55)';
+  ctx.beginPath();
+  ctx.ellipse(0,30,140,18,0,0,Math.PI*2); ctx.fill();
+  // N letter
+  ctx.font = '900 220px Bungee, sans-serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  const tg = ctx.createLinearGradient(0,-100,0,80);
+  tg.addColorStop(0,'#fff8c4'); tg.addColorStop(.6,'#ff8e3a'); tg.addColorStop(1,'#5a1410');
+  ctx.fillStyle = tg;
+  ctx.fillText('N', 0, -10);
+  ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,.6)'; ctx.strokeText('N', 0, -10);
+  ctx.restore();
+
+  // confetti sparkles
+  for (let i=0;i<40;i++){
+    const x = Math.random()*W, y=Math.random()*H*.8;
+    ctx.fillStyle = ['#fff','#ffd884','#ffb47a','#ffe17e'][i%4];
+    ctx.fillRect(x,y,2,2);
+  }
+  // vignette
+  const v = ctx.createRadialGradient(W/2,H/2, H*.3, W/2,H/2, H*.85);
+  v.addColorStop(0,'transparent'); v.addColorStop(1,'rgba(0,0,0,.55)');
+  ctx.fillStyle = v; ctx.fillRect(0,0,W,H);
+}
+
+/* Draw all art when visible */
+const artObserver = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if (e.isIntersecting){
+      const c = e.target;
+      if (c.dataset.drawn) return;
+      c.dataset.drawn = '1';
+      if (c.dataset.art) drawArt(c, +c.dataset.art);
+      if (c.id === 'trainerArt') drawTrainer();
+    }
+  });
+}, {threshold: .15});
+document.querySelectorAll('canvas').forEach(c=>artObserver.observe(c));
+
+/* Reveal */
+const rev = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if (e.isIntersecting) e.target.classList.add('in') });
+}, {threshold: .08});
+document.querySelectorAll('.reveal').forEach(el=>rev.observe(el));
+
+/* Trade submit */
+function handleTrade(e){
+  e.preventDefault();
+  const btn = document.getElementById('tradeBtn');
+  btn.textContent = 'Trade Confirmed ✓';
+  btn.style.background = 'linear-gradient(135deg,#5cc25a,#2e8a2c)';
+  btn.style.color = '#fff';
+  setTimeout(()=>{
+    btn.textContent = 'Send Trade Request »';
+    btn.style.background = '';
+    btn.style.color = '';
+    e.target.reset();
+  }, 2800);
+}
+</script>
+</body>
+</html>

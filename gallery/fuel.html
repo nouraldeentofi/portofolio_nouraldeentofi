@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — FUEL · Fill Your Project's Tank</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira:wght@400;600;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--asphalt:#2e2e34;--asphaltd:#1e1e24;--pump:#d43a3a;--pumpd:#9e2828;--fg:#f2f2ee;--dim:rgba(242,242,238,.6);
+        --led:#7dff8a;--gold:#ffd23f}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Saira',sans-serif;color:var(--fg);min-height:100vh;
+    background:linear-gradient(180deg,#3c3c44,var(--asphalt) 50%,var(--asphaltd));
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold);color:#2e2e34}
+  h1{font-family:'Saira Stencil One';font-size:clamp(24px,4.8vw,42px);letter-spacing:.04em}
+  h1 span{color:var(--gold)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--dim);
+    margin:8px 0 24px;text-transform:uppercase;text-align:center}
+
+  #station{width:min(780px,96vw);display:grid;grid-template-columns:250px 1fr;gap:20px;align-items:end}
+  @media(max-width:660px){#station{grid-template-columns:1fr;align-items:start}}
+
+  /* pump */
+  #pump{background:linear-gradient(180deg,#e85454,var(--pump) 35%,var(--pumpd));border-radius:18px 18px 8px 8px;
+    padding:16px;box-shadow:0 30px 60px rgba(0,0,0,.5), inset 0 3px 0 rgba(255,255,255,.3)}
+  #brandF{text-align:center;font-family:'Saira Stencil One';font-size:17px;color:#fff;letter-spacing:.14em;margin-bottom:10px}
+  #meterBox{background:#12141a;border-radius:10px;border:3px solid #6e1c1c;padding:12px 14px;font-family:'IBM Plex Mono',monospace}
+  .mrow{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-bottom:1px dashed rgba(125,255,138,.2)}
+  .mrow:last-child{border:none}
+  .mlbl{font-size:8.5px;letter-spacing:.2em;color:var(--dim)}
+  .mval{font-size:20px;color:var(--led);text-shadow:0 0 8px rgba(125,255,138,.5)}
+  #grade{display:flex;gap:6px;margin-top:12px}
+  .gr{flex:1;font-family:'Saira';font-weight:800;font-size:10px;border:none;border-radius:8px;padding:10px 4px;
+    cursor:pointer;background:#8a2020;color:#ffd9d9;transition:all .2s;letter-spacing:.04em}
+  .gr.on{background:var(--gold);color:#5c3a00}
+  #nozzleDock{margin-top:12px;text-align:center;font-family:'IBM Plex Mono';font-size:9px;letter-spacing:.2em;color:#ffd9d9}
+  #holdB{width:100%;margin-top:8px;font-family:'Saira Stencil One';font-size:16px;letter-spacing:.08em;border:none;
+    border-radius:12px;padding:16px;background:var(--gold);color:#5c3a00;cursor:pointer;
+    box-shadow:0 5px 0 #b8912e;transition:transform .08s,box-shadow .08s;user-select:none;touch-action:none}
+  #holdB:active{transform:translateY(4px);box-shadow:0 1px 0 #b8912e}
+
+  /* car + hose */
+  #bay{position:relative;min-height:260px}
+  #hose{position:absolute;left:-20px;bottom:90px;width:120px;height:80px;z-index:2}
+  #carF{position:relative;width:min(360px,90%);margin:0 auto}
+  #carBodyF{position:relative;height:74px;border-radius:16px 26px 10px 10px;
+    background:linear-gradient(180deg,#5c8ac9,#2e5a99);box-shadow:0 8px 18px rgba(0,0,0,.4)}
+  #carTopF{position:absolute;top:-34px;left:60px;width:150px;height:40px;border-radius:14px 20px 0 0;background:#2e5a99}
+  #winF2{position:absolute;top:-28px;left:70px;width:52px;height:26px;background:#cfe2f5;border-radius:8px 0 0 0}
+  #carLblF{position:absolute;top:24px;left:50%;transform:translateX(-50%);font-family:'IBM Plex Mono';
+    font-size:10px;font-weight:600;color:#fff;letter-spacing:.06em;white-space:nowrap}
+  #tankCap{position:absolute;top:14px;left:22px;width:20px;height:20px;border-radius:50%;background:#1c3a66;
+    border:3px solid #7a9ecc}
+  .wheelF{position:absolute;bottom:-18px;width:40px;height:40px;border-radius:50%;background:#17181d;border:7px solid #3a3c45}
+  .wheelF.a{left:40px}.wheelF.b{right:40px}
+  /* tank gauge on car */
+  #tankGauge{position:absolute;top:-70px;right:0;background:rgba(18,20,26,.9);border:1px solid rgba(255,210,63,.4);
+    border-radius:10px;padding:10px 14px;font-family:'IBM Plex Mono';font-size:9px;letter-spacing:.14em;color:var(--dim)}
+  #tankBar{width:120px;height:12px;border:2px solid var(--gold);border-radius:7px;margin-top:6px;overflow:hidden}
+  #tankFill{height:100%;width:3%;background:linear-gradient(90deg,#e85454,var(--gold),var(--led));transition:width .2s}
+  #fullTag{position:absolute;top:-96px;right:8px;font-family:'Saira Stencil One';font-size:15px;color:var(--led);
+    opacity:0;transition:opacity .4s;letter-spacing:.1em}
+  #fullTag.show{opacity:1}
+
+  #storyF{margin-top:22px;max-width:560px;text-align:center;min-height:90px}
+  #storyF .k{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;font-weight:600}
+  #storyF h2{font-weight:800;font-size:clamp(17px,3.2vw,25px);margin:8px 0 6px}
+  #storyF p{font-size:13px;line-height:1.7;color:var(--dim)}
+  #storyF p b{color:var(--fg)}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .btn{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.12em;padding:12px 20px;border-radius:99px;
+    border:2px solid var(--gold);color:var(--gold);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--gold);color:#5c3a00}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>⛽ NOUR <span>FUEL</span> STATION</h1>
+<div class="sub">Premium skills · price per liter: 0 SAR · hold the nozzle to fill · عبّي التانك</div>
+
+<div id="station">
+  <div id="pump">
+    <div id="brandF">NOUR ⛽ 98</div>
+    <div id="meterBox">
+      <div class="mrow"><span class="mlbl">LITERS OF SKILL</span><span class="mval" id="liters">0.00</span></div>
+      <div class="mrow"><span class="mlbl">PRICE (SAR)</span><span class="mval">0.00</span></div>
+      <div class="mrow"><span class="mlbl">GRADE</span><span class="mval" style="font-size:11px" id="gradeLbl">REACT 98</span></div>
+    </div>
+    <div id="grade">
+      <button class="gr on" data-g="REACT 98">REACT 98</button>
+      <button class="gr" data-g="DESIGN 95">DESIGN 95</button>
+      <button class="gr" data-g="COORD DIESEL">COORD D</button>
+    </div>
+    <div id="nozzleDock">— NOZZLE CONNECTED TO YOUR PROJECT —</div>
+    <button id="holdB">⛽ HOLD TO PUMP</button>
+  </div>
+
+  <div id="bay">
+    <svg id="hose" viewBox="0 0 120 80"><path d="M6 10 Q60 -10 70 40 Q76 66 118 62" fill="none" stroke="#17181d" stroke-width="8" stroke-linecap="round"/></svg>
+    <div id="carF">
+      <div id="tankGauge">PROJECT TANK<div id="tankBar"><div id="tankFill"></div></div></div>
+      <div id="fullTag">✓ TANK FULL — READY TO GO</div>
+      <div id="carTopF"></div><div id="winF2"></div>
+      <div id="carBodyF"><div id="tankCap"></div><span id="carLblF">YOUR PROJECT · RUNNING ON EMPTY</span></div>
+      <div class="wheelF a"></div><div class="wheelF b"></div>
+    </div>
+  </div>
+</div>
+
+<div id="storyF">
+  <div class="k">Station rules</div>
+  <h2>Empty projects don't drive far</h2>
+  <p>Pick a grade, hold the pump. Every liter is real: <b>React 98</b> = frontends &amp; websites · <b>Design 95</b> = logos, cards, visuals · <b>Coord Diesel</b> = project management, GoldenTag-proven.</p>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const GRADES={
+ 'REACT 98':['Premium frontend fuel','<b>React · TypeScript · Tailwind</b> — supervisor-grade octane (Distinctive Frontier Co., 2026→). Websites and frontends that run smooth and never knock.'],
+ 'DESIGN 95':['The stylish blend','<b>Logos · business cards · social visuals</b> — your brand finally looks like it costs money.'],
+ 'COORD DIESEL':['Long-haul torque','<b>Project coordination</b> — scope, user stories, timelines. The heavy-duty fuel that hauled <b>GoldenTag</b> all the way to Google Play.']
+};
+let liters=0,full=false,pumping=false,grade='REACT 98';
+let AC=null,pumpOsc=null,pumpG=null;
+function pumpSound(on){
+  try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+    if(!pumpOsc){
+      const b=AC.createBuffer(1,AC.sampleRate,AC.sampleRate),d=b.getChannelData(0);
+      for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+      pumpOsc=AC.createBufferSource();pumpOsc.buffer=b;pumpOsc.loop=true;
+      const f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=500;
+      pumpG=AC.createGain();pumpG.gain.value=0;
+      pumpOsc.connect(f);f.connect(pumpG);pumpG.connect(AC.destination);pumpOsc.start();
+    }
+    pumpG.gain.value=on?.05:0;
+  }catch(e){}}
+function dingF(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  [988,1319].forEach((fr,i)=>{const o=AC.createOscillator(),g=AC.createGain();
+    o.type='sine';o.frequency.value=fr;
+    g.gain.setValueAtTime(.08,AC.currentTime+i*.16);
+    g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+i*.16+.5);
+    o.connect(g);g.connect(AC.destination);o.start(AC.currentTime+i*.16);o.stop(AC.currentTime+i*.16+.55);});}catch(e){}}
+
+document.querySelectorAll('.gr').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.gr').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');grade=b.dataset.g;
+  document.getElementById('gradeLbl').textContent=grade;
+  const [h,p]=GRADES[grade];
+  story('Grade selected · '+grade,h,p);
+});
+function story(k,h,p,btns){
+  document.querySelector('#storyF .k').textContent=k;
+  document.querySelector('#storyF h2').innerHTML=h;
+  document.querySelector('#storyF p').innerHTML=p;
+  const old=document.querySelector('#storyF .btns');if(old)old.remove();
+  if(btns){const d=document.createElement('div');d.className='btns';d.innerHTML=btns;
+    document.getElementById('storyF').appendChild(d);}
+}
+const hold=document.getElementById('holdB');
+function startPump(){if(full)return;pumping=true;pumpSound(true);}
+function stopPump(){pumping=false;pumpSound(false);}
+hold.addEventListener('pointerdown',startPump);
+addEventListener('pointerup',stopPump);
+hold.addEventListener('pointerleave',stopPump);
+addEventListener('keydown',e=>{if(e.key===' '&&!e.repeat){e.preventDefault();startPump();}});
+addEventListener('keyup',e=>{if(e.key===' ')stopPump();});
+
+(function loop(){
+  if(pumping&&!full){
+    liters+=reduced?1.2:0.12;
+    document.getElementById('liters').textContent=liters.toFixed(2);
+    const pct=Math.min(100,3+liters/40*97);
+    document.getElementById('tankFill').style.width=pct+'%';
+    if(!reduced&&Math.random()<.2){
+      const carB=document.getElementById('carBodyF');
+      carB.animate([{transform:'translateY(0)'},{transform:'translateY(1.5px)'},{transform:'translateY(0)'}],{duration:160});
+    }
+    if(liters>=40){
+      full=true;stopPump();dingF();
+      document.getElementById('fullTag').classList.add('show');
+      document.getElementById('carLblF').textContent='YOUR PROJECT · FULL TANK ✓';
+      document.getElementById('holdB').textContent='✓ TANK FULL';
+      story('Receipt · 40.00 L · 0.00 SAR',
+        'Full tank. Zero cost to find out more.',
+        `A project fueled by <b>Nour Aldeen Tofi</b> runs: websites, React frontends, logos, business cards, social visuals, coordination. Riyadh · AR+EN · Meta/Google/IBM certified · ICPC '21.`,
+        `<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Fill%20her%20up&body=Grade%3A%20${encodeURIComponent(grade)}.%20My%20project%3A%20">⛽ Book a full service</a>
+         <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+         <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`);
+    }
+  }
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

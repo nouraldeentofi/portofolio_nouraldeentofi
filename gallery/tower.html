@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — TOWER · Stack the Skills</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chango&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--dusk:#2e2450;--duskd:#1c1636;--fg:#f2eefc;--dim:rgba(242,238,252,.6);--acc:#ffb648;--crane:#f5c518}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;color:var(--fg);min-height:100vh;
+    background:linear-gradient(180deg,#4a3a7a,var(--dusk) 50%,var(--duskd));
+    display:flex;flex-direction:column;align-items:center;padding:3vh 4vw 6vh;overflow:hidden}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--acc);color:#2e2450}
+  h1{font-family:'Chango';font-size:clamp(20px,4.2vw,36px);letter-spacing:.02em}
+  h1 span{color:var(--acc)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.26em;color:var(--dim);
+    margin:6px 0 12px;text-transform:uppercase;text-align:center}
+
+  #site2{position:relative;width:min(460px,94vw);height:56vh;min-height:380px;border-radius:18px;overflow:hidden;
+    background:linear-gradient(180deg,rgba(255,255,255,.05),transparent 40%);border:1px solid rgba(242,238,252,.15);
+    cursor:pointer;box-shadow:0 24px 60px rgba(0,0,0,.4)}
+  .star3{position:absolute;background:#fff;border-radius:50%;animation:tw3 3s infinite}
+  @keyframes tw3{50%{opacity:.2}}
+  #craneArm{position:absolute;top:0;left:0;right:0;height:16px;background:repeating-linear-gradient(90deg,var(--crane) 0 18px,#c9962e 18px 36px);z-index:5}
+  #cable2{position:absolute;top:16px;width:3px;background:#d8d2c0;z-index:5;margin-left:-1.5px}
+  #swingBlock{position:absolute;z-index:6;margin-left:0;display:flex;align-items:center;justify-content:center;
+    height:34px;border-radius:8px;font-family:'IBM Plex Mono';font-size:10px;font-weight:600;color:#fff;
+    text-shadow:0 1px 2px rgba(0,0,0,.4);box-shadow:0 5px 12px rgba(0,0,0,.4);letter-spacing:.04em;white-space:nowrap}
+  #stack2{position:absolute;left:0;right:0;bottom:0;z-index:4}
+  .floorB{position:absolute;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono';font-size:10px;font-weight:600;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4);
+    box-shadow:0 4px 10px rgba(0,0,0,.35);letter-spacing:.04em;white-space:nowrap}
+  #ground2{position:absolute;bottom:0;left:0;right:0;height:22px;background:#17122a;z-index:3}
+  #hud2{position:absolute;top:12px;left:14px;z-index:8;font-family:'IBM Plex Mono';font-size:11px;
+    letter-spacing:.14em;background:rgba(20,14,40,.7);padding:9px 14px;border-radius:10px}
+  #hud2 b{color:var(--acc)}
+  #perfect{position:absolute;left:50%;top:38%;transform:translateX(-50%);z-index:9;font-family:'Chango';
+    font-size:24px;color:#5ee0a0;opacity:0;pointer-events:none;text-shadow:0 3px 0 rgba(0,0,0,.35)}
+  #hint2{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:8;font-family:'IBM Plex Mono';
+    font-size:9.5px;letter-spacing:.24em;color:var(--dim);text-transform:uppercase;animation:hb2 2s infinite;white-space:nowrap}
+  @keyframes hb2{0%,100%{opacity:.35}50%{opacity:1}}
+
+  #done2{margin-top:14px;max-width:520px;text-align:center;display:none}
+  #done2.show{display:block}
+  #done2 h2{font-family:'Chango';font-size:clamp(17px,3.2vw,25px)}
+  #done2 h2 b{color:var(--acc)}
+  #done2 p{font-size:12.5px;line-height:1.65;color:var(--dim);margin-top:6px}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.12em;padding:11px 18px;border-radius:99px;
+    border:2px solid var(--acc);color:var(--acc);text-transform:uppercase;font-weight:600;background:none;cursor:pointer}
+  .btn:hover{background:var(--acc);color:#2e2450}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>🏗 TOWER OF <span>NOUR</span></h1>
+<div class="sub">Tap when the block is centered · 8 floors to top out · برج المهارات</div>
+
+<div id="site2">
+  <div id="craneArm"></div><div id="cable2"></div>
+  <div id="swingBlock">FOUNDATION</div>
+  <div id="stack2"></div>
+  <div id="ground2"></div>
+  <div id="hud2">FLOOR <b id="fl">0</b>/8 · PRECISION <b id="prec">—</b></div>
+  <div id="perfect">PERFECT!</div>
+  <div id="hint2">◈ TAP / SPACE TO DROP ◈</div>
+</div>
+
+<div id="done2">
+  <h2 id="doneH">TOPPED OUT — <b>SUPERVISOR PENTHOUSE PLACED</b></h2>
+  <p id="doneP"></p>
+  <div class="btns" id="doneB"></div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FLOORS=[
+ ['FOUNDATION · B.TECH IT','#4a5a8a',190],
+ ['ICPC 2021','#8a3a5c',176],
+ ['REACT · SINCE 2023','#2e6fb8',164],
+ ['TYPESCRIPT','#3178c6',152],
+ ['TAILWIND CSS','#2ea8b8',142],
+ ['COORDINATION · NEXLEAD','#2e8a5c',132],
+ ['GOLDENTAG SHIPPED','#c9962e',122],
+ ['SUPERVISOR \'26 ★','#c04568',112]
+];
+const site=document.getElementById('site2');
+let W,H;function size(){W=site.clientWidth;H=site.clientHeight;}
+size();addEventListener('resize',size);
+const sb=document.getElementById('swingBlock'),cable=document.getElementById('cable2');
+let idx=0,placed=[],t=0,dropping=false,over=false,precTotal=0;
+let curW=FLOORS[0][2];
+
+const stars=[];
+for(let i=0;i<26;i++){const s=document.createElement('div');s.className='star3';
+  const z=Math.random()*2+1;
+  s.style.cssText=`width:${z}px;height:${z}px;left:${Math.random()*100}%;top:${Math.random()*55}%;animation-delay:${Math.random()*3}s`;
+  site.appendChild(s);}
+
+let AC=null;
+function thk(f){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f||150;
+  g.gain.setValueAtTime(.12,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.2);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.22);}catch(e){}}
+function fanf(){[523,659,784,1047].forEach((f,i)=>setTimeout(()=>{
+  try{const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;
+  g.gain.setValueAtTime(.07,AC.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.3);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.35);}catch(e){}},i*130));}
+
+function setup(){
+  const [nm,col,w]=FLOORS[idx];
+  curW=Math.min(w,(placed.length?placed[placed.length-1].w+20:w));
+  sb.textContent=nm;sb.style.background=col;sb.style.width=curW+'px';
+  sb.style.top='30px';
+}
+setup();
+function loop(ts){
+  if(!dropping&&!over){
+    t+=reduced?.012:.02;
+    const cx=W/2+Math.sin(t)* (W/2-curW/2-14);
+    sb.style.left=(cx-curW/2)+'px';
+    cable.style.left=cx+'px';
+    cable.style.height='14px';
+  }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+function drop(){
+  if(dropping||over)return;dropping=true;
+  const left=parseFloat(sb.style.left);
+  const targetY=H-22-34*(placed.length+1);
+  const dur=reduced?60:Math.max(200,(targetY-30)*1.2);
+  sb.animate([{top:'30px'},{top:targetY+'px'}],{duration:dur,easing:'cubic-bezier(.5,0,.9,.6)',fill:'forwards'})
+    .onfinish=()=>{
+    thk(140-placed.length*6);
+    /* precision vs previous */
+    const prevC=placed.length?placed[placed.length-1].x+placed[placed.length-1].w/2:W/2;
+    const off=Math.abs((left+curW/2)-prevC);
+    const prec=Math.max(0,Math.round(100-off/(curW/2)*100));
+    precTotal+=prec;
+    document.getElementById('prec').textContent=prec+'%';
+    if(prec>85&&!reduced){
+      const p=document.getElementById('perfect');
+      p.animate([{opacity:0,transform:'translateX(-50%) scale(.6)'},{opacity:1,transform:'translateX(-50%) scale(1.1)'},
+        {opacity:0,transform:'translateX(-50%) scale(1) translateY(-20px)'}],{duration:800});
+    }
+    /* place block */
+    const f=document.createElement('div');f.className='floorB';
+    const [nm,col]=FLOORS[idx];
+    f.textContent=nm;f.style.cssText+=`background:${col};width:${curW}px;left:${left}px;bottom:${22+34*placed.length}px`;
+    document.getElementById('stack2').appendChild(f);
+    placed.push({x:left,w:curW});
+    /* wobble tower slightly by total imprecision */
+    if(!reduced&&prec<60)document.getElementById('stack2').animate(
+      [{transform:'rotate(0)'},{transform:`rotate(${(Math.random()<.5?-1:1)*1.2}deg)`},{transform:'rotate(0)'}],{duration:500});
+    idx++;
+    document.getElementById('fl').textContent=idx;
+    if(idx>=FLOORS.length){
+      over=true;sb.style.display='none';cable.style.display='none';
+      document.getElementById('hint2').style.display='none';
+      fanf();
+      const avg=Math.round(precTotal/FLOORS.length);
+      document.getElementById('doneP').innerHTML=
+        `Average precision: <b style="color:#ffb648">${avg}%</b>. Real towers need the same thing this one did: <b>good foundations, clean stacking, and someone who doesn't panic at height.</b> That's Nour Aldeen Tofi — frontend developer &amp; SW engineering supervisor, Riyadh. Websites · React · logos · social · coordination.`;
+      document.getElementById('doneB').innerHTML=
+        `<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Build%20my%20tower&body=Precision%20${avg}%25.%20My%20project%3A%20">🏗 Build with him</a>
+         <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+         <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+         <button class="btn" onclick="location.reload()">↺ Rebuild</button>`;
+      document.getElementById('done2').classList.add('show');
+      return;
+    }
+    setup();
+    sb.style.top='30px';
+    dropping=false;
+  };
+}
+site.addEventListener('pointerdown',drop);
+addEventListener('keydown',e=>{if(e.key===' '){e.preventDefault();drop();}});
+</script>
+</body>
+</html>

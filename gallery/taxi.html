@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Rides — TAXI · From Idea St. to Success Ave.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--map:#eee9dc;--road2:#c9c2b0;--fg2:#2a2820;--dim2:rgba(42,40,32,.65);--yellow2:#f5c518;--green2:#2e8a5c}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Rubik',sans-serif;color:var(--fg2);min-height:100vh;
+    background:linear-gradient(180deg,#f6f2e6,#e8e2d0);display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--yellow2)}
+  h1{font-weight:900;font-size:clamp(24px,4.8vw,42px)}
+  h1 span{background:var(--yellow2);padding:0 10px;border-radius:8px}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.26em;color:var(--dim2);
+    margin:8px 0 22px;text-transform:uppercase;text-align:center}
+
+  #app2{width:min(720px,96vw);display:grid;grid-template-columns:1fr 220px;gap:16px}
+  @media(max-width:640px){#app2{grid-template-columns:1fr}}
+  /* map */
+  #mapC{position:relative;background:var(--map);border-radius:18px;overflow:hidden;min-height:340px;
+    box-shadow:0 20px 50px rgba(42,40,32,.18);border:2px solid #d8d2c0}
+  .hRoad,.vRoad{position:absolute;background:var(--road2)}
+  .hRoad{left:0;right:0;height:26px}
+  .vRoad{top:0;bottom:0;width:26px}
+  .dash{position:absolute;background:repeating-linear-gradient(90deg,#fff 0 10px,transparent 10px 22px);height:2px;left:0;right:0;top:12px}
+  .dashV{position:absolute;background:repeating-linear-gradient(0deg,#fff 0 10px,transparent 10px 22px);width:2px;top:0;bottom:0;left:12px}
+  .block{position:absolute;background:#dcd6c4;border-radius:6px;border:1.5px solid #c9c2b0}
+  .poi{position:absolute;font-size:10px;font-weight:700;color:var(--dim2);text-align:center;line-height:1.3}
+  .poi .ic2{font-size:18px;display:block}
+  #pinA{position:absolute;z-index:5;font-size:22px;transform:translate(-50%,-90%)}
+  #pinB{position:absolute;z-index:5;font-size:22px;transform:translate(-50%,-90%)}
+  #cab{position:absolute;z-index:6;width:40px;font-size:26px;transform:translate(-50%,-50%);transition:none;
+    filter:drop-shadow(0 3px 4px rgba(0,0,0,.3))}
+
+  /* panel */
+  #ride{background:#fff;border-radius:18px;padding:18px;box-shadow:0 20px 50px rgba(42,40,32,.15);display:flex;flex-direction:column;gap:10px}
+  #ride .t{font-weight:900;font-size:13px;text-align:center;letter-spacing:.04em}
+  #meter{background:#12141a;border-radius:10px;padding:12px 14px;font-family:'IBM Plex Mono',monospace;color:#7dff8a}
+  #meter .mr{display:flex;justify-content:space-between;font-size:10px;padding:3px 0;letter-spacing:.1em}
+  #meter .mv{font-size:15px}
+  .stop{display:flex;gap:8px;align-items:center;font-size:11.5px;font-weight:700;padding:7px 10px;border-radius:9px;
+    background:#f6f2e6;border:1.5px solid transparent}
+  .stop.cur{border-color:var(--yellow2)}
+  .stop .dot2{width:9px;height:9px;border-radius:50%;background:#c9c2b0;flex-shrink:0}
+  .stop.done .dot2{background:var(--green2)}
+  #goB{font-family:'Rubik';font-weight:900;font-size:14px;border:none;border-radius:12px;padding:14px;
+    background:var(--fg2);color:var(--yellow2);cursor:pointer;box-shadow:0 4px 0 #14120c;transition:transform .1s,box-shadow .1s}
+  #goB:active{transform:translateY(3px);box-shadow:0 1px 0 #14120c}
+  #goB:disabled{filter:grayscale(.4);pointer-events:none}
+
+  #arrive{margin-top:18px;max-width:560px;text-align:center;display:none}
+  #arrive.show{display:block}
+  #arrive h2{font-weight:900;font-size:clamp(18px,3.4vw,26px)}
+  #arrive h2 b{background:var(--yellow2);padding:0 8px;border-radius:6px}
+  #arrive p{font-size:13px;line-height:1.7;color:var(--dim2);margin-top:8px}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .btn{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.1em;padding:12px 20px;border-radius:99px;
+    background:var(--fg2);color:#fff;text-transform:uppercase;font-weight:600}
+  .btn.g{background:none;border:2px solid var(--fg2);color:var(--fg2)}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>🚕 NOUR <span>RIDES</span></h1>
+<div class="sub">From Idea Street to Success Avenue · meter always reads 0 · مشوار ببلاش</div>
+
+<div id="app2">
+  <div id="mapC">
+    <div class="hRoad" style="top:60px"><div class="dash"></div></div>
+    <div class="hRoad" style="top:180px"><div class="dash"></div></div>
+    <div class="hRoad" style="bottom:40px"><div class="dash"></div></div>
+    <div class="vRoad" style="left:90px"><div class="dashV"></div></div>
+    <div class="vRoad" style="right:120px"><div class="dashV"></div></div>
+    <div class="block" style="left:12px;top:12px;width:60px;height:34px"></div>
+    <div class="block" style="left:130px;top:100px;width:110px;height:60px"></div>
+    <div class="block" style="right:20px;top:96px;width:80px;height:66px"></div>
+    <div class="block" style="left:130px;bottom:80px;width:90px;height:56px"></div>
+    <div class="poi" style="left:24px;top:96px"><span class="ic2">💡</span>IDEA ST.</div>
+    <div class="poi" style="left:150px;top:118px"><span class="ic2">⚛️</span>REACT PLAZA</div>
+    <div class="poi" style="right:34px;top:112px"><span class="ic2">🎨</span>DESIGN SQ.</div>
+    <div class="poi" style="left:146px;bottom:96px"><span class="ic2">🧭</span>COORD JCT.</div>
+    <div class="poi" style="right:26px;bottom:66px"><span class="ic2">🏆</span>SUCCESS AVE.</div>
+    <div id="pinA" style="left:56px;top:60px">📍</div>
+    <div id="pinB" style="right:44px;bottom:14px;left:auto">🏁</div>
+    <div id="cab">🚕</div>
+  </div>
+
+  <div id="ride">
+    <div class="t">RIDE DETAILS</div>
+    <div id="meter">
+      <div class="mr"><span>FARE</span><span class="mv">0.00 SAR</span></div>
+      <div class="mr"><span>DISTANCE</span><span class="mv" id="dist2">0.0 km</span></div>
+      <div class="mr"><span>DRIVER</span><span style="font-size:10px">NOUR ★4.99</span></div>
+    </div>
+    <div class="stop cur" data-s="0"><span class="dot2"></span>Pickup: Idea Street</div>
+    <div class="stop" data-s="1"><span class="dot2"></span>React Plaza — build stop</div>
+    <div class="stop" data-s="2"><span class="dot2"></span>Design Square — polish stop</div>
+    <div class="stop" data-s="3"><span class="dot2"></span>Coordination Junction</div>
+    <div class="stop" data-s="4"><span class="dot2"></span>Drop-off: Success Avenue</div>
+    <button id="goB">🚕 REQUEST RIDE</button>
+  </div>
+</div>
+
+<div id="arrive">
+  <h2>You have arrived at <b>Success Avenue</b> 🏁</h2>
+  <p>Every stop was real: <b>React builds → design polish → coordination → delivery.</b> Driver: Nour Aldeen Tofi — frontend developer &amp; SW engineering supervisor, Riyadh. Past passengers include <b>GoldenTag</b> (dropped off at Google Play, 5 stars).</p>
+  <div class="btns">
+    <a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Ride%20request&body=Pickup%3A%20my%20idea.%20Drop-off%3A%20success.%20Details%3A%20">🚕 Book your ride</a>
+    <a class="btn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+  </div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let AC=null;
+function honk2(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  [520,520].forEach((f,i)=>{const o=AC.createOscillator(),g=AC.createGain();
+    o.type='square';o.frequency.value=f;
+    g.gain.setValueAtTime(.05,AC.currentTime+i*.18);
+    g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+i*.18+.14);
+    o.connect(g);g.connect(AC.destination);o.start(AC.currentTime+i*.18);o.stop(AC.currentTime+i*.18+.16);});}catch(e){}}
+function dingT(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=990;
+  g.gain.setValueAtTime(.07,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.5);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.55);}catch(e){}}
+
+/* route waypoints in map-percent coords */
+const mapC=document.getElementById('mapC');
+const ROUTE=[[15,22],[15,58],[38,58],[38,72],[38,88],[62,88],[62,58],[80,58],[80,88],[88,88]];
+const STOPMARKS={1:1,3:2,5:3,9:4}; /* route index → stop index */
+const cab=document.getElementById('cab');
+function setCab(px,py){
+  cab.style.left=px+'%';cab.style.top=py+'%';
+}
+setCab(ROUTE[0][0],ROUTE[0][1]);
+let riding=false;
+document.getElementById('goB').onclick=async()=>{
+  if(riding)return;riding=true;honk2();
+  document.getElementById('goB').disabled=true;
+  document.getElementById('goB').textContent='EN ROUTE…';
+  let distTotal=0;
+  for(let i=1;i<ROUTE.length;i++){
+    const [x0,y0]=ROUTE[i-1],[x1,y1]=ROUTE[i];
+    const seg=Math.hypot(x1-x0,y1-y0);
+    const dur=reduced?60:seg*34;
+    /* flip cab direction */
+    cab.style.transform=`translate(-50%,-50%) scaleX(${x1<x0?-1:1})`;
+    await new Promise(res=>{
+      const t0=performance.now();
+      (function mv(t){
+        const p=Math.min(1,(t-t0)/dur);
+        setCab(x0+(x1-x0)*p,y0+(y1-y0)*p);
+        document.getElementById('dist2').textContent=((distTotal+seg*p)/22).toFixed(1)+' km';
+        p<1?requestAnimationFrame(mv):res();
+      })(t0);
+    });
+    distTotal+=seg;
+    if(STOPMARKS[i]!==undefined){
+      const s=STOPMARKS[i];
+      document.querySelectorAll('.stop').forEach((el,j)=>{
+        el.classList.toggle('done',j<=s-0);
+        el.classList.toggle('cur',j===s);
+      });
+      /* mark previous stops done */
+      document.querySelectorAll('.stop').forEach((el,j)=>{if(j<s)el.classList.add('done');});
+      dingT();
+      await new Promise(r=>setTimeout(r,reduced?80:500));
+    }
+  }
+  document.querySelectorAll('.stop').forEach(el=>{el.classList.add('done');el.classList.remove('cur');});
+  honk2();
+  document.getElementById('arrive').classList.add('show');
+  document.getElementById('arrive').scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest'});
+  document.getElementById('goB').textContent='↺ RIDE AGAIN';
+  document.getElementById('goB').disabled=false;
+  setCab(ROUTE[0][0],ROUTE[0][1]);
+  riding=false;
+};
+</script>
+</body>
+</html>

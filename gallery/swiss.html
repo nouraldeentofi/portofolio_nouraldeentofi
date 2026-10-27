@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anton Keller — Art Director & Graphic Designer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --paper:   #efece4;
+      --paper-2: #e7e3d7;
+      --ink:     #0b0b0b;
+      --red:     #e63016;
+      --blue:    #1441c4;
+      --yellow:  #f4c023;
+      --muted:   #5a5750;
+      --rule:    2px solid var(--ink);
+      --rule-1:  1px solid var(--ink);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    /* Subtle paper grain */
+    body::before {
+      content:''; position: fixed; inset: 0; pointer-events: none; z-index: 1000;
+      background-image:
+        radial-gradient(rgba(0,0,0,.015) 1px, transparent 1px),
+        radial-gradient(rgba(255,255,255,.015) 1px, transparent 1px);
+      background-size: 4px 4px, 6px 6px;
+      background-position: 0 0, 2px 3px;
+      mix-blend-mode: multiply;
+      opacity: .7;
+    }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--paper-2); }
+    ::-webkit-scrollbar-thumb { background: var(--ink); }
+
+    /* ─ TOP RIBBON ─ */
+    .ribbon {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: grid; grid-template-columns: auto 1fr auto auto; align-items: center;
+      gap: 2rem;
+      padding: .65rem 2rem;
+      background: var(--ink); color: var(--paper);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem; letter-spacing: 2px; text-transform: uppercase;
+      border-bottom: var(--rule);
+    }
+    .ribbon a { color: var(--paper); text-decoration: none; }
+    .ribbon a:hover { color: var(--red); }
+    .ribbon .ticker {
+      overflow: hidden; white-space: nowrap;
+    }
+    .ticker-inner {
+      display: inline-block; padding-left: 100%;
+      animation: ticker 30s linear infinite;
+    }
+    @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
+
+    /* ─ NAV ─ */
+    nav {
+      position: fixed; top: 34px; left: 0; right: 0; z-index: 99;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem;
+      background: var(--paper);
+      border-bottom: var(--rule);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: .6rem;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.1rem; letter-spacing: -.5px;
+    }
+    .nav-logo .dot {
+      width: 14px; height: 14px; background: var(--red); border-radius: 50%;
+    }
+    .nav-links { display: flex; list-style: none; }
+    .nav-links li + li { border-left: var(--rule-1); }
+    .nav-links a {
+      display: block; padding: .4rem 1.1rem;
+      font-size: .75rem; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; text-decoration: none; color: var(--ink);
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--red); }
+    .nav-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .75rem; letter-spacing: 1.5px;
+    }
+    .nav-num span { color: var(--red); font-weight: 700; }
+
+    /* ─ HERO ─ */
+    #hero {
+      min-height: 100vh;
+      padding: 120px 2rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto 1fr;
+      gap: 0;
+      border-bottom: var(--rule);
+    }
+    .hero-meta {
+      grid-column: 1 / -1;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border-bottom: var(--rule-1);
+      padding-bottom: .75rem; margin-bottom: 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem; letter-spacing: 1.5px; text-transform: uppercase;
+    }
+    .hero-meta div { border-right: var(--rule-1); padding: 0 1rem; }
+    .hero-meta div:last-child { border-right: 0; }
+    .hero-meta .lbl { color: var(--muted); display: block; margin-bottom: .15rem; }
+
+    .hero-left {
+      padding: 0 1.5rem 0 0;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .kicker {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .75rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1.5rem;
+      display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .kicker::before {
+      content:''; display: inline-block;
+      width: 36px; height: 2px; background: var(--red);
+    }
+    .hero-title {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(3.5rem, 9vw, 7.5rem);
+      line-height: .88; letter-spacing: -3px;
+      text-transform: uppercase;
+    }
+    .hero-title .out {
+      -webkit-text-stroke: 2px var(--ink); color: transparent;
+    }
+    .hero-title .red { color: var(--red); }
+    .hero-title .serif {
+      font-family: 'Fraunces', serif;
+      font-style: italic; font-weight: 400;
+      letter-spacing: -2px;
+      text-transform: lowercase;
+    }
+
+    .hero-sub {
+      margin-top: 2rem;
+      max-width: 460px;
+      font-size: 1rem; line-height: 1.65;
+      color: var(--ink);
+      border-left: 4px solid var(--red);
+      padding-left: 1rem;
+    }
+    .hero-cta-row {
+      margin-top: 2.5rem;
+      display: flex; gap: 1rem; flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .9rem 1.5rem; border-radius: 0;
+      font-size: .78rem; font-weight: 800; letter-spacing: 2px;
+      text-transform: uppercase; text-decoration: none;
+      border: 2px solid var(--ink); cursor: pointer;
+      transition: transform .15s, background .15s, color .15s;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-dark  { background: var(--ink); color: var(--paper); }
+    .btn-dark:hover  { background: var(--red); border-color: var(--red); transform: translate(-2px,-2px); box-shadow: 4px 4px 0 var(--ink); }
+    .btn-light { background: var(--paper); color: var(--ink); }
+    .btn-light:hover { background: var(--yellow); transform: translate(-2px,-2px); box-shadow: 4px 4px 0 var(--ink); }
+
+    .hero-right {
+      border-left: var(--rule);
+      padding: 0 0 0 1.5rem;
+      display: flex; flex-direction: column;
+      position: relative;
+    }
+    #hero-canvas {
+      width: 100%; aspect-ratio: 1;
+      display: block; background: var(--paper-2);
+      border: var(--rule);
+    }
+    .hero-caption {
+      margin-top: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--muted);
+      display: flex; justify-content: space-between;
+      padding-bottom: .75rem;
+      border-bottom: var(--rule-1);
+    }
+    .hero-caption b { color: var(--ink); }
+
+    /* ─ MARQUEE ─ */
+    .marquee {
+      overflow: hidden; white-space: nowrap;
+      padding: 1.5rem 0;
+      background: var(--red); color: var(--paper);
+      border-bottom: var(--rule);
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 3rem; letter-spacing: -1px;
+      text-transform: uppercase;
+    }
+    .marquee-inner {
+      display: inline-block; padding-left: 0;
+      animation: marquee 22s linear infinite;
+    }
+    .marquee-inner span { margin: 0 1.5rem; }
+    .marquee-inner .sep { color: var(--paper); font-size: 2rem; vertical-align: middle; }
+    @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+    /* ─ SECTIONS ─ */
+    section {
+      padding: 6rem 2rem;
+      border-bottom: var(--rule);
+    }
+    .section-head {
+      display: grid; grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+      margin-bottom: 4rem;
+      padding-bottom: 1.5rem;
+      border-bottom: var(--rule-1);
+    }
+    .section-index {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(3rem, 7vw, 5rem); line-height: .85;
+      color: var(--red);
+    }
+    .section-index .slash { color: var(--ink); font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; }
+    .section-title {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(2rem, 4.5vw, 3.5rem);
+      line-height: 1; letter-spacing: -1.5px;
+      text-transform: uppercase;
+    }
+    .section-title .serif {
+      font-family: 'Fraunces', serif;
+      font-style: italic; font-weight: 400;
+      text-transform: lowercase;
+      letter-spacing: -1px;
+    }
+    .section-lead {
+      margin-top: 1.25rem;
+      max-width: 540px; font-size: 1rem; line-height: 1.7;
+      color: var(--ink);
+    }
+
+    /* ─ ABOUT ─ */
+    #about .about-grid {
+      display: grid; grid-template-columns: 1.1fr 1fr; gap: 3rem;
+      border-top: var(--rule-1); padding-top: 3rem;
+    }
+    .about-copy p {
+      font-size: 1rem; line-height: 1.8;
+      margin-bottom: 1.25rem;
+      color: var(--ink);
+    }
+    .about-copy .drop::first-letter {
+      font-family: 'Fraunces', serif; font-weight: 700;
+      font-size: 4.2em; float: left; line-height: .85;
+      margin: .1em .15em 0 0;
+      color: var(--red);
+    }
+    .about-facts {
+      border: var(--rule);
+      background: var(--paper-2);
+    }
+    .fact-row {
+      display: grid; grid-template-columns: 140px 1fr;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      border-bottom: var(--rule-1);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .85rem;
+    }
+    .fact-row:last-child { border-bottom: 0; }
+    .fact-key {
+      text-transform: uppercase; letter-spacing: 1.5px;
+      font-size: .72rem; color: var(--muted); align-self: center;
+    }
+    .fact-val { color: var(--ink); font-weight: 600; }
+    .fact-val.red { color: var(--red); }
+
+    /* ─ PROCESS ─ */
+    .process-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border-top: var(--rule-1);
+    }
+    .process-item {
+      padding: 2rem 1.5rem;
+      border-right: var(--rule-1);
+    }
+    .process-item:last-child { border-right: 0; }
+    .process-num {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 3.5rem; line-height: 1;
+      color: var(--red);
+      margin-bottom: 1rem;
+    }
+    .process-title {
+      font-family: 'Archivo Black', sans-serif;
+      text-transform: uppercase; letter-spacing: -.5px;
+      font-size: 1.05rem; margin-bottom: .75rem;
+    }
+    .process-desc { font-size: .88rem; color: var(--ink); line-height: 1.6; }
+
+    /* ─ WORK ─ */
+    .work-list {
+      border-top: var(--rule-1);
+    }
+    .work-entry {
+      display: grid; grid-template-columns: 80px 1.5fr 1fr 100px;
+      gap: 2rem; align-items: center;
+      padding: 1.75rem 1rem;
+      border-bottom: var(--rule-1);
+      text-decoration: none; color: var(--ink);
+      transition: background .2s, padding-left .2s;
+      cursor: pointer;
+    }
+    .work-entry:hover {
+      background: var(--ink); color: var(--paper);
+      padding-left: 2rem;
+    }
+    .work-entry:hover .work-title { color: var(--yellow); }
+    .work-entry:hover .work-arrow { color: var(--red); }
+    .we-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .9rem; letter-spacing: 1px;
+      color: var(--muted);
+    }
+    .work-entry:hover .we-num { color: var(--paper); }
+    .work-title {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.6rem; letter-spacing: -.5px;
+      text-transform: uppercase;
+      transition: color .2s;
+    }
+    .work-tags {
+      display: flex; flex-wrap: wrap; gap: .35rem;
+    }
+    .we-tag {
+      padding: .2rem .7rem;
+      border: 1px solid currentColor;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem; letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .work-arrow {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.5rem; text-align: right;
+      transition: color .2s;
+    }
+
+    /* ─ GRID GALLERY ─ */
+    .gallery-grid {
+      display: grid; grid-template-columns: repeat(6, 1fr);
+      grid-auto-rows: 120px;
+      gap: 1rem;
+      margin-top: 3rem;
+    }
+    .gallery-grid canvas {
+      width: 100%; height: 100%;
+      border: var(--rule);
+      display: block;
+    }
+    .gg-1 { grid-column: span 3; grid-row: span 2; }
+    .gg-2 { grid-column: span 3; grid-row: span 1; }
+    .gg-3 { grid-column: span 2; grid-row: span 1; }
+    .gg-4 { grid-column: span 1; grid-row: span 1; }
+    .gg-5 { grid-column: span 2; grid-row: span 2; }
+    .gg-6 { grid-column: span 2; grid-row: span 1; }
+    .gg-7 { grid-column: span 2; grid-row: span 1; }
+
+    /* ─ CLIENTS ─ */
+    .clients {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      border-top: var(--rule-1);
+    }
+    .client {
+      padding: 2rem 1rem;
+      display: flex; align-items: center; justify-content: center;
+      border-right: var(--rule-1);
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.2rem; letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: background .2s, color .2s;
+    }
+    .client:nth-child(5n) { border-right: 0; }
+    .client:hover { background: var(--red); color: var(--paper); }
+    .client.italic {
+      font-family: 'Fraunces', serif;
+      font-style: italic; font-weight: 700;
+      text-transform: none;
+      letter-spacing: -.5px;
+    }
+
+    /* ─ QUOTE ─ */
+    .quote {
+      padding: 5rem 2rem;
+      text-align: left;
+      background: var(--ink); color: var(--paper);
+      border-bottom: var(--rule);
+      position: relative;
+      overflow: hidden;
+    }
+    .quote::before {
+      content:'"';
+      position: absolute;
+      top: -4rem; left: 1rem;
+      font-family: 'Fraunces', serif;
+      font-size: 20rem; line-height: 1;
+      color: var(--red); opacity: .4;
+    }
+    .quote-body {
+      position: relative; z-index: 2;
+      max-width: 900px; margin: 0 auto;
+    }
+    .quote-body p {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(1.3rem, 2.7vw, 2rem);
+      line-height: 1.35;
+      font-weight: 400;
+      margin-bottom: 1.5rem;
+    }
+    .quote-body p em { color: var(--yellow); font-style: italic; }
+    .quote-cite {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--paper);
+    }
+    .quote-cite .who { color: var(--red); font-weight: 700; }
+
+    /* ─ CONTACT ─ */
+    #contact {
+      background: var(--red);
+      color: var(--paper);
+      border-bottom: var(--rule);
+    }
+    #contact .section-title,
+    #contact .section-index { color: var(--paper); }
+    #contact .section-index .slash { color: var(--ink); }
+    #contact .section-lead { color: var(--paper); }
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+      border-top: 1px solid rgba(239,236,228,.25); padding-top: 3rem;
+    }
+    .contact-channels { display: flex; flex-direction: column; gap: 1rem; }
+    .ch-row {
+      display: grid; grid-template-columns: 140px 1fr 30px;
+      gap: 1rem; align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(239,236,228,.25);
+      text-decoration: none; color: var(--paper);
+      transition: padding .2s;
+    }
+    .ch-row:hover { padding-left: .5rem; }
+    .ch-row:hover .ch-arrow { color: var(--yellow); }
+    .ch-key {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .75rem; letter-spacing: 1.5px; text-transform: uppercase;
+      opacity: .8;
+    }
+    .ch-val {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1rem; letter-spacing: 0;
+    }
+    .ch-arrow { font-family: 'Archivo Black', sans-serif; font-size: 1.2rem; text-align: right; transition: color .2s; }
+
+    form.form-card {
+      background: var(--paper); color: var(--ink);
+      padding: 2rem;
+      border: var(--rule);
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .f-field { display: flex; flex-direction: column; gap: .35rem; }
+    .f-field label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .f-field input, .f-field textarea, .f-field select {
+      padding: .75rem .9rem; border-radius: 0;
+      border: 2px solid var(--ink); background: var(--paper-2);
+      font-family: 'Inter', sans-serif; font-size: .9rem; color: var(--ink);
+      outline: none;
+      transition: background .15s, border-color .15s;
+    }
+    .f-field input:focus, .f-field textarea:focus, .f-field select:focus {
+      background: var(--paper); border-color: var(--red);
+    }
+    .f-field textarea { min-height: 120px; resize: vertical; }
+
+    /* ─ FOOTER ─ */
+    footer {
+      padding: 3rem 2rem 2rem;
+      background: var(--ink); color: var(--paper);
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem;
+      border-top: var(--rule);
+    }
+    .foot-logo {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 3rem; line-height: .9;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+    }
+    .foot-logo .red { color: var(--red); }
+    .foot-tagline {
+      margin-top: .75rem;
+      font-family: 'Fraunces', serif;
+      font-style: italic; font-size: 1.1rem;
+      color: var(--paper); opacity: .75;
+    }
+    .foot-col h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--red); margin-bottom: .85rem;
+    }
+    .foot-col a {
+      display: block; text-decoration: none; color: var(--paper);
+      font-size: .88rem; margin-bottom: .35rem; opacity: .85;
+      transition: color .2s, opacity .2s;
+    }
+    .foot-col a:hover { color: var(--yellow); opacity: 1; }
+
+    .foot-made {
+      grid-column: 1 / -1;
+      margin-top: 2.5rem; padding-top: 1.25rem;
+      border-top: 1px solid rgba(239,236,228,.2);
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--paper); opacity: .8;
+    }
+    .foot-made .stamp {
+      font-family: 'Fraunces', serif; font-style: italic;
+      font-size: 1.25rem; font-weight: 700; letter-spacing: -.5px;
+      color: var(--red); opacity: 1; text-transform: none;
+    }
+
+    /* ─ REVEAL ─ */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ─ RESPONSIVE ─ */
+    @media (max-width: 900px) {
+      #hero { grid-template-columns: 1fr; }
+      .hero-meta { grid-template-columns: repeat(2, 1fr); }
+      .hero-meta div { border-bottom: var(--rule-1); padding: .35rem 1rem; }
+      .hero-right { border-left: 0; border-top: var(--rule); margin-top: 2rem; padding: 2rem 0 0 0; }
+      .section-head { grid-template-columns: 1fr; }
+      #about .about-grid { grid-template-columns: 1fr; }
+      .process-grid { grid-template-columns: 1fr 1fr; }
+      .process-item:nth-child(2n) { border-right: 0; }
+      .work-entry { grid-template-columns: 50px 1fr 30px; }
+      .work-entry .work-tags { display: none; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 100px; }
+      .gg-1, .gg-5 { grid-column: span 2; }
+      .gg-2, .gg-3, .gg-6, .gg-7 { grid-column: span 1; }
+      .gg-4 { grid-column: span 1; }
+      .clients { grid-template-columns: repeat(2, 1fr); }
+      .client:nth-child(5n) { border-right: var(--rule-1); }
+      .client:nth-child(2n) { border-right: 0; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .f-row { grid-template-columns: 1fr; }
+      footer { grid-template-columns: 1fr 1fr; }
+      .foot-made { flex-direction: column; gap: .75rem; align-items: flex-start; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─ RIBBON ─ -->
+<div class="ribbon">
+  <span>AK / Studio</span>
+  <div class="ticker">
+    <span class="ticker-inner">
+      Open for Q2 projects · Branding · Art Direction · Editorial · Identity systems · Print &amp; motion · Typographic design · Open for Q2 projects · Branding · Art Direction · Editorial · Identity systems · Print &amp; motion · Typographic design ·
+    </span>
+  </div>
+  <a href="#contact">Get in touch</a>
+  <span id="clock">00:00 LIS</span>
+</div>
+
+<!-- ─ NAV ─ -->
+<nav>
+  <div class="nav-logo"><span class="dot"></span>Anton / Studio</div>
+  <ul class="nav-links">
+    <li><a href="#about">Index</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#clients">Clients</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-num"><span>◆</span> EST. 2017</div>
+</nav>
+
+<!-- ─ HERO ─ -->
+<section id="hero">
+  <div class="hero-meta">
+    <div><span class="lbl">Issue</span> Nº 026 / 2026</div>
+    <div><span class="lbl">Focus</span> Identity · Editorial · Type</div>
+    <div><span class="lbl">Base</span> Lisbon · Istanbul · Remote</div>
+    <div><span class="lbl">Status</span> <span style="color:var(--red)">● ACCEPTING BRIEFS</span></div>
+  </div>
+
+  <div class="hero-left">
+    <div>
+      <div class="kicker">Portfolio · 2026 Edition</div>
+      <h1 class="hero-title">
+        Form<br/>
+        <span class="red">Meets</span><br/>
+        <span class="serif">function,</span><br/>
+        <span class="out">loudly.</span>
+      </h1>
+      <p class="hero-sub">
+        I'm <b>Anton Keller</b> — an art director &amp; graphic designer building
+        brands, editorial systems, and typographic identities that punch above their weight.
+        Based in Lisbon, working globally.
+      </p>
+      <div class="hero-cta-row">
+        <a href="#work" class="btn btn-dark">See the work →</a>
+        <a href="#contact" class="btn btn-light">Start a brief</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <canvas id="hero-canvas" width="700" height="700"></canvas>
+    <div class="hero-caption">
+      <span>Fig. 01 — <b>Composition N°14</b></span>
+      <span>Proc. generated · <b>seed 026</b></span>
+    </div>
+  </div>
+</section>
+
+<!-- ─ MARQUEE ─ -->
+<div class="marquee">
+  <div class="marquee-inner">
+    <span>Brand Systems</span><span class="sep">✦</span>
+    <span>Editorial Design</span><span class="sep">✦</span>
+    <span>Type &amp; Lettering</span><span class="sep">✦</span>
+    <span>Art Direction</span><span class="sep">✦</span>
+    <span>Motion</span><span class="sep">✦</span>
+    <span>Packaging</span><span class="sep">✦</span>
+    <span>Brand Systems</span><span class="sep">✦</span>
+    <span>Editorial Design</span><span class="sep">✦</span>
+    <span>Type &amp; Lettering</span><span class="sep">✦</span>
+    <span>Art Direction</span><span class="sep">✦</span>
+    <span>Motion</span><span class="sep">✦</span>
+    <span>Packaging</span><span class="sep">✦</span>
+  </div>
+</div>
+
+<!-- ─ ABOUT ─ -->
+<section id="about">
+  <div class="section-head reveal">
+    <div class="section-index">01<span class="slash">/</span>06</div>
+    <div>
+      <h2 class="section-title">A <span class="serif">studio</span> of one,<br/>working like many.</h2>
+      <p class="section-lead">
+        Some context, some opinions, and a few dates that matter.
+      </p>
+    </div>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-copy reveal">
+      <p class="drop">
+        I run a one-person studio out of Lisbon, working with founders, publishers, and
+        in-house creative teams who want identity work that feels sharp, confident, and a
+        little bit stubborn.
+      </p>
+      <p>
+        My training is in editorial design — the kind where white space is a tool and type
+        does the heavy lifting. I carry that into every project, whether it's a 300-page book,
+        a seed-round pitch deck, or a wordmark that has to survive being stamped on a matchbook.
+      </p>
+      <p>
+        I believe good design makes its logic visible. The grid should show. The decision
+        should be legible. The brand should feel inevitable, not precious.
+      </p>
+    </div>
+
+    <aside class="about-facts reveal" style="transition-delay:.1s">
+      <div class="fact-row"><span class="fact-key">Est.</span><span class="fact-val">2017 — Rotterdam</span></div>
+      <div class="fact-row"><span class="fact-key">Based</span><span class="fact-val">Lisbon · Istanbul</span></div>
+      <div class="fact-row"><span class="fact-key">Team</span><span class="fact-val">Solo + trusted collaborators</span></div>
+      <div class="fact-row"><span class="fact-key">Services</span><span class="fact-val">Identity · Editorial · Type · Motion</span></div>
+      <div class="fact-row"><span class="fact-key">Clients</span><span class="fact-val red">40+ across 12 countries</span></div>
+      <div class="fact-row"><span class="fact-key">Recognition</span><span class="fact-val">ADC · TDC · Brand New</span></div>
+      <div class="fact-row"><span class="fact-key">Writing</span><span class="fact-val">Monthly essay · typedump.co</span></div>
+      <div class="fact-row"><span class="fact-key">Availability</span><span class="fact-val red">● Q2 2026 · 2 slots</span></div>
+    </aside>
+  </div>
+</section>
+
+<!-- ─ PROCESS ─ -->
+<section id="process">
+  <div class="section-head reveal">
+    <div class="section-index">02<span class="slash">/</span>06</div>
+    <div>
+      <h2 class="section-title">How the <span class="serif">work</span> gets made.</h2>
+      <p class="section-lead">
+        Four phases, always. Tight enough to be efficient, loose enough to let the work surprise us.
+      </p>
+    </div>
+  </div>
+
+  <div class="process-grid">
+    <div class="process-item reveal">
+      <div class="process-num">01</div>
+      <div class="process-title">Listen</div>
+      <div class="process-desc">
+        A conversation, then a written brief. I ask hard questions early so we're not
+        negotiating the point of the project at week six.
+      </div>
+    </div>
+    <div class="process-item reveal" style="transition-delay:.08s">
+      <div class="process-num">02</div>
+      <div class="process-title">Research</div>
+      <div class="process-desc">
+        Competitive landscape, reference boards, type pairings, and whatever obscure
+        archive happens to be relevant. I share the raw inputs.
+      </div>
+    </div>
+    <div class="process-item reveal" style="transition-delay:.16s">
+      <div class="process-num">03</div>
+      <div class="process-title">Draft</div>
+      <div class="process-desc">
+        Two to three distinct directions — not cosmetic variants of the same idea.
+        Real bets, real tradeoffs, all defensible.
+      </div>
+    </div>
+    <div class="process-item reveal" style="transition-delay:.24s">
+      <div class="process-num">04</div>
+      <div class="process-title">Refine &amp; Ship</div>
+      <div class="process-desc">
+        Pick one, sharpen it, build the system around it. Guidelines, templates, tokens,
+        and everything your team needs to keep it alive.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─ WORK ─ -->
+<section id="work">
+  <div class="section-head reveal">
+    <div class="section-index">03<span class="slash">/</span>06</div>
+    <div>
+      <h2 class="section-title">Selected <span class="serif">work</span>.</h2>
+      <p class="section-lead">
+        A running index, newest first. The footnotes get interesting about halfway down.
+      </p>
+    </div>
+  </div>
+
+  <div class="work-list">
+    <a class="work-entry reveal" href="#">
+      <span class="we-num">001</span>
+      <span class="work-title">Halcyon / Identity System</span>
+      <div class="work-tags">
+        <span class="we-tag">Brand</span><span class="we-tag">Type</span><span class="we-tag">Web</span>
+      </div>
+      <span class="work-arrow">↗</span>
+    </a>
+    <a class="work-entry reveal" href="#">
+      <span class="we-num">002</span>
+      <span class="work-title">Prism / Magazine Redesign</span>
+      <div class="work-tags">
+        <span class="we-tag">Editorial</span><span class="we-tag">Print</span>
+      </div>
+      <span class="work-arrow">↗</span>
+    </a>
+    <a class="work-entry reveal" href="#">
+      <span class="we-num">003</span>
+      <span class="work-title">Kinfolk Coffee / Packaging</span>
+      <div class="work-tags">
+        <span class="we-tag">Packaging</span><span class="we-tag">Illustration</span>
+      </div>
+      <span class="work-arrow">↗</span>
+    </a>
+    <a class="work-entry reveal" href="#">
+      <span class="we-num">004</span>
+      <span class="work-title">Ostrava Biennale / Art Direction</span>
+      <div class="work-tags">
+        <span class="we-tag">Art Dir.</span><span class="we-tag">Motion</span><span class="we-tag">Print</span>
+      </div>
+      <span class="work-arrow">↗</span>
+    </a>
+    <a class="work-entry reveal" href="#">
+      <span class="we-num">005</span>
+      <span class="work-title">Folio / Type Specimen</span>
+      <div class="work-tags">
+        <span class="we-tag">Type</span><span class="we-tag">Editorial</span>
+      </div>
+      <span class="work-arrow">↗</span>
+    </a>
+    <a class="work-entry reveal" href="#">
+      <span class="we-num">006</span>
+      <span class="work-title">Archway Records / Sleeve Series</span>
+      <div class="work-tags">
+        <span class="we-tag">Music</span><span class="we-tag">Print</span>
+      </div>
+      <span class="work-arrow">↗</span>
+    </a>
+  </div>
+
+  <div class="gallery-grid reveal">
+    <canvas class="gg-1" id="gg1" width="720" height="480"></canvas>
+    <canvas class="gg-2" id="gg2" width="720" height="240"></canvas>
+    <canvas class="gg-3" id="gg3" width="480" height="240"></canvas>
+    <canvas class="gg-4" id="gg4" width="240" height="240"></canvas>
+    <canvas class="gg-5" id="gg5" width="480" height="480"></canvas>
+    <canvas class="gg-6" id="gg6" width="480" height="240"></canvas>
+    <canvas class="gg-7" id="gg7" width="480" height="240"></canvas>
+  </div>
+</section>
+
+<!-- ─ CLIENTS ─ -->
+<section id="clients">
+  <div class="section-head reveal">
+    <div class="section-index">04<span class="slash">/</span>06</div>
+    <div>
+      <h2 class="section-title">Clients &amp; <span class="serif">collaborators.</span></h2>
+      <p class="section-lead">
+        A short list. The long one is available on request.
+      </p>
+    </div>
+  </div>
+
+  <div class="clients">
+    <div class="client">Halcyon</div>
+    <div class="client italic">Prism Mag.</div>
+    <div class="client">Kinfolk</div>
+    <div class="client italic">Folio Type</div>
+    <div class="client">Ostrava</div>
+    <div class="client italic">Archway</div>
+    <div class="client">Verdant</div>
+    <div class="client italic">Mosaic Co.</div>
+    <div class="client">Tempo</div>
+    <div class="client italic">Field &amp; Co.</div>
+  </div>
+</section>
+
+<!-- ─ QUOTE ─ -->
+<section class="quote">
+  <div class="quote-body reveal">
+    <p>
+      Anton treats every project as if it were <em>personal</em>. The identity system we
+      shipped together still feels fresh three years in — and that's the highest compliment
+      I know how to give a designer.
+    </p>
+    <div class="quote-cite">
+      <span class="who">— Fátima R.,</span> Creative Director, Prism Magazine
+    </div>
+  </div>
+</section>
+
+<!-- ─ CONTACT ─ -->
+<section id="contact">
+  <div class="section-head reveal">
+    <div class="section-index">05<span class="slash">/</span>06</div>
+    <div>
+      <h2 class="section-title">Let's <span class="serif">start</span> something.</h2>
+      <p class="section-lead">
+        Tell me the problem, the timeline, and roughly what you've got. I'll reply within
+        a business day with a no-nonsense read on whether we're a fit.
+      </p>
+    </div>
+  </div>
+
+  <div class="contact-grid">
+    <div class="reveal">
+      <div class="contact-channels">
+        <a class="ch-row" href="mailto:studio@antonkeller.com">
+          <span class="ch-key">Email</span>
+          <span class="ch-val">studio@antonkeller.com</span>
+          <span class="ch-arrow">↗</span>
+        </a>
+        <a class="ch-row" href="#">
+          <span class="ch-key">Instagram</span>
+          <span class="ch-val">@anton.studio</span>
+          <span class="ch-arrow">↗</span>
+        </a>
+        <a class="ch-row" href="#">
+          <span class="ch-key">Are.na</span>
+          <span class="ch-val">are.na/anton-keller</span>
+          <span class="ch-arrow">↗</span>
+        </a>
+        <a class="ch-row" href="#">
+          <span class="ch-key">Writing</span>
+          <span class="ch-val">typedump.co</span>
+          <span class="ch-arrow">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <form class="form-card reveal" style="transition-delay:.1s" onsubmit="handleSwissSubmit(event)">
+      <div class="f-row">
+        <div class="f-field">
+          <label>Name</label>
+          <input type="text" placeholder="Jamie Morgan" required />
+        </div>
+        <div class="f-field">
+          <label>Email</label>
+          <input type="email" placeholder="jamie@studio.com" required />
+        </div>
+      </div>
+      <div class="f-field">
+        <label>Company / Brand</label>
+        <input type="text" placeholder="Acme, Inc." />
+      </div>
+      <div class="f-row">
+        <div class="f-field">
+          <label>Project type</label>
+          <select>
+            <option>Identity / Brand</option>
+            <option>Editorial / Print</option>
+            <option>Type / Lettering</option>
+            <option>Art Direction</option>
+            <option>Consulting</option>
+          </select>
+        </div>
+        <div class="f-field">
+          <label>Budget (€)</label>
+          <select>
+            <option>5k – 15k</option>
+            <option>15k – 40k</option>
+            <option>40k – 100k</option>
+            <option>100k+</option>
+          </select>
+        </div>
+      </div>
+      <div class="f-field">
+        <label>Brief</label>
+        <textarea placeholder="A few lines: what, who, when, and why now."></textarea>
+      </div>
+      <button type="submit" class="btn btn-dark" style="align-self:flex-start">Submit brief →</button>
+    </form>
+  </div>
+</section>
+
+<!-- ─ FOOTER ─ -->
+<footer>
+  <div>
+    <div class="foot-logo">Anton /<br/><span class="red">Studio</span></div>
+    <div class="foot-tagline">Form meets function. Loudly.</div>
+  </div>
+  <div class="foot-col">
+    <h4>— Navigate</h4>
+    <a href="#about">About</a>
+    <a href="#process">Process</a>
+    <a href="#work">Work</a>
+    <a href="#clients">Clients</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="foot-col">
+    <h4>— Elsewhere</h4>
+    <a href="#">Instagram</a>
+    <a href="#">Are.na</a>
+    <a href="#">Read.cv</a>
+    <a href="#">Dribbble</a>
+  </div>
+  <div class="foot-col">
+    <h4>— Studio</h4>
+    <a href="mailto:studio@antonkeller.com">studio@antonkeller.com</a>
+    <a href="#">Rua das Flores, 42<br/>Lisbon 1200-194</a>
+    <a href="#">+351 910 000 000</a>
+  </div>
+
+  <div class="foot-made">
+    <span>© 2026 Anton / Studio · Typeset in Archivo Black &amp; Fraunces</span>
+    <span class="stamp">Made by Nour</span>
+    <span>Version 026 · Issue Nº 06</span>
+  </div>
+</footer>
+
+<script>
+/* ── Clock ── */
+(function(){
+  const el = document.getElementById('clock');
+  function tick(){
+    const d = new Date();
+    const hh = String(d.getHours()).padStart(2,'0');
+    const mm = String(d.getMinutes()).padStart(2,'0');
+    el.textContent = `${hh}:${mm} LIS`;
+  }
+  tick(); setInterval(tick, 30000);
+})();
+
+/* ── Seeded RNG ── */
+function rng(seed){ let s=seed; return ()=>{ s=(s*9301+49297)%233280; return s/233280; }; }
+
+/* ── Hero Canvas: Bauhaus composition ── */
+(function(){
+  const c = document.getElementById('hero-canvas'); if(!c) return;
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  const r = rng(26);
+
+  // Paper
+  ctx.fillStyle = '#e7e3d7'; ctx.fillRect(0,0,W,H);
+
+  // Halftone dots
+  ctx.fillStyle = 'rgba(11,11,11,.06)';
+  for (let x = 0; x < W; x += 8) {
+    for (let y = 0; y < H; y += 8) {
+      ctx.beginPath(); ctx.arc(x, y, 1, 0, Math.PI*2); ctx.fill();
+    }
+  }
+
+  // Big red circle (top left-ish)
+  ctx.fillStyle = '#e63016';
+  ctx.beginPath(); ctx.arc(W*.4, H*.4, W*.28, 0, Math.PI*2); ctx.fill();
+
+  // Black square offset over circle
+  ctx.fillStyle = '#0b0b0b';
+  const sq = W*.34;
+  ctx.fillRect(W*.45, H*.15, sq, sq);
+
+  // Yellow triangle
+  ctx.fillStyle = '#f4c023';
+  ctx.beginPath();
+  ctx.moveTo(W*.12, H*.85);
+  ctx.lineTo(W*.45, H*.55);
+  ctx.lineTo(W*.45, H*.95);
+  ctx.closePath(); ctx.fill();
+
+  // Blue bar
+  ctx.fillStyle = '#1441c4';
+  ctx.fillRect(W*.55, H*.6, W*.38, H*.12);
+
+  // Outline rectangle
+  ctx.strokeStyle = '#0b0b0b'; ctx.lineWidth = 3;
+  ctx.strokeRect(W*.58, H*.78, W*.32, H*.15);
+
+  // Diagonal lines
+  ctx.strokeStyle = 'rgba(11,11,11,.9)'; ctx.lineWidth = 2;
+  for (let i=0;i<3;i++){
+    ctx.beginPath();
+    ctx.moveTo(W*.05, H*.08 + i*14);
+    ctx.lineTo(W*.35, H*.02 + i*14);
+    ctx.stroke();
+  }
+
+  // Small red dot
+  ctx.fillStyle = '#e63016';
+  ctx.beginPath(); ctx.arc(W*.84, H*.28, W*.04, 0, Math.PI*2); ctx.fill();
+
+  // Type: ANTON big
+  ctx.fillStyle = '#0b0b0b';
+  ctx.font = '900 ' + (W*.18) + 'px "Archivo Black", sans-serif';
+  ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+  ctx.fillText('ANTON', W*.08, H*.08);
+
+  // Rotated "studio" italic
+  ctx.save();
+  ctx.translate(W*.93, H*.18);
+  ctx.rotate(Math.PI/2);
+  ctx.fillStyle = '#0b0b0b';
+  ctx.font = 'italic 700 ' + (W*.05) + 'px "Fraunces", serif';
+  ctx.fillText('studio ·', 0, 0);
+  ctx.restore();
+
+  // Bottom caption
+  ctx.fillStyle = '#0b0b0b';
+  ctx.font = '600 ' + (W*.022) + 'px "JetBrains Mono", monospace';
+  ctx.textAlign = 'left';
+  ctx.fillText('COMP. Nº14 — LISBON · 2026', W*.05, H*.96);
+
+  // Small crosshairs in corners
+  [[W*.04,H*.04],[W*.96,H*.04],[W*.04,H*.96],[W*.96,H*.96]].forEach(([x,y])=>{
+    ctx.strokeStyle = '#0b0b0b'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x-10, y); ctx.lineTo(x+10, y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x, y-10); ctx.lineTo(x, y+10); ctx.stroke();
+  });
+
+  // Registration marks
+  ctx.fillStyle = '#0b0b0b';
+  ctx.font = '400 ' + (W*.017) + 'px "JetBrains Mono", monospace';
+  ctx.textAlign = 'right';
+  ctx.fillText('+', W*.5, H*.5);
+})();
+
+/* ── Gallery Tiles ── */
+function tile(id, kind, seed){
+  const c = document.getElementById(id); if(!c) return;
+  const ctx = c.getContext('2d'); const W = c.width, H = c.height;
+  const r = rng(seed);
+
+  const kinds = {
+    red:     { bg:'#e63016', ink:'#0b0b0b', accent:'#efece4', yellow:'#f4c023' },
+    cream:   { bg:'#e7e3d7', ink:'#0b0b0b', accent:'#e63016', yellow:'#f4c023' },
+    ink:     { bg:'#0b0b0b', ink:'#efece4', accent:'#e63016', yellow:'#f4c023' },
+    yellow:  { bg:'#f4c023', ink:'#0b0b0b', accent:'#e63016', yellow:'#efece4' },
+    blue:    { bg:'#1441c4', ink:'#efece4', accent:'#f4c023', yellow:'#e63016' },
+  };
+  const p = kinds[kind] || kinds.cream;
+  ctx.fillStyle = p.bg; ctx.fillRect(0,0,W,H);
+
+  // Decide composition by seed % 5
+  const mode = seed % 5;
+  if (mode === 0) {
+    // Big serif letter
+    ctx.fillStyle = p.ink;
+    ctx.font = 'italic 900 ' + (H*.9) + 'px "Fraunces", serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    const letters = ['N','A','T','Q','&','?'];
+    ctx.fillText(letters[seed % letters.length], W*.4, H*.5);
+    // Accent circle
+    ctx.fillStyle = p.accent;
+    ctx.beginPath(); ctx.arc(W*.8, H*.25, Math.min(W,H)*.12, 0, Math.PI*2); ctx.fill();
+  } else if (mode === 1) {
+    // Half and half with circle
+    ctx.fillStyle = p.ink;
+    ctx.fillRect(W*.5, 0, W*.5, H);
+    ctx.fillStyle = p.accent;
+    ctx.beginPath(); ctx.arc(W*.5, H*.5, Math.min(W,H)*.35, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = p.yellow;
+    ctx.fillRect(W*.1, H*.1, W*.25, H*.15);
+  } else if (mode === 2) {
+    // Grid of squares
+    const cols = 4, rows = Math.max(2, Math.floor(H / (W/cols)));
+    const cw = W/cols, ch = H/rows;
+    const cols2 = [p.ink, p.accent, p.yellow, p.bg];
+    for (let y=0;y<rows;y++){
+      for (let x=0;x<cols;x++){
+        ctx.fillStyle = cols2[Math.floor(r()*cols2.length)];
+        ctx.fillRect(x*cw, y*ch, cw, ch);
+      }
+    }
+    // Overlay letter
+    ctx.fillStyle = p.ink;
+    ctx.font = '900 ' + (H*.4) + 'px "Archivo Black", sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('★', W*.5, H*.5);
+  } else if (mode === 3) {
+    // Type stack
+    ctx.fillStyle = p.ink;
+    ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+    const sz = Math.min(W,H) * .24;
+    ctx.font = '900 ' + sz + 'px "Archivo Black", sans-serif';
+    ctx.fillText('TYPE', 20, 20);
+    ctx.font = 'italic 400 ' + (sz*.9) + 'px "Fraunces", serif';
+    ctx.fillStyle = p.accent;
+    ctx.fillText('is fun', 20, 20 + sz*1.05);
+    // Accent stripes
+    ctx.fillStyle = p.accent;
+    ctx.fillRect(W*.7, H*.1, 10, H*.8);
+    ctx.fillStyle = p.yellow;
+    ctx.fillRect(W*.82, H*.1, 4, H*.8);
+  } else {
+    // Poster: text + big shape
+    ctx.fillStyle = p.accent;
+    ctx.beginPath();
+    ctx.moveTo(W*.5, H*.1); ctx.lineTo(W*.95, H*.9); ctx.lineTo(W*.05, H*.9); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = p.ink;
+    ctx.font = '900 ' + (H*.22) + 'px "Archivo Black", sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('PRESS', W*.5, H*.55);
+    ctx.font = '400 ' + (H*.1) + 'px "JetBrains Mono", monospace';
+    ctx.fillText('↘ Nº ' + seed, W*.5, H*.78);
+  }
+
+  // Corner mark
+  ctx.fillStyle = p.ink;
+  ctx.font = '600 ' + (Math.max(10, H*.08)) + 'px "JetBrains Mono", monospace';
+  ctx.textAlign = 'right'; ctx.textBaseline = 'top';
+  ctx.fillText('N°' + String(seed).padStart(2,'0'), W-10, 8);
+}
+
+tile('gg1', 'red',    14);
+tile('gg2', 'cream',  22);
+tile('gg3', 'ink',    31);
+tile('gg4', 'yellow', 44);
+tile('gg5', 'blue',   55);
+tile('gg6', 'cream',  62);
+tile('gg7', 'ink',    73);
+
+/* ── Reveal ── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: .08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+/* ── Form ── */
+function handleSwissSubmit(e){
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  btn.textContent = 'BRIEF RECEIVED ✓';
+  btn.style.background = '#1441c4';
+  btn.style.borderColor = '#1441c4';
+  setTimeout(() => {
+    btn.textContent = 'Submit brief →';
+    btn.style.background = '';
+    btn.style.borderColor = '';
+    e.target.reset();
+  }, 3500);
+}
+</script>
+</body>
+</html>

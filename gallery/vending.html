@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — VENDING · Insert 1 SAR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{--red:#c93a2e;--redd:#8f261d;--body:#e8e2d6;--ink:#1d1a16;--led:#7dff8a;--ledbg:#0c1a0e;
+        --glass:rgba(16,14,20,.88);--gold:#e3b23c;--dim:rgba(29,26,22,.6)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Rubik',sans-serif;background:
+    radial-gradient(80vw 60vh at 50% -10%,#f6f2e8,var(--body) 60%,#cfc6b4);
+    color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:5vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold)}
+
+  h1{font-size:clamp(22px,4.6vw,40px);font-weight:800;letter-spacing:-.01em;text-align:center}
+  h1 span{color:var(--red)}
+  .sub{font-size:12.5px;color:var(--dim);margin:8px 0 30px;text-align:center;letter-spacing:.14em;text-transform:uppercase}
+
+  /* ===== MACHINE ===== */
+  #machine{width:min(720px,96vw);background:linear-gradient(180deg,#e04434,var(--red) 30%,var(--redd));
+    border-radius:22px;padding:22px;box-shadow:0 40px 80px rgba(0,0,0,.35), inset 0 3px 0 rgba(255,255,255,.3);
+    display:grid;grid-template-columns:1fr 190px;gap:16px}
+  @media(max-width:640px){#machine{grid-template-columns:1fr}}
+  #brand{grid-column:1/-1;text-align:center;font-family:'VT323',monospace;font-size:clamp(22px,4vw,34px);
+    color:#ffe9d4;letter-spacing:.24em;text-shadow:0 2px 0 rgba(0,0,0,.4)}
+  #brand small{display:block;font-family:'Rubik';font-size:9px;letter-spacing:.4em;opacity:.75}
+
+  #window{background:var(--glass);border-radius:14px;padding:16px;position:relative;overflow:hidden;
+    box-shadow:inset 0 0 40px rgba(0,0,0,.7);border:4px solid #2c1815}
+  #window::after{content:'';position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(115deg,rgba(255,255,255,.14) 0%,transparent 24%,transparent 70%,rgba(255,255,255,.07) 88%)}
+  #shelves{display:grid;grid-template-rows:repeat(3,1fr);gap:14px;height:430px}
+  .shelf{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;border-bottom:5px solid rgba(255,255,255,.14);padding-bottom:4px}
+  .slot{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
+  .code{position:absolute;top:2px;left:6px;font-family:'VT323',monospace;font-size:15px;color:rgba(255,255,255,.55)}
+  .coil{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:74%;height:16px;opacity:.8;transition:transform .8s}
+  .coil svg{width:100%;height:100%}
+  .prod{width:72%;max-width:86px;height:78px;border-radius:9px;position:relative;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;padding:6px;margin-bottom:14px;
+    box-shadow:0 6px 14px rgba(0,0,0,.5), inset 0 2px 0 rgba(255,255,255,.35);cursor:default}
+  .prod .nm{font-weight:800;font-size:10.5px;line-height:1.15;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4)}
+  .prod .pr{font-family:'VT323',monospace;font-size:12px;color:rgba(255,255,255,.85);margin-top:3px}
+  .prod.soldout{filter:grayscale(1) brightness(.55)}
+  .soldtag{position:absolute;inset:auto 0 40%;text-align:center;font-family:'VT323',monospace;font-size:15px;
+    color:#ff6a5e;transform:rotate(-9deg);text-shadow:0 0 8px rgba(0,0,0,.8)}
+
+  /* right column */
+  #controls{display:flex;flex-direction:column;gap:12px}
+  #screen{background:var(--ledbg);border-radius:10px;border:3px solid #2c1815;padding:12px 14px;
+    font-family:'VT323',monospace;color:var(--led);font-size:19px;line-height:1.3;min-height:74px;
+    text-shadow:0 0 8px rgba(125,255,138,.6);letter-spacing:.06em}
+  #screen .small{font-size:13px;opacity:.75}
+  #coinArea{display:flex;gap:10px;align-items:center}
+  #coinBtn{flex:1;background:linear-gradient(180deg,#f4cf6f,var(--gold));border:3px solid #8a6a1c;border-radius:10px;
+    font-family:'Rubik';font-weight:800;font-size:13px;padding:12px;cursor:pointer;color:#4a3608;
+    box-shadow:0 5px 0 #8a6a1c;transition:transform .1s,box-shadow .1s}
+  #coinBtn:active{transform:translateY(4px);box-shadow:0 1px 0 #8a6a1c}
+  #coinSlot{width:12px;height:34px;background:#1d1a16;border-radius:4px;box-shadow:inset 0 0 6px #000}
+  #keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .key{font-family:'VT323',monospace;font-size:22px;background:#f4efe3;border:3px solid #2c1815;border-radius:9px;
+    padding:12px 0;cursor:pointer;box-shadow:0 4px 0 #2c1815;transition:transform .08s,box-shadow .08s;color:var(--ink)}
+  .key:active,.key.pressed{transform:translateY(3px);box-shadow:0 1px 0 #2c1815}
+  #callBtn{font-family:'Rubik';font-weight:800;font-size:12px;letter-spacing:.14em;background:#1d1a16;color:#ffe9d4;
+    border:none;border-radius:9px;padding:14px;cursor:pointer;text-transform:uppercase}
+  #callBtn:hover{background:#000}
+
+  /* tray */
+  #tray{grid-column:1/-1;background:#2c1815;border-radius:12px;min-height:96px;position:relative;
+    box-shadow:inset 0 8px 24px rgba(0,0,0,.75);display:flex;align-items:center;gap:12px;padding:14px 18px}
+  #trayLbl{position:absolute;top:-9px;left:50%;transform:translateX(-50%);font-family:'VT323',monospace;
+    font-size:14px;color:#ffe9d4;background:var(--redd);padding:1px 14px;border-radius:6px;letter-spacing:.2em}
+  #trayItems{display:flex;gap:12px;flex-wrap:wrap}
+  #trayHint{font-family:'VT323',monospace;font-size:15px;color:rgba(255,233,212,.5);letter-spacing:.1em}
+  .trayProd{cursor:pointer;transition:transform .2s;margin:0!important}
+  .trayProd:hover{transform:translateY(-4px) rotate(-2deg)}
+
+  /* falling clone */
+  .falling{position:fixed;z-index:80;pointer-events:none;margin:0!important}
+
+  /* modal */
+  #modal{position:fixed;inset:0;z-index:90;display:none;align-items:center;justify-content:center;
+    background:rgba(20,15,12,.7);backdrop-filter:blur(8px);padding:5vw}
+  #modal.open{display:flex}
+  #mbox{max-width:520px;width:100%;background:#fdf9ef;border-radius:18px;padding:38px 40px;position:relative;
+    box-shadow:0 40px 100px rgba(0,0,0,.5);max-height:84vh;overflow:auto}
+  #mbox .k{font-family:'VT323',monospace;font-size:15px;color:var(--red);letter-spacing:.2em;text-transform:uppercase}
+  #mbox h2{font-size:clamp(22px,3.6vw,30px);font-weight:800;margin:8px 0 12px}
+  #mbox p{font-size:14.5px;line-height:1.75;color:var(--dim)}
+  #mbox p b{color:var(--ink)}
+  #mbox .nutri{margin-top:16px;border:2px solid var(--ink);border-radius:8px;padding:14px 16px;
+    font-family:'VT323',monospace;font-size:15px;line-height:1.7}
+  #mbox .nutri b{border-bottom:2px solid var(--ink);display:block;margin-bottom:6px;font-size:17px}
+  .mbtns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+  .mbtn{font-weight:800;font-size:12px;letter-spacing:.1em;padding:12px 20px;border-radius:99px;
+    background:var(--red);color:#fff;text-transform:uppercase}
+  .mbtn.g{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+  #mclose{position:absolute;top:14px;right:16px;border:none;background:#eee4d2;width:34px;height:34px;
+    border-radius:50%;cursor:pointer;font-weight:800}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<h1>NOUR-O-MATIC <span>3000</span></h1>
+<div class="sub">Career vending · exact change appreciated · Riyadh</div>
+
+<div id="machine">
+  <div id="brand">◆ NOUR-O-MATIC ◆<small>FRESH SKILLS DAILY SINCE 2023</small></div>
+
+  <div id="window">
+    <div id="shelves"></div>
+  </div>
+
+  <div id="controls">
+    <div id="screen">INSERT COIN<br><span class="small">1 SAR = ONE CAREER ITEM</span></div>
+    <div id="coinArea"><button id="coinBtn">🪙 INSERT 1 SAR</button><div id="coinSlot"></div></div>
+    <div id="keypad"></div>
+    <button id="callBtn">☎ Call vendor (hire him)</button>
+  </div>
+
+  <div id="tray">
+    <div id="trayLbl">PUSH ▼ COLLECT</div>
+    <div id="trayItems"></div><div id="trayHint">dispensed items land here — click to open</div>
+  </div>
+</div>
+
+<div id="modal"><div id="mbox">
+  <button id="mclose">✕</button><div id="mcontent"></div>
+</div></div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const PRODUCTS={
+ A1:{nm:'ROLE ’26 ENERGY',grad:'linear-gradient(160deg,#3a76d2,#1d3f7a)',
+  html:`<div class="k">A1 · Energy Drink</div><h2>Supervisor Formula ’26</h2>
+  <p><b>Software Engineering Supervisor — Distinctive Frontier Co., Riyadh</b> (Jan 2026 → now). Leads frontend development: scalable React systems, coding standards, backend alignment, product ideas shipped as features.</p>
+  <div class="nutri"><b>NUTRITION FACTS</b>Leadership — 100%<br>React Architecture — 96%<br>Meetings survived — daily value exceeded</div>`},
+ A2:{nm:'NEXLEAD COLA',grad:'linear-gradient(160deg,#2f9e63,#14563a)',
+  html:`<div class="k">A2 · Soft Drink</div><h2>NexLead Coordination Cola</h2>
+  <p><b>Freelance Project Coordinator — NexLead</b> (Mar 2025 → now, remote). Requirements → scope → user stories on Trello → quality across frontend/backend/UI-UX → releases to Google Play.</p>
+  <div class="nutri"><b>INGREDIENTS</b>Scope clarity, acceptance criteria, cost estimates, zero scope-creep syrup</div>`},
+ A3:{nm:'GOLDENTAG BAR',grad:'linear-gradient(160deg,#e8bd4e,#9a7215)',
+  html:`<div class="k">A3 · 24K Item</div><h2>GoldenTag — the gold bar</h2>
+  <p>Jewelry store management app coordinated end-to-end and shipped to <b>Google Play</b>: inventory, employees, barcode scanning, USD/SYP exchange rates, sales logging, TXT export.</p>
+  <div class="mbtns"><a class="mbtn" href="https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag" target="_blank" rel="noopener">Google Play ↗</a></div>`},
+ B1:{nm:'SKILLS CHIPS',grad:'linear-gradient(160deg,#d2612f,#7a3014)',
+  html:`<div class="k">B1 · Family Size</div><h2>Skills Chips — mixed flavor</h2>
+  <p><b>React · TypeScript · Tailwind CSS · JavaScript</b> — plus Python (DS/AI), Git, Jira, Trello, prompt engineering, requirements gathering, team leadership.</p>
+  <div class="nutri"><b>ALLERGY ADVICE</b>Contains traces of clean code. May cause shipped products.</div>`},
+ B2:{nm:'CERTS 6-PACK',grad:'linear-gradient(160deg,#7b5bd6,#3c2a78)',
+  html:`<div class="k">B2 · Multipack</div><h2>Certification Six-Pack (×10)</h2>
+  <div class="nutri"><b>CONTENTS</b>Meta Advanced React ’25<br>TypeScript in React ’25<br>Google Foundations of PM ’25<br>Google Project Initiation ’25<br>IBM Python DS/AI ’24 · IBM GenAI ’24<br>Tailwind ’24 · Clean Code ’24 · Jira suite ’25</div>`},
+ B3:{nm:'ICPC PROTEIN',grad:'linear-gradient(160deg,#c9342c,#6e120d)',
+  html:`<div class="k">B3 · High Performance</div><h2>ICPC Protein Bar ’21</h2>
+  <p><b>ICPC / ACPC 2021</b> — collegiate competitive programming. Dense algorithmic nutrition: problem solving and team leadership under a merciless clock.</p>
+  <div class="nutri"><b>PER SERVING</b>Algorithms — 40g<br>Composure under pressure — 35g<br>Excuses — 0g</div>`},
+ C1:{nm:'EDU BITES',grad:'linear-gradient(160deg,#3aa7ad,#155a5e)',
+  html:`<div class="k">C1 · Slow Release</div><h2>Education Bites</h2>
+  <p><b>B.Tech Information Technology — University of Kalamoon</b> (2019–2024). Five years of slow-release fundamentals; still providing energy today.</p>`},
+ C2:{nm:'HOBBY GUM',grad:'linear-gradient(160deg,#d65b9a,#7a2451)',
+  html:`<div class="k">C2 · 4 Flavors</div><h2>Hobby Gum — variety pack</h2>
+  <p>🎌 Anime (long-arc storytelling) · ♟ Chess (three moves ahead) · 🏸 Badminton (reflexes) · 🎬 Film (everything else). Flavor lasts longer than most frameworks.</p>`},
+ C3:{nm:'SLEEP',grad:'linear-gradient(160deg,#5a6b7a,#232c36)',sold:true,
+  html:`<div class="k">C3</div><h2>SLEEP</h2><p>Sold out since 2023. Restock date unknown.</p>`}
+};
+const CONTACT=`<div class="k">☎ Vendor Hotline</div><h2>Hire the machine's owner</h2>
+  <p><b>Nour Aldeen Tofi</b> — frontend developer &amp; software engineering supervisor, Riyadh. Websites · React frontends · logos · business cards · social visuals · project coordination. Arabic + English.</p>
+  <div class="mbtns"><a class="mbtn" href="mailto:nouraldeentofi@gmail.com">✉ Email</a>
+  <a class="mbtn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+  <a class="mbtn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a></div>`;
+
+/* build shelves */
+const shelves=document.getElementById('shelves');
+['A','B','C'].forEach(row=>{
+  const sh=document.createElement('div');sh.className='shelf';
+  [1,2,3].forEach(n=>{
+    const code=row+n,p=PRODUCTS[code];
+    const slot=document.createElement('div');slot.className='slot';slot.dataset.code=code;
+    slot.innerHTML=`<span class="code">${code}</span>
+      <div class="prod${p.sold?' soldout':''}" style="background:${p.grad}">
+        <span class="nm">${p.nm}</span><span class="pr">1 SAR</span></div>
+      ${p.sold?'<div class="soldtag">SOLD OUT</div>':''}
+      <div class="coil"><svg viewBox="0 0 100 16" preserveAspectRatio="none">
+        <path d="M0 8 Q6 0 12 8 Q18 16 24 8 Q30 0 36 8 Q42 16 48 8 Q54 0 60 8 Q66 16 72 8 Q78 0 84 8 Q90 16 96 8"
+        fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2.4"/></svg></div>`;
+    sh.appendChild(slot);
+  });
+  shelves.appendChild(sh);
+});
+
+/* keypad */
+const keypad=document.getElementById('keypad');
+['A','B','C','1','2','3'].forEach(k=>{
+  const b=document.createElement('button');b.className='key';b.textContent=k;
+  b.onclick=()=>press(k);keypad.appendChild(b);
+});
+
+/* audio */
+let AC=null;
+function beep(f,t,type,vol){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type=type||'square';o.frequency.value=f;
+  g.gain.setValueAtTime(vol||.06,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+(t||.12));
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+(t||.12)+.02);}catch(e){}}
+function clink(){beep(1200,.08,'sine',.09);setTimeout(()=>beep(1600,.1,'sine',.07),70);}
+function whirr(){beep(90,.9,'sawtooth',.05);setTimeout(()=>beep(70,.6,'sawtooth',.04),300);}
+function thud(){beep(60,.18,'sine',.14);}
+
+/* state machine */
+const screen=document.getElementById('screen');
+let credit=0,buf='';
+function setScreen(html){screen.innerHTML=html;}
+document.getElementById('coinBtn').onclick=()=>{
+  clink();credit=1;buf='';
+  setScreen('CREDIT: 1 SAR<br><span class="small">SELECT ITEM — e.g. A1</span>');
+};
+function press(k){
+  beep(880,.06,'square',.05);
+  if(credit<1){setScreen('NO CREDIT!<br><span class="small">INSERT COIN FIRST</span>');return;}
+  if(/[ABC]/.test(k))buf=k;else if(buf)buf+=k;else{setScreen('ROW FIRST (A-C)<br><span class="small">THEN NUMBER 1-3</span>');return;}
+  setScreen('CODE: '+buf+'<br><span class="small">'+(buf.length<2?'NOW PICK 1-3':'')+'</span>');
+  if(buf.length===2)dispense(buf);
+}
+function dispense(code){
+  const p=PRODUCTS[code];
+  if(!p){setScreen('ERR: NO SLOT '+code);buf='';return;}
+  if(p.sold){setScreen('C3 SLEEP: SOLD OUT<br><span class="small">SINCE 2023. SORRY.</span>');buf='';credit=1;return;}
+  credit=0;buf='';
+  setScreen('VENDING '+code+'…<br><span class="small">MOTOR ENGAGED</span>');
+  whirr();
+  const slot=document.querySelector(`.slot[data-code="${code}"]`);
+  const prod=slot.querySelector('.prod');
+  const coil=slot.querySelector('.coil');
+  coil.style.transform='translateX(-50%) rotate(360deg)';
+  setTimeout(()=>coil.style.transform='translateX(-50%)',900);
+  const r=prod.getBoundingClientRect();
+  const tray=document.getElementById('trayItems');
+  const clone=prod.cloneNode(true);
+  clone.classList.add('falling');
+  Object.assign(clone.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});
+  document.body.appendChild(clone);
+  const tr=document.getElementById('tray').getBoundingClientRect();
+  const targetY=tr.top+14-r.top, targetX=(tr.left+30+tray.children.length*70)-r.left;
+  if(reduced){clone.remove();land(code,p);return;}
+  clone.animate([
+    {transform:'translate(0,0) rotate(0deg)'},
+    {transform:`translate(${targetX*.2}px,${targetY*.75}px) rotate(-14deg)`,offset:.55},
+    {transform:`translate(${targetX*.6}px,${targetY}px) rotate(9deg)`,offset:.8},
+    {transform:`translate(${targetX}px,${targetY}px) rotate(0deg)`}
+  ],{duration:1050,easing:'cubic-bezier(.4,0,.7,1)'}).onfinish=()=>{
+    clone.remove();thud();land(code,p);
+  };
+}
+function land(code,p){
+  setScreen('THANK YOU!<br><span class="small">COLLECT FROM TRAY ▼</span>');
+  document.getElementById('trayHint').style.display='none';
+  const tray=document.getElementById('trayItems');
+  const item=document.createElement('div');
+  item.className='prod trayProd';item.style.background=p.grad;
+  item.innerHTML=`<span class="nm">${p.nm}</span><span class="pr">${code}</span>`;
+  item.onclick=()=>openModal(p.html);
+  tray.appendChild(item);
+  if(tray.children.length>4)tray.removeChild(tray.firstChild);
+}
+
+/* modal */
+const modal=document.getElementById('modal');
+function openModal(html){document.getElementById('mcontent').innerHTML=html;modal.classList.add('open');}
+document.getElementById('mclose').onclick=()=>modal.classList.remove('open');
+modal.addEventListener('pointerdown',e=>{if(e.target===modal)modal.classList.remove('open');});
+addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open');});
+document.getElementById('callBtn').onclick=()=>{beep(660,.1,'sine',.07);openModal(CONTACT);};
+
+/* idle screen loop */
+setInterval(()=>{
+  if(credit===0&&!buf&&screen.textContent.startsWith('THANK')===false&&!modal.classList.contains('open')){
+    setScreen(Math.random()<.5?'INSERT COIN<br><span class="small">1 SAR = ONE CAREER ITEM</span>'
+      :'NOUR-O-MATIC 3000<br><span class="small">FRESH SKILLS DAILY</span>');
+  }
+},6000);
+</script>
+</body>
+</html>

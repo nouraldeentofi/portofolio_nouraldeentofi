@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — ELEVATOR · Tower NT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--cab:#231a16;--cabd:#161009;--brass:#c9a25a;--brasshi:#eed9a8;--wine:#5e2333;--fg:#f2e9d8;
+        --dim:rgba(242,233,216,.55);--door:#3a2c22}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Marcellus',serif;background:radial-gradient(90vw 70vh at 50% 0%,#38291f,var(--cabd));
+    color:var(--fg);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 7vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--brass);color:#231a16}
+  h1{font-size:clamp(20px,3.8vw,32px);letter-spacing:.2em;text-transform:uppercase;color:var(--brasshi)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.35em;color:var(--dim);margin:8px 0 24px;text-transform:uppercase;text-align:center}
+
+  #frame{display:grid;grid-template-columns:1fr auto;gap:16px;width:min(860px,96vw)}
+  @media(max-width:700px){#frame{grid-template-columns:1fr}}
+
+  /* cab */
+  #cabWrap{position:relative;background:linear-gradient(180deg,#31251d,var(--cab));border:4px solid #0d0906;
+    border-radius:18px;overflow:hidden;min-height:520px;box-shadow:0 40px 80px rgba(0,0,0,.6), inset 0 2px 0 rgba(238,217,168,.15)}
+  #indicator{position:absolute;top:0;left:0;right:0;z-index:6;display:flex;justify-content:center;gap:20px;
+    align-items:center;padding:12px;background:rgba(13,9,6,.85);border-bottom:2px solid rgba(201,162,90,.4)}
+  #floorNum{font-family:'IBM Plex Mono',monospace;font-size:26px;color:var(--brasshi);text-shadow:0 0 14px rgba(238,217,168,.5);min-width:3ch;text-align:center}
+  .arrow{color:var(--dim);font-size:15px}
+  .arrow.on{color:var(--brasshi);text-shadow:0 0 10px var(--brasshi)}
+
+  /* floor scene behind doors */
+  #scene{position:absolute;inset:52px 0 0;padding:34px 38px;overflow-y:auto}
+  .fl-k{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.35em;color:var(--brass);text-transform:uppercase}
+  #scene h2{font-size:clamp(24px,4vw,38px);line-height:1.1;margin:10px 0 12px;color:var(--brasshi)}
+  #scene p{font-family:'IBM Plex Mono',monospace;font-size:12.5px;line-height:1.9;color:var(--dim);max-width:560px}
+  #scene p b{color:var(--fg)}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+  .btn{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;padding:12px 20px;
+    border:1px solid var(--brass);color:var(--brass);border-radius:4px;transition:all .25s;text-transform:uppercase}
+  .btn:hover{background:var(--brass);color:#231a16}
+
+  /* doors */
+  .doorP{position:absolute;top:52px;bottom:0;width:50%;z-index:5;
+    background:linear-gradient(90deg,#4a3a2c,var(--door) 40%,#2c2018);transition:transform 1.1s cubic-bezier(.6,.05,.3,1)}
+  .doorP::after{content:'';position:absolute;top:0;bottom:0;width:5px;background:rgba(238,217,168,.25)}
+  #doorL{left:0}#doorL::after{right:0}
+  #doorR{right:0}#doorR::after{left:0}
+  .open #doorL{transform:translateX(-101%)}
+  .open #doorR{transform:translateX(101%)}
+  .shake{animation:cshake .5s}
+  @keyframes cshake{0%,100%{transform:translateY(0)}25%{transform:translateY(-3px)}60%{transform:translateY(2px)}}
+
+  /* panel */
+  #panel{background:linear-gradient(180deg,#31251d,var(--cab));border:4px solid #0d0906;border-radius:18px;
+    padding:22px 20px;display:flex;flex-direction:column;gap:10px;box-shadow:0 40px 80px rgba(0,0,0,.6);min-width:190px}
+  #panel .plbl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.3em;color:var(--dim);
+    text-align:center;text-transform:uppercase;margin-bottom:4px}
+  .fbtn{display:flex;align-items:center;gap:12px;background:none;border:1px solid rgba(201,162,90,.4);border-radius:10px;
+    padding:11px 14px;cursor:pointer;color:var(--fg);transition:all .25s;text-align:left;font-family:'Marcellus'}
+  .fbtn:hover{border-color:var(--brasshi)}
+  .fbtn .cir{width:34px;height:34px;border-radius:50%;border:2px solid var(--brass);display:flex;align-items:center;
+    justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--brasshi);flex-shrink:0;transition:all .25s}
+  .fbtn.lit .cir{background:var(--brasshi);color:#231a16;box-shadow:0 0 18px rgba(238,217,168,.7)}
+  .fbtn .fnm{font-size:12.5px;letter-spacing:.06em}
+  .fbtn .fsub{display:block;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:.08em}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}.doorP{transition:transform .2s}}
+</style>
+</head>
+<body>
+<h1>Tower NT · Private Lift</h1>
+<div class="sub">Operator: N.A. Tofi · Select a floor · على أي طابق نازل؟</div>
+
+<div id="frame">
+  <div id="cabWrap">
+    <div id="indicator"><span class="arrow" id="aUp">▲</span><span id="floorNum">PH</span><span class="arrow" id="aDn">▼</span></div>
+    <div id="scene"></div>
+    <div class="doorP" id="doorL"></div><div class="doorP" id="doorR"></div>
+  </div>
+  <div id="panel">
+    <div class="plbl">— Floors —</div>
+  </div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FLOORS=[
+ {id:'PH',n:5,nm:'Penthouse · 2026',sub:'SUPERVISOR SUITE',
+  h:'Software Engineering Supervisor',
+  p:`<b>Distinctive Frontier Co., Riyadh — Jan 2026 → present.</b><br><br>The top floor: leads frontend development. Scalable React systems · coding standards · backend alignment · product ideas shipped as features. The view from up here: every floor below made it possible.`},
+ {id:'4',n:4,nm:'Floor 4 · 2025',sub:'TWIN OFFICES',
+  h:'Double Shift Floor',
+  p:`<b>Frontend Dev & Project Coordination — Distinctive Frontier Co.</b> (Jan 2025 – Jan 2026), plus the freelance wing: <b>Project Coordinator at NexLead</b> (Mar 2025 →, remote) — requirements, user stories on Trello, quality, releases.<br><br>Shipped from this floor: <b>GoldenTag</b> → Google Play (inventory, barcode scanning, USD/SYP rates, sales logs).`},
+ {id:'3',n:3,nm:'Floor 3 · 2024–25',sub:'KHWARIZM TECH',
+  h:'Khwarizm Technologies',
+  p:`<b>Frontend Developer — Riyadh, Sep 2024 – Apr 2025.</b><br><br>Production React alongside design and backend. Same year's paperwork: IBM Python for DS & AI '24 · IBM GenAI Prompting '24.`},
+ {id:'2',n:2,nm:'Floor 2 · 2023–24',sub:'FIRST OFFICE',
+  h:'Minicodeleader',
+  p:`<b>Frontend Developer (React) — Jun 2023 – Feb 2024.</b><br><br>The first office: component-driven development, first production codebase, clean-code habit installed with the carpet.`},
+ {id:'1',n:1,nm:'Floor 1 · Lobby',sub:'SKILLS & PAPERS',
+  h:'The Lobby of Credentials',
+  p:`<b>Stack:</b> React · TypeScript · Tailwind · JavaScript · Python (DS/AI) · Git · Jira · Trello · Prompt Engineering.<br><br><b>Wall of frames:</b> Meta Advanced React '25 · TS in React '25 · Google PM ×2 '25 · Tailwind '24 · Clean Code '24 · Jira suite '25.`},
+ {id:'B1',n:0,nm:'Basement · 2019–24',sub:'THE ARCHIVES',
+  h:'Foundation Archives',
+  p:`<b>B.Tech Information Technology — University of Kalamoon (2019–2024).</b><br><br>Also stored down here: <b>ICPC/ACPC 2021</b> — competitive programming trophies, and the boxes labeled "anime", "chess", "badminton", "film".`},
+ {id:'G',n:-1,nm:'Ground · Exit',sub:'STREET LEVEL — YOU',
+  h:'Walk Out With a Project',
+  p:`Websites · React frontends · logos · business cards · social visuals · project coordination.<br><br><b>Riyadh · Arabic + English.</b> The doorman says he replies fast.`,
+  btns:[['✉ Email','mailto:nouraldeentofi@gmail.com'],['LinkedIn','https://www.linkedin.com/in/nour-aldeen-tofi-19b116240'],['Website','https://nouraldeentofi.netlify.app']]}
+];
+
+let AC=null;
+function snd(f,t,type,v){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type=type||'sine';o.frequency.value=f;
+  g.gain.setValueAtTime(v||.06,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+(t||.3));
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+(t||.35));}catch(e){}}
+function ding(){snd(830,.5,'sine',.08);setTimeout(()=>snd(624,.6,'sine',.06),120);}
+
+const cab=document.getElementById('cabWrap'),scene=document.getElementById('scene'),
+      fnum=document.getElementById('floorNum'),panel=document.getElementById('panel');
+let cur=0,busy=false; /* index in FLOORS; start PH */
+
+FLOORS.forEach((f,i)=>{
+  const b=document.createElement('button');b.className='fbtn'+(i===0?' lit':'');
+  b.innerHTML=`<span class="cir">${f.id}</span><span><span class="fnm">${f.nm}</span><span class="fsub">${f.sub}</span></span>`;
+  b.onclick=()=>go(i);
+  panel.appendChild(b);
+});
+function renderScene(i){
+  const f=FLOORS[i];
+  let btns='';(f.btns||[]).forEach(([lb,href])=>{
+    btns+=`<a class="btn" href="${href}"${href.startsWith('http')?' target="_blank" rel="noopener"':''}>${lb}</a>`;});
+  scene.innerHTML=`<div class="fl-k">${f.nm} — ${f.sub}</div><h2>${f.h}</h2><p>${f.p}</p>
+    ${btns?'<div class="btns">'+btns+'</div>':''}`;
+}
+function setLit(i){document.querySelectorAll('.fbtn').forEach((b,j)=>b.classList.toggle('lit',j===i));}
+async function go(i){
+  if(busy||i===cur)return;busy=true;
+  setLit(i);
+  snd(440,.1,'square',.04);
+  /* close doors */
+  cab.classList.remove('open');
+  await wait(reduced?250:1150);
+  /* travel */
+  const from=FLOORS[cur].n,to=FLOORS[i].n;
+  const dir=to>from?1:-1;
+  document.getElementById('aUp').classList.toggle('on',dir>0);
+  document.getElementById('aDn').classList.toggle('on',dir<0);
+  const steps=Math.abs(to-from);
+  for(let s=1;s<=steps;s++){
+    await wait(reduced?80:520);
+    const n=from+dir*s;
+    const fl=FLOORS.find(f=>f.n===n);
+    fnum.textContent=fl?fl.id:n;
+    snd(280+n*30,.08,'triangle',.03);
+    if(!reduced){cab.classList.remove('shake');void cab.offsetWidth;cab.classList.add('shake');}
+  }
+  document.getElementById('aUp').classList.remove('on');
+  document.getElementById('aDn').classList.remove('on');
+  cur=i;fnum.textContent=FLOORS[i].id;
+  renderScene(i);
+  ding();
+  await wait(reduced?60:350);
+  cab.classList.add('open');
+  busy=false;
+}
+function wait(ms){return new Promise(r=>setTimeout(r,ms));}
+/* boot: doors open on PH */
+renderScene(0);
+setTimeout(()=>{ding();cab.classList.add('open');},reduced?150:700);
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowDown')go(Math.min(FLOORS.length-1,cur+1));
+  if(e.key==='ArrowUp')go(Math.max(0,cur-1));
+});
+</script>
+</body>
+</html>

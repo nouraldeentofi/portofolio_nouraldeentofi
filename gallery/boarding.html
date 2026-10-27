@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Amelia Hart — Terminal B</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+  :root{
+    --bg:#070a12;
+    --panel:#0d1322;
+    --card:#111a2e;
+    --line:#1e2a45;
+    --amber:#ffa726;
+    --amber-bright:#ffc15c;
+    --green:#22d39a;
+    --red:#ef4a5b;
+    --ink:#e8ecf5;
+    --muted:#7a8599;
+    --paper:#f3ede2;
+    --paper-ink:#12151c;
+    --perf:#1b2338;
+  }
+
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Space Grotesk',sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* subtle scanline + noise */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.35;
+    background:repeating-linear-gradient(0deg,rgba(255,255,255,.02) 0 1px,transparent 1px 3px);
+  }
+
+  ::-webkit-scrollbar{width:8px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:var(--line);border-radius:0}
+
+  /* ─── NAV ─── */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:900;
+    background:rgba(7,10,18,.85);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:.8rem 5%;
+  }
+  .logo{display:flex;align-items:center;gap:.75rem}
+  .logo-badge{
+    width:36px;height:36px;display:grid;place-items:center;
+    background:var(--amber);color:#000;
+    font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.9rem;
+    border-radius:4px;
+  }
+  .logo-text{line-height:1.1}
+  .logo-name{font-weight:700;font-size:.95rem;letter-spacing:.5px}
+  .logo-sub{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+
+  .nav-links{display:flex;gap:.5rem;list-style:none;align-items:center}
+  .nav-links a{
+    display:block;padding:.45rem .9rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.7rem;letter-spacing:2px;text-transform:uppercase;
+    text-decoration:none;color:var(--muted);
+    border:1px solid transparent;
+    transition:all .2s;border-radius:3px;
+  }
+  .nav-links a:hover{color:var(--amber);border-color:var(--line)}
+  .nav-cta{
+    padding:.55rem 1.1rem !important;
+    background:var(--amber);color:#000 !important;
+    border:1px solid var(--amber) !important;
+    font-weight:700;
+  }
+  .nav-cta:hover{background:var(--amber-bright) !important;color:#000 !important;border-color:var(--amber-bright) !important}
+
+  .nav-clock{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.75rem;color:var(--amber);letter-spacing:2px;
+    padding:.3rem .6rem;border:1px solid var(--line);border-radius:3px;
+    background:var(--panel);
+  }
+
+  /* ─── HERO / DEPARTURE BOARD ─── */
+  #hero{
+    padding:7rem 5% 4rem;
+    min-height:100vh;
+    display:flex;flex-direction:column;justify-content:center;
+    position:relative;z-index:10;
+  }
+
+  .hero-head{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;
+  }
+  .hero-tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.75rem;letter-spacing:3px;text-transform:uppercase;
+    color:var(--amber);
+    display:flex;align-items:center;gap:.6rem;
+  }
+  .hero-tag::before{
+    content:"";width:8px;height:8px;background:var(--green);border-radius:50%;
+    box-shadow:0 0 8px var(--green);
+    animation:pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+  .hero-meta-row{
+    display:flex;gap:1.5rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.7rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase;
+  }
+
+  /* ─── DEPARTURE BOARD ─── */
+  .board{
+    background:#040610;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:2rem;
+    box-shadow:0 30px 80px rgba(0,0,0,.5),inset 0 0 40px rgba(0,0,0,.6);
+    position:relative;
+  }
+  .board::before{
+    content:"";position:absolute;inset:0;pointer-events:none;border-radius:8px;
+    background:repeating-linear-gradient(0deg,rgba(255,167,38,.025) 0 2px,transparent 2px 4px);
+  }
+  .board-head{
+    display:grid;grid-template-columns:80px minmax(0,1fr) 110px 60px 80px;gap:1rem;
+    padding-bottom:1rem;margin-bottom:1rem;
+    border-bottom:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace;
+    font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);
+  }
+
+  .flip-row{
+    display:grid;grid-template-columns:80px minmax(0,1fr) 110px 60px 80px;gap:1rem;align-items:center;
+    padding:1rem 0;border-bottom:1px dashed rgba(255,255,255,.05);
+  }
+  .flip-row:last-child{border-bottom:none}
+  .flip-row > *{min-width:0}
+
+  .flip-cell{
+    display:flex;flex-wrap:wrap;gap:3px;min-width:0;
+  }
+  .flip-char{
+    display:inline-grid;place-items:center;
+    min-width:22px;height:32px;padding:0 4px;
+    background:#0c0f1a;color:var(--amber);
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;font-size:1.15rem;letter-spacing:0;
+    border:1px solid #1a2236;
+    border-radius:3px;
+    box-shadow:inset 0 -6px 10px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,167,38,.1);
+    position:relative;
+    animation:flipIn .5s ease-out backwards;
+  }
+  .flip-char::after{
+    content:"";position:absolute;left:0;right:0;top:50%;height:1px;
+    background:rgba(0,0,0,.5);
+  }
+  @keyframes flipIn{
+    0%{transform:rotateX(90deg);opacity:0}
+    100%{transform:rotateX(0);opacity:1}
+  }
+
+  .flip-big .flip-char{height:52px;min-width:30px;font-size:1.5rem}
+
+  .flight-no{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;color:var(--ink);letter-spacing:1px;
+  }
+  .status{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.7rem;letter-spacing:2px;text-transform:uppercase;
+    padding:.25rem .6rem;border-radius:2px;display:inline-block;
+  }
+  .status.on-time{background:rgba(34,211,154,.15);color:var(--green);border:1px solid rgba(34,211,154,.3)}
+  .status.boarding{background:rgba(255,167,38,.15);color:var(--amber);border:1px solid rgba(255,167,38,.3)}
+  .status.delayed{background:rgba(239,74,91,.12);color:var(--red);border:1px solid rgba(239,74,91,.3)}
+
+  /* hero copy below board */
+  .hero-copy{
+    margin-top:2.5rem;
+    display:grid;grid-template-columns:1.3fr 1fr;gap:3rem;align-items:end;
+  }
+  .hero-title{
+    font-family:'DM Serif Display',serif;
+    font-size:clamp(2.2rem,5vw,4rem);
+    font-weight:400;line-height:1;letter-spacing:-1px;
+  }
+  .hero-title span{color:var(--amber);font-style:italic}
+  .hero-sub{
+    font-size:1rem;line-height:1.7;color:var(--muted);
+    max-width:500px;
+  }
+
+  /* ─── SECTIONS ─── */
+  section{padding:6rem 5%;position:relative;z-index:10}
+
+  .sec-head{max-width:1000px;margin:0 auto 3rem}
+  .sec-row{
+    display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap;
+    padding-bottom:1.2rem;border-bottom:1px solid var(--line);
+  }
+  .sec-kicker{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--amber);
+    margin-bottom:.75rem;
+  }
+  .sec-title{
+    font-family:'DM Serif Display',serif;
+    font-size:clamp(2rem,4vw,3rem);
+    font-weight:400;line-height:1;letter-spacing:-1px;
+  }
+  .sec-title em{color:var(--amber);font-style:italic}
+  .sec-note{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.7rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase;
+  }
+
+  /* ─── BOARDING PASSES / PROJECTS ─── */
+  .passes{
+    max-width:1000px;margin:0 auto;
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:2rem;
+  }
+  .pass{
+    background:var(--paper);
+    color:var(--paper-ink);
+    border-radius:6px;
+    overflow:hidden;
+    position:relative;
+    display:grid;
+    grid-template-columns:1fr 90px;
+    box-shadow:0 20px 50px rgba(0,0,0,.4);
+    transition:transform .3s, box-shadow .3s;
+  }
+  .pass:hover{transform:translateY(-4px);box-shadow:0 30px 70px rgba(0,0,0,.5)}
+
+  /* perforation */
+  .pass::before{
+    content:"";position:absolute;top:0;bottom:0;right:90px;width:2px;
+    background-image:radial-gradient(circle,var(--perf) 1px,transparent 1.5px);
+    background-size:2px 10px;
+    background-repeat:repeat-y;
+  }
+  .pass::after{
+    content:"";position:absolute;top:-8px;right:84px;width:16px;height:16px;
+    background:var(--bg);border-radius:50%;
+  }
+  .pass .punch-bot{
+    position:absolute;bottom:-8px;right:84px;width:16px;height:16px;
+    background:var(--bg);border-radius:50%;
+  }
+
+  .pass-main{padding:1.5rem 1.75rem}
+  .pass-top{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:1.25rem;
+  }
+  .pass-airline{
+    font-family:'DM Serif Display',serif;
+    font-size:1.05rem;letter-spacing:.5px;
+  }
+  .pass-airline::before{
+    content:"✈";margin-right:.4rem;color:var(--amber);
+    display:inline-block;transform:rotate(-20deg);
+  }
+  .pass-class{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.6rem;letter-spacing:2px;text-transform:uppercase;
+    padding:.2rem .5rem;background:var(--paper-ink);color:var(--paper);border-radius:2px;
+  }
+
+  .route{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:1rem;
+  }
+  .route-end{text-align:left}
+  .route-end.to{text-align:right}
+  .route-code{
+    font-family:'DM Serif Display',serif;
+    font-size:2.2rem;line-height:1;letter-spacing:-1px;
+  }
+  .route-city{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.65rem;letter-spacing:2px;text-transform:uppercase;
+    color:#6b6558;margin-top:.2rem;
+  }
+  .route-plane{
+    flex:1;margin:0 1rem;
+    height:1px;background:repeating-linear-gradient(90deg,#c5bda9 0 4px,transparent 4px 8px);
+    position:relative;
+  }
+  .route-plane::after{
+    content:"✈";position:absolute;right:-4px;top:50%;transform:translateY(-50%);
+    color:var(--paper-ink);font-size:.9rem;
+  }
+
+  .pass-row{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;
+    padding-top:1rem;border-top:1px dashed #c5bda9;
+  }
+  .pass-field{}
+  .pass-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.55rem;letter-spacing:1.5px;text-transform:uppercase;color:#6b6558;
+    margin-bottom:.2rem;
+  }
+  .pass-val{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;font-size:.9rem;
+  }
+
+  .pass-stub{
+    background:var(--paper);
+    display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+    padding:1.5rem .75rem;
+    border-left:none;
+  }
+  .stub-code{
+    writing-mode:vertical-rl;transform:rotate(180deg);
+    font-family:'JetBrains Mono',monospace;
+    font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:#6b6558;
+  }
+  .barcode{
+    display:flex;gap:1px;flex-direction:row;transform:rotate(90deg);
+    margin:1.5rem 0;
+  }
+  .barcode span{
+    display:block;width:2px;height:60px;background:var(--paper-ink);
+  }
+  .barcode span:nth-child(2n){height:55px}
+  .barcode span:nth-child(3n){width:1px;height:60px}
+  .barcode span:nth-child(4n){width:3px;height:58px}
+  .barcode span:nth-child(5n){height:50px}
+  .stub-seat{
+    font-family:'DM Serif Display',serif;
+    font-size:1.3rem;
+  }
+
+  /* ─── SCHEDULE / SKILLS ─── */
+  #skills{background:var(--panel)}
+  .schedule{
+    max-width:1000px;margin:0 auto;
+    background:#040610;
+    border:1px solid var(--line);
+    border-radius:8px;overflow:hidden;
+  }
+  .sched-head{
+    display:grid;grid-template-columns:70px 1fr 100px 90px 100px;gap:1rem;
+    padding:1rem 1.5rem;
+    background:var(--card);
+    border-bottom:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace;
+    font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);
+  }
+  .sched-row{
+    display:grid;grid-template-columns:70px 1fr 100px 90px 100px;gap:1rem;
+    padding:1.1rem 1.5rem;align-items:center;
+    border-bottom:1px solid rgba(255,255,255,.04);
+    transition:background .2s;
+  }
+  .sched-row:last-child{border-bottom:none}
+  .sched-row:hover{background:rgba(255,167,38,.04)}
+  .sched-time{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--amber);font-weight:700;font-size:.95rem;
+  }
+  .sched-skill{
+    font-family:'DM Serif Display',serif;
+    font-size:1.15rem;color:var(--ink);
+  }
+  .sched-level{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.7rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;
+  }
+  .sched-bar{
+    height:6px;background:var(--line);border-radius:3px;overflow:hidden;position:relative;
+  }
+  .sched-bar > span{
+    display:block;height:100%;background:linear-gradient(90deg,var(--amber),var(--amber-bright));
+    border-radius:3px;width:0;transition:width 1s cubic-bezier(.4,0,.2,1);
+    box-shadow:0 0 6px rgba(255,167,38,.4);
+  }
+  .sched-gate{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.75rem;letter-spacing:1.5px;
+    padding:.3rem .5rem;background:var(--card);border:1px solid var(--line);
+    border-radius:2px;text-align:center;color:var(--ink);
+  }
+
+  /* ─── PASSPORT / EXPERIENCE ─── */
+  .passport{
+    max-width:900px;margin:0 auto;
+    background:linear-gradient(135deg,#1a2744,#0f1a30);
+    border:1px solid var(--line);border-radius:6px;
+    padding:2.5rem;
+    position:relative;overflow:hidden;
+  }
+  .passport::before{
+    content:"PASSPORT";
+    position:absolute;top:1rem;right:1.5rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.65rem;letter-spacing:4px;color:var(--amber);
+    border:1px solid var(--amber);padding:.2rem .6rem;
+  }
+
+  .stamp-row{
+    display:grid;grid-template-columns:auto 1fr;gap:2rem;align-items:flex-start;
+    padding:1.5rem 0;border-bottom:1px dashed rgba(255,255,255,.08);
+  }
+  .stamp-row:last-child{border-bottom:none}
+
+  .stamp{
+    width:110px;height:110px;
+    border:2px solid var(--amber);
+    border-radius:50%;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    color:var(--amber);
+    transform:rotate(-6deg);
+    font-family:'JetBrains Mono',monospace;
+    text-align:center;padding:.4rem;
+    background:radial-gradient(circle,rgba(255,167,38,.08),transparent 70%);
+    flex-shrink:0;
+  }
+  .stamp:nth-child(odd){transform:rotate(5deg);border-color:var(--green);color:var(--green);background:radial-gradient(circle,rgba(34,211,154,.08),transparent 70%)}
+  .stamp-top{font-size:.55rem;letter-spacing:2px}
+  .stamp-year{
+    font-family:'DM Serif Display',serif;
+    font-size:1.4rem;margin:.2rem 0;line-height:1;
+  }
+  .stamp-bot{font-size:.5rem;letter-spacing:1.5px}
+
+  .stamp-body h3{
+    font-family:'DM Serif Display',serif;
+    font-size:1.4rem;font-weight:400;margin-bottom:.25rem;
+  }
+  .stamp-sub{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--amber);
+    margin-bottom:.75rem;
+  }
+  .stamp-body p{font-size:.95rem;line-height:1.7;color:var(--muted)}
+
+  /* ─── CHECK-IN / CONTACT ─── */
+  #contact{
+    background:
+      radial-gradient(circle at 20% 20%,rgba(255,167,38,.1),transparent 50%),
+      radial-gradient(circle at 80% 80%,rgba(34,211,154,.08),transparent 50%),
+      var(--bg);
+    text-align:center;
+  }
+  .contact-wrap{max-width:800px;margin:0 auto}
+  .check-in{
+    margin-top:2.5rem;
+    background:var(--panel);border:1px solid var(--line);border-radius:8px;
+    padding:2.5rem;
+    box-shadow:0 30px 70px rgba(0,0,0,.4);
+  }
+  .check-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem;
+    text-align:left;
+  }
+  .check-field{
+    padding:.9rem 1rem;background:var(--card);border:1px solid var(--line);border-radius:4px;
+  }
+  .check-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);
+    margin-bottom:.3rem;
+  }
+  .check-val{
+    font-family:'DM Serif Display',serif;
+    font-size:1.1rem;color:var(--ink);
+  }
+
+  .cta-row{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:1rem;
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:.6rem;
+    padding:.95rem 1.8rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.75rem;letter-spacing:2.5px;text-transform:uppercase;font-weight:700;
+    text-decoration:none;border-radius:4px;
+    transition:transform .2s, background .2s;
+  }
+  .btn-primary{background:var(--amber);color:#000;border:1px solid var(--amber)}
+  .btn-primary:hover{background:var(--amber-bright);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--amber);color:var(--amber);transform:translateY(-2px)}
+
+  footer{
+    max-width:1100px;margin:3rem auto 0;
+    padding:1.5rem 5%;
+    border-top:1px solid var(--line);
+    display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media(max-width:900px){
+    .nav-links{display:none}
+    .hero-copy{grid-template-columns:1fr;gap:1.5rem}
+    .board{padding:1.25rem}
+    .board-head,.flip-row{grid-template-columns:52px minmax(0,1fr) 80px 48px;gap:.5rem}
+    .flip-row > *:nth-child(5),.board-head > span:nth-child(5){display:none}
+    .flip-char{min-width:16px;height:24px;font-size:.85rem;padding:0 2px}
+    .flip-big .flip-char{height:30px;font-size:1rem;min-width:18px}
+    .flight-no{font-size:.8rem}
+    .status{font-size:.6rem;padding:.2rem .4rem;letter-spacing:1px}
+    .passes{grid-template-columns:1fr}
+    .sched-head,.sched-row{grid-template-columns:60px 1fr 80px;gap:.5rem;padding:.9rem .75rem}
+    .sched-head span:nth-child(3),.sched-head span:nth-child(5),
+    .sched-row > *:nth-child(3),.sched-row > *:nth-child(5){display:none}
+    .check-grid{grid-template-columns:1fr}
+    .stamp-row{grid-template-columns:1fr;gap:1rem}
+    .stamp{margin:0 auto}
+    section{padding:4rem 5%}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <div class="logo-badge">AH</div>
+    <div class="logo-text">
+      <div class="logo-name">Amelia Hart</div>
+      <div class="logo-sub">Terminal B · Gate 07</div>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#hero">Departures</a></li>
+    <li><a href="#projects">Boarding</a></li>
+    <li><a href="#skills">Schedule</a></li>
+    <li><a href="#passport">Passport</a></li>
+    <li><a href="#contact" class="nav-cta">Check-In</a></li>
+  </ul>
+  <div class="nav-clock" id="clock">--:--:--</div>
+</nav>
+
+<!-- ─── HERO / DEPARTURE BOARD ─── -->
+<section id="hero">
+  <div class="hero-head">
+    <div class="hero-tag">Live · Terminal B Departures</div>
+    <div class="hero-meta-row">
+      <span id="datestamp">— — —</span>
+      <span>Local · UTC+03</span>
+      <span>Temp · 22°C</span>
+    </div>
+  </div>
+
+  <div class="board">
+    <div class="board-head">
+      <span>Flight</span>
+      <span>Destination</span>
+      <span>Status</span>
+      <span>Gate</span>
+      <span>Time</span>
+    </div>
+
+    <div class="flip-row flip-big">
+      <div class="flight-no">AH 001</div>
+      <div class="flip-cell" data-text="FULL-STACK DEVELOPER"></div>
+      <div><span class="status boarding">Boarding</span></div>
+      <div class="flip-cell" data-text="B07"></div>
+      <div class="flip-cell" data-text="08:20"></div>
+    </div>
+
+    <div class="flip-row">
+      <div class="flight-no">AH 002</div>
+      <div class="flip-cell" data-text="REACT · NEXT · TYPESCRIPT"></div>
+      <div><span class="status on-time">On Time</span></div>
+      <div class="flip-cell" data-text="B08"></div>
+      <div class="flip-cell" data-text="09:45"></div>
+    </div>
+
+    <div class="flip-row">
+      <div class="flight-no">AH 003</div>
+      <div class="flip-cell" data-text="NODE · POSTGRES · API"></div>
+      <div><span class="status on-time">On Time</span></div>
+      <div class="flip-cell" data-text="B12"></div>
+      <div class="flip-cell" data-text="11:10"></div>
+    </div>
+
+    <div class="flip-row">
+      <div class="flight-no">AH 004</div>
+      <div class="flip-cell" data-text="CLAUDE API · AI UX"></div>
+      <div><span class="status boarding">Boarding</span></div>
+      <div class="flip-cell" data-text="B07"></div>
+      <div class="flip-cell" data-text="13:30"></div>
+    </div>
+
+    <div class="flip-row">
+      <div class="flight-no">AH 005</div>
+      <div class="flip-cell" data-text="DESIGN SYSTEM OVERHAUL"></div>
+      <div><span class="status delayed">Delayed 20</span></div>
+      <div class="flip-cell" data-text="B14"></div>
+      <div class="flip-cell" data-text="15:00"></div>
+    </div>
+
+    <div class="flip-row">
+      <div class="flight-no">AH 006</div>
+      <div class="flip-cell" data-text="THREE.JS · WEBGL"></div>
+      <div><span class="status on-time">On Time</span></div>
+      <div class="flip-cell" data-text="B09"></div>
+      <div class="flip-cell" data-text="17:25"></div>
+    </div>
+  </div>
+
+  <div class="hero-copy">
+    <h1 class="hero-title">
+      Cleared for <span>takeoff.</span><br>
+      Full-stack engineer bound for polished products.
+    </h1>
+    <p class="hero-sub">
+      I build interfaces and systems that land on time — React, TypeScript, Node, Python and AI. Frequent flyer on startup routes, occasional long-haul to enterprise. Carry-on only: no bloat.
+    </p>
+  </div>
+</section>
+
+<!-- ─── BOARDING PASSES / PROJECTS ─── -->
+<section id="projects">
+  <div class="sec-head">
+    <div class="sec-row">
+      <div>
+        <div class="sec-kicker">Boarding Group A</div>
+        <h2 class="sec-title">Selected <em>flights</em> I've operated.</h2>
+      </div>
+      <div class="sec-note">6 of 24 · 2023–2026</div>
+    </div>
+  </div>
+
+  <div class="passes">
+
+    <div class="pass">
+      <div class="pass-main">
+        <div class="pass-top">
+          <div class="pass-airline">Aurora Airlines</div>
+          <div class="pass-class">A · Ship</div>
+        </div>
+        <div class="route">
+          <div class="route-end">
+            <div class="route-code">IDEA</div>
+            <div class="route-city">Concept</div>
+          </div>
+          <div class="route-plane"></div>
+          <div class="route-end to">
+            <div class="route-code">SHIP</div>
+            <div class="route-city">Production</div>
+          </div>
+        </div>
+        <div class="pass-row">
+          <div class="pass-field"><div class="pass-label">Stack</div><div class="pass-val">React · D3</div></div>
+          <div class="pass-field"><div class="pass-label">Year</div><div class="pass-val">2025</div></div>
+          <div class="pass-field"><div class="pass-label">Role</div><div class="pass-val">Lead FE</div></div>
+          <div class="pass-field"><div class="pass-label">Flight</div><div class="pass-val">NT·001</div></div>
+        </div>
+      </div>
+      <div class="pass-stub">
+        <div class="stub-code">Aurora · Realtime</div>
+        <div class="barcode">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="stub-seat">07A</div>
+      </div>
+      <div class="punch-bot"></div>
+    </div>
+
+    <div class="pass">
+      <div class="pass-main">
+        <div class="pass-top">
+          <div class="pass-airline">Spline Flight</div>
+          <div class="pass-class">A · 3D</div>
+        </div>
+        <div class="route">
+          <div class="route-end">
+            <div class="route-code">2D</div>
+            <div class="route-city">Flat</div>
+          </div>
+          <div class="route-plane"></div>
+          <div class="route-end to">
+            <div class="route-code">3D</div>
+            <div class="route-city">Immersive</div>
+          </div>
+        </div>
+        <div class="pass-row">
+          <div class="pass-field"><div class="pass-label">Stack</div><div class="pass-val">Three · GSAP</div></div>
+          <div class="pass-field"><div class="pass-label">Year</div><div class="pass-val">2025</div></div>
+          <div class="pass-field"><div class="pass-label">Role</div><div class="pass-val">Creative Eng</div></div>
+          <div class="pass-field"><div class="pass-label">Flight</div><div class="pass-val">NT·002</div></div>
+        </div>
+      </div>
+      <div class="pass-stub">
+        <div class="stub-code">Spline · Product</div>
+        <div class="barcode">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="stub-seat">12C</div>
+      </div>
+      <div class="punch-bot"></div>
+    </div>
+
+    <div class="pass">
+      <div class="pass-main">
+        <div class="pass-top">
+          <div class="pass-airline">Galaxy Air</div>
+          <div class="pass-class">A · AI</div>
+        </div>
+        <div class="route">
+          <div class="route-end">
+            <div class="route-code">PRMT</div>
+            <div class="route-city">Prompt</div>
+          </div>
+          <div class="route-plane"></div>
+          <div class="route-end to">
+            <div class="route-code">PROD</div>
+            <div class="route-city">Tool</div>
+          </div>
+        </div>
+        <div class="pass-row">
+          <div class="pass-field"><div class="pass-label">Stack</div><div class="pass-val">Claude · TS</div></div>
+          <div class="pass-field"><div class="pass-label">Year</div><div class="pass-val">2025</div></div>
+          <div class="pass-field"><div class="pass-label">Role</div><div class="pass-val">Solo Build</div></div>
+          <div class="pass-field"><div class="pass-label">Flight</div><div class="pass-val">NT·004</div></div>
+        </div>
+      </div>
+      <div class="pass-stub">
+        <div class="stub-code">Galaxy · Writer</div>
+        <div class="barcode">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="stub-seat">03F</div>
+      </div>
+      <div class="punch-bot"></div>
+    </div>
+
+    <div class="pass">
+      <div class="pass-main">
+        <div class="pass-top">
+          <div class="pass-airline">Worlds Intl.</div>
+          <div class="pass-class">B · SaaS</div>
+        </div>
+        <div class="route">
+          <div class="route-end">
+            <div class="route-code">MVP</div>
+            <div class="route-city">Prototype</div>
+          </div>
+          <div class="route-plane"></div>
+          <div class="route-end to">
+            <div class="route-code">SCALE</div>
+            <div class="route-city">Multi-Tenant</div>
+          </div>
+        </div>
+        <div class="pass-row">
+          <div class="pass-field"><div class="pass-label">Stack</div><div class="pass-val">Node · PG</div></div>
+          <div class="pass-field"><div class="pass-label">Year</div><div class="pass-val">2024</div></div>
+          <div class="pass-field"><div class="pass-label">Role</div><div class="pass-val">Full-Stack</div></div>
+          <div class="pass-field"><div class="pass-label">Flight</div><div class="pass-val">NT·011</div></div>
+        </div>
+      </div>
+      <div class="pass-stub">
+        <div class="stub-code">Worlds · Platform</div>
+        <div class="barcode">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="stub-seat">22B</div>
+      </div>
+      <div class="punch-bot"></div>
+    </div>
+
+    <div class="pass">
+      <div class="pass-main">
+        <div class="pass-top">
+          <div class="pass-airline">Swiss Express</div>
+          <div class="pass-class">B · System</div>
+        </div>
+        <div class="route">
+          <div class="route-end">
+            <div class="route-code">CHAOS</div>
+            <div class="route-city">Fragments</div>
+          </div>
+          <div class="route-plane"></div>
+          <div class="route-end to">
+            <div class="route-code">GRID</div>
+            <div class="route-city">System</div>
+          </div>
+        </div>
+        <div class="pass-row">
+          <div class="pass-field"><div class="pass-label">Stack</div><div class="pass-val">Storybook</div></div>
+          <div class="pass-field"><div class="pass-label">Year</div><div class="pass-val">2024</div></div>
+          <div class="pass-field"><div class="pass-label">Role</div><div class="pass-val">DS Lead</div></div>
+          <div class="pass-field"><div class="pass-label">Flight</div><div class="pass-val">NT·014</div></div>
+        </div>
+      </div>
+      <div class="pass-stub">
+        <div class="stub-code">Swiss · Tokens</div>
+        <div class="barcode">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="stub-seat">01A</div>
+      </div>
+      <div class="punch-bot"></div>
+    </div>
+
+    <div class="pass">
+      <div class="pass-main">
+        <div class="pass-top">
+          <div class="pass-airline">Gallery Air</div>
+          <div class="pass-class">B · CMS</div>
+        </div>
+        <div class="route">
+          <div class="route-end">
+            <div class="route-code">FILE</div>
+            <div class="route-city">Local</div>
+          </div>
+          <div class="route-plane"></div>
+          <div class="route-end to">
+            <div class="route-code">CDN</div>
+            <div class="route-city">Global</div>
+          </div>
+        </div>
+        <div class="pass-row">
+          <div class="pass-field"><div class="pass-label">Stack</div><div class="pass-val">Payload · R2</div></div>
+          <div class="pass-field"><div class="pass-label">Year</div><div class="pass-val">2023</div></div>
+          <div class="pass-field"><div class="pass-label">Role</div><div class="pass-val">Architect</div></div>
+          <div class="pass-field"><div class="pass-label">Flight</div><div class="pass-val">NT·017</div></div>
+        </div>
+      </div>
+      <div class="pass-stub">
+        <div class="stub-code">Gallery · Headless</div>
+        <div class="barcode">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="stub-seat">14D</div>
+      </div>
+      <div class="punch-bot"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── SCHEDULE / SKILLS ─── -->
+<section id="skills">
+  <div class="sec-head">
+    <div class="sec-row">
+      <div>
+        <div class="sec-kicker">Daily Schedule</div>
+        <h2 class="sec-title">Routes I fly <em>every week.</em></h2>
+      </div>
+      <div class="sec-note">All gates · All weather</div>
+    </div>
+  </div>
+
+  <div class="schedule">
+    <div class="sched-head">
+      <span>Time</span>
+      <span>Route</span>
+      <span>Level</span>
+      <span>Gate</span>
+      <span>Fluency</span>
+    </div>
+
+    <div class="sched-row">
+      <div class="sched-time">06:15</div>
+      <div class="sched-skill">React &amp; Next.js</div>
+      <div class="sched-level">Fluent</div>
+      <div class="sched-gate">B07</div>
+      <div class="sched-bar"><span data-w="95"></span></div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-time">07:40</div>
+      <div class="sched-skill">TypeScript</div>
+      <div class="sched-level">Fluent</div>
+      <div class="sched-gate">B07</div>
+      <div class="sched-bar"><span data-w="92"></span></div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-time">09:05</div>
+      <div class="sched-skill">Node.js &amp; APIs</div>
+      <div class="sched-level">Advanced</div>
+      <div class="sched-gate">B08</div>
+      <div class="sched-bar"><span data-w="88"></span></div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-time">10:30</div>
+      <div class="sched-skill">Python &amp; Tooling</div>
+      <div class="sched-level">Advanced</div>
+      <div class="sched-gate">B09</div>
+      <div class="sched-bar"><span data-w="82"></span></div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-time">12:00</div>
+      <div class="sched-skill">Claude &amp; AI UX</div>
+      <div class="sched-level">Fluent</div>
+      <div class="sched-gate">B07</div>
+      <div class="sched-bar"><span data-w="90"></span></div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-time">14:20</div>
+      <div class="sched-skill">PostgreSQL &amp; Data</div>
+      <div class="sched-level">Advanced</div>
+      <div class="sched-gate">B12</div>
+      <div class="sched-bar"><span data-w="80"></span></div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-time">16:10</div>
+      <div class="sched-skill">Three.js &amp; WebGL</div>
+      <div class="sched-level">Proficient</div>
+      <div class="sched-gate">B09</div>
+      <div class="sched-bar"><span data-w="74"></span></div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-time">18:45</div>
+      <div class="sched-skill">Docker &amp; Deploy</div>
+      <div class="sched-level">Proficient</div>
+      <div class="sched-gate">B14</div>
+      <div class="sched-bar"><span data-w="72"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PASSPORT / EXPERIENCE ─── -->
+<section id="passport">
+  <div class="sec-head">
+    <div class="sec-row">
+      <div>
+        <div class="sec-kicker">Passport · Stamps</div>
+        <h2 class="sec-title">Every <em>border</em> I've crossed.</h2>
+      </div>
+      <div class="sec-note">No expired visas</div>
+    </div>
+  </div>
+
+  <div class="passport">
+
+    <div class="stamp-row">
+      <div class="stamp">
+        <div class="stamp-top">ENTRY</div>
+        <div class="stamp-year">2026</div>
+        <div class="stamp-bot">STUDIO · IND</div>
+      </div>
+      <div class="stamp-body">
+        <h3>Independent Studio</h3>
+        <div class="stamp-sub">2025 — Present · Freelance</div>
+        <p>Flying solo. Shipping product-grade interfaces and AI tools for founders and teams. Carry the whole stack in a single bag — design, build, deploy, iterate.</p>
+      </div>
+    </div>
+
+    <div class="stamp-row">
+      <div class="stamp">
+        <div class="stamp-top">ENTRY</div>
+        <div class="stamp-year">2023</div>
+        <div class="stamp-bot">PRODUCT · CO</div>
+      </div>
+      <div class="stamp-body">
+        <h3>Senior Frontend Engineer</h3>
+        <div class="stamp-sub">2023 — 2025 · Remote</div>
+        <p>Rewrote the design system across six products. Cut bundle size 38% and pushed Lighthouse 62 → 97. Mentored two juniors to mid-level and ran the frontend hiring loop.</p>
+      </div>
+    </div>
+
+    <div class="stamp-row">
+      <div class="stamp">
+        <div class="stamp-top">ENTRY</div>
+        <div class="stamp-year">2021</div>
+        <div class="stamp-bot">AGENCY · CLI</div>
+      </div>
+      <div class="stamp-body">
+        <h3>Full-Stack Developer</h3>
+        <div class="stamp-sub">2021 — 2023 · Hybrid</div>
+        <p>Shipped twelve client sites and two internal tools. Built a small CMS on top of Postgres the team still uses today. Learned how to scope, how to say no, and how to deploy without flinching.</p>
+      </div>
+    </div>
+
+    <div class="stamp-row">
+      <div class="stamp">
+        <div class="stamp-top">ENTRY</div>
+        <div class="stamp-year">2019</div>
+        <div class="stamp-bot">FIRST FLIGHT</div>
+      </div>
+      <div class="stamp-body">
+        <h3>Junior Developer</h3>
+        <div class="stamp-sub">2019 — 2021 · On-Site</div>
+        <p>First stamps in the passport. Internal tools, small client builds, and the fundamentals that every later flight relied on.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── CHECK-IN / CONTACT ─── -->
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="sec-kicker">Check-In Desk</div>
+    <h2 class="sec-title">Got a <em>flight</em> you need operated?</h2>
+
+    <div class="check-in">
+      <div class="check-grid">
+        <div class="check-field">
+          <div class="check-label">Passenger</div>
+          <div class="check-val">Amelia Hart</div>
+        </div>
+        <div class="check-field">
+          <div class="check-label">Base</div>
+          <div class="check-val">Terminal B · Remote</div>
+        </div>
+        <div class="check-field">
+          <div class="check-label">Status</div>
+          <div class="check-val">Accepting Bookings</div>
+        </div>
+      </div>
+
+      <div class="cta-row">
+        <a class="btn btn-primary" href="mailto:hello@ameliahart.travel">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M2.5 19.5L22 12 2.5 4.5 2 10l14 2-14 2z"/></svg>
+          Book a Flight
+        </a>
+        <a class="btn btn-ghost" href="https://github.com/" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.6.5.5 5.6.5 12c0 5 3.3 9.3 7.9 10.8.6.1.8-.3.8-.6v-2.1c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.7 2.7 1.2 3.4.9.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.2 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4c2.2-1.5 3.2-1.2 3.2-1.2.6 1.7.2 2.9.1 3.2.7.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.8C23.5 5.6 18.4.5 12 .5z"/></svg>
+          GitHub
+        </a>
+        <a class="btn btn-ghost" href="https://linkedin.com/" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8h4.56v14H.22V8zm7.2 0h4.37v1.92h.06c.61-1.15 2.1-2.36 4.32-2.36 4.62 0 5.48 3.04 5.48 7v7.44h-4.56v-6.6c0-1.57-.03-3.6-2.19-3.6-2.2 0-2.54 1.72-2.54 3.49V22H7.42V8z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>Airline · Hart Aviation</span>
+    <span>Ticket Stock · HTML-180g</span>
+    <span>© 2026 — All flights self-operated</span>
+  </footer>
+</section>
+
+<script>
+  // ── clock + date ──
+  const clock = document.getElementById('clock');
+  const dstamp = document.getElementById('datestamp');
+  const tick = () => {
+    const d = new Date();
+    const pad = n => String(n).padStart(2,'0');
+    clock.textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    const mo = d.toLocaleString('en',{month:'short'}).toUpperCase();
+    dstamp.textContent = `${pad(d.getDate())} ${mo} ${d.getFullYear()}`;
+  };
+  tick(); setInterval(tick,1000);
+
+  // ── split-flap flipper ──
+  const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789·:· /.&';
+  function renderFlipCell(cell, text){
+    cell.innerHTML = '';
+    [...text].forEach((ch,i) => {
+      const span = document.createElement('span');
+      span.className = 'flip-char';
+      span.textContent = ch === ' ' ? '\u00A0' : ch;
+      span.style.animationDelay = (i * 40) + 'ms';
+      cell.appendChild(span);
+    });
+  }
+  document.querySelectorAll('.flip-cell').forEach(c => renderFlipCell(c, c.dataset.text));
+
+  // periodic "flap" refresh on hero-big cells to feel alive
+  setInterval(() => {
+    document.querySelectorAll('.flip-big .flip-cell').forEach(c => {
+      const chars = c.querySelectorAll('.flip-char');
+      const i = Math.floor(Math.random() * chars.length);
+      const el = chars[i];
+      if (!el) return;
+      el.style.animation = 'none';
+      void el.offsetWidth;
+      el.style.animation = 'flipIn .45s ease-out';
+    });
+  }, 3500);
+
+  // ── schedule bar animation on scroll ──
+  const bars = document.querySelectorAll('.sched-bar > span');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting){
+        bars.forEach((b, i) => setTimeout(() => b.style.width = b.dataset.w + '%', i * 80));
+        io.disconnect();
+      }
+    });
+  }, { threshold: .25 });
+  if (bars.length) io.observe(bars[0].closest('.schedule'));
+</script>
+
+</body>
+</html>

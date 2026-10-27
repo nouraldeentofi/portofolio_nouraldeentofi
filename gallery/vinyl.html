@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ruby James — Side A</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Archivo:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+  :root{
+    --paper:#efe7d8;
+    --paper-dark:#e4d9c3;
+    --ink:#1a1411;
+    --oxblood:#6b1f2a;
+    --oxblood-bright:#a82a3c;
+    --gold:#b8893a;
+    --gold-bright:#d9a84a;
+    --cream:#f8f1e0;
+    --smoke:#8a7d68;
+    --vinyl:#0c0907;
+  }
+
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Archivo',sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* paper grain */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.35;
+    background-image:
+      radial-gradient(rgba(0,0,0,.08) 1px,transparent 1px),
+      radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);
+    background-size:3px 3px,5px 5px;
+    mix-blend-mode:multiply;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:2;
+    background:radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,.25) 100%);
+  }
+
+  ::-webkit-scrollbar{width:8px}
+  ::-webkit-scrollbar-track{background:var(--paper-dark)}
+  ::-webkit-scrollbar-thumb{background:var(--oxblood);border-radius:0}
+
+  /* ─── NAV / HI-FI CONTROL BAR ─── */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:900;
+    background:linear-gradient(180deg,#2a211c,#1a1411);
+    border-bottom:2px solid var(--gold);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:.7rem 5%;
+    box-shadow:0 4px 20px rgba(0,0,0,.25);
+  }
+  .brand{
+    display:flex;align-items:center;gap:.75rem;
+    color:var(--cream);
+  }
+  .brand-dot{
+    width:10px;height:10px;border-radius:50%;
+    background:var(--oxblood-bright);
+    box-shadow:0 0 8px var(--oxblood-bright);
+    animation:blink 1.8s ease-in-out infinite;
+  }
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  .brand-name{
+    font-family:'Playfair Display',serif;
+    font-size:1.05rem;font-weight:700;letter-spacing:1px;
+  }
+  .brand-sub{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.7rem;color:var(--gold-bright);letter-spacing:2px;text-transform:uppercase;
+  }
+  .nav-links{display:flex;gap:0;list-style:none;align-items:center}
+  .nav-links a{
+    display:block;padding:.5rem 1rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.72rem;letter-spacing:2px;text-transform:uppercase;
+    text-decoration:none;color:var(--cream);
+    transition:color .2s;
+    border-left:1px solid rgba(216,168,74,.2);
+  }
+  .nav-links a:hover{color:var(--gold-bright)}
+  .nav-cta{
+    margin-left:1rem;padding:.55rem 1.1rem !important;
+    background:var(--oxblood);color:var(--cream) !important;
+    border:1px solid var(--gold) !important;
+    border-radius:2px;
+    transition:background .2s, transform .2s;
+  }
+  .nav-cta:hover{background:var(--oxblood-bright);transform:translateY(-1px)}
+
+  /* ─── HERO ─── */
+  #hero{
+    position:relative;min-height:100vh;
+    padding:7rem 5% 3rem;
+    display:grid;grid-template-columns:1.1fr 1fr;gap:3rem;align-items:center;
+    z-index:10;
+  }
+
+  .hero-left{position:relative;z-index:5}
+  .side-tag{
+    display:inline-flex;align-items:center;gap:.5rem;
+    padding:.35rem .8rem;
+    background:var(--ink);color:var(--cream);
+    font-family:'JetBrains Mono',monospace;
+    font-size:.7rem;letter-spacing:3px;text-transform:uppercase;
+    margin-bottom:1.5rem;
+  }
+  .side-tag::before{
+    content:"";width:8px;height:8px;background:var(--oxblood-bright);border-radius:50%;
+    box-shadow:0 0 6px var(--oxblood-bright);
+  }
+  .hero-title{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(3rem,7vw,6rem);
+    font-weight:900;line-height:.95;letter-spacing:-2px;
+    color:var(--ink);margin-bottom:1rem;
+  }
+  .hero-title em{
+    font-style:italic;font-weight:400;color:var(--oxblood);
+    display:block;
+  }
+  .hero-sub{
+    font-family:'Playfair Display',serif;
+    font-style:italic;font-size:1.15rem;color:var(--smoke);
+    margin-bottom:2rem;max-width:460px;line-height:1.6;
+  }
+  .hero-meta{
+    display:flex;gap:2rem;padding-top:1.5rem;
+    border-top:1px solid rgba(26,20,17,.2);
+  }
+  .meta-item{display:flex;flex-direction:column;gap:.15rem}
+  .meta-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--smoke);
+  }
+  .meta-value{
+    font-family:'Playfair Display',serif;
+    font-size:1rem;font-weight:700;color:var(--ink);
+  }
+
+  /* ─── VINYL RECORD ─── */
+  .turntable{
+    position:relative;
+    width:min(520px,90vw);aspect-ratio:1;
+    margin:0 auto;
+  }
+  .platter{
+    position:absolute;inset:0;
+    background:radial-gradient(circle at 30% 30%, #2a211c 0%, #0c0907 60%);
+    border-radius:50%;
+    box-shadow:
+      0 30px 60px rgba(0,0,0,.4),
+      inset 0 0 0 1px rgba(216,168,74,.2),
+      inset 0 0 40px rgba(0,0,0,.8);
+  }
+  .record{
+    position:absolute;inset:4%;
+    background:
+      repeating-radial-gradient(circle at center,
+        var(--vinyl) 0px, var(--vinyl) 2px,
+        #1a1411 2px, #1a1411 3px);
+    border-radius:50%;
+    animation:spin 12s linear infinite;
+    box-shadow:inset 0 0 40px rgba(0,0,0,.9);
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .record::before{
+    content:"";position:absolute;inset:0;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, rgba(255,255,255,.08) 0%, transparent 40%);
+  }
+
+  .label{
+    position:absolute;top:50%;left:50%;
+    width:34%;aspect-ratio:1;
+    transform:translate(-50%,-50%);
+    background:
+      radial-gradient(circle at center, var(--oxblood-bright) 0%, var(--oxblood) 100%);
+    border-radius:50%;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:1rem;
+    box-shadow:inset 0 0 15px rgba(0,0,0,.4);
+    color:var(--cream);
+  }
+  .label::before{
+    content:"";position:absolute;top:50%;left:50%;
+    width:8%;aspect-ratio:1;background:var(--vinyl);
+    border-radius:50%;transform:translate(-50%,-50%);
+    box-shadow:0 0 0 2px rgba(216,168,74,.3);
+  }
+  .label-top{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(.6rem,1.2vw,.85rem);
+    font-weight:900;letter-spacing:2px;
+    text-transform:uppercase;
+  }
+  .label-title{
+    font-family:'Playfair Display',serif;
+    font-style:italic;font-size:clamp(.9rem,1.6vw,1.2rem);
+    font-weight:400;margin:.4rem 0;
+  }
+  .label-bottom{
+    font-family:'JetBrains Mono',monospace;
+    font-size:clamp(.55rem,.9vw,.7rem);
+    letter-spacing:1.5px;color:var(--gold-bright);
+  }
+
+  /* tonearm */
+  .tonearm{
+    position:absolute;top:-4%;right:-6%;
+    width:55%;height:3px;
+    background:linear-gradient(90deg,#3a2f28,#8a7d68 30%,#c0b090 70%,#3a2f28);
+    transform-origin:right center;
+    transform:rotate(-32deg);
+    z-index:5;
+    border-radius:2px;
+    box-shadow:0 2px 4px rgba(0,0,0,.4);
+    animation:arm-settle 3s ease-out;
+  }
+  @keyframes arm-settle{
+    0%{transform:rotate(-50deg)}
+    60%{transform:rotate(-28deg)}
+    100%{transform:rotate(-32deg)}
+  }
+  .tonearm::before{
+    content:"";position:absolute;right:-8px;top:-8px;
+    width:22px;height:22px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%,#5a4a3a,#1a1411);
+    box-shadow:0 2px 6px rgba(0,0,0,.5);
+  }
+  .tonearm::after{
+    content:"";position:absolute;left:-2px;top:-2px;
+    width:10px;height:10px;background:var(--ink);
+    transform:rotate(45deg);
+  }
+
+  /* ─── SECTIONS ─── */
+  section{padding:6rem 5%;position:relative;z-index:10}
+
+  .sec-head{max-width:900px;margin:0 auto 3.5rem;text-align:center}
+  .sec-kicker{
+    display:inline-block;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.7rem;letter-spacing:3px;text-transform:uppercase;
+    color:var(--oxblood);margin-bottom:1rem;
+    padding:.3rem 1rem;border:1px solid var(--oxblood);
+  }
+  .sec-title{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(2.2rem,5vw,3.6rem);
+    font-weight:900;line-height:1;letter-spacing:-1.5px;
+  }
+  .sec-title em{font-style:italic;font-weight:400;color:var(--oxblood)}
+  .sec-desc{
+    font-family:'Playfair Display',serif;font-style:italic;
+    font-size:1.05rem;color:var(--smoke);margin-top:1rem;max-width:600px;margin-inline:auto;
+  }
+
+  /* ─── LINER NOTES (ABOUT) ─── */
+  #about{background:var(--paper-dark)}
+  .liner{
+    max-width:900px;margin:0 auto;
+    background:var(--cream);
+    padding:3rem;
+    border:1px solid rgba(26,20,17,.15);
+    box-shadow:0 20px 40px rgba(0,0,0,.08);
+    position:relative;
+  }
+  .liner::before{
+    content:"LINER NOTES";
+    position:absolute;top:-12px;left:2rem;
+    background:var(--paper-dark);
+    padding:0 .8rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.7rem;letter-spacing:3px;color:var(--oxblood);
+  }
+  .liner-grid{
+    display:grid;grid-template-columns:auto 1fr;gap:2.5rem;align-items:start;
+  }
+  .stamp{
+    width:120px;height:120px;
+    border:3px double var(--oxblood);
+    border-radius:50%;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    color:var(--oxblood);
+    transform:rotate(-8deg);
+    font-family:'JetBrains Mono',monospace;
+    text-align:center;
+    padding:.5rem;
+  }
+  .stamp-top{font-size:.55rem;letter-spacing:2px}
+  .stamp-big{
+    font-family:'Playfair Display',serif;
+    font-size:1.6rem;font-weight:900;line-height:1;margin:.25rem 0;
+  }
+  .stamp-bot{font-size:.55rem;letter-spacing:1.5px}
+
+  .liner p{
+    font-family:'Playfair Display',serif;
+    font-size:1.15rem;line-height:1.75;color:var(--ink);
+    margin-bottom:1rem;
+  }
+  .liner p.drop::first-letter{
+    font-family:'Playfair Display',serif;
+    font-size:4.5rem;font-weight:900;
+    float:left;line-height:.9;padding:.3rem .5rem 0 0;
+    color:var(--oxblood);
+  }
+  .sig{
+    font-family:'Playfair Display',serif;
+    font-style:italic;font-size:1.4rem;color:var(--oxblood);
+    margin-top:1.5rem;
+  }
+
+  /* ─── TRACKLIST ─── */
+  .tracklist{
+    max-width:900px;margin:0 auto;
+    background:var(--cream);
+    border:1px solid rgba(26,20,17,.15);
+    box-shadow:0 20px 40px rgba(0,0,0,.06);
+  }
+  .track{
+    display:grid;
+    grid-template-columns:60px 1fr auto auto;
+    gap:1.5rem;align-items:center;
+    padding:1.5rem 2rem;
+    border-bottom:1px solid rgba(26,20,17,.1);
+    transition:background .25s, padding .25s;
+    cursor:pointer;
+    position:relative;
+  }
+  .track:last-child{border-bottom:none}
+  .track:hover{background:rgba(168,42,60,.05);padding-left:2.5rem}
+  .track:hover .play{background:var(--oxblood);color:var(--cream)}
+  .track:hover .track-title{color:var(--oxblood)}
+  .track-num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.75rem;letter-spacing:2px;color:var(--smoke);
+  }
+  .track-info{min-width:0}
+  .track-title{
+    font-family:'Playfair Display',serif;
+    font-size:1.5rem;font-weight:700;color:var(--ink);
+    transition:color .25s;
+    margin-bottom:.25rem;
+  }
+  .track-meta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--smoke);
+  }
+  .track-dur{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.85rem;color:var(--smoke);
+    padding:.25rem .6rem;border:1px solid rgba(26,20,17,.2);
+  }
+  .play{
+    width:42px;height:42px;border-radius:50%;
+    background:var(--paper-dark);color:var(--ink);
+    display:grid;place-items:center;
+    border:1px solid rgba(26,20,17,.2);
+    transition:all .25s;
+  }
+  .play svg{width:14px;height:14px;margin-left:2px}
+
+  /* ─── EQ / SKILLS ─── */
+  #skills{background:var(--paper-dark)}
+  .eq-wrap{
+    max-width:1000px;margin:0 auto;
+    background:linear-gradient(180deg,#1a1411,#2a211c);
+    padding:3rem;border-radius:4px;
+    border:1px solid var(--gold);
+    box-shadow:0 30px 60px rgba(0,0,0,.25),inset 0 0 30px rgba(0,0,0,.4);
+  }
+  .eq-head{
+    display:flex;justify-content:space-between;align-items:center;
+    padding-bottom:1.5rem;margin-bottom:2rem;
+    border-bottom:1px solid rgba(216,168,74,.2);
+    color:var(--cream);
+  }
+  .eq-brand{
+    font-family:'Playfair Display',serif;font-weight:700;letter-spacing:1px;
+    color:var(--gold-bright);
+  }
+  .eq-model{
+    font-family:'JetBrains Mono',monospace;font-size:.7rem;
+    letter-spacing:2px;color:var(--smoke);
+  }
+  .eq-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:1.5rem;
+  }
+  .eq-channel{
+    display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  }
+  .eq-track{
+    width:14px;height:180px;
+    background:linear-gradient(180deg,rgba(0,0,0,.6),rgba(0,0,0,.8));
+    border-radius:8px;
+    position:relative;
+    box-shadow:inset 0 0 4px rgba(0,0,0,.8);
+  }
+  .eq-fill{
+    position:absolute;bottom:0;left:0;right:0;
+    background:linear-gradient(180deg,var(--gold-bright),var(--oxblood-bright) 60%,var(--oxblood));
+    border-radius:8px;
+    box-shadow:0 0 8px rgba(216,168,74,.4);
+    transition:height 1.2s cubic-bezier(.4,0,.2,1);
+    height:0;
+  }
+  .eq-fader{
+    position:absolute;left:50%;transform:translateX(-50%);
+    width:36px;height:14px;
+    background:linear-gradient(180deg,#3a2f28,#1a1411);
+    border-radius:3px;
+    box-shadow:0 2px 4px rgba(0,0,0,.6),inset 0 1px 0 rgba(216,168,74,.3);
+    transition:bottom 1.2s cubic-bezier(.4,0,.2,1);
+    bottom:0;
+  }
+  .eq-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--gold-bright);text-align:center;
+  }
+  .eq-val{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.6rem;color:var(--smoke);
+  }
+
+  /* ─── DISCOGRAPHY / EXPERIENCE ─── */
+  .disco{max-width:900px;margin:0 auto;position:relative}
+  .disco::before{
+    content:"";position:absolute;left:12px;top:0;bottom:0;
+    width:1px;background:linear-gradient(180deg,transparent,var(--oxblood),transparent);
+  }
+  .release{
+    display:grid;grid-template-columns:auto 1fr;gap:2.5rem;align-items:flex-start;
+    margin-bottom:3rem;position:relative;
+  }
+  .release-dot{
+    width:25px;height:25px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%,#3a2f28,var(--vinyl));
+    border:3px solid var(--paper);
+    box-shadow:0 0 0 1px var(--oxblood),0 4px 10px rgba(0,0,0,.15);
+    flex-shrink:0;
+    position:relative;z-index:2;margin-top:.6rem;
+  }
+  .release-dot::before{
+    content:"";position:absolute;inset:6px;border-radius:50%;
+    background:var(--oxblood);
+  }
+  .release-card{
+    background:var(--cream);
+    padding:1.75rem 2rem;
+    border:1px solid rgba(26,20,17,.12);
+    box-shadow:0 10px 25px rgba(0,0,0,.06);
+    position:relative;
+  }
+  .release-year{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.7rem;letter-spacing:3px;color:var(--oxblood);margin-bottom:.5rem;
+  }
+  .release-title{
+    font-family:'Playfair Display',serif;
+    font-size:1.6rem;font-weight:900;line-height:1.15;margin-bottom:.25rem;
+  }
+  .release-label{
+    font-family:'Playfair Display',serif;
+    font-style:italic;font-size:1rem;color:var(--smoke);margin-bottom:.75rem;
+  }
+  .release-desc{
+    font-size:.95rem;line-height:1.7;color:var(--ink);
+  }
+  .release-tags{
+    display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem;
+  }
+  .release-tags span{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.65rem;letter-spacing:2px;text-transform:uppercase;
+    padding:.25rem .6rem;background:var(--paper-dark);color:var(--oxblood);
+  }
+
+  /* ─── B-SIDE / CONTACT ─── */
+  #contact{background:var(--ink);color:var(--cream);position:relative;overflow:hidden}
+  #contact::before{
+    content:"B";
+    position:absolute;top:-8rem;right:-4rem;
+    font-family:'Playfair Display',serif;
+    font-size:30rem;font-weight:900;line-height:1;
+    color:rgba(168,42,60,.08);font-style:italic;
+    pointer-events:none;
+  }
+  .contact-wrap{
+    max-width:900px;margin:0 auto;text-align:center;position:relative;z-index:2;
+  }
+  #contact .sec-kicker{color:var(--gold-bright);border-color:var(--gold-bright)}
+  #contact .sec-title{color:var(--cream)}
+  #contact .sec-title em{color:var(--gold-bright)}
+  #contact .sec-desc{color:rgba(248,241,224,.6)}
+
+  .cta-row{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:1rem;margin-top:2.5rem;
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:.6rem;
+    padding:1rem 2rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.75rem;letter-spacing:3px;text-transform:uppercase;font-weight:700;
+    text-decoration:none;
+    transition:transform .2s, background .2s;
+    border-radius:2px;
+  }
+  .btn-primary{
+    background:var(--oxblood-bright);color:var(--cream);
+    border:1px solid var(--oxblood-bright);
+  }
+  .btn-primary:hover{background:var(--oxblood);transform:translateY(-2px)}
+  .btn-ghost{
+    background:transparent;color:var(--gold-bright);
+    border:1px solid var(--gold);
+  }
+  .btn-ghost:hover{background:var(--gold);color:var(--ink);transform:translateY(-2px)}
+
+  .runout{
+    margin-top:4rem;padding-top:2rem;
+    border-top:1px solid rgba(216,168,74,.2);
+    display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.65rem;letter-spacing:2px;text-transform:uppercase;
+    color:rgba(248,241,224,.4);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media(max-width:900px){
+    #hero{grid-template-columns:1fr;padding-top:6rem}
+    .turntable{order:-1;width:min(400px,85vw)}
+    .nav-links{display:none}
+    .liner{padding:2rem 1.5rem}
+    .liner-grid{grid-template-columns:1fr;gap:1.5rem}
+    .stamp{margin:0 auto}
+    .track{grid-template-columns:40px 1fr auto;gap:1rem;padding:1.25rem}
+    .track-dur{display:none}
+    .track-title{font-size:1.15rem}
+    .eq-wrap{padding:2rem 1.5rem}
+    .release{grid-template-columns:1fr;gap:1rem}
+    .disco::before{display:none}
+    .release-dot{display:none}
+    section{padding:4rem 5%}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">
+    <span class="brand-dot"></span>
+    <div>
+      <div class="brand-name">Ruby James</div>
+      <div class="brand-sub">33⅓ RPM · Side A</div>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">Liner Notes</a></li>
+    <li><a href="#tracks">Tracklist</a></li>
+    <li><a href="#skills">EQ</a></li>
+    <li><a href="#disco">Discography</a></li>
+    <li><a href="#contact" class="nav-cta">Request B-Side</a></li>
+  </ul>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="side-tag">Now Playing · Side A</div>
+    <h1 class="hero-title">
+      A Full-Stack
+      <em>Composition</em>
+      in Code.
+    </h1>
+    <p class="hero-sub">
+      Full-stack developer &amp; creative technologist crafting interfaces with the warmth of analog and the precision of a mastered record.
+    </p>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <span class="meta-label">Catalog</span>
+        <span class="meta-value">RJ-2026</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Genre</span>
+        <span class="meta-value">Web · UI · AI</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Runtime</span>
+        <span class="meta-value">48:12</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="turntable">
+    <div class="platter"></div>
+    <div class="record">
+      <div class="label">
+        <div class="label-top">Ruby James</div>
+        <div class="label-title">Side&nbsp;A</div>
+        <div class="label-bottom">RJ · 2026</div>
+      </div>
+    </div>
+    <div class="tonearm"></div>
+  </div>
+</section>
+
+<!-- ─── LINER NOTES ─── -->
+<section id="about">
+  <div class="sec-head">
+    <span class="sec-kicker">Liner Notes</span>
+    <h2 class="sec-title">The <em>story</em> behind the record.</h2>
+  </div>
+
+  <div class="liner">
+    <div class="liner-grid">
+      <div class="stamp">
+        <span class="stamp-top">Pressed</span>
+        <span class="stamp-big">RJ</span>
+        <span class="stamp-bot">2026 · Vol I</span>
+      </div>
+      <div>
+        <p class="drop">This record was written in quiet hours — between cups of coffee, commits at midnight, and the soft hum of a machine thinking alongside me. Every track is a problem I fell in love with long enough to ship.</p>
+        <p>My work sits where engineering meets craft: full-stack systems that feel considered from the first paint to the last query. I care about typography the way a mastering engineer cares about the final 2&nbsp;dB. I care about state the way a drummer cares about timing.</p>
+        <p>I build with React, TypeScript, Node, Python, and a growing shelf of AI tools. But the real instrument is curiosity — and the willingness to re-cut a track until it sings.</p>
+        <p class="sig">— Ruby, producer &amp; engineer</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TRACKLIST ─── -->
+<section id="tracks">
+  <div class="sec-head">
+    <span class="sec-kicker">Tracklist</span>
+    <h2 class="sec-title">Selected <em>works</em> from the archive.</h2>
+    <p class="sec-desc">Seven tracks. Each one pressed, mastered, and shipped.</p>
+  </div>
+
+  <div class="tracklist">
+    <div class="track">
+      <div class="track-num">A1</div>
+      <div class="track-info">
+        <div class="track-title">Aurora — Realtime Dashboard</div>
+        <div class="track-meta">React · D3 · WebSockets · 2025</div>
+      </div>
+      <div class="track-dur">04:32</div>
+      <button class="play" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+    </div>
+    <div class="track">
+      <div class="track-num">A2</div>
+      <div class="track-info">
+        <div class="track-title">Spline — 3D Product Configurator</div>
+        <div class="track-meta">Three.js · GSAP · Next.js · 2025</div>
+      </div>
+      <div class="track-dur">06:48</div>
+      <button class="play" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+    </div>
+    <div class="track">
+      <div class="track-num">A3</div>
+      <div class="track-info">
+        <div class="track-title">Galaxy — AI Writing Companion</div>
+        <div class="track-meta">Claude API · Streaming · TypeScript · 2025</div>
+      </div>
+      <div class="track-dur">07:21</div>
+      <button class="play" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+    </div>
+    <div class="track">
+      <div class="track-num">A4</div>
+      <div class="track-info">
+        <div class="track-title">Arcade — Motion-First Portfolio System</div>
+        <div class="track-meta">Framer Motion · CSS Grid · 2024</div>
+      </div>
+      <div class="track-dur">05:05</div>
+      <button class="play" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+    </div>
+    <div class="track">
+      <div class="track-num">B1</div>
+      <div class="track-info">
+        <div class="track-title">Worlds — Multi-Tenant SaaS Platform</div>
+        <div class="track-meta">Node · PostgreSQL · Stripe · 2024</div>
+      </div>
+      <div class="track-dur">08:14</div>
+      <button class="play" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+    </div>
+    <div class="track">
+      <div class="track-num">B2</div>
+      <div class="track-info">
+        <div class="track-title">Swiss — Editorial Design System</div>
+        <div class="track-meta">Storybook · TypeScript · Tokens · 2024</div>
+      </div>
+      <div class="track-dur">06:02</div>
+      <button class="play" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+    </div>
+    <div class="track">
+      <div class="track-num">B3</div>
+      <div class="track-info">
+        <div class="track-title">Gallery — Headless CMS for Artists</div>
+        <div class="track-meta">Payload · Cloudflare · R2 · 2023</div>
+      </div>
+      <div class="track-dur">10:10</div>
+      <button class="play" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- ─── EQ / SKILLS ─── -->
+<section id="skills">
+  <div class="sec-head">
+    <span class="sec-kicker">Studio EQ</span>
+    <h2 class="sec-title">The <em>levels</em> I mix at.</h2>
+    <p class="sec-desc">Every stack balanced to taste. These are the faders I reach for most.</p>
+  </div>
+
+  <div class="eq-wrap">
+    <div class="eq-head">
+      <span class="eq-brand">NAT·MIX</span>
+      <span class="eq-model">MODEL 2026 — 10 CH · ±12dB</span>
+    </div>
+    <div class="eq-grid" id="eq">
+      <div class="eq-channel" data-lvl="95"><div class="eq-track"><div class="eq-fill"></div><div class="eq-fader"></div></div><div class="eq-label">React</div><div class="eq-val">+10 dB</div></div>
+      <div class="eq-channel" data-lvl="92"><div class="eq-track"><div class="eq-fill"></div><div class="eq-fader"></div></div><div class="eq-label">TypeScript</div><div class="eq-val">+9 dB</div></div>
+      <div class="eq-channel" data-lvl="88"><div class="eq-track"><div class="eq-fill"></div><div class="eq-fader"></div></div><div class="eq-label">Node</div><div class="eq-val">+8 dB</div></div>
+      <div class="eq-channel" data-lvl="85"><div class="eq-track"><div class="eq-fill"></div><div class="eq-fader"></div></div><div class="eq-label">Next.js</div><div class="eq-val">+7 dB</div></div>
+      <div class="eq-channel" data-lvl="80"><div class="eq-track"><div class="eq-fill"></div><div class="eq-fader"></div></div><div class="eq-label">Python</div><div class="eq-val">+6 dB</div></div>
+      <div class="eq-channel" data-lvl="78"><div class="eq-track"><div class="eq-fill"></div><div class="eq-fader"></div></div><div class="eq-label">Postgres</div><div class="eq-val">+5 dB</div></div>
+      <div class="eq-channel" data-lvl="82"><div class="eq-track"><div class="eq-fill"></div><div class="eq-fader"></div></div><div class="eq-label">Claude API</div><div class="eq-val">+7 dB</div></div>
+      <div class="eq-channel" data-lvl="74"><div class="eq-track"><div class="eq-fill"></div><div class="eq-fader"></div></div><div class="eq-label">Three.js</div><div class="eq-val">+4 dB</div></div>
+      <div class="eq-channel" data-lvl="76"><div class="eq-track"><div class="eq-fill"></div><div class="eq-fader"></div></div><div class="eq-label">Tailwind</div><div class="eq-val">+5 dB</div></div>
+      <div class="eq-channel" data-lvl="70"><div class="eq-track"><div class="eq-fill"></div><div class="eq-fader"></div></div><div class="eq-label">Docker</div><div class="eq-val">+3 dB</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DISCOGRAPHY ─── -->
+<section id="disco">
+  <div class="sec-head">
+    <span class="sec-kicker">Discography</span>
+    <h2 class="sec-title">Past <em>releases</em>, ordered by pressing.</h2>
+  </div>
+
+  <div class="disco">
+    <div class="release">
+      <div class="release-dot"></div>
+      <div class="release-card">
+        <div class="release-year">2025 — PRESENT</div>
+        <div class="release-title">Independent Studio</div>
+        <div class="release-label">Freelance · Full-Stack &amp; AI</div>
+        <p class="release-desc">Shipping product-grade interfaces and AI-assisted tools for founders and teams who want the polish of a label without losing the independent sound.</p>
+        <div class="release-tags"><span>React</span><span>Claude</span><span>Next.js</span></div>
+      </div>
+    </div>
+    <div class="release">
+      <div class="release-dot"></div>
+      <div class="release-card">
+        <div class="release-year">2023 — 2025</div>
+        <div class="release-title">Senior Frontend Engineer</div>
+        <div class="release-label">Product company · Remote</div>
+        <p class="release-desc">Led the rewrite of a design system used across six products; cut bundle size by 38% and pushed Lighthouse from 62 to 97. Mentored two juniors to mid-level.</p>
+        <div class="release-tags"><span>Design System</span><span>Perf</span><span>TypeScript</span></div>
+      </div>
+    </div>
+    <div class="release">
+      <div class="release-dot"></div>
+      <div class="release-card">
+        <div class="release-year">2021 — 2023</div>
+        <div class="release-title">Full-Stack Developer</div>
+        <div class="release-label">Agency · Hybrid</div>
+        <p class="release-desc">Shipped twelve client sites and two internal tools. Built a CMS-on-top-of-Postgres that the team still uses. Learned how to scope, how to say no, and how to press “deploy” without flinching.</p>
+        <div class="release-tags"><span>Node</span><span>Postgres</span><span>CI/CD</span></div>
+      </div>
+    </div>
+    <div class="release">
+      <div class="release-dot"></div>
+      <div class="release-card">
+        <div class="release-year">2019 — 2021</div>
+        <div class="release-title">Junior Developer · Debut EP</div>
+        <div class="release-label">First pressings</div>
+        <p class="release-desc">Early-career work on internal tools and small client builds. The tracks that taught me how the board works.</p>
+        <div class="release-tags"><span>JS</span><span>HTML/CSS</span><span>Fundamentals</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── B-SIDE / CONTACT ─── -->
+<section id="contact">
+  <div class="contact-wrap">
+    <span class="sec-kicker">Request B-Side</span>
+    <h2 class="sec-title">Got a <em>track</em> you'd like pressed?</h2>
+    <p class="sec-desc">New project, consultation, or a late-night idea you can't shake — send it over. I read every request and reply within two working days.</p>
+
+    <div class="cta-row">
+      <a href="mailto:ruby@rubyjames.fm" class="btn btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4zM4 7l8 6 8-6"/></svg>
+        Send the Brief
+      </a>
+      <a href="https://github.com/" target="_blank" rel="noopener" class="btn btn-ghost">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.6.5.5 5.6.5 12c0 5 3.3 9.3 7.9 10.8.6.1.8-.3.8-.6v-2.1c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.7 2.7 1.2 3.4.9.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.2 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4c2.2-1.5 3.2-1.2 3.2-1.2.6 1.7.2 2.9.1 3.2.7.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.8C23.5 5.6 18.4.5 12 .5z"/></svg>
+        GitHub
+      </a>
+      <a href="https://linkedin.com/" target="_blank" rel="noopener" class="btn btn-ghost">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8h4.56v14H.22V8zm7.2 0h4.37v1.92h.06c.61-1.15 2.1-2.36 4.32-2.36 4.62 0 5.48 3.04 5.48 7v7.44h-4.56v-6.6c0-1.57-.03-3.6-2.19-3.6-2.2 0-2.54 1.72-2.54 3.49V22H7.42V8z"/></svg>
+        LinkedIn
+      </a>
+    </div>
+
+    <div class="runout">
+      <span>Matrix · RJ/A-2026/001</span>
+      <span>Pressed in 180g HTML</span>
+      <span>© 2026 Ruby James — All tracks self-engineered</span>
+    </div>
+  </div>
+</section>
+
+<script>
+  // EQ animation on scroll
+  const eq = document.getElementById('eq');
+  const animateEq = () => {
+    eq.querySelectorAll('.eq-channel').forEach((ch, i) => {
+      const lvl = +ch.dataset.lvl;
+      const fill = ch.querySelector('.eq-fill');
+      const fader = ch.querySelector('.eq-fader');
+      setTimeout(() => {
+        fill.style.height = lvl + '%';
+        fader.style.bottom = 'calc(' + lvl + '% - 7px)';
+      }, i * 80);
+    });
+  };
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { animateEq(); io.disconnect(); }});
+  }, { threshold: 0.3 });
+  io.observe(eq);
+
+  // Pause record spin when tab hidden (courtesy)
+  document.addEventListener('visibilitychange', () => {
+    const rec = document.querySelector('.record');
+    rec.style.animationPlayState = document.hidden ? 'paused' : 'running';
+  });
+</script>
+
+</body>
+</html>

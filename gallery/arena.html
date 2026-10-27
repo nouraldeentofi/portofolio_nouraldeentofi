@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOUR LIVE — Stadium World Tour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--night4:#0e0a1a;--fg:#f4f0fc;--dim:rgba(244,240,252,.6);--pink4:#ff4fa3;--cyan3:#4fd8ff;--gold16:#ffd23f}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;color:var(--fg);min-height:100vh;
+    background:radial-gradient(80vw 60vh at 50% 0%,#241844,var(--night4) 60%);
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--pink4);color:#0e0a1a}
+  h1{font-family:'Anton';font-size:clamp(26px,5.4vw,48px);letter-spacing:.04em;text-transform:uppercase}
+  h1 span{color:var(--pink4)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--dim);
+    margin:8px 0 16px;text-transform:uppercase;text-align:center}
+
+  #stadium{position:relative;width:min(780px,97vw);height:340px;border-radius:18px;overflow:hidden;
+    background:linear-gradient(180deg,#181028 55%,#241838 55%);box-shadow:0 24px 60px rgba(0,0,0,.6)}
+  .laser{position:absolute;top:0;width:100px;height:70%;opacity:.2;transform-origin:top center;pointer-events:none;
+    background:linear-gradient(180deg,currentColor,transparent 80%)}
+  #l1{left:24%;color:var(--pink4);animation:sw1 4s ease-in-out infinite}
+  #l2{left:50%;color:var(--cyan3);animation:sw1 5s ease-in-out infinite reverse}
+  #l3{left:72%;color:var(--gold16);animation:sw1 6s ease-in-out infinite}
+  @keyframes sw1{0%,100%{transform:rotate(-18deg)}50%{transform:rotate(18deg)}}
+  #stageA{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);text-align:center;z-index:4}
+  #performer{font-size:64px;filter:drop-shadow(0 0 24px rgba(255,79,163,.6))}
+  #songNow{font-family:'Anton';font-size:clamp(13px,2.6vw,19px);letter-spacing:.08em;color:var(--gold16);
+    margin-top:6px;text-transform:uppercase;min-height:24px;text-shadow:0 0 16px rgba(255,210,63,.5)}
+  /* crowd */
+  #crowd{position:absolute;left:0;right:0;bottom:0;height:42%;display:flex;flex-wrap:wrap;align-content:flex-end;
+    justify-content:center;gap:1px 5px;padding:0 10px 8px;z-index:3}
+  .fan{font-size:17px;transition:transform .25s}
+  .fan.up{transform:translateY(-12px)}
+  #screenL,#screenR{position:absolute;top:16px;width:120px;height:70px;background:#000;border:2px solid #3a2a5c;
+    border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:34px;z-index:4}
+  #screenL{left:16px}#screenR{right:16px}
+
+  #mixer2{width:min(780px,97vw);margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .mB{font-family:'Anton';font-size:13px;letter-spacing:.08em;border:none;border-radius:12px;padding:13px 22px;
+    cursor:pointer;background:#2a1e44;color:var(--fg);box-shadow:0 4px 0 #14102a;transition:transform .1s,box-shadow .1s;text-transform:uppercase}
+  .mB:active{transform:translateY(3px);box-shadow:0 1px 0 #14102a}
+  .mB.hot2{background:var(--pink4);box-shadow:0 4px 0 #992a5e}
+  .mB.hot2:active{box-shadow:0 1px 0 #992a5e}
+
+  #setlist{margin-top:16px;width:min(640px,95vw);background:rgba(255,255,255,.05);border:1px solid rgba(255,79,163,.3);
+    border-radius:14px;padding:18px 22px}
+  #setlist .t{font-family:'Anton';font-size:13px;letter-spacing:.1em;color:var(--pink4);text-transform:uppercase;text-align:center;margin-bottom:10px}
+  .song{display:flex;gap:12px;align-items:center;padding:8px 6px;font-size:12.5px;border-bottom:1px dashed rgba(244,240,252,.15);
+    color:var(--dim);cursor:pointer;border-radius:6px}
+  .song:hover{background:rgba(255,79,163,.1)}
+  .song.now{color:var(--gold16)}
+  .song.now::before{content:'▶ '}
+  .song .dur2{margin-left:auto;font-family:'IBM Plex Mono';font-size:10px}
+  #encore{margin-top:14px;text-align:center;font-size:12.5px;line-height:1.7;color:var(--dim);min-height:56px}
+  #encore b{color:var(--fg)}
+  .btns{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 18px;border-radius:99px;
+    border:2px solid var(--gold16);color:var(--gold16);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--gold16);color:#0e0a1a}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>NOUR <span>LIVE</span> — RIYADH STADIUM</h1>
+<div class="sub">World tour 2026 · sold out (of excuses) · trigger the wave · حفلة العمر</div>
+
+<div id="stadium">
+  <div class="laser" id="l1"></div><div class="laser" id="l2"></div><div class="laser" id="l3"></div>
+  <div id="screenL">👨‍💻</div><div id="screenR">🎸</div>
+  <div id="stageA"><div id="performer">🧑‍🎤</div><div id="songNow">— PICK A SONG FROM THE SETLIST —</div></div>
+  <div id="crowd"></div>
+</div>
+
+<div id="mixer2">
+  <button class="mB hot2" id="waveB">🌊 CROWD WAVE</button>
+  <button class="mB" id="lightersB">🔥 LIGHTERS UP</button>
+  <button class="mB" id="chantB">📣 CHANT "NOUR!"</button>
+</div>
+
+<div id="setlist">
+  <div class="t">— TONIGHT'S SETLIST —</div>
+  <div class="song" data-s="0"><span>1. Kalamoon Nights (2019–24)</span><span class="dur2">5:00</span></div>
+  <div class="song" data-s="1"><span>2. Merciless Clock (ICPC anthem)</span><span class="dur2">2:01</span></div>
+  <div class="song" data-s="2"><span>3. Component Heart (React ballad)</span><span class="dur2">3:23</span></div>
+  <div class="song" data-s="3"><span>4. Golden (the GoldenTag single)</span><span class="dur2">4:25</span></div>
+  <div class="song" data-s="4"><span>5. Supervisor State of Mind</span><span class="dur2">20:26</span></div>
+  <div id="encore">Every song is a true story. The encore is always the same: <b>"Your Project (Unreleased)"</b> — it needs a co-writer.</div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const SONGS=[
+ ['KALAMOON NIGHTS','Five verses, one degree: <b>B.Tech IT, University of Kalamoon (2019–2024)</b>. The crowd sways to the fundamentals.'],
+ ['MERCILESS CLOCK','The fast one — <b>ICPC/ACPC 2021</b>. 200 BPM of algorithms. The pit goes wild.'],
+ ['COMPONENT HEART','The React ballad, played nightly since 2023: <b>Minicodeleader → Khwarizm → Distinctive Frontier.</b> Phones up, states lifted.'],
+ ['GOLDEN','The platinum single: <b>GoldenTag, shipped to Google Play</b> via NexLead coordination. Everyone knows the chorus: "inventory, barcodes, USD/SYP…"'],
+ ['SUPERVISOR STATE OF MIND','The closer — <b>Jan 2026, the promotion</b>. Standards, architecture, delivery. Stadium lights full blast.']
+];
+/* crowd */
+const crowd=document.getElementById('crowd');
+const FANS=[];
+for(let i=0;i<72;i++){
+  const f=document.createElement('span');f.className='fan';
+  f.textContent=['🙆','🙋','🧑','👩','👨','🙌'][i%6];
+  crowd.appendChild(f);FANS.push(f);
+}
+let AC=null;
+function chord2(fs,dur,v){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  fs.forEach(f=>{const o=AC.createOscillator(),g=AC.createGain();
+    o.type='sawtooth';o.frequency.value=f;
+    g.gain.setValueAtTime((v||.03),AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+(dur||.6));
+    o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+(dur||.6)+.05);});}catch(e){}}
+function crowdRoar(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const b=AC.createBuffer(1,AC.sampleRate*1.4,AC.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.min(1,i/(AC.sampleRate*.1))*(1-i/d.length);
+  const s=AC.createBufferSource();s.buffer=b;
+  const f=AC.createBiquadFilter();f.type='bandpass';f.frequency.value=1200;
+  const g=AC.createGain();g.gain.value=.12;
+  s.connect(f);f.connect(g);g.connect(AC.destination);s.start();}catch(e){}}
+
+document.getElementById('waveB').onclick=async()=>{
+  crowdRoar();
+  for(let i=0;i<FANS.length;i++){
+    setTimeout(()=>{FANS[i].classList.add('up');
+      setTimeout(()=>FANS[i].classList.remove('up'),reduced?100:300);},i*(reduced?5:26));
+  }
+};
+document.getElementById('lightersB').onclick=()=>{
+  chord2([220,277,330],1.2,.025);
+  FANS.forEach((f,i)=>{if(i%3===0)f.textContent='🕯';});
+  setTimeout(()=>FANS.forEach((f,i)=>{if(i%3===0)f.textContent='🙌';}),2600);
+};
+document.getElementById('chantB').onclick=()=>{
+  crowdRoar();
+  const sn=document.getElementById('songNow');
+  const old=sn.textContent;
+  sn.textContent='🗣 NOUR! NOUR! NOUR!';
+  setTimeout(()=>sn.textContent=old,1800);
+};
+document.querySelectorAll('.song').forEach(s=>s.onclick=()=>{
+  document.querySelectorAll('.song').forEach(x=>x.classList.remove('now'));
+  s.classList.add('now');
+  const i=+s.dataset.s;
+  chord2([261,329,392],1,.04);
+  crowdRoar();
+  document.getElementById('songNow').textContent='♪ '+SONGS[i][0]+' ♪';
+  document.getElementById('encore').innerHTML=SONGS[i][1];
+  const old=document.querySelector('#setlist .btns');if(old)old.remove();
+  if(i===4){
+    const d=document.createElement('div');d.className='btns';
+    d.innerHTML=`<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=The%20encore&body=Requesting%20%22Your%20Project%20(Unreleased)%22.%20Co-writing%20details%3A%20">🎤 Request the encore</a>
+      <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`;
+    document.getElementById('setlist').appendChild(d);
+  }
+});
+</script>
+</body>
+</html>

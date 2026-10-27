@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — BALANCE · Needs vs. Skills</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--court2:#efe9dc;--fg:#2a251c;--dim:rgba(42,37,28,.62);--brass2:#a8823c;--brassL:#d4b06a;--red4:#b3402e;--green5:#2e7a54}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;background:linear-gradient(180deg,#f5f0e4,var(--court2));color:var(--fg);
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--brassL)}
+  h1{font-family:'Marcellus',serif;font-size:clamp(24px,4.8vw,42px)}
+  h1 em{color:var(--brass2);font-style:normal}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.26em;color:var(--dim);
+    margin:8px 0 20px;text-transform:uppercase;text-align:center}
+
+  /* scale */
+  #scaleWrap{position:relative;width:min(640px,95vw);height:330px}
+  #pillar{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);width:16px;height:210px;
+    background:linear-gradient(90deg,#c9a860,var(--brass2));border-radius:8px 8px 0 0}
+  #baseS{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:150px;height:24px;
+    background:linear-gradient(180deg,var(--brassL),var(--brass2));border-radius:10px}
+  #beam{position:absolute;left:50%;top:66px;width:min(480px,86%);height:12px;margin-left:calc(min(480px,86%)/-2);
+    background:linear-gradient(180deg,var(--brassL),var(--brass2));border-radius:8px;
+    transform-origin:center;transition:transform 1s cubic-bezier(.3,1.2,.4,1)}
+  #pivot{position:absolute;left:50%;top:58px;transform:translateX(-50%);width:28px;height:28px;border-radius:50%;
+    background:radial-gradient(circle at 36% 30%,#f0dca8,var(--brass2));box-shadow:0 3px 8px rgba(0,0,0,.3);z-index:4}
+  .chain{position:absolute;top:10px;width:2.5px;height:56px;background:var(--brass2)}
+  .pan{position:absolute;top:64px;width:170px;margin-left:-85px;min-height:66px;border-radius:0 0 60px 60px;
+    background:linear-gradient(180deg,#e8d9b0,#c9a860);box-shadow:inset 0 -8px 16px rgba(0,0,0,.15), 0 8px 20px rgba(42,37,28,.2);
+    padding:8px 10px;display:flex;flex-wrap:wrap;gap:5px;align-content:flex-start;justify-content:center}
+  .panSide{position:absolute;transition:transform 1s cubic-bezier(.3,1.2,.4,1);transform-origin:top center}
+  #sideL{left:calc(50% - min(480px,86%)/2 + 6px)}
+  #sideR{left:calc(50% + min(480px,86%)/2 - 6px)}
+  .panLbl{position:absolute;top:140px;left:0;transform:translateX(-50%);font-family:'IBM Plex Mono';
+    font-size:9px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase;white-space:nowrap;text-align:center}
+  .wt{font-size:10.5px;font-weight:700;background:#fff;border:1.5px solid rgba(42,37,28,.25);border-radius:8px;
+    padding:5px 8px;animation:win2 .4s cubic-bezier(.2,1.4,.4,1);white-space:nowrap}
+  @keyframes win2{from{transform:translateY(-30px) scale(.6);opacity:0}}
+  .wt.n{border-color:var(--red4);color:var(--red4)}
+  .wt.s{border-color:var(--green5);color:var(--green5)}
+
+  /* needs buttons */
+  #needs{width:min(640px,95vw);display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+  .need{font-family:'Karla';font-weight:700;font-size:12px;border:2px solid var(--red4);color:var(--red4);
+    background:#fff;border-radius:99px;padding:11px 16px;cursor:pointer;transition:all .2s}
+  .need:hover{background:var(--red4);color:#fff;transform:translateY(-2px)}
+  .need:disabled{opacity:.35;pointer-events:none}
+
+  #verdict2{margin-top:18px;max-width:560px;text-align:center;min-height:90px}
+  #verdict2 .k{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.28em;color:var(--brass2);text-transform:uppercase;font-weight:600}
+  #verdict2 h2{font-family:'Marcellus';font-size:clamp(18px,3.4vw,26px);margin:8px 0 6px}
+  #verdict2 p{font-size:13px;line-height:1.7;color:var(--dim)}
+  #verdict2 p b{color:var(--fg)}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.12em;padding:12px 20px;border-radius:99px;
+    background:var(--fg);color:#fff;text-transform:uppercase;font-weight:600}
+  .btn.g{background:none;border:2px solid var(--fg);color:var(--fg)}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>⚖️ The Scale of <em>Fair Work</em></h1>
+<div class="sub">Load your needs on the left — watch the skills answer on the right · ميزان عادل</div>
+
+<div id="scaleWrap">
+  <div id="pillar"></div><div id="baseS"></div>
+  <div id="beam"></div><div id="pivot"></div>
+  <div class="panSide" id="sideL"><div class="chain" style="left:-24px"></div><div class="chain" style="left:24px"></div>
+    <div class="pan" id="panL"></div><div class="panLbl">YOUR PROJECT NEEDS</div></div>
+  <div class="panSide" id="sideR"><div class="chain" style="left:-24px"></div><div class="chain" style="left:24px"></div>
+    <div class="pan" id="panR"></div><div class="panLbl">NOUR PROVIDES</div></div>
+</div>
+
+<div id="needs">
+  <button class="need" data-n="0">+ I need a website</button>
+  <button class="need" data-n="1">+ I need a frontend</button>
+  <button class="need" data-n="2">+ I need a brand</button>
+  <button class="need" data-n="3">+ I need social content</button>
+  <button class="need" data-n="4">+ I need a manager</button>
+  <button class="need" data-n="5">+ I need it ON TIME</button>
+</div>
+
+<div id="verdict2">
+  <div class="k">Court of projects · session open</div>
+  <h2>State your needs</h2>
+  <p>Each need you add tips the scale — and each is answered, weight for weight, by a real skill of <b>Nour Aldeen Tofi</b>.</p>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const PAIRS=[
+ ['🌐 Website','⚛️ React & clean HTML/CSS','A modern, fast, mobile-first site — built the way he builds daily.'],
+ ['🖥 Frontend','🏗 Supervisor-grade React+TS','Components, dashboards, full UIs — Distinctive Frontier Co. standard (2026→).'],
+ ['🎨 Brand','✒️ Logos & business cards','Identity with taste — print-ready, every format.'],
+ ['📱 Social content','🖼 Visual packs','Instagram & LinkedIn designs, consistent and branded.'],
+ ['🧭 A manager','📋 Proven coordination','Scope, user stories, releases — the process that shipped GoldenTag to Google Play.'],
+ ['⏰ On time','🏅 ICPC discipline','2021 competitive-programming reflexes + supervisor accountability. Deadlines respected.']
+];
+let AC=null;
+function clink2(f){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f||800;
+  g.gain.setValueAtTime(.06,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.3);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.33);}catch(e){}}
+
+let added=0;
+const beam=document.getElementById('beam'),sL=document.getElementById('sideL'),sR=document.getElementById('sideR');
+function tilt(deg){
+  beam.style.transform=`rotate(${deg}deg)`;
+  const dy=Math.sin(deg*Math.PI/180)*(Math.min(480,innerWidth*.86)/2-6);
+  sL.style.transform=`translateY(${dy}px)`;
+  sR.style.transform=`translateY(${-dy}px)`;
+}
+tilt(0);
+document.querySelectorAll('.need').forEach(b=>b.onclick=async()=>{
+  b.disabled=true;
+  const i=+b.dataset.n;
+  const [need,skill,expl]=PAIRS[i];
+  /* left drops: tilt left */
+  const wl=document.createElement('div');wl.className='wt n';wl.textContent=need;
+  document.getElementById('panL').appendChild(wl);
+  clink2(420);
+  tilt(-7);
+  setV('Objection noted…','The scale tips — your need has weight.',expl,false);
+  await new Promise(r=>setTimeout(r,reduced?150:900));
+  /* right answers: balance */
+  const wr=document.createElement('div');wr.className='wt s';wr.textContent=skill;
+  document.getElementById('panR').appendChild(wr);
+  clink2(760);
+  tilt(0);
+  added++;
+  if(added>=PAIRS.length){
+    setV('VERDICT · PERFECTLY BALANCED','Every need — answered.',
+      `Six needs, six answers, zero wobble. <b>Nour Aldeen Tofi</b> — frontend developer &amp; SW engineering supervisor, Riyadh · AR+EN. The court recommends immediate collaboration.`,true);
+    [660,880,1100].forEach((f,j)=>setTimeout(()=>clink2(f),j*140));
+  }else{
+    setV('Balanced ✓','Need met. Add another.',expl,false);
+  }
+});
+function setV(k,h,p,final){
+  document.querySelector('#verdict2 .k').textContent=k;
+  document.querySelector('#verdict2 h2').textContent=h;
+  document.querySelector('#verdict2 p').innerHTML=p;
+  const old=document.querySelector('#verdict2 .btns');if(old)old.remove();
+  if(final){
+    const d=document.createElement('div');d.className='btns';
+    d.innerHTML=`<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Perfectly%20balanced&body=All%20six%20needs%20met.%20My%20project%3A%20">⚖️ Settle out of court</a>
+      <a class="btn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`;
+    document.getElementById('verdict2').appendChild(d);
+  }
+}
+</script>
+</body>
+</html>

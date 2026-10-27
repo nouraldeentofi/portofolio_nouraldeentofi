@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — PHOTOBOOTH · 4 Shots, 1 Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--curtain:#8a2440;--curtaind:#5c1428;--booth:#2a2a33;--fg:#fdf6ec;--dim:rgba(253,246,236,.65);--acc:#ffcf4d}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Fredoka',sans-serif;background:radial-gradient(80vw 60vh at 50% 0%,#3a3a47,#1c1c24);
+    color:var(--fg);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--acc);color:#2a2a33}
+  h1{font-weight:700;font-size:clamp(24px,4.8vw,42px)}
+  h1 span{color:var(--acc)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--dim);
+    margin:8px 0 24px;text-transform:uppercase;text-align:center}
+
+  #area{display:grid;grid-template-columns:minmax(280px,420px) 180px;gap:22px;align-items:start}
+  @media(max-width:640px){#area{grid-template-columns:1fr;justify-items:center}}
+
+  /* booth */
+  #booth{background:var(--booth);border-radius:20px;padding:16px;box-shadow:0 30px 70px rgba(0,0,0,.55)}
+  #marq{text-align:center;font-weight:700;font-size:13px;letter-spacing:.2em;color:var(--acc);
+    background:#1c1c24;border-radius:10px;padding:9px;margin-bottom:12px}
+  #frameV{position:relative;aspect-ratio:4/3.4;border-radius:14px;overflow:hidden;
+    background:linear-gradient(180deg,var(--curtain),var(--curtaind))}
+  #frameV::before{content:'';position:absolute;inset:0;
+    background:repeating-linear-gradient(90deg,rgba(0,0,0,.18) 0 26px,transparent 26px 52px)}
+  #subject{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+  #face{font-size:clamp(70px,16vw,110px);transition:transform .3s;filter:drop-shadow(0 8px 14px rgba(0,0,0,.4))}
+  #pose{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.2em;color:rgba(253,246,236,.9);
+    background:rgba(0,0,0,.4);padding:5px 12px;border-radius:99px;text-transform:uppercase}
+  #count{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:5;
+    font-weight:700;font-size:110px;color:#fff;text-shadow:0 0 40px rgba(0,0,0,.6);background:rgba(0,0,0,.25)}
+  #flash{position:absolute;inset:0;background:#fff;opacity:0;z-index:6;pointer-events:none}
+  #snapB{width:100%;margin-top:12px;font-family:'Fredoka';font-weight:700;font-size:17px;border:none;border-radius:12px;
+    padding:15px;background:var(--acc);color:#2a2a33;cursor:pointer;box-shadow:0 5px 0 #b8912e;transition:transform .1s,box-shadow .1s}
+  #snapB:active{transform:translateY(4px);box-shadow:0 1px 0 #b8912e}
+  #snapB:disabled{filter:grayscale(.6);pointer-events:none}
+  #coinNote{font-family:'IBM Plex Mono';font-size:9px;letter-spacing:.2em;color:var(--dim);text-align:center;margin-top:8px;text-transform:uppercase}
+
+  /* strip */
+  #stripSlot{width:150px;text-align:center}
+  #slotLbl{font-family:'IBM Plex Mono';font-size:9px;letter-spacing:.24em;color:var(--dim);text-transform:uppercase;margin-bottom:8px}
+  #slotOpening{height:10px;background:#111;border-radius:5px;box-shadow:inset 0 2px 6px #000;margin-bottom:2px}
+  #strip{background:#fdf6ec;padding:10px 10px 14px;border-radius:4px;box-shadow:0 16px 40px rgba(0,0,0,.5);
+    transform:translateY(-8px);max-height:0;overflow:hidden;transition:max-height 2.6s ease}
+  #strip.out{max-height:640px}
+  .shot{background:#ddd;border-radius:3px;margin-bottom:8px;aspect-ratio:4/3;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;color:#2a2a33;overflow:hidden;position:relative}
+  .shot .se{font-size:40px}
+  .shot .sc{font-family:'IBM Plex Mono';font-size:7.5px;letter-spacing:.06em;font-weight:600;color:#4a4a55;margin-top:2px;text-align:center;padding:0 4px}
+  #stripFoot{font-family:'IBM Plex Mono';font-size:7.5px;color:#4a4a55;letter-spacing:.08em;line-height:1.7}
+  #stripFoot b{color:#8a2440}
+
+  /* card under */
+  #ctaCard{margin-top:22px;max-width:520px;text-align:center;display:none}
+  #ctaCard.show{display:block}
+  #ctaCard h2{font-weight:700;font-size:clamp(18px,3.4vw,26px)}
+  #ctaCard h2 b{color:var(--acc)}
+  #ctaCard p{font-size:13px;line-height:1.7;color:var(--dim);margin-top:8px}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .btn{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.12em;padding:12px 20px;border-radius:99px;
+    border:2px solid var(--acc);color:var(--acc);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--acc);color:#2a2a33}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<h1>📸 The <span>Nour</span> Photobooth</h1>
+<div class="sub">4 poses · 1 developer · free of charge · ابتسم!</div>
+
+<div id="area">
+  <div id="booth">
+    <div id="marq">★ PHOTOS WHILE-U-WAIT ★</div>
+    <div id="frameV">
+      <div id="subject"><div id="face">😎</div><div id="pose">READY WHEN YOU ARE</div></div>
+      <div id="count">3</div>
+      <div id="flash"></div>
+    </div>
+    <button id="snapB">▶ START THE SESSION</button>
+    <div id="coinNote">NO COIN NEEDED — TALENT IS THE CURRENCY</div>
+  </div>
+
+  <div id="stripSlot">
+    <div id="slotLbl">Prints drop here</div>
+    <div id="slotOpening"></div>
+    <div id="strip">
+      <div class="shot" data-i="0"><span class="se">👨‍💻</span><span class="sc">THE DEVELOPER · React · TS · Tailwind</span></div>
+      <div class="shot" data-i="1"><span class="se">👔</span><span class="sc">THE SUPERVISOR · leads frontend @ D. Frontier '26→</span></div>
+      <div class="shot" data-i="2"><span class="se">🧭</span><span class="sc">THE COORDINATOR · shipped GoldenTag → Google Play</span></div>
+      <div class="shot" data-i="3"><span class="se">🏸</span><span class="sc">THE HUMAN · anime · chess · badminton · film</span></div>
+      <div id="stripFoot"><b>NOUR ALDEEN TOFI</b> · RIYADH · AR+EN<br>nouraldeentofi@gmail.com<br>ICPC '21 · B.TECH IT · META/GOOGLE/IBM CERTIFIED</div>
+    </div>
+  </div>
+</div>
+
+<div id="ctaCard">
+  <h2>Keep the strip. <b>Keep the developer too?</b></h2>
+  <p>Websites · React frontends · logos · business cards · social visuals · project coordination. Four poses, one person — all professional.</p>
+  <div class="btns">
+    <a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Photobooth%20says%20hi&body=Loved%20the%20strip%21%20My%20project%3A%20">✉ Book a session</a>
+    <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+  </div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const POSES=[
+ ['😎','POSE 1 · THE DEVELOPER'],
+ ['🤵','POSE 2 · THE SUPERVISOR'],
+ ['🫡','POSE 3 · THE COORDINATOR'],
+ ['🏸','POSE 4 · THE HUMAN']
+];
+let AC=null;
+function snd(f,t,type,v){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type=type||'sine';o.frequency.value=f;
+  g.gain.setValueAtTime(v||.06,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+(t||.15));
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+(t||.17));}catch(e){}}
+function shutter(){snd(1800,.05,'square',.06);setTimeout(()=>snd(900,.06,'square',.05),40);}
+
+const face=document.getElementById('face'),pose=document.getElementById('pose'),
+      count=document.getElementById('count'),flash=document.getElementById('flash');
+let busy=false;
+document.getElementById('snapB').onclick=async()=>{
+  if(busy)return;busy=true;
+  document.getElementById('snapB').disabled=true;
+  document.getElementById('strip').classList.remove('out');
+  document.querySelectorAll('.shot').forEach(s=>s.style.opacity=.25);
+  for(let i=0;i<POSES.length;i++){
+    face.textContent=POSES[i][0];
+    pose.textContent=POSES[i][1];
+    if(!reduced)face.animate([{transform:'scale(.8) rotate(-6deg)'},{transform:'scale(1)'}],{duration:300,easing:'ease-out'});
+    /* countdown */
+    count.style.display='flex';
+    for(let n=3;n>=1;n--){
+      count.textContent=n;snd(520,.1);
+      await wait(reduced?120:600);
+    }
+    count.style.display='none';
+    /* flash */
+    shutter();
+    if(!reduced)flash.animate([{opacity:0},{opacity:1,offset:.1},{opacity:0}],{duration:380});
+    document.querySelector(`.shot[data-i="${i}"]`).style.opacity=1;
+    await wait(reduced?120:700);
+  }
+  pose.textContent='PRINTING…';face.textContent='🖨️';
+  snd(220,.8,'sawtooth',.04);
+  document.getElementById('strip').classList.add('out');
+  await wait(reduced?200:2700);
+  snd(880,.2);snd(1100,.3);
+  pose.textContent='COLLECT YOUR STRIP →';face.textContent='🥳';
+  document.getElementById('ctaCard').classList.add('show');
+  document.getElementById('snapB').disabled=false;
+  document.getElementById('snapB').textContent='↺ ANOTHER SESSION';
+  busy=false;
+};
+function wait(ms){return new Promise(r=>setTimeout(r,ms));}
+</script>
+</body>
+</html>

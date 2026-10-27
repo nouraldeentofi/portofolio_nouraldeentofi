@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — FISHING · Catch a Service</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Grandstander:wght@600;800&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--dawn:#ffd9a8;--lake:#2e7a94;--laked:#1c5468;--fg:#243038;--dim:rgba(36,48,56,.65);--acc:#e05a3a;--cream2:#fdf8ec}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;color:var(--fg);min-height:100vh;
+    background:linear-gradient(180deg,var(--dawn),#f0b880 30%,var(--lake) 55%,var(--laked));
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--acc);color:#fff}
+  h1{font-family:'Grandstander';font-weight:800;font-size:clamp(22px,4.6vw,40px);color:#5c3a1e;text-shadow:0 2px 0 rgba(255,255,255,.4)}
+  h1 span{color:var(--acc)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.26em;color:#7a5230;
+    margin:6px 0 18px;text-transform:uppercase;text-align:center}
+
+  #pond{position:relative;width:min(680px,96vw);height:380px;border-radius:20px;overflow:hidden;cursor:pointer;
+    background:linear-gradient(180deg,rgba(255,217,168,.35) 0%,transparent 20%),linear-gradient(180deg,var(--lake),var(--laked));
+    box-shadow:0 24px 60px rgba(28,84,104,.4)}
+  .ripple2{position:absolute;border:2px solid rgba(255,255,255,.35);border-radius:50%;pointer-events:none;
+    animation:rp 3s infinite}
+  @keyframes rp{from{transform:scale(.2);opacity:.7}to{transform:scale(1.8);opacity:0}}
+  /* boat + fisher */
+  #boat{position:absolute;top:6px;left:50%;transform:translateX(-50%);text-align:center;z-index:5;font-size:44px}
+  #rodLine{position:absolute;z-index:4;width:2px;background:rgba(255,255,255,.75);left:50%;top:56px;height:0;transition:height .5s}
+  #bobber{position:absolute;z-index:5;left:50%;transform:translateX(-50%);font-size:18px;top:40px;opacity:0;transition:top .5s,opacity .3s}
+  #bobber.bite{animation:bob2 .3s infinite}
+  @keyframes bob2{50%{transform:translateX(-50%) translateY(6px)}}
+  .fish2{position:absolute;font-size:24px;z-index:2;opacity:.8;filter:blur(.4px)}
+  #msg2{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:8;font-family:'IBM Plex Mono';
+    font-size:10.5px;letter-spacing:.2em;color:#fff;background:rgba(20,40,50,.65);padding:9px 18px;border-radius:99px;
+    white-space:nowrap;text-transform:uppercase}
+
+  /* bucket */
+  #bucket{width:min(680px,96vw);margin-top:16px;background:var(--cream2);border-radius:16px;padding:16px 20px;
+    box-shadow:0 16px 40px rgba(28,84,104,.25)}
+  #bucket .t{font-family:'Grandstander';font-weight:800;font-size:14px;color:#5c3a1e;margin-bottom:8px}
+  #catchRow{display:flex;gap:10px;flex-wrap:wrap;min-height:44px}
+  .caught{background:#fff;border:2px solid rgba(36,48,56,.15);border-radius:12px;padding:8px 12px;font-size:11.5px;
+    font-weight:700;display:flex;align-items:center;gap:7px;animation:cin .4s cubic-bezier(.2,1.4,.4,1)}
+  @keyframes cin{from{transform:scale(.6);opacity:0}}
+  #cardF{margin-top:10px;font-size:12.5px;line-height:1.65;color:var(--dim);min-height:56px}
+  #cardF b{color:var(--fg)}
+  .btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:10px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 18px;border-radius:99px;
+    background:var(--fg);color:#fff;text-transform:uppercase;font-weight:600}
+  .btn.g{background:none;border:2px solid var(--fg);color:var(--fg)}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>🎣 LAKE <span>NOUR</span></h1>
+<div class="sub">Dawn session · the services are biting · click to cast, click to reel · صيد موفق</div>
+
+<div id="pond">
+  <div id="boat">🚣</div>
+  <div id="rodLine"></div>
+  <div id="bobber">🔴</div>
+  <div id="msg2">CLICK THE WATER TO CAST</div>
+</div>
+
+<div id="bucket">
+  <div class="t">🪣 Today's catch (<span id="cN">0</span>/6)</div>
+  <div id="catchRow"></div>
+  <div id="cardF">Everything in this lake is a real service or fact about <b>Nour Aldeen Tofi</b>. Catch all six and the big one appears…</div>
+  <div class="btns" id="fBtns"></div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const CATCHES=[
+ ['🐟','Website Trout','<b>Websites</b> — landing pages, portfolios, business sites. Fresh, fast, mobile-ready.'],
+ ['🐠','React Snapper','<b>React frontends</b> — TypeScript + Tailwind, supervisor-grade (Distinctive Frontier Co., 2026→).'],
+ ['🦈','Logo Shark','<b>Logos &amp; business cards</b> — a brand with teeth.'],
+ ['🐡','Social Puffer','<b>Social media visuals</b> — feeds that puff up with engagement.'],
+ ['🦞','Coordination Lobster','<b>Project coordination</b> — the catch that dragged GoldenTag all the way to Google Play.'],
+ ['🐙','Certification Octopus','Eight arms, ten certs: <b>Meta, Google ×2, IBM ×2, +5.</b> Plus ICPC \'21 and a B.Tech IT.']
+];
+const pond=document.getElementById('pond');
+let AC=null;
+function plop(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';
+  o.frequency.setValueAtTime(520,AC.currentTime);
+  o.frequency.exponentialRampToValueAtTime(180,AC.currentTime+.18);
+  g.gain.setValueAtTime(.09,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.25);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.28);}catch(e){}}
+function reelS(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  for(let i=0;i<8;i++){const t=AC.currentTime+i*.05;
+    const o=AC.createOscillator(),g=AC.createGain();o.type='square';o.frequency.value=1400;
+    g.gain.setValueAtTime(.02,t);g.gain.exponentialRampToValueAtTime(.0001,t+.03);
+    o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+.04);}}catch(e){}}
+function splash2(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const b=AC.createBuffer(1,AC.sampleRate*.4,AC.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length);
+  const s=AC.createBufferSource();s.buffer=b;
+  const f=AC.createBiquadFilter();f.type='highpass';f.frequency.value=1000;
+  const g=AC.createGain();g.gain.value=.09;
+  s.connect(f);f.connect(g);g.connect(AC.destination);s.start();}catch(e){}}
+
+/* ambient fish */
+for(let i=0;i<5;i++){
+  const f=document.createElement('div');f.className='fish2';
+  f.textContent=['🐟','🐠','🐡'][i%3];
+  f.style.top=(46+Math.random()*44)+'%';f.style.left='-8%';
+  pond.appendChild(f);
+  if(!reduced){
+    (function swim(el,dur,delay){
+      el.animate([{left:'-8%'},{left:'108%'}],{duration:dur,delay,iterations:Infinity,easing:'linear'});
+    })(f,16000+Math.random()*14000,Math.random()*10000);
+  }
+}
+for(let i=0;i<3;i++){const r=document.createElement('div');r.className='ripple2';
+  r.style.cssText=`left:${15+i*30}%;top:${55+(i%2)*20}%;width:60px;height:22px;animation-delay:${i*1.1}s`;
+  pond.appendChild(r);}
+
+let state='idle',caught=0,biteTimer=null;
+const msg=document.getElementById('msg2'),bobber=document.getElementById('bobber'),line=document.getElementById('rodLine');
+pond.addEventListener('pointerdown',()=>{
+  if(state==='idle'){
+    state='waiting';plop();
+    line.style.height='120px';
+    bobber.style.opacity=1;bobber.style.top='168px';
+    msg.textContent='SHHH… WAIT FOR THE BITE';
+    biteTimer=setTimeout(()=>{
+      state='bite';
+      bobber.classList.add('bite');
+      splash2();
+      msg.textContent='⚡ BITE! CLICK TO REEL IN!';
+      /* miss window */
+      biteTimer=setTimeout(()=>{
+        if(state==='bite'){state='idle';bobber.classList.remove('bite');
+          bobber.style.opacity=0;line.style.height='0';
+          msg.textContent='IT GOT AWAY… CAST AGAIN';}
+      },reduced?4000:1600);
+    },reduced?400:1200+Math.random()*2400);
+  }else if(state==='bite'){
+    state='reeling';clearTimeout(biteTimer);
+    bobber.classList.remove('bite');
+    reelS();
+    line.style.height='0';bobber.style.top='40px';
+    setTimeout(()=>{
+      bobber.style.opacity=0;
+      const c=CATCHES[caught%CATCHES.length];
+      caught++;
+      document.getElementById('cN').textContent=Math.min(caught,6);
+      const el=document.createElement('div');el.className='caught';
+      el.innerHTML=`<span>${c[0]}</span><span>${c[1]}</span>`;
+      document.getElementById('catchRow').appendChild(el);
+      document.getElementById('cardF').innerHTML=`<b>${c[1]}:</b> ${c[2]}`;
+      msg.textContent=caught>=6?'🏆 BUCKET FULL — CHECK BELOW!':'NICE CATCH! CAST AGAIN';
+      if(caught>=6){
+        document.getElementById('cardF').innerHTML=
+          `<b>The big one was you all along.</b> Six services, one fisherman: Nour Aldeen Tofi — frontend developer &amp; SW engineering supervisor, Riyadh · AR+EN. Patient with the rod, faster with deadlines.`;
+        document.getElementById('fBtns').innerHTML=
+          `<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Full%20bucket&body=Caught%20all%20six.%20My%20project%3A%20">🎣 Fish for a quote</a>
+           <a class="btn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+           <a class="btn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`;
+      }
+      state='idle';
+    },reduced?80:500);
+  }
+});
+</script>
+</body>
+</html>

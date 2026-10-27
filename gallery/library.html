@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — LIBRARY · The Collected Works</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--room:#2a1f16;--shelfw:#5c4229;--shelfd:#3a2a18;--paper:#f7f0e0;--ink:#2c2418;--dim:rgba(44,36,24,.65);
+        --gold:#c9a24a;--green:#3a6e50;--red:#a8402e;--blue:#2e5a8a;--plum:#6e3a5c}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;background:radial-gradient(80vw 60vh at 50% 20%,#3d2e20,var(--room));
+    color:#f2e8d4;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:5vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold);color:#2a1f16}
+  h1{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(26px,5vw,46px)}
+  h1 em{color:var(--gold)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.3em;opacity:.7;margin:8px 0 26px;
+    text-transform:uppercase;text-align:center}
+
+  /* bookshelf */
+  #case{width:min(760px,96vw);background:linear-gradient(180deg,#6e5236,var(--shelfw));border-radius:14px;
+    padding:16px 18px;box-shadow:0 30px 70px rgba(0,0,0,.55), inset 0 2px 0 rgba(255,255,255,.15)}
+  .shelfrow{background:var(--shelfd);border-radius:8px;padding:12px 12px 0;margin-bottom:14px;
+    box-shadow:inset 0 6px 16px rgba(0,0,0,.5)}
+  .books{display:flex;align-items:flex-end;gap:5px;min-height:150px}
+  .book{position:relative;border:none;cursor:pointer;border-radius:4px 4px 0 0;
+    display:flex;align-items:center;justify-content:center;transition:transform .25s;flex-shrink:0}
+  .book:hover{transform:translateY(-14px)}
+  .book .spineTxt{writing-mode:vertical-rl;font-family:'Cormorant Garamond';font-weight:700;
+    font-size:13px;color:#f7f0e0;letter-spacing:.06em;text-shadow:0 1px 2px rgba(0,0,0,.5);white-space:nowrap}
+  .book .vol{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-family:'IBM Plex Mono';
+    font-size:8px;color:rgba(247,240,224,.8)}
+  .book::after{content:'';position:absolute;top:8px;left:4px;right:4px;height:2px;background:rgba(255,255,255,.25)}
+  .shelfplank{height:12px;background:linear-gradient(180deg,#8a6a45,#5c4229);border-radius:0 0 6px 6px;margin:0 -12px}
+  .book.taken{opacity:.25;pointer-events:none}
+
+  /* open book modal */
+  #modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;
+    background:rgba(20,14,8,.8);backdrop-filter:blur(6px);padding:4vw}
+  #modal.open{display:flex}
+  #openBook{display:grid;grid-template-columns:1fr 1fr;max-width:720px;width:100%;min-height:380px;
+    background:var(--paper);border-radius:10px;box-shadow:0 40px 100px rgba(0,0,0,.7);position:relative;color:var(--ink)}
+  #openBook::before{content:'';position:absolute;left:50%;top:8px;bottom:8px;width:2px;background:rgba(44,36,24,.25)}
+  .pg{padding:34px 34px 40px;display:flex;flex-direction:column}
+  .pg.L{background:repeating-linear-gradient(0deg,transparent 0 28px,rgba(44,36,24,.05) 28px 29px)}
+  .pg .chap{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.3em;color:var(--red);text-transform:uppercase}
+  .pg h2{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(22px,3.6vw,32px);line-height:1.1;margin:10px 0}
+  .pg p{font-size:13px;line-height:1.8;color:var(--dim)}
+  .pg p b{color:var(--ink)}
+  .pg .pgno{margin-top:auto;text-align:center;font-family:'IBM Plex Mono';font-size:9px;color:var(--dim);padding-top:14px}
+  /* checkout card on right page */
+  .cardBox{border:2px solid rgba(44,36,24,.4);border-radius:4px;padding:14px 16px;margin-top:10px;
+    font-family:'IBM Plex Mono';font-size:10.5px;line-height:2;color:var(--dim)}
+  .cardBox b{color:var(--red)}
+  .btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 16px;border-radius:6px;
+    border:2px solid var(--ink);font-weight:600;text-transform:uppercase;color:var(--ink)}
+  .btn:hover{background:var(--ink);color:var(--paper)}
+  #mclose{position:absolute;top:10px;right:14px;z-index:5;background:rgba(44,36,24,.1);border:none;width:34px;height:34px;
+    border-radius:50%;cursor:pointer;font-weight:700;color:var(--ink)}
+  @media(max-width:620px){#openBook{grid-template-columns:1fr}#openBook::before{display:none}.pg.L{display:none}}
+  #stampDesk{margin-top:6px;font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.24em;opacity:.65;text-transform:uppercase;text-align:center;line-height:2}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<h1>The Collected Works of <em>Nour Aldeen Tofi</em></h1>
+<div class="sub">Public library · 8 volumes · pull any book from the shelf · اسحب كتاب</div>
+
+<div id="case">
+  <div class="shelfrow"><div class="books" id="row1"></div><div class="shelfplank"></div></div>
+  <div class="shelfrow"><div class="books" id="row2"></div><div class="shelfplank"></div></div>
+</div>
+<div id="stampDesk">LIBRARIAN ON DUTY: N.A. TOFI · RIYADH BRANCH · SILENCE OPTIONAL, QUALITY MANDATORY</div>
+
+<div id="modal"><div id="openBook">
+  <button id="mclose">✕</button>
+  <div class="pg L"><div class="chap" id="bChap"></div><h2 id="bTitle"></h2><p id="bBody"></p><div class="pgno" id="pgL">— 1 —</div></div>
+  <div class="pg"><div class="chap">Borrower's card</div>
+    <div class="cardBox" id="bCard"></div>
+    <div class="btns" id="bBtns"></div>
+    <div class="pgno">— 2 —</div></div>
+</div></div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const BOOKS=[
+ {t:'The Foundation Years',vol:'I',h:120,w:44,c:'var(--blue)',chap:'Volume I · 2019–2024',
+  body:`<b>B.Tech Information Technology — University of Kalamoon.</b> Five years of fundamentals, shelved deep and load-bearing. Includes the famous chapter "ICPC/ACPC 2021" — competitive programming under a merciless clock.`,
+  card:`FIRST PRINTED: <b>2019</b><br>LAST BORROWED: DAILY<br>CONDITION: FOUNDATIONAL`},
+ {t:'Learning React',vol:'II',h:132,w:40,c:'var(--green)',chap:'Volume II · 2023–24',
+  body:`<b>React Developer — Minicodeleader.</b> The first professional volume: component-driven chapters, a real codebase, and the origin of the clean-code habit that appears in every later book.`,
+  card:`GENRE: COMING-OF-AGE<br>SEQUELS: <b>MANY</b>`},
+ {t:'Riyadh Editions',vol:'III',h:140,w:46,c:'var(--red)',chap:'Volume III · 2024–25',
+  body:`<b>Frontend Developer — Khwarizm Technologies, Riyadh.</b> Production React in the capital, written alongside design and backend co-authors. Appendix: IBM Python & GenAI certificates ('24).`,
+  card:`SETTING: RIYADH<br>REVIEWS: "SHIPS ON TIME" ★★★★★`},
+ {t:'The Double Life',vol:'IV',h:126,w:42,c:'var(--plum)',chap:'Volume IV · 2025',
+  body:`<b>Frontend + Project Coordination — Distinctive Frontier Co.</b>, written in parallel with <b>NexLead</b> (freelance coordination). A rare dual-narrative structure: builds by day, coordinates by… also day.`,
+  card:`FORMAT: DUAL NARRATIVE<br>PLOT TWIST: <b>PROMOTION</b>`},
+ {t:'GoldenTag',vol:'V',h:118,w:38,c:'var(--gold)',chap:'Volume V · Shipped 2025',
+  body:`The bestseller: a jewelry store management app coordinated end-to-end and published on <b>Google Play</b> — inventory, barcode scanning, USD/SYP rates, sales logs. Non-fiction.`,
+  card:`PUBLISHER: GOOGLE PLAY<br>CATEGORY: <b>PROOF</b>`},
+ {t:'The Supervisor',vol:'VI',h:148,w:48,c:'var(--red)',chap:'Volume VI · 2026 →',
+  body:`<b>Software Engineering Supervisor — Distinctive Frontier Co.</b> The current volume, still being written daily: React systems, coding standards, backend alignment, features shipped on schedule.`,
+  card:`STATUS: <b>IN PROGRESS</b><br>CHAPTERS ADDED: WEEKLY`},
+ {t:'Certificates & Papers',vol:'VII',h:110,w:36,c:'var(--green)',chap:'Volume VII · Reference',
+  body:`Reference shelf: <b>Meta Advanced React '25 · TS in React '25 · Google PM ×2 '25 · IBM Python & GenAI '24 · Tailwind '24 · Clean Code '24 · Jira suite '25.</b> Ten stamps of authenticity.`,
+  card:`SECTION: REFERENCE<br>ALL VERIFIED ✓`},
+ {t:'Working With Nour',vol:'VIII',h:136,w:50,c:'var(--blue)',chap:'Volume VIII · Co-written with YOU',
+  body:`The only volume with blank pages — yours. <b>Websites · React frontends · logos · business cards · social visuals · project coordination.</b> Riyadh · Arabic + English. Between chapters: anime, chess, badminton, film.`,
+  card:`DUE DATE: <b>NEVER</b><br>CO-AUTHOR WANTED: YES`,
+  btns:[['✉ Email','mailto:nouraldeentofi@gmail.com?subject=Co-writing%20Volume%20VIII&body=I%27d%20like%20to%20start%20a%20chapter%3A%20'],
+        ['LinkedIn','https://www.linkedin.com/in/nour-aldeen-tofi-19b116240'],['Website','https://nouraldeentofi.netlify.app']]}
+];
+let AC=null;
+function fwip(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const b=AC.createBuffer(1,AC.sampleRate*.25,AC.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length)*.5;
+  const s=AC.createBufferSource();s.buffer=b;
+  const f=AC.createBiquadFilter();f.type='bandpass';f.frequency.value=1800;
+  const g=AC.createGain();g.gain.value=.07;
+  s.connect(f);f.connect(g);g.connect(AC.destination);s.start();}catch(e){}}
+
+BOOKS.forEach((bk,i)=>{
+  const b=document.createElement('button');b.className='book';
+  b.style.cssText=`height:${bk.h}px;width:${bk.w}px;background:linear-gradient(90deg,rgba(0,0,0,.3),transparent 30%),${bk.c}`;
+  b.innerHTML=`<span class="spineTxt">${bk.t}</span><span class="vol">${bk.vol}</span>`;
+  b.onclick=()=>openBook(i,b);
+  document.getElementById(i<4?'row1':'row2').appendChild(b);
+});
+let lastBtn=null;
+function openBook(i,btn){
+  fwip();
+  const bk=BOOKS[i];
+  lastBtn=btn;btn.classList.add('taken');
+  document.getElementById('bChap').textContent=bk.chap;
+  document.getElementById('bTitle').textContent=bk.t;
+  document.getElementById('bBody').innerHTML=bk.body;
+  document.getElementById('bCard').innerHTML=bk.card+`<br>BORROWER: <b>YOU</b>`;
+  const bb=document.getElementById('bBtns');bb.innerHTML='';
+  (bk.btns||[['✉ Ask the librarian','mailto:nouraldeentofi@gmail.com']]).forEach(([lb,href])=>{
+    const a=document.createElement('a');a.className='btn';a.textContent=lb;a.href=href;
+    if(href.startsWith('http')){a.target='_blank';a.rel='noopener';}
+    bb.appendChild(a);});
+  const m=document.getElementById('modal');
+  m.classList.add('open');
+  if(!reduced)document.getElementById('openBook').animate(
+    [{transform:'perspective(1200px) rotateX(18deg) scale(.9)',opacity:0},{transform:'none',opacity:1}],
+    {duration:450,easing:'cubic-bezier(.2,.9,.3,1.1)'});
+}
+function closeBook(){
+  document.getElementById('modal').classList.remove('open');
+  if(lastBtn){lastBtn.classList.remove('taken');lastBtn=null;}
+}
+document.getElementById('mclose').onclick=closeBook;
+document.getElementById('modal').addEventListener('pointerdown',e=>{
+  if(e.target===document.getElementById('modal'))closeBook();});
+addEventListener('keydown',e=>{if(e.key==='Escape')closeBook();});
+</script>
+</body>
+</html>

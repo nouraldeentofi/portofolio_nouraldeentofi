@@ -1,0 +1,27 @@
+# Tawheed Malkat (توحيد ملقط)
+
+> Senior product designer (UI/UX) and informatics engineer from Damascus, Syria. 4+ years designing web and mobile products with teams in Syria, Saudi Arabia, Turkey and Germany. The site is in Arabic and English.
+
+## Pages
+- [Home / الرئيسية](https://nouraldeentofi.com/sites/tawheed-malkat/)
+- [Work / المشاريع](https://nouraldeentofi.com/sites/tawheed-malkat/work.html)
+- [Experience / الخبرة](https://nouraldeentofi.com/sites/tawheed-malkat/experience.html)
+- [About / عنّي](https://nouraldeentofi.com/sites/tawheed-malkat/about.html)
+
+## Projects
+- [Schola — Education Platform | UX/UI Case Study](https://nouraldeentofi.com/sites/tawheed-malkat/project-schola.html): A UX/UI case study for an education platform.
+- [AviGate — Digital Poultry Industry Ecosystem](https://nouraldeentofi.com/sites/tawheed-malkat/project-avigate.html): A digital ecosystem for the poultry industry.
+- [Luxury Real Estate Platform | UX/UI Case Study](https://nouraldeentofi.com/sites/tawheed-malkat/project-luxury-real-estate.html): A UX/UI case study for a luxury real-estate platform.
+- [Geekings Brand Guidelines.](https://nouraldeentofi.com/sites/tawheed-malkat/project-geekings-brand.html): Brand guidelines for Geekings.
+- [Express Syria | Shipping Platform for Parcel Delivery](https://nouraldeentofi.com/sites/tawheed-malkat/project-express-syria.html): A shipping platform for parcel delivery.
+- [Software Company Landing Page | UI/UX Design](https://nouraldeentofi.com/sites/tawheed-malkat/project-software-landing.html): UI/UX design for a software company landing page.
+- [Instructional Design | PILearn](https://nouraldeentofi.com/sites/tawheed-malkat/project-pilearn.html): Instructional design for PILearn.
+- [Cosmetic Clinic Design](https://nouraldeentofi.com/sites/tawheed-malkat/project-cosmetic-clinic.html): Design for a cosmetic clinic.
+- [HopeLink](https://nouraldeentofi.com/sites/tawheed-malkat/project-hopelink.html): A project published on Behance.
+
+## Profiles
+- [Behance](https://www.behance.net/tawheedmalqatUI-UX)
+- [LinkedIn](https://www.linkedin.com/in/tawheed-malkat/)
+
+## Full facts
+- [llms-full.txt](https://nouraldeentofi.com/sites/tawheed-malkat/llms-full.txt)

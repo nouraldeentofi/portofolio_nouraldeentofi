@@ -1,0 +1,240 @@
+# Mazen Alobaidi — مازن العبيدي
+
+Role: General Manager, Information Technology & Digital Transformation / المدير العام لتقنية المعلومات والتحول الرقمي
+City: Riyadh, Saudi Arabia / الرياض
+Names: مازن العبيدي, م. مازن العبيدي, مازن فهد العبيدي, مازن فهد زايد العبيدي, مازن عبيدي, مازن العبيدى, المهندس مازن العبيدي, Mazen Alobaidi, Mazen Al-Obaidi, Mazen Al Obaidi, Mazen AlObaidi, Mazen Alobaidy, Mazen Al-Obaidy, Mazen Obaidi, Mazen Fahad Alobaidi, Mazen Fahd Alobaidi, Eng. Mazen Alobaidi, Mazen A.
+Occupation names: General Manager of Information Technology and Digital Transformation, Chief Information Officer, CIO, VP of Information Technology, IT General Manager, Head of IT, Digital Transformation Leader, Enterprise Architecture Consultant, IT Strategy Consultant, IT Infrastructure Director, المدير العام لتقنية المعلومات والتحول الرقمي, مدير عام تقنية المعلومات, رئيس تقنية المعلومات, نائب الرئيس لتقنية المعلومات, قائد التحول الرقمي, مستشار تقنية المعلومات, مستشار التحول الرقمي, مدير البنية التحتية التقنية
+Knows about: IT Strategy, Digital Transformation, IT Governance, Enterprise Architecture, TOGAF, Capacity Management, Data Center Architecture, High Availability Architecture, IT Infrastructure Planning, Cybersecurity, Risk Management, Business Continuity, Disaster Recovery, Vendor Management, RFP, Service Level Agreements, IT Budgeting, Change Management, Team Leadership, VMware vSphere, Windows Server, ISO 27001, Cloud Architecture, استراتيجية تقنية المعلومات, التحول الرقمي, حوكمة تقنية المعلومات, معمارية المؤسسة, إدارة السعة, مراكز البيانات, استمرارية الأعمال, إدارة المخاطر, الأمن السيبراني
+
+Email: maz2n@hotmail.com
+LinkedIn: https://www.linkedin.com/in/mazen-a-08a4165a/
+
+## English
+
+Thirteen-plus years in IT, climbing every layer of it: from user support and server rooms, to planning the infrastructure of a national authority, to leading technology strategy and digital transformation.
+To me, technology is measured by the organisational goals it delivers.
+
+### Career journey
+- General Manager of Information Technology & Digital Transformation — Government entity (Apr 2024 – Present; Riyadh · Full-time): I lead the entity's technology strategy and digital transformation, tying every IT initiative to business goals — from planning and budget to operations, governance and continuity.
+  - Building and executing the IT strategy in line with the organisation's goals, with a roadmap and a forecast of future needs.
+  - Driving digital-transformation initiatives that improve processes and the customer experience, and put emerging technology to work.
+  - Keeping systems and infrastructure running smoothly with high availability and performance.
+  - IT governance: policies, standards and procedures, IT audits and regulatory compliance.
+  - Security and risk: policies that protect data and technology assets from internal and external threats.
+  - Budget and cost management, vendor selection, contract negotiation and SLA oversight.
+  - Business-continuity and disaster-recovery plans that bring services back quickly after any disruption.
+  - Working with fellow executives, presenting IT strategy and performance to the executive team and the board, and leading the team.
+- Director, IT Operations Support Services — Al Rajhi Bank (Feb 2024 – Apr 2024; Riyadh · Full-time): Led IT architecture planning and operations support services at the bank, with a focus on scalability, security and performance.
+  - A strategic architecture vision aligned with business goals and driving innovation.
+  - Assessing and selecting emerging technologies, and managing vendors.
+  - Leading architectural design while ensuring scalability, security and performance.
+  - Governance and compliance frameworks, quality assurance and risk management.
+  - Building high-performing teams, allocating resources and engaging stakeholders.
+  - Budget planning and financial oversight, and leading change and training initiatives.
+- Director, IT Infrastructure & Network Planning and Monitoring — Zakat, Tax and Customs Authority (Oct 2019 – Feb 2024; Riyadh · Full-time): Planned the technology infrastructure of a national authority and its growth — data centres, servers, storage, networks and power — from vision and budget to RFPs and capacity tracking.
+  - Working with the CIO, the GM and IT leaders to shape IT strategy in the context of the business strategy.
+  - Owning the infrastructure architecture vision and roadmap, and reviewing project design scope to secure capacity growth and baseline management.
+  - Capacity management for data centres, servers, storage, the virtual environment, backup, networks and power.
+  - Preparing and managing the infrastructure budget, and writing every infrastructure RFP.
+  - Studying new project requirements with every department so they are ready on time.
+  - Governance of IT asset management.
+- Network & Systems Engineer — Al Moammar Information Systems (MIS) (Feb 2016 – Oct 2019; At the Holy Makkah Municipality · Makkah): Ran servers, the virtual environment, directory services and security for the Holy Makkah Municipality, and wrote its security architecture documents and procedures in line with ISO 27001.
+  - Installing and running Windows Server, Active Directory, DNS, DHCP and IIS.
+  - Managing the VMware infrastructure and virtual machines, and backups with HP Data Protector.
+  - Writing security architecture design documents and standard operating procedures aligned with ISO 27001.
+  - Running email security, web security with Zscaler, and antivirus servers.
+  - Daily system health checks, and fixing network and system faults by policy and procedure.
+- Computer Engineer — Dar Al-Handasah (Shair and Partners) (Oct 2013 – Feb 2016; Jeddah): Supported the firm's systems and its offices in Makkah, Rabigh and Madinah: servers, networks, firewalls and project-data backup.
+  - Setting up and maintaining Windows Server, Active Directory, DNS and DHCP.
+  - Backing up project data across multiple locations with Symantec Backup Exec.
+  - Managing Fortinet and Cisco firewalls and the antivirus server.
+  - Technical support and training for users at every level, and hardware and software inventory.
+- IT Trainee — InterContinental Hotels Group (IHG) (Dec 2012 – Sep 2013; Taif): Starting on the ground floor: user support, hardware and software maintenance, and daily system checks.
+  - Technical support for users and hardware and software maintenance.
+  - Troubleshooting network and system faults by policy and procedure.
+  - Hardware and software inventory.
+
+### Expertise
+- Technology strategy & digital transformation: Technology plans that start from the organisation's goals, with a clear roadmap to transform processes and improve the customer experience.
+- Enterprise & technology architecture: An architecture vision and roadmap for the infrastructure, and design reviews that keep projects scalable, secure and fast.
+- IT governance & compliance: Unified policies, standards and procedures, with IT audits and regulatory compliance kept on track.
+- Infrastructure & capacity: Planning data centres, servers, storage, networks and power to grow steadily without waste or bottlenecks.
+- IT operations & change management: Stable, highly available operations, and changes tested on a limited environment before they reach the whole system.
+- Security, risk & business continuity: Protecting data and technology assets, with disaster-recovery plans that bring services back quickly after any disruption.
+- Vendors, contracts & SLAs: Writing RFPs, selecting vendors, negotiating contracts and holding partners to their SLAs.
+- Leadership, teams & budgets: Building high-performing teams, managing technology budgets, and presenting strategy and performance to the executive team and the board.
+
+### How I work
+- Technology serves the organisation's goals: Every technology plan starts from the goal it serves; the tools come after. That is how technology turns from a cost into lasting value.
+- Planning is a strategic process: Not a timeline or a list of requirements, but a clear vision, an understanding of user needs, risk analysis and efficient use of resources.
+- Every change is tested before it spreads: A change goes first to a test environment and a limited set of devices to learn its impact, and only then to the whole system.
+- Manage resources wisely, not just build them: Strong systems alone are not enough; capacity management is what lets an organisation scale steadily and stay stable at peak times.
+
+### Education
+- Bachelor's degree, Computer Engineering — Taif University (2007 – 2012)
+
+### Certifications
+- Strategic Planning — London Corporate Training (May 2023)
+- TOGAF 9 Foundation and Certified Training — JODAYN (Dec 2020)
+- Cloud Architecture: Advanced Concepts — LinkedIn Learning (Jul 2020)
+- Learning Cloud Computing: Core Concepts — LinkedIn Learning (Jun 2020)
+- vSphere 6.7 Foundations: Networking — LinkedIn Learning (Jul 2020)
+- VMware vSphere 6.5 Advanced Networking — LinkedIn Learning (May 2020)
+- Microsoft SQL Server 2016: Installation and Administration — LinkedIn Learning (Jun 2020)
+- Introduction to SAN and NAS Storage — LinkedIn Learning (May 2020)
+- Project Management Foundations: Small Projects — LinkedIn Learning (Jun 2020)
+- Project Management Tips — LinkedIn Learning (May 2020)
+
+### Recognition
+- Honoured for the Real Estate Transaction Tax project (Nov 2020): Honoured by the Governor of the General Authority of Zakat and Tax for his efforts in delivering the Real Estate Transaction Tax project.
+- Distinguished employee of 2020 (2020): A certificate of thanks for his contributions and exceptional performance, and his work toward the targets of the Technical Systems & Digitisation Agency.
+- First place, National Transformation Measurement 2023 (Dec 2023): Part of the Zakat, Tax and Customs Authority team that took first place in the 2023 National Transformation Measurement.
+
+### Notes from the field
+#### Capacity management: running resources wisely, not just building them (12 Feb 2026)
+In a world of digital transformation and fast-moving business, capacity management is no longer an optional extra. It has become essential to keeping performance steady and operations efficient.
+Capacity management means planning, monitoring and controlling technology resources — servers, networks, databases and technical teams — so they meet today's and tomorrow's business needs without waste or bottlenecks.
+Technical success today does not rest on building strong systems alone, but on managing their resources wisely.
+Organisations that master capacity can scale steadily and deliver a stable experience even at peak times.
+
+#### Planning a technology project is a strategic process (12 Feb 2026)
+Planning a technology project is not just drawing up a timeline or writing requirements. It is a strategic process that starts with a clear vision, an understanding of user needs, risk analysis and efficient allocation of resources.
+Technology projects in particular change quickly, involve many parties and carry complex detail.
+That is what makes planning decisive in avoiding wasted time and budget.
+
+#### The CrowdStrike lesson: test a change before it spreads (19 Jul 2024)
+The CrowdStrike incident that affected the whole world shows what happens when the basics of change management and core IT standards are neglected.
+The simplest of those basics: apply a change to a test environment and a limited set of devices to learn its expected impact, before rolling it out to the entire system.
+No change reaches the whole system before it has proven itself on a limited scope.
+
+- GITEX GLOBAL 2024 (Oct 2024): Part of the world's largest tech and start-up event, following how AI innovation is shaping the future of business and the economy.
+- LEAP 2024 · DeepFest (4–7 Mar 2024 · Riyadh): Attending LEAP in Riyadh, held alongside DeepFest, the global AI event.
+
+### Frequently asked
+Q: Who is Mazen Alobaidi?
+A: Eng. Mazen Alobaidi is an IT and digital-transformation leader. He is General Manager of Information Technology & Digital Transformation at a government entity in Riyadh, has 13+ years of experience and holds a B.Sc. in Computer Engineering from Taif University.
+
+Q: What are his areas of expertise?
+A: Technology strategy and digital transformation, enterprise architecture, IT governance, infrastructure and capacity planning, security, risk and business continuity, vendor and contract management, and leading teams and budgets.
+
+Q: Where has he worked?
+A: At the Zakat, Tax and Customs Authority as Director of IT Infrastructure & Network Planning, at Al Rajhi Bank as Director of IT Operations Support Services, and earlier at Al Moammar Information Systems, Dar Al-Handasah and InterContinental Hotels Group.
+
+Q: How can I contact him?
+A: By email or LinkedIn from the contact page, or by writing a message with the form there.
+
+
+## العربية
+
+أكثر من ثلاث عشرة سنة في تقنية المعلومات، صعدتُ فيها طبقاتها كلها: من دعم المستخدمين وغرف الخوادم، إلى تخطيط البنية التحتية لجهة وطنية، ثم قيادة الاستراتيجية والتحول الرقمي.
+التقنية عندي تُقاس بما تحققه من أهداف المؤسسة.
+
+### المسيرة المهنية
+- المدير العام لتقنية المعلومات والتحول الرقمي — جهة حكومية (أبريل 2024 – الآن; الرياض · دوام كامل): أقود استراتيجية التقنية والتحول الرقمي في الجهة، وأربط كل مبادرة تقنية بأهداف العمل، من التخطيط والميزانية إلى التشغيل والحوكمة واستمرارية الأعمال.
+  - بناء استراتيجية تقنية المعلومات وتنفيذها بما يتسق مع أهداف الجهة، وتحديد خارطة الطريق والاحتياجات المستقبلية.
+  - قيادة مبادرات التحول الرقمي لتحسين الإجراءات وتجربة المستفيد والاستفادة من التقنيات الناشئة.
+  - ضمان استقرار تشغيل الأنظمة والبنية التحتية بتوفر وأداء عاليين.
+  - حوكمة تقنية المعلومات: السياسات والمعايير والإجراءات، والتدقيق، والالتزام بالمتطلبات النظامية.
+  - الأمن وإدارة المخاطر: سياسات حماية البيانات والأصول التقنية من التهديدات الداخلية والخارجية.
+  - إدارة الميزانية والتكاليف، واختيار الموردين والتفاوض على العقود ومتابعة اتفاقيات مستوى الخدمة.
+  - خطط استمرارية الأعمال والتعافي من الكوارث لإعادة الخدمات بسرعة عند أي انقطاع.
+  - العمل مع القيادات التنفيذية، وعرض استراتيجية التقنية وأدائها على الإدارة التنفيذية ومجلس الإدارة، وقيادة الفريق.
+- مدير خدمات دعم عمليات تقنية المعلومات — مصرف الراجحي (فبراير 2024 – أبريل 2024; الرياض · دوام كامل): قدتُ تخطيط معمارية تقنية المعلومات وخدمات دعم العمليات في المصرف، بتركيز على قابلية التوسع والأمان والأداء.
+  - رؤية معمارية استراتيجية تتسق مع أهداف العمل وتدفع الابتكار.
+  - تقييم التقنيات الناشئة واختيارها وإدارة الموردين.
+  - قيادة التصميم المعماري مع ضمان قابلية التوسع والأمان وتحسين الأداء.
+  - أطر الحوكمة والامتثال وضمان الجودة وإدارة المخاطر.
+  - بناء الفرق عالية الأداء وتوزيع الموارد والتواصل مع أصحاب المصلحة.
+  - تخطيط الميزانية والرقابة المالية وقيادة مبادرات التغيير والتدريب.
+- مدير تخطيط ومراقبة البنية التحتية والشبكات — هيئة الزكاة والضريبة والجمارك (أكتوبر 2019 – فبراير 2024; الرياض · دوام كامل): خططتُ البنية التحتية التقنية لجهة وطنية ونموّها: مراكز البيانات والخوادم والتخزين والشبكات والطاقة، من الرؤية والميزانية إلى كراسات الطلب ومتابعة السعة.
+  - المشاركة مع الرئيس التنفيذي للمعلومات والمدير العام وقيادات التقنية في صياغة استراتيجية التقنية في سياق استراتيجية العمل.
+  - إدارة رؤية معمارية البنية التحتية وخارطة طريقها، ومراجعة نطاق التصميم في المشاريع لضمان نمو السعة وإدارة خط الأساس.
+  - إدارة السعة لمراكز البيانات والخوادم والتخزين والبيئة الافتراضية والنسخ الاحتياطي والشبكات والطاقة.
+  - إعداد ميزانية البنية التحتية وإدارتها، وإعداد جميع كراسات الطلب (RFP) الخاصة بها.
+  - دراسة متطلبات المشاريع الجديدة وتحليلها مع جميع الإدارات لتوفيرها في الوقت المناسب.
+  - حوكمة إدارة الأصول التقنية.
+- مهندس شبكات وأنظمة — شركة المعمر لأنظمة المعلومات (MIS) (فبراير 2016 – أكتوبر 2019; لدى أمانة العاصمة المقدسة · مكة المكرمة): أدرتُ الخوادم والبيئة الافتراضية وخدمات الدليل والأمن لأمانة العاصمة المقدسة، وكتبتُ وثائق معمارية الأمن وإجراءاته وفق ISO 27001.
+  - إعداد خوادم Windows Server وإدارتها، وخدمات Active Directory وDNS وDHCP وIIS.
+  - إدارة بنية VMware والأجهزة الافتراضية، والنسخ الاحتياطي عبر HP Data Protector.
+  - كتابة وثائق تصميم معمارية الأمن وإجراءات التشغيل القياسية وفق ISO 27001.
+  - إدارة أمن البريد الإلكتروني وأمن الويب عبر Zscaler وخوادم مكافحة الفيروسات.
+  - الفحص اليومي للأنظمة، ومعالجة أعطال الشبكات والأنظمة وفق السياسات والإجراءات.
+- مهندس حاسب — دار الهندسة (شاعر ومشاركوه) (أكتوبر 2013 – فبراير 2016; جدة): دعمتُ أنظمة دار الهندسة ومكاتبها في مكة المكرمة ورابغ والمدينة المنورة: الخوادم والشبكات وجدران الحماية والنسخ الاحتياطي لبيانات المشاريع.
+  - إعداد خوادم Windows Server وخدمات Active Directory وDNS وDHCP وصيانتها.
+  - النسخ الاحتياطي لبيانات المشاريع في مواقع متعددة عبر Symantec Backup Exec.
+  - إدارة جدران الحماية Fortinet وCisco وخادم مكافحة الفيروسات.
+  - الدعم الفني والتدريب للمستخدمين بمختلف مستوياتهم، وجرد الأجهزة والبرمجيات.
+- متدرب تقنية معلومات — مجموعة فنادق إنتركونتيننتال (IHG) (ديسمبر 2012 – سبتمبر 2013; الطائف): البداية من أرض الميدان: دعم المستخدمين، وصيانة الأجهزة والبرمجيات، والفحص اليومي للأنظمة.
+  - الدعم الفني للمستخدمين وصيانة الأجهزة والبرمجيات.
+  - معالجة أعطال الشبكات والأنظمة وفق السياسات والإجراءات.
+  - جرد الأجهزة والبرمجيات.
+
+### مجالات الخبرة
+- استراتيجية التقنية والتحول الرقمي: خطط تقنية تنطلق من أهداف المؤسسة، وخارطة طريق واضحة لتحويل الإجراءات وتحسين تجربة المستفيد.
+- معمارية المؤسسة والتقنية: رؤية معمارية وخارطة طريق للبنية التحتية، ومراجعة تصاميم المشاريع لتبقى قابلة للتوسع وآمنة وسريعة.
+- حوكمة تقنية المعلومات والامتثال: سياسات ومعايير وإجراءات موحّدة، ومتابعة للتدقيق والالتزام بالمتطلبات النظامية.
+- البنية التحتية وإدارة السعة: تخطيط مراكز البيانات والخوادم والتخزين والشبكات والطاقة لتنمو بثبات دون هدر أو اختناق.
+- تشغيل تقنية المعلومات وإدارة التغيير: تشغيل مستقر بتوفر عالٍ، وتغييرات تُختبر في بيئة محدودة قبل تعميمها على المنظومة.
+- الأمن والمخاطر واستمرارية الأعمال: حماية البيانات والأصول التقنية، وخطط تعافٍ من الكوارث تعيد الخدمات سريعًا عند أي انقطاع.
+- الموردون والعقود واتفاقيات الخدمة: إعداد كراسات الطلب (RFP)، واختيار الموردين، والتفاوض على العقود، ومتابعة اتفاقيات مستوى الخدمة.
+- القيادة والفرق والميزانيات: بناء فرق عالية الأداء، وإدارة ميزانيات التقنية، وعرض الاستراتيجية والأداء على الإدارة التنفيذية ومجلس الإدارة.
+
+### كيف أعمل
+- التقنية في خدمة أهداف المؤسسة: كل خطة تقنية تبدأ من الهدف الذي تخدمه للمؤسسة، ثم تأتي الأدوات. هكذا تتحول التقنية من تكلفة إلى قيمة مستدامة.
+- التخطيط عملية استراتيجية: ليس جدولًا زمنيًا ولا قائمة متطلبات، بل رؤية واضحة، وفهم لاحتياج المستخدم، وتحليل للمخاطر، وتوزيع للموارد بكفاءة.
+- كل تغيير يُختبر قبل أن يُعمَّم: يُطبَّق التغيير أولًا على بيئة اختبار وعدد محدود من الأجهزة لمعرفة أثره المتوقع، ثم يُعمَّم على المنظومة كاملة.
+- إدارة الموارد بذكاء، لا بناؤها فقط: الأنظمة القوية وحدها لا تكفي؛ إدارة السعة هي ما يجعل المؤسسة تتوسع بثبات وتبقى مستقرة في أوقات الذروة.
+
+### التعليم
+- بكالوريوس هندسة الحاسب — جامعة الطائف (2007 – 2012)
+
+### الشهادات والدورات
+- Strategic Planning — London Corporate Training (مايو 2023)
+- TOGAF 9 Foundation and Certified Training — جودين JODAYN (ديسمبر 2020)
+- Cloud Architecture: Advanced Concepts — LinkedIn Learning (يوليو 2020)
+- Learning Cloud Computing: Core Concepts — LinkedIn Learning (يونيو 2020)
+- vSphere 6.7 Foundations: Networking — LinkedIn Learning (يوليو 2020)
+- VMware vSphere 6.5 Advanced Networking — LinkedIn Learning (مايو 2020)
+- Microsoft SQL Server 2016: Installation and Administration — LinkedIn Learning (يونيو 2020)
+- Introduction to SAN and NAS Storage — LinkedIn Learning (مايو 2020)
+- Project Management Foundations: Small Projects — LinkedIn Learning (يونيو 2020)
+- Project Management Tips — LinkedIn Learning (مايو 2020)
+
+### التكريم
+- تكريم مشروع ضريبة التصرفات العقارية (نوفمبر 2020): كرّمه محافظ الهيئة العامة للزكاة والدخل على الجهود المبذولة في إنجاز مشروع ضريبة التصرفات العقارية.
+- الموظف المتميز لعام 2020 (2020): شهادة شكر تقديرًا لإسهاماته وأدائه الاستثنائي، وعمله الدؤوب لتحقيق مستهدفات وكالة الأنظمة التقنية والرقمنة.
+- المركز الأول في قياس التحول الوطني 2023 (ديسمبر 2023): ضمن فريق هيئة الزكاة والضريبة والجمارك الذي حقق المركز الأول في قياس التحول الوطني لعام 2023.
+
+### أفكار من الميدان
+#### إدارة السعة: أن تدير الموارد بذكاء، لا أن تبنيها فقط (12 فبراير 2026)
+في عالم التحول الرقمي وتسارع الأعمال، لم تعد إدارة الموارد التقنية (Capacity Management) خيارًا إضافيًا، بل أصبحت عنصرًا أساسيًا لضمان استمرارية الأداء وكفاءة التشغيل.
+إدارة السعة تعني التخطيط والمراقبة والتحكم في الموارد التقنية — مثل الخوادم والشبكات وقواعد البيانات والفرق التقنية — لضمان تلبية احتياجات العمل الحالية والمستقبلية دون هدر أو اختناق في الأداء.
+النجاح التقني اليوم لا يعتمد فقط على بناء أنظمة قوية، بل على إدارة مواردها بذكاء.
+المؤسسات التي تتقن إدارة السعة تستطيع التوسع بثبات، وتقديم تجربة مستقرة حتى في أوقات الذروة.
+
+#### التخطيط للمشاريع التقنية عملية استراتيجية (12 فبراير 2026)
+التخطيط للمشاريع التقنية ليس مجرد إعداد جدول زمني أو كتابة متطلبات، بل هو عملية استراتيجية تبدأ بتحديد الرؤية بوضوح، وفهم احتياجات المستخدم، وتحليل المخاطر، وتوزيع الموارد بكفاءة.
+والمشاريع التقنية تحديدًا تتسم بالتغير السريع، وتداخل الأطراف، وتعقيد التفاصيل.
+لهذا يصبح التخطيط عنصرًا حاسمًا لتجنب الهدر في الوقت والميزانية.
+
+#### درس CrowdStrike: التغيير يُختبر قبل أن يُعمَّم (19 يوليو 2024)
+مشكلة CrowdStrike التي أثّرت على العالم تثبت لنا إهمال تطبيق أساسيات التغيير، والالتزام بالمعايير الأساسية لتقنية المعلومات.
+وأبسط هذه الأساسيات: تطبيق التغيير على بيئة اختبار وأجهزة محدودة لمعرفة التأثير المتوقع، قبل تطبيقه على المنظومة كافة.
+لا يصل أي تغيير إلى المنظومة كاملة قبل أن يثبت نفسه في نطاق محدود.
+
+- GITEX GLOBAL 2024 (أكتوبر 2024): مشاركة في أكبر فعالية عالمية للتقنية والشركات الناشئة، لمتابعة ابتكارات الذكاء الاصطناعي وأثرها في مستقبل الأعمال والاقتصاد.
+- LEAP 2024 · DeepFest (4–7 مارس 2024 · الرياض): حضور مؤتمر LEAP في الرياض، المنعقد بالتزامن مع فعالية DeepFest العالمية للذكاء الاصطناعي.
+
+### أسئلة شائعة
+Q: من هو مازن العبيدي؟
+A: المهندس مازن العبيدي قيادي في تقنية المعلومات والتحول الرقمي، يشغل منصب المدير العام لتقنية المعلومات والتحول الرقمي في جهة حكومية بالرياض، وله أكثر من ثلاث عشرة سنة من الخبرة، ويحمل بكالوريوس هندسة الحاسب من جامعة الطائف.
+
+Q: ما مجالات خبرته؟
+A: استراتيجية التقنية والتحول الرقمي، ومعمارية المؤسسة، وحوكمة تقنية المعلومات، وتخطيط البنية التحتية وإدارة السعة، والأمن وإدارة المخاطر واستمرارية الأعمال، وإدارة الموردين والعقود، وقيادة الفرق والميزانيات.
+
+Q: أين عمل من قبل؟
+A: في هيئة الزكاة والضريبة والجمارك مديرًا لتخطيط ومراقبة البنية التحتية والشبكات، وفي مصرف الراجحي مديرًا لخدمات دعم عمليات تقنية المعلومات، وقبلها في شركة المعمر لأنظمة المعلومات ودار الهندسة ومجموعة فنادق إنتركونتيننتال.
+
+Q: كيف أتواصل معه؟
+A: عبر البريد الإلكتروني أو لينكدإن من صفحة التواصل، أو بكتابة رسالة مباشرة من النموذج فيها.
+

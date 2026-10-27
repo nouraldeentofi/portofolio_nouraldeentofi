@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio Gallery — 120 Designs by Nour Aldeen Tofi</title>
+  <meta name="description" content="Twenty-six distinct portfolio designs — twenty fictional personas plus six immersive scroll-experiences starring the real Nour Aldeen Tofi." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,600&family=Fraunces:ital,opsz,wght@1,9..144,600&family=Archivo+Black&family=Press+Start+2P&family=Anton&family=Bangers&family=Cinzel:wght@700&family=Poiret+One&family=DM+Serif+Display&family=Italiana&family=Syncopate:wght@700&family=Unbounded:wght@800&family=Anybody:wght@900&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#090c13; --surface:#0f1420; --card:#141b29; --border:#22304a;
+      --accent:#5b8af5; --accent2:#a78bfa; --accent3:#34d399;
+      --text:#e6edf6; --muted:#7d8ba3;
+    }
+    html{scroll-behavior:smooth}
+    body{
+      font-family:'Inter',sans-serif;
+      background:radial-gradient(ellipse at top,#141b2e 0%,var(--bg) 60%);
+      color:var(--text); min-height:100vh; overflow-x:hidden;
+    }
+    header{padding:5rem 6% 2.5rem;text-align:center;max-width:900px;margin:0 auto}
+    .eyebrow{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--accent);
+      letter-spacing:3px;text-transform:uppercase;margin-bottom:1.1rem}
+    h1{font-size:clamp(2.3rem,5.5vw,4.2rem);font-weight:900;letter-spacing:-2px;line-height:1.03;margin-bottom:1.2rem}
+    h1 .grad{background:linear-gradient(135deg,var(--accent),var(--accent2),var(--accent3));
+      -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+    .lead{max-width:640px;margin:0 auto;color:var(--muted);line-height:1.75;font-size:1.02rem}
+    .count{display:inline-flex;gap:.5rem;align-items:center;margin-top:1.6rem;
+      font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--muted);
+      border:1px solid var(--border);padding:.4rem .9rem;border-radius:100px}
+    .count b{color:var(--text)}
+    .grid{max-width:1340px;margin:0 auto;padding:2.5rem 5% 6rem;display:grid;gap:1.6rem;
+      grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+    .card{position:relative;border-radius:16px;overflow:hidden;background:var(--card);
+      border:1px solid var(--border);text-decoration:none;color:inherit;display:flex;flex-direction:column;
+      transition:transform .3s,border-color .3s,box-shadow .3s}
+    .card:hover{transform:translateY(-6px);border-color:var(--accent);
+      box-shadow:0 20px 60px rgba(0,0,0,.55),0 0 30px color-mix(in srgb,var(--accent) 22%,transparent)}
+    .thumb{position:relative;aspect-ratio:16/10;background:var(--tbg);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;
+      padding:1.2rem;text-align:center;border-bottom:1px solid var(--border);overflow:hidden}
+    .thumb::before{content:"";position:absolute;inset:0;
+      background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.14),transparent 60%);pointer-events:none}
+    .brand{position:relative;font-family:var(--tfont);color:var(--brandc);
+      font-weight:800;font-size:clamp(1.3rem,3vw,1.9rem);letter-spacing:.3px;line-height:1.1}
+    .brand.grad{background:var(--brandgrad);-webkit-background-clip:text;background-clip:text;
+      -webkit-text-fill-color:transparent;color:transparent}
+    .kicker{position:relative;font-family:'JetBrains Mono',monospace;font-size:.62rem;
+      letter-spacing:1.5px;text-transform:uppercase;color:var(--tfg);opacity:.72}
+    .body{padding:1.4rem 1.4rem 1.5rem;flex:1;display:flex;flex-direction:column}
+    .tag{align-self:flex-start;font-family:'JetBrains Mono',monospace;font-size:.64rem;
+      letter-spacing:1px;text-transform:uppercase;padding:.28rem .7rem;border-radius:100px;margin-bottom:.9rem;
+      background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent);
+      border:1px solid color-mix(in srgb,var(--accent) 40%,transparent)}
+    .title{font-size:1.02rem;font-weight:700;line-height:1.3;margin-bottom:.5rem}
+    .title .role{color:var(--muted);font-weight:500}
+    .desc{color:var(--muted);font-size:.85rem;line-height:1.6;flex:1}
+    .cta{margin-top:1.15rem;display:flex;align-items:center;gap:.4rem;font-size:.82rem;
+      font-weight:600;color:var(--accent);transition:gap .2s}
+    .card:hover .cta{gap:.75rem}
+    footer{padding:3rem 6% 3.5rem;text-align:center;border-top:1px solid var(--border);
+      color:var(--muted);font-size:.82rem}
+    footer .made span{background:linear-gradient(135deg,var(--accent),var(--accent2));
+      -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700}
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--accent3);display:inline-block;
+      box-shadow:0 0 10px var(--accent3);margin-right:.5rem;vertical-align:middle}
+    .stack{margin-top:.6rem;font-family:'JetBrains Mono',monospace;font-size:.72rem;opacity:.7}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">// portfolio gallery</div>
+  <h1>One hundred twenty worlds.<br /><span class="grad">One designer.</span></h1>
+  <p class="lead">
+    Twenty fictional personas. Six scroll-stories. Seventy-four interactive machines.
+    <b style="color:var(--text)">And now twenty epics</b> — a city you build, a solar system you pilot,
+    a museum with wings, a theme park, a civilization through seven ages, an anatomical chart with a
+    beating React heart, a factory line, a stock exchange, an orchestra you conduct, an election night,
+    an olympics, a planet you terraform, 13.8 billion years of cosmos, a heist crew, an emergency room,
+    seven wonders by camel, a stadium show, a power grid, a streaming platform, and a branching quest.
+    <b style="color:var(--text)">One hundred twenty ways to say: let's work together.</b>
+  </p>
+  <div class="count"><span class="dot"></span><b>120</b>&nbsp;designs · <b>1</b>&nbsp;maker</div>
+</header>
+
+<main class="grid">
+  <a class="card" href="city.html" style="--accent:#e05a3a;--tbg:linear-gradient(180deg,#8fd0e8,#c9e8d8);--tfg:#22303a;--brandc:#e05a3a;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">NOURVILLE</div><div class="kicker">🏙 BUILD ALL 6 DISTRICTS</div></div>
+    <div class="body"><span class="tag">🌍 Epic · City Builder</span>
+      <div class="title">City — <span class="role">a whole city, district by district</span></div>
+      <div class="desc">Click empty lots and watch towers rise, windows light, cars appear and population grow — six districts, one full digital presence.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="odyssey.html" style="--accent:#5ee0ff;--tbg:radial-gradient(circle at 50% 30%,#101a36,#070a16);--tfg:#5ee0ff;--brandc:#5ee0ff;--tfont:'JetBrains Mono',monospace">
+    <div class="thumb"><div class="brand">ODYSSEY</div><div class="kicker">🪐 SIX ORBITING WORLDS</div></div>
+    <div class="body"><span class="tag">🌍 Epic · Solar System</span>
+      <div class="title">Odyssey — <span class="role">pilot a ship between career planets</span></div>
+      <div class="desc">A real orbital system: six planets circle the sun, you click one and your rocket flies there — each world a chapter, rings and all.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="museum.html" style="--accent:#a8823c;--tbg:linear-gradient(180deg,#f7f4ec,#f2eee6);--tfg:#26221c;--brandc:#a8823c;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">The Museum</div><div class="kicker">🏛 SIX WINGS · AUDIO GUIDE</div></div>
+    <div class="body"><span class="tag">🌍 Epic · Museum</span>
+      <div class="title">Museum — <span class="role">a full institution with floor plan</span></div>
+      <div class="desc">Navigate a real floor plan through six wings — Antiquities to Gift Shop — with framed exhibits and an audio guide that narrates every hall.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="park.html" style="--accent:#ff5e9c;--tbg:linear-gradient(180deg,#7ac8e8,#7ac06a);--tfg:#22303a;--brandc:#ff5e9c;--tfont:'Fraunces',serif">
+    <div class="thumb"><div class="brand">NOURLAND</div><div class="kicker">🎡 6 RIDES · GOLDEN WRISTBAND</div></div>
+    <div class="body"><span class="tag">🌍 Epic · Theme Park</span>
+      <div class="title">Park — <span class="role">an entire theme park of attractions</span></div>
+      <div class="desc">A spinning ferris wheel, an animated coaster, a haunted codebase — ride all six attractions to earn the golden wristband.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="ages.html" style="--accent:#d4af5e;--tbg:linear-gradient(180deg,#4a3a28,#2a2014);--tfg:#f2ecdc;--brandc:#d4af5e;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">SEVEN AGES</div><div class="kicker">🪨→🚀 ADVANCE THE ERA</div></div>
+    <div class="body"><span class="tag">🌍 Epic · Civilization</span>
+      <div class="title">Ages — <span class="role">a civilization from stone to space</span></div>
+      <div class="desc">Advance an entire civilization through seven ages — each era rebuilds the world, changes the sky, and adds a wonder from his real history.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="anatomy.html" style="--accent:#b3402e;--tbg:linear-gradient(180deg,#faf6ea,#f5f0e2);--tfg:#2a2620;--brandc:#b3402e;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">Anatomy</div><div class="kicker">🫀 THE BEATING REACT HEART</div></div>
+    <div class="body"><span class="tag">🌍 Epic · Medical Chart</span>
+      <div class="title">Anatomy — <span class="role">the body of a developer, dissected</span></div>
+      <div class="desc">A full anatomical chart: click the algorithmic brain, the beating React heart, the coordination core — with a live EKG and examination reports.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="factory.html" style="--accent:#ffb648;--tbg:linear-gradient(180deg,#3a3f4a,#1a1d24);--tfg:#f0f2f5;--brandc:#ffb648;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">NOUR WORKS</div><div class="kicker">🏭 6 STATIONS · FULL LINE</div></div>
+    <div class="body"><span class="tag">🌍 Epic · Assembly Line</span>
+      <div class="title">Factory — <span class="role">watch an idea become a product</span></div>
+      <div class="desc">Feed a raw idea onto the conveyor and watch six machines process it — requirements, design, React welding, QA — with a speed lever you control.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="exchange.html" style="--accent:#4adc7a;--tbg:radial-gradient(circle at 50% 0%,#141c2c,#0c1018);--tfg:#4adc7a;--brandc:#4adc7a;--tfont:'JetBrains Mono',monospace">
+    <div class="thumb"><div class="brand">NOUR:XCHG</div><div class="kicker">📈 THE STOCK ONLY GOES UP</div></div>
+    <div class="body"><span class="tag">🌍 Epic · Stock Market</span>
+      <div class="title">Exchange — <span class="role">a live trading floor for one asset</span></div>
+      <div class="desc">A ticking live chart, scrolling ticker tape, breaking headlines and a working portfolio — buy shares of NOUR and watch your return grow.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="symphony.html" style="--accent:#d4af5e;--tbg:radial-gradient(circle at 50% 100%,#2e2418,#100c08);--tfg:#d4af5e;--brandc:#d4af5e;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">Philharmonic</div><div class="kicker">🎼 YOU HOLD THE BATON</div></div>
+    <div class="body"><span class="tag">🌍 Epic · Orchestra</span>
+      <div class="title">Symphony — <span class="role">conduct a real Web Audio orchestra</span></div>
+      <div class="desc">Four instrument sections follow your baton — mouse height controls volume, speed controls tempo — through four movements of his career.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="election.html" style="--accent:#ffd23f;--tbg:radial-gradient(circle at 50% 0%,#1a2540,#0a0f1c);--tfg:#ffd23f;--brandc:#ffd23f;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">ELECTION</div><div class="kicker">🗳 12 DISTRICTS · LANDSLIDE</div></div>
+    <div class="body"><span class="tag">🌍 Epic · Election Night</span>
+      <div class="title">Election — <span class="role">full live coverage, district by district</span></div>
+      <div class="desc">Breaking-news ticker, districts flipping blue one by one, live result bars against candidate Spaghetti Code — ending in a victory speech and confetti.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="olympics.html" style="--accent:#ffd23f;--tbg:radial-gradient(circle at 50% 0%,#1e3050,#0c1424);--tfg:#f0f4fa;--brandc:#ffd23f;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">THE GAMES</div><div class="kicker">🏟 TORCH → 4 EVENTS → PODIUM</div></div>
+    <div class="body"><span class="tag">🌍 Epic · Olympics</span>
+      <div class="title">Olympics — <span class="role">a full games, ceremony to anthem</span></div>
+      <div class="desc">Light the cauldron, run four gold-medal events — deadline sprint, legacy lifting, coordination gymnastics, actual badminton — then take the podium.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="terraform.html" style="--accent:#5edc8a;--tbg:radial-gradient(circle at 50% 40%,#141c30,#0a0e1a);--tfg:#5edc8a;--brandc:#5edc8a;--tfont:'JetBrains Mono',monospace">
+    <div class="thumb"><div class="brand">TERRAFORM</div><div class="kicker">🪐→🌍 REVIVE THE PLANET</div></div>
+    <div class="body"><span class="tag">🌍 Epic · Terraforming</span>
+      <div class="title">Terraform — <span class="role">a dead planet becomes alive</span></div>
+      <div class="desc">A gray dead rock — your project — gains atmosphere, oceans, continents, weather, cities and finally life, one deployed system at a time.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="cosmos.html" style="--accent:#e8c060;--tbg:#03040a;--tfg:#e8c060;--brandc:#e8c060;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">COSMOS</div><div class="kicker">💥 13.8 BILLION YEARS</div></div>
+    <div class="body"><span class="tag">🌍 Epic · Origin Story</span>
+      <div class="title">Cosmos — <span class="role">the universe's plan to produce one dev</span></div>
+      <div class="desc">From the Big Bang (with a real flash and debris) through first stars, Earth and civilization — 13.8 billion years of buildup to one Riyadh developer.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="crew.html" style="--accent:#e8b93c;--tbg:radial-gradient(circle at 50% 0%,#1c2030,#0a0b10);--tfg:#e8b93c;--brandc:#e8b93c;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">NOUR'S ELEVEN</div><div class="kicker">🕶 ASSEMBLE · PLAN · EXECUTE</div></div>
+    <div class="body"><span class="tag">🌍 Epic · Heist Movie</span>
+      <div class="title">Crew — <span class="role">recruit 8 specialists (plot twist inside)</span></div>
+      <div class="desc">A full caper: recruit the crew from paper dossiers, watch the plan appear on the board, then execute the job phase by phase — no alarms.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="er.html" style="--accent:#d04545;--tbg:linear-gradient(180deg,#f6faf8,#eef4f2);--tfg:#1c2a30;--brandc:#d04545;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">PROJECT ER</div><div class="kicker">⚡ CHARGE · CLEAR!</div></div>
+    <div class="body"><span class="tag">🌍 Epic · Emergency Room</span>
+      <div class="title">ER — <span class="role">revive a flatlined website</span></div>
+      <div class="desc">A full emergency bay: live ECG monitor, a gray flatlined patient, and a defibrillator you charge by hand — three shocks to full recovery.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="wonders.html" style="--accent:#a8402e;--tbg:linear-gradient(180deg,#f5ecd8,#efe4cc);--tfg:#3a2e1c;--brandc:#a8402e;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">7 WONDERS</div><div class="kicker">🐪 A CAMEL-POWERED TOUR</div></div>
+    <div class="body"><span class="tag">🌍 Epic · World Tour</span>
+      <div class="title">Wonders — <span class="role">seven monuments, one architect</span></div>
+      <div class="desc">A parchment world map where a camel actually walks between seven wonders — the Academy, the Colossus of React, the Lighthouse of Coordination…</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="arena.html" style="--accent:#ff4fa3;--tbg:radial-gradient(circle at 50% 0%,#241844,#0e0a1a);--tfg:#ff4fa3;--brandc:#ff4fa3;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">NOUR LIVE</div><div class="kicker">🎸 STADIUM · CROWD WAVE</div></div>
+    <div class="body"><span class="tag">🌍 Epic · Stadium Show</span>
+      <div class="title">Arena — <span class="role">a sold-out concert of his career</span></div>
+      <div class="desc">Lasers sweep, a crowd of 72 fans does the wave on your command, lighters go up — and the setlist plays five true songs ending in the encore.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="grid.html" style="--accent:#ffd23f;--tbg:radial-gradient(circle at 50% 0%,#141824,#0a0c12);--tfg:#ffd23f;--brandc:#ffd23f;--tfont:'JetBrains Mono',monospace">
+    <div class="thumb"><div class="brand">POWER GRID</div><div class="kicker">⚡ END THE BLACKOUT</div></div>
+    <div class="body"><span class="tag">🌍 Epic · Power Plant</span>
+      <div class="title">Grid — <span class="role">light a whole city, generator by generator</span></div>
+      <div class="desc">A dark skyline and six generators — spin each one up and watch its district's windows glow gold until the entire city is alive at 100% load.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="nourflix.html" style="--accent:#e0392e;--tbg:linear-gradient(160deg,#2a1a3a,#0e0e12);--tfg:#f4f4f6;--brandc:#e0392e;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">NOURFLIX</div><div class="kicker">▶ №1 IN RIYADH TODAY</div></div>
+    <div class="body"><span class="tag">🌍 Epic · Streaming App</span>
+      <div class="title">Nourflix — <span class="role">binge an entire career catalog</span></div>
+      <div class="desc">A complete streaming platform: hero banner, browsable rows, hover cards and a player — seven true shows from "The Supervisor" to "Your Project (TBA)".</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="quest.html" style="--accent:#d4a94e;--tbg:radial-gradient(circle at 50% 100%,#2c1e30,#100a14);--tfg:#efe6d8;--brandc:#d4a94e;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">THE QUEST</div><div class="kicker">⚔️ BRANCHING PATHS · ITEMS</div></div>
+    <div class="body"><span class="tag">🌍 Epic · Text Adventure</span>
+      <div class="title">Quest — <span class="role">a branching adventure with inventory</span></div>
+      <div class="desc">Enter the Kingdom of Deadline: your choices branch the story, items fill your bag, the Swamp of Scope Creep lurks — and every path ends shipped.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="checkin.html" style="--accent:#ffb648;--tbg:linear-gradient(180deg,#1a3a5e,#081625);--tfg:#ffb648;--brandc:#ffb648;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">NOUR AIR</div><div class="kicker">✈ FLIGHT NT-100 · CHECK-IN</div></div>
+    <div class="body"><span class="tag">✈ Century · Check-in</span>
+      <div class="title">Check-in — <span class="role">your personal boarding pass</span></div>
+      <div class="desc">Type your name, pick a destination service — and the counter prints a boarding pass with YOUR name on it, gate and all.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="cinema.html" style="--accent:#e8b93c;--tbg:radial-gradient(circle at 50% 0%,#2e1c3a,#120a18);--tfg:#e8b93c;--brandc:#e8b93c;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">CINEMA NOUR</div><div class="kicker">🎬 PICK YOUR SEAT</div></div>
+    <div class="body"><span class="tag">✈ Century · Box Office</span>
+      <div class="title">Cinema — <span class="role">50 seats, one legendary feature</span></div>
+      <div class="desc">Choose your seat on a real seat map (some taken by happy clients) and get a printed ticket to "The Developer Who Delivers".</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="taxi.html" style="--accent:#f5c518;--tbg:linear-gradient(180deg,#f6f2e6,#e8e2d0);--tfg:#2a2820;--brandc:#2a2820;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">NOUR RIDES</div><div class="kicker">🚕 METER: 0.00 SAR</div></div>
+    <div class="body"><span class="tag">✈ Century · Taxi</span>
+      <div class="title">Taxi — <span class="role">Idea St. → Success Ave.</span></div>
+      <div class="desc">Request a ride and watch the cab drive your project across a little city map — stopping at React Plaza, Design Square and Coordination Junction.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="hotel.html" style="--accent:#cfa54e;--tbg:radial-gradient(circle at 50% 0%,#3d2c24,#1a1210);--tfg:#cfa54e;--brandc:#cfa54e;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">Grand Hotel Nour</div><div class="kicker">🛎 RING FOR SERVICE</div></div>
+    <div class="body"><span class="tag">✈ Century · Hotel</span>
+      <div class="title">Hotel — <span class="role">tap the bell, take a key</span></div>
+      <div class="desc">A five-star reception: ring the real brass bell, hear the concierge's stories, and pull room keys from the wall — each room a service.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="tower.html" style="--accent:#ffb648;--tbg:linear-gradient(180deg,#4a3a7a,#1c1636);--tfg:#f2eefc;--brandc:#ffb648;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">TOWER</div><div class="kicker">🏗 TAP · DROP · STACK</div></div>
+    <div class="body"><span class="tag">✈ Century · Crane Game</span>
+      <div class="title">Tower — <span class="role">stack 8 floors of skills</span></div>
+      <div class="desc">The block swings from a crane — tap at the perfect moment to stack from B.Tech foundation to the Supervisor penthouse. Precision is scored.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="fishing.html" style="--accent:#e05a3a;--tbg:linear-gradient(180deg,#ffd9a8,#1c5468);--tfg:#243038;--brandc:#5c3a1e;--tfont:'Fraunces',serif">
+    <div class="thumb"><div class="brand">Lake Nour</div><div class="kicker">🎣 THE SERVICES ARE BITING</div></div>
+    <div class="body"><span class="tag">✈ Century · Fishing</span>
+      <div class="title">Fishing — <span class="role">cast, wait for the bite, reel</span></div>
+      <div class="desc">A dawn fishing session: cast into the lake, watch the bobber, and reel in six service-fish before the big one appears.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="darts.html" style="--accent:#e8b93c;--tbg:radial-gradient(circle at 50% 20%,#38281e,#160f0c);--tfg:#e8b93c;--brandc:#e8b93c;--tfont:'Fraunces',serif">
+    <div class="thumb"><div class="brand">THE NOUR ARMS</div><div class="kicker">🎯 SPINNING BOARD · AIM</div></div>
+    <div class="body"><span class="tag">✈ Century · Darts</span>
+      <div class="title">Darts — <span class="role">the board spins, you throw</span></div>
+      <div class="desc">A pub dartboard of services that slowly rotates — every sector you hit explains itself, and the bullseye holds the special offer.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="karaoke.html" style="--accent:#ff4fa3;--tbg:radial-gradient(circle at 50% 0%,#2c1644,#0c0614);--tfg:#ff4fa3;--brandc:#ff4fa3;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">KARAOKE</div><div class="kicker">🎤 THE BALLAD OF NOUR</div></div>
+    <div class="body"><span class="tag">✈ Century · Karaoke</span>
+      <div class="title">Karaoke — <span class="role">sing his CV, follow the ball</span></div>
+      <div class="desc">Disco ball, sweeping spotlights, a chiptune band — and lyrics that are literally his career, highlighted line by line with a bouncing ball.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="studio.html" style="--accent:#d05a3c;--tbg:linear-gradient(180deg,#f7f3ea,#f2ede2);--tfg:#2c2822;--brandc:#d05a3c;--tfont:'Fraunces',serif">
+    <div class="thumb"><div class="brand">DIY Studio</div><div class="kicker">🎨 DRAW IT YOURSELF (OR DON'T)</div></div>
+    <div class="body"><span class="tag">✈ Century · Art Studio</span>
+      <div class="title">Studio — <span class="role">a real canvas + honest critique</span></div>
+      <div class="desc">Actually paint your own logo on a working canvas — while a live art critic gently roasts you toward hiring a professional.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="balance.html" style="--accent:#a8823c;--tbg:linear-gradient(180deg,#f5f0e4,#efe9dc);--tfg:#2a251c;--brandc:#a8823c;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">The Scale</div><div class="kicker">⚖️ NEEDS vs. SKILLS</div></div>
+    <div class="body"><span class="tag">✈ Century · Balance</span>
+      <div class="title">Balance — <span class="role">every need, answered in weight</span></div>
+      <div class="desc">Load your project's needs on the left pan and watch the scale tip — then balance again as a matching skill lands on the right. Six for six.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="puzzle.html" style="--accent:#ffb648;--tbg:linear-gradient(180deg,#2a5468,#12262f);--tfg:#f0f6f8;--brandc:#ffb648;--tfont:'Fraunces',serif">
+    <div class="thumb"><div class="brand">The Puzzle</div><div class="kicker">🧩 15 TILES · SLIDE</div></div>
+    <div class="body"><span class="tag">✈ Century · Sliding Puzzle</span>
+      <div class="title">Puzzle — <span class="role">his career only makes sense complete</span></div>
+      <div class="desc">A classic 15-puzzle where every tile is a career piece — slide them into order (or press the magic solve button, we don't judge).</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="whack.html" style="--accent:#ffd23f;--tbg:linear-gradient(180deg,#38a870,#1c5c3c);--tfg:#fdf8ec;--brandc:#ffd23f;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">WHACK!</div><div class="kicker">🔨 30 SECONDS · GO</div></div>
+    <div class="body"><span class="tag">✈ Century · Whack-a-Mole</span>
+      <div class="title">Whack — <span class="role">smash bugs, deadlines &amp; scope creep</span></div>
+      <div class="desc">Your cursor becomes a hammer — problems pop from six holes and you have 30 seconds to bonk them all, exactly like his day job.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="eightball.html" style="--accent:#ffb648;--tbg:radial-gradient(circle at 50% 0%,#3a2450,#160a1e);--tfg:#f4eefc;--brandc:#ffb648;--tfont:'Fraunces',serif">
+    <div class="thumb"><div class="brand">Magic 8-Ball</div><div class="kicker">🎱 SHAKE FOR ANSWERS</div></div>
+    <div class="body"><span class="tag">✈ Century · 8-Ball</span>
+      <div class="title">Eightball — <span class="role">ask about your project, shake</span></div>
+      <div class="desc">Pick a question, shake the ball, and the blue triangle floats up with an answer that is suspiciously — but accurately — pro-Nour.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="notary.html" style="--accent:#d4b06a;--tbg:radial-gradient(circle at 50% 0%,#4c4434,#262218);--tfg:#d4b06a;--brandc:#d4b06a;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">The Notary</div><div class="kicker">📋 STAMP · APPROVED ✓</div></div>
+    <div class="body"><span class="tag">✈ Century · Notary Desk</span>
+      <div class="title">Notary — <span class="role">stamp all five documents</span></div>
+      <div class="desc">Pick up the heavy stamp and thunk APPROVED onto five affidavits of skill, service and shipped work — deeply satisfying, legally adorable.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="traffic.html" style="--accent:#ffc14d;--tbg:radial-gradient(circle at 50% 0%,#2a3038,#12151a);--tfg:#f0f2f5;--brandc:#ffc14d;--tfont:'Inter',sans-serif">
+    <div class="thumb"><div class="brand">JUNCTION</div><div class="kicker">🚦 YOU'RE THE COORDINATOR</div></div>
+    <div class="body"><span class="tag">✈ Century · Traffic Sim</span>
+      <div class="title">Traffic — <span class="role">time the lights, deliver 10 tasks</span></div>
+      <div class="desc">Frontend cars flow one way, backend trucks the other — switch the lights so nothing collides. The most honest coordination metaphor here.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="billboard.html" style="--accent:#ffd23f;--tbg:linear-gradient(180deg,#38285c,#161024);--tfg:#f2eefc;--brandc:#ffd23f;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">BILLBOARD</div><div class="kicker">🌆 TYPE YOUR BRAND</div></div>
+    <div class="body"><span class="tag">✈ Century · Personalized</span>
+      <div class="title">Billboard — <span class="role">see your name in lights, now</span></div>
+      <div class="desc">Type your company name and instantly see it glowing on a downtown billboard in four styles — neon flicker included, "built by Nour" in the corner.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="escaperoom.html" style="--accent:#e8a03c;--tbg:radial-gradient(circle at 50% 20%,#3d3220,#1c160e);--tfg:#f0e8d4;--brandc:#e8a03c;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">ESCAPE ROOM</div><div class="kicker">🔐 3 CLUES · 1 CODE</div></div>
+    <div class="body"><span class="tag">✈ Century · Escape Room</span>
+      <div class="title">Escaperoom — <span class="role">locked in his office</span></div>
+      <div class="desc">Search the room — the monitor, the ICPC trophy, the chessboard — collect three digits from his real milestones and punch the code to escape.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="sushi.html" style="--accent:#d43a3a;--tbg:radial-gradient(circle at 50% 0%,#2e2820,#141110);--tfg:#f7f0e4;--brandc:#d43a3a;--tfont:'Fraunces',serif">
+    <div class="thumb"><div class="brand">NOUR KAITEN</div><div class="kicker">🍣 GRAB PLATES · GOLD = RARE</div></div>
+    <div class="body"><span class="tag">✈ Century · Sushi Train</span>
+      <div class="title">Sushi — <span class="role">services on a conveyor belt</span></div>
+      <div class="desc">Plates glide past on the kaiten belt — grab the Website Nigiri or React Bento before they pass, and watch for the rare gold ICPC roll.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="crossword.html" style="--accent:#b3402e;--tbg:linear-gradient(180deg,#faf7ef,#f4f0e6);--tfg:#22201a;--brandc:#b3402e;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">The Crossword</div><div class="kicker">✏️ 5 ACROSS · 1 SECRET</div></div>
+    <div class="body"><span class="tag">✈ Century · Crossword</span>
+      <div class="title">Crossword — <span class="role">type the answers yourself</span></div>
+      <div class="desc">A real typeable crossword about him — solve five across and the shaded column spells the only possible conclusion: HIRED.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="barbershop.html" style="--accent:#c0392e;--tbg:radial-gradient(circle at 50% 0%,#2a3444,#121820);--tfg:#f2f0e8;--brandc:#c0392e;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">BARBERSHOP</div><div class="kicker">💈 BEFORE → AFTER</div></div>
+    <div class="body"><span class="tag">✈ Century · Barbershop</span>
+      <div class="title">Barbershop — <span class="role">makeovers for scruffy projects</span></div>
+      <div class="desc">Pick a style from the menu — Clean Fade, Beard Sculpt, Royal Treatment — hear the clippers buzz, and watch the mirror spin to the after.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="clinic.html" style="--accent:#1d7a6b;--tbg:linear-gradient(180deg,#e8f4ef,#d8ebe2);--tfg:#22302c;--brandc:#1d7a6b;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">Dr. Nour</div><div class="kicker">🩺 PROJECT DIAGNOSIS · ℞</div></div>
+    <div class="body"><span class="tag">★ For clients · Clinic</span>
+      <div class="title">Clinic — <span class="role">tell the doctor what hurts</span></div>
+      <div class="desc">Pick your project's symptom — no website, slow site, dead socials — and Dr. Nour handwrites your prescription, stamps it, and signs it.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="store.html" style="--accent:#ff5c38;--tbg:#f6f4ef;--tfg:#191817;--brandc:#ff5c38;--tfont:'Inter',sans-serif">
+    <div class="thumb"><div class="brand">NOURSTORE</div><div class="kicker">🛒 ADD TALENT TO CART</div></div>
+    <div class="body"><span class="tag">★ For clients · E-Commerce</span>
+      <div class="title">Store — <span class="role">buy a developer who delivers</span></div>
+      <div class="desc">A real online store of services — add websites, logos and coordination to your cart, then checkout straight into a prefilled email order.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="postoffice.html" style="--accent:#c9a24a;--tbg:linear-gradient(180deg,#8a6a45,#5c4229);--tfg:#f5ead0;--brandc:#f5ead0;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">Post Office</div><div class="kicker">📮 WAX-SEALED LETTERS</div></div>
+    <div class="body"><span class="tag">★ For clients · Letter</span>
+      <div class="title">Post Office — <span class="role">write him a real letter</span></div>
+      <div class="desc">Write on lined paper, pick a stamp, seal it with red wax — and "send" opens a real email carrying your exact letter.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="barista.html" style="--accent:#c05a2e;--tbg:linear-gradient(180deg,#5c4030,#33211a);--tfg:#c9a276;--brandc:#c9a276;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">Café Nour</div><div class="kicker">☕ ORDER A PROJECT</div></div>
+    <div class="body"><span class="tag">★ For clients · Café</span>
+      <div class="title">Barista — <span class="role">every drink is a service</span></div>
+      <div class="desc">Order from the menu — the NOURPRESSO grinds, pours, steams, and serves your service with latte art and a branded cup sleeve.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="atm.html" style="--accent:#e8c060;--tbg:linear-gradient(180deg,#1a3a5e,#081a30);--tfg:#e8c060;--brandc:#e8c060;--tfont:'JetBrains Mono',monospace">
+    <div class="thumb"><div class="brand">BANK OF NOUR</div><div class="kicker">🏧 INSERT CARD · ANY PIN</div></div>
+    <div class="body"><span class="tag">★ For clients · ATM</span>
+      <div class="title">ATM — <span class="role">withdraw talent, zero fees</span></div>
+      <div class="desc">Insert the golden card, punch any PIN, check the skill balance, print the career statement — and withdraw one developer from the cash slot.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="launchpad.html" style="--accent:#ffc14d;--tbg:linear-gradient(180deg,#101636,#0a0e1c);--tfg:#ffc14d;--brandc:#ffc14d;--tfont:'JetBrains Mono',monospace">
+    <div class="thumb"><div class="brand">LAUNCHPAD</div><div class="kicker">🚀 T-10 · ALL SYSTEMS GO</div></div>
+    <div class="body"><span class="tag">★ For clients · Rocket</span>
+      <div class="title">Launchpad — <span class="role">your project, to orbit</span></div>
+      <div class="desc">Flip six pre-flight switches (each a real capability), arm the button, count down from ten — and watch your project lift off with full rumble.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="bridge.html" style="--accent:#c04535;--tbg:linear-gradient(180deg,#cfe6ee,#a8cdd9);--tfg:#2c2418;--brandc:#c04535;--tfont:'Fraunces',serif">
+    <div class="thumb"><div class="brand">THE BRIDGE</div><div class="kicker">🌉 8 PLANKS · 1 CROSSING</div></div>
+    <div class="body"><span class="tag">★ For clients · Bridge</span>
+      <div class="title">Bridge — <span class="role">skills carry your project across</span></div>
+      <div class="desc">Hammer eight skill-planks into place, then drive your project safely to the other side — or try crossing early and watch it splash.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="jackpot.html" style="--accent:#f0c24a;--tbg:linear-gradient(180deg,#5c1e4a,#240a1e);--tfg:#f0c24a;--brandc:#f0c24a;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">JACKPOT</div><div class="kicker">🎰 PULL · SPIN · 777</div></div>
+    <div class="body"><span class="tag">★ For clients · Slots</span>
+      <div class="title">Jackpot — <span class="role">every spin wins a service</span></div>
+      <div class="desc">Pull the chrome lever, watch three reels spin — every match unlocks an offer, and triple-7 drops the unrefusable one with confetti.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="television.html" style="--accent:#e8a03c;--tbg:linear-gradient(180deg,#8a5f38,#4a2f1a);--tfg:#f2ead8;--brandc:#e8a03c;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">NOUR TV</div><div class="kicker">📺 4 CHANNELS · CALL NOW</div></div>
+    <div class="body"><span class="tag">★ For clients · Retro TV</span>
+      <div class="title">Television — <span class="role">news, cooking, sports & the infomercial</span></div>
+      <div class="desc">Turn the knob through real static: a news bulletin about the promotion, a cooking show recipe for websites, badminton highlights — and a blinking CALL NOW ad.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="photobooth.html" style="--accent:#ffcf4d;--tbg:linear-gradient(180deg,#8a2440,#5c1428);--tfg:#fdf6ec;--brandc:#ffcf4d;--tfont:'Fraunces',serif">
+    <div class="thumb"><div class="brand">Photobooth</div><div class="kicker">📸 3·2·1·FLASH</div></div>
+    <div class="body"><span class="tag">★ For clients · Booth</span>
+      <div class="title">Photobooth — <span class="role">4 poses, 1 developer</span></div>
+      <div class="desc">Countdown, flash, four poses — then a real photo strip prints from the slot: developer, supervisor, coordinator, human.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="handheld.html" style="--accent:#a83a5c;--tbg:linear-gradient(160deg,#ded9ea,#a39cb8);--tfg:#2c2838;--brandc:#2c2838;--tfont:'Press Start 2P',monospace">
+    <div class="thumb"><div class="brand">NOURBOY</div><div class="kicker">🎮 6 CARTRIDGES · D-PAD</div></div>
+    <div class="body"><span class="tag">★ For clients · Handheld</span>
+      <div class="title">Handheld — <span class="role">a console with real buttons</span></div>
+      <div class="desc">A working handheld: D-pad, A/B buttons, boot jingle, and six cartridges — Super Nour World, GoldenTag Quest, and 2-player HIRE ME mode.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="constellation.html" style="--accent:#e8c060;--tbg:radial-gradient(circle at 50% 100%,#16204a,#050813);--tfg:#e8c060;--brandc:#e8c060;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">Planetarium</div><div class="kicker">✦ CONNECT THE STARS</div></div>
+    <div class="body"><span class="tag">★ For clients · Night Sky</span>
+      <div class="title">Constellation — <span class="role">draw his story in stars</span></div>
+      <div class="desc">Click the blinking golden stars in order to draw five constellations — The Graduate, The Golden Ring, The Crown, and finally The Handshake.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="carwash.html" style="--accent:#ff7a3c;--tbg:linear-gradient(180deg,#bfe2f0,#e2f2f8);--tfg:#20303a;--brandc:#ff7a3c;--tfont:'Fraunces',serif">
+    <div class="thumb"><div class="brand">NOUR WASH</div><div class="kicker">🚗 DIRTY IN · SHINY OUT</div></div>
+    <div class="body"><span class="tag">★ For clients · Carwash</span>
+      <div class="title">Carwash — <span class="role">the before/after machine</span></div>
+      <div class="desc">Your dusty project drives into the tunnel — soap, brushes, rinse, dry — and rolls out repainted and sparkling. Every stage is a real service.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="gym.html" style="--accent:#ffd23f;--tbg:linear-gradient(180deg,#2c2833,#121016);--tfg:#ffd23f;--brandc:#ffd23f;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">THE GYM</div><div class="kicker">💪 DEADLINE LIFTING CLUB</div></div>
+    <div class="body"><span class="tag">★ For clients · Gym</span>
+      <div class="title">Gym — <span class="role">tap to lift, complete the program</span></div>
+      <div class="desc">Tap the rig to rep the barbell — React deadlifts, TypeScript squats, Leadership press — with grunts, a PR bell, and a prize at the end.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="weather.html" style="--accent:#ffd23f;--tbg:linear-gradient(180deg,#6ab4e0,#cfe8f0);--tfg:#243050;--brandc:#243050;--tfont:'Inter',sans-serif">
+    <div class="thumb"><div class="brand">CLIMATE CTRL</div><div class="kicker">🌦 SUN · RAIN · STORM · NIGHT</div></div>
+    <div class="body"><span class="tag">★ For clients · Weather</span>
+      <div class="title">Weather — <span class="role">whatever the forecast, work ships</span></div>
+      <div class="desc">You control the sky over a little city — real rain, thunder and lightning, night windows glowing — and each weather tells a different strength.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="library.html" style="--accent:#c9a24a;--tbg:linear-gradient(180deg,#6e5236,#3a2a18);--tfg:#f2e8d4;--brandc:#c9a24a;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">The Library</div><div class="kicker">📚 8 VOLUMES · PULL ONE</div></div>
+    <div class="body"><span class="tag">★ For clients · Library</span>
+      <div class="title">Library — <span class="role">the collected works</span></div>
+      <div class="desc">Pull any book off the wooden shelf and it opens as a two-page spread — eight volumes from The Foundation Years to one co-written with you.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="laundry.html" style="--accent:#2ea8b8;--tbg:linear-gradient(180deg,#dff0f2,#c2e2e6);--tfg:#22343f;--brandc:#2ea8b8;--tfont:'Fraunces',serif">
+    <div class="thumb"><div class="brand">WASH-O-MAT</div><div class="kicker">🫧 STAINS GUARANTEED GONE</div></div>
+    <div class="body"><span class="tag">★ For clients · Laundry</span>
+      <div class="title">Laundry — <span class="role">we launder messy projects</span></div>
+      <div class="desc">Toss the Spaghetti Code Shirt and Slow Website Jeans into the drum, pick a program, watch the spin — everything comes out clean on the line.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="elixir.html" style="--accent:#a86ef0;--tbg:radial-gradient(circle at 50% 100%,#2c1e44,#0e0a18);--tfg:#efe8fa;--brandc:#a86ef0;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">The Alchemist</div><div class="kicker">🧪 SIX INGREDIENTS · ONE BREW</div></div>
+    <div class="body"><span class="tag">★ For clients · Potion</span>
+      <div class="title">Elixir — <span class="role">brew the perfect project</span></div>
+      <div class="desc">Drop React essence, TypeScript crystals and a rare Supervisor's Tear into the bubbling cauldron — each ingredient changes the color until the elixir is done.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="origami.html" style="--accent:#c94f4f;--tbg:linear-gradient(180deg,#f4efe6,#e8e0d0);--tfg:#2c2822;--brandc:#c94f4f;--tfont:'Fraunces',serif">
+    <div class="thumb"><div class="brand">Origami</div><div class="kicker">🕊 SEVEN FOLDS · ONE CRANE</div></div>
+    <div class="body"><span class="tag">★ For clients · Paper</span>
+      <div class="title">Origami — <span class="role">care, folded into shape</span></div>
+      <div class="desc">A blank sheet folds itself step by step into a crane with flapping wings — each fold a real working principle, from listening to delivery.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="fuel.html" style="--accent:#ffd23f;--tbg:linear-gradient(180deg,#3c3c44,#1e1e24);--tfg:#ffd23f;--brandc:#ffd23f;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">FUEL STATION</div><div class="kicker">⛽ 0 SAR / LITER</div></div>
+    <div class="body"><span class="tag">★ For clients · Gas Pump</span>
+      <div class="title">Fuel — <span class="role">fill your project's tank</span></div>
+      <div class="desc">Choose your grade — React 98, Design 95 or Coord Diesel — and hold the pump: liters count up, the tank gauge fills, price stays zero.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="aquarium.html" style="--accent:#ff8a5c;--tbg:linear-gradient(180deg,#1273a3,#06283d);--tfg:#eaf6fb;--brandc:#eaf6fb;--tfont:'Fraunces',serif">
+    <div class="thumb"><div class="brand">The Aquarium</div><div class="kicker">🐠 FEED THE SKILLS</div></div>
+    <div class="body"><span class="tag">◆ New · Living Fish Tank</span>
+      <div class="title">Aquarium — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">Twelve skills swim as fish — tap the water to drop food and watch them swarm, click any fish to read its story.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="beatpad.html" style="--accent:#ff5e7e;--tbg:linear-gradient(180deg,#2b2436,#181420);--tfg:#ff5e7e;--brandc:#ff5e7e;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">BEAT MACHINE</div><div class="kicker">🥁 MPC-26 · 12 PADS</div></div>
+    <div class="body"><span class="tag">◆ New · Drum Machine</span>
+      <div class="title">Beatpad — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">A real drum machine: every pad is a synthesized sound plus a fact — smash them with your keyboard or hit ▶ for the 16-step career groove.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="forge.html" style="--accent:#ff6b2e;--tbg:radial-gradient(circle at 50% 100%,#3a2416,#17120e);--tfg:#ffb35c;--brandc:#ffb35c;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">THE FORGE</div><div class="kicker">⚒ NINE STRIKES · QUENCH</div></div>
+    <div class="body"><span class="tag">◆ New · Blacksmith</span>
+      <div class="title">Forge — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">Swing the hammer yourself: nine strikes forge a blade from raw ore to master mark — sparks fly, then you quench it in oil.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="kitchen.html" style="--accent:#d64545;--tbg:linear-gradient(180deg,#f7e8d0,#f0d9b8);--tfg:#3a2a18;--brandc:#d64545;--tfont:'Fraunces',serif">
+    <div class="thumb"><div class="brand">SHAWARMA AL-NOUR</div><div class="kicker">🥙 BUILD THE WRAP</div></div>
+    <div class="body"><span class="tag">◆ New · Career Shawarma</span>
+      <div class="title">Kitchen — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">Stack the career wrap ingredient by ingredient — React chicken, TypeScript toum, ICPC hot sauce — then wrap it and place your order.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="locomotive.html" style="--accent:#d3a94e;--tbg:linear-gradient(180deg,#ffd9a0,#c98a52);--tfg:#2b2f38;--brandc:#2b2f38;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">CAREER EXPRESS</div><div class="kicker">🚂 THROTTLE UP · LINE 26</div></div>
+    <div class="body"><span class="tag">◆ New · Train Cab</span>
+      <div class="title">Locomotive — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">You're the driver: drag the throttle, watch the scenery roll past the windshield, and brake at six stations of my career.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="pinball.html" style="--accent:#5ee0ff;--tbg:linear-gradient(180deg,#1d2a4a,#0b0f1d);--tfg:#5ee0ff;--brandc:#5ee0ff;--tfont:'Press Start 2P',monospace">
+    <div class="thumb"><div class="brand">PINBALL</div><div class="kicker">◉ 8 BUMPERS · 3 BALLS</div></div>
+    <div class="body"><span class="tag">◆ New · Playable Pinball</span>
+      <div class="title">Pinball — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">Real flipper physics: launch, bounce, and light all eight career bumpers to hit the jackpot — my contact card.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="snowglobe.html" style="--accent:#e8c88a;--tbg:radial-gradient(circle at 50% 30%,#28324e,#12182a);--tfg:#eef4ff;--brandc:#e8c88a;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">Snow Globe</div><div class="kicker">❄ SHAKE · 7 WINTERS</div></div>
+    <div class="body"><span class="tag">◆ New · Shake Toy</span>
+      <div class="title">Snowglobe — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">Shake the globe and a snowstorm swallows the scene — when it settles, a new winter of my story stands inside the glass.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="typewriter.html" style="--accent:#b3402e;--tbg:linear-gradient(180deg,#4a5c4e,#2a3730);--tfg:#f7f2e2;--brandc:#f7f2e2;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">NOURWRITER</div><div class="kicker">⌨ MASH ANY KEYS</div></div>
+    <div class="body"><span class="tag">◆ New · Hacker-Typer</span>
+      <div class="title">Typewriter — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">Hammer any keys you want — the typewriter writes the story itself, clacking with a real carriage-return ding at every line.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="auction.html" style="--accent:#d4af5e;--tbg:radial-gradient(circle at 50% 0%,#3d1e30,#1a0c14);--tfg:#d4af5e;--brandc:#f0dca8;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">Maison Nour</div><div class="kicker">🔨 8 LOTS · PADDLE 26</div></div>
+    <div class="body"><span class="tag">◆ New · Auction House</span>
+      <div class="title">Auction — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">An evening sale of my career: bid against the phone bidder, hear "going once, going twice…" and the gavel slam SOLD on all eight lots.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="phone.html" style="--accent:#5eb8ff;--tbg:linear-gradient(180deg,#24406e,#101a30);--tfg:#f2f4f8;--brandc:#5eb8ff;--tfont:'Inter',sans-serif">
+    <div class="thumb"><div class="brand">NOURPHONE</div><div class="kicker">📱 SWIPE UP TO UNLOCK</div></div>
+    <div class="body"><span class="tag">◆ New · Smartphone</span>
+      <div class="title">Phone — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">A full phone: lock screen with live notifications from my life, swipe to unlock, then open Mail, Maps, Music, Chess and the Hire Me app.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="passport.html" style="--accent:#c8a24a;--tbg:linear-gradient(160deg,#276450,#123527);--tfg:#c8a24a;--brandc:#c8a24a;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">PASSPORT</div><div class="kicker">✈ STAMPED &amp; ADMITTED</div></div>
+    <div class="body"><span class="tag">◆ New · Page-Flip Book</span>
+      <div class="title">Passport — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">A 3D passport you flip page by page — every job is a visa stamp that slams onto the paper, ending with ENTRY PERMITTED.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="heist.html" style="--accent:#d3a94e;--tbg:linear-gradient(150deg,#4a5566,#232a35);--tfg:#d3a94e;--brandc:#d3a94e;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb"><div class="brand">THE HEIST</div><div class="kicker">🔒 CRACK THE COMBO</div></div>
+    <div class="body"><span class="tag">◆ New · Safe-Cracking</span>
+      <div class="title">Heist — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">Rotate the vault dial by hand, listen for the clicks, hit three numbers — the door swings open on the career loot inside.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="claw.html" style="--accent:#ff5e9c;--tbg:linear-gradient(180deg,#9256e8,#4f2494);--tfg:#ffd23f;--brandc:#ffd23f;--tfont:'Press Start 2P',monospace">
+    <div class="thumb"><div class="brand">CLAW ZONE</div><div class="kicker">🕹 GRAB A PRIZE</div></div>
+    <div class="body"><span class="tag">◆ New · Claw Machine</span>
+      <div class="title">Claw — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">A working claw machine: steer, drop, grab a career prize and watch it tumble down the chute — unlimited free plays.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="flipboard.html" style="--accent:#ffcf3f;--tbg:#17181c;--tfg:#ffcf3f;--brandc:#ffcf3f;--tfont:'JetBrains Mono',monospace">
+    <div class="thumb"><div class="brand">DEPARTURES</div><div class="kicker">◈ SPLIT-FLAP · CLACK CLACK</div></div>
+    <div class="body"><span class="tag">◆ New · Split-Flap Board</span>
+      <div class="title">Flipboard — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">An airport split-flap departures board that clacks through my career flights letter by letter — click any flight for details.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="garden.html" style="--accent:#e0673f;--tbg:linear-gradient(180deg,#bfe6f5,#d8ecd2);--tfg:#2b3a2e;--brandc:#2b3a2e;--tfont:'Fraunces',serif">
+    <div class="thumb"><div class="brand">The Garden</div><div class="kicker">🌱 PLANT · WATER · GROW</div></div>
+    <div class="body"><span class="tag">◆ New · Growing Garden</span>
+      <div class="title">Garden — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">Click the soil and watch each skill sprout, stem and bloom — with butterflies, a day/night switch, and one flower grown just for you.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="darkroom.html" style="--accent:#ff2e3f;--tbg:linear-gradient(180deg,#2a1216,#12080a);--tfg:#ff8a92;--brandc:#ff8a92;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">Darkroom</div><div class="kicker">🔴 SAFELIGHT ON</div></div>
+    <div class="body"><span class="tag">◆ New · Photo Developing</span>
+      <div class="title">Darkroom — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">Drag negatives off the wire into the chemical bath and watch each career memory develop from black to clear under the red light.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="tarot.html" style="--accent:#d9b25f;--tbg:radial-gradient(circle at 50% 30%,#2c1c52,#0d0819);--tfg:#d9b25f;--brandc:#f3dfa8;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">The Arcana</div><div class="kicker">✦ PAST · PRESENT · FUTURE</div></div>
+    <div class="body"><span class="tag">◆ New · Tarot Reading</span>
+      <div class="title">Tarot — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">Draw three cards from a shuffled fan — The Student, The Competitor, The Supervisor… each flips with gold foil and reads a true chapter.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="elevator.html" style="--accent:#c9a25a;--tbg:linear-gradient(180deg,#38291f,#161009);--tfg:#eed9a8;--brandc:#eed9a8;--tfont:'Playfair Display',serif">
+    <div class="thumb"><div class="brand">Tower NT</div><div class="kicker">🛗 PH → B1 · DING</div></div>
+    <div class="body"><span class="tag">◆ New · Elevator</span>
+      <div class="title">Elevator — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">A brass private lift: press a floor, doors close, the cab counts down with a ding — and opens on a different era of my career.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="redstring.html" style="--accent:#c8342a;--tbg:linear-gradient(160deg,#b98a52,#9a6f3e);--tfg:#26201a;--brandc:#c8342a;--tfont:'Fraunces',serif">
+    <div class="thumb"><div class="brand">WHO IS NOUR?</div><div class="kicker">📌 CASE № 26 · RED STRING</div></div>
+    <div class="body"><span class="tag">◆ New · Detective Board</span>
+      <div class="title">Redstring — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">A conspiracy corkboard: drag polaroids and index cards around and the red strings follow — click any evidence to read the case notes.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="receipt.html" style="--accent:#e05243;--tbg:linear-gradient(180deg,#5a5f6a,#33363d);--tfg:#fdfcf7;--brandc:#fdfcf7;--tfont:'JetBrains Mono',monospace">
+    <div class="thumb"><div class="brand">RÉSUMÉ THERMAL</div><div class="kicker">⎙ TOTAL: PRICELESS</div></div>
+    <div class="body"><span class="tag">◆ New · Receipt Printer</span>
+      <div class="title">Receipt — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">Press PRINT and my whole career prints line by line as a supermarket receipt — barcode, VAT (Value Added Talent), then tear it off.</div>
+      <div class="cta">Open design →</div></div></a>
+  <a class="card" href="radio.html" style="--accent:#ffb54d;--tbg:linear-gradient(160deg,#4a3527,#2e2019);--tfg:#ffb54d;--brandc:#ffb54d;--tfont:'Fraunces',serif">
+    <div class="thumb">
+      <div class="brand">NOUR·FM</div>
+      <div class="kicker">88.0 — 108.0 MHz · ON AIR</div>
+    </div>
+    <div class="body">
+      <span class="tag">◆ Next-level · Radio Tuner</span>
+      <div class="title">Radio — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">Drag the needle across the band — five stations broadcast my career, with real static between them (Web Audio), a live waveform and VU meters.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="dig.html" style="--accent:#b3542e;--tbg:linear-gradient(180deg,#d9c39a,#8a6a45);--tfg:#2f271c;--brandc:#2f271c;--tfont:'Fraunces',serif">
+    <div class="thumb">
+      <div class="brand">DIG SITE NT-26</div>
+      <div class="kicker">⛏ BRUSH AWAY THE SAND</div>
+    </div>
+    <div class="body">
+      <span class="tag">◆ Next-level · Excavation</span>
+      <div class="title">Dig — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">An archaeological dig: brush away real sand layers with your cursor to uncover each era of my career — newest on top, treasure vault at the bottom.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="metro.html" style="--accent:#d9302f;--tbg:#f7f5f0;--tfg:#17161a;--brandc:#d9302f;--tfont:'Inter',sans-serif">
+    <div class="thumb">
+      <div class="brand">NOUR TRANSIT</div>
+      <div class="kicker">3 LINES · 11 STATIONS · مترو</div>
+    </div>
+    <div class="body">
+      <span class="tag">◆ Next-level · Metro Map</span>
+      <div class="title">Metro — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">My career as a transit map — colored lines, bilingual stations (EN/عربي), little trains running the rails, and a panel for every stop.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="vending.html" style="--accent:#c93a2e;--tbg:linear-gradient(180deg,#e04434,#8f261d);--tfg:#ffe9d4;--brandc:#ffe9d4;--tfont:'JetBrains Mono',monospace">
+    <div class="thumb">
+      <div class="brand">NOUR-O-MATIC</div>
+      <div class="kicker">INSERT 1 SAR · SELECT ITEM</div>
+    </div>
+    <div class="body">
+      <span class="tag">◆ Next-level · Vending Machine</span>
+      <div class="title">Vending — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">A working vending machine: insert a coin, punch a code, and career items tumble into the tray — with motor sounds, an LED screen, and one item permanently sold out (sleep).</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="rally.html" style="--accent:#ffd23f;--tbg:linear-gradient(180deg,#2a8a63,#154f38);--tfg:#f2f7f0;--brandc:#ffd23f;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb">
+      <div class="brand">RALLY!</div>
+      <div class="kicker">🏸 YOU vs DEADLINE-BOT</div>
+    </div>
+    <div class="body">
+      <span class="tag">◆ Next-level · Badminton Game</span>
+      <div class="title">Rally — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">A playable badminton rally against DEADLINE-BOT — every shot you return reveals a fact about me; survive 10 and the contact card unlocks with confetti.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="ascii.html" style="--accent:#ffb000;--tbg:#0c0a06;--tfg:#ffb000;--brandc:#ffb000;--tfont:'JetBrains Mono',monospace">
+    <div class="thumb">
+      <div class="brand">ASCII_</div>
+      <div class="kicker">TEXT-MODE 3D · CRT</div>
+    </div>
+    <div class="body">
+      <span class="tag">◆ Next-level · ASCII Engine</span>
+      <div class="title">ASCII — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">A live 3D object rendered entirely in text characters on an amber CRT — it obeys your mouse and mutates as you scroll. Typewriter terminal logs tell my story.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="lens.html" style="--accent:#67e8ff;--tbg:#f3efe7;--tfg:#201d18;--brandc:#201d18;--tfont:'Playfair Display',serif">
+    <div class="thumb">
+      <div class="brand">The Lens</div>
+      <div class="kicker">X-RAY · HIDDEN LAYER</div>
+    </div>
+    <div class="body">
+      <span class="tag">◆ Next-level · X-Ray Reveal</span>
+      <div class="title">Lens — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">A calm editorial page — until your cursor becomes an X-ray lens revealing the hidden blueprint underneath, full of secret annotations and margin notes.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="cube.html" style="--accent:#e2c044;--tbg:linear-gradient(160deg,#101014,#1a1a20);--tfg:#e2c044;--brandc:#e2c044;--tfont:'Fraunces',serif">
+    <div class="thumb">
+      <div class="brand">THE CUBE</div>
+      <div class="kicker">4 WALLS · YOU'RE INSIDE</div>
+    </div>
+    <div class="body">
+      <span class="tag">◆ Next-level · 3D Room</span>
+      <div class="title">Cube — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">You stand inside a rotating gallery room — four walls of my career surround you, and scrolling spins the whole room to the next wall.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="strings.html" style="--accent:#d9b36a;--tbg:radial-gradient(circle at 50% 0%,#241c28,#0d0a10 70%);--tfg:#d9b36a;--brandc:#f0e9dc;--tfont:'Playfair Display',serif">
+    <div class="thumb">
+      <div class="brand">Strings</div>
+      <div class="kicker">♪ PLAYABLE · 12 NOTES</div>
+    </div>
+    <div class="body">
+      <span class="tag">◆ Next-level · Musical Physics</span>
+      <div class="title">Strings — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">A playable harp: twelve physics-simulated golden strings, one per skill — sweep across them and they ripple and genuinely play notes.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="chat.html" style="--accent:#b8ff5c;--tbg:linear-gradient(160deg,#0f1216,#151a21);--tfg:#b8ff5c;--brandc:#b8ff5c;--tfont:'Inter',sans-serif">
+    <div class="thumb">
+      <div class="brand">chat.nour</div>
+      <div class="kicker">● ONLINE — REPLIES IN SECONDS</div>
+    </div>
+    <div class="body">
+      <span class="tag">◆ Next-level · Conversational</span>
+      <div class="title">Chat — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">The portfolio is a conversation — text with me in a messenger UI: typing dots, quick replies, rich cards, and a chess easter egg.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="flux.html" style="--accent:#59d7ff;--tbg:radial-gradient(circle at 30% 30%,#173a6e,#08080d 75%);--tfg:#f5f2ea;--brandc:#f5f2ea;--tfont:'Italiana',serif">
+    <div class="thumb">
+      <div class="brand">FLUX</div>
+      <div class="kicker">LIVING INK · WEBGL SHADER</div>
+    </div>
+    <div class="body">
+      <span class="tag">◆ Next-level · Fluid Shader</span>
+      <div class="title">Flux — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">The whole page is a living ink simulation — your cursor paints iridescent fluid that flows through the typography. Magnetic buttons, scramble text, custom cursor.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="swarm.html" style="--accent:#59f3ff;--tbg:radial-gradient(circle at 60% 40%,#0d1b33,#05070d 75%);--tfg:#59f3ff;--brandc:#59f3ff;--tfont:'Syncopate',sans-serif">
+    <div class="thumb">
+      <div class="brand">SWARM</div>
+      <div class="kicker">15,000 PARTICLES · MORPH</div>
+    </div>
+    <div class="body">
+      <span class="tag">◆ Next-level · Particle Morph</span>
+      <div class="title">Swarm — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">15,000 particles morph between my name, the Arabic ن, a React atom, a chess knight and an @ — and scatter around your cursor before reforming.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="drift.html" style="--accent:#ff8a5c;--tbg:radial-gradient(circle at 70% 25%,#2b2144,#120e1c 75%);--tfg:#f4eee6;--brandc:#f4eee6;--tfont:'Unbounded',sans-serif">
+    <div class="thumb">
+      <div class="brand">DRIFT</div>
+      <div class="kicker">∞ INFINITE · NO SCROLL</div>
+    </div>
+    <div class="body">
+      <span class="tag">◆ Next-level · Infinite Drag</span>
+      <div class="title">Drift — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">There is no scroll — you grab the void and fly. An infinite wrapping universe of career fragments at parallax depths, with a minimap and inertia physics.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="playroom.html" style="--accent:#2733ff;--tbg:#e8e6e1;--tfg:#161616;--brandc:#161616;--tfont:'Anybody',sans-serif">
+    <div class="thumb">
+      <div class="brand">PLAYROOM</div>
+      <div class="kicker">RIGID BODIES · GRAB & THROW</div>
+    </div>
+    <div class="body">
+      <span class="tag">◆ Next-level · Physics Toy</span>
+      <div class="title">Playroom — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">My name and skills are real physics bodies — grab them, throw them, flip gravity, go zero-G. Below: typography that bends around your cursor.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="descent.html" style="--accent:#ff5c00;--tbg:linear-gradient(180deg,#1d4e89,#8fc1e3);--tfg:#f7f9fc;--brandc:#f7f9fc;--tfont:'Anton',sans-serif">
+    <div class="thumb">
+      <div class="brand">THE DESCENT</div>
+      <div class="kicker">▼ 4,000 M · FREEFALL</div>
+    </div>
+    <div class="body">
+      <span class="tag">★ New · Skydive Scroll</span>
+      <div class="title">The Descent — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">Jump from the plane and fall with me — my avatar drops with your scroll past every career chapter, altimeter ticking, parachute at 500&nbsp;m.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="abyss.html" style="--accent:#35f0d0;--tbg:linear-gradient(180deg,#2aa7ac,#041826);--tfg:#e6fffb;--brandc:#e6fffb;--tfont:'Fraunces',serif">
+    <div class="thumb">
+      <div class="brand">The Abyss</div>
+      <div class="kicker">◍ DIVE LOG · −10,911 M</div>
+    </div>
+    <div class="body">
+      <span class="tag">★ New · Deep-Sea Dive</span>
+      <div class="title">The Abyss — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">Sink from sunlit water to the trench floor with a submarine escort — bioluminescent skills, a passing whale, and treasure at the bottom.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="checkmate.html" style="--accent:#a33b2e;--tbg:#f5efe0;--tfg:#2b211c;--brandc:#2b211c;--tfont:'DM Serif Display',serif">
+    <div class="thumb">
+      <div class="brand">Checkmate</div>
+      <div class="kicker">♞ A CAREER IN SIX MOVES</div>
+    </div>
+    <div class="body">
+      <span class="tag">★ New · 3D Chess Story</span>
+      <div class="title">Checkmate — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">A live 3D board plays my career move by move — development, castling, a literal pawn promotion in Jan 2026, and mate on the final section.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="shonen.html" style="--accent:#e63946;--tbg:#fffdf5;--tfg:#101010;--brandc:#e63946;--tfont:'Bangers',cursive">
+    <div class="thumb">
+      <div class="brand">NOUR — EP.26</div>
+      <div class="kicker">第26話 · THE FRONTEND ARC</div>
+    </div>
+    <div class="body">
+      <span class="tag">★ New · Anime Episode</span>
+      <div class="title">Shōnen — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">My career as a shōnen episode — slamming manga panels, speed lines, a horizontal strip, power levels over 9000 and a TO BE CONTINUED.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="premiere.html" style="--accent:#d4af37;--tbg:linear-gradient(160deg,#070605,#191410);--tfg:#d4af37;--brandc:#d4af37;--tfont:'Cinzel',serif">
+    <div class="thumb">
+      <div class="brand">NT PICTURES</div>
+      <div class="kicker">OFFICIAL TRAILER · MMXXVI</div>
+    </div>
+    <div class="body">
+      <span class="tag">★ New · Cinematic Trailer</span>
+      <div class="title">The Premiere — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">A letterboxed, film-grained movie trailer for my career — title cards, five-star critic reviews, a credits crawl and a post-credits scene.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="chrono.html" style="--accent:#ffc15e;--tbg:radial-gradient(circle at 50% 40%,#2a2140,#0c0916);--tfg:#e6c891;--brandc:#e6c891;--tfont:'Poiret One',cursive">
+    <div class="thumb">
+      <div class="brand">CHRONO·DRIVE</div>
+      <div class="kicker">2019 → 2026 · TIME TUNNEL</div>
+    </div>
+    <div class="body">
+      <span class="tag">★ New · 3D Time Tunnel</span>
+      <div class="title">Chrono — <span class="role">Nour Aldeen Tofi · the real story</span></div>
+      <div class="desc">Fly forward inside a brass time tunnel — seven years of my timeline rush past the camera as you scroll, from first semester to supervisor.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="nebula.html" style="--accent:#5b8af5;--tbg:linear-gradient(135deg,#0d1528,#141d2f);--tfg:#e2e8f0;--brandc:#e2e8f0;--tfont:'Inter',sans-serif;--brandgrad:linear-gradient(135deg,#5b8af5,#a78bfa,#34d399)">
+    <div class="thumb">
+      <div class="brand grad">Adrian Cole</div>
+      <div class="kicker">// full-stack · saas</div>
+    </div>
+    <div class="body">
+      <span class="tag">Modern · SaaS</span>
+      <div class="title">Adrian Cole — <span class="role">Full-Stack Developer & Creative Technologist</span></div>
+      <div class="desc">A glowing particle field on cool blue — the classic dark, hire-me developer portfolio.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="nour.html" style="--accent:#e0b400;--tbg:#ffd60a;--tfg:#0a0a0a;--brandc:#0a0a0a;--tfont:'Space Grotesk',sans-serif">
+    <div class="thumb">
+      <div class="brand">REMY.DEV</div>
+      <div class="kicker">FRONTEND ✕ BERLIN</div>
+    </div>
+    <div class="body">
+      <span class="tag">Neo-Brutalist</span>
+      <div class="title">Remy Fox — <span class="role">Frontend Developer</span></div>
+      <div class="desc">Loud yellow, ink black, and hard shadows — a confident brutalist take with mono accents.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="nourOS.html" style="--accent:#4aa3ff;--tbg:linear-gradient(160deg,#1f3b63,#0d1b2e);--tfg:#eaf2ff;--brandc:#eaf2ff;--tfont:'Inter',sans-serif">
+    <div class="thumb">
+      <div class="brand">TheoOS</div>
+      <div class="kicker">v14.2 · desktop</div>
+    </div>
+    <div class="body">
+      <span class="tag">Desktop OS</span>
+      <div class="title">Theo Park — <span class="role">Systems Software Engineer</span></div>
+      <div class="desc">A working desktop operating system — windows, a dock, a live terminal, and a boot screen.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="zara.html" style="--accent:#00ff88;--tbg:#05080c;--tfg:#00ff88;--brandc:#00ff88;--tfont:'JetBrains Mono',monospace">
+    <div class="thumb">
+      <div class="brand">KAI SATO</div>
+      <div class="kicker">&gt; ./kaidev --boot</div>
+    </div>
+    <div class="body">
+      <span class="tag">Cyberpunk · Terminal</span>
+      <div class="title">Kai Sato — <span class="role">Game Developer & Creative Coder</span></div>
+      <div class="desc">Neon green on black with scanlines and a CRT flicker — retro-future terminal aesthetics.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="aurora.html" style="--accent:#6a5cff;--tbg:linear-gradient(135deg,#fbeef5,#eae3ff 55%,#dff0ff);--tfg:#12111a;--brandc:#12111a;--tfont:'Fraunces',serif;--brandgrad:linear-gradient(90deg,#6a5cff,#ff7bac)">
+    <div class="thumb">
+      <div class="brand grad">Mia Larsen</div>
+      <div class="kicker">product · design · code</div>
+    </div>
+    <div class="body">
+      <span class="tag">Aurora · Liquid Glass</span>
+      <div class="title">Mia Larsen — <span class="role">Product Designer & Interaction Engineer</span></div>
+      <div class="desc">Bright pastel aurora, frosted glass cards and italic serif — an airy, Apple-style light mode.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="swiss.html" style="--accent:#e63016;--tbg:#efece4;--tfg:#0b0b0b;--brandc:#0b0b0b;--tfont:'Archivo Black',sans-serif">
+    <div class="thumb">
+      <div class="brand">ANTON / STUDIO</div>
+      <div class="kicker">ZÜRICH · COMP. Nº14</div>
+    </div>
+    <div class="body">
+      <span class="tag">Swiss · Bauhaus</span>
+      <div class="title">Anton Keller — <span class="role">Art Director & Graphic Designer</span></div>
+      <div class="desc">A bold typographic grid in red, black and cream — Archivo Black meets italic Fraunces.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="marcus.html" style="--accent:#e8500a;--tbg:#f0e9dc;--tfg:#14100c;--brandc:#e8500a;--tfont:'Playfair Display',serif">
+    <div class="thumb">
+      <div class="brand">Sofia Marchetti</div>
+      <div class="kicker">BRAND · MOTION · BARCELONA</div>
+    </div>
+    <div class="body">
+      <span class="tag">Editorial · Brand</span>
+      <div class="title">Sofia Marchetti — <span class="role">Brand Designer & Motion Artist</span></div>
+      <div class="desc">Warm cream, rust and gold — an editorial magazine layout with a typographic collage.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="galaxy.html" style="--accent:#a490c2;--tbg:radial-gradient(circle at 40% 45%,#2b1e3e,#0d081a);--tfg:#e6e6fa;--brandc:#e6e6fa;--tfont:'Space Grotesk',sans-serif">
+    <div class="thumb">
+      <div class="brand">Selene ✦</div>
+      <div class="kicker">CREATIVE · DIRECTOR</div>
+    </div>
+    <div class="body">
+      <span class="tag">Midnight Galaxy</span>
+      <div class="title">Selene Vasquez — <span class="role">Creative Director & Cosmic Technologist</span></div>
+      <div class="desc">A deep purple cosmos with a live starfield, orbiting planets and a lavender glow.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="spline.html" style="--accent:#7f5bff;--tbg:radial-gradient(circle at 35% 40%,#1a1638,#03030a);--tfg:#c9c8ff;--brandc:#c9c8ff;--tfont:'Space Grotesk',sans-serif;--brandgrad:linear-gradient(90deg,#00e0ff,#7f5bff,#ff4fa3)">
+    <div class="thumb">
+      <div class="brand grad">LUCA ⬤ 3D</div>
+      <div class="kicker">interactive · webgl · spline</div>
+    </div>
+    <div class="body">
+      <span class="tag">Spline · Live 3D</span>
+      <div class="title">Luca Moretti — <span class="role">3D Designer & WebGL Artist</span></div>
+      <div class="desc">A real Spline scene in the page — drag the hero, orbit 3D cards, glass UI over WebGL.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="crystal.html" style="--accent:#8ab4ff;--tbg:radial-gradient(circle at 50% 40%,#141426,#06060c);--tfg:#dfe6ff;--brandc:#dfe6ff;--tfont:'Space Grotesk',sans-serif;--brandgrad:linear-gradient(90deg,#8ab4ff,#c98bff,#ff8bd0)">
+    <div class="thumb">
+      <div class="brand grad">IRIS · PRISM</div>
+      <div class="kicker">refraction · shaders · 3d</div>
+    </div>
+    <div class="body">
+      <span class="tag">Glass · Prism</span>
+      <div class="title">Iris Bloom — <span class="role">3D Artist & Interaction Designer</span></div>
+      <div class="desc">Orbit a cut-glass prism and click a facet to open — refraction, shaders and dispersion.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="worlds.html" style="--accent:#6af0ff;--tbg:radial-gradient(circle at 60% 40%,#1a1040,#020208);--tfg:#d7d2ff;--brandc:#d7d2ff;--tfont:'Space Grotesk',sans-serif;--brandgrad:linear-gradient(90deg,#6af0ff,#b56bff,#ff5fa7)">
+    <div class="thumb">
+      <div class="brand grad">ORION / WORLDS</div>
+      <div class="kicker">three.js · scroll-flight</div>
+    </div>
+    <div class="body">
+      <span class="tag">Three.js · Fully 3D</span>
+      <div class="title">Orion Reed — <span class="role">Immersive Experience Developer</span></div>
+      <div class="desc">The whole site is 3D — scroll flies the camera through six stations across space.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="arcade.html" style="--accent:#ff2e93;--tbg:linear-gradient(180deg,#0b0826,#1a1040);--tfg:#ffd60a;--brandc:#f4e9d1;--tfont:'Press Start 2P',monospace">
+    <div class="thumb">
+      <div class="brand">REX QUEST</div>
+      <div class="kicker">▸ PRESS START</div>
+    </div>
+    <div class="body">
+      <span class="tag">Pixel · Arcade RPG</span>
+      <div class="title">Rex Diaz — <span class="role">Game Designer & Pixel Artist</span></div>
+      <div class="desc">A 16-bit RPG portfolio — HP bars, a quest log, inventory and a save-game contact form.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="holocards.html" style="--accent:#ffd380;--tbg:linear-gradient(135deg,#14121c,#241a33);--tfg:#ffd380;--brandc:#ffd380;--tfont:'Space Grotesk',sans-serif;--brandgrad:linear-gradient(90deg,#ffd380,#8affd8,#c98bff)">
+    <div class="thumb">
+      <div class="brand grad">LEO · TCG</div>
+      <div class="kicker">series leo · set 01</div>
+    </div>
+    <div class="body">
+      <span class="tag">Holographic TCG</span>
+      <div class="title">Leo Tanaka — <span class="role">Character Artist & Illustrator</span></div>
+      <div class="desc">A holographic trading-card binder — foil cards, rarities and a collector's set.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="vinyl.html" style="--accent:#e8863a;--tbg:linear-gradient(135deg,#1a1210,#2a1a14);--tfg:#f0d8b0;--brandc:#f0d8b0;--tfont:'Space Grotesk',sans-serif">
+    <div class="thumb">
+      <div class="brand">Ruby James</div>
+      <div class="kicker">◉ SIDE A · 33⅓ RPM</div>
+    </div>
+    <div class="body">
+      <span class="tag">Vinyl · Side A</span>
+      <div class="title">Ruby James — <span class="role">Music Producer & Sound Designer</span></div>
+      <div class="desc">A record sleeve and spinning label — tracklist, liner notes and a warm analog palette.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="newspaper.html" style="--accent:#b8863b;--tbg:#f4f1ea;--tfg:#14110c;--brandc:#14110c;--tfont:'Playfair Display',serif">
+    <div class="thumb">
+      <div class="brand">The Daily Finch</div>
+      <div class="kicker">EST. 2019 · No. 001</div>
+    </div>
+    <div class="body">
+      <span class="tag">Vintage Broadsheet</span>
+      <div class="title">Walter Finch — <span class="role">Journalist & Editor-in-Chief</span></div>
+      <div class="desc">A printed broadsheet — masthead, columns and headlines. Read all about the work.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="wesanderson.html" style="--accent:#c05a6a;--tbg:linear-gradient(180deg,#f3e3d3,#eccdb8);--tfg:#6d2f3d;--brandc:#6d2f3d;--tfont:'Playfair Display',serif">
+    <div class="thumb">
+      <div class="brand">The Beaumont Hotel</div>
+      <div class="kicker">A PORTFOLIO IN SIX CHAPTERS</div>
+    </div>
+    <div class="body">
+      <span class="tag">Symmetrical Pastel</span>
+      <div class="title">Gustave Beaumont — <span class="role">Set Designer & Visual Storyteller</span></div>
+      <div class="desc">A Wes-Anderson hotel in six chapters — symmetrical, pastel and impeccably framed.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="fieldguide.html" style="--accent:#4a6741;--tbg:#f3ecd9;--tfg:#2e2a20;--brandc:#4a6741;--tfont:'Fraunces',serif">
+    <div class="thumb">
+      <div class="brand">R. Ellis</div>
+      <div class="kicker">A FIELD GUIDE · VOL. I</div>
+    </div>
+    <div class="body">
+      <span class="tag">Field Guide</span>
+      <div class="title">Rowan Ellis — <span class="role">Naturalist & Scientific Illustrator</span></div>
+      <div class="desc">A Victorian naturalist's field guide — engraved plates, Latin names and pressed-ink type.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="boarding.html" style="--accent:#ff6b35;--tbg:linear-gradient(120deg,#0a2540,#123a5e);--tfg:#eaf3fb;--brandc:#eaf3fb;--tfont:'Space Grotesk',sans-serif">
+    <div class="thumb">
+      <div class="brand">TERMINAL B</div>
+      <div class="kicker">✈ HART AVIATION · AH 001</div>
+    </div>
+    <div class="body">
+      <span class="tag">Boarding Pass</span>
+      <div class="title">Amelia Hart — <span class="role">Travel Photographer & Experience Designer</span></div>
+      <div class="desc">A portfolio as an airport boarding pass — gates, flights and a daily departure schedule.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="dossier.html" style="--accent:#c0392b;--tbg:linear-gradient(160deg,#17140f,#0c0a07);--tfg:#e8e2d0;--brandc:#e8e2d0;--tfont:'JetBrains Mono',monospace">
+    <div class="thumb">
+      <div class="brand">CASE FILE 001</div>
+      <div class="kicker">SUBJECT: V. KANE · CLASSIFIED</div>
+    </div>
+    <div class="body">
+      <span class="tag">Classified Dossier</span>
+      <div class="title">Victor Kane — <span class="role">Security Researcher & OSINT Analyst</span></div>
+      <div class="desc">A redacted case file — stamps, exhibits and a confidential subject profile.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+  <a class="card" href="mission.html" style="--accent:#5ad2b0;--tbg:linear-gradient(160deg,#070b10,#0d1620);--tfg:#cfe8e0;--brandc:#5ad2b0;--tfont:'JetBrains Mono',monospace">
+    <div class="thumb">
+      <div class="brand">SR-01</div>
+      <div class="kicker">● MISSION CONTROL · ACTIVE</div>
+    </div>
+    <div class="body">
+      <span class="tag">Mission Control</span>
+      <div class="title">Sara Reyes — <span class="role">Aerospace Systems Engineer</span></div>
+      <div class="desc">A NASA-style mission console — telemetry, a mission log and an uplink contact panel.</div>
+      <div class="cta">Open design →</div>
+    </div>
+  </a>
+</main>
+
+<footer>
+  <p><span class="dot"></span>All systems operational</p>
+  <p class="made" style="margin-top:.6rem">Designed &amp; built by <span>Nour Aldeen Tofi</span> · © 2026</p>
+  <p class="stack">120 designs · HTML · CSS · Canvas · WebGL · Three.js · Matter.js · Web Audio · GSAP</p>
+</footer>
+
+</body>
+</html>

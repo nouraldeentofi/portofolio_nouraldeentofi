@@ -1,0 +1,26 @@
+{
+  "domain": "https://nouraldeentofi.com",
+  "owner": "nouraldeentofi",
+  "sites": [
+    { "repo": "aya-rady", "branch": "main", "dir": "", "path": "sites/aya-rady" },
+    { "repo": "mohammed-alhabbarah", "branch": "main", "dir": "", "path": "sites/mohammed-alhabbarah" },
+    { "repo": "layal-joumaa", "branch": "main", "dir": "", "path": "sites/layal-joumaa" },
+    { "repo": "salam-aksimi", "branch": "main", "dir": "", "path": "sites/salam-aksimi" },
+    { "repo": "tawheed-malkat", "branch": "main", "dir": "", "path": "sites/tawheed-malkat" },
+    { "repo": "monther-al-ashqar", "branch": "main", "dir": "", "path": "sites/monther-al-ashqar" },
+    { "repo": "othman-almashaqba", "branch": "main", "dir": "", "path": "sites/othman-almashaqba" },
+    { "repo": "hamad-al-thiapi", "branch": "main", "dir": "docs", "path": "sites/hamad-al-thiapi" },
+    { "repo": "mazen-alobaidi", "branch": "main", "dir": "", "path": "sites/mazen-alobaidi" },
+    { "repo": "ayman-alawwad", "branch": "main", "dir": "docs", "path": "sites/ayman-alawwad" },
+    { "repo": "karam", "branch": "main", "dir": "", "path": "sites/karam" },
+    { "repo": "albader-transport", "branch": "gh-pages", "dir": "", "path": "sites/albader-transport" },
+    { "repo": "arabian-access", "branch": "main", "dir": "", "path": "sites/arabian-access" },
+    { "repo": "saudi-brothers-hajj", "branch": "gh-pages", "dir": "", "path": "sites/saudi-brothers-hajj" },
+    { "repo": "alhemaya-alkamela", "branch": "main", "dir": "", "path": "sites/alhemaya-alkamela" },
+    { "repo": "prestige-vip-tailor", "branch": "main", "dir": "", "path": "sites/prestige-vip-tailor" },
+    { "repo": "alreem-mashwi", "branch": "main", "dir": "", "path": "sites/alreem-mashwi" },
+    { "repo": "portfolio-gallery", "branch": "main", "dir": "", "path": "gallery" },
+    { "repo": "motion-studio", "branch": "gh-pages", "dir": "", "path": "motion-studio" },
+    { "repo": "The-Complete-Umrah-Guide", "branch": "main", "dir": "", "path": "umrah-guide", "aliases": ["umrah-checklist"] }
+  ]
+}

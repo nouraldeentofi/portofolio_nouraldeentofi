@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — BEATPAD · Career Drum Machine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Righteous&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#141118;--dev:#221d2a;--devd:#181420;--fg:#f2eefa;--dim:rgba(242,238,250,.55);
+        --p1:#ff5e7e;--p2:#ffb54d;--p3:#59d97d;--p4:#5eb8ff;--led:#7dff8a}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'IBM Plex Mono',monospace;background:radial-gradient(85vw 60vh at 50% -5%,#241d30,var(--bg));
+    color:var(--fg);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:5vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--p2);color:#141118}
+  h1{font-family:'Righteous',cursive;font-size:clamp(24px,4.6vw,42px);letter-spacing:.04em}
+  h1 span{color:var(--p1)}
+  .sub{font-size:10.5px;letter-spacing:.3em;color:var(--dim);margin:8px 0 26px;text-transform:uppercase;text-align:center}
+
+  #mpc{width:min(720px,96vw);background:linear-gradient(180deg,#2b2436,var(--dev) 40%,var(--devd));
+    border-radius:20px;padding:22px;box-shadow:0 40px 80px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,255,255,.1)}
+  #screenRow{display:flex;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+  #lcd{flex:1;min-width:240px;background:#0c1a0e;border-radius:10px;border:3px solid #0a0812;padding:14px 18px;
+    color:var(--led);text-shadow:0 0 8px rgba(125,255,138,.5);min-height:88px}
+  #lcd .l1{font-size:14px;font-weight:600;letter-spacing:.06em}
+  #lcd .l2{font-size:11px;opacity:.8;margin-top:6px;line-height:1.6}
+  #transport{display:flex;flex-direction:column;gap:8px;justify-content:center}
+  .tb{font-family:'Righteous';font-size:13px;letter-spacing:.1em;border:none;border-radius:9px;padding:12px 22px;
+    cursor:pointer;background:#39304a;color:var(--fg);box-shadow:0 4px 0 #241d30;transition:transform .1s,box-shadow .1s}
+  .tb:active{transform:translateY(3px);box-shadow:0 1px 0 #241d30}
+  .tb.play{background:var(--p3);color:#10281a;box-shadow:0 4px 0 #2b7a44}
+  .tb.play:active{box-shadow:0 1px 0 #2b7a44}
+  .tb.playing{background:var(--p1);color:#fff;box-shadow:0 4px 0 #99334c}
+
+  #pads{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .pad{aspect-ratio:1;border:none;border-radius:14px;cursor:pointer;position:relative;
+    background:linear-gradient(180deg,#3a3148,#2b2438);box-shadow:0 6px 0 #191322, inset 0 2px 0 rgba(255,255,255,.1);
+    color:var(--fg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+    transition:transform .06s,box-shadow .06s;padding:8px}
+  .pad:active,.pad.hit{transform:translateY(4px);box-shadow:0 2px 0 #191322}
+  .pad .ic{font-size:clamp(20px,4vw,30px)}
+  .pad .nm{font-family:'Righteous';font-size:clamp(8px,1.5vw,11px);letter-spacing:.06em;text-align:center;line-height:1.2}
+  .pad .kb{position:absolute;top:6px;left:9px;font-size:9px;color:var(--dim)}
+  .pad::after{content:'';position:absolute;inset:0;border-radius:14px;opacity:0;transition:opacity .25s;
+    box-shadow:0 0 30px var(--glow,#ff5e7e), inset 0 0 20px var(--glow,#ff5e7e)}
+  .pad.hit::after{opacity:.85;transition:none}
+  .pad.armed{outline:2px solid var(--glow);outline-offset:2px}
+
+  #hint{margin-top:20px;font-size:10px;letter-spacing:.3em;color:var(--dim);text-transform:uppercase;text-align:center;animation:hb 2.6s infinite}
+  @keyframes hb{0%,100%{opacity:.4}50%{opacity:1}}
+  #lcd a{color:var(--led);text-decoration:underline}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>NOUR <span>BEAT</span> MACHINE</h1>
+<div class="sub">MPC-26 · every pad = one sound + one fact · hit keys 1-8 / QWER ASDF</div>
+
+<div id="mpc">
+  <div id="screenRow">
+    <div id="lcd">
+      <div class="l1" id="lcd1">◆ NOUR ALDEEN TOFI — SUPERVISOR KIT</div>
+      <div class="l2" id="lcd2">Hit a pad to hear it and read it.<br>Press ▶ GROOVE to hear the whole career loop.</div>
+    </div>
+    <div id="transport">
+      <button class="tb play" id="playB">▶ GROOVE</button>
+      <button class="tb" id="tempoB">BPM: 96</button>
+    </div>
+  </div>
+  <div id="pads"></div>
+</div>
+<div id="hint">◈ SMASH THE PADS — THE RÉSUMÉ HAS RHYTHM ◈</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const PADS=[
+ {ic:'🥁',nm:'KICK · React',glow:'#ff5e7e',key:'1',snd:'kick',
+  l1:'PAD 01 — REACT (THE KICK)',l2:'The heartbeat since 2023. Minicodeleader → Khwarizm → Distinctive Frontier, where Nour now supervises frontend (2026 →).'},
+ {ic:'🪘',nm:'SNARE · TypeScript',glow:'#ffb54d',key:'2',snd:'snare',
+  l1:'PAD 02 — TYPESCRIPT (THE SNARE)',l2:'Sharp, precise, on the 2 and 4. Certified: TS in React — Coursera 25.'},
+ {ic:'🎩',nm:'HAT · Tailwind',glow:'#59d97d',key:'3',snd:'hat',
+  l1:'PAD 03 — TAILWIND (HI-HAT)',l2:'Fast little utilities everywhere. Tailwind From Scratch — Packt 24.'},
+ {ic:'👏',nm:'CLAP · JavaScript',glow:'#5eb8ff',key:'4',snd:'clap',
+  l1:'PAD 04 — JAVASCRIPT (THE CLAP)',l2:'The original sound. Everything else is sampled from it.'},
+ {ic:'🎸',nm:'BASS · Leadership',glow:'#ff5e7e',key:'q',snd:'bass',
+  l1:'PAD 05 — LEADERSHIP (THE BASS)',l2:'Low, steady, holds the whole track: Software Engineering Supervisor @ Distinctive Frontier, Jan 2026 →.'},
+ {ic:'🔔',nm:'BELL · GoldenTag',glow:'#ffb54d',key:'w',snd:'bell',
+  l1:'PAD 06 — GOLDENTAG (THE BELL)',l2:'Ding: shipped to Google Play via NexLead — inventory, barcode scan, USD/SYP rates. Freelance coordination since Mar 2025.'},
+ {ic:'⚡',nm:'ZAP · ICPC',glow:'#59d97d',key:'e',snd:'zap',
+  l1:'PAD 07 — ICPC 2021 (THE ZAP)',l2:'Competitive programming stab. Algorithms at 200 BPM, no quantize needed.'},
+ {ic:'🌊',nm:'PAD · Python·AI',glow:'#5eb8ff',key:'r',snd:'pad',
+  l1:'PAD 08 — PYTHON & AI (THE PAD)',l2:'Ambient layer underneath: IBM Python for DS & AI 24 + GenAI Prompting 24.'},
+ {ic:'🎓',nm:'TOM · Education',glow:'#ff5e7e',key:'a',snd:'tom',
+  l1:'PAD 09 — KALAMOON (THE TOM)',l2:'B.Tech IT, University of Kalamoon 2019–2024. The fill before every chorus.'},
+ {ic:'🧭',nm:'SHAKER · Jira',glow:'#ffb54d',key:'s',snd:'shaker',
+  l1:'PAD 10 — JIRA · TRELLO (SHAKER)',l2:'Keeps time in every sprint. Jira roadmaps & user stories — Coursera 25.'},
+ {ic:'🏸',nm:'RIM · Hobbies',glow:'#59d97d',key:'d',snd:'rim',
+  l1:'PAD 11 — OFF-BEAT (THE RIM)',l2:'Anime, chess, badminton, film — the syncopation that keeps him human.'},
+ {ic:'📢',nm:'AIRHORN · Hire me',glow:'#5eb8ff',key:'f',snd:'horn',
+  l1:'PAD 12 — HIRE ME (THE AIRHORN)',
+  l2:'Websites · React · logos · cards · social · coordination. <a href="mailto:nouraldeentofi@gmail.com">nouraldeentofi@gmail.com</a> · <a href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a> · Riyadh · AR+EN'}
+];
+
+/* ===== synth drums ===== */
+let AC=null;
+function ac(){AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  if(AC.state==='suspended')AC.resume();return AC;}
+function env(g,v,t){g.gain.setValueAtTime(v,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+t);}
+function noiseBuf(){const b=AC.createBuffer(1,AC.sampleRate*.5,AC.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;return b;}
+const SND={
+ kick(){const o=AC.createOscillator(),g=AC.createGain();o.type='sine';
+  o.frequency.setValueAtTime(150,AC.currentTime);o.frequency.exponentialRampToValueAtTime(45,AC.currentTime+.24);
+  env(g,.5,.28);o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.3);},
+ snare(){const n=AC.createBufferSource();n.buffer=noiseBuf();
+  const f=AC.createBiquadFilter();f.type='highpass';f.frequency.value=1400;
+  const g=AC.createGain();env(g,.3,.16);n.connect(f);f.connect(g);g.connect(AC.destination);n.start();
+  const o=AC.createOscillator(),g2=AC.createGain();o.type='triangle';o.frequency.value=190;
+  env(g2,.2,.1);o.connect(g2);g2.connect(AC.destination);o.start();o.stop(AC.currentTime+.12);},
+ hat(){const n=AC.createBufferSource();n.buffer=noiseBuf();
+  const f=AC.createBiquadFilter();f.type='highpass';f.frequency.value=7000;
+  const g=AC.createGain();env(g,.16,.05);n.connect(f);f.connect(g);g.connect(AC.destination);n.start();},
+ clap(){for(let i=0;i<3;i++)setTimeout(()=>{const n=AC.createBufferSource();n.buffer=noiseBuf();
+  const f=AC.createBiquadFilter();f.type='bandpass';f.frequency.value=1800;
+  const g=AC.createGain();env(g,.2,.09);n.connect(f);f.connect(g);g.connect(AC.destination);n.start();},i*22);},
+ bass(){const o=AC.createOscillator(),g=AC.createGain();o.type='sawtooth';o.frequency.value=55;
+  const f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=300;
+  env(g,.28,.4);o.connect(f);f.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.42);},
+ bell(){const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=1320;
+  const o2=AC.createOscillator(),g2=AC.createGain();o2.type='sine';o2.frequency.value=1980;
+  env(g,.15,.7);env(g2,.08,.5);o.connect(g);o2.connect(g2);g.connect(AC.destination);g2.connect(AC.destination);
+  o.start();o2.start();o.stop(AC.currentTime+.75);o2.stop(AC.currentTime+.55);},
+ zap(){const o=AC.createOscillator(),g=AC.createGain();o.type='square';
+  o.frequency.setValueAtTime(1200,AC.currentTime);o.frequency.exponentialRampToValueAtTime(180,AC.currentTime+.14);
+  env(g,.14,.15);o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.17);},
+ pad(){const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=330;
+  const o2=AC.createOscillator();o2.type='triangle';o2.frequency.value=415;
+  env(g,.09,.9);o.connect(g);o2.connect(g);g.connect(AC.destination);
+  o.start();o2.start();o.stop(AC.currentTime+.95);o2.stop(AC.currentTime+.95);},
+ tom(){const o=AC.createOscillator(),g=AC.createGain();o.type='sine';
+  o.frequency.setValueAtTime(240,AC.currentTime);o.frequency.exponentialRampToValueAtTime(90,AC.currentTime+.2);
+  env(g,.3,.24);o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.26);},
+ shaker(){const n=AC.createBufferSource();n.buffer=noiseBuf();
+  const f=AC.createBiquadFilter();f.type='highpass';f.frequency.value=5200;
+  const g=AC.createGain();env(g,.09,.08);n.connect(f);f.connect(g);g.connect(AC.destination);n.start();},
+ rim(){const o=AC.createOscillator(),g=AC.createGain();o.type='square';o.frequency.value=880;
+  env(g,.1,.045);o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.05);},
+ horn(){const o=AC.createOscillator(),g=AC.createGain();o.type='sawtooth';
+  o.frequency.setValueAtTime(392,AC.currentTime);
+  o.frequency.setValueAtTime(392,AC.currentTime+.12);
+  o.frequency.exponentialRampToValueAtTime(311,AC.currentTime+.4);
+  env(g,.16,.55);o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.6);}
+};
+
+/* build pads */
+const padsEl=document.getElementById('pads');
+PADS.forEach((p,i)=>{
+  const b=document.createElement('button');b.className='pad';b.style.setProperty('--glow',p.glow);
+  b.innerHTML=`<span class="kb">${p.key.toUpperCase()}</span><span class="ic">${p.ic}</span><span class="nm">${p.nm}</span>`;
+  b.onclick=()=>hit(i);
+  padsEl.appendChild(b);
+});
+function hit(i,quiet){
+  ac();SND[PADS[i].snd]();
+  const b=padsEl.children[i];
+  b.classList.add('hit');setTimeout(()=>b.classList.remove('hit'),reduced?0:130);
+  if(!quiet){
+    document.getElementById('lcd1').textContent=PADS[i].l1;
+    document.getElementById('lcd2').innerHTML=PADS[i].l2;
+  }
+}
+addEventListener('keydown',e=>{
+  if(e.repeat)return;
+  const i=PADS.findIndex(p=>p.key===e.key.toLowerCase());
+  if(i>=0)hit(i);
+});
+
+/* sequencer groove */
+const GROOVE=[
+ [0,4],[2],[1,9],[2],[0],[2,5],[1],[2,6],
+ [0,4],[2],[1],[2,7],[0,8],[2],[1,10],[3,11]
+];
+let playing=false,stepI=0,timer=null,bpm=96;
+const bpms=[96,112,128,80];let bi=0;
+document.getElementById('tempoB').onclick=e=>{bi=(bi+1)%bpms.length;bpm=bpms[bi];
+  e.target.textContent='BPM: '+bpm;if(playing){stop();play();}};
+function play(){
+  ac();playing=true;stepI=0;
+  document.getElementById('playB').textContent='◼ STOP';
+  document.getElementById('playB').classList.add('playing');
+  document.getElementById('lcd1').textContent='♪ NOW PLAYING: "THE CAREER GROOVE"';
+  document.getElementById('lcd2').textContent='16-step loop · every sound is a real skill · turn it up.';
+  timer=setInterval(()=>{
+    GROOVE[stepI%16].forEach(i=>hit(i,true));
+    stepI++;
+  },60000/bpm/2);
+}
+function stop(){playing=false;clearInterval(timer);
+  document.getElementById('playB').textContent='▶ GROOVE';
+  document.getElementById('playB').classList.remove('playing');}
+document.getElementById('playB').onclick=()=>playing?stop():play();
+</script>
+</body>
+</html>

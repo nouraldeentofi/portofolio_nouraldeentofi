@@ -132,7 +132,7 @@
       { "value": "86", "label": { "en": "sound effects generated in the browser", "ar": "مؤثر صوتي يتولّد في المتصفح" } }
     ],
     "stack": ["JavaScript", "Canvas", "WebCodecs", "Mediabunny", "Web Audio API", "IndexedDB", "MP4", "WebM", "RTL"],
-    "url": "https://nouraldeentofi.github.io/motion-studio/",
+    "url": "https://nouraldeentofi.com/motion-studio/",
     "images": {
       "desktop": "assets/img/projects/motion-studio-desktop.webp",
       "phone": "assets/img/projects/motion-studio-phone.webp"
@@ -168,7 +168,7 @@
       { "value": "0", "label": { "en": "data stored or sent", "ar": "بيانات تُحفظ أو تُرسل" } }
     ],
     "stack": ["HTML", "JavaScript", "Canvas", "jsPDF", "QR codes", "Unified Arabic Braille", "BRF", "Hijri calendar", "GitHub Actions", "RTL"],
-    "url": "https://nouraldeentofi.github.io/braille-certificate/",
+    "url": "https://braille.nouraldeentofi.com/",
     "images": {
       "desktop": "assets/img/projects/braille-certificate-desktop.webp",
       "phone": "assets/img/projects/braille-certificate-phone.webp"
@@ -215,7 +215,7 @@
       { "value": "100", "label": { "en": "parallel invoices, numbered with no gap", "ar": "فاتورة متوازية دون فجوة في الترقيم" } }
     ],
     "stack": ["TypeScript", "PostgreSQL", "Drizzle ORM", "UBL 2.1", "XML C14N", "ECDSA", "AES-GCM", "React", "esbuild", "Vitest", "Playwright", "GitHub Actions"],
-    "url": "https://nouraldeentofi.github.io/khatm/",
+    "url": "https://khatm.nouraldeentofi.com/",
     "images": { "desktop": "assets/img/projects/khatm-desktop.webp", "phone": "assets/img/projects/khatm-phone.webp" }
   },
   {
@@ -248,7 +248,7 @@
       { "value": "0", "label": { "en": "dependencies", "ar": "مكتبات خارجية" } }
     ],
     "stack": ["HTML", "JavaScript", "PWA", "Service worker", "Web Speech API", "i18n", "RTL", "JSON-LD"],
-    "url": "https://nouraldeentofi.github.io/The-Complete-Umrah-Guide/",
+    "url": "https://nouraldeentofi.com/umrah-guide/",
     "images": {
       "desktop": "assets/img/projects/umrah-guide-desktop.webp",
       "phone": "assets/img/projects/umrah-guide-phone.webp"

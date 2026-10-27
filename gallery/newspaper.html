@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Daily Finch — Est. 2019</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;700&family=UnifrakturMaguntia&display=swap" rel="stylesheet" />
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+  :root{
+    --news:#f0e9d8;
+    --news-aged:#e6dcc3;
+    --ink:#13110d;
+    --ink-soft:#3a342a;
+    --muted:#6e6456;
+    --rule:#13110d;
+    --red:#a8241a;
+    --gold:#a87d22;
+    --highlight:#fff3b0;
+  }
+
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Lora',serif;
+    background:var(--news);
+    color:var(--ink);
+    overflow-x:hidden;
+    line-height:1.65;
+    position:relative;
+  }
+
+  /* newsprint texture */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.4;
+    background-image:
+      radial-gradient(rgba(110,100,86,.2) 1px,transparent 1px),
+      radial-gradient(rgba(0,0,0,.04) 1px,transparent 1px);
+    background-size:3px 3px,5px 5px;
+    mix-blend-mode:multiply;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:2;
+    background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.2) 100%);
+  }
+
+  ::-webkit-scrollbar{width:8px}
+  ::-webkit-scrollbar-track{background:var(--news-aged)}
+  ::-webkit-scrollbar-thumb{background:var(--ink);border-radius:0}
+
+  /* ─── NAV ─── */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:900;
+    background:var(--ink);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:.55rem 5%;
+    border-bottom:3px double var(--red);
+  }
+  .brand{display:flex;align-items:center;gap:.8rem;color:var(--news)}
+  .brand-mono{
+    font-family:'UnifrakturMaguntia','Playfair Display',serif;
+    font-size:1.4rem;line-height:1;
+  }
+  .brand-meta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.6rem;letter-spacing:2px;color:var(--news-aged);text-transform:uppercase;
+  }
+  .nav-links{display:flex;gap:0;list-style:none;align-items:center}
+  .nav-links a{
+    display:block;padding:.45rem .85rem;
+    font-family:'Playfair Display',serif;
+    font-style:italic;font-size:.85rem;
+    text-decoration:none;color:var(--news);
+    border-left:1px solid rgba(240,233,216,.15);
+    transition:color .2s;
+  }
+  .nav-links a:hover{color:var(--highlight)}
+  .nav-cta{
+    margin-left:.6rem;padding:.5rem 1rem !important;
+    background:var(--red);color:var(--news) !important;
+    font-style:normal !important;
+    border-left:none !important;
+    font-family:'Playfair Display',serif;font-weight:700 !important;
+    letter-spacing:1px;
+  }
+  .nav-cta:hover{background:#8a1c14 !important}
+
+  /* ─── MASTHEAD ─── */
+  .paper{
+    max-width:1200px;margin:6rem auto 3rem;
+    padding:0 5%;
+    position:relative;z-index:10;
+  }
+
+  .masthead{
+    text-align:center;
+    border-bottom:4px double var(--ink);
+    padding-bottom:1rem;margin-bottom:1.25rem;
+  }
+  .masthead-top{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:.3rem 0;
+    border-bottom:1px solid var(--ink);
+    font-family:'Lora',serif;font-style:italic;font-size:.85rem;
+  }
+  .masthead-top span{padding:0 .5rem}
+  .masthead-title{
+    font-family:'UnifrakturMaguntia','Playfair Display',serif;
+    font-size:clamp(3rem,11vw,8rem);
+    line-height:1;letter-spacing:1px;
+    color:var(--ink);
+    padding:.75rem 0 .5rem;
+  }
+  .masthead-strap{
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:'Playfair Display',serif;
+    font-style:italic;font-size:.95rem;
+    border-top:1px solid var(--ink);border-bottom:3px solid var(--ink);
+    padding:.4rem 0;
+  }
+  .masthead-strap .edition{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.7rem;letter-spacing:2px;font-style:normal;text-transform:uppercase;
+  }
+
+  /* ─── HERO / FRONT PAGE ─── */
+  #hero{padding:2rem 0 3rem;border-bottom:3px double var(--ink)}
+  .front{
+    display:grid;grid-template-columns:1.6fr 1fr;gap:2.5rem;align-items:start;
+  }
+
+  .headline-kicker{
+    display:inline-block;
+    background:var(--red);color:var(--news);
+    padding:.3rem .8rem;
+    font-family:'Playfair Display',serif;font-weight:700;font-style:italic;
+    font-size:.85rem;letter-spacing:2px;text-transform:uppercase;
+    margin-bottom:1rem;
+  }
+  .headline{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:clamp(2.5rem,6vw,5rem);
+    line-height:.95;letter-spacing:-1.5px;
+    margin-bottom:.75rem;
+  }
+  .deck{
+    font-family:'Playfair Display',serif;font-style:italic;
+    font-size:clamp(1.2rem,2vw,1.55rem);
+    color:var(--ink-soft);line-height:1.35;
+    padding-bottom:1rem;margin-bottom:1.25rem;
+    border-bottom:1px solid var(--ink);
+  }
+  .byline{
+    font-family:'Lora',serif;font-size:.85rem;
+    padding-bottom:.85rem;margin-bottom:1rem;
+    border-bottom:1px solid rgba(19,17,13,.2);
+  }
+  .byline b{text-transform:uppercase;letter-spacing:1.5px;font-weight:700}
+  .byline span{margin-left:.75rem;color:var(--muted);font-style:italic}
+
+  .lede{
+    columns:2;column-gap:1.75rem;column-rule:1px solid rgba(19,17,13,.2);
+    font-size:.98rem;line-height:1.7;text-align:justify;hyphens:auto;
+  }
+  .lede p{margin-bottom:.9rem}
+  .lede p:first-child::first-letter{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:4.8rem;line-height:.9;
+    float:left;padding:.25rem .55rem 0 0;color:var(--red);
+  }
+
+  /* sidebar */
+  .sidebar{border-left:2px solid var(--ink);padding-left:1.5rem}
+  .side-head{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:1.1rem;letter-spacing:1.5px;text-transform:uppercase;
+    padding-bottom:.4rem;margin-bottom:.9rem;
+    border-bottom:3px solid var(--ink);
+  }
+  .side-item{padding:.9rem 0;border-bottom:1px dashed rgba(19,17,13,.25)}
+  .side-item:last-child{border-bottom:none}
+  .side-item h4{
+    font-family:'Playfair Display',serif;font-weight:700;
+    font-size:1.05rem;line-height:1.2;margin-bottom:.25rem;
+  }
+  .side-item .stub{
+    font-size:.85rem;color:var(--ink-soft);line-height:1.5;
+  }
+  .side-item .tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.6rem;letter-spacing:2px;color:var(--red);text-transform:uppercase;
+    margin-bottom:.3rem;display:block;
+  }
+
+  .weather{
+    background:var(--ink);color:var(--news);
+    padding:1rem 1.1rem;margin-top:1.5rem;
+    text-align:center;
+  }
+  .weather-top{
+    font-family:'Playfair Display',serif;font-weight:700;font-style:italic;
+    font-size:.95rem;letter-spacing:1px;margin-bottom:.4rem;
+  }
+  .weather-big{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:2.2rem;line-height:1;
+  }
+  .weather-small{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.7rem;letter-spacing:2px;
+    margin-top:.3rem;color:rgba(240,233,216,.7);
+  }
+
+  /* ─── SECTIONS ─── */
+  section.page{
+    max-width:1200px;margin:0 auto;padding:3rem 5%;
+    border-bottom:3px double var(--ink);
+    position:relative;z-index:10;
+  }
+
+  .page-head{
+    display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;
+    gap:1rem;
+    border-top:3px solid var(--ink);border-bottom:1px solid var(--ink);
+    padding:.6rem 0;margin-bottom:1.75rem;
+  }
+  .page-no{
+    font-family:'Playfair Display',serif;font-weight:900;font-style:italic;
+    font-size:1.25rem;
+  }
+  .page-no em{color:var(--red);font-style:normal}
+  .page-title{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:1.8rem;letter-spacing:1px;text-transform:uppercase;
+  }
+  .page-pill{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted);
+  }
+
+  /* ─── SECTION B · PROJECTS AS ARTICLES ─── */
+  .articles{
+    columns:3;column-gap:2rem;column-rule:1px solid rgba(19,17,13,.2);
+  }
+  .article{
+    break-inside:avoid;padding-bottom:1.5rem;margin-bottom:1.5rem;
+    border-bottom:1px dashed rgba(19,17,13,.3);
+    display:inline-block;width:100%;
+  }
+  .article:last-child{border-bottom:none}
+  .article .cat{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--red);
+    margin-bottom:.35rem;display:block;
+  }
+  .article h3{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:1.35rem;line-height:1.1;margin-bottom:.5rem;
+  }
+  .article .sub{
+    font-family:'Playfair Display',serif;font-style:italic;
+    font-size:.95rem;color:var(--ink-soft);margin-bottom:.6rem;
+  }
+  .article .meta{
+    font-size:.75rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;
+    margin-bottom:.5rem;
+  }
+  .article .img{
+    width:100%;aspect-ratio:3/2;
+    background:
+      repeating-linear-gradient(0deg,rgba(19,17,13,.85) 0 1px,transparent 1px 2px),
+      repeating-linear-gradient(90deg,rgba(19,17,13,.1) 0 1px,transparent 1px 2px),
+      linear-gradient(135deg,#555047,#2e2a23);
+    margin-bottom:.65rem;position:relative;
+  }
+  .article .img::after{
+    content:attr(data-cap);
+    position:absolute;bottom:0;left:0;right:0;
+    font-family:'Playfair Display',serif;font-style:italic;font-size:.7rem;
+    color:var(--news);padding:.25rem .5rem;
+    background:rgba(0,0,0,.5);
+  }
+  .article p{font-size:.88rem;line-height:1.55;margin-bottom:.5rem;text-align:justify;hyphens:auto}
+  .article .jump{
+    font-family:'Playfair Display',serif;font-style:italic;
+    font-size:.8rem;color:var(--red);
+  }
+
+  /* Featured article — spans columns */
+  .feature{
+    column-span:all;padding:1rem;
+    border:2px solid var(--ink);
+    background:var(--news-aged);
+    margin-bottom:2rem;
+    display:grid;grid-template-columns:1fr 1.3fr;gap:1.5rem;align-items:center;
+  }
+  .feature .img{margin-bottom:0;aspect-ratio:4/3}
+  .feature h3{font-size:2rem}
+
+  /* ─── SECTION C · MARKETS / SKILLS ─── */
+  #markets{background:var(--news-aged)}
+  .market-grid{
+    display:grid;grid-template-columns:1.5fr 1fr;gap:2.5rem;align-items:start;
+  }
+  .ticker-tape{
+    background:var(--ink);color:var(--news);
+    padding:.6rem 0;
+    border-top:2px solid var(--red);border-bottom:2px solid var(--red);
+    margin-bottom:1.25rem;overflow:hidden;position:relative;
+  }
+  .ticker{
+    display:flex;gap:3rem;white-space:nowrap;
+    animation:scroll 32s linear infinite;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.85rem;letter-spacing:1px;
+  }
+  .ticker b{color:var(--highlight);font-weight:700;margin-right:.5rem}
+  .ticker .up{color:#7cd18f}
+  .ticker .dn{color:#e08570}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+
+  .market-table{
+    width:100%;border-collapse:collapse;
+    font-family:'Lora',serif;
+    background:var(--news);
+    border:2px solid var(--ink);
+  }
+  .market-table th{
+    background:var(--ink);color:var(--news);
+    padding:.55rem .75rem;text-align:left;
+    font-family:'Playfair Display',serif;font-style:italic;font-weight:700;
+    font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;
+  }
+  .market-table td{
+    padding:.55rem .75rem;font-size:.9rem;
+    border-bottom:1px dotted rgba(19,17,13,.3);
+  }
+  .market-table tr:last-child td{border-bottom:none}
+  .market-table .sym{
+    font-family:'JetBrains Mono',monospace;font-weight:700;
+    font-size:.85rem;letter-spacing:1px;
+  }
+  .market-table .name{font-family:'Playfair Display',serif;font-weight:700}
+  .market-table .lvl{font-family:'JetBrains Mono',monospace;text-align:right}
+  .market-table .chg.up{color:#1f7a35;font-family:'JetBrains Mono',monospace;text-align:right;font-weight:700}
+  .market-table .chg.dn{color:var(--red);font-family:'JetBrains Mono',monospace;text-align:right;font-weight:700}
+  .market-table tr:hover{background:var(--news-aged)}
+
+  .analyst{
+    background:var(--news);
+    border:2px solid var(--ink);
+    padding:1.25rem 1.5rem;position:relative;
+  }
+  .analyst::before{
+    content:"ANALYST'S NOTE";
+    position:absolute;top:-10px;left:1rem;
+    background:var(--news-aged);padding:0 .5rem;
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:.7rem;letter-spacing:3px;color:var(--red);
+  }
+  .analyst h4{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:1.15rem;line-height:1.2;margin-bottom:.35rem;
+  }
+  .analyst-by{
+    font-family:'Playfair Display',serif;font-style:italic;
+    font-size:.85rem;color:var(--ink-soft);margin-bottom:.75rem;
+    padding-bottom:.5rem;border-bottom:1px solid rgba(19,17,13,.2);
+  }
+  .analyst p{font-size:.9rem;line-height:1.65;margin-bottom:.5rem}
+
+  /* ─── SECTION D · YESTERYEARS ─── */
+  .years-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2rem;
+  }
+  .year{
+    border-top:3px solid var(--ink);
+    padding-top:.8rem;
+  }
+  .year .yr{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:2rem;color:var(--red);line-height:1;
+    margin-bottom:.25rem;
+  }
+  .year h4{
+    font-family:'Playfair Display',serif;font-weight:700;
+    font-size:1.15rem;margin-bottom:.25rem;line-height:1.2;
+  }
+  .year .where{
+    font-family:'Playfair Display',serif;font-style:italic;
+    font-size:.88rem;color:var(--ink-soft);margin-bottom:.5rem;
+  }
+  .year p{font-size:.9rem;line-height:1.6}
+
+  /* ─── SECTION E · CLASSIFIEDS / CONTACT ─── */
+  #classifieds{background:var(--ink);color:var(--news);padding:3rem 5%;border-bottom:none;position:relative;z-index:10}
+  #classifieds .page-head{border-top:3px solid var(--red);border-bottom:1px solid var(--red)}
+  #classifieds .page-title{color:var(--news)}
+  #classifieds .page-no em{color:var(--highlight)}
+  #classifieds .page-pill{color:rgba(240,233,216,.6)}
+
+  .classified-grid{
+    max-width:1100px;margin:0 auto;
+    columns:3;column-gap:1.5rem;
+  }
+  .ad{
+    background:var(--news);color:var(--ink);
+    padding:1rem 1.15rem;
+    margin-bottom:1rem;
+    break-inside:avoid;
+    display:inline-block;width:100%;
+    border:1px solid var(--ink);
+    position:relative;
+  }
+  .ad.big{
+    border:3px solid var(--red);
+    padding:1.5rem 1.35rem;
+    background:var(--news);
+  }
+  .ad.big::before{
+    content:"★ WANTED ★";
+    position:absolute;top:-11px;left:50%;transform:translateX(-50%);
+    background:var(--red);color:var(--news);
+    padding:.15rem .75rem;
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:.75rem;letter-spacing:3px;
+    white-space:nowrap;
+  }
+  .ad-title{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:1rem;letter-spacing:1px;text-transform:uppercase;
+    margin-bottom:.3rem;
+  }
+  .ad.big .ad-title{font-size:1.3rem;color:var(--red)}
+  .ad p{font-size:.85rem;line-height:1.55;margin-bottom:.4rem}
+  .ad .call{
+    font-family:'Playfair Display',serif;font-weight:700;font-style:italic;
+    font-size:.88rem;
+    padding-top:.4rem;margin-top:.4rem;
+    border-top:1px dashed rgba(19,17,13,.3);
+  }
+  .ad .call a{color:var(--red);text-decoration:none;border-bottom:1px solid var(--red)}
+
+  .colophon{
+    max-width:1100px;margin:3rem auto 0;
+    padding-top:1.5rem;border-top:2px dashed rgba(240,233,216,.3);
+    display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.65rem;letter-spacing:2px;text-transform:uppercase;
+    color:rgba(240,233,216,.55);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media(max-width:900px){
+    .nav-links{display:none}
+    .masthead-top{font-size:.7rem;flex-wrap:wrap;gap:.25rem .5rem;justify-content:center;text-align:center}
+    .masthead-strap{flex-direction:column;gap:.4rem;text-align:center}
+    .front{grid-template-columns:1fr}
+    .sidebar{border-left:none;border-top:2px solid var(--ink);padding-left:0;padding-top:1.25rem;margin-top:.5rem}
+    .lede{columns:1}
+    .articles{columns:1}
+    .feature{grid-template-columns:1fr}
+    .market-grid{grid-template-columns:1fr}
+    .classified-grid{columns:1}
+    section.page{padding:2rem 5%}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">
+    <div>
+      <div class="brand-mono">The Daily Finch</div>
+      <div class="brand-meta">Engineering · Design · AI</div>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#hero">Front Page</a></li>
+    <li><a href="#work">Section B</a></li>
+    <li><a href="#markets">Markets</a></li>
+    <li><a href="#years">Yesteryears</a></li>
+    <li><a href="#classifieds" class="nav-cta">Classifieds</a></li>
+  </ul>
+</nav>
+
+<div class="paper">
+
+  <!-- ─── MASTHEAD ─── -->
+  <div class="masthead">
+    <div class="masthead-top">
+      <span>Vol. VII — No. 248</span>
+      <span>Friday, 17 April 2026</span>
+      <span>Morning Edition · 16 Pages</span>
+      <span>Price: One Commit</span>
+    </div>
+    <div class="masthead-title">The Daily Finch</div>
+    <div class="masthead-strap">
+      <span class="edition">Independent Since 2019</span>
+      <span>"All The Code That's Fit To Ship"</span>
+      <span class="edition">Europe · Remote · Worldwide</span>
+    </div>
+  </div>
+
+  <!-- ─── HERO / FRONT PAGE ─── -->
+  <section id="hero">
+    <div class="front">
+      <div class="main-story">
+        <span class="headline-kicker">Late Edition · Developer News</span>
+        <h1 class="headline">Engineer Ships Again; Accepts New Commissions.</h1>
+        <p class="deck">
+          Walter Finch, a full-stack developer operating out of Europe, was reported to have accepted new client work this morning — citing "an unshakeable appetite for clean interfaces and honest code."
+        </p>
+        <div class="byline">
+          By <b>Staff Correspondent</b>
+          <span>Filed 04:42 GMT — Desk of Engineering</span>
+        </div>
+        <div class="lede">
+          <p>In a development likely to interest founders, design leads, and any team with a React codebase older than a fiscal year, full-stack engineer <b>Walter Finch</b> has officially reopened his books for 2026.</p>
+          <p>Mr. Finch, whose career began in 2019 and who has since been quietly responsible for a trail of shipped products, design systems, and AI-assisted interfaces, told this paper he remains "obsessed with the last ten percent" — the polish most projects never quite reach.</p>
+          <p>His arsenal, the paper has confirmed, includes <b>React</b>, <b>TypeScript</b>, <b>Node.js</b>, <b>Python</b>, and a growing shelf of Claude-powered tooling. Witnesses describe his interfaces as "fast, considered, and genuinely pleasant to use."</p>
+          <p>Asked whether rumours of a long waitlist were accurate, Mr. Finch said only: <i>"If the brief is clear, and the work is honest — we can make time."</i></p>
+        </div>
+      </div>
+
+      <aside class="sidebar">
+        <div class="side-head">Also On Page One</div>
+
+        <div class="side-item">
+          <span class="tag">Technology</span>
+          <h4>Design System Cuts Bundle 38%, Pleases Everyone</h4>
+          <p class="stub">Internal rewrite lifts Lighthouse scores from 62 to 97. Mentored juniors reportedly "no longer afraid of Webpack."</p>
+        </div>
+
+        <div class="side-item">
+          <span class="tag">AI Desk</span>
+          <h4>Claude-Assisted Writing Tool Ships in Four Weeks</h4>
+          <p class="stub">Streaming responses, keyboard-first UX, and a caching strategy that "just feels fast," per product lead.</p>
+        </div>
+
+        <div class="side-item">
+          <span class="tag">Business</span>
+          <h4>Multi-Tenant SaaS Crosses Thousands of Seats</h4>
+          <p class="stub">Row-level security and per-tenant theming; billing via Stripe. "Surprisingly dull to operate," says founder.</p>
+        </div>
+
+        <div class="weather">
+          <div class="weather-top">The Weather · Workshop Conditions</div>
+          <div class="weather-big">Clear, Quiet, 22°</div>
+          <div class="weather-small">Ideal for shipping · No meetings forecast</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ─── SECTION B · PROJECTS ─── -->
+  <section class="page" id="work">
+    <div class="page-head">
+      <div class="page-no">Section <em>B</em></div>
+      <div class="page-title">Selected Works &amp; Commissions</div>
+      <div class="page-pill">pp. B1 — B6</div>
+    </div>
+
+    <div class="articles">
+
+      <div class="feature">
+        <div class="img" data-cap="Fig. 1 — Realtime dashboard in operation, Spring 2025."></div>
+        <div>
+          <span class="cat">Technology · Feature</span>
+          <h3>Aurora Dashboard Crosses Million-Event Mark</h3>
+          <div class="sub">How a small team built a realtime ops view that doesn't flinch at load.</div>
+          <div class="meta">By the Staff · 12 min read</div>
+          <p>The dashboard, affectionately referred to inside the company as <i>Aurora</i>, was built over six weeks by a team of three, with front-end work led by Mr. Finch. It handles thousands of events per second, with sub-100ms render budgets and a websocket backbone that refuses to drop.</p>
+          <p>"We treated performance as a first-class design requirement, not an afterthought," the lead engineer said. <span class="jump">— continued on B2</span></p>
+        </div>
+      </div>
+
+      <div class="article">
+        <span class="cat">Product</span>
+        <h3>Configurator Makes Buying a 3D Chair Fun, Actually</h3>
+        <div class="sub">Three.js, GSAP, and a camera that moves when you breathe.</div>
+        <div class="img" data-cap="Exhibit: Spline — product configurator."></div>
+        <div class="meta">Filed 2025 · 8 min</div>
+        <p>A bespoke configurator built on Three.js and GSAP, featuring material swaps, live pricing, and a camera rig that — as one early tester put it — "actually makes me want to buy the chair."</p>
+        <p>Performance target: a 4.8-second first paint on mid-range mobile. <span class="jump">— continued on B3</span></p>
+      </div>
+
+      <div class="article">
+        <span class="cat">AI Desk</span>
+        <h3>Writing Companion Streams Ideas in Real Time</h3>
+        <div class="sub">A Claude-backed tool that respects the author's flow.</div>
+        <div class="img" data-cap="Interface: Galaxy — AI writing tool."></div>
+        <div class="meta">Filed 2025 · 6 min</div>
+        <p>Built on the Claude API with token streaming, keyboard-first shortcuts, and a careful approach to caching that makes the interface feel instantaneous even on poor connections.</p>
+        <p>"We resisted every temptation to add a feature," Mr. Finch said. <span class="jump">— continued on B3</span></p>
+      </div>
+
+      <div class="article">
+        <span class="cat">Business</span>
+        <h3>Multi-Tenant Platform Proves Reliability Over Drama</h3>
+        <div class="sub">Worlds quietly scales to thousands of paying seats.</div>
+        <div class="img" data-cap="Dashboard: Worlds — admin panel."></div>
+        <div class="meta">Filed 2024 · 9 min</div>
+        <p>A full-stack multi-tenant SaaS platform, with row-level security in Postgres, per-tenant theming, Stripe-powered billing, and a CLI that operators still reach for every morning.</p>
+        <p>"The goal was boring reliability," the founder said, "and that's what we got." <span class="jump">— continued on B4</span></p>
+      </div>
+
+      <div class="article">
+        <span class="cat">Design</span>
+        <h3>A Design System Every Team Actually Uses</h3>
+        <div class="sub">Swiss: tokens, Storybook, and documentation you might read.</div>
+        <div class="img" data-cap="Style guide: Swiss — token browser."></div>
+        <div class="meta">Filed 2024 · 7 min</div>
+        <p>A fully-tokenised design system adopted across six products. Headline numbers: bundle size down 38%, Lighthouse up from 62 to 97, onboarding down from three weeks to three days.</p>
+        <p>Most remarkable, colleagues noted, is the documentation — "genuinely readable," one engineer said, "which is rarer than it should be." <span class="jump">— continued on B5</span></p>
+      </div>
+
+      <div class="article">
+        <span class="cat">Arts &amp; Culture</span>
+        <h3>Headless CMS Arrives for Independent Artists</h3>
+        <div class="sub">Gallery's image pipeline serves the edge in under 50ms.</div>
+        <div class="img" data-cap="Gallery — CMS for independent artists."></div>
+        <div class="meta">Filed 2023 · 5 min</div>
+        <p>A Payload-based headless CMS with Cloudflare R2 storage, signed URLs, and an image pipeline designed for speed. Used by a small, loyal community of independent artists.</p>
+        <p>Critics have called it "thoughtful and just opinionated enough." <span class="jump">— continued on B6</span></p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── SECTION C · MARKETS / SKILLS ─── -->
+  <section class="page" id="markets">
+    <div class="page-head">
+      <div class="page-no">Section <em>C</em></div>
+      <div class="page-title">The Markets · Skill Exchange</div>
+      <div class="page-pill">pp. C1 — C3</div>
+    </div>
+
+    <div class="ticker-tape">
+      <div class="ticker">
+        <span><b>REACT</b> 958.2 <span class="up">▲ 2.4%</span></span>
+        <span><b>TYPE</b> 923.7 <span class="up">▲ 1.8%</span></span>
+        <span><b>NODE</b> 871.5 <span class="up">▲ 0.9%</span></span>
+        <span><b>NEXT</b> 846.3 <span class="up">▲ 1.2%</span></span>
+        <span><b>CLDE</b> 912.8 <span class="up">▲ 3.1%</span></span>
+        <span><b>PSQL</b> 810.0 <span class="up">▲ 0.4%</span></span>
+        <span><b>PY</b> 798.6 <span class="dn">▼ 0.3%</span></span>
+        <span><b>3JS</b> 745.2 <span class="up">▲ 1.5%</span></span>
+        <span><b>TAIL</b> 772.9 <span class="up">▲ 0.7%</span></span>
+        <span><b>DOCK</b> 714.1 <span class="up">▲ 0.2%</span></span>
+        <span><b>REACT</b> 958.2 <span class="up">▲ 2.4%</span></span>
+        <span><b>TYPE</b> 923.7 <span class="up">▲ 1.8%</span></span>
+        <span><b>NODE</b> 871.5 <span class="up">▲ 0.9%</span></span>
+        <span><b>NEXT</b> 846.3 <span class="up">▲ 1.2%</span></span>
+        <span><b>CLDE</b> 912.8 <span class="up">▲ 3.1%</span></span>
+        <span><b>PSQL</b> 810.0 <span class="up">▲ 0.4%</span></span>
+      </div>
+    </div>
+
+    <div class="market-grid">
+      <table class="market-table">
+        <thead>
+          <tr><th>Sym</th><th>Skill</th><th class="lvl">Level</th><th class="lvl">Δ YTD</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="sym">REACT</td><td class="name">React &amp; Next.js</td><td class="lvl">958.2</td><td class="chg up">▲ 2.4%</td></tr>
+          <tr><td class="sym">TYPE</td><td class="name">TypeScript</td><td class="lvl">923.7</td><td class="chg up">▲ 1.8%</td></tr>
+          <tr><td class="sym">CLDE</td><td class="name">Claude &amp; AI UX</td><td class="lvl">912.8</td><td class="chg up">▲ 3.1%</td></tr>
+          <tr><td class="sym">NODE</td><td class="name">Node.js &amp; APIs</td><td class="lvl">871.5</td><td class="chg up">▲ 0.9%</td></tr>
+          <tr><td class="sym">NEXT</td><td class="name">Next.js (App Router)</td><td class="lvl">846.3</td><td class="chg up">▲ 1.2%</td></tr>
+          <tr><td class="sym">PSQL</td><td class="name">PostgreSQL</td><td class="lvl">810.0</td><td class="chg up">▲ 0.4%</td></tr>
+          <tr><td class="sym">PY</td><td class="name">Python &amp; Tooling</td><td class="lvl">798.6</td><td class="chg dn">▼ 0.3%</td></tr>
+          <tr><td class="sym">TAIL</td><td class="name">Tailwind / CSS</td><td class="lvl">772.9</td><td class="chg up">▲ 0.7%</td></tr>
+          <tr><td class="sym">3JS</td><td class="name">Three.js / WebGL</td><td class="lvl">745.2</td><td class="chg up">▲ 1.5%</td></tr>
+          <tr><td class="sym">DOCK</td><td class="name">Docker / Deploy</td><td class="lvl">714.1</td><td class="chg up">▲ 0.2%</td></tr>
+        </tbody>
+      </table>
+
+      <div class="analyst">
+        <h4>A steady rise across the board, led by AI interfaces.</h4>
+        <div class="analyst-by">By Senior Analyst — Engineering Desk</div>
+        <p>Mr. Finch's portfolio continues to outperform against the broader market, buoyed by strong demand for AI-powered interfaces and well-considered design systems.</p>
+        <p>Of particular note is the uptick in <b>CLDE</b> (+3.1%), reflecting deeper investment in Claude-based tooling. Analysts remain cautious on <b>PY</b> (−0.3%), though fundamentals stay solid.</p>
+        <p>Outlook: <b>bullish</b>. Suggested position: accept brief early, ship the lot by Q3.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SECTION D · YESTERYEARS ─── -->
+  <section class="page" id="years">
+    <div class="page-head">
+      <div class="page-no">Section <em>D</em></div>
+      <div class="page-title">Yesteryears · The Record</div>
+      <div class="page-pill">pp. D1 — D2</div>
+    </div>
+
+    <div class="years-grid">
+      <div class="year">
+        <div class="yr">2026</div>
+        <h4>Independent Studio Expands Its Reach</h4>
+        <div class="where">Solo practice · Europe · Remote</div>
+        <p>A year defined by long-form client engagements and a quiet confidence. Mr. Finch's books remain selectively open to founders, product teams, and the occasional cultural institution.</p>
+      </div>
+
+      <div class="year">
+        <div class="yr">2025</div>
+        <h4>Founding of the Studio</h4>
+        <div class="where">Independent Practice</div>
+        <p>Formally left full-time employment to focus on shipping product-grade interfaces and AI-assisted tooling. Early clients describe the transition as "seamless and faintly impressive."</p>
+      </div>
+
+      <div class="year">
+        <div class="yr">2023</div>
+        <h4>Senior Frontend Engineer Appointed</h4>
+        <div class="where">Product Company · Remote</div>
+        <p>Led the rewrite of a shared design system, serving as primary author of the token model and component API. Mentored two juniors to mid-level during tenure.</p>
+      </div>
+
+      <div class="year">
+        <div class="yr">2021</div>
+        <h4>Agency Years — Twelve Shipped</h4>
+        <div class="where">Full-Stack Developer · Hybrid</div>
+        <p>Shipped twelve client sites and two internal tools. Built a small CMS on Postgres the team still uses. "Learned how to say no," colleagues recall fondly.</p>
+      </div>
+
+      <div class="year">
+        <div class="yr">2019</div>
+        <h4>First Byline — The Junior Years</h4>
+        <div class="where">On-Site · First Employer</div>
+        <p>Initial entry into the profession. Internal tools and small client work. Witnesses describe "an unusual willingness to read documentation."</p>
+      </div>
+
+      <div class="year">
+        <div class="yr">—</div>
+        <h4>Editorial Note</h4>
+        <div class="where">The Daily Finch · Archives</div>
+        <p>Further entries available on request. The archive is open to prospective clients, hiring committees, and the genuinely curious. No appointment required.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ─── SECTION E · CLASSIFIEDS ─── -->
+<section class="page" id="classifieds">
+  <div class="page-head" style="max-width:1100px;margin:0 auto 1.75rem">
+    <div class="page-no"><em>Section E</em></div>
+    <div class="page-title">Classifieds · Personals · Wanted</div>
+    <div class="page-pill">pg. E1</div>
+  </div>
+
+  <div class="classified-grid">
+    <div class="ad big">
+      <div class="ad-title">Your Brief, Shipped.</div>
+      <p>Full-stack engineer available for commissions in product interfaces, AI tooling, design systems, and small-to-mid-size platforms. Europe-based, works globally. Portfolio on request; samples herein.</p>
+      <div class="call">Enquire by post: <a href="mailto:editor@thedailyfinch.press">editor@thedailyfinch.press</a></div>
+    </div>
+
+    <div class="ad">
+      <div class="ad-title">For Hire — React Specialist</div>
+      <p>Experienced React/Next.js engineer. TypeScript fluent. Specialises in component APIs, performance budgets, and interfaces that age well. Available Q2.</p>
+      <div class="call">Reply Box 001 · <a href="mailto:editor@thedailyfinch.press">email</a></div>
+    </div>
+
+    <div class="ad">
+      <div class="ad-title">Claude &amp; AI Integration</div>
+      <p>Streaming, caching, keyboard-first UX. Tasteful integration of language models into existing products — without the usual chatbot tropes.</p>
+      <div class="call">Ask for the AI desk</div>
+    </div>
+
+    <div class="ad">
+      <div class="ad-title">Design System Rescue</div>
+      <p>Does your design system feel like a museum? Token audits, Storybook revivals, and component consolidation. References available.</p>
+      <div class="call">Quote on request</div>
+    </div>
+
+    <div class="ad">
+      <div class="ad-title">Public Notice</div>
+      <p>Availability confirmed through 2026 Q3. Beyond that, applications accepted on a rolling basis. First come, first briefed.</p>
+      <div class="call">By order of the Management</div>
+    </div>
+
+    <div class="ad">
+      <div class="ad-title">Correspondence</div>
+      <p>GitHub: <b>github.com/walterfinch</b><br>LinkedIn: <b>linkedin.com/in/walterfinch</b><br>Base: Europe · Remote worldwide.</p>
+      <div class="call">Letters welcome</div>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <span>Printed &amp; Typeset · Web Edition</span>
+    <span>The Daily Finch · Est. 2019</span>
+    <span>© 2026 — All bylines self-reported</span>
+  </div>
+</section>
+
+</body>
+</html>

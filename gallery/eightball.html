@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — MAGIC 8-BALL · Ask About Your Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--velvet2:#241430;--velvetd2:#160a1e;--fg:#f4eefc;--dim:rgba(244,238,252,.6);--blue4:#2a4ecc;--acc:#ffb648}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Fredoka',sans-serif;color:var(--fg);min-height:100vh;
+    background:radial-gradient(80vw 60vh at 50% 0%,#3a2450,var(--velvet2) 55%,var(--velvetd2));
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--acc);color:#241430}
+  h1{font-weight:700;font-size:clamp(24px,4.8vw,42px)}
+  h1 span{color:var(--acc)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.26em;color:var(--dim);
+    margin:8px 0 20px;text-transform:uppercase;text-align:center}
+
+  #qs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:640px;margin-bottom:22px}
+  .q{font-family:'Fredoka';font-weight:600;font-size:12px;border:2px solid rgba(244,238,252,.3);color:var(--fg);
+    background:rgba(255,255,255,.06);border-radius:99px;padding:11px 16px;cursor:pointer;transition:all .2s}
+  .q:hover{border-color:var(--acc);transform:translateY(-2px)}
+  .q.on{border-color:var(--acc);background:rgba(255,182,72,.15)}
+
+  #ballWrap{position:relative;width:min(300px,80vw);aspect-ratio:1;cursor:pointer;user-select:none}
+  #ball8{width:100%;height:100%;border-radius:50%;position:relative;
+    background:radial-gradient(circle at 32% 26%,#4a4a55,#141418 60%,#000);
+    box-shadow:0 30px 70px rgba(0,0,0,.6), inset 0 4px 14px rgba(255,255,255,.15)}
+  #shine8{position:absolute;top:12%;left:16%;width:26%;height:15%;border-radius:50%;
+    background:rgba(255,255,255,.3);filter:blur(6px)}
+  #window8{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:46%;aspect-ratio:1;border-radius:50%;
+    background:radial-gradient(circle at 50% 40%,#1c2a66,#0a1030 70%);box-shadow:inset 0 6px 18px rgba(0,0,0,.8);
+    display:flex;align-items:center;justify-content:center;overflow:hidden}
+  #tri{width:78%;aspect-ratio:1;clip-path:polygon(50% 6%,94% 88%,6% 88%);background:var(--blue4);
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    transform:translateY(120%);transition:transform .8s cubic-bezier(.2,.9,.3,1.1)}
+  #tri.show{transform:translateY(0)}
+  #triTxt{font-size:clamp(8px,2vw,10.5px);font-weight:700;line-height:1.35;color:#fff;padding:16% 14% 8%;text-transform:uppercase}
+  #eight{position:absolute;left:50%;top:14%;transform:translateX(-50%);width:52px;height:52px;border-radius:50%;
+    background:#fff;color:#000;display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:28px;opacity:.9}
+  #shakeHint{margin-top:14px;font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.26em;color:var(--dim);
+    text-transform:uppercase;animation:hb4 2.2s infinite}
+  @keyframes hb4{0%,100%{opacity:.4}50%{opacity:1}}
+  .shaking{animation:shk .5s!important}
+  @keyframes shk{0%,100%{transform:rotate(0)}20%{transform:rotate(-7deg) translateX(-8px)}
+    40%{transform:rotate(6deg) translateX(8px)}60%{transform:rotate(-4deg)}80%{transform:rotate(3deg)}}
+
+  #truth{margin-top:20px;max-width:540px;text-align:center;min-height:80px}
+  #truth .k{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.28em;color:var(--acc);text-transform:uppercase;font-weight:600}
+  #truth p{font-size:13px;line-height:1.7;color:var(--dim);margin-top:8px}
+  #truth p b{color:var(--fg)}
+  .btns{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 18px;border-radius:99px;
+    border:2px solid var(--acc);color:var(--acc);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--acc);color:#241430}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>🎱 THE MAGIC <span>8-BALL</span></h1>
+<div class="sub">Ask about your project · shake for the answer · the ball is suspiciously pro-Nour · اسأل وهزّ</div>
+
+<div id="qs">
+  <button class="q on" data-q="0">Should I finally build my website?</button>
+  <button class="q" data-q="1">Will my project finish on time?</button>
+  <button class="q" data-q="2">Does my brand need a real logo?</button>
+  <button class="q" data-q="3">Can one person handle all of it?</button>
+  <button class="q" data-q="4">Is Nour the right choice?</button>
+</div>
+
+<div id="ballWrap">
+  <div id="ball8">
+    <div id="shine8"></div><div id="eight">8</div>
+    <div id="window8"><div id="tri"><div id="triTxt"></div></div></div>
+  </div>
+</div>
+<div id="shakeHint">◈ CLICK THE BALL TO SHAKE ◈</div>
+
+<div id="truth">
+  <div class="k">Full disclosure</div>
+  <p>This 8-ball was manufactured in Riyadh by a developer with excellent reviews. Its neutrality is… <b>questionable</b>. Its answers are still true.</p>
+  <div class="btns" id="tBtns"></div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const ANSWERS=[
+ ['YES. IT\'S 2026. GO.','Businesses without websites are rumors. <b>Nour builds fast, modern, mobile-first sites</b> — React or clean HTML/CSS. The ball has spoken.'],
+ ['WITH A COORDINATOR? CERTAINLY.','Timelines hold when someone owns them. <b>NexLead-proven process:</b> scope → user stories → releases. Exhibit A: GoldenTag, delivered to Google Play.'],
+ ['SIGNS POINT TO ABSOLUTELY','A logo from a word-art generator is a cry for help. <b>Real identity design:</b> logo + business cards + social visuals, with actual taste.'],
+ ['ONE PERSON? THIS ONE, YES.','Most can\'t. <b>Nour writes the React AND runs the project</b> — developer + supervisor + coordinator in one invoice.'],
+ ['ALL SIGNS SAY: OBVIOUSLY','~3 years professional · Supervisor \'26 · Meta/Google/IBM certified · ICPC \'21 · AR+EN. <b>Ask a harder question next time.</b>']
+];
+let qi=0,shaking=false;
+document.querySelectorAll('.q').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.q').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');qi=+b.dataset.q;
+  document.getElementById('tri').classList.remove('show');
+  document.getElementById('shakeHint').textContent='◈ NOW SHAKE THE BALL ◈';
+});
+let AC=null;
+function swish(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const b=AC.createBuffer(1,AC.sampleRate*.5,AC.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.sin(i/d.length*Math.PI);
+  const s=AC.createBufferSource();s.buffer=b;
+  const f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=600;
+  const g=AC.createGain();g.gain.value=.1;
+  s.connect(f);f.connect(g);g.connect(AC.destination);s.start();}catch(e){}}
+function blup(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';
+  o.frequency.setValueAtTime(200,AC.currentTime);
+  o.frequency.exponentialRampToValueAtTime(420,AC.currentTime+.3);
+  g.gain.setValueAtTime(.07,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.45);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.5);}catch(e){}}
+
+document.getElementById('ballWrap').onclick=()=>{
+  if(shaking)return;shaking=true;
+  const w=document.getElementById('ballWrap'),tri=document.getElementById('tri');
+  tri.classList.remove('show');
+  swish();
+  if(!reduced){w.classList.remove('shaking');void w.offsetWidth;w.classList.add('shaking');}
+  setTimeout(()=>{
+    const [ans,truth]=ANSWERS[qi];
+    document.getElementById('triTxt').textContent=ans;
+    tri.classList.add('show');
+    blup();
+    document.querySelector('#truth .k').textContent='The ball elaborates…';
+    document.querySelector('#truth p').innerHTML=truth;
+    document.getElementById('tBtns').innerHTML=
+      `<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=${encodeURIComponent('The 8-ball said yes')}&body=${encodeURIComponent('It answered: "'+ans+'". My project: ')}">🎱 Obey the ball</a>
+       <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+       <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`;
+    document.getElementById('shakeHint').textContent='◈ PICK ANOTHER QUESTION OR SHAKE AGAIN ◈';
+    shaking=false;
+  },reduced?150:600);
+};
+</script>
+</body>
+</html>

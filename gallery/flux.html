@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — FLUX · Living Ink</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Overpass+Mono:wght@300;600&family=Figtree:wght@300;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bone:#f5f2ea;--dim:rgba(245,242,234,.62);--line:rgba(245,242,234,.16)}
+  *{margin:0;padding:0;box-sizing:border-box;cursor:none}
+  html{background:#08080d}
+  body{font-family:'Figtree',sans-serif;color:var(--bone);overflow-x:hidden;background:#08080d}
+  ::selection{background:#f5f2ea;color:#08080d}
+  a{color:inherit;text-decoration:none}
+
+  #gl{position:fixed;inset:0;width:100vw;height:100vh;z-index:0}
+
+  /* custom cursor */
+  #cur{position:fixed;z-index:99;width:14px;height:14px;border-radius:50%;background:var(--bone);
+    pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:width .25s,height .25s}
+  #curRing{position:fixed;z-index:99;width:44px;height:44px;border-radius:50%;border:1px solid var(--bone);
+    pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:difference;opacity:.6}
+  body.hovering #cur{width:52px;height:52px}
+  @media(hover:none){#cur,#curRing{display:none} *{cursor:auto}}
+
+  main{position:relative;z-index:2}
+  section{min-height:100vh;padding:16vh 7vw;display:flex;flex-direction:column;justify-content:center;position:relative}
+  .rule{position:absolute;left:7vw;right:7vw;top:0;height:1px;background:var(--line)}
+
+  .idx{font-family:'Overpass Mono',monospace;font-weight:300;font-size:11px;letter-spacing:.4em;color:var(--dim);margin-bottom:26px}
+  h1{font-family:'Italiana',serif;font-weight:400;font-size:clamp(64px,13vw,190px);line-height:.92;
+    mix-blend-mode:exclusion;letter-spacing:.01em}
+  h2{font-family:'Italiana',serif;font-weight:400;font-size:clamp(40px,7vw,96px);line-height:1;mix-blend-mode:exclusion}
+  .big-outline{-webkit-text-stroke:1px var(--bone);color:transparent;mix-blend-mode:normal}
+  p.lead{max-width:520px;font-weight:300;font-size:17px;line-height:1.8;color:var(--dim);margin-top:30px}
+  p.lead b{color:var(--bone);font-weight:600}
+
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:40px;margin-top:48px;max-width:1000px}
+  .col .k{font-family:'Overpass Mono',monospace;font-size:10.5px;letter-spacing:.35em;color:var(--dim);margin-bottom:14px;text-transform:uppercase}
+  .col .v{font-size:15.5px;font-weight:300;line-height:1.75;color:var(--bone)}
+  .col .v em{color:var(--dim);font-style:normal;font-size:13px}
+
+  .roleRow{border-top:1px solid var(--line);padding:34px 0;display:grid;grid-template-columns:110px 1fr;gap:30px;align-items:baseline;
+    transition:padding-left .4s}
+  .roleRow:hover{padding-left:20px}
+  .roleRow:last-child{border-bottom:1px solid var(--line)}
+  .roleRow .yr{font-family:'Overpass Mono',monospace;font-size:12px;color:var(--dim);letter-spacing:.1em}
+  .roleRow .nm{font-family:'Italiana',serif;font-size:clamp(24px,3.6vw,44px);line-height:1.05}
+  .roleRow .ds{grid-column:2;font-weight:300;font-size:14.5px;color:var(--dim);line-height:1.7;max-width:640px;margin-top:8px}
+  @media(max-width:640px){.roleRow{grid-template-columns:1fr}.roleRow .ds{grid-column:1}}
+
+  .chiprow{display:flex;flex-wrap:wrap;gap:0;margin-top:40px;max-width:900px}
+  .chip{font-family:'Overpass Mono',monospace;font-weight:300;font-size:clamp(14px,2vw,20px);letter-spacing:.06em;
+    padding:16px 26px;border:1px solid var(--line);margin:-1px 0 0 -1px;transition:background .3s,color .3s}
+  .chip:hover{background:var(--bone);color:#08080d}
+
+  .mag{position:relative;display:inline-flex;align-items:center;gap:14px;font-family:'Overpass Mono',monospace;
+    font-size:13px;letter-spacing:.25em;border:1px solid var(--bone);border-radius:60px;padding:22px 44px;
+    margin:14px 18px 0 0;transition:background .35s,color .35s;will-change:transform}
+  .mag:hover{background:var(--bone);color:#08080d}
+  .footRow{font-family:'Overpass Mono',monospace;font-size:11px;letter-spacing:.3em;color:var(--dim);
+    display:flex;flex-wrap:wrap;gap:26px;margin-top:70px}
+
+  #hint{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:5;font-family:'Overpass Mono',monospace;
+    font-size:10px;letter-spacing:.4em;color:var(--dim)}
+  @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<canvas id="gl"></canvas>
+<div id="cur"></div><div id="curRing"></div>
+<div id="hint">MOVE — THE INK IS ALIVE</div>
+
+<main>
+  <section id="s1">
+    <div class="idx">FLUX · A PORTFOLIO SUSPENDED IN LIQUID</div>
+    <h1 data-scramble>Nour<br>Aldeen<br>Tofi</h1>
+    <p class="lead"><b>Frontend developer &amp; software engineering supervisor</b> — Riyadh. I build interfaces the way this page behaves: alive, reactive, precise underneath. Move your cursor. Everything here answers you.</p>
+  </section>
+
+  <section>
+    <div class="rule"></div>
+    <div class="idx">01 — CURRENT STATE</div>
+    <h2 data-scramble>Leading the frontend.</h2>
+    <div class="cols">
+      <div class="col"><div class="k">Now · Jan 2026 →</div><div class="v">Software Engineering Supervisor<br><em>Distinctive Frontier Co. · Riyadh — scalable React systems, coding standards, product → shipped features.</em></div></div>
+      <div class="col"><div class="k">Parallel · Mar 2025 →</div><div class="v">Freelance Project Coordinator<br><em>NexLead · remote — scope, user stories, quality, releases. Shipped GoldenTag to Google Play.</em></div></div>
+      <div class="col"><div class="k">Base</div><div class="v">Riyadh, Saudi Arabia<br><em>Arabic + English · B.Tech IT, University of Kalamoon '24 · ICPC/ACPC '21.</em></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="rule"></div>
+    <div class="idx">02 — THE RECORD</div>
+    <div class="roleRow"><div class="yr">2026 —</div><div class="nm">Distinctive Frontier · Supervisor</div>
+      <div class="ds">Leading frontend engineering at a safety equipment company — architecture, standards, team, delivery.</div></div>
+    <div class="roleRow"><div class="yr">2025</div><div class="nm">Distinctive Frontier · Frontend + Coordination</div>
+      <div class="ds">A year of building scalable React UI while coordinating projects end-to-end. Earned the supervisor seat.</div></div>
+    <div class="roleRow"><div class="yr">2025 —</div><div class="nm">NexLead · Project Coordinator</div>
+      <div class="ds">Freelance: requirements → user stories → delivery. GoldenTag jewelry management app — inventory, barcode scanning, USD/SYP rates — live on Google Play.</div></div>
+    <div class="roleRow"><div class="yr">2024</div><div class="nm">Khwarizm Technologies</div>
+      <div class="ds">Production React in Riyadh, close collaboration with design and backend.</div></div>
+    <div class="roleRow"><div class="yr">2023</div><div class="nm">Minicodeleader</div>
+      <div class="ds">First professional React role. Components, discipline, momentum.</div></div>
+  </section>
+
+  <section>
+    <div class="rule"></div>
+    <div class="idx">03 — INSTRUMENTS</div>
+    <h2 class="big-outline" data-scramble>Fluent in</h2>
+    <div class="chiprow">
+      <span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">Tailwind CSS</span>
+      <span class="chip">JavaScript</span><span class="chip">Python · DS/AI</span><span class="chip">Git</span>
+      <span class="chip">Jira</span><span class="chip">Trello</span><span class="chip">Prompt Engineering</span>
+      <span class="chip">Clean Code</span><span class="chip">Team Leadership</span><span class="chip">Requirements</span>
+    </div>
+    <p class="lead" style="margin-top:44px">Papers: Meta Advanced React '25 · Google Project Management ×2 '25 · IBM Python for DS &amp; AI '24 · IBM GenAI Prompting '24 · TypeScript in React '25 · Tailwind '24 · Clean Code '24 · Jira suite '25.</p>
+  </section>
+
+  <section>
+    <div class="rule"></div>
+    <div class="idx">04 — CONTACT</div>
+    <h2 data-scramble>Let's make<br>something move.</h2>
+    <p class="lead">Websites · React frontends · logos · business cards · social visuals · project coordination.</p>
+    <div style="margin-top:30px">
+      <a class="mag" href="mailto:nouraldeentofi@gmail.com"><span>EMAIL</span>→</a>
+      <a class="mag" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener"><span>LINKEDIN</span>→</a>
+      <a class="mag" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener"><span>WEBSITE</span>→</a>
+    </div>
+    <div class="footRow"><span>RIYADH · KSA</span><span>ANIME · CHESS · BADMINTON · FILM</span><span>© 2026 N.A.T.</span></div>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+/* ================= LIVING INK — flow-map advection shader ================= */
+const canvas=document.getElementById('gl');
+const gl=canvas.getContext('webgl',{alpha:false,preserveDrawingBuffer:false});
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if(gl){
+const VS=`attribute vec2 p;varying vec2 vUv;void main(){vUv=p*.5+.5;gl_Position=vec4(p,0.,1.);}`;
+const SIM=`
+precision highp float;varying vec2 vUv;
+uniform sampler2D uPrev;uniform float uTime;uniform vec2 uRes;
+uniform vec2 uMouse;uniform vec2 uMVel;uniform float uMForce;
+uniform vec3 uColA;uniform vec3 uColB;uniform float uTurbo;
+float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);
+  return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);}
+float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*noise(p);p*=2.03;a*=.5;}return v;}
+vec2 curl(vec2 p,float t){float e=.045;
+  float a=fbm(p+vec2(0.,e)+t*.13),b=fbm(p-vec2(0.,e)+t*.13);
+  float c=fbm(p+vec2(e,0.)+t*.13),d=fbm(p-vec2(e,0.)+t*.13);
+  return vec2(a-b,d-c)/(2.*e);}
+void main(){
+  vec2 asp=vec2(uRes.x/uRes.y,1.);
+  vec2 uv=vUv;
+  vec2 p=uv*asp*2.6;
+  vec2 vel=curl(p,uTime)* (0.0016+uTurbo*0.004);
+  vec2 md=(uv-uMouse)*asp;
+  float mdist=length(md);
+  vel+=uMVel*exp(-mdist*mdist*90.)*0.012;
+  vec3 col=texture2D(uPrev,uv-vel).rgb*0.985;
+  float sp=exp(-mdist*mdist*260.)*uMForce;
+  vec3 ink=mix(uColA,uColB,.5+.5*sin(uTime*.6+uv.x*4.));
+  col+=ink*sp;
+  float em=uTime*.25;
+  vec2 e1=vec2(.5+.36*sin(em),.5+.3*cos(em*1.3));
+  vec2 ed=(uv-e1)*asp;col+=uColB*exp(-dot(ed,ed)*420.)*.05;
+  vec2 e2=vec2(.5+.4*cos(em*.7+2.),.5+.34*sin(em*.9));
+  ed=(uv-e2)*asp;col+=uColA*exp(-dot(ed,ed)*420.)*.045;
+  gl_FragColor=vec4(min(col,vec3(1.2)),1.);}`;
+const OUT=`
+precision highp float;varying vec2 vUv;uniform sampler2D uTex;uniform float uTime;
+float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+void main(){
+  vec3 c=texture2D(uTex,vUv).rgb;
+  c=pow(c,vec3(.92));
+  vec2 q=vUv-.5;float vig=1.-dot(q,q)*.9;
+  c*=vig;
+  c+=(hash(vUv*vec2(1e3)+uTime)-.5)*.028;
+  c+=vec3(.031,.031,.05);
+  gl_FragColor=vec4(c,1.);}`;
+
+function sh(type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);
+  if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(s));return s;}
+function prog(fs){const p=gl.createProgram();
+  gl.attachShader(p,sh(gl.VERTEX_SHADER,VS));gl.attachShader(p,sh(gl.FRAGMENT_SHADER,fs));
+  gl.linkProgram(p);return p;}
+const simP=prog(SIM),outP=prog(OUT);
+const quad=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,quad);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+
+let W,H,texs=[],fbs=[],cur=0;
+function makeTarget(w,h){const t=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,t);
+  gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,w,h,0,gl.RGBA,gl.UNSIGNED_BYTE,null);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+  const f=gl.createFramebuffer();gl.bindFramebuffer(gl.FRAMEBUFFER,f);
+  gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,t,0);
+  return{t,f};}
+function resize(){W=canvas.width=Math.floor(innerWidth*.6);H=canvas.height=Math.floor(innerHeight*.6);
+  canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';
+  texs=[];fbs=[];const a=makeTarget(W,H),b=makeTarget(W,H);
+  texs=[a.t,b.t];fbs=[a.f,b.f];}
+resize();addEventListener('resize',resize);
+
+/* palettes per section (scroll-morphed) */
+const PALS=[
+  [[0.12,0.55,0.85],[0.85,0.25,0.55]],
+  [[0.9,0.5,0.12],[0.2,0.2,0.9]],
+  [[0.1,0.8,0.55],[0.7,0.2,0.8]],
+  [[0.9,0.75,0.2],[0.15,0.45,0.9]],
+  [[0.85,0.2,0.25],[0.2,0.75,0.85]]
+];
+let palA=[...PALS[0][0]],palB=[...PALS[0][1]];
+
+let mx=.5,my=.5,pmx=.5,pmy=.5,mvx=0,mvy=0,mforce=0,turbo=0;
+addEventListener('pointermove',e=>{
+  pmx=mx;pmy=my;mx=e.clientX/innerWidth;my=1-e.clientY/innerHeight;
+  mvx=(mx-pmx)*14;mvy=(my-pmy)*14;mforce=Math.min(1,Math.hypot(mvx,mvy)*4+.25);
+});
+
+function loc(p,n){return gl.getUniformLocation(p,n);}
+let t0=performance.now();
+function frame(){
+  const t=(performance.now()-t0)/1000;
+  gl.viewport(0,0,W,H);
+  /* sim step */
+  gl.useProgram(simP);
+  gl.bindFramebuffer(gl.FRAMEBUFFER,fbs[1-cur]);
+  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,texs[cur]);
+  gl.uniform1i(loc(simP,'uPrev'),0);
+  gl.uniform1f(loc(simP,'uTime'),t);
+  gl.uniform2f(loc(simP,'uRes'),W,H);
+  gl.uniform2f(loc(simP,'uMouse'),mx,my);
+  gl.uniform2f(loc(simP,'uMVel'),mvx,mvy);
+  gl.uniform1f(loc(simP,'uMForce'),mforce);
+  gl.uniform1f(loc(simP,'uTurbo'),turbo);
+  gl.uniform3f(loc(simP,'uColA'),palA[0],palA[1],palA[2]);
+  gl.uniform3f(loc(simP,'uColB'),palB[0],palB[1],palB[2]);
+  const ap=gl.getAttribLocation(simP,'p');
+  gl.bindBuffer(gl.ARRAY_BUFFER,quad);gl.enableVertexAttribArray(ap);gl.vertexAttribPointer(ap,2,gl.FLOAT,false,0,0);
+  gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+  /* out */
+  gl.useProgram(outP);
+  gl.bindFramebuffer(gl.FRAMEBUFFER,null);
+  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,texs[1-cur]);
+  gl.uniform1i(loc(outP,'uTex'),0);
+  gl.uniform1f(loc(outP,'uTime'),t);
+  const ap2=gl.getAttribLocation(outP,'p');
+  gl.bindBuffer(gl.ARRAY_BUFFER,quad);gl.enableVertexAttribArray(ap2);gl.vertexAttribPointer(ap2,2,gl.FLOAT,false,0,0);
+  gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+  cur=1-cur;
+  mforce*=.9;mvx*=.86;mvy*=.86;turbo*=.94;
+  requestAnimationFrame(frame);
+}
+frame();
+
+/* palette morph on scroll + turbulence from velocity */
+if(window.gsap&&window.ScrollTrigger){
+  gsap.registerPlugin(ScrollTrigger);
+  const secs=document.querySelectorAll('main section');
+  ScrollTrigger.create({trigger:'main',start:'top top',end:'bottom bottom',
+    onUpdate(self){
+      turbo=Math.min(1.4,Math.abs(self.getVelocity())/1400);
+      const f=self.progress*(PALS.length-1),i=Math.min(PALS.length-2,Math.floor(f)),tt=f-i;
+      for(let k=0;k<3;k++){
+        palA[k]=PALS[i][0][k]+(PALS[i+1][0][k]-PALS[i][0][k])*tt;
+        palB[k]=PALS[i][1][k]+(PALS[i+1][1][k]-PALS[i][1][k])*tt;
+      }
+    }});
+  /* reveals */
+  gsap.utils.toArray('section').forEach(s=>{
+    gsap.from(s.querySelectorAll('.idx,h1,h2,.lead,.cols,.roleRow,.chiprow,.mag,.footRow'),
+      {opacity:0,y:reduced?0:50,stagger:.07,duration:.9,ease:'power3.out',
+       scrollTrigger:{trigger:s,start:'top 68%',toggleActions:'play none none reverse'}});
+  });
+  gsap.to('#hint',{opacity:0,scrollTrigger:{trigger:'main',start:'6% top',end:'12% top',scrub:true}});
+}
+}else{document.getElementById('gl').style.background='radial-gradient(circle at 30% 20%,#1a2c5e,#08080d 70%)';}
+
+/* ================= cursor / magnetic / scramble ================= */
+const cur1=document.getElementById('cur'),ring=document.getElementById('curRing');
+let cx=innerWidth/2,cy=innerHeight/2,rx=cx,ry=cy;
+addEventListener('pointermove',e=>{cx=e.clientX;cy=e.clientY;
+  cur1.style.left=cx+'px';cur1.style.top=cy+'px';});
+(function ringLoop(){rx+=(cx-rx)*.12;ry+=(cy-ry)*.12;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ringLoop);})();
+document.querySelectorAll('a,.chip').forEach(el=>{
+  el.addEventListener('pointerenter',()=>document.body.classList.add('hovering'));
+  el.addEventListener('pointerleave',()=>document.body.classList.remove('hovering'));
+});
+/* magnetic buttons */
+document.querySelectorAll('.mag').forEach(b=>{
+  b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect();
+    const dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2);
+    b.style.transform=`translate(${dx*.28}px,${dy*.28}px)`;});
+  b.addEventListener('pointerleave',()=>{b.style.transform='translate(0,0)';b.style.transition='transform .5s cubic-bezier(.2,.8,.2,1)';
+    setTimeout(()=>b.style.transition='background .35s,color .35s',500);});
+});
+/* scramble decode on view */
+const CH='!<>-_\\/[]{}—=+*^?#________';
+document.querySelectorAll('[data-scramble]').forEach(el=>{
+  const html=el.innerHTML;const text=el.textContent;
+  const io=new IntersectionObserver(es=>{es.forEach(en=>{if(!en.isIntersecting)return;io.disconnect();
+    if(reduced)return;
+    let fr=0;const total=Math.max(14,text.length);
+    const iv=setInterval(()=>{fr++;
+      if(fr>=total){el.innerHTML=html;clearInterval(iv);return;}
+      let out='';const parts=html.split(/(<br>|<[^>]+>)/g);
+      let ci=0;
+      out=parts.map(p=>{if(p.startsWith('<'))return p;
+        return p.split('').map(chr=>{ci++;
+          if(chr===' ')return ' ';
+          return ci<fr*(text.length/total)?chr:CH[Math.floor(Math.random()*CH.length)];
+        }).join('');}).join('');
+      el.innerHTML=out;},34);
+  });},{threshold:.4});
+  io.observe(el);
+});
+</script>
+</body>
+</html>

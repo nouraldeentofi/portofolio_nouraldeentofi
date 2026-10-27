@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A Field Guide to the Works of R. Ellis — Vol. I</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,700&family=Cinzel:wght@400;500;600;700;800&family=Caveat:wght@400;500;600;700&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --vellum:    #f0e5cc;
+  --vellum2:   #e8dcbe;
+  --parch:     #e3d4ad;
+  --ink:       #2a1c10;
+  --ink-soft:  #4a3522;
+  --sepia:     #6a4a2a;
+  --moss:      #4a5a2c;
+  --moss-deep: #2f3d1a;
+  --ochre:     #b08231;
+  --rust:      #8a3a23;
+  --crimson:   #6a1b14;
+  --rule:      rgba(42,28,16,.35);
+  --rule-soft: rgba(42,28,16,.18);
+}
+
+html{ scroll-behavior:smooth }
+body{
+  font-family:'Cormorant Garamond', serif;
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.7;
+  /* Aged paper texture using layered radial gradients */
+  background:
+    radial-gradient(circle at 15% 18%, rgba(120,80,30,.06) 0, transparent 38%),
+    radial-gradient(circle at 80% 30%, rgba(80,60,20,.05) 0, transparent 44%),
+    radial-gradient(circle at 30% 85%, rgba(140,100,40,.07) 0, transparent 42%),
+    radial-gradient(circle at 75% 75%, rgba(60,40,15,.05) 0, transparent 40%),
+    repeating-linear-gradient(
+      120deg,
+      rgba(110,80,40,.025) 0px,
+      rgba(110,80,40,.025) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    linear-gradient(180deg, var(--vellum), var(--vellum2));
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+/* Speckled noise overlay */
+body::before{
+  content:''; position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(1px 1px at 12% 22%, rgba(40,20,5,.4), transparent 1px),
+    radial-gradient(1px 1px at 76% 8%,  rgba(40,20,5,.3), transparent 1px),
+    radial-gradient(1px 1px at 28% 64%, rgba(40,20,5,.35), transparent 1px),
+    radial-gradient(2px 2px at 42% 88%, rgba(40,20,5,.18), transparent 1.5px),
+    radial-gradient(1px 1px at 88% 52%, rgba(40,20,5,.3), transparent 1px),
+    radial-gradient(1px 1px at 8% 76%,  rgba(40,20,5,.32), transparent 1px),
+    radial-gradient(1px 1px at 62% 38%, rgba(40,20,5,.28), transparent 1px),
+    radial-gradient(1.5px 1.5px at 92% 88%, rgba(40,20,5,.22), transparent 1.5px);
+  background-size: 320px 320px;
+  opacity:.7;
+  mix-blend-mode: multiply;
+}
+/* Two coffee-stains for atmosphere */
+body::after{
+  content:''; position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(140px 100px at 88% 12%, rgba(120,70,30,.13), transparent 70%),
+    radial-gradient(180px 120px at 6% 92%, rgba(120,70,30,.10), transparent 70%);
+  mix-blend-mode: multiply;
+}
+
+/* ─── PAGE FRAME ─── */
+.book{
+  position:relative;z-index:2;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* deckled-edge top/bottom borders */
+.deckle-top, .deckle-bot{
+  height: 18px;
+  background:
+    radial-gradient(circle at 6px 100%, var(--vellum) 8px, transparent 9px) 0 0/14px 18px repeat-x;
+}
+.deckle-bot{
+  transform: scaleY(-1);
+}
+
+/* ─── COVER PLATE ─── */
+.cover{
+  padding: 70px 70px 90px;
+  border: 1px solid var(--rule);
+  margin: 28px;
+  position:relative;
+}
+.cover::before, .cover::after{
+  content:''; position:absolute; inset:6px;
+  border: 1px solid var(--rule-soft);
+  pointer-events:none;
+}
+.cover-eyebrow{
+  font-family:'IM Fell English SC', serif;
+  letter-spacing: 4px;
+  font-size: .85rem;
+  text-align:center; color: var(--sepia);
+  margin-bottom: 8px;
+}
+.cover-rule{
+  width: 60%; max-width: 320px;
+  margin: 14px auto;
+  height: 1px; background: var(--rule);
+  position:relative;
+}
+.cover-rule::before{
+  content:'❦'; position:absolute; left:50%; top:50%;
+  transform: translate(-50%,-50%);
+  background: var(--vellum); padding: 0 14px;
+  color: var(--sepia); font-size: 1.1rem;
+}
+.cover-title{
+  font-family:'Cinzel', serif;
+  text-align:center;
+  font-weight: 700;
+  font-size: clamp(1.7rem, 4.4vw, 3rem);
+  line-height: 1.15;
+  letter-spacing: 2px;
+  color: var(--ink);
+  text-shadow: 0 1px 0 rgba(0,0,0,.05);
+}
+.cover-title em{
+  font-family:'Cormorant Garamond', serif;
+  font-style: italic; font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--rust);
+}
+.cover-sub{
+  text-align:center;
+  font-family:'IM Fell English', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  margin: 18px auto;
+  max-width: 580px;
+}
+.cover-illustration{
+  display:flex; justify-content:center; align-items:center;
+  margin: 22px auto 28px;
+}
+.cover-illustration svg{ width: min(420px, 80%) }
+.cover-meta{
+  display:flex; justify-content:space-between; align-items:flex-end;
+  margin-top: 30px; gap: 24px; flex-wrap:wrap;
+  font-family:'IM Fell English', serif;
+  font-size: .92rem;
+  color: var(--sepia);
+}
+.cover-meta b{ color: var(--ink) }
+.cover-cta{
+  text-align:center; margin-top: 28px;
+  display:flex; gap: 18px; justify-content:center; flex-wrap:wrap;
+}
+.btn-quill{
+  display:inline-flex; align-items:center; gap:8px;
+  padding: 10px 22px;
+  border: 1.5px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  font-family:'IM Fell English SC', serif;
+  letter-spacing: 2px;
+  font-size: .82rem;
+  text-decoration:none;
+  cursor:pointer;
+  transition: background .2s, color .2s, transform .15s;
+}
+.btn-quill:hover{ background: var(--ink); color: var(--vellum); transform: translateY(-1px) }
+.btn-quill.filled{ background: var(--rust); color: var(--vellum); border-color: var(--rust) }
+.btn-quill.filled:hover{ background: var(--crimson); border-color: var(--crimson) }
+
+/* ─── CHAPTER / PAGES ─── */
+.page{
+  padding: 64px 80px;
+  position:relative;
+  border-top: 1px solid var(--rule-soft);
+}
+.page-num{
+  position:absolute; bottom: 24px; left:50%; transform:translateX(-50%);
+  font-family:'IM Fell English', serif;
+  font-style: italic;
+  color: var(--sepia);
+  font-size: .88rem;
+}
+.page-num::before{ content:'— ' }
+.page-num::after{ content:' —' }
+
+.chapter-eyebrow{
+  font-family:'IM Fell English SC', serif;
+  letter-spacing: 5px; font-size: .78rem;
+  color: var(--rust);
+  margin-bottom: 12px;
+}
+.chapter-h{
+  font-family:'Cinzel', serif;
+  font-weight: 700;
+  font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+  letter-spacing: 1.5px;
+  margin-bottom: 6px;
+  line-height: 1.15;
+}
+.chapter-sub{
+  font-family:'IM Fell English', serif;
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  margin-bottom: 36px;
+  max-width: 680px;
+}
+
+/* Drop cap for first paragraph */
+.dropcap::first-letter{
+  font-family:'Cinzel', serif;
+  font-weight: 700;
+  font-size: 4.2rem;
+  float: left;
+  line-height: .9;
+  padding: 6px 12px 4px 0;
+  color: var(--rust);
+}
+
+/* ─── INDEX / CONTENTS ─── */
+.toc{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 26px 56px;
+  margin-top: 12px;
+}
+.toc-item{
+  display:flex; align-items:baseline; gap:10px;
+  border-bottom: 1px dotted var(--rule);
+  padding-bottom: 6px;
+  text-decoration: none; color: var(--ink);
+  font-family:'IM Fell English', serif;
+}
+.toc-num{
+  font-family:'Cinzel', serif; font-weight: 600;
+  color: var(--rust); font-size: .85rem;
+  letter-spacing: 1px; min-width: 36px;
+}
+.toc-name{
+  flex:1;
+  font-size: 1.05rem;
+  letter-spacing: .3px;
+}
+.toc-name em{ color: var(--ink-soft); font-size: .88em }
+.toc-dots{ flex:1; border-bottom: 1px dotted var(--rule); margin: 0 6px; height: 1px; align-self: center; transform: translateY(-2px) }
+.toc-page{
+  font-family:'Cormorant Garamond', serif;
+  font-style: italic; color: var(--sepia); font-size: .95rem;
+}
+.toc-item:hover .toc-name{ color: var(--rust) }
+
+/* ─── INTRODUCTION (preface) ─── */
+.preface{ max-width: 760px; margin: 0 auto; }
+.preface p{ margin-bottom: 1rem; text-align: justify; hyphens: auto; }
+.preface .pull{
+  border-left: 2px solid var(--rust);
+  padding-left: 18px;
+  margin: 24px 0 24px 22px;
+  font-style: italic;
+  color: var(--sepia);
+  font-size: 1.08rem;
+}
+.signature{
+  margin-top: 30px; text-align: right;
+}
+.signature .sig{
+  font-family:'Caveat', cursive;
+  font-size: 2.1rem;
+  color: var(--ink);
+  line-height: 1;
+}
+.signature .who{
+  font-family:'IM Fell English', serif;
+  font-style: italic; color: var(--sepia); font-size: .92rem;
+  margin-top: 2px;
+}
+
+/* ─── PLATES (project specimens) ─── */
+.plate{
+  margin: 40px auto;
+  padding: 28px 30px;
+  border: 1px solid var(--rule);
+  background: rgba(255,255,255,.03);
+  position: relative;
+  page-break-inside: avoid;
+}
+.plate::before, .plate::after{
+  content:''; position:absolute; inset: 8px;
+  border: 1px solid var(--rule-soft);
+  pointer-events:none;
+}
+.plate-grid{
+  display:grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 36px; align-items: start;
+}
+.plate-figure{
+  position:relative;
+  padding: 14px;
+  background: rgba(110,80,40,.04);
+  border: 1px solid var(--rule-soft);
+}
+.plate-figure canvas{
+  width: 100%; aspect-ratio: 1; display:block;
+}
+.plate-fig-label{
+  text-align:center;
+  font-family:'IM Fell English SC', serif;
+  letter-spacing: 4px;
+  font-size: .78rem;
+  color: var(--sepia);
+  margin-top: 10px;
+}
+.plate-fig-label em{
+  font-family:'Cormorant Garamond', serif;
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--ink-soft);
+}
+.plate-info h3{
+  font-family:'Cinzel', serif;
+  font-weight: 600;
+  font-size: 1.55rem;
+  letter-spacing: 1px;
+  line-height: 1.2;
+}
+.plate-info .latin{
+  font-family:'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--rust);
+  font-size: 1.08rem;
+  margin-bottom: 18px;
+}
+.classification{
+  margin: 16px 0 18px;
+  font-family:'IM Fell English', serif;
+  font-size: .92rem;
+  line-height: 1.85;
+}
+.cls-row{ display:flex; gap: 10px; }
+.cls-row b{
+  display:inline-block; min-width: 88px;
+  font-family:'IM Fell English SC', serif;
+  font-weight: 400;
+  letter-spacing: 2px;
+  font-size: .76rem;
+  color: var(--sepia);
+}
+.plate-info p{ margin-bottom: .9rem; text-align: justify }
+.plate-meta{
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dotted var(--rule);
+  display:flex; gap: 22px; flex-wrap: wrap;
+  font-family:'IM Fell English', serif;
+  font-size: .9rem;
+  color: var(--ink-soft);
+}
+.plate-meta b{ display:block; font-size: .68rem; letter-spacing: 2px; color: var(--sepia); font-family:'IM Fell English SC', serif; margin-bottom: 2px }
+.plate-marg{
+  position:absolute;
+  font-family:'Caveat', cursive;
+  font-size: 1.1rem;
+  color: var(--rust);
+  transform: rotate(-3deg);
+  pointer-events:none;
+}
+
+/* ─── TAXONOMY (skills) ─── */
+.taxonomy{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 36px 56px;
+  margin-top: 12px;
+}
+.taxon{
+  border-top: 2px solid var(--ink);
+  padding-top: 16px;
+}
+.taxon h3{
+  font-family:'Cinzel', serif;
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+  display:flex; align-items:center; gap: 10px;
+}
+.taxon h3 .glyph{
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--rust); font-size: 1.6rem; line-height:1;
+}
+.taxon-rank{
+  font-family:'IM Fell English', serif;
+  font-style: italic; color: var(--sepia);
+  font-size: .92rem; margin-bottom: 14px;
+}
+.taxa-list{ list-style: none }
+.taxa-list li{
+  display:flex; align-items: baseline; gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px dotted var(--rule-soft);
+  font-family:'IM Fell English', serif;
+  font-size: 1rem;
+}
+.taxa-list li::before{
+  content: '§'; color: var(--rust); font-style: italic;
+  font-family:'Cormorant Garamond', serif;
+}
+.taxa-name{ flex:1 }
+.taxa-bar{
+  display:inline-block; width: 90px; height: 5px;
+  background: rgba(42,28,16,.10);
+  border: 1px solid var(--rule-soft);
+  position: relative;
+  margin-left: 10px;
+}
+.taxa-bar i{
+  display:block; height: 100%;
+  background: repeating-linear-gradient(45deg, var(--moss) 0 3px, var(--moss-deep) 3px 6px);
+}
+
+/* ─── EXPEDITION LOG (experience) ─── */
+.log{ max-width: 820px; margin: 12px auto 0; }
+.log-entry{
+  display:grid;
+  grid-template-columns: 130px 1fr;
+  gap: 30px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--rule-soft);
+}
+.log-entry:last-child{ border-bottom: none }
+.log-date{
+  font-family:'IM Fell English SC', serif;
+  letter-spacing: 2px;
+  color: var(--rust);
+  font-size: .85rem;
+  padding-top: 4px;
+  position: relative;
+}
+.log-date::after{
+  content:''; position:absolute; left:0; bottom:-10px;
+  width: 40px; height: 1px; background: var(--rust);
+}
+.log-where{
+  font-family:'IM Fell English', serif;
+  font-style:italic; color: var(--sepia);
+  font-size: .92rem; margin-bottom: 6px;
+}
+.log-role{
+  font-family:'Cinzel', serif; font-weight: 600;
+  font-size: 1.2rem; letter-spacing: .8px;
+  margin-bottom: 8px;
+}
+.log-body{ font-size: 1rem; color: var(--ink); }
+.log-body ul{ list-style: none; padding: 0 }
+.log-body li{
+  padding-left: 22px; position: relative; margin-bottom: 6px; line-height: 1.65;
+}
+.log-body li::before{
+  content:'❦'; position: absolute; left:0; top:0;
+  color: var(--rust); font-size: 1rem;
+}
+
+/* ─── CORRESPONDENCE (contact) ─── */
+.letter{
+  max-width: 780px; margin: 14px auto 0;
+  padding: 38px 44px;
+  background: rgba(255,250,235,.5);
+  border: 1px solid var(--rule);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.5) inset,
+    0 18px 40px rgba(60,30,10,.12);
+  position: relative;
+  background-image:
+    repeating-linear-gradient(
+      transparent,
+      transparent 27px,
+      rgba(80,40,10,.1) 27px,
+      rgba(80,40,10,.1) 28px
+    );
+}
+.letter-head{
+  display:flex; justify-content: space-between; align-items:flex-end;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 14px;
+  margin-bottom: 24px;
+}
+.letter-head h3{
+  font-family:'Cinzel', serif; font-weight: 600;
+  font-size: 1.4rem; letter-spacing: 1.5px;
+}
+.letter-head .date{
+  font-family:'IM Fell English', serif; font-style:italic;
+  color: var(--sepia); font-size: .92rem;
+}
+.letter-form{ display:flex; flex-direction: column; gap: 16px }
+.letter-row{ display:grid; grid-template-columns: 110px 1fr; align-items:center; gap: 14px }
+.letter-row label{
+  font-family:'IM Fell English SC', serif;
+  letter-spacing: 2px; font-size: .78rem;
+  color: var(--sepia);
+}
+.letter-row input, .letter-form textarea{
+  font-family:'Caveat', cursive;
+  font-size: 1.25rem;
+  color: var(--ink);
+  background: transparent;
+  border: none; border-bottom: 1px solid var(--rule);
+  padding: 6px 4px;
+  outline: none;
+}
+.letter-row input:focus, .letter-form textarea:focus{
+  border-bottom-color: var(--rust);
+}
+.letter-form textarea{
+  width: 100%;
+  min-height: 160px;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  resize: vertical;
+  border-bottom: none;
+  border-top: 1px solid var(--rule);
+  padding: 14px 4px;
+  background: transparent;
+}
+.letter-foot{
+  margin-top: 24px;
+  display:flex; justify-content: space-between; align-items:center; flex-wrap:wrap; gap:14px;
+}
+.wax-seal{
+  width: 64px; height: 64px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #c43222, var(--crimson) 60%, #401008 100%);
+  display:flex; align-items:center; justify-content:center;
+  color: rgba(255,235,210,.85);
+  font-family:'Cinzel', serif; font-weight: 700; letter-spacing: 1px;
+  font-size: 1.4rem;
+  box-shadow: 0 4px 10px rgba(80,20,5,.4), 0 1px 0 rgba(255,255,255,.15) inset;
+  transform: rotate(-5deg);
+  position: relative;
+}
+.wax-seal::before{
+  content:''; position:absolute; inset:5px;
+  border: 1px dashed rgba(255,220,200,.4);
+  border-radius:50%;
+}
+.contact-line{
+  font-family:'IM Fell English', serif;
+  color: var(--ink-soft); font-size: .95rem;
+}
+.contact-line a{ color: var(--rust); text-decoration:none; border-bottom: 1px dotted var(--rust) }
+.contact-line a:hover{ color: var(--crimson) }
+
+/* ─── COLOPHON / FOOTER ─── */
+.colophon{
+  text-align:center; padding: 52px 30px 30px;
+  border-top: 1px solid var(--rule-soft);
+  margin-top: 14px;
+}
+.colophon p{
+  font-family:'IM Fell English', serif;
+  color: var(--sepia); font-style: italic;
+  font-size: .92rem; line-height: 1.8;
+}
+.colophon .mark{
+  display:inline-block;
+  width: 48px; height: 1px; background: var(--rust);
+  margin: 0 10px; vertical-align: middle;
+}
+
+/* Decorative corner ornaments */
+.corner{
+  position: absolute;
+  width: 36px; height: 36px;
+  pointer-events:none;
+  color: var(--sepia);
+  font-size: 1.6rem;
+  line-height: 1;
+  font-family: 'Cormorant Garamond', serif;
+}
+.corner.tl{ top: 8px; left: 10px }
+.corner.tr{ top: 8px; right: 10px; transform: scaleX(-1) }
+.corner.bl{ bottom: 14px; left: 10px; transform: scaleY(-1) }
+.corner.br{ bottom: 14px; right: 10px; transform: scale(-1,-1) }
+
+/* Reveal on scroll */
+.reveal{
+  opacity: 0; transform: translateY(18px);
+  transition: opacity .9s ease, transform .9s ease;
+}
+.reveal.in{ opacity:1; transform: none; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 820px){
+  .cover{ padding: 50px 28px 60px; margin: 14px }
+  .page{ padding: 48px 26px }
+  .toc{ grid-template-columns: 1fr; gap: 16px 0 }
+  .plate-grid{ grid-template-columns: 1fr; gap: 22px }
+  .taxonomy{ grid-template-columns: 1fr }
+  .log-entry{ grid-template-columns: 1fr; gap: 8px }
+  .letter{ padding: 28px 22px }
+  .letter-row{ grid-template-columns: 1fr; gap: 4px }
+  .cover-meta{ flex-direction: column; align-items: center; text-align: center; gap: 18px }
+}
+</style>
+</head>
+<body>
+
+<div class="book">
+
+  <div class="deckle-top"></div>
+
+  <!-- ════ COVER ════ -->
+  <section class="cover">
+    <span class="corner tl">❦</span>
+    <span class="corner tr">❦</span>
+    <span class="corner bl">❦</span>
+    <span class="corner br">❦</span>
+
+    <div class="cover-eyebrow">Vol. I &nbsp;·&nbsp; First Edition &nbsp;·&nbsp; MMXXVI</div>
+    <div class="cover-rule"></div>
+
+    <h1 class="cover-title">
+      A Field Guide<br>
+      <em>to the Works of</em><br>
+      ROWAN ELLIS
+    </h1>
+
+    <p class="cover-sub">
+      Being a faithful catalogue of digital specimens, gathered, classified,
+      and rendered in ink &mdash; with notes on their habitat, taxonomy,
+      and uncommon character.
+    </p>
+
+    <div class="cover-illustration">
+      <svg viewBox="0 0 400 130" xmlns="http://www.w3.org/2000/svg" stroke="#4a3522" fill="none" stroke-linecap="round">
+        <!-- Decorative branch with leaves -->
+        <path d="M30 65 Q120 30, 200 65 T370 65" stroke-width="1.4"/>
+        <!-- Leaves -->
+        <g stroke-width="1.2">
+          <path d="M70 58 Q60 38, 78 30 Q92 36, 88 56 Z"/>
+          <path d="M110 50 Q102 30, 120 24 Q134 32, 130 52 Z"/>
+          <path d="M160 40 Q150 22, 170 16 Q184 24, 180 42 Z"/>
+          <path d="M210 38 Q224 20, 240 30 Q236 50, 218 50 Z"/>
+          <path d="M260 44 Q278 28, 292 40 Q284 60, 268 56 Z"/>
+          <path d="M310 52 Q328 38, 342 50 Q336 68, 316 64 Z"/>
+        </g>
+        <!-- Berry clusters -->
+        <g fill="#8a3a23" stroke="none">
+          <circle cx="148" cy="80" r="3"/>
+          <circle cx="156" cy="84" r="3"/>
+          <circle cx="152" cy="76" r="3"/>
+          <circle cx="252" cy="78" r="3"/>
+          <circle cx="260" cy="82" r="3"/>
+          <circle cx="256" cy="74" r="3"/>
+        </g>
+        <!-- Center ornament -->
+        <g stroke-width="1">
+          <circle cx="200" cy="100" r="14"/>
+          <circle cx="200" cy="100" r="6"/>
+          <line x1="180" y1="100" x2="172" y2="100"/>
+          <line x1="220" y1="100" x2="228" y2="100"/>
+          <line x1="200" y1="80" x2="200" y2="72"/>
+          <line x1="200" y1="120" x2="200" y2="128"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="cover-meta">
+      <div>
+        <div style="font-family:'IM Fell English SC',serif; letter-spacing:3px; font-size:.74rem; color:var(--sepia)">Author &amp; Illustrator</div>
+        <b>R. Ellis</b>
+      </div>
+      <div style="text-align:center">
+        <div style="font-family:'IM Fell English SC',serif; letter-spacing:3px; font-size:.74rem; color:var(--sepia)">Compiled at</div>
+        <b>San Francisco</b>
+      </div>
+      <div style="text-align:right">
+        <div style="font-family:'IM Fell English SC',serif; letter-spacing:3px; font-size:.74rem; color:var(--sepia)">Pressed by</div>
+        <b>Ellis &amp; Co.</b>
+      </div>
+    </div>
+
+    <div class="cover-cta">
+      <a href="#contents" class="btn-quill">Open the Volume</a>
+      <a href="#correspondence" class="btn-quill filled">Send Word</a>
+    </div>
+  </section>
+
+  <!-- ════ CONTENTS ════ -->
+  <section class="page" id="contents">
+    <div class="reveal">
+      <div class="chapter-eyebrow">·  ·  ·  ·  ·</div>
+      <h2 class="chapter-h">Table of Contents</h2>
+      <p class="chapter-sub">Wherein the reader may locate, with little effort, the chapters herein assembled.</p>
+    </div>
+    <div class="toc reveal">
+      <a class="toc-item" href="#preface">
+        <span class="toc-num">I.</span>
+        <span class="toc-name">A Preface from the Naturalist <em>— who undertook the work</em></span>
+        <span class="toc-dots"></span>
+        <span class="toc-page">p. 1</span>
+      </a>
+      <a class="toc-item" href="#specimens">
+        <span class="toc-num">II.</span>
+        <span class="toc-name">Plates &amp; Specimens <em>— the principal works</em></span>
+        <span class="toc-dots"></span>
+        <span class="toc-page">p. 4</span>
+      </a>
+      <a class="toc-item" href="#taxonomy">
+        <span class="toc-num">III.</span>
+        <span class="toc-name">A Taxonomy of Faculties <em>— the workman's skills</em></span>
+        <span class="toc-dots"></span>
+        <span class="toc-page">p. 24</span>
+      </a>
+      <a class="toc-item" href="#expedition">
+        <span class="toc-num">IV.</span>
+        <span class="toc-name">An Expedition Log <em>— years of labour, in order</em></span>
+        <span class="toc-dots"></span>
+        <span class="toc-page">p. 32</span>
+      </a>
+      <a class="toc-item" href="#correspondence">
+        <span class="toc-num">V.</span>
+        <span class="toc-name">Correspondence <em>— letters welcomed at all hours</em></span>
+        <span class="toc-dots"></span>
+        <span class="toc-page">p. 40</span>
+      </a>
+      <a class="toc-item" href="#colophon">
+        <span class="toc-num">VI.</span>
+        <span class="toc-name">Colophon &amp; End-papers <em>— a note on the printing</em></span>
+        <span class="toc-dots"></span>
+        <span class="toc-page">p. 48</span>
+      </a>
+    </div>
+    <div class="page-num">i</div>
+  </section>
+
+  <!-- ════ PREFACE ════ -->
+  <section class="page" id="preface">
+    <div class="reveal">
+      <div class="chapter-eyebrow">CHAPTER I</div>
+      <h2 class="chapter-h">A Preface from the Naturalist</h2>
+      <p class="chapter-sub">In which the author offers his terms of address &mdash; and the reader is asked, kindly, to attend.</p>
+    </div>
+    <div class="preface reveal">
+      <p class="dropcap">Permit me, gentle reader, this small indulgence: to set down in one volume the specimens of seven years' labour, gathered from many gardens &mdash; some cultivated, some wild &mdash; and to render each, as faithfully as the engraver's plate allows, for your study.</p>
+
+      <p>I am a developer of full stack and a creative technologist, residing presently in the city of San Francisco. My profession bids me wear two coats at once: that of the engineer, fond of the cool logic of databases and the careful seam of a well-formed API; and that of the artist, who can spend a morning tuning the cadence of a single micro-interaction.</p>
+
+      <p>The works herein catalogued span platforms commercial and projects open-handed; mobile applications and instruments of generative art; tools for the enterprise and tools for the curious. Some you may use today. Others have passed into the quiet of completed engagements.</p>
+
+      <p class="pull">
+        &ldquo;I obsess over micro-interactions as much as database schemas &mdash;
+        and I see no contradiction in it.&rdquo;
+      </p>
+
+      <p>In what follows you will find: plates of the principal specimens, with their habits and habitats; a taxonomy of the skills brought to bear upon them; a brief log of the expeditions of my career; and, at the close, an invitation to correspond &mdash; which I hope you will accept.</p>
+
+      <p>I remain, as ever, yours in code &amp; ink,</p>
+
+      <div class="signature">
+        <div class="sig">R. Ellis</div>
+        <div class="who">San Francisco — Vernal Equinox, MMXXVI</div>
+      </div>
+    </div>
+    <div class="page-num">2</div>
+  </section>
+
+  <!-- ════ SPECIMENS / PROJECTS ════ -->
+  <section class="page" id="specimens">
+    <div class="reveal">
+      <div class="chapter-eyebrow">CHAPTER II</div>
+      <h2 class="chapter-h">Plates &amp; Specimens</h2>
+      <p class="chapter-sub">Four principal works, ordered as the author has chosen, with figures rendered in ink upon vellum.</p>
+    </div>
+
+    <!-- Plate I — Flowboard (frond) -->
+    <article class="plate reveal">
+      <div class="plate-grid">
+        <div class="plate-figure">
+          <canvas id="spec1" width="520" height="520"></canvas>
+          <div class="plate-fig-label">FIG. I &nbsp;·&nbsp; <em>Pteridium organizans</em></div>
+          <span class="plate-marg" style="top:6px; right:-2px">★ featured</span>
+        </div>
+        <div class="plate-info">
+          <h3>Flowboard</h3>
+          <div class="latin"><em>Pteridium organizans</em> — the Productive Fern</div>
+          <p>A platform for project management, conceived for teams who find themselves caught between two worlds: that of the document and that of the queue. Serving twelve thousand teams at present count.</p>
+          <div class="classification">
+            <div class="cls-row"><b>Kingdom</b><span>Digital &mdash; the realm of bits</span></div>
+            <div class="cls-row"><b>Order</b><span>Software-as-a-Service</span></div>
+            <div class="cls-row"><b>Family</b><span>Web Application</span></div>
+            <div class="cls-row"><b>Habitat</b><span>The modern workplace</span></div>
+          </div>
+          <p>Of particular note is its real-time collaboration engine, drawn from the literature on conflict-free replicated data types, which permits any number of fingers to compose the same page without quarrel.</p>
+          <div class="plate-meta">
+            <div><b>STACK</b>Next.js · GraphQL · Postgres</div>
+            <div><b>YEAR</b>2023</div>
+            <div><b>STATUS</b>In active cultivation</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Plate II — Verdant (leaf) -->
+    <article class="plate reveal">
+      <div class="plate-grid">
+        <div class="plate-figure">
+          <canvas id="spec2" width="520" height="520"></canvas>
+          <div class="plate-fig-label">FIG. II &nbsp;·&nbsp; <em>Folium carbonum</em></div>
+          <span class="plate-marg" style="bottom:14px; left:6px">— delicate</span>
+        </div>
+        <div class="plate-info">
+          <h3>Verdant</h3>
+          <div class="latin"><em>Folium carbonum</em> — the Carbon Leaf</div>
+          <p>A mobile companion for the conscientious citizen, by which the daily purchases of bank and card are reckoned in their effect upon the air we breathe &mdash; and so reduced.</p>
+          <div class="classification">
+            <div class="cls-row"><b>Kingdom</b><span>Digital — mobile branch</span></div>
+            <div class="cls-row"><b>Order</b><span>Native cross-platform</span></div>
+            <div class="cls-row"><b>Family</b><span>Personal finance</span></div>
+            <div class="cls-row"><b>Habitat</b><span>The pocket; the bedside table</span></div>
+          </div>
+          <p>The species draws from banking APIs the record of each transaction, then sorts and scores them &mdash; an unobtrusive ally, never moralising, only counting.</p>
+          <div class="plate-meta">
+            <div><b>STACK</b>React Native · Node · Redis</div>
+            <div><b>YEAR</b>2022</div>
+            <div><b>STATUS</b>Widely distributed</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Plate III — Lumina (flower) -->
+    <article class="plate reveal">
+      <div class="plate-grid">
+        <div class="plate-figure">
+          <canvas id="spec3" width="520" height="520"></canvas>
+          <div class="plate-fig-label">FIG. III &nbsp;·&nbsp; <em>Anthos generativum</em></div>
+        </div>
+        <div class="plate-info">
+          <h3>Lumina</h3>
+          <div class="latin"><em>Anthos generativum</em> — the Generative Bloom</div>
+          <p>An open-handed instrument of generative art, distributed without charge, by which any browser may produce flowering forms of eighteen distinct varieties. Esteemed among its kind: three thousand two hundred favourable marks upon GitHub.</p>
+          <div class="classification">
+            <div class="cls-row"><b>Kingdom</b><span>Digital — ornamental class</span></div>
+            <div class="cls-row"><b>Order</b><span>Generative Art Tool</span></div>
+            <div class="cls-row"><b>Family</b><span>Open Source</span></div>
+            <div class="cls-row"><b>Habitat</b><span>Browsers and curiosity</span></div>
+          </div>
+          <p>It produces both raster impressions and vector engravings, the latter of arbitrary size, suitable for framing or further refinement at the user's leisure.</p>
+          <div class="plate-meta">
+            <div><b>STACK</b>WebGL · TypeScript · Canvas</div>
+            <div><b>YEAR</b>2024</div>
+            <div><b>STATUS</b>Free to the public</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Plate IV — DocuMind (tree) -->
+    <article class="plate reveal">
+      <div class="plate-grid">
+        <div class="plate-figure">
+          <canvas id="spec4" width="520" height="520"></canvas>
+          <div class="plate-fig-label">FIG. IV &nbsp;·&nbsp; <em>Arbor sapientiae</em></div>
+        </div>
+        <div class="plate-info">
+          <h3>DocuMind</h3>
+          <div class="latin"><em>Arbor sapientiae</em> — the Tree of Knowing</div>
+          <p>An assistant of artificial reasoning, set among the documents of the modern company &mdash; PDFs, pages of Notion, archives of Confluence &mdash; from which it draws answers, with citations duly preserved.</p>
+          <div class="classification">
+            <div class="cls-row"><b>Kingdom</b><span>Digital — artificial class</span></div>
+            <div class="cls-row"><b>Order</b><span>Retrieval-Augmented Generation</span></div>
+            <div class="cls-row"><b>Family</b><span>Enterprise Tooling</span></div>
+            <div class="cls-row"><b>Habitat</b><span>Two hundred and odd companies</span></div>
+          </div>
+          <p>Of all the present catalogue, this specimen most clearly answers the question &mdash; how shall the machine attend us in the work of memory?</p>
+          <div class="plate-meta">
+            <div><b>STACK</b>Python · FastAPI · OpenAI</div>
+            <div><b>YEAR</b>2024</div>
+            <div><b>STATUS</b>In commercial deployment</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <div class="page-num">4 — 23</div>
+  </section>
+
+  <!-- ════ TAXONOMY / SKILLS ════ -->
+  <section class="page" id="taxonomy">
+    <div class="reveal">
+      <div class="chapter-eyebrow">CHAPTER III</div>
+      <h2 class="chapter-h">A Taxonomy of Faculties</h2>
+      <p class="chapter-sub">Wherein the author's skills are gathered, after the manner of the natural orders, into four principal kingdoms.</p>
+    </div>
+
+    <div class="taxonomy reveal">
+      <div class="taxon">
+        <h3><span class="glyph">❦</span> Frontmatter</h3>
+        <div class="taxon-rank">Of the visible web &mdash; what greets the user.</div>
+        <ul class="taxa-list">
+          <li><span class="taxa-name">React &amp; Next.js</span><span class="taxa-bar"><i style="width:95%"></i></span></li>
+          <li><span class="taxa-name">TypeScript</span><span class="taxa-bar"><i style="width:90%"></i></span></li>
+          <li><span class="taxa-name">CSS &amp; Animation</span><span class="taxa-bar"><i style="width:88%"></i></span></li>
+          <li><span class="taxa-name">WebGL &amp; Three.js</span><span class="taxa-bar"><i style="width:72%"></i></span></li>
+        </ul>
+      </div>
+
+      <div class="taxon">
+        <h3><span class="glyph">❦</span> Backmatter</h3>
+        <div class="taxon-rank">Of servers and stores &mdash; the unseen labour.</div>
+        <ul class="taxa-list">
+          <li><span class="taxa-name">Node.js &amp; Express</span><span class="taxa-bar"><i style="width:92%"></i></span></li>
+          <li><span class="taxa-name">PostgreSQL &amp; Redis</span><span class="taxa-bar"><i style="width:87%"></i></span></li>
+          <li><span class="taxa-name">GraphQL &amp; REST</span><span class="taxa-bar"><i style="width:89%"></i></span></li>
+          <li><span class="taxa-name">Python &amp; FastAPI</span><span class="taxa-bar"><i style="width:75%"></i></span></li>
+        </ul>
+      </div>
+
+      <div class="taxon">
+        <h3><span class="glyph">❦</span> Infrastructure</h3>
+        <div class="taxon-rank">Of cloud and machinery &mdash; the keeping of order.</div>
+        <ul class="taxa-list">
+          <li><span class="taxa-name">Amazon Web Services</span><span class="taxa-bar"><i style="width:83%"></i></span></li>
+          <li><span class="taxa-name">Docker &amp; Kubernetes</span><span class="taxa-bar"><i style="width:78%"></i></span></li>
+          <li><span class="taxa-name">Continuous Integration</span><span class="taxa-bar"><i style="width:85%"></i></span></li>
+          <li><span class="taxa-name">Terraform &amp; IaC</span><span class="taxa-bar"><i style="width:65%"></i></span></li>
+        </ul>
+      </div>
+
+      <div class="taxon">
+        <h3><span class="glyph">❦</span> Drafting</h3>
+        <div class="taxon-rank">Of design &mdash; the temper of the work.</div>
+        <ul class="taxa-list">
+          <li><span class="taxa-name">Figma &amp; Prototyping</span><span class="taxa-bar"><i style="width:88%"></i></span></li>
+          <li><span class="taxa-name">Design Systems</span><span class="taxa-bar"><i style="width:85%"></i></span></li>
+          <li><span class="taxa-name">User Research</span><span class="taxa-bar"><i style="width:70%"></i></span></li>
+          <li><span class="taxa-name">Accessibility (WCAG)</span><span class="taxa-bar"><i style="width:82%"></i></span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="page-num">24 — 31</div>
+  </section>
+
+  <!-- ════ EXPEDITION LOG ════ -->
+  <section class="page" id="expedition">
+    <div class="reveal">
+      <div class="chapter-eyebrow">CHAPTER IV</div>
+      <h2 class="chapter-h">An Expedition Log</h2>
+      <p class="chapter-sub">The principal stations of the author's working life, recorded in the order they were undertaken.</p>
+    </div>
+
+    <div class="log reveal">
+      <div class="log-entry">
+        <div class="log-date">2023 — present</div>
+        <div>
+          <div class="log-where">Veritas Labs &mdash; San Francisco</div>
+          <div class="log-role">Senior Full-Stack Engineer</div>
+          <div class="log-body">
+            <ul>
+              <li>Conducts an expedition of five engineers upon a developer-first observability platform.</li>
+              <li>Replaced the monolithic ingestion engine with smaller craft &mdash; latency reduced by three-fifths.</li>
+              <li>Established the field guide of components used across three product lines.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="log-entry">
+        <div class="log-date">2021 — 2023</div>
+        <div>
+          <div class="log-where">Mosaic Finance &mdash; in Remote correspondence</div>
+          <div class="log-role">Full-Stack Engineer</div>
+          <div class="log-body">
+            <ul>
+              <li>Shaped the principal dashboard of a financial application of some four hundred thousand users.</li>
+              <li>Drew up the real-time portfolio engine, woven of WebSockets and Redis correspondences.</li>
+              <li>Prosecuted the migration from REST to GraphQL, securing a saving of forty-five parts in the hundred.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="log-entry">
+        <div class="log-date">2019 — 2021</div>
+        <div>
+          <div class="log-where">Pixel &amp; Co. Agency &mdash; New York</div>
+          <div class="log-role">Frontend Developer</div>
+          <div class="log-body">
+            <ul>
+              <li>Delivered fourteen client commissions across the verticals of media, health, and commerce.</li>
+              <li>Became the company's particular authority on intricate motion and data illustration.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="log-entry">
+        <div class="log-date">2017 — 2019</div>
+        <div>
+          <div class="log-where">University of California, Berkeley</div>
+          <div class="log-role">B. S. in Computer Science — with Honours</div>
+          <div class="log-body">
+            <ul>
+              <li>Studies in human-machine interaction, distributed systems, and computer graphics.</li>
+              <li>Senior dissertation upon procedural terrain generated in WebGL.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-num">32 — 39</div>
+  </section>
+
+  <!-- ════ CORRESPONDENCE ════ -->
+  <section class="page" id="correspondence">
+    <div class="reveal">
+      <div class="chapter-eyebrow">CHAPTER V</div>
+      <h2 class="chapter-h">Correspondence</h2>
+      <p class="chapter-sub">The author keeps an open inbox, and replies, as a rule, by the next post.</p>
+    </div>
+
+    <div class="letter reveal">
+      <div class="letter-head">
+        <h3>A Letter to R. Ellis</h3>
+        <div class="date">Composed this day, in your hand</div>
+      </div>
+      <form class="letter-form" onsubmit="handleLetter(event)">
+        <div class="letter-row">
+          <label>Your name</label>
+          <input type="text" placeholder="Alexander Hartwell" />
+        </div>
+        <div class="letter-row">
+          <label>Address of reply</label>
+          <input type="email" placeholder="alex@company.com" />
+        </div>
+        <div class="letter-row">
+          <label>Concerning</label>
+          <input type="text" placeholder="A new commission, perhaps..." />
+        </div>
+        <textarea placeholder="Esteemed Mr Ellis,&#10;&#10;I write upon the matter of..."></textarea>
+        <div class="letter-foot">
+          <div class="wax-seal">N</div>
+          <div class="contact-line">
+            Or reach the author directly &mdash;
+            <a href="mailto:rowan@rowanellis.ink">rowan@rowanellis.ink</a> ·
+            <a href="#">github</a> ·
+            <a href="#">linkedin</a> ·
+            <a href="#">x.com</a>
+          </div>
+          <button type="submit" class="btn-quill filled" id="postBtn">Post the Letter</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="page-num">40 — 47</div>
+  </section>
+
+  <!-- ════ COLOPHON ════ -->
+  <section class="colophon" id="colophon">
+    <p>
+      <span class="mark"></span> Finis <span class="mark"></span>
+    </p>
+    <p style="margin-top:8px">
+      This volume was set in Cormorant Garamond and Cinzel,<br>
+      with annotations in the Caveat hand and small-capitals in IM Fell English.
+    </p>
+    <p style="margin-top:14px">
+      Composed, illustrated &amp; pressed by <b style="color:var(--ink);font-style:normal">Nour</b>
+      &mdash; in the year of our reckoning, MMXXVI.
+    </p>
+    <div style="margin-top:18px; font-size:1.5rem; color:var(--rust)">❦</div>
+  </section>
+
+  <div class="deckle-bot"></div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════
+   SEEDED RANDOM — for reproducible engravings
+════════════════════════════════════════════ */
+function seededRng(seed){
+  let s = seed;
+  return ()=>{ s=(s*9301+49297)%233280; return s/233280 };
+}
+
+/* ════════════════════════════════════════════
+   INK STROKE HELPERS
+════════════════════════════════════════════ */
+function inkStroke(ctx, fn, opts={}){
+  // Draw the same path 2-3 times with slight jitter for a hand-drawn quill look
+  const { width=1.4, alpha=.85, jitter=.7, passes=2, color='#2a1c10' } = opts;
+  ctx.save();
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.strokeStyle = color;
+  for (let p=0;p<passes;p++){
+    ctx.globalAlpha = alpha * (p===0 ? 1 : .55);
+    ctx.lineWidth = width * (p===0 ? 1 : .7);
+    ctx.translate((Math.random()-.5)*jitter, (Math.random()-.5)*jitter);
+    ctx.beginPath();
+    fn(ctx);
+    ctx.stroke();
+    ctx.translate(-(Math.random()-.5)*jitter, -(Math.random()-.5)*jitter);
+  }
+  ctx.restore();
+}
+
+/* paper-tone base behind specimens */
+function vellumWash(ctx, W, H){
+  const g = ctx.createRadialGradient(W*.5, H*.4, W*.1, W*.5, H*.5, W*.7);
+  g.addColorStop(0, 'rgba(248,238,210,.0)');
+  g.addColorStop(.7,'rgba(180,140,80,.04)');
+  g.addColorStop(1, 'rgba(120,80,40,.10)');
+  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+  // speckle
+  const r = seededRng(11);
+  for (let i=0;i<160;i++){
+    ctx.fillStyle = `rgba(60,30,10,${r()*.18+.05})`;
+    const x = r()*W, y = r()*H, s = r()*1.4+.3;
+    ctx.beginPath(); ctx.arc(x,y,s,0,Math.PI*2); ctx.fill();
+  }
+}
+
+/* a faint scale/legend at the bottom of a plate */
+function plateScale(ctx, W, H, label){
+  const y = H - 28;
+  ctx.save();
+  ctx.strokeStyle = '#5a3f24';
+  ctx.lineWidth = 1; ctx.globalAlpha = .7;
+  ctx.beginPath();
+  ctx.moveTo(W*.32, y); ctx.lineTo(W*.68, y);
+  ctx.moveTo(W*.32, y-4); ctx.lineTo(W*.32, y+4);
+  ctx.moveTo(W*.68, y-4); ctx.lineTo(W*.68, y+4);
+  // tick marks
+  for (let i=1;i<6;i++){
+    const x = W*.32 + (W*.36)*i/6;
+    ctx.moveTo(x, y-2); ctx.lineTo(x, y+2);
+  }
+  ctx.stroke();
+  ctx.fillStyle = '#5a3f24';
+  ctx.font = 'italic 11px "Cormorant Garamond", serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(label, W/2, y+16);
+  ctx.restore();
+}
+
+/* ════════════════════════════════════════════
+   SPECIMEN I — Flowboard, as a fern frond
+════════════════════════════════════════════ */
+function drawSpec1(){
+  const c = document.getElementById('spec1');
+  const ctx = c.getContext('2d');
+  const W=c.width, H=c.height;
+  vellumWash(ctx, W, H);
+
+  // Main stem — slight S curve
+  const stemBaseX = W*.5, stemBaseY = H*.92;
+  const stemTipX  = W*.5 + 18, stemTipY  = H*.08;
+  inkStroke(ctx, c=>{
+    c.moveTo(stemBaseX, stemBaseY);
+    c.bezierCurveTo(stemBaseX-30, H*.7, stemBaseX+30, H*.4, stemTipX, stemTipY);
+  }, { width:2.2, jitter:.4, passes:3 });
+
+  // Pinnae (small leaflets) on alternating sides
+  const rng = seededRng(101);
+  const N = 18;
+  for (let i=0;i<N;i++){
+    const t = (i+1)/(N+1);
+    // approximate point along bezier
+    const u = 1-t;
+    const sx = u*u*u*stemBaseX + 3*u*u*t*(stemBaseX-30) + 3*u*t*t*(stemBaseX+30) + t*t*t*stemTipX;
+    const sy = u*u*u*stemBaseY + 3*u*u*t*H*.7 + 3*u*t*t*H*.4 + t*t*t*stemTipY;
+    const side = i%2===0 ? 1 : -1;
+    const len  = 110 - t*70 + rng()*12;
+    const tilt = 0.45 + rng()*.18;
+    const angle = side===1 ? -Math.PI/2 + tilt : -Math.PI/2 - tilt;
+
+    // The leaflet midrib
+    const ex = sx + Math.cos(angle)*len;
+    const ey = sy + Math.sin(angle)*len;
+    inkStroke(ctx, c=>{
+      c.moveTo(sx, sy);
+      c.quadraticCurveTo(
+        sx + Math.cos(angle)*len*.5 - side*8,
+        sy + Math.sin(angle)*len*.5,
+        ex, ey
+      );
+    }, { width:1, jitter:.3, passes:2, alpha:.75 });
+
+    // Sub-pinnules — ribs along the leaflet
+    const subs = 7;
+    for (let j=1;j<subs;j++){
+      const tt = j/subs;
+      // point along the leaflet
+      const mx = sx + (ex-sx)*tt;
+      const my = sy + (ey-sy)*tt;
+      const subLen = (len*.32)*(1-tt*.5);
+      // perpendicular to leaflet axis
+      const pa = angle + Math.PI/2;
+      const ax1 = mx + Math.cos(pa)*subLen*.5;
+      const ay1 = my + Math.sin(pa)*subLen*.5;
+      const ax2 = mx - Math.cos(pa)*subLen*.5;
+      const ay2 = my - Math.sin(pa)*subLen*.5;
+      inkStroke(ctx, c=>{
+        c.moveTo(mx, my); c.quadraticCurveTo((mx+ax1)/2 - side*2, (my+ay1)/2, ax1, ay1);
+      }, { width:.7, jitter:.2, passes:1, alpha:.65 });
+      inkStroke(ctx, c=>{
+        c.moveTo(mx, my); c.quadraticCurveTo((mx+ax2)/2 + side*2, (my+ay2)/2, ax2, ay2);
+      }, { width:.7, jitter:.2, passes:1, alpha:.65 });
+    }
+  }
+
+  // Tiny coiled crozier at the tip (a fern's signature)
+  ctx.save();
+  ctx.translate(stemTipX, stemTipY);
+  ctx.strokeStyle = '#2a1c10'; ctx.lineWidth = 1.3; ctx.lineCap = 'round';
+  ctx.beginPath();
+  for (let a=0; a<Math.PI*2.3; a+=.1){
+    const r = 8 - a*1.6;
+    const x = Math.cos(a)*r, y = Math.sin(a)*r - 8;
+    a===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+  ctx.restore();
+
+  plateScale(ctx, W, H, '5 cm  ·  natural size');
+  plateInscription(ctx, W, H, 'Pteridium organizans ellisii', 'observed: SF — Mar.');
+}
+
+/* ════════════════════════════════════════════
+   SPECIMEN II — Verdant, as a leaf
+════════════════════════════════════════════ */
+function drawSpec2(){
+  const c = document.getElementById('spec2');
+  const ctx = c.getContext('2d');
+  const W=c.width, H=c.height; vellumWash(ctx, W, H);
+
+  // Petiole (leaf stalk)
+  inkStroke(ctx, c=>{
+    c.moveTo(W*.5, H*.92);
+    c.quadraticCurveTo(W*.5-12, H*.78, W*.5, H*.72);
+  }, { width:2, jitter:.3, passes:3 });
+
+  // Leaf outline — ovate-elongate
+  const cx = W*.5, cy = H*.42, halfW = W*.28, halfH = H*.32;
+  inkStroke(ctx, c=>{
+    c.moveTo(cx, cy+halfH);
+    c.bezierCurveTo(cx+halfW, cy+halfH*.7, cx+halfW*1.05, cy-halfH*.4, cx, cy-halfH);
+    c.bezierCurveTo(cx-halfW*1.05, cy-halfH*.4, cx-halfW, cy+halfH*.7, cx, cy+halfH);
+  }, { width:2, jitter:.5, passes:3 });
+
+  // Midrib
+  inkStroke(ctx, c=>{
+    c.moveTo(cx, cy+halfH); c.quadraticCurveTo(cx-4, cy, cx, cy-halfH);
+  }, { width:1.4, jitter:.3, passes:2 });
+
+  // Venation — secondary veins (alternating)
+  const rng = seededRng(202);
+  const veins = 11;
+  for (let i=1;i<veins;i++){
+    const t = i/veins;
+    const my = cy+halfH - t*halfH*2;
+    // current leaf half-width at this height
+    const w = halfW * Math.sin(Math.PI*t) * 1.0;
+    const side = i%2===0 ? 1 : -1;
+    // vein
+    inkStroke(ctx, c=>{
+      c.moveTo(cx + side*2, my);
+      c.quadraticCurveTo(cx + side*w*.6, my - 6 - rng()*4, cx + side*w*.95, my - 16 - rng()*4);
+    }, { width:.9, jitter:.2, passes:1, alpha:.7 });
+    // and the other side as well
+    inkStroke(ctx, c=>{
+      c.moveTo(cx - side*2, my);
+      c.quadraticCurveTo(cx - side*w*.6, my - 6 - rng()*4, cx - side*w*.95, my - 16 - rng()*4);
+    }, { width:.9, jitter:.2, passes:1, alpha:.7 });
+    // tiny tertiary venules
+    for (let k=1;k<4;k++){
+      const tk = k/4;
+      const px = cx + side*w*.95*tk;
+      const py = my - (16+rng()*4)*tk;
+      const len = 6 + rng()*4;
+      inkStroke(ctx, c=>{
+        c.moveTo(px, py);
+        c.lineTo(px + side*len*.5, py - len*.7);
+      }, { width:.5, jitter:.15, passes:1, alpha:.55 });
+    }
+  }
+
+  // Small notch at base
+  ctx.save();
+  ctx.strokeStyle = '#2a1c10'; ctx.lineWidth = 1; ctx.globalAlpha = .7;
+  ctx.beginPath();
+  ctx.moveTo(cx-6, cy+halfH); ctx.lineTo(cx, cy+halfH-8); ctx.lineTo(cx+6, cy+halfH);
+  ctx.stroke();
+  ctx.restore();
+
+  // A tiny insect/beetle visiting (small charm)
+  ctx.save();
+  ctx.fillStyle = '#5a3f24';
+  ctx.beginPath();
+  ctx.ellipse(cx+halfW*.55, cy+halfH*.2, 4, 6, .3, 0, Math.PI*2); ctx.fill();
+  // legs
+  ctx.strokeStyle = '#5a3f24'; ctx.lineWidth = .7;
+  ctx.beginPath();
+  for (let k=-1;k<=1;k++){
+    ctx.moveTo(cx+halfW*.55, cy+halfH*.2 + k*2);
+    ctx.lineTo(cx+halfW*.55 + 4, cy+halfH*.2 + k*4);
+    ctx.moveTo(cx+halfW*.55, cy+halfH*.2 + k*2);
+    ctx.lineTo(cx+halfW*.55 - 4, cy+halfH*.2 + k*4);
+  }
+  ctx.stroke();
+  ctx.restore();
+
+  plateScale(ctx, W, H, '4 cm  ·  natural size');
+  plateInscription(ctx, W, H, 'Folium carbonum ellisii', 'observed: by gaslight');
+}
+
+/* ════════════════════════════════════════════
+   SPECIMEN III — Lumina, as a generative bloom
+════════════════════════════════════════════ */
+function drawSpec3(){
+  const c = document.getElementById('spec3');
+  const ctx = c.getContext('2d');
+  const W=c.width, H=c.height; vellumWash(ctx, W, H);
+
+  const cx = W*.5, cy = H*.42;
+  const rng = seededRng(303);
+
+  // Stem
+  inkStroke(ctx, c=>{
+    c.moveTo(cx-2, H*.92); c.bezierCurveTo(cx-14, H*.78, cx+6, H*.65, cx, cy+H*.18);
+  }, { width:2, jitter:.4, passes:3 });
+
+  // Two leaves on the stem
+  [-1, 1].forEach((side, idx)=>{
+    const ay = H*.7 - idx*30;
+    inkStroke(ctx, c=>{
+      c.moveTo(cx + (idx===0? -2:2), ay);
+      c.quadraticCurveTo(cx + side*40, ay - 4, cx + side*70, ay - 16);
+      c.quadraticCurveTo(cx + side*40, ay + 4, cx + (idx===0? -2:2), ay);
+    }, { width:1.2, jitter:.4, passes:2 });
+    // leaf midline
+    inkStroke(ctx, c=>{
+      c.moveTo(cx, ay); c.quadraticCurveTo(cx + side*30, ay-6, cx + side*68, ay-15);
+    }, { width:.7, jitter:.2, passes:1, alpha:.6 });
+  });
+
+  // Outer petals (12)
+  const PETALS = 12;
+  for (let i=0;i<PETALS;i++){
+    const a = (i/PETALS)*Math.PI*2 - Math.PI/2;
+    const r1 = 70 + rng()*6, r2 = 140 + rng()*14;
+    const tipX = cx + Math.cos(a)*r2, tipY = cy + Math.sin(a)*r2;
+    const sX = cx + Math.cos(a)*r1*.4, sY = cy + Math.sin(a)*r1*.4;
+    const pa = a + Math.PI/2;
+    const cp1x = cx + Math.cos(a)*r1*1.0 + Math.cos(pa)*22;
+    const cp1y = cy + Math.sin(a)*r1*1.0 + Math.sin(pa)*22;
+    const cp2x = cx + Math.cos(a)*r1*1.0 - Math.cos(pa)*22;
+    const cp2y = cy + Math.sin(a)*r1*1.0 - Math.sin(pa)*22;
+    inkStroke(ctx, c=>{
+      c.moveTo(sX, sY);
+      c.quadraticCurveTo(cp1x, cp1y, tipX, tipY);
+      c.quadraticCurveTo(cp2x, cp2y, sX, sY);
+    }, { width:1, jitter:.3, passes:2, alpha:.8 });
+    // small veining inside petal
+    for (let k=0;k<3;k++){
+      const tt = .25 + k*.25;
+      const vx = sX + (tipX-sX)*tt, vy = sY + (tipY-sY)*tt;
+      const off = (8 - k*2);
+      inkStroke(ctx, c=>{
+        c.moveTo(vx, vy);
+        c.lineTo(vx + Math.cos(pa)*off, vy + Math.sin(pa)*off);
+      }, { width:.45, jitter:.15, passes:1, alpha:.55 });
+      inkStroke(ctx, c=>{
+        c.moveTo(vx, vy);
+        c.lineTo(vx - Math.cos(pa)*off, vy - Math.sin(pa)*off);
+      }, { width:.45, jitter:.15, passes:1, alpha:.55 });
+    }
+  }
+
+  // Inner petals (8 smaller)
+  const INNER = 8;
+  for (let i=0;i<INNER;i++){
+    const a = (i/INNER)*Math.PI*2 - Math.PI/2 + (Math.PI/INNER);
+    const r2 = 56 + rng()*4;
+    const tipX = cx + Math.cos(a)*r2, tipY = cy + Math.sin(a)*r2;
+    const pa = a + Math.PI/2;
+    const cp1x = cx + Math.cos(a)*r2*.5 + Math.cos(pa)*12;
+    const cp1y = cy + Math.sin(a)*r2*.5 + Math.sin(pa)*12;
+    const cp2x = cx + Math.cos(a)*r2*.5 - Math.cos(pa)*12;
+    const cp2y = cy + Math.sin(a)*r2*.5 - Math.sin(pa)*12;
+    inkStroke(ctx, c=>{
+      c.moveTo(cx, cy);
+      c.quadraticCurveTo(cp1x, cp1y, tipX, tipY);
+      c.quadraticCurveTo(cp2x, cp2y, cx, cy);
+    }, { width:.9, jitter:.25, passes:2, alpha:.85 });
+  }
+
+  // Center stamens (dots radiating)
+  ctx.save();
+  ctx.fillStyle = '#5a3f24';
+  for (let i=0;i<26;i++){
+    const a = (i/26)*Math.PI*2;
+    const r = 14 + (i%3)*3;
+    const x = cx + Math.cos(a)*r;
+    const y = cy + Math.sin(a)*r;
+    ctx.beginPath(); ctx.arc(x,y, 1.6, 0, Math.PI*2); ctx.fill();
+  }
+  // central disc
+  ctx.fillStyle = '#8a3a23';
+  ctx.beginPath(); ctx.arc(cx, cy, 8, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#2a1c10';
+  ctx.beginPath(); ctx.arc(cx, cy, 4, 0, Math.PI*2); ctx.fill();
+  ctx.restore();
+
+  plateScale(ctx, W, H, '8 cm  ·  natural size');
+  plateInscription(ctx, W, H, 'Anthos generativum ellisii', 'observed: at noon');
+}
+
+/* ════════════════════════════════════════════
+   SPECIMEN IV — DocuMind, as a knowledge tree
+════════════════════════════════════════════ */
+function drawSpec4(){
+  const c = document.getElementById('spec4');
+  const ctx = c.getContext('2d');
+  const W=c.width, H=c.height; vellumWash(ctx, W, H);
+
+  // Trunk
+  inkStroke(ctx, c=>{
+    c.moveTo(W*.5 - 8, H*.93);
+    c.bezierCurveTo(W*.5 - 4, H*.7, W*.5 + 4, H*.55, W*.5, H*.45);
+  }, { width:3.4, jitter:.5, passes:3 });
+  inkStroke(ctx, c=>{
+    c.moveTo(W*.5 + 8, H*.93);
+    c.bezierCurveTo(W*.5 + 4, H*.7, W*.5 - 4, H*.55, W*.5, H*.45);
+  }, { width:3.4, jitter:.5, passes:3 });
+  // Trunk bark texture
+  for (let i=0;i<8;i++){
+    inkStroke(ctx, c=>{
+      const y = H*.55 + i*30;
+      c.moveTo(W*.5 - 6, y); c.lineTo(W*.5 + 6, y + 4);
+    }, { width:.5, jitter:.3, passes:1, alpha:.4 });
+  }
+
+  // Recursive branch fn
+  function branch(x, y, angle, len, depth){
+    if (depth<=0 || len<6) return;
+    const ex = x + Math.cos(angle)*len;
+    const ey = y + Math.sin(angle)*len;
+    inkStroke(ctx, c=>{
+      c.moveTo(x, y);
+      c.quadraticCurveTo(x + Math.cos(angle)*len*.5 + (Math.random()-.5)*6,
+                         y + Math.sin(angle)*len*.5 + (Math.random()-.5)*6, ex, ey);
+    }, { width: Math.max(.6, depth*.5), jitter:.3, passes: depth>=3?2:1, alpha: .8 });
+
+    // Two child branches
+    const spread = .55 + Math.random()*.2;
+    branch(ex, ey, angle - spread, len*.72, depth-1);
+    branch(ex, ey, angle + spread, len*.72, depth-1);
+    // Occasional third
+    if (depth>=3 && Math.random()<.5){
+      branch(ex, ey, angle + (Math.random()-.5)*.3, len*.6, depth-1);
+    }
+    // Leaves at terminals
+    if (depth<=2){
+      const leafN = depth===1 ? 3 : 1;
+      for (let i=0;i<leafN;i++){
+        const off = (i-(leafN-1)/2)*6;
+        const lx = ex + Math.cos(angle)*4 + off;
+        const ly = ey + Math.sin(angle)*4 + off*.3;
+        ctx.save();
+        ctx.strokeStyle = '#2a1c10'; ctx.lineWidth = .8;
+        ctx.beginPath();
+        ctx.ellipse(lx, ly, 4, 2.2, angle + Math.PI/3, 0, Math.PI*2);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+    // Document/node marker at terminal
+    if (depth===1 && Math.random()<.65){
+      ctx.save();
+      ctx.fillStyle = '#f3e6c4';
+      ctx.strokeStyle = '#5a3f24';
+      ctx.lineWidth = .8; ctx.globalAlpha = .85;
+      const dW=14, dH=10;
+      ctx.beginPath(); ctx.rect(ex-dW/2, ey-dH-2, dW, dH); ctx.fill(); ctx.stroke();
+      // tiny lines on doc
+      ctx.beginPath();
+      ctx.moveTo(ex-dW/2+2, ey-dH+1); ctx.lineTo(ex+dW/2-3, ey-dH+1);
+      ctx.moveTo(ex-dW/2+2, ey-dH+4); ctx.lineTo(ex+dW/2-3, ey-dH+4);
+      ctx.moveTo(ex-dW/2+2, ey-dH+7); ctx.lineTo(ex+dW/2-5, ey-dH+7);
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+
+  // Seed branches
+  Math.random = seededRng(444); // make it deterministic for canvas
+  branch(W*.5, H*.45, -Math.PI/2,         80, 5);
+  branch(W*.5, H*.5,  -Math.PI/2 - .9,    60, 4);
+  branch(W*.5, H*.5,  -Math.PI/2 + .9,    60, 4);
+
+  // Restore Math.random for the rest of the page (animations etc.)
+  Math.random = (function(){ const orig = (function(){
+    let s = Date.now() % 233280; return ()=>{ s=(s*9301+49297)%233280; return s/233280; };
+  })(); return orig; })();
+
+  // Ground line
+  ctx.save();
+  ctx.strokeStyle = '#5a3f24'; ctx.lineWidth = 1; ctx.globalAlpha = .7;
+  ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(W*.18, H*.93); ctx.lineTo(W*.82, H*.93); ctx.stroke();
+  ctx.restore();
+
+  plateScale(ctx, W, H, '20 cm  ·  reduced 1:4');
+  plateInscription(ctx, W, H, 'Arbor sapientiae ellisii', 'observed: in archive');
+}
+
+/* Bottom inscription on plate */
+function plateInscription(ctx, W, H, latin, note){
+  ctx.save();
+  ctx.fillStyle = '#3a2812';
+  ctx.font = 'italic 14px "Cormorant Garamond", serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(latin, W/2, H-8);
+  ctx.font = 'italic 11px "Cormorant Garamond", serif';
+  ctx.fillStyle = '#6a4a2a';
+  ctx.fillText(note, W/2, H - 44);
+  ctx.restore();
+}
+
+/* ════════════════════════════════════════════
+   DRAW ALL SPECIMENS WHEN VISIBLE
+════════════════════════════════════════════ */
+const drawers = { spec1: drawSpec1, spec2: drawSpec2, spec3: drawSpec3, spec4: drawSpec4 };
+const drawn = new Set();
+const specObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if (e.isIntersecting){
+      const id = e.target.id;
+      if (drawers[id] && !drawn.has(id)){
+        drawers[id]();
+        drawn.add(id);
+      }
+    }
+  });
+}, { threshold: 0.15 });
+Object.keys(drawers).forEach(id=>{
+  const el = document.getElementById(id);
+  if (el) specObserver.observe(el);
+});
+
+/* ════════════════════════════════════════════
+   REVEAL ON SCROLL
+════════════════════════════════════════════ */
+const revealObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if (e.isIntersecting) e.target.classList.add('in');
+  });
+}, { threshold: .08 });
+document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
+
+/* ════════════════════════════════════════════
+   LETTER POSTING
+════════════════════════════════════════════ */
+function handleLetter(e){
+  e.preventDefault();
+  const btn = document.getElementById('postBtn');
+  const original = btn.textContent;
+  btn.textContent = 'Posted ✓';
+  btn.style.background = 'var(--moss-deep)';
+  btn.style.borderColor = 'var(--moss-deep)';
+  setTimeout(()=>{
+    btn.textContent = original;
+    btn.style.background = '';
+    btn.style.borderColor = '';
+    e.target.reset();
+  }, 2800);
+}
+</script>
+</body>
+</html>

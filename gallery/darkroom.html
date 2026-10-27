@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — DARKROOM · Develop the Story</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Mulish:wght@300;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{--room:#12080a;--red:#ff2e3f;--redglow:rgba(255,46,63,.16);--paper:#f2ead8;--ink:#241c14;
+        --dim:rgba(242,234,216,.55);--tray:#2a1216}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Mulish',sans-serif;background:var(--room);color:var(--paper);min-height:100vh;
+    overflow-x:hidden;padding-bottom:8vh}
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:1;
+    background:radial-gradient(70vw 50vh at 50% 0%,var(--redglow),transparent 65%)}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--red);color:#fff}
+
+  #lamp{position:fixed;top:0;left:50%;transform:translateX(-50%);z-index:2;width:120px;text-align:center}
+  #bulb{width:38px;height:38px;margin:0 auto;border-radius:50%;background:radial-gradient(circle at 40% 35%,#ff8a92,var(--red));
+    box-shadow:0 0 60px var(--red);animation:hum 4s infinite}
+  @keyframes hum{0%,100%{opacity:1}50%{opacity:.82}}
+  #lamp .cord{width:2px;height:26px;background:#000;margin:0 auto}
+
+  header{position:relative;z-index:3;text-align:center;padding:11vh 5vw 3vh}
+  h1{font-family:'Special Elite',cursive;font-size:clamp(30px,6vw,58px);line-height:1.1;color:#ffb3ba;
+    text-shadow:0 0 24px rgba(255,46,63,.4)}
+  .sub{font-size:12px;letter-spacing:.28em;color:var(--dim);margin-top:10px;text-transform:uppercase}
+
+  /* negatives line */
+  #line{position:relative;z-index:3;margin:5vh auto 0;width:min(1000px,95vw)}
+  #wire{height:3px;background:linear-gradient(90deg,transparent,#3a2a2c 12%,#3a2a2c 88%,transparent);border-radius:2px}
+  #negs{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;padding:0 3vw;margin-top:-2px}
+  .neg{position:relative;width:104px;cursor:grab;transition:transform .2s;touch-action:none}
+  .neg:active{cursor:grabbing}
+  .neg:hover{transform:translateY(4px) rotate(1deg)}
+  .pin{width:12px;height:20px;background:#6b4a2e;margin:0 auto;border-radius:3px;box-shadow:0 2px 4px rgba(0,0,0,.6)}
+  .frame{margin-top:2px;background:#0d0d10;border:3px solid #1e1e24;border-radius:4px;padding:7px 6px;
+    box-shadow:0 8px 20px rgba(0,0,0,.6)}
+  .frame .holes{display:flex;justify-content:space-between;margin-bottom:4px}
+  .frame .holes i,.frame .holes2 i{width:6px;height:8px;background:#000;border:1px solid #2c2c33;border-radius:1px}
+  .frame .holes2{display:flex;justify-content:space-between;margin-top:4px}
+  .shot{height:64px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:26px;
+    filter:invert(1) contrast(.55) brightness(.7) sepia(.3);opacity:.85}
+  .neg .cap{font-family:'Special Elite',cursive;font-size:10px;text-align:center;color:var(--dim);margin-top:5px}
+  .neg.used{opacity:.25;pointer-events:none}
+
+  /* trays */
+  #bench{position:relative;z-index:3;margin:6vh auto 0;width:min(1000px,95vw);display:grid;
+    grid-template-columns:1.3fr 1fr;gap:18px;padding:0 3vw}
+  @media(max-width:760px){#bench{grid-template-columns:1fr}}
+  .trayBox{background:linear-gradient(180deg,#241014,var(--tray));border:3px solid #3a1c22;border-radius:14px;
+    min-height:230px;position:relative;padding:14px;box-shadow:inset 0 10px 30px rgba(0,0,0,.6)}
+  .trayBox .tlb{font-family:'Special Elite',cursive;font-size:12px;letter-spacing:.2em;color:#ff8a92;text-transform:uppercase}
+  #devTray.over{border-color:var(--red);box-shadow:inset 0 10px 30px rgba(0,0,0,.6),0 0 40px rgba(255,46,63,.35)}
+  #devTray .liquid{position:absolute;inset:38px 14px 14px;background:linear-gradient(180deg,rgba(120,40,50,.5),rgba(60,16,24,.7));
+    border-radius:8px;overflow:hidden}
+  .ripple{position:absolute;border:1.5px solid rgba(255,150,160,.4);border-radius:50%;animation:rip 2.6s infinite}
+  @keyframes rip{from{transform:scale(.2);opacity:.8}to{transform:scale(1.6);opacity:0}}
+  #devHint{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-family:'Special Elite',cursive;font-size:13px;color:rgba(255,179,186,.65);letter-spacing:.14em;text-align:center;padding:0 20px}
+
+  /* developing photo */
+  #photo{position:absolute;left:50%;top:54%;transform:translate(-50%,-50%) rotate(-2deg);width:min(300px,72%);
+    background:var(--paper);padding:10px 10px 34px;border-radius:3px;box-shadow:0 16px 40px rgba(0,0,0,.7);display:none}
+  #photo.show{display:block}
+  #photoImg{height:150px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:52px;
+    transition:filter 2.4s ease}
+  #photoImg.raw{filter:brightness(.06) contrast(.3) blur(5px) sepia(1)}
+  #photoImg.done{filter:none}
+  #photoCap{font-family:'Special Elite',cursive;font-size:12.5px;color:var(--ink);text-align:center;margin-top:9px}
+
+  /* prints rack */
+  #prints .rack{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+  .print{width:76px;background:var(--paper);padding:5px 5px 14px;border-radius:2px;cursor:pointer;
+    box-shadow:0 8px 18px rgba(0,0,0,.5);transform:rotate(var(--r));transition:transform .2s}
+  .print:hover{transform:rotate(0) scale(1.08)}
+  .print .pi{height:52px;display:flex;align-items:center;justify-content:center;font-size:24px;border-radius:2px}
+  .print .pc{font-family:'Special Elite',cursive;font-size:8px;color:var(--ink);text-align:center;margin-top:3px}
+
+  /* modal */
+  #modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;
+    background:rgba(8,3,4,.82);backdrop-filter:blur(6px);padding:5vw}
+  #modal.open{display:flex}
+  #mbox{max-width:520px;width:100%;background:var(--paper);color:var(--ink);border-radius:6px;padding:22px 22px 30px;
+    position:relative;box-shadow:0 40px 100px rgba(0,0,0,.8);transform:rotate(-1deg);max-height:86vh;overflow:auto}
+  #mimg{height:180px;display:flex;align-items:center;justify-content:center;font-size:70px;border-radius:3px;margin-bottom:16px}
+  #mbox .k{font-family:'Special Elite',cursive;font-size:11px;letter-spacing:.2em;color:#8f2a34;text-transform:uppercase}
+  #mbox h2{font-family:'Special Elite',cursive;font-size:clamp(20px,3.4vw,28px);margin:6px 0 8px}
+  #mbox p{font-size:13.5px;line-height:1.7;color:rgba(36,28,20,.8)}
+  #mbox p b{color:var(--ink)}
+  .mbtns{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+  .mbtn{font-family:'Special Elite',cursive;font-size:12px;padding:10px 18px;border:2px solid var(--ink);transition:all .2s}
+  .mbtn:hover{background:var(--ink);color:var(--paper)}
+  #mclose{position:absolute;top:8px;right:10px;background:none;border:none;font-size:16px;cursor:pointer;color:var(--ink)}
+  .dragGhost{position:fixed;z-index:70;pointer-events:none;width:104px;opacity:.9}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div id="lamp"><div class="cord"></div><div id="bulb"></div></div>
+
+<header>
+  <h1>The Career Darkroom</h1>
+  <div class="sub">Safelight on · Drag a negative into the developer tray · حمّض الصورة</div>
+</header>
+
+<div id="line"><div id="wire"></div><div id="negs"></div></div>
+
+<div id="bench">
+  <div class="trayBox" id="devTray">
+    <div class="tlb">◆ Developer bath — drop negatives here</div>
+    <div class="liquid" id="liquid"></div>
+    <div id="devHint">the chemicals are ready.<br>bring me a memory.</div>
+    <div id="photo"><div id="photoImg" class="raw"></div><div id="photoCap"></div></div>
+  </div>
+  <div class="trayBox" id="prints">
+    <div class="tlb">◆ Developed prints — click to enlarge</div>
+    <div class="rack" id="rack"></div>
+  </div>
+</div>
+
+<div id="modal"><div id="mbox"><button id="mclose">✕</button><div id="mimg"></div><div id="mtxt"></div></div></div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const SHOTS=[
+ {e:'👨‍💻',bg:'linear-gradient(160deg,#cfd8e8,#8fa3c2)',cap:'the subject, 2026',k:'Frame 01 · Portrait',
+  h:'Nour Aldeen Tofi',
+  p:`<b>Frontend developer & software engineering supervisor</b> — Riyadh, Saudi Arabia. ~3 years of professional exposures. Writes the React and runs the project. Arabic + English.`},
+ {e:'🏢',bg:'linear-gradient(160deg,#d8e2cf,#93b28a)',cap:'the office, riyadh',k:'Frame 02 · On location',
+  h:'Distinctive Frontier Co.',
+  p:`<b>Jan 2025 →:</b> Frontend Dev & Project Coordination, then promoted <b>Jan 2026</b> to Software Engineering Supervisor — React systems, coding standards, backend alignment, shipped features.`},
+ {e:'💍',bg:'linear-gradient(160deg,#efe0b8,#c9a24e)',cap:'goldentag, shipped',k:'Frame 03 · The deliverable',
+  h:'GoldenTag on Google Play',
+  p:`As <b>freelance Project Coordinator at NexLead</b> (Mar 2025 →): jewelry store management app — inventory, barcode scanning, USD/SYP rates, sales logs. Developed, fixed, delivered.`},
+ {e:'⌨️',bg:'linear-gradient(160deg,#d8cfe8,#a08fc2)',cap:'early exposures',k:'Frame 04 · Archive',
+  h:'The early rolls',
+  p:`<b>Khwarizm Technologies</b> (2024–25, Riyadh): production React. <b>Minicodeleader</b> (2023–24): first professional role. <b>ICPC/ACPC 2021</b>: competitive programming under darkroom-red pressure.`},
+ {e:'🎓',bg:'linear-gradient(160deg,#cfe8e2,#8ab8ad)',cap:'kalamoon, 2019–24',k:'Frame 05 · The beginning',
+  h:'B.Tech IT — University of Kalamoon',
+  p:`Five years of exposure time, 2019–2024. Plus a full contact sheet of certs: Meta Advanced React '25, Google PM ×2 '25, IBM Python & GenAI '24, TS in React '25, Tailwind '24, Clean Code '24, Jira suite '25.`},
+ {e:'📮',bg:'linear-gradient(160deg,#e8cfd4,#c28f9c)',cap:'develop this one',k:'Frame 06 · Undeveloped',
+  h:'Your project (still latent)',
+  p:`This frame is blank until you shoot it. Websites · React frontends · logos · business cards · social visuals · coordination. Off-duty: anime, chess, badminton, film.`,
+  btns:[['✉ Email','mailto:nouraldeentofi@gmail.com'],['LinkedIn','https://www.linkedin.com/in/nour-aldeen-tofi-19b116240'],['Website','https://nouraldeentofi.netlify.app']]}
+];
+
+/* build negatives */
+const negs=document.getElementById('negs');
+SHOTS.forEach((s,i)=>{
+  const n=document.createElement('div');n.className='neg';n.dataset.i=i;
+  n.innerHTML=`<div class="pin"></div><div class="frame">
+    <div class="holes">${'<i></i>'.repeat(6)}</div>
+    <div class="shot" style="background:${s.bg}">${s.e}</div>
+    <div class="holes2">${'<i></i>'.repeat(6)}</div></div>
+    <div class="cap">neg. ${i+1}</div>`;
+  negs.appendChild(n);
+});
+/* ripples in tray */
+const liquid=document.getElementById('liquid');
+for(let i=0;i<3;i++){const r=document.createElement('div');r.className='ripple';
+  r.style.cssText=`left:${15+i*28}%;top:${20+(i%2)*36}%;width:60px;height:24px;animation-delay:${i*.9}s`;
+  liquid.appendChild(r);}
+
+/* drag & drop (pointer-based) */
+let ghost=null,dragI=-1;
+const tray=document.getElementById('devTray');
+document.querySelectorAll('.neg').forEach(n=>{
+  n.addEventListener('pointerdown',e=>{
+    if(n.classList.contains('used')||busyDev)return;
+    dragI=+n.dataset.i;
+    ghost=n.cloneNode(true);ghost.classList.add('dragGhost');
+    document.body.appendChild(ghost);
+    moveGhost(e);
+    n.style.opacity=.35;
+    e.preventDefault();
+  });
+});
+function moveGhost(e){if(!ghost)return;
+  ghost.style.left=(e.clientX-52)+'px';ghost.style.top=(e.clientY-40)+'px';
+  const r=tray.getBoundingClientRect();
+  const over=e.clientX>r.left&&e.clientX<r.right&&e.clientY>r.top&&e.clientY<r.bottom;
+  tray.classList.toggle('over',over);
+}
+addEventListener('pointermove',moveGhost);
+addEventListener('pointerup',e=>{
+  if(!ghost)return;
+  const r=tray.getBoundingClientRect();
+  const over=e.clientX>r.left&&e.clientX<r.right&&e.clientY>r.top&&e.clientY<r.bottom;
+  const src=document.querySelector(`.neg[data-i="${dragI}"]`);
+  ghost.remove();ghost=null;tray.classList.remove('over');
+  if(over){src.classList.add('used');src.style.opacity='';develop(dragI);}
+  else src.style.opacity=1;
+  dragI=-1;
+});
+/* click fallback (mobile / accessibility): tap a negative to develop */
+document.querySelectorAll('.neg').forEach(n=>{
+  n.addEventListener('dblclick',()=>{if(!n.classList.contains('used')&&!busyDev){n.classList.add('used');develop(+n.dataset.i);}});
+});
+
+/* develop */
+let AC=null,busyDev=false;
+function slosh(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain(),f=AC.createBiquadFilter();
+  o.type='sine';o.frequency.setValueAtTime(160,AC.currentTime);
+  o.frequency.exponentialRampToValueAtTime(60,AC.currentTime+.5);
+  f.type='lowpass';f.frequency.value=300;
+  g.gain.setValueAtTime(.09,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.6);
+  o.connect(f);f.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.65);}catch(e){}}
+function develop(i){
+  const s=SHOTS[i];busyDev=true;
+  slosh();
+  document.getElementById('devHint').style.display='none';
+  const ph=document.getElementById('photo'),img=document.getElementById('photoImg');
+  ph.classList.add('show');
+  img.style.background=s.bg;img.textContent=s.e;
+  document.getElementById('photoCap').textContent=s.cap;
+  img.classList.remove('done');img.classList.add('raw');
+  void img.offsetWidth;
+  setTimeout(()=>{img.classList.remove('raw');img.classList.add('done');},reduced?0:120);
+  setTimeout(()=>{
+    ph.classList.remove('show');
+    addPrint(i);busyDev=false;
+    openModal(i);
+  },reduced?300:3000);
+}
+function addPrint(i){
+  const s=SHOTS[i];
+  const p=document.createElement('div');p.className='print';
+  p.style.setProperty('--r',(Math.random()*8-4)+'deg');
+  p.innerHTML=`<div class="pi" style="background:${s.bg}">${s.e}</div><div class="pc">${s.cap}</div>`;
+  p.onclick=()=>openModal(i);
+  document.getElementById('rack').appendChild(p);
+}
+/* modal */
+const modal=document.getElementById('modal');
+function openModal(i){
+  const s=SHOTS[i];
+  document.getElementById('mimg').style.background=s.bg;
+  document.getElementById('mimg').textContent=s.e;
+  let btns='';(s.btns||[]).forEach(([lb,href])=>{
+    btns+=`<a class="mbtn" href="${href}"${href.startsWith('http')?' target="_blank" rel="noopener"':''}>${lb}</a>`;});
+  document.getElementById('mtxt').innerHTML=`<div class="k">${s.k}</div><h2>${s.h}</h2><p>${s.p}</p>
+    ${btns?'<div class="mbtns">'+btns+'</div>':''}`;
+  modal.classList.add('open');
+}
+document.getElementById('mclose').onclick=()=>modal.classList.remove('open');
+modal.addEventListener('pointerdown',e=>{if(e.target===modal)modal.classList.remove('open');});
+addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open');});
+</script>
+</body>
+</html>

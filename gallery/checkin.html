@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Air — CHECK-IN · Your Personal Boarding Pass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--hall:#10263e;--halld:#081625;--desk:#1d3a5c;--fg:#eef4fb;--dim:rgba(238,244,251,.6);--acc:#ffb648;--teal:#3ac8b4}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Archivo',sans-serif;color:var(--fg);min-height:100vh;
+    background:linear-gradient(180deg,#1a3a5e,var(--hall) 55%,var(--halld));
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--acc);color:#10263e}
+  h1{font-weight:900;font-size:clamp(24px,4.8vw,42px)}
+  h1 span{color:var(--acc)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--dim);
+    margin:8px 0 24px;text-transform:uppercase;text-align:center}
+
+  #counter{width:min(760px,96vw);display:grid;grid-template-columns:280px 1fr;gap:18px}
+  @media(max-width:680px){#counter{grid-template-columns:1fr}}
+  #deskC{background:var(--desk);border:1px solid rgba(255,182,72,.3);border-radius:16px;padding:20px}
+  #deskC .t{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.24em;color:var(--acc);text-transform:uppercase;margin-bottom:14px;text-align:center}
+  label{font-size:11px;font-weight:700;color:var(--dim);display:block;margin:12px 0 5px;letter-spacing:.08em;text-transform:uppercase}
+  input{width:100%;background:#0c1c30;border:1.5px solid rgba(238,244,251,.2);border-radius:10px;padding:12px 14px;
+    color:var(--fg);font-family:'Archivo';font-weight:700;font-size:14px;outline:none;transition:border .2s}
+  input:focus{border-color:var(--acc)}
+  .dest{display:flex;align-items:center;gap:9px;width:100%;background:#0c1c30;border:1.5px solid rgba(238,244,251,.15);
+    border-radius:10px;padding:10px 12px;margin-bottom:7px;cursor:pointer;color:var(--fg);text-align:left;
+    font-family:'Archivo';font-weight:700;font-size:12px;transition:all .2s}
+  .dest:hover{border-color:var(--teal)}
+  .dest.on{border-color:var(--acc);background:#14283f}
+  .dest small{display:block;font-weight:500;font-size:10px;color:var(--dim)}
+  #printB{width:100%;margin-top:14px;font-family:'Archivo';font-weight:900;font-size:14px;letter-spacing:.06em;
+    border:none;border-radius:12px;padding:15px;background:var(--acc);color:#10263e;cursor:pointer;
+    box-shadow:0 5px 0 #b87d1e;transition:transform .1s,box-shadow .1s}
+  #printB:active{transform:translateY(4px);box-shadow:0 1px 0 #b87d1e}
+
+  /* boarding pass */
+  #passWrap{perspective:900px;display:flex;align-items:flex-start;justify-content:center}
+  #pass{width:100%;max-width:460px;background:#fdfbf5;color:#1d2a3a;border-radius:16px;overflow:hidden;
+    box-shadow:0 30px 70px rgba(0,0,0,.5);opacity:.35;transition:opacity .5s,transform .5s;transform:rotate(-1deg)}
+  #pass.ready{opacity:1;transform:rotate(0)}
+  #passTop{background:linear-gradient(90deg,#1d3a5c,#2e5a8a);color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+  #passTop .al{font-weight:900;font-size:15px;letter-spacing:.06em}
+  #passTop .cls{font-family:'IBM Plex Mono';font-size:9px;letter-spacing:.2em;color:var(--acc)}
+  #passBody{padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:10px 16px}
+  .fld .l{font-family:'IBM Plex Mono';font-size:8px;letter-spacing:.2em;color:#8a96a8;text-transform:uppercase}
+  .fld .v{font-weight:900;font-size:14px;margin-top:2px}
+  .fld .v.big{font-size:17px;color:#1d3a5c}
+  #routeRow{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-top:1.5px dashed #c9d2de;border-bottom:1.5px dashed #c9d2de}
+  #routeRow .apt{text-align:center}
+  #routeRow .code{font-weight:900;font-size:26px;color:#1d3a5c}
+  #routeRow .city{font-family:'IBM Plex Mono';font-size:8.5px;color:#8a96a8;letter-spacing:.1em}
+  #plane{font-size:20px;animation:fly 3s ease-in-out infinite}
+  @keyframes fly{50%{transform:translateX(8px)}}
+  #barcode2{grid-column:1/-1;height:44px;margin-top:4px;
+    background:repeating-linear-gradient(90deg,#1d2a3a 0 2px,transparent 2px 5px,#1d2a3a 5px 8px,transparent 8px 10px,#1d2a3a 10px 11px,transparent 11px 14px)}
+  #passFoot{grid-column:1/-1;font-family:'IBM Plex Mono';font-size:8.5px;color:#8a96a8;letter-spacing:.1em;text-align:center;line-height:1.7}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px;grid-column:1/-1}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.12em;padding:11px 18px;border-radius:99px;
+    background:#1d3a5c;color:#fff;text-transform:uppercase;font-weight:600}
+  .btn.g{background:none;border:2px solid #1d3a5c;color:#1d3a5c}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>✈ NOUR <span>AIR</span> — CHECK-IN</h1>
+<div class="sub">Flight NT-100 to Project Success · counter open · سجّل اسمك</div>
+
+<div id="counter">
+  <div id="deskC">
+    <div class="t">— Passenger details —</div>
+    <label>Your name / اسمك</label>
+    <input id="pname" placeholder="e.g. Sarah from Riyadh" maxlength="26">
+    <label>Destination / وجهتك</label>
+    <button class="dest on" data-d="WEB"><span>🌐</span><span>Website City<small>landing pages · portfolios · business sites</small></span></button>
+    <button class="dest" data-d="RCT"><span>⚛️</span><span>React Republic<small>frontends · dashboards · full UIs</small></span></button>
+    <button class="dest" data-d="BRD"><span>🎨</span><span>Brandville<small>logos · business cards · identity</small></span></button>
+    <button class="dest" data-d="SOC"><span>📱</span><span>Social Springs<small>Instagram & LinkedIn visuals</small></span></button>
+    <button class="dest" data-d="CRD"><span>🧭</span><span>Coordination Coast<small>full project management</small></span></button>
+    <button id="printB">🖨 PRINT BOARDING PASS</button>
+  </div>
+
+  <div id="passWrap"><div id="pass">
+    <div id="passTop"><span class="al">NOUR AIR ✈</span><span class="cls">BUSINESS CLASS · ALWAYS</span></div>
+    <div id="passBody">
+      <div class="fld"><div class="l">Passenger</div><div class="v big" id="pvName">— AWAITING CHECK-IN —</div></div>
+      <div class="fld"><div class="l">Flight</div><div class="v">NT-100</div></div>
+      <div id="routeRow">
+        <div class="apt"><div class="code">IDEA</div><div class="city">YOUR HEAD</div></div>
+        <div id="plane">✈</div>
+        <div class="apt"><div class="code" id="pvDest">WEB</div><div class="city" id="pvDestC">WEBSITE CITY</div></div>
+      </div>
+      <div class="fld"><div class="l">Captain</div><div class="v">NOUR ALDEEN TOFI</div></div>
+      <div class="fld"><div class="l">Crew rating</div><div class="v">SUPERVISOR '26 ★</div></div>
+      <div class="fld"><div class="l">Gate</div><div class="v" id="pvGate">A1</div></div>
+      <div class="fld"><div class="l">Boarding</div><div class="v">WHENEVER YOU'RE READY</div></div>
+      <div id="barcode2"></div>
+      <div id="passFoot">PROOF OF SAFE LANDINGS: GOLDENTAG → GOOGLE PLAY · META/GOOGLE/IBM CERTIFIED · ICPC '21<br>RIYADH HUB · AR + EN</div>
+      <div class="btns">
+        <a class="btn" id="boardMail" href="mailto:nouraldeentofi@gmail.com">🛫 Board (email)</a>
+        <a class="btn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const DESTS={WEB:['WEB','WEBSITE CITY','A1'],RCT:['RCT','REACT REPUBLIC','B2'],BRD:['BRD','BRANDVILLE','C3'],
+  SOC:['SOC','SOCIAL SPRINGS','D4'],CRD:['CRD','COORDINATION COAST','E5']};
+let dest='WEB';
+let AC=null;
+function beep(f){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f||700;
+  g.gain.setValueAtTime(.06,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.15);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.17);}catch(e){}}
+document.querySelectorAll('.dest').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.dest').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');dest=b.dataset.d;beep(600);
+});
+document.getElementById('printB').onclick=()=>{
+  const name=(document.getElementById('pname').value.trim()||'Honored Guest').toUpperCase();
+  const [code,city,gate]=DESTS[dest];
+  beep(880);beep(1100);
+  const pass=document.getElementById('pass');
+  pass.classList.remove('ready');
+  setTimeout(()=>{
+    document.getElementById('pvName').textContent=name;
+    document.getElementById('pvDest').textContent=code;
+    document.getElementById('pvDestC').textContent=city;
+    document.getElementById('pvGate').textContent=gate;
+    document.getElementById('boardMail').href=
+      `mailto:nouraldeentofi@gmail.com?subject=${encodeURIComponent('Boarding NT-100 to '+city)}&body=${encodeURIComponent('Captain Nour, this is '+name+'. Ready for takeoff. My project: ')}`;
+    pass.classList.add('ready');
+    if(!reduced)pass.animate([{transform:'translateY(-30px) rotate(-3deg)',opacity:.4},{transform:'rotate(0)',opacity:1}],
+      {duration:500,easing:'cubic-bezier(.2,1.2,.4,1)'});
+  },reduced?30:250);
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — NOTARY · Stamp Your Project APPROVED</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@0;1&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--office:#3a3428;--officed:#262218;--paper3:#faf6ea;--ink3:#2a2418;--dim:rgba(42,36,24,.6);--red6:#b3402e;--green6:#2e7a54}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;color:#f0ead8;min-height:100vh;
+    background:radial-gradient(80vw 60vh at 50% 0%,#4c4434,var(--office) 55%,var(--officed));
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--red6);color:#fff}
+  h1{font-family:'Libre Baskerville',serif;font-size:clamp(22px,4.4vw,38px)}
+  h1 em{color:#d4b06a}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.28em;color:rgba(240,234,216,.6);
+    margin:8px 0 22px;text-transform:uppercase;text-align:center}
+
+  #deskN{position:relative;width:min(680px,96vw)}
+  /* documents pile */
+  #docs{position:relative;min-height:420px}
+  .doc{position:absolute;width:min(420px,86%);background:var(--paper3);color:var(--ink3);border-radius:4px;
+    padding:28px 32px;box-shadow:0 16px 40px rgba(0,0,0,.4);transform:rotate(var(--r));transition:transform .3s}
+  .doc .dh{font-family:'IBM Plex Mono';font-size:9px;letter-spacing:.24em;color:#8a7a5c;text-transform:uppercase;
+    border-bottom:2px solid var(--ink3);padding-bottom:8px;margin-bottom:12px;display:flex;justify-content:space-between}
+  .doc h2{font-family:'Libre Baskerville',serif;font-size:clamp(16px,2.8vw,22px);margin-bottom:8px}
+  .doc p{font-size:12.5px;line-height:1.7;color:var(--dim)}
+  .doc p b{color:var(--ink3)}
+  .stampMark{position:absolute;right:22px;bottom:20px;transform:rotate(-14deg) scale(0);
+    font-family:'Libre Baskerville';font-weight:700;font-size:20px;color:var(--green6);
+    border:4px double var(--green6);border-radius:8px;padding:6px 14px;letter-spacing:.1em;
+    transition:transform .25s cubic-bezier(.2,1.6,.4,1);background:rgba(250,246,234,.85)}
+  .doc.stamped .stampMark{transform:rotate(-14deg) scale(1)}
+  .doc .sig2{position:absolute;left:28px;bottom:18px;font-family:'Libre Baskerville';font-style:italic;
+    font-size:15px;color:#1a3d6e;opacity:0;transition:opacity .5s}
+  .doc.stamped .sig2{opacity:1}
+
+  /* the stamp tool */
+  #stampTool{position:fixed;z-index:60;width:84px;pointer-events:none;display:none;transform:translate(-50%,-86%)}
+  #stampTool .handleS{width:26px;height:38px;background:linear-gradient(90deg,#8a5a2e,#5c3a1a);border-radius:8px 8px 4px 4px;margin:0 auto}
+  #stampTool .baseSt{width:84px;height:26px;background:linear-gradient(180deg,#3a3428,#1c180e);border-radius:6px;margin-top:2px}
+  body.holding #stampTool{display:block}
+  body.holding{cursor:none}
+  #pickup{display:flex;align-items:center;gap:14px;background:rgba(250,246,234,.12);border:1px solid rgba(212,176,106,.4);
+    border-radius:14px;padding:14px 20px;margin-bottom:18px;backdrop-filter:blur(4px)}
+  #pickupB{font-family:'Libre Baskerville';font-weight:700;font-size:14px;border:none;border-radius:10px;
+    padding:13px 24px;background:#d4b06a;color:#2a2418;cursor:pointer;box-shadow:0 4px 0 #8a6e38;transition:transform .1s,box-shadow .1s}
+  #pickupB:active{transform:translateY(3px);box-shadow:0 1px 0 #8a6e38}
+  #pickState{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.18em;color:rgba(240,234,216,.7);text-transform:uppercase}
+
+  #final3{margin-top:14px;max-width:560px;text-align:center;display:none}
+  #final3.show{display:block}
+  #final3 h2{font-family:'Libre Baskerville';font-size:clamp(18px,3.4vw,26px);color:#d4b06a}
+  #final3 p{font-size:12.5px;line-height:1.7;color:rgba(240,234,216,.75);margin-top:8px}
+  .btns{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 18px;border-radius:99px;
+    border:2px solid #d4b06a;color:#d4b06a;text-transform:uppercase;font-weight:600}
+  .btn:hover{background:#d4b06a;color:#2a2418}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>📋 Notary Office of <em>N. A. Tofi</em></h1>
+<div class="sub">Licensed since 2023 · pick up the stamp, then stamp every document · وثّق مشروعك</div>
+
+<div id="pickup">
+  <button id="pickupB">🖐 PICK UP THE STAMP</button>
+  <div id="pickState">THE APPROVED-STAMP IS ON THE DESK</div>
+</div>
+
+<div id="deskN"><div id="docs"></div></div>
+
+<div id="final3">
+  <h2>All documents notarized ✓</h2>
+  <p>Your project is officially <b>pre-approved</b> by a frontend developer &amp; SW engineering supervisor with a stamped track record (GoldenTag → Google Play, Meta/Google/IBM certs, ICPC '21). The only paper left to sign is the first email.</p>
+  <div class="btns">
+    <a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Notarized%20and%20ready&body=All%20stamped.%20My%20project%3A%20">🖋 Sign the first email</a>
+    <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+  </div>
+</div>
+
+<div id="stampTool"><div class="handleS"></div><div class="baseSt"></div></div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const DOCS=[
+ {t:'DOC 1 OF 5 · CAPABILITY AFFIDAVIT',h:'Statement of Skills',
+  p:`The undersigned affirms daily professional use of <b>React, TypeScript, Tailwind CSS, JavaScript</b>, with supporting Python (DS/AI), Git, Jira and Trello. Sworn since 2023.`,x:4,y:0,r:-2},
+ {t:'DOC 2 OF 5 · EMPLOYMENT RECORD',h:'Certificate of Service',
+  p:`Minicodeleader (2023–24) → Khwarizm Technologies (2024–25) → <b>Distinctive Frontier Co.: Software Engineering Supervisor (Jan 2026 →)</b>. No gaps, no asterisks.`,x:12,y:78,r:1.5},
+ {t:'DOC 3 OF 5 · DELIVERY DEED',h:'Proof of Shipment',
+  p:`<b>GoldenTag</b>, jewelry store management app, coordinated at NexLead and delivered to <b>Google Play</b> — inventory, barcode scanning, USD/SYP rates. Witnessed by real users.`,x:2,y:156,r:-1},
+ {t:'DOC 4 OF 5 · CREDENTIALS SCHEDULE',h:'Annex of Certificates',
+  p:`Meta Advanced React '25 · Google PM ×2 '25 · IBM Python &amp; GenAI '24 · TS-in-React '25 · Tailwind '24 · Clean Code '24 · Jira suite '25 · <b>ICPC/ACPC 2021</b> · B.Tech IT (Kalamoon).`,x:14,y:234,r:2},
+ {t:'DOC 5 OF 5 · SERVICE AGREEMENT (DRAFT)',h:'Your Project — Party of the First Part',
+  p:`Scope available: <b>websites · React frontends · logos · business cards · social visuals · project coordination.</b> Party of the second part: Nour Aldeen Tofi, Riyadh · AR+EN. Awaiting your stamp.`,x:6,y:312,r:-1.5}
+];
+const docsEl=document.getElementById('docs');
+DOCS.forEach((d,i)=>{
+  const el=document.createElement('div');el.className='doc';el.dataset.i=i;
+  el.style.cssText=`left:${d.x}%;top:${d.y}px;--r:${d.r}deg;z-index:${i+1}`;
+  el.innerHTML=`<div class="dh"><span>${d.t}</span><span>REF NT-26</span></div>
+    <h2>${d.h}</h2><p>${d.p}</p>
+    <div class="stampMark">APPROVED ✓</div><div class="sig2">N. A. Tofi, Notary</div>`;
+  docsEl.appendChild(el);
+});
+let AC=null;
+function thump2(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=110;
+  g.gain.setValueAtTime(.16,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.2);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.22);
+  const b=AC.createBuffer(1,AC.sampleRate*.06,AC.sampleRate),dd=b.getChannelData(0);
+  for(let i=0;i<dd.length;i++)dd[i]=(Math.random()*2-1)*(1-i/dd.length);
+  const s=AC.createBufferSource();s.buffer=b;const g2=AC.createGain();g2.gain.value=.06;
+  s.connect(g2);g2.connect(AC.destination);s.start();}catch(e){}}
+function fanfare2(){[523,659,784].forEach((f,i)=>setTimeout(()=>{
+  try{const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;
+  g.gain.setValueAtTime(.06,AC.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.35);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.4);}catch(e){}},i*140));}
+
+let holding=false,stamped=0;
+document.getElementById('pickupB').onclick=()=>{
+  holding=!holding;
+  document.body.classList.toggle('holding',holding);
+  document.getElementById('pickupB').textContent=holding?'⤵ PUT THE STAMP DOWN':'🖐 PICK UP THE STAMP';
+  document.getElementById('pickState').textContent=holding?'NOW CLICK EACH DOCUMENT — STAMP IT!':'THE APPROVED-STAMP IS ON THE DESK';
+};
+addEventListener('pointermove',e=>{
+  if(!holding)return;
+  const st=document.getElementById('stampTool');
+  st.style.left=e.clientX+'px';st.style.top=e.clientY+'px';
+});
+docsEl.addEventListener('pointerdown',e=>{
+  if(!holding)return;
+  const doc=e.target.closest('.doc');
+  if(!doc||doc.classList.contains('stamped'))return;
+  doc.classList.add('stamped');
+  thump2();
+  if(!reduced){
+    const st=document.getElementById('stampTool');
+    st.animate([{transform:'translate(-50%,-86%) translateY(0)'},{transform:'translate(-50%,-86%) translateY(10px)'},
+      {transform:'translate(-50%,-86%) translateY(0)'}],{duration:150});
+    doc.animate([{transform:'rotate(var(--r)) translateY(0)'},{transform:'rotate(var(--r)) translateY(3px)'},
+      {transform:'rotate(var(--r)) translateY(0)'}],{duration:150});
+  }
+  stamped++;
+  if(stamped>=DOCS.length){
+    fanfare2();
+    holding=false;document.body.classList.remove('holding');
+    document.getElementById('pickupB').textContent='✓ ALL STAMPED';
+    document.getElementById('pickState').textContent='NOTARIZATION COMPLETE';
+    document.getElementById('final3').classList.add('show');
+    document.getElementById('final3').scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest'});
+  }
+});
+</script>
+</body>
+</html>

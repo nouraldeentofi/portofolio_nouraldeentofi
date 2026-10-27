@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — ORIGAMI · Folded With Care</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--room:#f4efe6;--room2:#e8e0d0;--paper2:#fdfbf5;--ink:#2c2822;--dim:rgba(44,40,34,.6);--red:#c94f4f;--goldO:#c9a24a}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;background:linear-gradient(180deg,var(--room),var(--room2));color:var(--ink);
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:5vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--red);color:#fff}
+  h1{font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:clamp(24px,4.6vw,40px)}
+  h1 span{color:var(--red)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--dim);
+    margin:8px 0 26px;text-transform:uppercase;text-align:center}
+
+  #mat{position:relative;width:min(560px,94vw);aspect-ratio:16/10;background:#3a6e50;border-radius:16px;
+    box-shadow:0 24px 60px rgba(44,40,34,.25), inset 0 0 60px rgba(0,0,0,.15);
+    display:flex;align-items:center;justify-content:center;overflow:hidden}
+  #mat::before{content:'';position:absolute;inset:14px;border:1.5px dashed rgba(255,255,255,.25);border-radius:10px}
+  /* paper stage — svg shapes per step */
+  #paperStage{width:64%;max-width:300px;filter:drop-shadow(0 14px 24px rgba(0,0,0,.3));transition:transform .5s}
+  #stepBadge{position:absolute;top:14px;left:18px;font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.2em;
+    background:rgba(253,251,245,.9);color:var(--ink);padding:8px 14px;border-radius:99px;font-weight:600}
+  #foldLbl{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);font-family:'Zen Maru Gothic';
+    font-size:clamp(12px,2.2vw,15px);font-weight:700;color:#fff;background:rgba(44,40,34,.55);
+    padding:8px 20px;border-radius:99px;white-space:nowrap;backdrop-filter:blur(4px)}
+
+  #foldB{margin-top:18px;font-family:'Zen Maru Gothic';font-weight:700;font-size:16px;border:none;border-radius:14px;
+    padding:15px 34px;background:var(--red);color:#fff;cursor:pointer;box-shadow:0 5px 0 #8a3232;transition:transform .1s,box-shadow .1s}
+  #foldB:active{transform:translateY(4px);box-shadow:0 1px 0 #8a3232}
+  #storyO{margin-top:18px;max-width:540px;text-align:center;min-height:96px}
+  #storyO .k{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.3em;color:var(--red);text-transform:uppercase;font-weight:600}
+  #storyO h2{font-family:'Zen Maru Gothic';font-weight:700;font-size:clamp(17px,3.2vw,25px);margin:8px 0 6px}
+  #storyO p{font-size:13.5px;line-height:1.7;color:var(--dim)}
+  #storyO p b{color:var(--ink)}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .btn{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.12em;padding:12px 20px;border-radius:99px;
+    border:2px solid var(--ink);font-weight:600;text-transform:uppercase}
+  .btn:hover{background:var(--ink);color:var(--paper2)}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>🕊 Folded, <span>Not Rushed</span></h1>
+<div class="sub">One sheet of paper · seven folds · watch how care becomes a crane · فن الطي</div>
+
+<div id="mat">
+  <div id="stepBadge">FOLD 0 / 7</div>
+  <svg id="paperStage" viewBox="0 0 200 200"></svg>
+  <div id="foldLbl">A blank sheet — like every project before it starts</div>
+</div>
+<button id="foldB">🫱 Make the fold</button>
+
+<div id="storyO">
+  <div class="k">The philosophy</div>
+  <h2>Good work is a sequence of careful folds</h2>
+  <p>Each fold below is a real principle from how <b>Nour Aldeen Tofi</b> works. No fold can be skipped. Press the button.</p>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const P='#fdfbf5',S='#e0d8c4',R='#c94f4f';
+/* each step: svg inner + label + story */
+const STEPS=[
+ {svg:`<rect x="30" y="30" width="140" height="140" fill="${P}" stroke="${S}" stroke-width="2"/>`,
+  lbl:'A blank sheet — like every project before it starts',
+  k:'Before fold 1',h:'The blank sheet',p:'Every website, logo and app starts exactly this empty. What matters is <b>who folds it</b>.'},
+ {svg:`<polygon points="30,170 170,170 100,30" fill="${P}" stroke="${S}" stroke-width="2"/>
+   <polygon points="30,170 170,170 100,100" fill="${S}" opacity=".5"/>`,
+  lbl:'Fold 1 — Listen first',
+  k:'Fold 1 · Requirements',h:'Listen before folding',p:'<b>Requirements gathering</b> — the first crease decides everything. Freelance coordination habit from NexLead (2025→).'},
+ {svg:`<polygon points="100,30 170,170 100,170" fill="${P}" stroke="${S}" stroke-width="2"/>
+   <polygon points="100,30 30,170 100,170" fill="${S}" stroke="${S}" stroke-width="2"/>`,
+  lbl:'Fold 2 — Plan the creases',
+  k:'Fold 2 · Scope',h:'Plan the creases',p:'<b>Scope & user stories</b> on Trello/Jira — a crane needs a plan, so does your project. (Google PM certified ×2.)'},
+ {svg:`<polygon points="100,20 150,100 100,180 50,100" fill="${P}" stroke="${S}" stroke-width="2"/>
+   <line x1="100" y1="20" x2="100" y2="180" stroke="${S}" stroke-width="1.6"/>
+   <line x1="50" y1="100" x2="150" y2="100" stroke="${S}" stroke-width="1.6"/>`,
+  lbl:'Fold 3 — Clean edges',
+  k:'Fold 3 · Clean code',h:'Clean edges only',p:'<b>Clean code</b> (Scrimba \'24 + daily practice): every fold sharp, no torn corners, no “we\'ll fix it later”.'},
+ {svg:`<polygon points="100,15 135,100 100,185 65,100" fill="${P}" stroke="${S}" stroke-width="2"/>
+   <polygon points="100,15 135,100 100,120 65,100" fill="${S}" opacity=".6"/>
+   <line x1="100" y1="15" x2="100" y2="185" stroke="${S}" stroke-width="1.4"/>`,
+  lbl:'Fold 4 — Strong structure',
+  k:'Fold 4 · React & TypeScript',h:'The structural fold',p:'<b>React + TypeScript + Tailwind</b> — the skeleton fold that holds the shape under pressure. Supervisor-grade since Jan 2026.'},
+ {svg:`<polygon points="60,110 100,40 140,110 120,170 80,170" fill="${P}" stroke="${S}" stroke-width="2"/>
+   <polygon points="60,110 30,80 70,90" fill="${P}" stroke="${S}" stroke-width="2"/>
+   <polygon points="140,110 170,80 130,90" fill="${P}" stroke="${S}" stroke-width="2"/>`,
+  lbl:'Fold 5 — The wings appear',
+  k:'Fold 5 · Design',h:'Now it has wings',p:'<b>Design work</b> — logos, cards, visuals. The moment a project stops being paper and starts being a bird.'},
+ {svg:`<polygon points="55,115 100,55 145,115 118,160 82,160" fill="${P}" stroke="${S}" stroke-width="2"/>
+   <polygon points="55,115 18,70 72,92" fill="${P}" stroke="${S}" stroke-width="2"/>
+   <polygon points="145,115 182,70 128,92" fill="${P}" stroke="${S}" stroke-width="2"/>
+   <polygon points="100,55 88,28 106,40" fill="${P}" stroke="${S}" stroke-width="2"/>`,
+  lbl:'Fold 6 — The head lifts',
+  k:'Fold 6 · Delivery',h:'It lifts its head',p:'<b>Coordinated delivery</b>: timelines held, quality checked — the fold that made <b>GoldenTag</b> fly to Google Play.'},
+ {svg:`<polygon points="52,112 100,60 148,112 116,152 84,152" fill="${P}" stroke="${S}" stroke-width="2"/>
+   <polygon points="52,112 10,58 70,88" fill="${P}" stroke="${S}" stroke-width="2">
+     <animateTransform attributeName="transform" type="rotate" values="0 52 112;-8 52 112;0 52 112" dur="1.6s" repeatCount="indefinite"/></polygon>
+   <polygon points="148,112 190,58 130,88" fill="${P}" stroke="${S}" stroke-width="2">
+     <animateTransform attributeName="transform" type="rotate" values="0 148 112;8 148 112;0 148 112" dur="1.6s" repeatCount="indefinite"/></polygon>
+   <polygon points="100,60 84,26 104,42" fill="${R}" stroke="${S}" stroke-width="2"/>
+   <polygon points="116,152 128,178 104,164" fill="${P}" stroke="${S}" stroke-width="2"/>
+   <circle cx="97" cy="44" r="1.8" fill="${'#2c2822'}"/>`,
+  lbl:'Fold 7 — The crane. It flies.',
+  k:'Fold 7 · The result',h:'A thousand cranes, one folder',
+  p:'In Japan, folding cranes brings good fortune. In Riyadh, <b>Nour folds projects</b>: websites, React frontends, logos, business cards, social visuals, coordination. Yours could be next.',
+  btns:[['🕊 Fold my project','mailto:nouraldeentofi@gmail.com?subject=Fold%20my%20project&body=One%20careful%20crane%2C%20please%3A%20'],
+        ['LinkedIn','https://www.linkedin.com/in/nour-aldeen-tofi-19b116240'],['Website','https://nouraldeentofi.netlify.app']]}
+];
+let step=0;
+let AC=null;
+function crease(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const b=AC.createBuffer(1,AC.sampleRate*.14,AC.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length)*.6;
+  const s=AC.createBufferSource();s.buffer=b;
+  const f=AC.createBiquadFilter();f.type='bandpass';f.frequency.value=2600;
+  const g=AC.createGain();g.gain.value=.08;
+  s.connect(f);f.connect(g);g.connect(AC.destination);s.start();}catch(e){}}
+function chirp(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  [1400,1800,1500].forEach((fr,i)=>{const o=AC.createOscillator(),g=AC.createGain();
+    o.type='sine';o.frequency.value=fr;
+    g.gain.setValueAtTime(.05,AC.currentTime+i*.12);
+    g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+i*.12+.15);
+    o.connect(g);g.connect(AC.destination);o.start(AC.currentTime+i*.12);o.stop(AC.currentTime+i*.12+.18);});}catch(e){}}
+
+const stage=document.getElementById('paperStage');
+function render(){
+  const s=STEPS[step];
+  stage.innerHTML=s.svg;
+  if(!reduced&&step>0)stage.animate(
+    [{transform:'scale(1.06) rotate(-2deg)'},{transform:'none'}],{duration:420,easing:'cubic-bezier(.2,1.2,.4,1)'});
+  document.getElementById('stepBadge').textContent=`FOLD ${step} / ${STEPS.length-1}`;
+  document.getElementById('foldLbl').textContent=s.lbl;
+  document.querySelector('#storyO .k').textContent=s.k;
+  document.querySelector('#storyO h2').innerHTML=s.h;
+  document.querySelector('#storyO p').innerHTML=s.p;
+  const old=document.querySelector('#storyO .btns');if(old)old.remove();
+  if(s.btns){
+    const d=document.createElement('div');d.className='btns';
+    s.btns.forEach(([lb,href])=>{
+      d.innerHTML+=`<a class="btn" href="${href}"${href.startsWith('http')?' target="_blank" rel="noopener"':''}>${lb}</a>`;});
+    document.getElementById('storyO').appendChild(d);
+  }
+  document.getElementById('foldB').textContent=
+    step===0?'🫱 Make the first fold':(step>=STEPS.length-1?'↺ Unfold & start again':'🫱 Make the next fold');
+}
+document.getElementById('foldB').onclick=()=>{
+  if(step>=STEPS.length-1){step=0;render();crease();return;}
+  step++;
+  step>=STEPS.length-1?chirp():crease();
+  render();
+};
+render();
+</script>
+</body>
+</html>

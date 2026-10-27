@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOUR'S ELEVEN — Assemble the Crew</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;900&family=Special+Elite&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--noir:#12141c;--noird:#0a0b10;--fg:#eef0f6;--dim:rgba(238,240,246,.6);--gold14:#e8b93c;--red14:#c04545}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Archivo',sans-serif;color:var(--fg);min-height:100vh;
+    background:radial-gradient(80vw 60vh at 50% 0%,#1c2030,var(--noir) 55%,var(--noird));
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold14);color:#12141c}
+  h1{font-weight:900;font-size:clamp(24px,5vw,44px);letter-spacing:.02em}
+  h1 span{color:var(--gold14)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.26em;color:var(--dim);
+    margin:8px 0 16px;text-transform:uppercase;text-align:center}
+  #phase{font-family:'Special Elite';font-size:13px;color:var(--gold14);letter-spacing:.1em;margin-bottom:12px}
+
+  /* crew dossiers */
+  #crewGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:11px;width:min(820px,97vw)}
+  .dossier{background:#f2ecd8;color:#26221a;border-radius:6px;padding:12px;cursor:pointer;position:relative;
+    transform:rotate(var(--r));transition:all .2s;box-shadow:0 10px 24px rgba(0,0,0,.4)}
+  .dossier:hover{transform:rotate(0) translateY(-4px)}
+  .dossier.recruited{outline:3px solid var(--gold14)}
+  .dossier.recruited::after{content:'IN ✓';position:absolute;top:8px;right:8px;font-family:'Special Elite';
+    color:#1d7a4a;border:2px solid #1d7a4a;padding:1px 6px;font-size:10px;transform:rotate(8deg);background:rgba(242,236,216,.9)}
+  .dossier .photo2{height:64px;border-radius:4px;display:flex;align-items:center;justify-content:center;
+    font-size:34px;background:linear-gradient(160deg,#d8d2c0,#b8b0a0);border:1.5px solid #8a8272}
+  .dossier .cn2{font-family:'Special Elite';font-size:12.5px;margin-top:7px}
+  .dossier .role3{font-family:'IBM Plex Mono';font-size:8px;letter-spacing:.08em;color:#6e6654;text-transform:uppercase;margin-top:2px}
+
+  /* heist board */
+  #heistBoard{width:min(820px,97vw);margin-top:16px;background:#1a1d28;border:1px solid rgba(232,185,60,.3);
+    border-radius:16px;padding:22px 26px;min-height:150px}
+  #heistBoard .k{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.26em;color:var(--gold14);text-transform:uppercase;font-weight:600}
+  #heistBoard h2{font-family:'Special Elite';font-size:clamp(17px,3.4vw,25px);margin:8px 0}
+  #heistBoard p{font-size:13px;line-height:1.75;color:var(--dim)}
+  #heistBoard p b{color:var(--fg)}
+  /* plan steps */
+  #planSteps{display:none;flex-direction:column;gap:8px;margin-top:12px}
+  #planSteps.show{display:flex}
+  .pstep{display:flex;gap:12px;align-items:center;font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.06em;
+    padding:10px 14px;background:rgba(232,185,60,.06);border-left:3px solid rgba(232,185,60,.4);border-radius:6px;
+    opacity:.35;transition:all .5s}
+  .pstep.go{opacity:1;border-left-color:var(--gold14)}
+  .pstep.doneP{opacity:.9;border-left-color:#4adc7a;color:#a8e8c0}
+  .pstep .st3{min-width:70px;color:var(--gold14)}
+  #execB{margin-top:14px;font-family:'Archivo';font-weight:900;font-size:14px;border:none;border-radius:12px;
+    padding:14px 30px;background:var(--red14);color:#fff;cursor:pointer;box-shadow:0 5px 0 #7a2424;display:none}
+  #execB.show{display:inline-block}
+  #execB:active{transform:translateY(4px);box-shadow:0 1px 0 #7a2424}
+  .btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 18px;border-radius:99px;
+    border:2px solid var(--gold14);color:var(--gold14);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--gold14);color:#12141c}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>NOUR'S <span>ELEVEN</span></h1>
+<div class="sub">The target: your project's success · assemble the crew · then run the job · جمّع الفريق</div>
+<div id="phase">PHASE 1 — RECRUITMENT (<span id="rc">0</span>/8 CONFIRMED)</div>
+
+<div id="crewGrid"></div>
+
+<div id="heistBoard">
+  <div class="k">The briefing room</div>
+  <h2>Every great job needs a crew</h2>
+  <p>Click each dossier to recruit. Small print: <b>all eight specialists are the same person.</b> That's the twist — and the budget-friendly part.</p>
+  <div id="planSteps">
+    <div class="pstep"><span class="st3">22:00</span><span>RECON — requirements gathered, target studied</span></div>
+    <div class="pstep"><span class="st3">23:15</span><span>BLUEPRINTS — scope & user stories drawn up</span></div>
+    <div class="pstep"><span class="st3">00:30</span><span>THE BUILD — React frontend assembled in silence</span></div>
+    <div class="pstep"><span class="st3">02:00</span><span>THE POLISH — design & brand applied, no fingerprints</span></div>
+    <div class="pstep"><span class="st3">03:45</span><span>THE DROP — deployed. clean. everyone walks away rich</span></div>
+  </div>
+  <button id="execB">🕶 EXECUTE THE JOB</button>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const CREW=[
+ ['🧠','THE MASTERMIND','planning & coordination','Ran the GoldenTag job (NexLead → Google Play). Never leaves a timeline unattended.'],
+ ['⌨️','THE HACKER','React · TypeScript','Inside every codebase since 2023. Firewalls of legacy code open for him.'],
+ ['🎨','THE FORGER','logos & identity','Fakes nothing, crafts everything: brands so good they look expensive.'],
+ ['🗣','THE FACE','client comms · AR+EN','Smooth in two languages. Walks into any meeting, walks out with clarity.'],
+ ['⚡','THE WHEELMAN','ICPC reflexes','Fastest problem-solver in the city. 2021 getaway still legendary.'],
+ ['🔍','THE INSPECTOR','clean code QA','Spots a code smell three rooms away. Nothing ships dirty on his watch.'],
+ ['📱','THE INSIDER','social presence','Plants engaging visuals in every feed. Nobody suspects the consistency.'],
+ ['👑','THE BOSS','supervisor \'26','Signs off the final cut. Distinctive Frontier Co. — corner office, calm nerves.']
+];
+let AC=null;
+function snap(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='square';o.frequency.value=880;
+  g.gain.setValueAtTime(.045,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.08);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.1);}catch(e){}}
+function jazz(){[261,311,392,466].forEach((f,i)=>setTimeout(()=>{
+  try{const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;
+  g.gain.setValueAtTime(.06,AC.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.4);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.45);}catch(e){}},i*160));}
+
+const grid=document.getElementById('crewGrid');
+let rec=0;
+CREW.forEach((c,i)=>{
+  const d=document.createElement('div');d.className='dossier';
+  d.style.setProperty('--r',((Math.random()*4-2))+'deg');
+  d.innerHTML=`<div class="photo2">${c[0]}</div><div class="cn2">${c[1]}</div><div class="role3">${c[2]}</div>`;
+  d.onclick=()=>{
+    if(!d.classList.contains('recruited')){
+      d.classList.add('recruited');rec++;snap();
+      document.getElementById('rc').textContent=rec;
+    }
+    setB('DOSSIER · '+c[1],c[1]+' — '+c[2],c[3]+(rec>=8?'':' <b>Keep recruiting.</b>'));
+    if(rec>=8){
+      jazz();
+      document.getElementById('phase').textContent='PHASE 2 — THE PLAN';
+      setB('CREW COMPLETE','Eight specialists. One person. Zero payroll drama.',
+        `The whole crew is <b>Nour Aldeen Tofi</b> — frontend developer &amp; SW engineering supervisor, Riyadh. The plan is on the table. When you're ready…`);
+      document.getElementById('planSteps').classList.add('show');
+      document.getElementById('execB').classList.add('show');
+    }
+  };
+  grid.appendChild(d);
+});
+function setB(k,h,p){
+  document.querySelector('#heistBoard .k').textContent=k;
+  document.querySelector('#heistBoard h2').innerHTML=h;
+  document.querySelector('#heistBoard p').innerHTML=p;
+}
+document.getElementById('execB').onclick=async()=>{
+  const b=document.getElementById('execB');
+  b.style.display='none';
+  document.getElementById('phase').textContent='PHASE 3 — EXECUTION';
+  const steps=document.querySelectorAll('.pstep');
+  for(const s of steps){
+    s.classList.add('go');snap();
+    await new Promise(r=>setTimeout(r,reduced?200:1100));
+    s.classList.remove('go');s.classList.add('doneP');
+    s.innerHTML+=' <span style="margin-left:auto">✓</span>';
+  }
+  jazz();
+  document.getElementById('phase').textContent='PHASE 4 — WALK AWAY SLOWLY, DON\'T LOOK AT THE EXPLOSION';
+  setB('JOB COMPLETE · NO ALARMS','The take: one successful project',
+    `Executed clean, delivered on schedule — like GoldenTag, like every job since. Want this crew on <b>your</b> heist? Websites · React · logos · social · coordination.`);
+  const d=document.createElement('div');d.className='btns';
+  d.innerHTML=`<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=I%27m%20in&body=Heard%20about%20the%20crew.%20The%20job%3A%20">🕶 Plan your job</a>
+    <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`;
+  document.getElementById('heistBoard').appendChild(d);
+};
+</script>
+</body>
+</html>

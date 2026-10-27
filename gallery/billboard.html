@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — BILLBOARD · See Your Name in Lights</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;900&family=Fraunces:ital,wght@0,600;1,600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--dusk2:#241c38;--duskd2:#161024;--fg:#f2eefc;--dim:rgba(242,238,252,.6);--neonP:#ff4fa3;--neonC:#4fd8ff;--gold5:#ffd23f}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Archivo',sans-serif;color:var(--fg);min-height:100vh;
+    background:linear-gradient(180deg,#38285c,var(--dusk2) 50%,var(--duskd2));
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold5);color:#241c38}
+  h1{font-weight:900;font-size:clamp(22px,4.6vw,40px)}
+  h1 span{color:var(--gold5)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.26em;color:var(--dim);
+    margin:8px 0 20px;text-transform:uppercase;text-align:center}
+
+  #controls3{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:18px;width:min(640px,95vw)}
+  #brandIn{flex:1;min-width:200px;background:rgba(255,255,255,.08);border:2px solid rgba(242,238,252,.25);
+    border-radius:12px;padding:14px 18px;color:var(--fg);font-family:'Archivo';font-weight:900;font-size:15px;outline:none}
+  #brandIn:focus{border-color:var(--gold5)}
+  .styleB{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.12em;border:2px solid rgba(242,238,252,.3);
+    color:var(--fg);background:none;border-radius:99px;padding:11px 16px;cursor:pointer;text-transform:uppercase;transition:all .2s}
+  .styleB.on{border-color:var(--gold5);color:var(--gold5)}
+
+  /* billboard scene */
+  #scene3{position:relative;width:min(760px,96vw)}
+  #board3{position:relative;border-radius:10px;border:10px solid #17121f;overflow:hidden;aspect-ratio:16/7.5;
+    box-shadow:0 30px 70px rgba(0,0,0,.6), 0 0 60px rgba(255,79,163,.12);transition:background 1s;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5%}
+  .spotlight{position:absolute;top:-16px;width:60px;height:26px;background:#17121f;border-radius:8px;z-index:3}
+  .spotlight::after{content:'';position:absolute;top:22px;left:50%;transform:translateX(-50%);
+    width:120px;height:150px;background:radial-gradient(ellipse at top,rgba(255,240,200,.16),transparent 70%);pointer-events:none}
+  #bbKick{font-family:'IBM Plex Mono';font-size:clamp(8px,1.5vw,11px);letter-spacing:.4em;text-transform:uppercase;opacity:.85}
+  #bbName{font-size:clamp(30px,7.5vw,72px);line-height:1.05;margin:10px 0;font-weight:900;transition:all .4s;word-break:break-word}
+  #bbTag{font-size:clamp(10px,1.8vw,14px);opacity:.85;font-weight:600}
+  #legs{display:flex;justify-content:center;gap:120px}
+  .leg2{width:18px;height:90px;background:linear-gradient(90deg,#2a2438,#17121f)}
+  #cityline{position:absolute;bottom:0;left:0;right:0;height:60px;z-index:-1;display:flex;align-items:flex-end;gap:4px;opacity:.5}
+  .bld2{flex:1;background:#17121f}
+  #credit{position:absolute;right:14px;bottom:10px;font-family:'IBM Plex Mono';font-size:8.5px;letter-spacing:.14em;opacity:.75}
+
+  #pitch3{margin-top:20px;max-width:600px;text-align:center}
+  #pitch3 .k{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.28em;color:var(--gold5);text-transform:uppercase;font-weight:600}
+  #pitch3 h2{font-weight:900;font-size:clamp(17px,3.4vw,26px);margin:8px 0 6px}
+  #pitch3 p{font-size:13px;line-height:1.7;color:var(--dim)}
+  #pitch3 p b{color:var(--fg)}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.12em;padding:12px 20px;border-radius:99px;
+    border:2px solid var(--gold5);color:var(--gold5);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--gold5);color:#241c38}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>🌆 YOUR NAME <span>IN LIGHTS</span></h1>
+<div class="sub">Type your brand · pick a style · watch it go up downtown · جرّب اسمك</div>
+
+<div id="controls3">
+  <input id="brandIn" placeholder="Type your company name…" maxlength="22" value="">
+  <button class="styleB on" data-s="0">NEON</button>
+  <button class="styleB" data-s="1">ELEGANT</button>
+  <button class="styleB" data-s="2">BOLD</button>
+  <button class="styleB" data-s="3">MINIMAL</button>
+</div>
+
+<div id="scene3">
+  <div id="board3">
+    <div class="spotlight" style="left:18%"></div><div class="spotlight" style="right:18%"></div>
+    <div id="bbKick">GRAND OPENING · RIYADH</div>
+    <div id="bbName">YOUR BRAND</div>
+    <div id="bbTag">a website this beautiful could be yours</div>
+    <div id="credit">DESIGN & BUILD: NOUR ALDEEN TOFI</div>
+  </div>
+  <div id="legs"><div class="leg2"></div><div class="leg2"></div></div>
+  <div id="cityline"></div>
+</div>
+
+<div id="pitch3">
+  <div class="k">How this works in real life</div>
+  <h2>You just did 10% of a brand brief</h2>
+  <p>Name + style direction — that's how every project starts. <b>Nour takes it from there:</b> logo, business cards, social visuals, and the website your billboard points at. Built by the supervisor who ships (GoldenTag → Google Play).</p>
+  <div class="btns">
+    <a class="btn" id="bbMail" href="mailto:nouraldeentofi@gmail.com">✨ Put my name up for real</a>
+    <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+  </div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const STYLES=[
+ {bg:'radial-gradient(80% 120% at 50% 0%,#2c1044,#170a26)',font:"'Archivo',sans-serif",
+  css:'color:#ff4fa3;text-shadow:0 0 14px #ff4fa3,0 0 44px rgba(255,79,163,.6);letter-spacing:.04em',
+  kick:'#4fd8ff',tag:'neon nights need bright brands'},
+ {bg:'linear-gradient(160deg,#f5efe0,#e2d6bc)',font:"'Fraunces',serif",
+  css:'color:#2a2018;font-style:italic;letter-spacing:.02em;text-shadow:none',
+  kick:'#a8823c',tag:'quiet luxury, loud results'},
+ {bg:'linear-gradient(160deg,#e05a3a,#a8281c)',font:"'Archivo',sans-serif",
+  css:'color:#fff;letter-spacing:.06em;text-transform:uppercase;text-shadow:4px 4px 0 rgba(0,0,0,.3)',
+  kick:'#ffd9a8',tag:'impossible to ignore'},
+ {bg:'linear-gradient(160deg,#f7f7f4,#e8e8e2)',font:"'Archivo',sans-serif",
+  css:'color:#17121f;font-weight:600;letter-spacing:.14em;text-shadow:none',
+  kick:'#8a8a94',tag:'less, but better'}
+];
+/* cityline */
+const cl=document.getElementById('cityline');
+for(let i=0;i<16;i++){const b=document.createElement('div');b.className='bld2';
+  b.style.height=(16+Math.random()*44)+'px';cl.appendChild(b);}
+let AC=null;
+function bzz(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sawtooth';o.frequency.value=90;
+  g.gain.setValueAtTime(.03,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.35);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.4);}catch(e){}}
+
+let styleI=0;
+function render(){
+  const name=(document.getElementById('brandIn').value.trim()||'YOUR BRAND');
+  const s=STYLES[styleI];
+  const board=document.getElementById('board3');
+  board.style.background=s.bg;
+  const nm=document.getElementById('bbName');
+  nm.style.cssText=s.css;nm.style.fontFamily=s.font;
+  nm.textContent=styleI===1?name:name.toUpperCase();
+  document.getElementById('bbKick').style.color=s.kick;
+  document.getElementById('bbTag').textContent=s.tag;
+  document.getElementById('bbTag').style.color=s.kick;
+  document.getElementById('credit').style.color=s.kick;
+  document.getElementById('bbMail').href=
+    `mailto:nouraldeentofi@gmail.com?subject=${encodeURIComponent('Put "'+name+'" in lights')}&body=${encodeURIComponent('Saw my brand on the billboard. Style: '+['NEON','ELEGANT','BOLD','MINIMAL'][styleI]+'. Let\'s build the real thing: ')}`;
+  if(!reduced){
+    nm.animate([{opacity:.3,transform:'scale(.96)'},{opacity:1,transform:'scale(1)'}],{duration:350,easing:'ease-out'});
+    /* neon flicker for style 0 */
+    if(styleI===0){bzz();
+      nm.animate([{opacity:1},{opacity:.5,offset:.08},{opacity:1,offset:.12},{opacity:.7,offset:.6},{opacity:1}],{duration:900});}
+  }
+}
+document.getElementById('brandIn').addEventListener('input',render);
+document.querySelectorAll('.styleB').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.styleB').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');styleI=+b.dataset.s;render();
+});
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOUR TV — Turn the Knob</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Passion+One:wght@700;900&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--room:#241c14;--wood:#6e4a2a;--woodd:#4a2f1a;--fg:#f2ead8;--dim:rgba(242,234,216,.6);--acc:#e8a03c}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;background:radial-gradient(80vw 60vh at 50% 30%,#3a2c1e,var(--room));
+    color:var(--fg);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--acc);color:#241c14}
+  h1{font-family:'Passion One';font-size:clamp(26px,5vw,46px);letter-spacing:.04em}
+  h1 span{color:var(--acc)}
+  .sub{font-size:11px;letter-spacing:.26em;color:var(--dim);margin:6px 0 22px;text-transform:uppercase;text-align:center}
+
+  #tv{width:min(640px,96vw);background:linear-gradient(180deg,#8a5f38,var(--wood) 40%,var(--woodd));
+    border-radius:26px;padding:22px;box-shadow:0 40px 80px rgba(0,0,0,.6), inset 0 3px 0 rgba(255,255,255,.2);
+    display:grid;grid-template-columns:1fr 96px;gap:16px}
+  @media(max-width:560px){#tv{grid-template-columns:1fr}}
+  #crt{position:relative;aspect-ratio:4/3;background:#0a0a0c;border-radius:26px/22px;overflow:hidden;
+    border:8px solid #2c2018;box-shadow:inset 0 0 60px rgba(0,0,0,.9)}
+  #crt::after{content:'';position:absolute;inset:0;pointer-events:none;border-radius:20px;
+    background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.55)),
+    repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 1px,transparent 1px 3px)}
+  #shineTV{position:absolute;top:6%;left:8%;width:30%;height:16%;border-radius:50%;
+    background:rgba(255,255,255,.09);filter:blur(6px);pointer-events:none;z-index:9}
+  #screenC{position:absolute;inset:0;display:flex;flex-direction:column;padding:5%;z-index:2}
+  #staticCv{position:absolute;inset:0;z-index:5;opacity:0}
+  #chBadge{position:absolute;top:10px;right:14px;z-index:6;font-family:'IBM Plex Mono';font-size:16px;
+    color:#7dff8a;text-shadow:0 0 10px rgba(125,255,138,.7)}
+
+  /* side panel */
+  #side{display:flex;flex-direction:column;align-items:center;gap:14px;justify-content:center}
+  #knob{width:76px;height:76px;border-radius:50%;cursor:pointer;position:relative;
+    background:radial-gradient(circle at 36% 30%,#8a8f99,#3a3e45);box-shadow:0 6px 14px rgba(0,0,0,.5);
+    transition:transform .3s}
+  #knob::after{content:'';position:absolute;top:7px;left:50%;transform:translateX(-50%);width:6px;height:22px;
+    background:var(--acc);border-radius:3px}
+  .klb{font-family:'IBM Plex Mono';font-size:8.5px;letter-spacing:.2em;color:#2c2018;font-weight:600;text-align:center}
+  #speaker{width:76px;height:90px;border-radius:10px;background:repeating-linear-gradient(0deg,#3a2c1e 0 4px,#2c2014 4px 8px)}
+  #volLight{width:10px;height:10px;border-radius:50%;background:#7dff8a;box-shadow:0 0 8px #7dff8a}
+
+  /* channel content styles */
+  .chan{width:100%;height:100%;display:flex;flex-direction:column}
+  /* news */
+  .news{background:linear-gradient(180deg,#12305c,#0a1c38);color:#fff}
+  .news .live{align-self:flex-start;background:#d02a2a;font-size:9px;font-weight:700;letter-spacing:.2em;padding:4px 9px;border-radius:3px}
+  .news h2{font-family:'Passion One';font-size:clamp(20px,4.4vw,32px);line-height:1.05;margin-top:10px}
+  .news .anchor{font-size:clamp(10px,1.8vw,13px);line-height:1.6;color:rgba(255,255,255,.85);margin-top:8px}
+  .ticker{margin-top:auto;background:#d02a2a;white-space:nowrap;overflow:hidden;font-size:11px;font-weight:700;padding:5px 0}
+  .ticker span{display:inline-block;animation:tick 18s linear infinite;padding-left:100%}
+  @keyframes tick{to{transform:translateX(-100%)}}
+  /* cooking */
+  .cook{background:linear-gradient(180deg,#f2e2c8,#e0c9a0);color:#4a2f1a}
+  .cook .showt{font-family:'Passion One';font-size:clamp(17px,3.4vw,26px)}
+  .cook .rec{font-size:clamp(10px,1.9vw,13px);line-height:1.7;margin-top:8px}
+  /* sports */
+  .sport{background:linear-gradient(180deg,#1d6e4a,#12472f);color:#fff}
+  .score{display:flex;justify-content:space-around;align-items:center;margin-top:10px;text-align:center}
+  .score .tm{font-family:'Passion One';font-size:clamp(15px,3vw,22px)}
+  .score .pts{font-family:'IBM Plex Mono';font-size:clamp(26px,6vw,44px);color:#ffd23f}
+  .sport .comm{font-size:clamp(10px,1.9vw,12.5px);line-height:1.65;margin-top:10px;color:rgba(255,255,255,.85)}
+  /* infomercial */
+  .info{background:radial-gradient(circle at 50% 30%,#5c1e5c,#2a0e2a);color:#fff;text-align:center;align-items:center;justify-content:center}
+  .info .wow{font-family:'Passion One';font-size:clamp(22px,5vw,38px);color:#ffd23f;text-shadow:2px 2px 0 #a8283c;
+    animation:wob 1.2s infinite}
+  @keyframes wob{50%{transform:scale(1.06) rotate(-1deg)}}
+  .info .pitch{font-size:clamp(10px,2vw,13px);line-height:1.7;max-width:80%;margin-top:8px}
+  .info .callnow{margin-top:12px;background:#ffd23f;color:#5c1e0e;font-family:'Passion One';
+    font-size:clamp(13px,2.6vw,18px);padding:8px 18px;border-radius:8px;animation:blink2 .9s infinite}
+  @keyframes blink2{50%{opacity:.5}}
+  .chan a{text-decoration:underline}
+  #ctaBar{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .btn{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.14em;padding:12px 20px;border-radius:99px;
+    border:2px solid var(--acc);color:var(--acc);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--acc);color:#241c14}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>📺 NOUR <span>TV</span></h1>
+<div class="sub">4 channels · all about one developer · turn the knob · قلّب القنوات</div>
+
+<div id="tv">
+  <div id="crt">
+    <div id="screenC"></div>
+    <canvas id="staticCv"></canvas>
+    <div id="chBadge">CH 1</div>
+    <div id="shineTV"></div>
+  </div>
+  <div id="side">
+    <div><div id="knob"></div><div class="klb">CHANNEL</div></div>
+    <div id="speaker"></div>
+    <div id="volLight"></div>
+  </div>
+</div>
+
+<div id="ctaBar">
+  <a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=I%20saw%20your%20TV%20ad&body=Calling%20now%21%20My%20project%3A%20">☎ Call now (email)</a>
+  <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+  <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const CH=[
+ `<div class="chan news">
+    <span class="live">● LIVE · NOUR NEWS NETWORK</span>
+    <h2>LOCAL DEVELOPER PROMOTED TO SUPERVISOR — CLIENTS "THRILLED"</h2>
+    <div class="anchor">Riyadh — Nour Aldeen Tofi, frontend developer, was promoted to <b>Software Engineering Supervisor</b> at Distinctive Frontier Co. in January 2026. Sources confirm React systems, coding standards and on-time delivery. More at 11.</div>
+    <div class="ticker"><span>BREAKING: GOLDENTAG APP SHIPS TO GOOGLE PLAY +++ ICPC 2021 VETERAN STILL SOLVING PROBLEMS FAST +++ B.TECH IT, KALAMOON 2019–2024 +++ CERTS: META · GOOGLE ×2 · IBM ×2 +++ ACCEPTING NEW CLIENTS +++</span></div>
+  </div>`,
+ `<div class="chan cook">
+    <div class="showt">🍳 COOKING WITH NOUR — "Recipe for a Website"</div>
+    <div class="rec">
+      <b>Ingredients:</b> 1 cup React, 2 tbsp TypeScript, a generous pour of Tailwind, fresh JavaScript.<br>
+      <b>Method:</b> Gather requirements. Preheat the repo. Fold components gently — never overmix the state. Garnish with clean code. Serve responsive.<br>
+      <b>Chef's tip:</b> Order it done for you — the chef takes commissions: websites, logos, business cards, social visuals.
+    </div>
+  </div>`,
+ `<div class="chan sport">
+    <div style="font-family:'Passion One';font-size:clamp(14px,2.6vw,19px)">🏸 SPORTS CENTER — BADMINTON FINAL</div>
+    <div class="score">
+      <div><div class="tm">NOUR</div><div class="pts">21</div></div>
+      <div style="font-family:'Passion One';font-size:18px">VS</div>
+      <div><div class="tm">DEADLINES</div><div class="pts">14</div></div>
+    </div>
+    <div class="comm">"Incredible reflexes from the Riyadh developer — the same ones he showed at ICPC 2021! Deadlines simply cannot keep up. He coordinates, he codes, he SMASHES. Unbelievable scenes."</div>
+  </div>`,
+ `<div class="chan info">
+    <div class="wow">TIRED OF UGLY WEBSITES?!</div>
+    <div class="pitch">For a limited time (forever), get a <b>real developer</b>: websites! React frontends! Logos! Business cards! Social visuals! Project coordination! He even replies fast — in ARABIC and ENGLISH!</div>
+    <div class="callnow">☎ CALL NOW: nouraldeentofi@gmail.com</div>
+    <div style="font-size:9px;margin-top:8px;opacity:.7">*no hidden fees. side effects include a professional online presence.</div>
+  </div>`
+];
+let ch=0,turning=false;
+const scr=document.getElementById('screenC');
+scr.innerHTML=CH[0];
+
+/* static */
+const cv=document.getElementById('staticCv'),ctx=cv.getContext('2d');
+function sz(){cv.width=cv.clientWidth/2;cv.height=cv.clientHeight/2;}
+sz();addEventListener('resize',sz);
+let staticOn=false;
+(function drawStatic(){
+  if(staticOn){
+    const d=ctx.createImageData(cv.width,cv.height);
+    for(let i=0;i<d.data.length;i+=4){const v=Math.random()*255|0;
+      d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=255;}
+    ctx.putImageData(d,0,0);
+  }
+  requestAnimationFrame(drawStatic);
+})();
+let AC=null,noiseNode=null,noiseGain=null;
+function noise(on){
+  try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+    if(!noiseNode){
+      const b=AC.createBuffer(1,AC.sampleRate,AC.sampleRate),d=b.getChannelData(0);
+      for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+      noiseNode=AC.createBufferSource();noiseNode.buffer=b;noiseNode.loop=true;
+      noiseGain=AC.createGain();noiseGain.gain.value=0;
+      noiseNode.connect(noiseGain);noiseGain.connect(AC.destination);noiseNode.start();
+    }
+    noiseGain.gain.value=on?.05:0;
+  }catch(e){}}
+
+function turn(){
+  if(turning)return;turning=true;
+  ch=(ch+1)%CH.length;
+  document.getElementById('knob').style.transform=`rotate(${ch*90}deg)`;
+  cv.style.opacity=1;staticOn=true;noise(true);
+  document.getElementById('chBadge').textContent='···';
+  setTimeout(()=>{
+    scr.innerHTML=CH[ch];
+    cv.style.opacity=0;staticOn=false;noise(false);
+    document.getElementById('chBadge').textContent='CH '+(ch+1);
+    turning=false;
+  },reduced?120:650);
+}
+document.getElementById('knob').onclick=turn;
+document.getElementById('crt').onclick=turn;
+addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();turn();}});
+</script>
+</body>
+</html>

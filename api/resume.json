@@ -385,7 +385,7 @@
         "WebM",
         "RTL"
       ],
-      "url": "https://nouraldeentofi.github.io/motion-studio/",
+      "url": "https://nouraldeentofi.com/motion-studio/",
       "roles": [
         "Full build — design, editor, and rendering engine"
       ]
@@ -411,7 +411,7 @@
         "GitHub Actions",
         "RTL"
       ],
-      "url": "https://nouraldeentofi.github.io/braille-certificate/",
+      "url": "https://braille.nouraldeentofi.com/",
       "roles": [
         "Full build — design, Braille translation, and PDF output"
       ]
@@ -438,7 +438,7 @@
         "Playwright",
         "GitHub Actions"
       ],
-      "url": "https://nouraldeentofi.github.io/khatm/",
+      "url": "https://khatm.nouraldeentofi.com/",
       "roles": [
         "Full build — invoicing library, database, and demo"
       ]
@@ -462,7 +462,7 @@
         "RTL",
         "JSON-LD"
       ],
-      "url": "https://nouraldeentofi.github.io/The-Complete-Umrah-Guide/",
+      "url": "https://nouraldeentofi.com/umrah-guide/",
       "roles": [
         "Full build — content, design, and offline app"
       ]

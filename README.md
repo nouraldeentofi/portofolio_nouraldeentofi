@@ -66,6 +66,7 @@ the whole point of the architecture — there is no second place to remember.
 | `npm run validate` | Check JSON-LD, links, AR/EN parity, accessibility basics |
 | `npm test` | Run the unit tests |
 | `npm run check` | All three, in order |
+| `npm run sites` | Copy every hosted client site and app from its own repository (`data/hosting.json`) |
 
 ---
 
@@ -116,22 +117,30 @@ This version fixes that with four stacked layers:
 
 ## Deploying
 
-It is a static site, so any host works. This one is served by **GitHub Pages** from
-`nouraldeentofi/nouraldeentofi.github.io`, with `CNAME` pointing the apex domain at it
-and `.nojekyll` stopping Jekyll from eating the generated files.
+It is a static site, so any host works. `nouraldeentofi.com` is served by **Cloudflare
+Pages**, which deploys this repository on every push to `main` (it works with a private
+repository too). `_headers` and `_redirects` take effect there as written.
 
-GitHub Pages has no build step, so **the generated files must be committed**. Run
+There is no build step on the host, so **the generated files must be committed**. Run
 `npm run check` and commit the result — pushing the source alone deploys nothing.
 
-The shortcuts `/cv` (and the legacy `/cv/auto`, which now points to the same single CV), `/resume` and `/profile` are real generated files
-(`cv/index.html` and friends), each a noindex page that redirects to its target. They
-are files rather than rules because **GitHub Pages ignores `_headers` and `_redirects`
-entirely** — those two are Netlify syntax and do nothing here. GitHub Pages sends
-`Access-Control-Allow-Origin: *` on its own, so the JSON API stays agent-readable
-without them.
+### Client sites and apps on the domain
 
-For Netlify instead, connect the repository with build command `npm run build` and
-publish directory `.`; `_headers` and `_redirects` then take effect as written.
+Every client site, the design gallery and the browser apps are served from this
+repository too, at `/sites/<name>/`, `/gallery/`, `/motion-studio/` and `/umrah-guide/`.
+`data/hosting.json` maps each one to its own repository and deploy branch;
+`npm run sites` copies them in, leaves out working files (READMEs, briefs, build
+scripts, tests) and moves every `github.io` address to `nouraldeentofi.com`. Those
+repositories can stay private: the script reads them through the signed-in `gh` CLI.
+To update one site, change it in its own repository, then `npm run sites -- <repo>`
+and commit. `npm run validate` fails if any page still links to `github.io`.
+
+The shortcuts `/cv` (and the legacy `/cv/auto`, which now points to the same single CV), `/resume` and `/profile` are real generated files
+(`cv/index.html` and friends), each a noindex page that redirects to its target. On
+Cloudflare Pages the `_redirects` rules answer first; the files are there so the
+shortcuts still work on a host that ignores `_headers` and `_redirects`, such as GitHub
+Pages. Netlify reads both files as written too (build command `npm run build`, publish
+directory `.`).
 
 ---
 

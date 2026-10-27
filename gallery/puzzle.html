@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — PUZZLE · Slide to Reveal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--felt2:#1c3a4a;--feltd2:#12262f;--fg:#f0f6f8;--dim:rgba(240,246,248,.6);--acc:#ffb648;--tile:#f6f1e6;--tileInk:#22343f}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Fredoka',sans-serif;color:var(--fg);min-height:100vh;
+    background:radial-gradient(80vw 60vh at 50% 0%,#2a5468,var(--felt2) 55%,var(--feltd2));
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--acc);color:#1c3a4a}
+  h1{font-weight:700;font-size:clamp(24px,4.8vw,42px)}
+  h1 span{color:var(--acc)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.26em;color:var(--dim);
+    margin:8px 0 20px;text-transform:uppercase;text-align:center}
+
+  #frame2{position:relative;width:min(380px,92vw);aspect-ratio:1;background:#0e1e26;border-radius:16px;padding:10px;
+    box-shadow:0 24px 60px rgba(0,0,0,.5), inset 0 3px 10px rgba(0,0,0,.6)}
+  #board2{position:relative;width:100%;height:100%}
+  .tile2{position:absolute;width:calc(25% - 6px);height:calc(25% - 6px);border-radius:10px;cursor:pointer;
+    background:var(--tile);color:var(--tileInk);display:flex;flex-direction:column;align-items:center;justify-content:center;
+    font-weight:700;transition:left .18s ease,top .18s ease,transform .15s;box-shadow:0 4px 0 rgba(0,0,0,.3);user-select:none}
+  .tile2:hover{transform:scale(1.03)}
+  .tile2 .big2{font-size:clamp(17px,4.6vw,26px)}
+  .tile2 .sm2{font-family:'IBM Plex Mono';font-size:clamp(6.5px,1.5vw,8.5px);letter-spacing:.04em;color:#7a8a94;
+    text-align:center;line-height:1.3;padding:0 3px}
+  .tile2.correct{background:#e2f4e8;box-shadow:0 4px 0 rgba(46,138,92,.5)}
+  #bar2{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap;justify-content:center}
+  #moves2{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.14em;background:rgba(255,255,255,.1);
+    padding:11px 16px;border-radius:99px}
+  .pb2{font-family:'Fredoka';font-weight:700;font-size:13px;border:none;border-radius:99px;padding:12px 22px;
+    cursor:pointer;background:var(--acc);color:#1c3a4a;box-shadow:0 4px 0 #b87d1e;transition:transform .1s,box-shadow .1s}
+  .pb2:active{transform:translateY(3px);box-shadow:0 1px 0 #b87d1e}
+
+  #reveal2{margin-top:18px;max-width:540px;text-align:center;display:none}
+  #reveal2.show{display:block}
+  #reveal2 h2{font-weight:700;font-size:clamp(18px,3.4vw,26px)}
+  #reveal2 h2 b{color:var(--acc)}
+  #reveal2 p{font-size:12.5px;line-height:1.7;color:var(--dim);margin-top:8px}
+  .btns{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 18px;border-radius:99px;
+    border:2px solid var(--acc);color:var(--acc);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--acc);color:#1c3a4a}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<h1>🧩 THE NOUR <span>PUZZLE</span></h1>
+<div class="sub">Slide the tiles into order · his career only makes sense complete · رتّب القطع</div>
+
+<div id="frame2"><div id="board2"></div></div>
+<div id="bar2">
+  <div id="moves2">MOVES: 0</div>
+  <button class="pb2" id="shuffleB">🔀 Shuffle</button>
+  <button class="pb2" id="solveB">✨ Solve it for me</button>
+</div>
+
+<div id="reveal2">
+  <h2>Complete — <b>like every project he touches</b></h2>
+  <p>15 pieces of one career: education, competition, three companies, a shipped app, ten certs, a supervisor seat. Scattered they're trivia — <b>assembled, they're exactly what your project needs.</b> Nour Aldeen Tofi · Riyadh · AR+EN.</p>
+  <div class="btns">
+    <a class="btn" id="pMail" href="mailto:nouraldeentofi@gmail.com">🧩 Add your piece (email)</a>
+    <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+  </div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const TILES=[
+ ['🎓','KALAMOON \'19-24'],['⚔️','ICPC 2021'],['⚛️','REACT \'23→'],['🔷','TYPESCRIPT'],
+ ['🌬️','TAILWIND'],['🟨','JAVASCRIPT'],['🐍','PYTHON AI'],['🧭','NEXLEAD \'25→'],
+ ['💍','GOLDENTAG'],['🏢','KHWARIZM'],['🌱','MINICODE'],['👑','SUPERVISOR \'26'],
+ ['📜','10 CERTS'],['🏸','HOBBIES'],['🇸🇦','RIYADH AR+EN']
+];
+const board=document.getElementById('board2');
+let pos=[],blank=15,moves=0,solved=false;
+let AC=null;
+function slideS(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';
+  o.frequency.setValueAtTime(500,AC.currentTime);
+  o.frequency.exponentialRampToValueAtTime(320,AC.currentTime+.1);
+  g.gain.setValueAtTime(.05,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.13);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.15);}catch(e){}}
+function winS(){[523,659,784,1047].forEach((f,i)=>setTimeout(()=>{
+  try{const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;
+  g.gain.setValueAtTime(.07,AC.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.3);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.35);}catch(e){}},i*130));}
+
+const els=[];
+TILES.forEach((t,i)=>{
+  const d=document.createElement('div');d.className='tile2';
+  d.innerHTML=`<span class="big2">${t[0]}</span><span class="sm2">${t[1]}</span>`;
+  d.onclick=()=>tryMove(i);
+  board.appendChild(d);els.push(d);
+});
+function place(){
+  els.forEach((el,i)=>{
+    const p=pos[i];
+    el.style.left=(p%4*25)+'%';el.style.top=(Math.floor(p/4)*25)+'%';
+    el.classList.toggle('correct',p===i&&!solved===false||p===i);
+  });
+}
+function initSolved(){pos=[...Array(15).keys()];blank=15;place();}
+function neighbors(p){
+  const n=[];const r=Math.floor(p/4),c=p%4;
+  if(r>0)n.push(p-4);if(r<3)n.push(p+4);if(c>0)n.push(p-1);if(c<3)n.push(p+1);
+  return n;
+}
+function tryMove(i){
+  if(solved)return;
+  const p=pos[i];
+  if(neighbors(p).includes(blank)){
+    pos[i]=blank;blank=p;
+    moves++;document.getElementById('moves2').textContent='MOVES: '+moves;
+    slideS();place();check();
+  }
+}
+function check(){
+  if(pos.every((p,i)=>p===i)){
+    solved=true;winS();
+    document.getElementById('pMail').href=
+      `mailto:nouraldeentofi@gmail.com?subject=Puzzle%20solved%20in%20${moves}%20moves&body=The%20picture%20is%20clear.%20My%20project%3A%20`;
+    document.getElementById('reveal2').classList.add('show');
+    document.getElementById('reveal2').scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest'});
+  }
+}
+function shuffle(){
+  solved=false;moves=0;document.getElementById('moves2').textContent='MOVES: 0';
+  document.getElementById('reveal2').classList.remove('show');
+  /* random walk from solved = always solvable */
+  initSolved();
+  let prev=-1;
+  for(let k=0;k<160;k++){
+    const opts=neighbors(blank).filter(p=>p!==prev);
+    const pick=opts[Math.floor(Math.random()*opts.length)];
+    const ti=pos.indexOf(pick);
+    prev=blank;pos[ti]=blank;blank=pick;
+  }
+  place();
+}
+async function autoSolve(){
+  if(solved)return;
+  /* cheap cinematic solve: fade & snap */
+  solved=true;slideS();
+  for(let i=0;i<15;i++){
+    pos[i]=i;place();
+    await new Promise(r=>setTimeout(r,reduced?15:70));
+  }
+  blank=15;winS();
+  document.getElementById('pMail').href=
+    `mailto:nouraldeentofi@gmail.com?subject=I%20used%20the%20magic%20button&body=Efficient%2C%20like%20a%20good%20coordinator.%20My%20project%3A%20`;
+  document.getElementById('reveal2').classList.add('show');
+}
+document.getElementById('shuffleB').onclick=shuffle;
+document.getElementById('solveB').onclick=autoSolve;
+shuffle();
+</script>
+</body>
+</html>

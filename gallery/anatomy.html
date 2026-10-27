@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — ANATOMY · Body of a Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@0;1&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--chart:#f5f0e2;--ink6:#2a2620;--dim:rgba(42,38,32,.62);--red11:#b3402e;--blue6:#2e5a8a;--teal2:#1d7a6b}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;background:linear-gradient(180deg,#faf6ea,var(--chart));color:var(--ink6);
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--red11);color:#fff}
+  h1{font-family:'Libre Baskerville',serif;font-size:clamp(22px,4.4vw,38px)}
+  h1 em{color:var(--red11)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--dim);
+    margin:8px 0 20px;text-transform:uppercase;text-align:center}
+
+  #lab2{width:min(820px,96vw);display:grid;grid-template-columns:minmax(260px,380px) 1fr;gap:20px;align-items:start}
+  @media(max-width:720px){#lab2{grid-template-columns:1fr;justify-items:center}}
+  /* chart */
+  #chartF{background:#fff;border:2px solid var(--ink6);border-radius:12px;padding:16px;
+    box-shadow:0 20px 50px rgba(42,38,32,.14);position:relative;width:100%}
+  #chartF .plate2{font-family:'IBM Plex Mono';font-size:8.5px;letter-spacing:.22em;text-align:center;
+    color:var(--dim);text-transform:uppercase;border-bottom:1.5px solid var(--ink6);padding-bottom:8px;margin-bottom:8px}
+  #figure{width:100%;height:auto}
+  .organ{cursor:pointer;transition:filter .2s}
+  .organ:hover{filter:brightness(1.25) drop-shadow(0 0 8px rgba(179,64,46,.6))}
+  #heartG{transform-origin:center;animation:beat 1.1s infinite}
+  @keyframes beat{0%,100%{transform:scale(1)}12%{transform:scale(1.12)}24%{transform:scale(1)}}
+  .pinLine{stroke:var(--ink6);stroke-width:1.2;stroke-dasharray:3 3}
+  .pinTxt{font-family:'IBM Plex Mono';font-size:7.5px;fill:var(--dim);letter-spacing:.06em;text-transform:uppercase}
+
+  /* report */
+  #report2{background:#fff;border:2px solid var(--ink6);border-radius:12px;padding:24px 28px;width:100%;
+    box-shadow:0 20px 50px rgba(42,38,32,.14);min-height:340px}
+  #report2 .k{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.26em;color:var(--red11);text-transform:uppercase;font-weight:600}
+  #report2 h2{font-family:'Libre Baskerville';font-size:clamp(19px,3.4vw,27px);margin:8px 0}
+  #vitals{font-family:'IBM Plex Mono';font-size:10.5px;line-height:2;color:var(--dim);border:1.5px dashed rgba(42,38,32,.35);
+    border-radius:8px;padding:10px 14px;margin:10px 0}
+  #vitals b{color:var(--teal2)}
+  #report2 p{font-size:13.5px;line-height:1.75;color:var(--dim)}
+  #report2 p b{color:var(--ink6)}
+  #ekg{width:100%;height:44px;background:#12241c;border-radius:8px;margin-top:12px}
+  .btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 18px;border-radius:99px;
+    background:var(--ink6);color:var(--chart);text-transform:uppercase;font-weight:600}
+  .btn.g{background:none;border:2px solid var(--ink6);color:var(--ink6)}
+  #examined{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.2em;color:var(--dim);margin-top:10px;text-transform:uppercase}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>Anatomy of <em>a Developer</em></h1>
+<div class="sub">Medical chart № 26 · click any organ to examine · مخطط تشريحي</div>
+
+<div id="lab2">
+  <div id="chartF">
+    <div class="plate2">FIG. 1 — DEVELOPER (RIYADHENSIS), ADULT SPECIMEN</div>
+    <svg id="figure" viewBox="0 0 300 420">
+      <!-- body outline -->
+      <g fill="#f0e2cc" stroke="#2a2620" stroke-width="2">
+        <circle cx="150" cy="52" r="34"/>
+        <path d="M116 96 Q150 86 184 96 L196 200 Q198 230 186 232 L114 232 Q102 230 104 200 Z"/>
+        <path d="M116 100 L84 150 L74 196 L88 200 L104 158 L112 128Z"/>
+        <path d="M184 100 L216 150 L226 196 L212 200 L196 158 L188 128Z"/>
+        <path d="M118 232 L112 330 L106 392 L128 394 L138 322 L146 240Z"/>
+        <path d="M182 232 L188 330 L194 392 L172 394 L162 322 L154 240Z"/>
+      </g>
+      <!-- brain -->
+      <g class="organ" data-o="0"><path d="M128 34 Q150 16 172 34 Q182 46 172 56 Q150 66 128 56 Q118 46 128 34Z"
+        fill="#e8a0b8" stroke="#8a3a5c" stroke-width="2"/>
+        <path d="M136 34 Q142 44 136 54 M150 30 Q156 44 150 60 M164 34 Q158 44 164 54" stroke="#8a3a5c" stroke-width="1.4" fill="none"/></g>
+      <!-- eyes -->
+      <g class="organ" data-o="1"><circle cx="138" cy="52" r="5" fill="#fff" stroke="#2a2620" stroke-width="1.6"/>
+        <circle cx="162" cy="52" r="5" fill="#fff" stroke="#2a2620" stroke-width="1.6"/>
+        <circle cx="138" cy="52" r="2" fill="#2e5a8a"/><circle cx="162" cy="52" r="2" fill="#2e5a8a"/></g>
+      <!-- heart -->
+      <g class="organ" id="heartG" data-o="2">
+        <path d="M150 128 Q140 114 128 122 Q118 130 128 144 Q138 156 150 164 Q162 156 172 144 Q182 130 172 122 Q160 114 150 128Z"
+        fill="#d05a5a" stroke="#8a2424" stroke-width="2"/>
+        <text x="150" y="145" text-anchor="middle" font-size="11" fill="#fff">⚛</text></g>
+      <!-- lungs (comm) -->
+      <g class="organ" data-o="3">
+        <path d="M122 120 Q108 130 110 160 Q112 182 124 180 Q134 176 132 150Z" fill="#a0c0e0" stroke="#3a5c8a" stroke-width="2"/>
+        <path d="M178 120 Q192 130 190 160 Q188 182 176 180 Q166 176 168 150Z" fill="#a0c0e0" stroke="#3a5c8a" stroke-width="2"/></g>
+      <!-- stomach (fuel) -->
+      <g class="organ" data-o="4"><path d="M140 192 Q124 196 126 210 Q130 224 150 222 Q168 218 166 204 Q162 192 140 192Z"
+        fill="#e8c88a" stroke="#a8702e" stroke-width="2"/></g>
+      <!-- hands -->
+      <g class="organ" data-o="5">
+        <circle cx="80" cy="206" r="12" fill="#f5d0a0" stroke="#a8702e" stroke-width="2"/>
+        <circle cx="220" cy="206" r="12" fill="#f5d0a0" stroke="#a8702e" stroke-width="2"/></g>
+      <!-- legs/feet -->
+      <g class="organ" data-o="6">
+        <ellipse cx="117" cy="398" rx="16" ry="8" fill="#8ab8a0" stroke="#2e6e50" stroke-width="2"/>
+        <ellipse cx="183" cy="398" rx="16" ry="8" fill="#8ab8a0" stroke="#2e6e50" stroke-width="2"/></g>
+      <!-- pins -->
+      <line class="pinLine" x1="172" y1="40" x2="238" y2="28"/><text class="pinTxt" x="240" y="31">brain</text>
+      <line class="pinLine" x1="172" y1="140" x2="238" y2="120"/><text class="pinTxt" x="240" y="123">heart</text>
+      <line class="pinLine" x1="80" y1="206" x2="34" y2="240"/><text class="pinTxt" x="8" y="252">hands</text>
+      <line class="pinLine" x1="150" y1="212" x2="238" y2="250"/><text class="pinTxt" x="240" y="253">core</text>
+    </svg>
+  </div>
+
+  <div id="report2">
+    <div class="k">Examination report</div>
+    <h2>Click an organ to begin</h2>
+    <div id="vitals">SPECIMEN: NOUR ALDEEN TOFI · AGE: PROFESSIONAL ×3 YRS · HABITAT: RIYADH · STATUS: <b>THRIVING</b></div>
+    <p>A complete developer, anatomically speaking, is rare — most specimens have strong hands <b>or</b> a strong heart. This one presents both. Examine to verify.</p>
+    <canvas id="ekg"></canvas>
+    <div id="examined">ORGANS EXAMINED: <span id="oN">0</span>/7</div>
+  </div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const ORGANS=[
+ {k:'ORGAN · THE BRAIN',h:'Algorithmic cortex',v:'DENSITY: ICPC-GRADE · FIRMWARE: B.TECH IT',
+  p:`Trained at the <b>University of Kalamoon (2019–2024)</b> and stress-tested at the <b>ICPC/ACPC 2021</b>. Handles problem decomposition, estimation, and the occasional chess middle-game. No known bugs.`},
+ {k:'ORGAN · THE EYES',h:'Design receptors',v:'ACUITY: PIXEL-LEVEL · COLOR: FULL BRAND SPECTRUM',
+  p:`Detect misaligned padding at 40 paces. Responsible for <b>logos, business cards, and social visuals</b> that actually look intentional.`},
+ {k:'ORGAN · THE HEART',h:'React ventricle (beating)',v:'BPM: 60FPS · MURMURS: NONE',
+  p:`The core muscle. Pumps <b>React + TypeScript + Tailwind</b> through every project since 2023 — Minicodeleader → Khwarizm → Distinctive Frontier Co., where it now beats at <b>supervisor pressure</b> (Jan 2026 →).`},
+ {k:'ORGAN · THE LUNGS',h:'Bilingual respiration',v:'CAPACITY: ARABIC + ENGLISH · CLARITY: HIGH',
+  p:`Breathes requirements in, ships clarity out — in <b>two languages</b>. Client calls, documentation, and the occasional karaoke night all pass through here.`},
+ {k:'ORGAN · THE CORE',h:'Coordination stomach',v:'DIGESTS: SCOPE CREEP · OUTPUT: RELEASES',
+  p:`Digests messy briefs into <b>user stories, timelines, and releases</b> (NexLead, 2025→). Famous meal: <b>GoldenTag</b> — fully digested and delivered to Google Play.`},
+ {k:'ORGAN · THE HANDS',h:'Shipping appendages',v:'WPM: HIGH · GIT BLAME: CLEAN',
+  p:`Ten fingers, one purpose: <b>shipping.</b> Typed every commit, drew every wireframe, smashed every badminton shuttle. Certified handling: Meta, Google ×2, IBM ×2.`},
+ {k:'ORGAN · THE FEET',h:'Deadline stabilizers',v:'STANCE: GROUNDED · SPRINTS: MANY',
+  p:`Keep the whole specimen standing through crunch weeks. Also useful for badminton footwork and walking into meetings on time. <b>The full organism is available for your project.</b>`,final:true}
+];
+let AC=null;
+function blip3(f){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f||800;
+  g.gain.setValueAtTime(.05,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.12);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.14);}catch(e){}}
+
+/* EKG */
+const ek=document.getElementById('ekg'),ec=ek.getContext('2d');
+function sizeE(){ek.width=ek.clientWidth*2;ek.height=88;}
+sizeE();addEventListener('resize',sizeE);
+let ex=0;
+(function ekg(){
+  ec.fillStyle='rgba(18,36,28,.14)';ec.fillRect(0,0,ek.width,ek.height);
+  ec.strokeStyle='#5edc8a';ec.lineWidth=2;
+  ec.beginPath();
+  const y0=44;
+  ec.moveTo(ex,y0);
+  const seg=(ex/ek.width*14)%1;
+  let y=y0;
+  const ph=(ex%160);
+  if(ph>60&&ph<70)y=y0-30;
+  else if(ph>=70&&ph<78)y=y0+16;
+  else if(ph>40&&ph<=60)y=y0-4;
+  ec.lineTo(ex+2,y);
+  ec.stroke();
+  ex+=2;if(ex>ek.width){ex=0;ec.fillStyle='#12241c';ec.fillRect(0,0,ek.width,ek.height);}
+  requestAnimationFrame(ekg);
+})();
+
+let examined=new Set();
+document.querySelectorAll('.organ').forEach(o=>o.addEventListener('click',()=>{
+  const i=+o.dataset.o;
+  blip3(600+i*80);
+  examined.add(i);
+  document.getElementById('oN').textContent=examined.size;
+  const d=ORGANS[i];
+  document.querySelector('#report2 .k').textContent=d.k;
+  document.querySelector('#report2 h2').textContent=d.h;
+  document.getElementById('vitals').innerHTML=d.v+' · STATUS: <b>EXCELLENT</b>';
+  document.querySelector('#report2 p').innerHTML=d.p;
+  const old=document.querySelector('#report2 .btns');if(old)old.remove();
+  if(d.final||examined.size>=7){
+    [660,880,1100].forEach((f,j)=>setTimeout(()=>blip3(f),j*130));
+    const btns=document.createElement('div');btns.className='btns';
+    btns.innerHTML=`<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Full%20physical%20passed&body=Examined%20all%207%20organs.%20Prescribing%20him%20my%20project%3A%20">🩺 Request this specimen</a>
+      <a class="btn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`;
+    document.getElementById('report2').insertBefore(btns,document.getElementById('ekg'));
+  }
+}));
+</script>
+</body>
+</html>

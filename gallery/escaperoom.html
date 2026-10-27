@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — ESCAPE ROOM · Find the Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--room3:#2c2418;--roomd3:#1c160e;--fg:#f0e8d4;--dim:rgba(240,232,212,.6);--amber3:#e8a03c;--green8:#5edc8a}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;color:var(--fg);min-height:100vh;
+    background:radial-gradient(80vw 60vh at 50% 20%,#3d3220,var(--room3) 60%,var(--roomd3));
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--amber3);color:#2c2418}
+  h1{font-family:'Special Elite',cursive;font-size:clamp(22px,4.6vw,38px);color:var(--amber3)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.26em;color:var(--dim);
+    margin:8px 0 18px;text-transform:uppercase;text-align:center}
+
+  #hud5{display:flex;gap:12px;margin-bottom:14px;font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.14em;flex-wrap:wrap;justify-content:center}
+  #hud5 span{background:rgba(0,0,0,.3);padding:10px 16px;border-radius:99px}
+  #hud5 b{color:var(--amber3)}
+
+  #roomView{position:relative;width:min(700px,96vw);border-radius:16px;overflow:hidden;
+    box-shadow:0 30px 70px rgba(0,0,0,.6)}
+  #roomView svg{display:block;width:100%;height:auto}
+  .hot{cursor:pointer;transition:filter .2s}
+  .hot:hover{filter:brightness(1.35) drop-shadow(0 0 8px rgba(232,160,60,.7))}
+
+  /* clue popup */
+  #cluePop{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;
+    background:rgba(14,10,4,.8);backdrop-filter:blur(5px);padding:5vw}
+  #cluePop.open{display:flex}
+  #clueBox{max-width:440px;width:100%;background:#f5eed8;color:#2c2418;border-radius:8px;padding:30px 34px;
+    position:relative;box-shadow:0 40px 100px rgba(0,0,0,.7);transform:rotate(-.6deg)}
+  #clueBox .k{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.26em;color:#a8642e;text-transform:uppercase;font-weight:600}
+  #clueBox h2{font-family:'Special Elite';font-size:clamp(18px,3.4vw,25px);margin:8px 0}
+  #clueBox p{font-size:13px;line-height:1.7;color:rgba(44,36,24,.8)}
+  #clueBox p b{color:#2c2418}
+  #clueDigit{font-family:'Special Elite';font-size:44px;color:#b3402e;text-align:center;margin-top:10px;letter-spacing:.2em}
+  #cclose2{position:absolute;top:10px;right:14px;background:#e0d4b4;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-weight:700}
+
+  /* keypad door */
+  #doorPad{width:min(700px,96vw);margin-top:14px;background:rgba(0,0,0,.35);border:1px solid rgba(232,160,60,.35);
+    border-radius:14px;padding:16px 20px;display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap}
+  #codeShow{font-family:'IBM Plex Mono';font-size:22px;letter-spacing:.4em;background:#12141a;color:var(--green8);
+    padding:11px 18px;border-radius:9px;min-width:130px;text-align:center}
+  .kpB{font-family:'IBM Plex Mono';font-size:15px;font-weight:600;width:44px;height:44px;border:none;border-radius:9px;
+    background:#4a3c24;color:var(--fg);cursor:pointer;box-shadow:0 3px 0 #241c0e;transition:transform .08s,box-shadow .08s}
+  .kpB:active{transform:translateY(3px);box-shadow:0 0 0 #241c0e}
+  #tryB{font-family:'Special Elite';font-size:14px;border:none;border-radius:9px;padding:13px 22px;cursor:pointer;
+    background:var(--amber3);color:#2c2418;box-shadow:0 4px 0 #a8702e}
+  #tryB:active{transform:translateY(3px);box-shadow:0 1px 0 #a8702e}
+
+  #freedom{margin-top:16px;max-width:560px;text-align:center;display:none}
+  #freedom.show{display:block}
+  #freedom h2{font-family:'Special Elite';font-size:clamp(18px,3.6vw,27px);color:var(--green8)}
+  #freedom p{font-size:12.5px;line-height:1.7;color:var(--dim);margin-top:8px}
+  #freedom p b{color:var(--fg)}
+  .btns{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 18px;border-radius:99px;
+    border:2px solid var(--amber3);color:var(--amber3);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--amber3);color:#2c2418}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>🔐 ESCAPE: NOUR'S OFFICE</h1>
+<div class="sub">The door locked behind you · find 3 hidden clues · enter the code · دوّر منيح</div>
+<div id="hud5"><span>CLUES <b id="cluesN">0</b>/3</span><span>HINT: <b>CLICK SUSPICIOUS OBJECTS</b></span></div>
+
+<div id="roomView">
+<svg viewBox="0 0 700 420">
+  <rect width="700" height="420" fill="#3a2f1c"/>
+  <rect y="300" width="700" height="120" fill="#2a2012"/>
+  <rect y="296" width="700" height="8" fill="#1c160c"/>
+  <!-- window night -->
+  <rect x="40" y="40" width="150" height="110" rx="6" fill="#101830"/>
+  <circle cx="160" cy="66" r="12" fill="#e8e2c9"/>
+  <rect x="40" y="92" width="150" height="4" fill="#4a3c24"/><rect x="112" y="40" width="4" height="110" fill="#4a3c24"/>
+  <rect x="36" y="36" width="158" height="118" rx="8" fill="none" stroke="#5c4a2c" stroke-width="8"/>
+  <!-- desk -->
+  <rect x="240" y="230" width="300" height="16" rx="4" fill="#6e4a2a"/>
+  <rect x="256" y="246" width="16" height="70" fill="#54371f"/>
+  <rect x="508" y="246" width="16" height="70" fill="#54371f"/>
+  <!-- monitor: CLUE 1 -->
+  <g class="hot" data-c="0">
+    <rect x="330" y="150" width="120" height="74" rx="6" fill="#12141c"/>
+    <rect x="336" y="156" width="108" height="62" rx="3" fill="#1c2a1c"/>
+    <text x="390" y="182" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#5edc8a">// TODO: check</text>
+    <text x="390" y="196" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#5edc8a">the console…</text>
+    <rect x="382" y="224" width="16" height="10" fill="#12141c"/>
+  </g>
+  <!-- trophy: CLUE 2 -->
+  <g class="hot" data-c="1">
+    <rect x="580" y="120" width="90" height="12" fill="#5c4a2c"/>
+    <path d="M610 84 Q607 108 625 112 L611 118 L639 118 L625 112 Q643 108 640 84 Z" fill="#e8b93c"/>
+    <text x="625" y="140" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#c9b896">ICPC '21</text>
+  </g>
+  <!-- chess board: CLUE 3 -->
+  <g class="hot" data-c="2">
+    <rect x="70" y="330" width="90" height="60" rx="4" fill="#c9a860"/>
+    <g fill="#54371f">
+      <rect x="70" y="330" width="22.5" height="20"/><rect x="115" y="330" width="22.5" height="20"/>
+      <rect x="92.5" y="350" width="22.5" height="20"/><rect x="137.5" y="350" width="22.5" height="20"/>
+      <rect x="70" y="370" width="22.5" height="20"/><rect x="115" y="370" width="22.5" height="20"/>
+    </g>
+    <text x="115" y="326" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#c9b896">♞ the board knows</text>
+  </g>
+  <!-- bookshelf deco -->
+  <rect x="560" y="180" width="120" height="116" fill="#4a3820"/>
+  <rect x="568" y="188" width="14" height="40" fill="#a8402e"/><rect x="586" y="188" width="14" height="40" fill="#2e6e8a"/>
+  <rect x="604" y="188" width="14" height="40" fill="#5c8a3c"/><rect x="622" y="188" width="20" height="40" fill="#8a642e"/>
+  <rect x="568" y="240" width="30" height="48" fill="#6e3a5c"/><rect x="602" y="240" width="30" height="48" fill="#3c5c8a"/>
+  <!-- door -->
+  <rect x="470" y="60" width="10 " height="0" fill="none"/>
+  <g id="doorG">
+    <rect x="212" y="70" width="8" height="0" fill="none"/>
+  </g>
+  <!-- plant deco -->
+  <ellipse cx="50" cy="300" rx="26" ry="10" fill="#54371f"/>
+  <path d="M50 300 Q40 260 24 250 M50 300 Q52 254 42 238 M50 300 Q62 262 76 252" stroke="#5c8a3c" stroke-width="6" fill="none" stroke-linecap="round"/>
+</svg>
+</div>
+
+<div id="doorPad">
+  <div id="codeShow">_ _ _</div>
+  <button class="kpB">1</button><button class="kpB">2</button><button class="kpB">3</button>
+  <button class="kpB">4</button><button class="kpB">5</button><button class="kpB">6</button>
+  <button class="kpB">7</button><button class="kpB">8</button><button class="kpB">9</button>
+  <button class="kpB">0</button>
+  <button id="tryB">🔓 TRY DOOR</button>
+</div>
+
+<div id="freedom">
+  <h2>🚪 CLICK — the door swings open</h2>
+  <p>You escaped using <b>his actual milestones</b>: React year, ICPC, the promotion. That's the trick of this whole gallery — the facts unlock things. <b>Nour Aldeen Tofi</b> · Riyadh · websites, React frontends, logos, social visuals, coordination.</p>
+  <div class="btns">
+    <a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=I%20escaped!&body=Code%20cracked.%20Now%20unlock%20my%20project%3A%20">🔓 Unlock a project</a>
+    <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+  </div>
+</div>
+
+<div id="cluePop"><div id="clueBox"><button id="cclose2">✕</button><div id="cc2"></div></div></div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* code = 3-6-2 : React since 2023→digit 3? Let's define explicit clues */
+const CLUES=[
+ {k:'Clue 1 · the monitor',h:'The console whispers…',
+  p:`The terminal history shows one number typed again and again since <b>2023</b> — the year React became daily life (Minicodeleader). The first digit is the last digit of that year.`,d:'3'},
+ {k:'Clue 2 · the trophy',h:'ICPC 2021',
+  p:`Engraved under the base: <b>"6 problems, one merciless clock."</b> The second digit is how many problems the team cracked that day.`,d:'6'},
+ {k:'Clue 3 · the chessboard',h:'The knight\'s promotion',
+  p:`A note tucked under the board: <b>"Jan 2026 — the pawn reached the last rank."</b> The third digit is the year's last digit, minus four. (Chess players overcomplicate everything.)`,d:'2'}
+];
+const CODE='362';
+let found=new Set(),entry='';
+let AC=null;
+function snd3(f,t,type,v){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type=type||'sine';o.frequency.value=f;
+  g.gain.setValueAtTime(v||.06,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+(t||.15));
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+(t||.17));}catch(e){}}
+
+document.querySelectorAll('.hot').forEach(h=>h.addEventListener('click',()=>{
+  const i=+h.dataset.c;
+  const c=CLUES[i];
+  snd3(700+i*120,.15);
+  if(!found.has(i)){found.add(i);
+    document.getElementById('cluesN').textContent=found.size;}
+  document.getElementById('cc2').innerHTML=
+    `<div class="k">${c.k} — found!</div><h2>${c.h}</h2><p>${c.p}</p><div id="clueDigit">✦ ${c.d} ✦</div>`;
+  document.getElementById('cluePop').classList.add('open');
+}));
+document.getElementById('cclose2').onclick=()=>document.getElementById('cluePop').classList.remove('open');
+document.getElementById('cluePop').addEventListener('pointerdown',e=>{
+  if(e.target===document.getElementById('cluePop'))document.getElementById('cluePop').classList.remove('open');});
+addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('cluePop').classList.remove('open');});
+
+document.querySelectorAll('.kpB').forEach(b=>b.onclick=()=>{
+  if(entry.length>=3)entry='';
+  entry+=b.textContent;
+  snd3(500+entry.length*100,.08,'square',.04);
+  render2();
+});
+function render2(){
+  const s=(entry+'___').slice(0,3).split('').join(' ');
+  document.getElementById('codeShow').textContent=s;
+}
+render2();
+document.getElementById('tryB').onclick=()=>{
+  if(entry===CODE){
+    snd3(660,.2);snd3(880,.3);snd3(1100,.4);
+    document.getElementById('codeShow').style.color='#5edc8a';
+    document.getElementById('freedom').classList.add('show');
+    document.getElementById('freedom').scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest'});
+  }else{
+    snd3(180,.4,'sawtooth',.08);
+    document.getElementById('codeShow').style.color='#ff6a5e';
+    setTimeout(()=>{document.getElementById('codeShow').style.color='';entry='';render2();},600);
+  }
+};
+</script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-27T17:31:58.644Z",
+  "generated": "2026-10-27T19:49:58.105Z",
   "projects": [
     {
       "id": "smart-scanner",
@@ -289,7 +289,7 @@
         "WebM",
         "RTL"
       ],
-      "url": "https://nouraldeentofi.github.io/motion-studio/"
+      "url": "https://nouraldeentofi.com/motion-studio/"
     },
     {
       "id": "braille-certificate",
@@ -358,7 +358,7 @@
         "GitHub Actions",
         "RTL"
       ],
-      "url": "https://nouraldeentofi.github.io/braille-certificate/"
+      "url": "https://braille.nouraldeentofi.com/"
     },
     {
       "id": "khatm",
@@ -422,7 +422,7 @@
         "Playwright",
         "GitHub Actions"
       ],
-      "url": "https://nouraldeentofi.github.io/khatm/"
+      "url": "https://khatm.nouraldeentofi.com/"
     },
     {
       "id": "umrah-guide",
@@ -489,7 +489,7 @@
         "RTL",
         "JSON-LD"
       ],
-      "url": "https://nouraldeentofi.github.io/The-Complete-Umrah-Guide/"
+      "url": "https://nouraldeentofi.com/umrah-guide/"
     },
     {
       "id": "dfs-dashboard",
@@ -3254,7 +3254,7 @@
           "علامتها في صفحة واحدة: الرسالة والجوانب والصوت والألوان"
         ]
       },
-      "url": "https://nouraldeentofi.github.io/aya-rady/",
+      "url": "https://nouraldeentofi.com/sites/aya-rady/",
       "image": "https://nouraldeentofi.com/assets/img/showcase/aya-rady-desktop.webp"
     },
     {
@@ -3285,7 +3285,7 @@
           "مُختبر على كل المقاسات، وبالوضعين، وباللمس، وبمعايير الوصول"
         ]
       },
-      "url": "https://nouraldeentofi.github.io/mohammed-alhabbarah/",
+      "url": "https://nouraldeentofi.com/sites/mohammed-alhabbarah/",
       "image": "https://nouraldeentofi.com/assets/img/showcase/mohammed-alhabbarah-desktop.webp"
     },
     {
@@ -3316,7 +3316,7 @@
           "رسالة أولى جاهزة ببضع ضغطات"
         ]
       },
-      "url": "https://nouraldeentofi.github.io/layal-joumaa/",
+      "url": "https://nouraldeentofi.com/sites/layal-joumaa/",
       "image": "https://nouraldeentofi.com/assets/img/showcase/layal-joumaa-desktop.webp"
     },
     {
@@ -3347,7 +3347,7 @@
           "للجوال أولاً، بشريط سفلي يشبه التطبيقات وزر للحجز"
         ]
       },
-      "url": "https://nouraldeentofi.github.io/salam-aksimi/",
+      "url": "https://nouraldeentofi.com/sites/salam-aksimi/",
       "image": "https://nouraldeentofi.com/assets/img/showcase/salam-aksimi-desktop.webp"
     },
     {
@@ -3378,7 +3378,7 @@
           "صفحة لكل مشروع، فيها دراسة الحالة كاملة شاشةً شاشة"
         ]
       },
-      "url": "https://nouraldeentofi.github.io/tawheed-malkat/",
+      "url": "https://nouraldeentofi.com/sites/tawheed-malkat/",
       "image": "https://nouraldeentofi.com/assets/img/showcase/tawheed-malkat-desktop.webp"
     },
     {
@@ -3409,7 +3409,7 @@
           "بيانات منظّمة وllms.txt لمحركات البحث ومساعدات الذكاء الاصطناعي"
         ]
       },
-      "url": "https://nouraldeentofi.github.io/monther-al-ashqar/",
+      "url": "https://nouraldeentofi.com/sites/monther-al-ashqar/",
       "image": "https://nouraldeentofi.com/assets/img/showcase/monther-al-ashqar-desktop.webp"
     },
     {
@@ -3440,7 +3440,7 @@
           "اختر موضوعاً فيُفتح البريد وعنوانه والتحية جاهزان"
         ]
       },
-      "url": "https://nouraldeentofi.github.io/othman-almashaqba/",
+      "url": "https://nouraldeentofi.com/sites/othman-almashaqba/",
       "image": "https://nouraldeentofi.com/assets/img/showcase/othman-almashaqba-desktop.webp"
     },
     {
@@ -3471,7 +3471,7 @@
           "مُختبر على كل المقاسات، وباللغتين، وبالوضعين"
         ]
       },
-      "url": "https://nouraldeentofi.github.io/hamad-al-thiapi/",
+      "url": "https://nouraldeentofi.com/sites/hamad-al-thiapi/",
       "image": "https://nouraldeentofi.com/assets/img/showcase/hamad-al-thiapi-desktop.webp"
     },
     {
@@ -3502,7 +3502,7 @@
           "نموذج رسالة يفتح بريداً جاهزاً يراجعه الزائر قبل الإرسال"
         ]
       },
-      "url": "https://nouraldeentofi.github.io/mazen-alobaidi/",
+      "url": "https://nouraldeentofi.com/sites/mazen-alobaidi/",
       "image": "https://nouraldeentofi.com/assets/img/showcase/mazen-alobaidi-desktop.webp"
     },
     {
@@ -3533,7 +3533,7 @@
           "برنامجه القيادي مساراً مؤرّخاً، وحدةً بعد وحدة"
         ]
       },
-      "url": "https://nouraldeentofi.github.io/ayman-alawwad/",
+      "url": "https://nouraldeentofi.com/sites/ayman-alawwad/",
       "image": "https://nouraldeentofi.com/assets/img/showcase/ayman-alawwad-desktop.webp"
     },
     {
@@ -3564,7 +3564,7 @@
           "مصمّم لجمهور صغير: خط كبير وألوان زاهية وحركة مرحة"
         ]
       },
-      "url": "https://nouraldeentofi.github.io/karam/",
+      "url": "https://nouraldeentofi.com/sites/karam/",
       "image": "https://nouraldeentofi.com/assets/img/showcase/karam-desktop.webp"
     },
     {
@@ -3626,7 +3626,7 @@
           "وعلى الجوال يعمل كتطبيق: شريط سفلي وطلب عرض سعر على ثلاث خطوات"
         ]
       },
-      "url": "https://nouraldeentofi.github.io/albader-transport/",
+      "url": "https://nouraldeentofi.com/sites/albader-transport/",
       "image": "https://nouraldeentofi.com/assets/img/showcase/albader-transport-desktop.webp"
     },
     {
@@ -3657,7 +3657,7 @@
           "شارة حيّة بتوقيت الرياض تبيّن إن كان المكتب مفتوحًا أو مغلقًا"
         ]
       },
-      "url": "https://nouraldeentofi.github.io/arabian-access/",
+      "url": "https://nouraldeentofi.com/sites/arabian-access/",
       "image": "https://nouraldeentofi.com/assets/img/showcase/arabian-access-desktop.webp"
     },
     {
@@ -3688,7 +3688,7 @@
           "نموذج تقييم يعرض البطاقة أثناء الكتابة ويرسلها على واتساب"
         ]
       },
-      "url": "https://nouraldeentofi.github.io/saudi-brothers-hajj/",
+      "url": "https://nouraldeentofi.com/sites/saudi-brothers-hajj/",
       "image": "https://nouraldeentofi.com/assets/img/showcase/saudi-brothers-hajj-desktop.webp"
     },
     {
@@ -3719,7 +3719,7 @@
           "صور رفوف المعرض الحقيقية، تُفتح كل منها بملء الشاشة"
         ]
       },
-      "url": "https://nouraldeentofi.github.io/alhemaya-alkamela/",
+      "url": "https://nouraldeentofi.com/sites/alhemaya-alkamela/",
       "image": "https://nouraldeentofi.com/assets/img/showcase/alhemaya-alkamela-desktop.webp"
     },
     {
@@ -3750,7 +3750,7 @@
           "فاتح افتراضياً، مع زر قمر للوضع الداكن"
         ]
       },
-      "url": "https://nouraldeentofi.github.io/prestige-vip-tailor/",
+      "url": "https://nouraldeentofi.com/sites/prestige-vip-tailor/",
       "image": "https://nouraldeentofi.com/assets/img/showcase/prestige-vip-tailor-desktop.webp"
     },
     {
@@ -3781,7 +3781,7 @@
           "وضع فاتح وداكن"
         ]
       },
-      "url": "https://nouraldeentofi.github.io/alreem-mashwi/",
+      "url": "https://nouraldeentofi.com/sites/alreem-mashwi/",
       "image": "https://nouraldeentofi.com/assets/img/showcase/alreem-mashwi-desktop.webp"
     }
   ],
@@ -3795,6 +3795,6 @@
       "en": "Personas, scroll stories, interactive machines and whole worlds — a city builder, a solar system, a museum, a stock exchange — each one a single hand-crafted HTML file.",
       "ar": "شخصيات، وقصص تمرير، وآلات تفاعلية، وعوالم كاملة — مدينة تُبنى، ومجموعة شمسية، ومتحف، وبورصة — كل واحد منها ملف HTML واحد مصنوع يدوياً."
     },
-    "url": "https://nouraldeentofi.github.io/portfolio-gallery/"
+    "url": "https://nouraldeentofi.com/gallery/"
   }
 }

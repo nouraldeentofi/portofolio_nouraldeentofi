@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — KITCHEN · The Career Shawarma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--wall:#f7e8d0;--counter:#8a5a33;--fg:#3a2a18;--dim:rgba(58,42,24,.65);--red:#d64545;--green:#4a9e5c;--bread:#e8c88a}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Nunito',sans-serif;color:var(--fg);min-height:100vh;
+    background:linear-gradient(180deg,var(--wall) 0%,#f0d9b8 70%);display:flex;flex-direction:column;align-items:center;
+    padding:4vh 4vw 8vh;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--red);color:#fff}
+  h1{font-family:'Lilita One',cursive;font-size:clamp(26px,5.2vw,48px);color:var(--red);text-shadow:2px 2px 0 rgba(0,0,0,.12)}
+  .sub{font-size:13px;font-weight:700;color:var(--dim);margin:6px 0 22px;text-align:center}
+
+  #shop{width:min(880px,96vw);display:grid;grid-template-columns:220px 1fr;gap:18px}
+  @media(max-width:720px){#shop{grid-template-columns:1fr}}
+
+  /* ingredients shelf */
+  #shelf{background:#fff8ec;border:3px solid var(--counter);border-radius:16px;padding:16px;
+    box-shadow:0 14px 30px rgba(0,0,0,.15)}
+  #shelf .t{font-family:'Lilita One';font-size:15px;color:var(--counter);margin-bottom:10px;text-align:center}
+  .ing{display:flex;align-items:center;gap:10px;width:100%;background:#fff;border:2.5px solid var(--counter);
+    border-radius:12px;padding:9px 12px;margin-bottom:8px;cursor:pointer;transition:transform .15s,box-shadow .15s;
+    font-weight:900;font-size:12.5px;text-align:left;color:var(--fg)}
+  .ing:hover{transform:translateX(4px);box-shadow:3px 3px 0 var(--counter)}
+  .ing:disabled{opacity:.35;pointer-events:none}
+  .ing .em{font-size:20px}
+  .ing .nm small{display:block;font-weight:700;font-size:9.5px;color:var(--dim)}
+
+  /* assembly area */
+  #station{position:relative;background:#fff3e0;border:3px solid var(--counter);border-radius:16px;
+    box-shadow:0 14px 30px rgba(0,0,0,.15);display:flex;flex-direction:column;align-items:center;
+    padding:18px 16px 0;min-height:480px}
+  #orderBar{width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+  #ticket{font-family:'Lilita One';font-size:14px;color:var(--counter)}
+  #wrapB{font-family:'Lilita One';font-size:14px;letter-spacing:.04em;border:none;border-radius:10px;
+    padding:12px 22px;background:var(--green);color:#fff;cursor:pointer;box-shadow:0 4px 0 #2e6e3c;
+    transition:transform .1s,box-shadow .1s}
+  #wrapB:active{transform:translateY(3px);box-shadow:0 1px 0 #2e6e3c}
+  #wrapB:disabled{filter:grayscale(.6);pointer-events:none}
+  #stack{position:relative;display:flex;flex-direction:column-reverse;align-items:center;justify-content:flex-start;
+    margin-top:14px;min-height:300px;width:100%}
+  .layer{width:min(300px,80%);border-radius:999px;padding:9px 0;text-align:center;font-weight:900;font-size:12px;
+    color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3);margin-top:-6px;box-shadow:0 4px 8px rgba(0,0,0,.18);
+    border:2px solid rgba(0,0,0,.15)}
+  .layer.bread{background:linear-gradient(180deg,#f2d9a0,var(--bread));color:#7a5a2e;text-shadow:none}
+  #counterTop{width:120%;height:40px;background:linear-gradient(180deg,var(--counter),#6e4526);
+    border-radius:10px 10px 0 0;margin-top:auto}
+  #hintS{font-size:11px;font-weight:700;color:var(--dim);margin:12px 0;text-align:center}
+
+  /* fact toast */
+  #toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,150%);z-index:40;width:min(520px,92vw);
+    background:#fff;border:3px solid var(--counter);border-radius:14px;padding:16px 20px;
+    box-shadow:0 20px 50px rgba(0,0,0,.25);transition:transform .45s cubic-bezier(.2,.9,.3,1.1)}
+  #toast.show{transform:translate(-50%,0)}
+  #toast .k{font-family:'Lilita One';font-size:11px;letter-spacing:.14em;color:var(--red);text-transform:uppercase}
+  #toast p{font-size:12.5px;line-height:1.6;color:var(--dim);margin-top:4px}
+  #toast p b{color:var(--fg)}
+
+  /* final wrap modal */
+  #done{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;
+    background:rgba(60,40,20,.6);backdrop-filter:blur(6px);padding:5vw}
+  #done.open{display:flex}
+  #dbox{max-width:520px;width:100%;background:#fff8ec;border-radius:20px;padding:38px 40px;text-align:center;
+    box-shadow:0 40px 100px rgba(0,0,0,.45);position:relative}
+  #dbox .wrapArt{font-size:74px;margin-bottom:8px}
+  #dbox h2{font-family:'Lilita One';font-size:clamp(22px,4vw,32px);color:var(--red)}
+  #dbox p{font-size:14px;line-height:1.7;color:var(--dim);margin-top:10px}
+  #dbox p b{color:var(--fg)}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+  .btn{font-family:'Lilita One';font-size:13px;padding:13px 24px;border-radius:99px;background:var(--red);color:#fff;
+    box-shadow:0 4px 0 #9c2e2e}
+  .btn.g{background:#fff;color:var(--fg);border:2.5px solid var(--fg);box-shadow:0 4px 0 var(--fg)}
+  #dclose{position:absolute;top:12px;right:16px;border:none;background:#f0e0c8;width:34px;height:34px;border-radius:50%;cursor:pointer;font-weight:900}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>🥙 SHAWARMA AL-NOUR</h1>
+<div class="sub">Order № 26 — "The Full-Stack Wrap" · build it ingredient by ingredient · على السخّان</div>
+
+<div id="shop">
+  <div id="shelf">
+    <div class="t">— INGREDIENTS —</div>
+  </div>
+  <div id="station">
+    <div id="orderBar">
+      <div id="ticket">ORDER: THE CAREER WRAP (0/9)</div>
+      <button id="wrapB" disabled>🌯 WRAP IT!</button>
+    </div>
+    <div id="stack"></div>
+    <div id="hintS">Start with the bread — every career needs a base 🍞</div>
+    <div id="counterTop"></div>
+  </div>
+</div>
+
+<div id="toast"><div class="k" id="tk"></div><p id="tp"></p></div>
+
+<div id="done"><div id="dbox">
+  <button id="dclose">✕</button>
+  <div class="wrapArt">🌯</div>
+  <h2>ORDER UP — ONE CAREER, FULLY LOADED</h2>
+  <p><b>Nour Aldeen Tofi</b> — frontend developer &amp; software engineering supervisor, Riyadh. Everything you just stacked is real: the roles, the skills, the certs, the GoldenTag. Wrapped fresh daily since 2023.</p>
+  <p><b>Also on the menu:</b> websites · React frontends · logos · business cards · social visuals · project coordination.</p>
+  <div class="btns">
+    <a class="btn" href="mailto:nouraldeentofi@gmail.com">✉ Order via Email</a>
+    <a class="btn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+  </div>
+</div></div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const ING=[
+ {em:'🍞',nm:'Saj Bread',sm:'the education base',col:'bread',
+  k:'BASE · 2019–2024',p:`<b>B.Tech IT — University of Kalamoon.</b> Every wrap starts flat and patient. Five years on the saj.`},
+ {em:'🍗',nm:'React Chicken',sm:'the main protein',col:'#d68445',
+  k:'PROTEIN · SINCE 2023',p:`<b>React</b> — marinated at Minicodeleader (2023–24), grilled at Khwarizm (2024–25), served daily at Distinctive Frontier Co.`},
+ {em:'🧄',nm:'TypeScript Toum',sm:'strong & strict',col:'#e8e0d0;color:#7a6a4a',
+  p:`<b>TypeScript</b> — the garlic sauce: strong, strict, makes everything better. Certified Coursera '25.`,k:'SAUCE · STRICTLY TYPED'},
+ {em:'🥬',nm:'Tailwind Greens',sm:'fresh utilities',col:'#4a9e5c',
+  k:'FRESH · UTILITY-FIRST',p:`<b>Tailwind CSS</b> — crisp, fast, no wilted styles. Packt '24.`},
+ {em:'🍅',nm:'JS Tomatoes',sm:'the classic',col:'#d64545',
+  k:'CLASSIC · THE ORIGINAL',p:`<b>JavaScript</b> — no shawarma without it. ~3 years professional, still juicy.`},
+ {em:'🥒',nm:'Python Pickles',sm:'DS/AI on the side',col:'#6a9e4a',
+  k:'SIDE · DATA & AI',p:`<b>Python (DS/AI)</b> — IBM certified ×2 ('24). The sharp side flavor for data work.`},
+ {em:'🌶️',nm:'ICPC Hot Sauce',sm:'handle with care',col:'#b33226',
+  k:'EXTRA HOT · 2021',p:`<b>ICPC/ACPC 2021</b> — competitive programming heat. Not for beginners.`},
+ {em:'🧅',nm:'Jira Onions',sm:'layers of process',col:'#c9a2d6;color:#5a3a6e',
+  k:'PROCESS · LAYERED',p:`<b>Jira · Trello · Git</b> — organized in layers, like all good process. Jira suite certified '25.`},
+ {em:'✨',nm:'Golden Drizzle',sm:'goldentag finish',col:'#e8b93c;color:#6e5210',
+  k:'FINISH · SHIPPED 2025',p:`<b>GoldenTag</b> — the golden finishing drizzle: jewelry store app shipped to Google Play via NexLead (inventory, barcode scan, USD/SYP rates). Coordination since Mar 2025; supervisor role since Jan 2026.`}
+];
+let AC=null;
+function pop(f){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f||500;
+  g.gain.setValueAtTime(.07,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.18);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.2);}catch(e){}}
+
+const shelf=document.getElementById('shelf'),stack=document.getElementById('stack');
+let added=0;
+ING.forEach((g,i)=>{
+  const b=document.createElement('button');b.className='ing';
+  b.innerHTML=`<span class="em">${g.em}</span><span class="nm">${g.nm}<small>${g.sm}</small></span>`;
+  b.onclick=()=>add(i,b);
+  shelf.appendChild(b);
+});
+function add(i,btn){
+  const g=ING[i];
+  if(i>0&&added===0){toast('WAIT!','Bread first, habibi — the base holds everything. 🍞');return;}
+  btn.disabled=true;added++;
+  pop(380+i*60);
+  const l=document.createElement('div');
+  l.className='layer'+(g.col==='bread'?' bread':'');
+  if(g.col!=='bread')l.style.cssText='background:'+g.col;
+  l.textContent=`${g.em} ${g.nm}`;
+  stack.appendChild(l);
+  if(!reduced)l.animate([{transform:'translateY(-90px) scale(1.15)',opacity:0},{transform:'none',opacity:1}],
+    {duration:420,easing:'cubic-bezier(.2,1.2,.4,1)'});
+  document.getElementById('ticket').textContent=`ORDER: THE CAREER WRAP (${added}/${ING.length})`;
+  document.getElementById('hintS').textContent=added<ING.length?'Keep stacking — the customer is watching 👀':'Perfect. Now WRAP IT! 🌯';
+  toast(g.k,g.p);
+  if(added>=ING.length)document.getElementById('wrapB').disabled=false;
+}
+let toastTimer=null;
+function toast(k,p){
+  document.getElementById('tk').textContent=k;
+  document.getElementById('tp').innerHTML=p;
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),4200);
+}
+document.getElementById('wrapB').onclick=()=>{
+  pop(700);pop(900);
+  const layers=[...stack.children];
+  if(!reduced){
+    layers.forEach((l,i)=>l.animate([{transform:'none'},{transform:'scale(.55) translateY('+(layers.length-i)*-8+'px)',opacity:.0}],
+      {duration:600,delay:i*40,easing:'ease-in',fill:'forwards'}));
+    setTimeout(()=>document.getElementById('done').classList.add('open'),900);
+  }else document.getElementById('done').classList.add('open');
+};
+document.getElementById('dclose').onclick=()=>document.getElementById('done').classList.remove('open');
+document.getElementById('done').addEventListener('pointerdown',e=>{
+  if(e.target===document.getElementById('done'))document.getElementById('done').classList.remove('open');});
+addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('done').classList.remove('open');});
+</script>
+</body>
+</html>

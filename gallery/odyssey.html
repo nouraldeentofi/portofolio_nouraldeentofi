@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — ODYSSEY · A Solar System of One Career</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--void2:#070a16;--fg:#e8eefc;--dim:rgba(232,238,252,.6);--acc:#5ee0ff;--gold6:#ffd23f}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{font-family:'Karla',sans-serif;color:var(--fg);overflow:hidden;
+    background:radial-gradient(90vw 80vh at 50% 30%,#101a36,var(--void2))}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--acc);color:#070a16}
+  .starO{position:fixed;background:#fff;border-radius:50%;animation:twO 3s infinite}
+  @keyframes twO{50%{opacity:.2}}
+  header{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:20;text-align:center}
+  h1{font-family:'Michroma';font-size:clamp(15px,3vw,24px);letter-spacing:.14em}
+  h1 span{color:var(--acc)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.3em;color:var(--dim);margin-top:6px;text-transform:uppercase}
+
+  /* orbital map */
+  #systemView{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+  #orbits{position:relative;width:min(88vh,92vw);aspect-ratio:1}
+  .orbitRing{position:absolute;border:1px dashed rgba(94,224,255,.18);border-radius:50%}
+  #sunO{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;
+    background:radial-gradient(circle at 36% 30%,#fff2c9,var(--gold6) 55%,#c07a1e);
+    box-shadow:0 0 50px rgba(255,210,63,.7);z-index:3}
+  .planet{position:absolute;z-index:5;cursor:pointer;text-align:center;transform:translate(-50%,-50%);transition:filter .2s}
+  .planet:hover{filter:brightness(1.3) drop-shadow(0 0 12px rgba(94,224,255,.7))}
+  .planet .pb{border-radius:50%;margin:0 auto;box-shadow:inset -6px -6px 14px rgba(0,0,0,.5)}
+  .planet .pn{font-family:'IBM Plex Mono';font-size:8.5px;letter-spacing:.14em;color:var(--dim);margin-top:5px;white-space:nowrap;text-transform:uppercase}
+  .planet.visited .pn{color:var(--gold6)}
+  .planet.visited .pn::after{content:' ✓'}
+  #shipO{position:absolute;z-index:8;font-size:24px;transform:translate(-50%,-50%);pointer-events:none;
+    filter:drop-shadow(0 0 8px rgba(94,224,255,.7))}
+
+  /* HUD */
+  #hudO{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:20;display:flex;gap:12px;
+    font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.12em;flex-wrap:wrap;justify-content:center}
+  #hudO span{background:rgba(10,16,36,.75);border:1px solid rgba(94,224,255,.3);padding:9px 15px;border-radius:99px}
+  #hudO b{color:var(--acc)}
+
+  /* planet panel */
+  #panelO{position:fixed;right:0;top:0;bottom:0;width:min(400px,94vw);z-index:30;
+    background:rgba(8,12,26,.94);border-left:1px solid rgba(94,224,255,.3);backdrop-filter:blur(8px);
+    transform:translateX(105%);transition:transform .5s cubic-bezier(.2,.9,.3,1);padding:60px 30px 30px;overflow-y:auto}
+  #panelO.open{transform:none}
+  #panelO .k{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.28em;color:var(--acc);text-transform:uppercase}
+  #panelO h2{font-family:'Michroma';font-size:clamp(17px,3vw,23px);margin:10px 0;line-height:1.3}
+  #panelO .facts2{font-family:'IBM Plex Mono';font-size:10px;line-height:2;color:var(--dim);border:1px solid rgba(94,224,255,.25);
+    border-radius:8px;padding:10px 14px;margin:10px 0}
+  #panelO p{font-size:13px;line-height:1.75;color:var(--dim)}
+  #panelO p b{color:var(--fg)}
+  #pClose{position:absolute;top:16px;right:18px;background:rgba(94,224,255,.15);border:none;color:var(--acc);
+    width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:14px}
+  .btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+  .btn{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.1em;padding:11px 16px;border-radius:99px;
+    border:1.5px solid var(--acc);color:var(--acc);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--acc);color:#070a16}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header><h1>THE NOUR <span>ODYSSEY</span></h1>
+<div class="sub">One career · six worlds · click a planet, the ship flies there · نظام شمسي كامل</div></header>
+
+<div id="systemView"><div id="orbits">
+  <div id="sunO" title="The Sun: curiosity"></div>
+  <div id="shipO">🚀</div>
+</div></div>
+
+<div id="hudO"><span>WORLDS VISITED <b id="vN">0</b>/6</span><span>FUEL <b>∞ (curiosity-powered)</b></span><span>PILOT: N.A. TOFI</span></div>
+
+<div id="panelO"><button id="pClose">✕</button><div id="pBody"></div></div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+for(let i=0;i<80;i++){const s=document.createElement('div');s.className='starO';
+  const z=Math.random()*2+1;
+  s.style.cssText=`width:${z}px;height:${z}px;left:${Math.random()*100}vw;top:${Math.random()*100}vh;animation-delay:${Math.random()*3}s`;
+  document.body.appendChild(s);}
+
+const PLANETS=[
+ {nm:'KALAMOON PRIME',orbit:.22,size:26,col:'radial-gradient(circle at 36% 30%,#8ad8b8,#2e7a54)',speed:.00034,ang:0.8,
+  k:'World 1 · The origin planet',h:'Kalamoon Prime',
+  f:'ORBIT: 2019–2024 · CLASS: FOUNDATION',
+  p:`Where the species evolved: <b>B.Tech Information Technology, University of Kalamoon.</b> Five orbital years of fundamentals. The gravity here still holds everything else together.`},
+ {nm:'ICPC BELT',orbit:.32,size:20,col:'radial-gradient(circle at 36% 30%,#e8a0a0,#8a2e2e)',speed:.00028,ang:2.4,
+  k:'World 2 · The asteroid trial',h:'The ICPC Belt',
+  f:'ORBIT: 2021 · CLASS: HIGH-PRESSURE',
+  p:`An asteroid field of algorithms navigated at competition speed — <b>ICPC/ACPC 2021.</b> Ships that cross it come out with permanent reflex upgrades.`},
+ {nm:'MINICODE',orbit:.42,size:22,col:'radial-gradient(circle at 36% 30%,#a0c8e8,#2e5a8a)',speed:.00022,ang:4.2,
+  k:'World 3 · First colony',h:'Minicode Station',
+  f:'ORBIT: 2023–24 · CLASS: FIRST SETTLEMENT',
+  p:`The first professional outpost: <b>React Developer at Minicodeleader.</b> Component-driven habitats, clean-code atmosphere established.`},
+ {nm:'KHWARIZM',orbit:.55,size:28,col:'radial-gradient(circle at 36% 30%,#e8c88a,#a8702e)',speed:.00018,ang:1.2,
+  k:'World 4 · The production giant',h:'Khwarizm',
+  f:'ORBIT: 2024–25 · CLASS: GAS GIANT (PRODUCTION)',
+  p:`A giant named after the father of algorithms: <b>production React in Riyadh</b>, flying formation with design and backend fleets. Moons: IBM Python & GenAI certs ('24).`},
+ {nm:'NEXLEAD RING',orbit:.68,size:26,col:'radial-gradient(circle at 36% 30%,#c9a2e8,#6e3a9e)',speed:.00014,ang:5.1,
+  k:'World 5 · The ringed world',h:'NexLead',ring:true,
+  f:'ORBIT: 2025→ · CLASS: RINGED (COORDINATION)',
+  p:`The rings are supply chains: <b>freelance project coordination</b> — scope, user stories, releases. Famous export: <b>GoldenTag</b>, delivered across the void to Google Play.`},
+ {nm:'FRONTIER',orbit:.82,size:32,col:'radial-gradient(circle at 36% 30%,#8ae0ff,#1d6e9e)',speed:.0001,ang:3.3,
+  k:'World 6 · The capital world',h:'Distinctive Frontier',
+  f:'ORBIT: 2025→ NOW · CLASS: CAPITAL',
+  p:`Current home world. Promoted to <b>Software Engineering Supervisor (Jan 2026)</b> — governing React systems, standards, and shipped features. From here, all new missions launch — <b>including yours.</b>`,
+  final:true}
+];
+const orbits=document.getElementById('orbits');
+let R;
+function sizeO(){R=orbits.clientWidth/2;}
+sizeO();addEventListener('resize',sizeO);
+/* rings */
+PLANETS.forEach(p=>{
+  const r=document.createElement('div');r.className='orbitRing';
+  const d=p.orbit*100*2;
+  r.style.cssText=`width:${d}%;height:${d}%;left:${50-p.orbit*100}%;top:${50-p.orbit*100}%`;
+  orbits.appendChild(r);
+});
+/* planets */
+const els=PLANETS.map(p=>{
+  const el=document.createElement('div');el.className='planet';
+  el.innerHTML=`<div class="pb" style="width:${p.size}px;height:${p.size}px;background:${p.col};
+    ${p.ring?'box-shadow:0 0 0 5px rgba(201,162,232,.25),0 0 0 8px rgba(201,162,232,.12), inset -6px -6px 14px rgba(0,0,0,.5);':''}"></div>
+    <div class="pn">${p.nm}</div>`;
+  el.onclick=()=>flyTo(p,el);
+  orbits.appendChild(el);
+  return el;
+});
+let AC=null;
+function thrust(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const b=AC.createBuffer(1,AC.sampleRate*1,AC.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length)*.7;
+  const s=AC.createBufferSource();s.buffer=b;
+  const f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=400;
+  const g=AC.createGain();g.gain.value=.08;
+  s.connect(f);f.connect(g);g.connect(AC.destination);s.start();}catch(e){}}
+function chimeO(){[660,880,1100].forEach((f,i)=>setTimeout(()=>{
+  try{const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f;
+  g.gain.setValueAtTime(.05,AC.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.4);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.45);}catch(e){}},i*130));}
+
+const ship=document.getElementById('shipO');
+let shipX=null,shipY=null,visited=new Set(),flying=false;
+function planetXY(p){
+  const r=p.orbit*R;
+  return [R+Math.cos(p.ang)*r, R+Math.sin(p.ang)*r];
+}
+function tickO(){
+  PLANETS.forEach((p,i)=>{
+    if(!reduced)p.ang+=p.speed*16;
+    const [x,y]=planetXY(p);
+    els[i].style.left=x+'px';els[i].style.top=y+'px';
+  });
+  if(shipX===null){const [x,y]=planetXY(PLANETS[0]);shipX=x;shipY=y-30;}
+  ship.style.left=shipX+'px';ship.style.top=shipY+'px';
+  requestAnimationFrame(tickO);
+}
+tickO();
+function flyTo(p,el){
+  if(flying)return;flying=true;
+  thrust();
+  document.getElementById('panelO').classList.remove('open');
+  const dur=reduced?150:1300;
+  const sx=shipX,sy=shipY;
+  const t0=performance.now();
+  (function fl(t){
+    const pr=Math.min(1,(t-t0)/dur);
+    const e=pr*pr*(3-2*pr);
+    const [tx,ty]=planetXY(p);
+    shipX=sx+(tx-sx)*e;
+    shipY=sy+((ty-p.size/2-16)-sy)*e;
+    ship.style.transform=`translate(-50%,-50%) rotate(${Math.atan2(ty-sy,tx-sx)*57.3+90}deg)`;
+    if(pr<1)requestAnimationFrame(fl);
+    else{
+      ship.style.transform='translate(-50%,-50%)';
+      if(!visited.has(p.nm)){visited.add(p.nm);el.classList.add('visited');
+        document.getElementById('vN').textContent=visited.size;}
+      chimeO();
+      openP(p);
+      flying=false;
+    }
+  })(t0);
+}
+function openP(p){
+  let extra='';
+  if(p.final||visited.size>=6){
+    extra=`<div class="btns">
+      <a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Mission%20request&body=Toured%20all%20six%20worlds.%20My%20mission%3A%20">🚀 Launch my mission</a>
+      <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a></div>`;
+  }else{
+    extra=`<div class="btns"><a class="btn" href="mailto:nouraldeentofi@gmail.com">✉ Contact mission control</a></div>`;
+  }
+  document.getElementById('pBody').innerHTML=
+    `<div class="k">${p.k}</div><h2>${p.h}</h2><div class="facts2">${p.f}</div><p>${p.p}</p>
+     ${visited.size>=6?'<p style="margin-top:10px;color:#ffd23f"><b>★ GRAND TOUR COMPLETE — all six worlds charted.</b> Services across the system: websites · React · logos · social · coordination.</p>':''}
+     ${extra}`;
+  document.getElementById('panelO').classList.add('open');
+}
+document.getElementById('pClose').onclick=()=>document.getElementById('panelO').classList.remove('open');
+addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('panelO').classList.remove('open');});
+</script>
+</body>
+</html>

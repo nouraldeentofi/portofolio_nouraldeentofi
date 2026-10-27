@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — LENS · The Hidden Layer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Archivo:wght@300;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#f3efe7;--ink:#201d18;--soft:rgba(32,29,24,.62);--rule:rgba(32,29,24,.18);
+        --bp:#04161f;--cy:#67e8ff;--cyd:rgba(103,232,255,.55)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Archivo',sans-serif;background:var(--paper);color:var(--ink);overflow-x:hidden;cursor:crosshair}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--ink);color:var(--paper)}
+
+  /* ---------- shared content styles (front) ---------- */
+  section{min-height:92vh;padding:14vh 7vw;position:relative;border-bottom:1px solid var(--rule)}
+  .kick{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.35em;color:var(--soft);text-transform:uppercase;margin-bottom:22px}
+  h1{font-family:'Newsreader',serif;font-weight:400;font-size:clamp(56px,11vw,150px);line-height:.95;letter-spacing:-.01em}
+  h1 em,h2 em{font-style:italic}
+  h2{font-family:'Newsreader',serif;font-weight:400;font-size:clamp(36px,6vw,72px);line-height:1.02;margin-bottom:20px}
+  .lead{max-width:560px;font-weight:300;font-size:16.5px;line-height:1.85;color:var(--soft)}
+  .lead b{color:var(--ink);font-weight:700}
+  .rrow{display:grid;grid-template-columns:120px 1fr;gap:26px;padding:26px 0;border-top:1px solid var(--rule);align-items:baseline}
+  .rrow:last-of-type{border-bottom:1px solid var(--rule)}
+  .rrow .y{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--soft)}
+  .rrow h3{font-family:'Newsreader',serif;font-weight:400;font-size:clamp(20px,3vw,32px)}
+  .rrow p{grid-column:2;font-size:13.5px;font-weight:300;color:var(--soft);line-height:1.7;max-width:600px;margin-top:4px}
+  @media(max-width:640px){.rrow{grid-template-columns:1fr}.rrow p{grid-column:1}}
+  .skills{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px;max-width:800px}
+  .sk{font-family:'IBM Plex Mono',monospace;font-size:12.5px;padding:12px 18px;border:1px solid var(--ink);border-radius:999px}
+  .certline{font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:2.2;color:var(--soft);margin-top:26px;max-width:760px}
+  .biglink{display:inline-block;font-family:'Newsreader',serif;font-size:clamp(24px,4.6vw,54px);font-style:italic;
+    border-bottom:2px solid var(--ink);margin-top:24px}
+  .mono-links{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;margin-top:30px;display:flex;gap:28px;flex-wrap:wrap;text-transform:uppercase}
+  .mono-links a{border-bottom:1px solid var(--rule);padding-bottom:4px}
+
+  /* ---------- secrets: absolute, invisible on front ---------- */
+  .secret{position:absolute;display:none;font-family:'Newsreader',serif;font-style:italic;font-size:15px;
+    color:var(--cy);max-width:260px;line-height:1.5;pointer-events:none}
+  .secret.mono{font-family:'IBM Plex Mono',monospace;font-style:normal;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase}
+  .secret .arr{display:block;font-size:22px;line-height:1}
+  .stamp{position:absolute;display:none;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;letter-spacing:.3em;
+    color:var(--cy);border:2px solid var(--cy);padding:10px 16px;transform:rotate(-8deg);pointer-events:none;text-transform:uppercase}
+
+  /* ---------- back (x-ray) layer ---------- */
+  #back{position:fixed;inset:0;z-index:20;overflow:hidden;pointer-events:none;
+    clip-path:circle(0px at 50% 50%);background:var(--bp)}
+  #backInner{position:absolute;left:0;top:0;width:100vw;will-change:transform}
+  #back .layerContent{background:
+      linear-gradient(rgba(103,232,255,.07) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(103,232,255,.07) 1px,transparent 1px);
+    background-size:44px 44px;min-height:100%}
+  #back section{border-bottom:1px dashed var(--cyd)}
+  #back *{color:var(--cy)!important;border-color:var(--cyd)!important}
+  #back h1,#back h2,#back h3,#back .biglink{color:transparent!important;-webkit-text-stroke:1px var(--cy)}
+  #back .lead,#back .rrow p,#back .certline{color:var(--cyd)!important}
+  #back .sk{background:rgba(103,232,255,.08)}
+  #back .secret,#back .stamp{display:block}
+  #back .kick::before{content:'[X-RAY] '}
+
+  /* ---------- lens ring ---------- */
+  #ring{position:fixed;z-index:30;width:340px;height:340px;border-radius:50%;pointer-events:none;
+    border:2px solid var(--cy);box-shadow:0 0 40px rgba(103,232,255,.35), inset 0 0 40px rgba(103,232,255,.15);
+    transform:translate(-50%,-50%);opacity:0;transition:opacity .4s}
+  #ring .lbl{position:absolute;top:-26px;left:50%;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;
+    font-size:10px;letter-spacing:.3em;color:var(--cy);white-space:nowrap}
+  body.lensed #ring{opacity:1}
+  #hintbar{position:fixed;z-index:15;bottom:22px;left:50%;transform:translateX(-50%);
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.3em;color:var(--soft);text-transform:uppercase;
+    background:var(--paper);border:1px solid var(--rule);padding:10px 20px;border-radius:99px}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div id="frontRoot">
+  <section>
+    <div class="kick">Nour Aldeen Tofi · Portfolio · Surface Layer</div>
+    <h1>Every clean surface<br><em>hides a system.</em></h1>
+    <p class="lead" style="margin-top:30px"><b>Frontend developer &amp; software engineering supervisor</b> — Riyadh. This page looks calm. Move your cursor: the lens shows you what's really underneath — the annotations, the reasoning, the parts of me that don't fit on a CV.</p>
+    <div class="secret" style="top:18%;right:8%"><span class="arr">↖</span>the serif is Newsreader. chosen at 2 AM. no regrets.</div>
+    <div class="secret mono" style="bottom:16%;left:8%">blueprint layer v2.6 · clearance: anyone curious</div>
+    <div class="stamp" style="top:52%;right:16%">Inspected · NT</div>
+  </section>
+
+  <section>
+    <div class="kick">01 · The Record</div>
+    <h2>Five roles,<br><em>one trajectory.</em></h2>
+    <div style="margin-top:30px">
+      <div class="rrow"><div class="y">2026 →</div><h3>Software Engineering Supervisor — Distinctive Frontier Co.</h3>
+        <p>Leads frontend at a Riyadh safety equipment company: scalable React systems, coding standards, backend alignment, shipped features.</p></div>
+      <div class="rrow"><div class="y">2025 →</div><h3>Project Coordinator — NexLead <em>(freelance)</em></h3>
+        <p>Requirements → user stories → releases. Shipped GoldenTag (jewelry store management) to Google Play: inventory, barcode scanning, USD/SYP rates.</p></div>
+      <div class="rrow"><div class="y">2025</div><h3>Frontend + Coordination — Distinctive Frontier Co.</h3>
+        <p>The year of doing both jobs well enough that they invented a bigger one.</p></div>
+      <div class="rrow"><div class="y">2024–25</div><h3>Frontend Developer — Khwarizm Technologies</h3>
+        <p>Production React in Riyadh alongside design and backend.</p></div>
+      <div class="rrow"><div class="y">2023–24</div><h3>React Developer — Minicodeleader</h3>
+        <p>First professional role. Component discipline begins.</p></div>
+    </div>
+    <div class="secret" style="top:24%;right:6%"><span class="arr">←</span>promotion = pawn reaches the 8th rank. chess players understand.</div>
+    <div class="secret mono" style="top:58%;right:9%">goldentag: barcode module was the boss fight</div>
+    <div class="secret" style="bottom:10%;right:12%">ICPC 2021 — the reflexes never left.</div>
+  </section>
+
+  <section>
+    <div class="kick">02 · Instruments</div>
+    <h2>The toolkit, <em>calibrated.</em></h2>
+    <div class="skills">
+      <span class="sk">React</span><span class="sk">TypeScript</span><span class="sk">Tailwind CSS</span>
+      <span class="sk">JavaScript</span><span class="sk">Python · DS/AI</span><span class="sk">Git</span>
+      <span class="sk">Jira</span><span class="sk">Trello</span><span class="sk">Prompt Engineering</span>
+      <span class="sk">Clean Code</span><span class="sk">Team Leadership</span>
+    </div>
+    <div class="certline">CERTIFIED — Meta Advanced React '25 · TypeScript in React '25 · Google Foundations of PM '25 · Google Project Initiation '25 · IBM Python for DS &amp; AI '24 · IBM GenAI Prompting '24 · Tailwind '24 · Clean Code '24 · Jira suite '25 · B.Tech IT, University of Kalamoon 2019–2024</div>
+    <div class="secret" style="top:30%;right:7%"><span class="arr">↙</span>"clean code" isn't a cert here. it's a personality trait.</div>
+    <div class="secret mono" style="bottom:20%;left:40%">python: the quiet weapon for data & ai side quests</div>
+    <div class="stamp" style="top:12%;right:18%">All Verified</div>
+  </section>
+
+  <section>
+    <div class="kick">03 · Contact</div>
+    <h2>Look closer.<br><em>Then say hello.</em></h2>
+    <p class="lead">Websites · React frontends · logos · business cards · social visuals · project coordination.</p>
+    <a class="biglink" href="mailto:nouraldeentofi@gmail.com">nouraldeentofi@gmail.com</a>
+    <div class="mono-links">
+      <a href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website ↗</a>
+      <span>Riyadh · KSA</span><span>AR + EN</span>
+    </div>
+    <div class="secret" style="top:20%;right:10%"><span class="arr">↖</span>replies fast. faster if you mention anime or the London System.</div>
+    <div class="secret mono" style="bottom:14%;right:8%">off-duty: anime · chess · badminton · film</div>
+  </section>
+</div>
+
+<div id="back" aria-hidden="true"><div id="backInner"><div class="layerContent" id="backContent"></div></div></div>
+<div id="ring"><div class="lbl">X-RAY · CLICK TO WIDEN</div></div>
+<div id="hintbar">Move to scan — click to widen the lens</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* clone front into back layer */
+document.getElementById('backContent').innerHTML=document.getElementById('frontRoot').innerHTML;
+
+const back=document.getElementById('back'),inner=document.getElementById('backInner'),ring=document.getElementById('ring');
+let tx=innerWidth/2,ty=innerHeight/2,x=tx,y=ty,r=0,tr=0,big=false,seen=false;
+
+addEventListener('pointermove',e=>{tx=e.clientX;ty=e.clientY;
+  if(!seen){seen=true;tr=big?300:170;document.body.classList.add('lensed');}
+});
+addEventListener('pointerdown',e=>{
+  if(e.target.closest('a'))return;
+  big=!big;tr=big?300:170;
+});
+addEventListener('pointerleave',()=>{tr=0;document.body.classList.remove('lensed');seen=false;});
+/* touch: lens under finger */
+addEventListener('touchmove',e=>{const t=e.touches[0];tx=t.clientX;ty=t.clientY;
+  tr=200;document.body.classList.add('lensed');},{passive:true});
+
+/* keep back layer width equal to the real (scrollbar-less) content width */
+function syncW(){inner.style.width=document.documentElement.clientWidth+'px';}
+syncW();addEventListener('resize',syncW);
+
+(function loop(){
+  const k=reduced?1:.16,kr=reduced?1:.12;
+  x+=(tx-x)*k;y+=(ty-y)*k;r+=(tr-r)*kr;
+  back.style.clipPath=`circle(${r}px at ${x}px ${y}px)`;
+  ring.style.left=x+'px';ring.style.top=y+'px';
+  ring.style.width=ring.style.height=(r*2)+'px';
+  inner.style.transform=`translateY(${-scrollY}px)`;
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

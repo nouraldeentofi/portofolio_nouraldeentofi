@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — Checkmate · A Career in Six Moves</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#f5efe0; --parch:#efe6cf; --walnut:#2b211c; --oak:#4a382b;
+    --sq-light:#e9dcc3; --sq-dark:#8a6647; --crimson:#a33b2e; --gold:#c9a227; --inkfaint:rgba(43,33,28,.72);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Crimson Pro',serif;background:var(--cream);color:var(--walnut);overflow-x:hidden}
+  ::selection{background:var(--crimson);color:#fff}
+  body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.5;
+    background:radial-gradient(ellipse at 50% 0%,transparent 55%,rgba(43,33,28,.16));}
+
+  /* ===== fixed 3D board ===== */
+  #stage{position:fixed;right:-4vw;top:50%;transform:translateY(-50%);z-index:2;perspective:1100px;
+    width:min(46vw,560px);height:min(46vw,560px);pointer-events:none}
+  #board3d{width:100%;height:100%;transform-style:preserve-3d;transform:rotateX(56deg) rotateZ(-12deg)}
+  #board{position:absolute;inset:0;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);
+    border:10px solid var(--oak);box-shadow:0 40px 70px rgba(43,33,28,.4), inset 0 0 0 2px var(--gold)}
+  .sq{position:relative}
+  .sq.l{background:var(--sq-light)}.sq.d{background:var(--sq-dark)}
+  .coord{position:absolute;font-family:'Courier Prime';font-size:9px;color:rgba(43,33,28,.5);left:3px;top:2px}
+  .piece{position:absolute;width:12.5%;height:12.5%;display:flex;align-items:center;justify-content:center;
+    font-size:clamp(22px,3.4vw,42px);transition:none;text-shadow:0 3px 4px rgba(0,0,0,.3);will-change:left,top}
+  .piece.w{color:#faf6ea;-webkit-text-stroke:1.5px #4a382b}
+  .piece.b{color:#241a14;-webkit-text-stroke:1px rgba(250,246,234,.25)}
+  .piece .glyph{transform:rotateZ(12deg)}/* counter board rotation a bit */
+  #flash{position:absolute;width:12.5%;height:12.5%;border-radius:50%;opacity:0;
+    background:radial-gradient(circle,rgba(201,162,39,.95),transparent 70%)}
+
+  /* ===== notation bar ===== */
+  #notation{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:20;font-family:'Courier Prime',monospace;
+    background:var(--walnut);color:var(--parch);border-radius:12px;padding:12px 22px;font-size:clamp(12px,1.6vw,15px);
+    letter-spacing:.5px;box-shadow:0 14px 34px rgba(43,33,28,.4);white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
+  #notation b{color:var(--gold)}
+  #clock{position:fixed;top:22px;right:22px;z-index:20;font-family:'Courier Prime',monospace;font-size:13px;
+    background:var(--walnut);color:var(--parch);padding:10px 16px;border-radius:10px}
+  #clock b{color:var(--gold)}
+
+  /* ===== content ===== */
+  main{position:relative;z-index:10}
+  section{min-height:108vh;display:flex;align-items:center;padding:12vh 6vw}
+  .sheet{max-width:520px;background:var(--parch);border:1px solid rgba(43,33,28,.25);border-radius:6px;
+    padding:44px 46px;box-shadow:0 24px 60px rgba(43,33,28,.22);position:relative}
+  .sheet::before{content:'';position:absolute;top:10px;left:10px;right:10px;bottom:10px;border:1px solid rgba(201,162,39,.55);border-radius:3px;pointer-events:none}
+  .moveNo{font-family:'Courier Prime',monospace;font-weight:700;font-size:12px;letter-spacing:3px;color:var(--crimson);margin-bottom:12px;text-transform:uppercase}
+  h1{font-family:'DM Serif Display',serif;font-size:clamp(48px,8.4vw,110px);line-height:.98}
+  h1 em{font-style:italic;color:var(--crimson)}
+  h2{font-family:'DM Serif Display',serif;font-size:clamp(28px,4vw,44px);line-height:1.05;margin-bottom:14px}
+  h2 em{font-style:italic;color:var(--crimson)}
+  p{font-size:17.5px;line-height:1.66;color:var(--inkfaint)}
+  p+p{margin-top:12px}
+  .meta{font-family:'Courier Prime',monospace;font-size:12.5px;color:var(--oak);margin-bottom:8px;letter-spacing:1px}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .tag{font-family:'Courier Prime',monospace;font-size:12px;padding:5px 12px;border:1px solid var(--oak);border-radius:999px;color:var(--oak)}
+  .tag.red{border-color:var(--crimson);color:var(--crimson)}
+  a{color:var(--crimson);text-decoration:none;border-bottom:1px solid rgba(163,59,46,.4)}
+  a:hover{border-color:var(--crimson)}
+
+  #hero{flex-direction:column;justify-content:center;text-align:left;align-items:flex-start}
+  #hero .kicker{font-family:'Courier Prime',monospace;letter-spacing:4px;font-size:12px;color:var(--crimson);margin-bottom:16px}
+  #hero .sub{font-size:clamp(17px,2.2vw,22px);font-style:italic;color:var(--inkfaint);margin-top:16px;max-width:480px}
+  #hint{margin-top:40px;font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:3px;color:var(--oak);animation:nudge 1.8s infinite}
+  @keyframes nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(9px)}}
+
+  /* captured skill pieces */
+  .rack{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .cap{font-family:'Courier Prime',monospace;font-size:13px;font-weight:700;background:var(--walnut);color:var(--parch);
+    padding:9px 14px;border-radius:8px;box-shadow:0 5px 0 rgba(43,33,28,.45)}
+  .cap span{color:var(--gold);margin-right:6px}
+  .certs{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}
+  .cert{font-size:13.5px;padding:10px 12px;border:1px dashed rgba(74,56,43,.5);border-radius:6px;line-height:1.35}
+  .cert b{color:var(--crimson);font-weight:600}
+  @media(max-width:860px){
+    #stage{opacity:.32;right:-24vw;width:88vw;height:88vw}
+    .sheet{padding:32px 26px}.certs{grid-template-columns:1fr}
+  }
+  .btn{display:inline-block;font-family:'Courier Prime',monospace;font-weight:700;letter-spacing:1px;font-size:14px;
+    padding:14px 24px;border-radius:8px;border:2px solid var(--walnut);background:var(--walnut);color:var(--parch);
+    margin:6px 8px 0 0;transition:transform .2s;box-shadow:0 8px 22px rgba(43,33,28,.3)}
+  .btn.ghost{background:transparent;color:var(--walnut)}
+  .btn:hover{transform:translateY(-3px)}
+  @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div id="stage" aria-hidden="true"><div id="board3d">
+  <div id="board"></div><div id="flash"></div>
+</div></div>
+
+<div id="clock">⏱ WHITE <b id="wclock">03:00</b> · BLACK 03:00</div>
+<div id="notation"><b>NT vs. The Market</b> · Riyadh Invitational, 2026 · White to move</div>
+
+<main>
+  <!-- move 0 -->
+  <section id="hero">
+    <div>
+      <div class="kicker">RIYADH INVITATIONAL · BOARD 1 · RATED GAME</div>
+      <h1>Nour Aldeen Tofi<br><em>plays White.</em></h1>
+      <div class="sub">Frontend developer &amp; software engineering supervisor. A career annotated as a chess game — because that's how I've always played it: think ahead, develop your pieces, control the center.</div>
+      <div id="hint">▼ SCROLL TO PLAY 1. e4 ▼</div>
+    </div>
+  </section>
+
+  <!-- move 1 — Minicodeleader -->
+  <section data-state="1" data-note="<b>1. e4</b> — The classical start. Control the center early. (2023)">
+    <div class="sheet" data-reveal>
+      <div class="moveNo">Move 1 · 1. e4 · The Opening</div>
+      <div class="meta">JUN 2023 → FEB 2024</div>
+      <h2>Frontend Developer (React) — <em>Minicodeleader</em></h2>
+      <p>Every game begins with a pawn push. Mine was component-driven React development — first professional role, learning the discipline of clean, maintainable code in a real codebase.</p>
+      <div class="tags"><span class="tag red">React</span><span class="tag">Components</span><span class="tag">Fundamentals</span></div>
+    </div>
+  </section>
+
+  <!-- move 2 — Khwarizm -->
+  <section data-state="2" data-note="<b>2. Nf3</b> — Develop the knights toward the action. (2024)">
+    <div class="sheet" data-reveal>
+      <div class="moveNo">Move 2 · 2. Nf3 · Development</div>
+      <div class="meta">SEP 2024 → APR 2025 · RIYADH</div>
+      <h2>Frontend Developer — <em>Khwarizm Technologies</em></h2>
+      <p>Named after al-Khwarizmi — the man who gave algorithms their name. Fitting square for an ICPC/ACPC competitive programmer (2021) to land on. Production React, tight collaboration with design and backend.</p>
+      <div class="tags"><span class="tag red">Production React</span><span class="tag">ICPC / ACPC rated</span></div>
+    </div>
+  </section>
+
+  <!-- move 3 — DF dev year (castles) -->
+  <section data-state="3" data-note="<b>3. Bc4, O-O</b> — Castled. King safety, solid structure. (2025)">
+    <div class="sheet" data-reveal>
+      <div class="moveNo">Move 3 · O-O · Castling</div>
+      <div class="meta">JAN 2025 → JAN 2026 · RIYADH</div>
+      <h2>Frontend Dev &amp; Project Coordination — <em>Distinctive Frontier Co.</em></h2>
+      <p>Castling: the move that secures your position and connects your rooks. A year of building scalable React UI <em>and</em> coordinating projects at a safety equipment company — code and coordination finally on the same file.</p>
+      <div class="tags"><span class="tag red">React</span><span class="tag">Coordination</span><span class="tag">UI Systems</span></div>
+    </div>
+  </section>
+
+  <!-- move 4 — NexLead -->
+  <section data-state="4" data-note="<b>4. Qh5!?</b> — An aggressive freelance sortie. The engine approves. (2025)">
+    <div class="sheet" data-reveal>
+      <div class="moveNo">Move 4 · 4. Qh5!? · The Sortie</div>
+      <div class="meta">MAR 2025 → PRESENT · REMOTE</div>
+      <h2>Freelance Project Coordinator — <em>NexLead</em></h2>
+      <p>The bold queen move: freelance coordination in parallel with full-time work. Requirements, scope, user stories on Trello, quality across frontend/backend/UI-UX, releases to Google Play.</p>
+      <p><strong>Won material: GoldenTag</strong> — jewelry store management app. Inventory, employees, barcode scanning, USD/SYP exchange rates, sales logs, TXT export.</p>
+      <div class="tags"><span class="tag red">GoldenTag · Google Play</span><span class="tag">Scope & Estimates</span></div>
+    </div>
+  </section>
+
+  <!-- move 5 — promotion -->
+  <section data-state="5" data-note="<b>5. a8=Q</b> — PROMOTION. The pawn becomes a queen. (Jan 2026)">
+    <div class="sheet" data-reveal>
+      <div class="moveNo">Move 5 · a8=Q · Promotion ♛</div>
+      <div class="meta">JAN 2026 → PRESENT · RIYADH</div>
+      <h2>Software Engineering <em>Supervisor</em> — Distinctive Frontier Co.</h2>
+      <p>In chess, a pawn that crosses the whole board becomes a queen. In January 2026, mine did: promoted to supervise frontend development — leading engineers, driving coding standards, aligning technical work with business objectives, shipping product ideas as real features.</p>
+      <div class="tags"><span class="tag red">Team Leadership</span><span class="tag">Architecture</span><span class="tag">Standards</span></div>
+    </div>
+  </section>
+
+  <!-- move 6 — skills = captures -->
+  <section data-state="6" data-note="Captured material — a full rack of skills, no blunders.">
+    <div class="sheet" data-reveal>
+      <div class="moveNo">Captured Material · The Rack</div>
+      <h2>Pieces <em>won</em> along the way</h2>
+      <div class="rack">
+        <span class="cap" data-cap><span>♛</span>React</span><span class="cap" data-cap><span>♜</span>TypeScript</span>
+        <span class="cap" data-cap><span>♜</span>Tailwind CSS</span><span class="cap" data-cap><span>♝</span>JavaScript</span>
+        <span class="cap" data-cap><span>♝</span>Python · DS/AI</span><span class="cap" data-cap><span>♞</span>Git</span>
+        <span class="cap" data-cap><span>♞</span>Jira · Trello</span><span class="cap" data-cap><span>♟</span>Prompt Engineering</span>
+        <span class="cap" data-cap><span>♟</span>Clean Code</span><span class="cap" data-cap><span>♟</span>Requirements</span>
+      </div>
+      <div class="certs">
+        <div class="cert"><b>Advanced React</b> — Meta '25</div>
+        <div class="cert"><b>TypeScript in React</b> — Coursera '25</div>
+        <div class="cert"><b>Foundations of PM</b> — Google '25</div>
+        <div class="cert"><b>Python DS & AI</b> — IBM '24</div>
+        <div class="cert"><b>GenAI Prompting</b> — IBM '24</div>
+        <div class="cert"><b>Clean Code</b> — Scrimba '24</div>
+      </div>
+      <p style="margin-top:16px">Education: <strong>B.Tech Information Technology</strong> — University of Kalamoon, 2019–2024.</p>
+    </div>
+  </section>
+
+  <!-- move 7 — checkmate / contact -->
+  <section data-state="7" data-note="<b>6. Qxf7#</b> — CHECKMATE. Your move: hire White.">
+    <div class="sheet" data-reveal>
+      <div class="moveNo">Move 6 · Qxf7# · Checkmate</div>
+      <h2>Now it's <em>your</em> move</h2>
+      <p>Websites, React frontends, logos, business cards, social visuals — or a coordinator who sees your whole project three moves ahead.</p>
+      <p style="margin-top:6px">
+        <a class="btn" href="mailto:nouraldeentofi@gmail.com">CHALLENGE ME (EMAIL)</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LINKEDIN</a>
+        <a class="btn ghost" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">WEBSITE</a>
+      </p>
+      <p style="margin-top:18px;font-family:'Courier Prime',monospace;font-size:12px;opacity:.7">Post-game analysis over: anime · chess (obviously) · badminton · movies<br>Riyadh, Saudi Arabia · Arabic + English</p>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* build board */
+const board=document.getElementById('board');
+const files='abcdefgh';
+for(let r=8;r>=1;r--)for(let f=0;f<8;f++){
+  const sq=document.createElement('div');
+  sq.className='sq '+(((r+f)%2===0)?'d':'l');
+  if(f===0)sq.innerHTML=`<span class="coord">${r}</span>`;
+  if(r===1)sq.innerHTML+=`<span class="coord" style="left:auto;right:3px;top:auto;bottom:2px">${files[f]}</span>`;
+  board.appendChild(sq);
+}
+const b3d=document.getElementById('board3d');
+function pos(sqr){const f=files.indexOf(sqr[0]),r=+sqr[1];return{left:(f*12.5)+'%',top:((8-r)*12.5)+'%'};}
+
+/* pieces */
+const GL={K:'♚',Q:'♛',R:'♜',B:'♝',N:'♞',P:'♟'};
+const roster=[
+  ['wK','K','w','e1'],['wQ','Q','w','d1'],['wRa','R','w','a1'],['wRh','R','w','h1'],
+  ['wB','B','w','f1'],['wN','N','w','g1'],['wPe','P','w','e2'],['wPa','P','w','a2'],['wPd','P','w','d2'],
+  ['bK','K','b','e8'],['bQ','Q','b','d8'],['bN','N','b','b8'],['bNg','N','b','g8'],
+  ['bPe','P','b','e7'],['bPf','P','b','f7'],['bPd','P','b','d7']
+];
+const pieces={};
+roster.forEach(([id,t,c,sq])=>{
+  const el=document.createElement('div');el.className='piece '+c;el.innerHTML=`<span class="glyph">${GL[t]}</span>`;
+  Object.assign(el.style,pos(sq));b3d.appendChild(el);pieces[id]={el,type:t};
+});
+
+/* states: moves per chapter (id -> square | null=captured | {sq,glyph}) */
+const STATES=[
+  {},
+  {wPe:'e4',bPe:'e5'},
+  {wN:'f3',bN:'c6'},
+  {wB:'c4',wK:'g1',wRh:'f1'},
+  {wQ:'h5',bNg:'f6'},
+  {wPa:{sq:'a8',glyph:'♛',flash:true}},
+  {bPd:null,bN:null},
+  {wQ:{sq:'f7',flash:true},bPf:null,mate:true}
+];
+/* cumulative apply */
+function applyUpTo(idx){
+  /* reset */
+  roster.forEach(([id,t,c,sq])=>{const p=pieces[id];p.el.style.display='flex';
+    p.el.querySelector('.glyph').textContent=GL[t];gsap.set(p.el,{...pos(sq),opacity:1,rotate:0});});
+  for(let i=1;i<=idx;i++){
+    const st=STATES[i];if(!st)continue;
+    for(const id in st){
+      if(id==='mate')continue;
+      const mv=st[id],p=pieces[id];if(!p)continue;
+      if(mv===null){p.el.style.display='none';continue;}
+      const sq=typeof mv==='string'?mv:mv.sq;
+      gsap.set(p.el,pos(sq));
+      if(typeof mv==='object'&&mv.glyph)p.el.querySelector('.glyph').textContent=mv.glyph;
+    }
+  }
+  if(idx>=7){gsap.set(pieces.bK.el,{rotate:78,opacity:.85});}
+}
+/* animated transition into state idx */
+function animateState(idx){
+  const st=STATES[idx];if(!st)return;
+  applyUpTo(idx-1);
+  const d=reduced?0:.85;
+  for(const id in st){
+    if(id==='mate')continue;
+    const mv=st[id],p=pieces[id];if(!p)continue;
+    if(mv===null){gsap.to(p.el,{opacity:0,scale:.4,duration:d*.6,onComplete:()=>p.el.style.display='none'});continue;}
+    const sq=typeof mv==='string'?mv:mv.sq;
+    gsap.to(p.el,{...pos(sq),duration:d,ease:'power2.inOut',onComplete:()=>{
+      if(typeof mv==='object'&&mv.glyph){p.el.querySelector('.glyph').textContent=mv.glyph;
+        gsap.fromTo(p.el,{scale:1.6},{scale:1,duration:.5,ease:'back.out(2)'});}
+      if(typeof mv==='object'&&mv.flash){const fl=document.getElementById('flash');
+        Object.assign(fl.style,pos(sq));gsap.fromTo(fl,{opacity:1,scale:.5},{opacity:0,scale:2.4,duration:.9});}
+    }});
+  }
+  if(st.mate){gsap.to(pieces.bK.el,{rotate:78,opacity:.85,duration:d,delay:d,ease:'bounce.out'});}
+}
+
+/* wire sections */
+const note=document.getElementById('notation');
+document.querySelectorAll('section[data-state]').forEach(sec=>{
+  const idx=+sec.dataset.state;
+  ScrollTrigger.create({trigger:sec,start:'top 55%',
+    onEnter(){animateState(idx);note.innerHTML=sec.dataset.note;},
+    onLeaveBack(){applyUpTo(idx-1);const prev=sec.previousElementSibling;
+      note.innerHTML=prev&&prev.dataset&&prev.dataset.note?prev.dataset.note:'<b>NT vs. The Market</b> · Riyadh Invitational, 2026 · White to move';}
+  });
+});
+applyUpTo(0);
+
+/* camera: board tilts & swings as you travel the game */
+if(!reduced){
+  gsap.fromTo('#board3d',{rotateX:62,rotateZ:-16},{rotateX:38,rotateZ:14,ease:'none',
+    scrollTrigger:{trigger:'main',start:'top top',end:'bottom bottom',scrub:1.2}});
+  gsap.to('#stage',{y:'-46%',ease:'none',scrollTrigger:{trigger:'main',start:'top top',end:'bottom bottom',scrub:2}});
+}
+
+/* white clock ticks down with progress */
+ScrollTrigger.create({trigger:'main',start:'top top',end:'bottom bottom',scrub:true,
+  onUpdate(self){const t=180-Math.round(self.progress*168);
+    document.getElementById('wclock').textContent=String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0');}});
+
+/* sheet reveals */
+gsap.utils.toArray('[data-reveal]').forEach(s=>{
+  gsap.from(s,{opacity:0,y:reduced?0:60,rotate:reduced?0:-1,duration:.8,ease:'power2.out',
+    scrollTrigger:{trigger:s,start:'top 78%',toggleActions:'play none none reverse'}});
+});
+gsap.from('[data-cap]',{opacity:0,y:24,rotation:()=>gsap.utils.random(-10,10),stagger:.06,duration:.5,ease:'back.out(1.7)',
+  scrollTrigger:{trigger:'.rack',start:'top 82%'}});
+gsap.to('#hint',{opacity:0,scrollTrigger:{trigger:'#hero',start:'top top',end:'25% top',scrub:true}});
+</script>
+</body>
+</html>

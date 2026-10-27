@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — TRAFFIC · Coordination, Literally</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--night2:#1c2128;--nightd:#12151a;--road3:#3a3f47;--fg:#f0f2f5;--dim:rgba(240,242,245,.6);
+        --green7:#4adc7a;--red7:#ff5e4a;--amber2:#ffc14d}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Rubik',sans-serif;color:var(--fg);min-height:100vh;
+    background:radial-gradient(80vw 60vh at 50% 0%,#2a3038,var(--night2) 55%,var(--nightd));
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--amber2);color:#1c2128}
+  h1{font-weight:900;font-size:clamp(22px,4.6vw,40px)}
+  h1 span{color:var(--amber2)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.26em;color:var(--dim);
+    margin:8px 0 16px;text-transform:uppercase;text-align:center}
+
+  #hud4{display:flex;gap:12px;margin-bottom:12px;font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.14em;flex-wrap:wrap;justify-content:center}
+  #hud4 span{background:rgba(255,255,255,.08);padding:10px 16px;border-radius:99px}
+  #hud4 b{color:var(--amber2)}
+
+  #junction{position:relative;width:min(560px,94vw);aspect-ratio:1;border-radius:18px;overflow:hidden;
+    background:#26522e;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+  .roadH{position:absolute;left:0;right:0;top:50%;height:120px;transform:translateY(-50%);background:var(--road3)}
+  .roadV{position:absolute;top:0;bottom:0;left:50%;width:120px;transform:translateX(-50%);background:var(--road3)}
+  .lane{position:absolute;background:repeating-linear-gradient(90deg,#f0e6c8 0 18px,transparent 18px 40px);height:3px;left:0;right:0;top:50%}
+  .laneV{position:absolute;background:repeating-linear-gradient(0deg,#f0e6c8 0 18px,transparent 18px 40px);width:3px;top:0;bottom:0;left:50%}
+  .carT{position:absolute;z-index:5;font-size:24px;filter:drop-shadow(0 3px 3px rgba(0,0,0,.4))}
+  .carT .lbl3{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-family:'IBM Plex Mono';
+    font-size:7px;background:rgba(0,0,0,.6);color:#fff;padding:2px 6px;border-radius:99px;white-space:nowrap}
+  /* lights */
+  .light{position:absolute;z-index:8;width:34px;background:#12151a;border-radius:9px;padding:6px;cursor:pointer;
+    box-shadow:0 4px 12px rgba(0,0,0,.5);transition:transform .15s}
+  .light:hover{transform:scale(1.1)}
+  .light .lamp{width:20px;height:20px;border-radius:50%;background:#2c3038;margin:3px auto}
+  .light.green .lamp.g{background:var(--green7);box-shadow:0 0 12px var(--green7)}
+  .light.red .lamp.r{background:var(--red7);box-shadow:0 0 12px var(--red7)}
+  #lightH{left:calc(50% - 130px);top:calc(50% - 116px)}
+  #lightV{left:calc(50% + 74px);top:calc(50% + 68px)}
+  .ltag{position:absolute;font-family:'IBM Plex Mono';font-size:8px;letter-spacing:.1em;color:var(--dim);white-space:nowrap}
+  #crashFx{position:absolute;z-index:9;font-size:40px;display:none;transform:translate(-50%,-50%)}
+
+  #coach2{margin-top:16px;max-width:560px;text-align:center;min-height:90px}
+  #coach2 .k{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.28em;color:var(--amber2);text-transform:uppercase;font-weight:600}
+  #coach2 h2{font-weight:900;font-size:clamp(17px,3.2vw,25px);margin:8px 0 6px}
+  #coach2 p{font-size:12.5px;line-height:1.7;color:var(--dim)}
+  #coach2 p b{color:var(--fg)}
+  .btns{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 18px;border-radius:99px;
+    border:2px solid var(--amber2);color:var(--amber2);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--amber2);color:#1c2128}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<h1>🚦 PROJECT <span>JUNCTION</span></h1>
+<div class="sub">You're the coordinator now · click the lights · deliver 10 cars, crash none · نظّم السير</div>
+
+<div id="hud4"><span>DELIVERED <b id="dv">0</b>/10</span><span>CRASHES <b id="cr">0</b></span></div>
+
+<div id="junction">
+  <div class="roadH"></div><div class="roadV"></div>
+  <div class="lane"></div><div class="laneV"></div>
+  <div class="light green" id="lightH"><div class="lamp r"></div><div class="lamp g"></div></div>
+  <div class="ltag" style="left:calc(50% - 178px);top:calc(50% - 128px)">H-FLOW</div>
+  <div class="light red" id="lightV"><div class="lamp r"></div><div class="lamp g"></div></div>
+  <div class="ltag" style="left:calc(50% + 112px);top:calc(50% + 82px)">V-FLOW</div>
+  <div id="crashFx">💥</div>
+</div>
+
+<div id="coach2">
+  <div class="k">The most honest metaphor here</div>
+  <h2>Coordination = traffic control</h2>
+  <p>Frontend tasks flow one way, backend the other. Someone has to <b>time the lights</b> so nothing collides. Nour does this daily — with Trello boards instead of lamps.</p>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const J=document.getElementById('junction');
+let W;function size(){W=J.clientWidth;}size();addEventListener('resize',size);
+let AC=null;
+function beep2(f){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='square';o.frequency.value=f||600;
+  g.gain.setValueAtTime(.04,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.1);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.12);}catch(e){}}
+function crashS(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const b=AC.createBuffer(1,AC.sampleRate*.4,AC.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length);
+  const s=AC.createBufferSource();s.buffer=b;
+  const f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=500;
+  const g=AC.createGain();g.gain.value=.16;
+  s.connect(f);f.connect(g);g.connect(AC.destination);s.start();}catch(e){}}
+
+let hGreen=true;
+function setLights(){
+  document.getElementById('lightH').className='light '+(hGreen?'green':'red');
+  document.getElementById('lightV').className='light '+(hGreen?'red':'green');
+}
+document.getElementById('lightH').onclick=()=>{hGreen=true;setLights();beep2(700);};
+document.getElementById('lightV').onclick=()=>{hGreen=false;setLights();beep2(500);};
+addEventListener('keydown',e=>{if(e.key===' '){e.preventDefault();hGreen=!hGreen;setLights();beep2(hGreen?700:500);}});
+setLights();
+
+const CARS_H=['🚗','🚙','🚕'],CARS_V=['🚚','🚌','🏎️'];
+const LBLS_H=['FRONTEND TASK','UI FIX','DESIGN ASSET'],LBLS_V=['BACKEND API','DB MIGRATION','DEPLOY'];
+let cars=[],delivered=0,crashes=0,spawnT=0,gameOver=false;
+function spawn(){
+  const horiz=Math.random()<.5;
+  const i=Math.floor(Math.random()*3);
+  const el=document.createElement('div');el.className='carT';
+  el.innerHTML=`<span class="lbl3">${horiz?LBLS_H[i]:LBLS_V[i]}</span>${horiz?CARS_H[i]:CARS_V[i]}`;
+  J.appendChild(el);
+  const lane=horiz?{x:-40,y:W/2-34}:{x:W/2+8,y:-40};
+  cars.push({el,horiz,p:-40,speed:1.3+Math.random()*.9,crashed:false});
+}
+function loop(ts){
+  if(!gameOver){
+    if(ts-spawnT>(reduced?2600:1900)){spawnT=ts;if(cars.length<5)spawn();}
+    const stopLine=W/2-72;
+    for(const c of cars){
+      if(c.crashed)continue;
+      const green=c.horiz?hGreen:!hGreen;
+      const inStopZone=c.p>stopLine-26&&c.p<stopLine;
+      /* car ahead check */
+      let blocked=false;
+      for(const o of cars){if(o===c||o.horiz!==c.horiz||o.crashed)continue;
+        if(o.p>c.p&&o.p-c.p<44)blocked=true;}
+      if(!( !green&&inStopZone )&&!blocked)c.p+=c.speed*(reduced?.6:1);
+      if(c.horiz){c.el.style.left=c.p+'px';c.el.style.top=(W/2-38)+'px';}
+      else{c.el.style.left=(W/2+4)+'px';c.el.style.top=c.p+'px';}
+    }
+    /* collision in the box */
+    const inBox=c=>c.p>W/2-56&&c.p<W/2+40;
+    const hIn=cars.filter(c=>c.horiz&&!c.crashed&&inBox(c));
+    const vIn=cars.filter(c=>!c.horiz&&!c.crashed&&inBox(c));
+    if(hIn.length&&vIn.length){
+      crashS();crashes++;
+      document.getElementById('cr').textContent=crashes;
+      [...hIn,...vIn].forEach(c=>{c.crashed=true;c.el.style.opacity=.3;});
+      const fx=document.getElementById('crashFx');
+      fx.style.cssText+=`display:block;left:${W/2}px;top:${W/2}px`;
+      setTimeout(()=>fx.style.display='none',900);
+      setC('⚠ Collision!','That\'s what happens without coordination','Frontend and backend hit the same intersection. In real projects this costs weeks. <b>With a coordinator, it costs nothing.</b>');
+      setTimeout(()=>{[...hIn,...vIn].forEach(c=>{c.el.remove();});cars=cars.filter(c=>!c.crashed);},1000);
+    }
+    /* delivered */
+    for(const c of [...cars]){
+      if(c.p>W+30){
+        c.el.remove();cars=cars.filter(x=>x!==c);
+        if(!c.crashed){delivered++;beep2(880);
+          document.getElementById('dv').textContent=delivered;
+          if(delivered>=10)win();
+        }
+      }
+    }
+  }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+function win(){
+  gameOver=true;
+  cars.forEach(c=>c.el.remove());cars=[];
+  setC('SHIFT COMPLETE · '+crashes+' CRASHES','10 tasks delivered — like a real sprint',
+    crashes===0?'<b>Perfect coordination!</b> That\'s the daily standard: scope, sequencing, zero collisions. It\'s how GoldenTag reached Google Play — and how your project reaches launch.'
+    :'A few fender-benders — welcome to project management 😄 The pros keep it at zero: <b>Nour coordinates scope, timing and teams daily</b> (NexLead \'25→, Supervisor \'26→).',
+    `<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Traffic%20control%20needed&body=Delivered%2010%2C%20crashed%20${crashes}.%20My%20project%20junction%3A%20">🚦 Hire the coordinator</a>
+     <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+     <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+     <button class="btn" onclick="location.reload()">↺ New shift</button>`);
+}
+function setC(k,h,p,btns){
+  document.querySelector('#coach2 .k').textContent=k;
+  document.querySelector('#coach2 h2').innerHTML=h;
+  document.querySelector('#coach2 p').innerHTML=p;
+  const old=document.querySelector('#coach2 .btns');if(old)old.remove();
+  if(btns){const d=document.createElement('div');d.className='btns';d.innerHTML=btns;
+    document.getElementById('coach2').appendChild(d);}
+}
+</script>
+</body>
+</html>

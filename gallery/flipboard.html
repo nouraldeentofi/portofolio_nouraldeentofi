@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — DEPARTURES · Split-Flap Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Overpass+Mono:wght@400;600;700&family=Archivo+Narrow:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#101114;--board:#17181c;--cell:#222329;--cellhi:#2b2c33;--fg:#f5f1e6;--yellow:#ffcf3f;
+        --green:#5fd97d;--red:#ff6a5e;--dim:rgba(245,241,230,.5)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Archivo Narrow',sans-serif;background:radial-gradient(90vw 60vh at 50% 0%,#1c1e24,var(--bg));
+    color:var(--fg);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:5vh 3vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--yellow);color:#101114}
+  h1{font-weight:700;font-size:clamp(20px,3.8vw,32px);letter-spacing:.2em;text-transform:uppercase}
+  h1 b{color:var(--yellow)}
+  .sub{font-family:'Overpass Mono',monospace;font-size:10px;letter-spacing:.35em;color:var(--dim);margin:8px 0 30px;text-transform:uppercase;text-align:center}
+
+  #board{background:var(--board);border-radius:14px;padding:22px 20px;box-shadow:0 30px 70px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,255,255,.06);
+    width:min(1000px,97vw);overflow-x:auto}
+  table{border-collapse:separate;border-spacing:0 10px;width:100%;min-width:660px}
+  th{font-family:'Overpass Mono',monospace;font-size:9.5px;letter-spacing:.3em;color:var(--yellow);
+    text-align:left;padding:0 8px 4px;text-transform:uppercase}
+  tr.row{cursor:pointer}
+  tr.row:hover .cellwrap{background:var(--cellhi)}
+  td{padding:0 8px}
+  .cellwrap{display:flex;gap:3px;background:transparent;border-radius:6px;padding:4px;transition:background .2s}
+  .fl{width:20px;height:30px;background:var(--cell);border-radius:4px;display:flex;align-items:center;justify-content:center;
+    font-family:'Overpass Mono',monospace;font-weight:700;font-size:16px;color:var(--fg);position:relative;overflow:hidden;
+    box-shadow:inset 0 -1px 0 rgba(0,0,0,.6)}
+  .fl::after{content:'';position:absolute;left:0;right:0;top:50%;height:1.5px;background:rgba(0,0,0,.55)}
+  .fl.flip{animation:flap .09s linear}
+  @keyframes flap{0%{transform:scaleY(1)}50%{transform:scaleY(.15)}100%{transform:scaleY(1)}}
+  .fl.rk-green{color:var(--green)}.fl.rk-red{color:var(--red)}.fl.rk-yellow{color:var(--yellow)}
+
+  /* detail drawer */
+  #drawer{width:min(1000px,97vw);margin-top:18px;background:var(--board);border-radius:14px;overflow:hidden;
+    max-height:0;transition:max-height .5s ease;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+  #drawer.open{max-height:420px}
+  #drawInner{padding:28px 32px}
+  #drawInner .k{font-family:'Overpass Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--yellow);text-transform:uppercase}
+  #drawInner h2{font-size:clamp(20px,3.4vw,30px);font-weight:700;letter-spacing:.06em;margin:8px 0 10px;text-transform:uppercase}
+  #drawInner p{font-family:'Overpass Mono',monospace;font-size:12.5px;line-height:1.8;color:var(--dim);max-width:760px}
+  #drawInner p b{color:var(--fg)}
+  .dbtns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  .dbtn{font-family:'Overpass Mono',monospace;font-size:11px;letter-spacing:.15em;padding:11px 18px;border-radius:6px;
+    border:1px solid var(--yellow);color:var(--yellow);transition:all .2s;text-transform:uppercase}
+  .dbtn:hover{background:var(--yellow);color:#101114}
+
+  #foot{margin-top:22px;font-family:'Overpass Mono',monospace;font-size:9.5px;letter-spacing:.3em;color:var(--dim);
+    text-transform:uppercase;display:flex;gap:26px;flex-wrap:wrap;justify-content:center}
+  #clock{color:var(--yellow)}
+  @media (prefers-reduced-motion: reduce){.fl.flip{animation:none}*{transition:none!important}}
+</style>
+</head>
+<body>
+<h1>◈ NOUR INTERNATIONAL — <b>DEPARTURES</b></h1>
+<div class="sub">Career terminal 26 · All flights operated by N.A. Tofi · اضغط على أي رحلة</div>
+
+<div id="board">
+  <table>
+    <thead><tr><th style="width:90px">Time</th><th>Destination</th><th style="width:120px">Flight</th><th style="width:170px">Remark</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+</div>
+
+<div id="drawer"><div id="drawInner">
+  <div class="k" id="dk">—</div><h2 id="dt">—</h2><p id="dp">—</p><div class="dbtns" id="db"></div>
+</div></div>
+
+<div id="foot"><span id="clock">00:00:00</span><span>GATE: RIYADH</span><span>WEATHER: 42°C, SHIPPING CONDITIONS PERFECT</span></div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const CH=' ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:→★';
+const FLIGHTS=[
+ {t:'2019',d:'KALAMOON UNIV',f:'EDU-019',r:'COMPLETED',rk:'green',
+  k:'EDU-019 · FOUNDATION',h:'B.TECH INFORMATION TECHNOLOGY',
+  p:`<b>University of Kalamoon, 2019–2024.</b> Five-year route. All checked baggage: fundamentals, discipline, first code. Arrived on time.`},
+ {t:'2021',d:'ICPC ARENA',f:'CMP-021',r:'COMPLETED',rk:'green',
+  k:'CMP-021 · COMPETITION',h:'ICPC / ACPC 2021',
+  p:`Collegiate competitive programming. <b>Algorithms and team leadership under a merciless clock.</b> Turbulence: constant. Landing: clean.`},
+ {t:'2023',d:'MINICODELEADER',f:'RCT-023',r:'DEPARTED',rk:'green',
+  k:'RCT-023 · FIRST ROLE',h:'REACT DEVELOPER',
+  p:`<b>Jun 2023 – Feb 2024.</b> First professional departure: component-driven React development, real codebase, clean-code habit installed at the gate.`},
+ {t:'2024',d:'KHWARIZM TECH',f:'RYD-024',r:'DEPARTED',rk:'green',
+  k:'RYD-024 · RIYADH',h:'FRONTEND DEVELOPER',
+  p:`<b>Sep 2024 – Apr 2025, Riyadh.</b> Production React with design and backend crews. Named for the father of algorithms — lucky tail number.`},
+ {t:'2025',d:'NEXLEAD FREELANCE',f:'CRD-025',r:'IN FLIGHT',rk:'yellow',
+  k:'CRD-025 · COORDINATION',h:'PROJECT COORDINATOR (FREELANCE)',
+  p:`<b>Mar 2025 → ongoing, remote.</b> Requirements → user stories on Trello → quality → releases. Cargo delivered: <b>GoldenTag</b> to Google Play (inventory, barcode scanning, USD/SYP rates).`},
+ {t:'2025',d:'DISTINCTIVE FRONTIER',f:'DBL-025',r:'PROMOTED',rk:'yellow',
+  k:'DBL-025 · DOUBLE DUTY',h:'FRONTEND + COORDINATION',
+  p:`<b>Jan 2025 – Jan 2026.</b> Two seats, one passenger: scalable React UI and project coordination. Upgraded at the end of the route.`},
+ {t:'2026',d:'SUPERVISOR SEAT',f:'SUP-026',r:'NOW BOARDING',rk:'yellow',
+  k:'SUP-026 · CURRENT',h:'SOFTWARE ENGINEERING SUPERVISOR',
+  p:`<b>Distinctive Frontier Co., Jan 2026 → present.</b> Leads frontend: React systems, coding standards, backend alignment, product shipped on schedule. Skills manifest: React · TypeScript · Tailwind · JS · Python · Git · Jira. Certs: Meta, Google ×2, IBM ×2 + more.`},
+ {t:'NEXT',d:'YOUR PROJECT',f:'YOU-001',r:'AWAITING YOU',rk:'red',
+  k:'YOU-001 · OPEN SEAT',h:'BOARDING PASS AVAILABLE',
+  p:`Websites · React frontends · logos · business cards · social visuals · project coordination. Crew interests: anime, chess, badminton, film. <b>Riyadh · Arabic + English.</b>`,
+  btns:[['✉ EMAIL','mailto:nouraldeentofi@gmail.com'],['LINKEDIN','https://www.linkedin.com/in/nour-aldeen-tofi-19b116240'],['WEBSITE','https://nouraldeentofi.netlify.app']]}
+];
+const COLS={t:5,d:19,f:8,r:13};
+
+/* audio tick */
+let AC=null,tickBudget=0;
+function tick(){if(tickBudget>6)return;tickBudget++;
+  try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='square';o.frequency.value=2200+Math.random()*600;
+  g.gain.setValueAtTime(.012,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.03);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.035);}catch(e){}}
+setInterval(()=>tickBudget=0,80);
+
+/* build board */
+const rowsEl=document.getElementById('rows');
+const cells=[];
+FLIGHTS.forEach((fl,ri)=>{
+  const tr=document.createElement('tr');tr.className='row';
+  ['t','d','f','r'].forEach(col=>{
+    const td=document.createElement('td');
+    const w=document.createElement('div');w.className='cellwrap';
+    for(let i=0;i<COLS[col];i++){
+      const c=document.createElement('div');c.className='fl';
+      if(col==='r')c.classList.add('rk-'+fl.rk);
+      c.textContent=' ';w.appendChild(c);
+      cells.push({el:c,row:ri,col,idx:i});
+    }
+    td.appendChild(w);tr.appendChild(td);
+  });
+  tr.onclick=()=>openRow(ri);
+  rowsEl.appendChild(tr);
+});
+function pad(s,n){return (s+' '.repeat(n)).slice(0,n);}
+function setCell(c,ch){
+  if(c.el.textContent===ch)return;
+  if(reduced){c.el.textContent=ch;return;}
+  let cur=CH.indexOf(c.el.textContent);if(cur<0)cur=0;
+  let steps=0;
+  const iv=setInterval(()=>{
+    cur=(cur+1)%CH.length;steps++;
+    c.el.textContent=CH[cur];
+    c.el.classList.remove('flip');void c.el.offsetWidth;c.el.classList.add('flip');
+    if(Math.random()<.3)tick();
+    if(CH[cur]===ch||steps>44){clearInterval(iv);c.el.textContent=ch;}
+  },40+Math.random()*30);
+}
+function renderBoard(){
+  FLIGHTS.forEach((fl,ri)=>{
+    const strs={t:pad(fl.t,COLS.t),d:pad(fl.d,COLS.d),f:pad(fl.f,COLS.f),r:pad(fl.r,COLS.r)};
+    cells.filter(c=>c.row===ri).forEach(c=>{
+      setTimeout(()=>setCell(c,strs[c.col][c.idx]),ri*160+c.idx*36+(c.col==='d'?200:c.col==='f'?560:c.col==='r'?760:0));
+    });
+  });
+}
+renderBoard();
+/* periodic reshuffle of one random row for life */
+if(!reduced)setInterval(()=>{
+  const ri=Math.floor(Math.random()*FLIGHTS.length);
+  const fl=FLIGHTS[ri];
+  const strs={t:pad(fl.t,COLS.t),d:pad(fl.d,COLS.d),f:pad(fl.f,COLS.f),r:pad(fl.r,COLS.r)};
+  cells.filter(c=>c.row===ri&&c.col==='r').forEach(c=>setCell(c,strs.r[c.idx]));
+},9000);
+
+/* drawer */
+const drawer=document.getElementById('drawer');
+function openRow(ri){
+  const fl=FLIGHTS[ri];
+  document.getElementById('dk').textContent=fl.k;
+  document.getElementById('dt').textContent=fl.h;
+  document.getElementById('dp').innerHTML=fl.p;
+  const db=document.getElementById('db');db.innerHTML='';
+  (fl.btns||[]).forEach(([lb,href])=>{
+    const a=document.createElement('a');a.className='dbtn';a.textContent=lb;a.href=href;
+    if(href.startsWith('http')){a.target='_blank';a.rel='noopener';}
+    db.appendChild(a);});
+  drawer.classList.add('open');
+  drawer.scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest'});
+}
+/* live clock */
+setInterval(()=>{document.getElementById('clock').textContent=new Date().toLocaleTimeString('en-GB');},1000);
+/* open the last row by default after boot */
+setTimeout(()=>openRow(FLIGHTS.length-1),reduced?300:3400);
+</script>
+</body>
+</html>

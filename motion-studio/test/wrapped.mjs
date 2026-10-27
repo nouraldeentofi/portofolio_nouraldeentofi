@@ -1,0 +1,14 @@
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const { chromium } = require('playwright');
+const browser = await chromium.launch();
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+const logs = [];
+page.on('console', m => { if (m.type() === 'error') logs.push(m.text()); });
+page.on('pageerror', e => logs.push(e.message));
+await page.goto('http://localhost:8765/dist/wrapped-test.html');
+await page.waitForTimeout(3000);
+await page.screenshot({ path: process.argv[2] });
+console.log('dir:', await page.evaluate(() => document.documentElement.dir), 'tpls:', await page.evaluate(() => document.querySelectorAll('.tpl').length));
+console.log(logs.length ? logs.join('\n') : 'no errors');
+await browser.close();

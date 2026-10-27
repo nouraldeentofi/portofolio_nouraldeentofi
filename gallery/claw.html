@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — CLAW · Win a Career Prize</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--pink:#ff5e9c;--pinkd:#c23a74;--teal:#29d3c0;--cab:#7b3fd4;--cabd:#4f2494;--glass:rgba(16,10,34,.55);
+        --fg:#fff8fd;--ink:#2a1440;--yellow:#ffd23f}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Baloo 2',sans-serif;color:var(--fg);min-height:100vh;
+    background:radial-gradient(90vw 70vh at 50% -8%,#3b2a6e,#1a1038 70%);
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 7vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--yellow);color:var(--ink)}
+  h1{font-weight:800;font-size:clamp(24px,4.8vw,42px)}
+  h1 span{color:var(--pink)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.3em;opacity:.7;margin:6px 0 22px;text-transform:uppercase;text-align:center}
+
+  #cab{position:relative;width:min(680px,95vw);background:linear-gradient(180deg,#9256e8,var(--cab) 40%,var(--cabd));
+    border-radius:26px;padding:18px;box-shadow:0 40px 80px rgba(0,0,0,.55), inset 0 3px 0 rgba(255,255,255,.25)}
+  #marquee{display:flex;justify-content:center;gap:9px;padding:6px 0 14px}
+  #marquee i{width:11px;height:11px;border-radius:50%;background:#2a1440}
+  #marquee i.on{background:var(--yellow);box-shadow:0 0 12px var(--yellow)}
+  #tank{position:relative;height:440px;border-radius:16px;background:var(--glass);
+    border:4px solid #311c5e;overflow:hidden;box-shadow:inset 0 0 60px rgba(0,0,0,.5)}
+  #tank::after{content:'';position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(115deg,rgba(255,255,255,.12),transparent 30%,transparent 72%,rgba(255,255,255,.06))}
+  /* rail + claw */
+  #rail{position:absolute;top:12px;left:0;right:0;height:8px;background:#311c5e;border-radius:4px}
+  #trolley{position:absolute;top:6px;width:44px;height:20px;background:#ffb54d;border-radius:6px;margin-left:-22px;
+    box-shadow:0 3px 8px rgba(0,0,0,.4)}
+  #cable{position:absolute;top:24px;width:3px;background:#dcd2f5;margin-left:-1.5px;height:34px}
+  #claw{position:absolute;margin-left:-24px;width:48px;text-align:center}
+  .finger{position:absolute;top:0;width:7px;height:34px;background:#dcd2f5;border-radius:4px;transform-origin:top center;
+    transition:transform .3s}
+  .finger.l{left:6px;transform:rotate(28deg)}
+  .finger.r{right:6px;transform:rotate(-28deg)}
+  .finger.m{left:50%;margin-left:-3.5px;transform:rotate(0)}
+  #claw.closed .finger.l{transform:rotate(6deg)}
+  #claw.closed .finger.r{transform:rotate(-6deg)}
+  #clawHead{width:22px;height:16px;background:#ffb54d;border-radius:6px 6px 3px 3px;margin:0 auto;position:relative;top:-6px}
+  /* chute */
+  #chute{position:absolute;left:12px;bottom:0;width:86px;height:96px;background:linear-gradient(180deg,#311c5e,#241348);
+    border-radius:12px 12px 0 0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;
+    font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--yellow)}
+  /* prizes */
+  .prize{position:absolute;width:74px;height:74px;border-radius:18px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:2px;box-shadow:0 8px 16px rgba(0,0,0,.45), inset 0 2px 0 rgba(255,255,255,.4);
+    font-size:24px}
+  .prize .lb{font-size:8.5px;font-weight:800;letter-spacing:.04em;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5);text-transform:uppercase}
+  /* controls */
+  #panel{display:flex;gap:12px;align-items:center;justify-content:center;padding:16px 6px 4px;flex-wrap:wrap}
+  .cbtn{font-family:'Baloo 2';font-weight:800;font-size:15px;border:none;border-radius:12px;padding:14px 26px;cursor:pointer;
+    background:var(--pink);color:#fff;box-shadow:0 6px 0 var(--pinkd);transition:transform .1s,box-shadow .1s}
+  .cbtn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--pinkd)}
+  .cbtn.t{background:var(--teal);box-shadow:0 6px 0 #178d80}
+  .cbtn.t:active{box-shadow:0 1px 0 #178d80}
+  .cbtn:disabled{filter:grayscale(.7);pointer-events:none}
+  #tries{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;background:#2a1440;
+    padding:12px 16px;border-radius:10px;color:var(--yellow)}
+
+  /* modal */
+  #modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;
+    background:rgba(12,6,26,.78);backdrop-filter:blur(8px);padding:5vw}
+  #modal.open{display:flex}
+  #mbox{max-width:520px;width:100%;background:#fff8fd;color:var(--ink);border-radius:22px;padding:38px 40px;
+    position:relative;box-shadow:0 40px 100px rgba(0,0,0,.6);max-height:84vh;overflow:auto;text-align:center}
+  #mbox .k{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--pinkd);text-transform:uppercase}
+  #mbox h2{font-size:clamp(22px,3.8vw,32px);font-weight:800;margin:8px 0 10px}
+  #mbox p{font-size:14.5px;line-height:1.7;color:rgba(42,20,64,.75)}
+  #mbox p b{color:var(--ink)}
+  .mbtns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;justify-content:center}
+  .mbtn{font-weight:800;font-size:12px;letter-spacing:.08em;padding:12px 22px;border-radius:99px;background:var(--cab);color:#fff}
+  .mbtn.g{background:transparent;border:2px solid var(--cab);color:var(--cab)}
+  #mclose{position:absolute;top:12px;right:16px;background:#efe3fb;border:none;width:34px;height:34px;border-radius:50%;cursor:pointer;font-weight:800}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<h1>NOUR <span>CLAW</span> ZONE</h1>
+<div class="sub">Every prize is a piece of my career · unlimited free plays · اربح جائزة</div>
+
+<div id="cab">
+  <div id="marquee"></div>
+  <div id="tank">
+    <div id="rail"></div>
+    <div id="trolley"></div>
+    <div id="cable"></div>
+    <div id="claw"><div class="finger l"></div><div class="finger m"></div><div class="finger r"></div><div id="clawHead"></div></div>
+    <div id="chute">DROP ZONE</div>
+  </div>
+  <div id="panel">
+    <button class="cbtn" id="leftB">◀</button>
+    <button class="cbtn t" id="dropB">⬇ GRAB!</button>
+    <button class="cbtn" id="rightB">▶</button>
+    <div id="tries">PRIZES WON: <span id="won">0</span>/8</div>
+  </div>
+</div>
+
+<div id="modal"><div id="mbox"><button id="mclose">✕</button><div id="mc"></div></div></div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const tank=document.getElementById('tank');
+const PR=[
+ {e:'👑',lb:'ROLE 26',g:'linear-gradient(160deg,#3a76d2,#1d3f7a)',
+  h:`<div class="k">Prize · Current role</div><h2>Supervisor Plush ’26</h2><p><b>Software Engineering Supervisor — Distinctive Frontier Co., Riyadh</b> (Jan 2026 →). Leads frontend: React systems, coding standards, backend alignment, shipped features.</p>`},
+ {e:'🧭',lb:'NEXLEAD',g:'linear-gradient(160deg,#2f9e63,#14563a)',
+  h:`<div class="k">Prize · Freelance</div><h2>Coordinator Compass</h2><p><b>Freelance Project Coordinator — NexLead</b> (Mar 2025 →, remote). Requirements → user stories on Trello → quality → releases.</p>`},
+ {e:'💍',lb:'GOLDENTAG',g:'linear-gradient(160deg,#e8bd4e,#9a7215)',
+  h:`<div class="k">Prize · Shipped</div><h2>GoldenTag Ring</h2><p>Jewelry store management app on <b>Google Play</b>: inventory, barcode scanning, USD/SYP rates, sales logs.</p><div class="mbtns"><a class="mbtn" href="https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag" target="_blank" rel="noopener">Google Play ↗</a></div>`},
+ {e:'🧰',lb:'SKILLS',g:'linear-gradient(160deg,#d2612f,#7a3014)',
+  h:`<div class="k">Prize · Toolbox</div><h2>The Skill Box</h2><p><b>React · TypeScript · Tailwind · JavaScript</b> + Python (DS/AI), Git, Jira, Trello, prompt engineering, clean code, team leadership.</p>`},
+ {e:'🎓',lb:'DEGREE',g:'linear-gradient(160deg,#3aa7ad,#155a5e)',
+  h:`<div class="k">Prize · Foundation</div><h2>Kalamoon Cap</h2><p><b>B.Tech Information Technology — University of Kalamoon</b> (2019–2024). Plus earlier roles: Khwarizm Technologies (2024–25), Minicodeleader (2023–24).</p>`},
+ {e:'🏆',lb:'ICPC',g:'linear-gradient(160deg,#c9342c,#6e120d)',
+  h:`<div class="k">Prize · Arena</div><h2>ICPC Trophy ’21</h2><p><b>ICPC/ACPC 2021</b> — collegiate competitive programming. Algorithms and team leadership under a merciless clock.</p>`},
+ {e:'📜',lb:'CERTS',g:'linear-gradient(160deg,#7b5bd6,#3c2a78)',
+  h:`<div class="k">Prize · Papers</div><h2>Certificate Scroll ×10</h2><p>Meta Advanced React '25 · TS in React '25 · Google PM ×2 '25 · IBM Python &amp; GenAI '24 · Tailwind '24 · Clean Code '24 · Jira suite '25.</p>`},
+ {e:'⭐',lb:'CONTACT',g:'linear-gradient(160deg,#d65b9a,#7a2451)',
+  h:`<div class="k">Prize · Golden ticket</div><h2>The Contact Star</h2><p><b>Nour Aldeen Tofi</b> — Riyadh · AR+EN · anime, chess, badminton, film. Open for websites, React frontends, logos, cards, social visuals, coordination.</p><div class="mbtns"><a class="mbtn" href="mailto:nouraldeentofi@gmail.com">✉ Email</a><a class="mbtn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a><a class="mbtn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a></div>`}
+];
+/* marquee lights */
+const mar=document.getElementById('marquee');
+for(let i=0;i<14;i++){mar.appendChild(document.createElement('i'));}
+if(!reduced)setInterval(()=>{[...mar.children].forEach((d,i)=>
+  d.classList.toggle('on',(i+Math.floor(Date.now()/240))%3===0));},240);
+
+/* audio */
+let AC=null;
+function snd(f,t,type,v){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type=type||'triangle';o.frequency.value=f;
+  g.gain.setValueAtTime(v||.06,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+(t||.12));
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+(t||.14));}catch(e){}}
+
+/* prizes placement */
+let prizes=[];
+function placePrizes(){
+  prizes=[];
+  const W=tank.clientWidth,H=tank.clientHeight;
+  PR.forEach((p,i)=>{
+    const el=document.createElement('div');el.className='prize';el.style.background=p.g;
+    el.innerHTML=`${p.e}<span class="lb">${p.lb}</span>`;
+    const x=110+((W-200)/(PR.length-1))*i+(Math.random()*18-9);
+    const y=H-84-(i%2?16:0)-Math.random()*8;
+    el.style.left=x+'px';el.style.top=y+'px';
+    el.style.transform=`rotate(${(Math.random()*14-7)}deg)`;
+    tank.appendChild(el);
+    prizes.push({el,x:x+37,i});
+  });
+}
+placePrizes();
+
+/* claw control */
+let cx=0.5,busy=false,won=0;
+const trolley=document.getElementById('trolley'),cable=document.getElementById('cable'),claw=document.getElementById('claw');
+function setX(){
+  const W=tank.clientWidth;
+  const px=40+cx*(W-80);
+  trolley.style.left=px+'px';cable.style.left=px+'px';claw.style.left=px+'px';
+  return px;
+}
+function setY(cableH){
+  cable.style.height=cableH+'px';
+  claw.style.top=(24+cableH)+'px';
+}
+setX();setY(34);
+let moveDir=0;
+function hold(btn,dir){
+  btn.addEventListener('pointerdown',()=>{moveDir=dir;snd(500,.05,'square',.03);});
+  addEventListener('pointerup',()=>{if(moveDir===dir)moveDir=0;});
+}
+hold(document.getElementById('leftB'),-1);
+hold(document.getElementById('rightB'),1);
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft')moveDir=-1;
+  if(e.key==='ArrowRight')moveDir=1;
+  if(e.key===' '||e.key==='ArrowDown'){e.preventDefault();grab();}});
+addEventListener('keyup',e=>{if(e.key==='ArrowLeft'&&moveDir<0)moveDir=0;
+  if(e.key==='ArrowRight'&&moveDir>0)moveDir=0;});
+(function mv(){
+  if(!busy&&moveDir)cx=Math.max(0,Math.min(1,cx+moveDir*.012));
+  setX();requestAnimationFrame(mv);
+})();
+
+async function grab(){
+  if(busy)return;busy=true;
+  document.getElementById('dropB').disabled=true;
+  const px=setX();
+  const H=tank.clientHeight;
+  const downH=H-140;
+  snd(220,.4,'sawtooth',.05);
+  await animCable(34,downH,700);
+  claw.classList.add('closed');snd(700,.1,'square',.06);
+  /* nearest prize */
+  let best=null,bd=1e9;
+  prizes.forEach(p=>{const d=Math.abs(p.x-px);if(d<bd){bd=d;best=p;}});
+  const caught=best&&bd<46?best:null;
+  await wait(300);
+  if(caught){
+    caught.el.style.transition='none';
+    const lift=setInterval(()=>{
+      caught.el.style.left=(px-37)+'px';
+      caught.el.style.top=(parseFloat(cable.style.height)+34)+'px';
+    },16);
+    await animCable(downH,34,700);
+    /* travel to chute */
+    snd(320,.3,'sawtooth',.04);
+    await animX(cx,0.06,900,()=>{
+      const p2=setX();
+      caught.el.style.left=(p2-37)+'px';
+    });
+    claw.classList.remove('closed');
+    clearInterval(lift);
+    /* drop into chute */
+    caught.el.animate([{transform:'translateY(0) rotate(0)'},
+      {transform:`translateY(${tank.clientHeight-160}px) rotate(20deg)`,offset:.85},
+      {transform:`translateY(${tank.clientHeight-150}px) rotate(18deg)`}],
+      {duration:600,easing:'cubic-bezier(.4,0,.8,1)'}).onfinish=()=>{
+      caught.el.remove();snd(90,.2,'sine',.12);
+      prizes=prizes.filter(p=>p!==caught);
+      won++;document.getElementById('won').textContent=won;
+      [660,880,1100].forEach((f,i)=>setTimeout(()=>snd(f,.15,'triangle',.07),i*110));
+      openModal(PR[caught.i].h);
+      busy=false;document.getElementById('dropB').disabled=false;
+      if(prizes.length===0)setTimeout(()=>{placePrizes();},1200);
+    };
+  }else{
+    await animCable(downH,34,700);
+    claw.classList.remove('closed');
+    snd(150,.3,'sawtooth',.06);
+    busy=false;document.getElementById('dropB').disabled=false;
+  }
+}
+function wait(ms){return new Promise(r=>setTimeout(r,ms));}
+function animCable(from,to,ms){return new Promise(res=>{
+  if(reduced){setY(to);res();return;}
+  let t0=null;
+  function st(ts){t0=t0||ts;const p=Math.min(1,(ts-t0)/ms);
+    setY(from+(to-from)*(p*p*(3-2*p)));
+    p<1?requestAnimationFrame(st):res();}
+  requestAnimationFrame(st);});}
+function animX(from,to,ms,cb){return new Promise(res=>{
+  if(reduced){cx=to;setX();cb&&cb();res();return;}
+  let t0=null;
+  function st(ts){t0=t0||ts;const p=Math.min(1,(ts-t0)/ms);
+    cx=from+(to-from)*(p*p*(3-2*p));setX();cb&&cb();
+    p<1?requestAnimationFrame(st):res();}
+  requestAnimationFrame(st);});}
+document.getElementById('dropB').onclick=grab;
+
+/* modal */
+const modal=document.getElementById('modal');
+function openModal(h){document.getElementById('mc').innerHTML=h;modal.classList.add('open');}
+document.getElementById('mclose').onclick=()=>modal.classList.remove('open');
+modal.addEventListener('pointerdown',e=>{if(e.target===modal)modal.classList.remove('open');});
+addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open');});
+addEventListener('resize',()=>{document.querySelectorAll('.prize').forEach(p=>p.remove());placePrizes();});
+</script>
+</body>
+</html>

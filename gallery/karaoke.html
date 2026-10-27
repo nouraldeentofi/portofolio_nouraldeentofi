@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — KARAOKE · Sing the Résumé</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Bungee&family=Karla:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--club:#160b22;--clubd:#0c0614;--fg:#f8f0ff;--dim:rgba(248,240,255,.6);--pink2:#ff4fa3;--cyan2:#4fd8ff;--yellow3:#ffe14f}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;color:var(--fg);min-height:100vh;
+    background:radial-gradient(80vw 60vh at 50% 0%,#2c1644,var(--club) 55%,var(--clubd));
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--pink2);color:#160b22}
+  h1{font-family:'Bungee Shade';font-size:clamp(22px,4.8vw,42px);color:var(--pink2)}
+  .sub{font-size:11px;letter-spacing:.26em;color:var(--dim);margin:8px 0 20px;text-transform:uppercase;text-align:center}
+
+  /* disco ball + lights */
+  #ball{position:fixed;top:-30px;left:50%;transform:translateX(-50%);width:74px;height:74px;border-radius:50%;z-index:1;
+    background:conic-gradient(#c9d6e8 0 8%,#8a9ab8 8% 16%,#c9d6e8 16% 24%,#8a9ab8 24% 32%,#c9d6e8 32% 40%,#8a9ab8 40% 48%,#c9d6e8 48% 56%,#8a9ab8 56% 64%,#c9d6e8 64% 72%,#8a9ab8 72% 80%,#c9d6e8 80% 88%,#8a9ab8 88% 100%);
+    box-shadow:0 0 50px rgba(201,214,232,.5)}
+  .spot{position:fixed;top:0;width:130px;height:100vh;z-index:0;opacity:.12;transform-origin:top center;
+    background:linear-gradient(180deg,currentColor,transparent 75%)}
+  #spot1{left:18%;color:var(--pink2);animation:swp 5s ease-in-out infinite}
+  #spot2{left:48%;color:var(--cyan2);animation:swp 6s ease-in-out infinite reverse}
+  #spot3{left:74%;color:var(--yellow3);animation:swp 7s ease-in-out infinite}
+  @keyframes swp{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(14deg)}}
+
+  /* karaoke screen */
+  #tvK{position:relative;z-index:5;width:min(660px,96vw);background:#0a0512;border:4px solid #3a2454;border-radius:20px;
+    padding:26px 28px;box-shadow:0 30px 70px rgba(0,0,0,.6), 0 0 40px rgba(255,79,163,.15)}
+  #songTitle{font-family:'Bungee';font-size:clamp(13px,2.6vw,18px);color:var(--cyan2);text-align:center;letter-spacing:.06em}
+  #songSub{font-size:10px;letter-spacing:.24em;color:var(--dim);text-align:center;margin:6px 0 18px;text-transform:uppercase}
+  #lyrics{min-height:200px;display:flex;flex-direction:column;gap:12px;justify-content:center}
+  .lyr{font-family:'Bungee';font-size:clamp(14px,2.8vw,21px);text-align:center;color:rgba(248,240,255,.28);
+    transition:color .3s,transform .3s;line-height:1.4}
+  .lyr.on{color:var(--yellow3);transform:scale(1.05);text-shadow:0 0 24px rgba(255,225,79,.5)}
+  .lyr.done{color:rgba(248,240,255,.55)}
+  #ballB{position:absolute;font-size:18px;z-index:6;transition:left .32s cubic-bezier(.3,-.4,.6,1.4),top .32s cubic-bezier(.3,-.4,.6,1.4);opacity:0}
+  #controlsK{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .kb{font-family:'Bungee';font-size:13px;border:none;border-radius:12px;padding:13px 26px;cursor:pointer;
+    background:var(--pink2);color:#fff;box-shadow:0 5px 0 #a82868;transition:transform .1s,box-shadow .1s}
+  .kb:active{transform:translateY(4px);box-shadow:0 1px 0 #a82868}
+  .kb.alt{background:#3a2454;box-shadow:0 5px 0 #1c0f2c}
+  .kb.alt:active{box-shadow:0 1px 0 #1c0f2c}
+  #applause{margin-top:18px;max-width:520px;text-align:center;display:none;position:relative;z-index:5}
+  #applause.show{display:block}
+  #applause h2{font-family:'Bungee';font-size:clamp(16px,3.2vw,24px);color:var(--yellow3)}
+  #applause p{font-size:12.5px;line-height:1.7;color:var(--dim);margin-top:8px}
+  #applause p b{color:var(--fg)}
+  .btns{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .btn{font-size:10.5px;letter-spacing:.12em;padding:11px 18px;border-radius:99px;border:2px solid var(--cyan2);
+    color:var(--cyan2);text-transform:uppercase;font-weight:700}
+  .btn:hover{background:var(--cyan2);color:#160b22}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="ball"></div>
+<div class="spot" id="spot1"></div><div class="spot" id="spot2"></div><div class="spot" id="spot3"></div>
+
+<h1>KARAOKE NIGHT</h1>
+<div class="sub">Now on stage: "The Ballad of Nour" · press play &amp; follow the ball · غنّي معنا 🎤</div>
+
+<div id="tvK">
+  <div id="songTitle">♪ THE BALLAD OF NOUR (RIYADH REMIX) ♪</div>
+  <div id="songSub">Music: Web Audio Orchestra · Lyrics: his actual CV</div>
+  <div id="lyrics"></div>
+  <div id="ballB">🔴</div>
+  <div id="controlsK">
+    <button class="kb" id="playK">▶ START THE SONG</button>
+    <button class="kb alt" id="skipK">⏭ SKIP TO CHORUS</button>
+  </div>
+</div>
+
+<div id="applause">
+  <h2>👏 STANDING OVATION 👏</h2>
+  <p>You just sang his résumé. <b>Nour Aldeen Tofi</b> — frontend developer &amp; SW engineering supervisor, Riyadh. Duets available: websites, React frontends, logos, business cards, social visuals, coordination.</p>
+  <div class="btns">
+    <a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Encore!&body=Sang%20the%20whole%20ballad.%20Let%27s%20duet%20on%20my%20project%3A%20">🎤 Request a duet</a>
+    <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+  </div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* lyrics: [text, beats] — each line highlighted for beats*tempo */
+const LYRICS=[
+ ['🎵 From Kalamoon he came, two-oh-one-nine…',4],
+ ['learned his craft line by line…',4],
+ ['ICPC, twenty-one, solving under pressure — done!',4],
+ ['React by day at Minicodeleader…',4],
+ ['Khwarizm made the code run sweeter…',4],
+ ['♪ CHORUS: HE SHIPS! HE LEADS! ♪',4],
+ ['GOLDENTAG ON GOOGLE PLAY — YES INDEED!',4],
+ ['Supervisor twenty-twenty-six…',4],
+ ['clean code, standards, zero tricks…',4],
+ ['Websites! Logos! Social! More!',4],
+ ['That\'s what a coordinator\'s for…',4],
+ ['♪ FINAL NOTE: HIRE… THE… NOOOUR! ♪',6]
+];
+/* chiptune backing: simple chord loop */
+let AC=null,playing=false,stopFlag=false;
+function note(f,t,dur,type,v){
+  const o=AC.createOscillator(),g=AC.createGain();
+  o.type=type||'square';o.frequency.value=f;
+  g.gain.setValueAtTime(v||.04,t);
+  g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+dur+.02);
+}
+const CHORDS=[[261,329,392],[220,277,329],[174,220,261],[196,247,293]];
+function playBar(t0,bar){
+  const ch=CHORDS[bar%4];
+  ch.forEach(f=>note(f,t0,.9,'triangle',.03));
+  for(let b=0;b<4;b++){
+    note(ch[0]/2,t0+b*.5,.18,'square',.05);
+    if(b%2)note(ch[2]*2,t0+b*.5+.25,.12,'square',.02);
+  }
+}
+const lyrEl=document.getElementById('lyrics');
+LYRICS.forEach(l=>{const d=document.createElement('div');d.className='lyr';d.textContent=l[0];lyrEl.appendChild(d);});
+const lines=[...document.querySelectorAll('.lyr')];
+const ballB=document.getElementById('ballB');
+
+async function sing(from){
+  if(playing)return;playing=true;stopFlag=false;
+  try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();}catch(e){}
+  document.getElementById('applause').classList.remove('show');
+  ballB.style.opacity=1;
+  const BEAT=reduced?120:500;
+  let bar=0;
+  for(let i=from;i<LYRICS.length;i++){
+    if(stopFlag)break;
+    lines.forEach((l,j)=>{l.classList.toggle('on',j===i);l.classList.toggle('done',j<i);});
+    /* bouncing ball above current line */
+    const r=lines[i].getBoundingClientRect(),tv=document.getElementById('tvK').getBoundingClientRect();
+    ballB.style.left=(r.left-tv.left+r.width/2-9)+'px';
+    ballB.style.top=(r.top-tv.top-22)+'px';
+    if(AC){const t0=AC.currentTime+.05;playBar(t0,bar++);playBar(t0+2,bar++);}
+    lines[i].scrollIntoView({block:'nearest',behavior:reduced?'auto':'smooth'});
+    await new Promise(res=>setTimeout(res,LYRICS[i][1]*BEAT));
+  }
+  if(!stopFlag){
+    lines.forEach(l=>{l.classList.remove('on');l.classList.add('done');});
+    ballB.style.opacity=0;
+    /* applause noise */
+    try{const b=AC.createBuffer(1,AC.sampleRate*1.8,AC.sampleRate),d=b.getChannelData(0);
+      for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.min(1,i/(AC.sampleRate*.1))*(1-i/d.length);
+      const s=AC.createBufferSource();s.buffer=b;
+      const f=AC.createBiquadFilter();f.type='bandpass';f.frequency.value=1600;
+      const g=AC.createGain();g.gain.value=.15;
+      s.connect(f);f.connect(g);g.connect(AC.destination);s.start();}catch(e){}
+    document.getElementById('applause').classList.add('show');
+    document.getElementById('applause').scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest'});
+    document.getElementById('playK').textContent='↺ SING IT AGAIN';
+  }
+  playing=false;
+}
+document.getElementById('playK').onclick=()=>{stopFlag=true;setTimeout(()=>sing(0),60);};
+document.getElementById('skipK').onclick=()=>{stopFlag=true;setTimeout(()=>sing(5),60);};
+</script>
+</body>
+</html>

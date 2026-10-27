@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — ELIXIR · Brew the Perfect Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@500;700&family=Karla:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--cave:#1a1226;--caved:#0e0a18;--stone:#3a2e4a;--fg:#efe8fa;--dim:rgba(239,232,250,.6);
+        --glow:#a86ef0;--green:#5edc8a;--gold:#e8c060}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;color:var(--fg);min-height:100vh;
+    background:radial-gradient(80vw 60vh at 50% 100%,#2c1e44,var(--cave) 55%,var(--caved));
+    display:flex;flex-direction:column;align-items:center;padding:5vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--glow);color:#1a1226}
+  h1{font-family:'Grenze Gotisch',serif;font-weight:700;font-size:clamp(28px,5.4vw,50px)}
+  h1 span{color:var(--glow);text-shadow:0 0 24px rgba(168,110,240,.6)}
+  .sub{font-size:11px;letter-spacing:.26em;color:var(--dim);margin:8px 0 26px;text-transform:uppercase;text-align:center}
+
+  #lab{width:min(780px,96vw);display:grid;grid-template-columns:220px 1fr;gap:18px}
+  @media(max-width:680px){#lab{grid-template-columns:1fr}}
+
+  /* ingredient shelf */
+  #shelfE{background:rgba(58,46,74,.5);border:1px solid rgba(168,110,240,.35);border-radius:16px;padding:16px;backdrop-filter:blur(4px)}
+  #shelfE .t{font-family:'Grenze Gotisch';font-size:16px;color:var(--glow);text-align:center;margin-bottom:12px}
+  .vial{display:flex;align-items:center;gap:10px;width:100%;background:rgba(14,10,24,.6);border:1.5px solid rgba(239,232,250,.15);
+    border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer;color:var(--fg);font-family:'Karla';
+    font-weight:700;font-size:12px;text-align:left;transition:all .2s}
+  .vial:hover{border-color:var(--glow);transform:translateX(4px);box-shadow:0 0 16px rgba(168,110,240,.25)}
+  .vial:disabled{opacity:.3;pointer-events:none}
+  .vial .em{font-size:19px}
+  .vial small{display:block;font-weight:400;font-size:10px;color:var(--dim)}
+
+  /* cauldron */
+  #den{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;min-height:420px}
+  #cauldron{position:relative;width:250px;z-index:3}
+  #pot{width:250px;height:150px;background:radial-gradient(circle at 40% 30%,#4a4256,#221c30 70%);
+    border-radius:20px 20px 110px 110px;position:relative;box-shadow:0 20px 44px rgba(0,0,0,.6), inset 0 4px 0 rgba(255,255,255,.1)}
+  #rim{position:absolute;top:-12px;left:-10px;right:-10px;height:26px;background:linear-gradient(180deg,#5c5270,#33293f);
+    border-radius:50%;box-shadow:0 4px 10px rgba(0,0,0,.4)}
+  #liquid{position:absolute;top:2px;left:8px;right:8px;height:20px;border-radius:50%;
+    background:radial-gradient(ellipse at 50% 50%,#6a4a9e,#4a3272);transition:background 1s;overflow:hidden}
+  .bubbleE{position:absolute;border-radius:50%;background:rgba(255,255,255,.35)}
+  #fire{position:absolute;bottom:-26px;left:50%;transform:translateX(-50%);display:flex;gap:5px}
+  .flameE{width:16px;height:34px;border-radius:50% 50% 40% 40%;background:radial-gradient(ellipse at 50% 90%,#ffd23f,#ff7a2e 60%,transparent);
+    animation:fl 0.7s ease-in-out infinite alternate;transform-origin:bottom}
+  .flameE:nth-child(2){height:44px;animation-delay:.2s}
+  .flameE:nth-child(3){animation-delay:.4s}
+  @keyframes fl{to{transform:scaleY(1.25) scaleX(.9)}}
+  #glowE{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);width:340px;height:240px;z-index:1;
+    background:radial-gradient(ellipse,rgba(168,110,240,.28),transparent 70%);transition:opacity .8s;pointer-events:none}
+  .puff{position:absolute;font-size:22px;z-index:5;pointer-events:none}
+  #dropZone{position:absolute;inset:0;z-index:4}
+
+  /* recipe状态 + result */
+  #recipeLbl{margin-top:18px;font-family:'Grenze Gotisch';font-size:15px;color:var(--gold);letter-spacing:.06em;text-align:center;min-height:24px}
+  #storyE{margin-top:8px;max-width:520px;text-align:center;min-height:80px}
+  #storyE p{font-size:12.5px;line-height:1.7;color:var(--dim)}
+  #storyE p b{color:var(--fg)}
+  /* result bottle */
+  #bottle{display:none;margin-top:14px;text-align:center}
+  #bottle.show{display:block;animation:rise .7s cubic-bezier(.2,1.3,.4,1)}
+  @keyframes rise{from{transform:translateY(30px) scale(.8);opacity:0}}
+  #bottle .art{font-size:64px;filter:drop-shadow(0 0 24px rgba(94,220,138,.7))}
+  #bottle h2{font-family:'Grenze Gotisch';font-size:clamp(20px,3.6vw,30px);color:var(--green);margin-top:6px}
+  #bottle p{font-size:13px;line-height:1.7;color:var(--dim);max-width:480px;margin:8px auto 0}
+  #bottle p b{color:var(--fg)}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .btn{font-size:11px;letter-spacing:.14em;padding:12px 20px;border-radius:99px;border:1.5px solid var(--green);
+    color:var(--green);text-transform:uppercase;font-weight:700}
+  .btn:hover{background:var(--green);color:#0e2a18}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>🧪 The <span>Alchemist</span> of Riyadh</h1>
+<div class="sub">Recipe: one successful project · add all six ingredients · حضّر الوصفة</div>
+
+<div id="lab">
+  <div id="shelfE">
+    <div class="t">— Ingredients —</div>
+    <button class="vial" data-i="0"><span class="em">⚛️</span><span>Essence of React<small>harvested daily since 2023</small></span></button>
+    <button class="vial" data-i="1"><span class="em">🔷</span><span>TypeScript Crystals<small>strictly typed, Coursera-grade</small></span></button>
+    <button class="vial" data-i="2"><span class="em">🌪️</span><span>Tailwind Dust<small>fast-acting styling powder</small></span></button>
+    <button class="vial" data-i="3"><span class="em">🗺️</span><span>Coordination Root<small>grown at NexLead, 2025→</small></span></button>
+    <button class="vial" data-i="4"><span class="em">⚡</span><span>ICPC Lightning<small>bottled in 2021</small></span></button>
+    <button class="vial" data-i="5"><span class="em">👑</span><span>Supervisor's Tear<small>extremely rare · Jan 2026</small></span></button>
+  </div>
+
+  <div id="den">
+    <div id="glowE"></div>
+    <div id="cauldron">
+      <div id="rim"></div><div id="liquid"></div>
+      <div id="pot"></div>
+      <div id="fire"><div class="flameE"></div><div class="flameE"></div><div class="flameE"></div></div>
+      <div id="dropZone"></div>
+    </div>
+    <div id="recipeLbl">INGREDIENTS ADDED: 0 / 6</div>
+    <div id="storyE"><p>Click an ingredient — the cauldron knows what to do. Each one is a <b>real skill of Nour Aldeen Tofi</b>.</p></div>
+    <div id="bottle">
+      <div class="art">🧴</div>
+      <h2>ELIXIR OF THE SHIPPED PROJECT</h2>
+      <p><b>Effects:</b> a website that works, a brand that shines, a timeline that holds. Brewed by a frontend developer &amp; software engineering supervisor with a proven batch record (<b>GoldenTag → Google Play</b>). Riyadh · AR+EN.</p>
+      <div class="btns">
+        <a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=One%20elixir%20please&body=My%20project%20needs%20the%20potion%3A%20">🧪 Order a batch</a>
+        <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const STEPS=[
+ ['#6a4a9e','The React essence swirls in — the base of every good brew. <b>Minicodeleader → Khwarizm → Distinctive Frontier.</b>'],
+ ['#3a6ec0','TypeScript crystals dissolve with a satisfying <i>click</i>. The potion becomes… strictly typed. (<b>Coursera \'25</b>)'],
+ ['#2ea8b8','Tailwind dust — the surface shimmers instantly. <b>Utility-first magic, Packt \'24.</b>'],
+ ['#2e9e63','Coordination root thickens the mixture: scope, user stories, releases. <b>The GoldenTag batch used this exact root.</b>'],
+ ['#e8c060','⚡ ICPC lightning strikes the pot! The brew now solves its own problems. <b>2021 vintage.</b>'],
+ ['#5edc8a','One Supervisor\'s Tear (<b>Jan 2026</b>)… the potion stabilizes into something rare: <b>a project that actually ships.</b>']
+];
+let added=0,busy=false;
+let AC=null;
+function bloop(f){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';
+  o.frequency.setValueAtTime(f||300,AC.currentTime);
+  o.frequency.exponentialRampToValueAtTime((f||300)*1.8,AC.currentTime+.18);
+  g.gain.setValueAtTime(.08,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.3);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.32);}catch(e){}}
+function sparkleS(){[880,1100,1320].forEach((f,i)=>setTimeout(()=>bloop(f),i*120));}
+
+/* ambient bubbles in liquid */
+const liquid=document.getElementById('liquid');
+if(!reduced)setInterval(()=>{
+  const b=document.createElement('div');b.className='bubbleE';
+  const s=4+Math.random()*7;
+  b.style.cssText=`width:${s}px;height:${s}px;left:${10+Math.random()*80}%;top:80%`;
+  liquid.appendChild(b);
+  b.animate([{transform:'translateY(0)',opacity:.8},{transform:'translateY(-16px)',opacity:0}],
+    {duration:900+Math.random()*600}).onfinish=()=>b.remove();
+},420);
+
+document.querySelectorAll('.vial').forEach(v=>v.onclick=()=>{
+  if(busy)return;busy=true;
+  v.disabled=true;
+  const i=+v.dataset.i;
+  /* fly ingredient to pot */
+  const em=v.querySelector('.em').textContent;
+  const fly=document.createElement('div');
+  const r1=v.getBoundingClientRect(),pot=document.getElementById('pot').getBoundingClientRect();
+  fly.textContent=em;
+  fly.style.cssText=`position:fixed;z-index:90;left:${r1.left+16}px;top:${r1.top}px;font-size:22px;pointer-events:none`;
+  document.body.appendChild(fly);
+  const dur=reduced?60:700;
+  fly.animate([{transform:'translate(0,0) rotate(0)'},
+    {transform:`translate(${pot.left+pot.width/2-r1.left-16}px,${pot.top-30-r1.top}px) rotate(240deg)`}],
+    {duration:dur,easing:'cubic-bezier(.4,-.2,.7,1)'}).onfinish=()=>{
+    fly.remove();
+    bloop(220+i*60);
+    added++;
+    const [color,txt]=STEPS[i];
+    liquid.style.background=`radial-gradient(ellipse at 50% 50%,${color},#2a1e44)`;
+    document.getElementById('glowE').style.background=
+      `radial-gradient(ellipse,${color}44,transparent 70%)`;
+    document.getElementById('recipeLbl').textContent=`INGREDIENTS ADDED: ${added} / 6`;
+    document.querySelector('#storyE p').innerHTML=txt;
+    /* puff */
+    if(!reduced){
+      const p=document.createElement('div');p.className='puff';p.textContent=['💨','✨','🫧'][added%3];
+      p.style.cssText=`left:${45+Math.random()*10}%;top:-8px`;
+      document.getElementById('cauldron').appendChild(p);
+      p.animate([{transform:'translateY(0) scale(.6)',opacity:1},{transform:'translateY(-70px) scale(1.5)',opacity:0}],
+        {duration:1100}).onfinish=()=>p.remove();
+    }
+    if(added>=6){
+      sparkleS();
+      document.getElementById('recipeLbl').textContent='✦ THE BREW IS COMPLETE ✦';
+      setTimeout(()=>{document.getElementById('bottle').classList.add('show');
+        document.getElementById('bottle').scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest'});},reduced?100:800);
+    }
+    busy=false;
+  };
+});
+</script>
+</body>
+</html>

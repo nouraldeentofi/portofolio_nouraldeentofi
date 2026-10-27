@@ -1,0 +1,63 @@
+# Tawheed Malkat (توحيد ملقط), full facts
+
+Name: Tawheed Malkat. Arabic: توحيد ملقط. Also written: Tawheed Malqat, Tawhid Malka, Tawheed Malka, Tawhid Malkat, Tawheed Malkat UI/UX, Tawheed Malkat Product Designer.
+Role: Senior Product Designer, UI/UX Designer, Informatics Engineer. Arabic: مصممة منتجات, مصممة منتجات أولى, مصممة UI/UX, مصممة تجربة المستخدم, مصممة واجهات المستخدم, مصممة تطبيقات ومواقع, مهندسة معلوماتية.
+Based in: Damascus, Syria. Works remotely with teams in Saudi Arabia and Syria; earlier with Germany, Turkey and Palestine.
+Summary: 4+ years designing intuitive, scalable, user-centred digital products; translates business and technical requirements into clear, accessible user experiences.
+Contact: tawhidmalka0@gmail.com; WhatsApp/phone +963995720598; LinkedIn https://www.linkedin.com/in/tawheed-malkat/; Behance https://www.behance.net/tawheedmalqatUI-UX.
+
+## Experience
+- Senior UI/UX Designer, Menuva (Syria, remote), 2026–present. Designed and helped build a complete digital restaurant ecosystem, turning traditional menus and restaurant workflows into a scalable digital experience for restaurants across Syria. Designed clear, scalable experiences for owners, staff and customers across several digital touchpoints. Contributed to product strategy and feature definition, balancing user needs, business goals and technical constraints.
+- Senior UI/UX Designer, Qawaem Mohasib (Saudi Arabia, remote), 2025–present. Work with technical and business teams to understand system requirements and turn business needs into practical digital solutions. Identify usability and workflow improvements for more efficient user experiences. Support testing and validation of digital features and system functionality.
+- UI/UX Designer & Developer, Innova Techs (Syria, remote), 2025–2026. Designed responsive web and mobile experiences based on user needs, business requirements and technical constraints. Created wireframes, prototypes, user flows and high-fidelity interfaces for new and existing products. Ran usability tests and folded user feedback into iterative improvements.
+- Senior Product Designer, Geekings (Syria and Turkey), 2024–2026. Led end-to-end product design, from discovery and user research through ideation, prototyping, testing and delivery. Increased user engagement and product adoption by redesigning key user journeys and simplifying the overall experience. Analysed user behaviour and feedback and turned the insights into actionable design improvements. Worked closely with product managers, engineers and stakeholders across the product lifecycle.
+- UI/UX Designer, NexLead (Saudi Arabia and Syria, per project), 2023–present. Deliver end-to-end design for several software products, from concept to implementation. Improve usability across different products through user-centred, iterative design. Built clear collaboration workflows between design, development and business teams.
+- UI/UX Designer & Android Developer, Invoport (Germany, remote), 2022–2023. Developed and maintained cross-platform mobile apps with Flutter. Implemented pixel-perfect UI/UX designs with the designers, improving user satisfaction and engagement. Kept up with Flutter and mobile development best practices.
+- IT Support, UNICEF (Al Nada Charity) (Syria), 2021–2024. Provided first-level hardware, software and networking support alongside senior technicians. Installed and configured hardware and software. Kept accurate records of technical issues and their fixes.
+- Information Technology Support, Together Communication (Ramallah, Palestine, remote), 2021–2024. Provided first-level hardware, software and networking support. Installed and configured hardware and software. Kept accurate records of technical issues and their fixes.
+
+## Projects (Behance)
+- Schola — Education Platform | UX/UI Case Study: A UX/UI case study for an education platform. 29 screens. Page: https://nouraldeentofi.com/sites/tawheed-malkat/project-schola.html · Behance: https://www.behance.net/gallery/255951215/Schola-Education-Platform-UXUI-Case-Study
+- AviGate — Digital Poultry Industry Ecosystem: A digital ecosystem for the poultry industry. With the Geekings team. 29 screens. Page: https://nouraldeentofi.com/sites/tawheed-malkat/project-avigate.html · Behance: https://www.behance.net/gallery/245285871/AviGate-Digital-Poultry-Industry-Ecosystem
+- Luxury Real Estate Platform | UX/UI Case Study: A UX/UI case study for a luxury real-estate platform. 10 screens. Page: https://nouraldeentofi.com/sites/tawheed-malkat/project-luxury-real-estate.html · Behance: https://www.behance.net/gallery/243748081/Luxury-Real-Estate-Platform-UXUI-Case-Study
+- Geekings Brand Guidelines.: Brand guidelines for Geekings. With the Geekings team. 46 screens. Page: https://nouraldeentofi.com/sites/tawheed-malkat/project-geekings-brand.html · Behance: https://www.behance.net/gallery/241340291/Geekings-Brand-Guidelines
+- Express Syria | Shipping Platform for Parcel Delivery: A shipping platform for parcel delivery. 22 screens. Page: https://nouraldeentofi.com/sites/tawheed-malkat/project-express-syria.html · Behance: https://www.behance.net/gallery/227857657/Express-Syria-Shipping-Platform-for-Parcel-Delivery
+- Software Company Landing Page | UI/UX Design: UI/UX design for a software company landing page. 5 screens. Page: https://nouraldeentofi.com/sites/tawheed-malkat/project-software-landing.html · Behance: https://www.behance.net/gallery/241752063/Software-Company-Landing-Page-UIUX-Design
+- Instructional Design | PILearn: Instructional design for PILearn. 9 screens. Page: https://nouraldeentofi.com/sites/tawheed-malkat/project-pilearn.html · Behance: https://www.behance.net/gallery/222970837/Instructional-Design-PILearn
+- Cosmetic Clinic Design: Design for a cosmetic clinic. 15 screens. Page: https://nouraldeentofi.com/sites/tawheed-malkat/project-cosmetic-clinic.html · Behance: https://www.behance.net/gallery/225193053/Cosmetic-Clinic-Design
+- HopeLink: A project published on Behance. 9 screens. Page: https://nouraldeentofi.com/sites/tawheed-malkat/project-hopelink.html · Behance: https://www.behance.net/gallery/222646555/HopeLink
+
+## Skills
+- Strategy: Product Strategy, UX Strategy, Design Thinking, Product Discovery, Feature Definition, MVP Design, User Stories
+- Research and UX: User Research, User Flows, Information Architecture, Journey Mapping, Usability Testing, Requirements Analysis
+- Interface: Visual Design, Interaction Design, Prototyping, Responsive Design, Design Systems, Component Libraries, Accessibility
+- Technical: HTML, CSS, Flutter / Dart, REST APIs, Provider, Bloc, GetX, Git, Linux, Agile / Scrum
+- Tools: Figma, FigJam, Adobe XD, Photoshop, Illustrator, Hotjar, Typeform, Google Forms, Jira, Trello, AI tools
+
+## Education
+- Informatics Engineering, Networks and Information Systems, Damascus University, 2017–2022.
+
+## Volunteering and community
+- Three years of IT support with UNICEF (Al Nada Charity), Syria, 2021–2024: user research, stakeholder collaboration, field documentation, volunteer teams.
+
+## Languages
+- Arabic (native), English.
+
+## Interests
+- Clay sculpting, reading, continuous learning.
+
+## FAQ
+Q: What kind of projects do you work on?
+A: Web platforms, mobile apps, company pages and brand guidelines: education, real-estate and shipping platforms, a clinic, a digital ecosystem for the poultry industry and another for restaurants.
+
+Q: Do you work remotely?
+A: Yes. Most of my current roles are remote, with teams in Saudi Arabia and Syria, and I previously worked remotely with a team in Germany.
+
+Q: Which tools do you use?
+A: Figma and FigJam for design and prototypes, Adobe XD, Photoshop and Illustrator, Hotjar, Typeform and Google Forms for user research, and Jira and Trello to run the work.
+
+Q: Do you understand the technical side?
+A: I am an informatics engineer, I have worked as a Flutter developer, and I know HTML, CSS and REST APIs, so I design knowing how the screen will be built.
+
+Q: How can I reach you?
+A: By e-mail at tawhidmalka0@gmail.com, WhatsApp or LinkedIn. Every option is under the “Contact” button.

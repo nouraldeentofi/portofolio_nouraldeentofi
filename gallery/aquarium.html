@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — AQUARIUM · Feed the Skills</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--deep:#06283d;--mid:#0a4a6e;--light:#1273a3;--sand:#d9c48f;--fg:#eaf6fb;--dim:rgba(234,246,251,.6);--coral:#ff8a5c}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{font-family:'Comfortaa',sans-serif;color:var(--fg);overflow:hidden;
+    background:linear-gradient(180deg,var(--light),var(--mid) 45%,var(--deep))}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--coral);color:#06283d}
+  #tank{position:fixed;inset:0;cursor:crosshair}
+  canvas{position:fixed;inset:0}
+
+  #ui{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:20;text-align:center;pointer-events:none}
+  #ui h1{font-weight:700;font-size:clamp(18px,3.4vw,28px);text-shadow:0 2px 14px rgba(0,0,0,.4)}
+  #ui .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--dim);margin-top:6px;text-transform:uppercase}
+  #hint{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:20;font-family:'IBM Plex Mono',monospace;
+    font-size:10px;letter-spacing:.25em;color:var(--dim);text-transform:uppercase;animation:hb 2.6s infinite;text-align:center}
+  @keyframes hb{0%,100%{opacity:.4}50%{opacity:1}}
+
+  /* info card */
+  #card{position:fixed;right:20px;top:50%;transform:translate(120%,-50%);z-index:30;width:min(340px,88vw);
+    background:rgba(6,30,45,.85);border:1px solid rgba(255,138,92,.4);border-radius:16px;padding:26px 28px;
+    backdrop-filter:blur(8px);transition:transform .5s cubic-bezier(.2,.9,.3,1)}
+  #card.show{transform:translate(0,-50%)}
+  #card .k{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.3em;color:var(--coral);text-transform:uppercase}
+  #card h2{font-size:20px;font-weight:700;margin:8px 0}
+  #card p{font-size:12.5px;line-height:1.7;color:var(--dim)}
+  #card p b{color:var(--fg)}
+  #card .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  #card .btn{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;padding:9px 14px;border-radius:8px;
+    border:1px solid var(--coral);color:var(--coral);text-transform:uppercase}
+  #card .btn:hover{background:var(--coral);color:#06283d}
+  #cclose{position:absolute;top:8px;right:12px;background:none;border:none;color:var(--dim);cursor:pointer;font-size:14px}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="tank"><canvas id="cv"></canvas></div>
+<div id="ui"><h1>🐠 The Nour Aquarium</h1><div class="sub">12 skills live here · click water to feed · click a fish to read it</div></div>
+<div id="hint">◈ TAP ANYWHERE TO DROP FOOD — WATCH THEM SWARM ◈</div>
+<div id="card"><button id="cclose">✕</button><div id="cc"></div></div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+let W,H;function size(){W=cv.width=innerWidth;H=cv.height=innerHeight;}size();addEventListener('resize',size);
+
+const FISH=[
+ {nm:'React',e:'🐠',c:'#61dafb',k:'Apex species · since 2023',
+  p:`The biggest fish in the tank. Fed daily since <b>Minicodeleader (2023)</b>, grown huge at <b>Distinctive Frontier Co.</b> where Nour supervises the whole reef as Software Engineering Supervisor (2026 →).`},
+ {nm:'TypeScript',e:'🐟',c:'#3178c6',k:'Schooling fish · strict diet',p:`Swims in perfectly typed formation. Certified: <b>TypeScript in React — Coursera '25</b>.`},
+ {nm:'Tailwind',e:'🐡',c:'#38bdf8',k:'Fast swimmer',p:`Utility-first fins. <b>Tailwind From Scratch — Packt '24</b>. Styles the whole tank in record time.`},
+ {nm:'JavaScript',e:'🐟',c:'#f7df1e',k:'The original inhabitant',p:`Everything else in this aquarium evolved from this one. ~3 years of professional feeding.`},
+ {nm:'Python',e:'🦈',c:'#4b8bbe',k:'Deep water · DS/AI',p:`Surfaces for data science and AI side-quests. <b>IBM Python for DS & AI '24</b> + <b>IBM GenAI Prompting '24</b>.`},
+ {nm:'Coordination',e:'🐙',c:'#ff8a5c',k:'Eight arms · NexLead',p:`One arm per workstream: <b>freelance Project Coordinator at NexLead (2025→)</b> — requirements, Trello stories, releases. Shipped <b>GoldenTag</b> to Google Play.`},
+ {nm:'Leadership',e:'🐋',c:'#8fd3e8',k:'Gentle giant · 2026',p:`The whale the tank follows. <b>Software Engineering Supervisor (Jan 2026 →)</b>: standards, architecture, delivery. Google PM certs ×2 as krill.`},
+ {nm:'Git',e:'🦀',c:'#e84e31',k:'Bottom dweller · version control',p:`Walks sideways through branches. Never loses anything, ever.`},
+ {nm:'ICPC',e:'🗡️',c:'#c9d6e8',k:'Swordfish · 2021',p:`The fastest thing in the water. <b>ICPC/ACPC 2021</b> — competitive programming reflexes that never dulled.`},
+ {nm:'Education',e:'🐢',c:'#6dbb8a',k:'Old soul · 2019–24',p:`Slow, steady, foundational. <b>B.Tech IT — University of Kalamoon (2019–2024)</b>.`},
+ {nm:'Jira·Trello',e:'🦐',c:'#f0a8c0',k:'Cleaner crew',p:`Keeps the tank organized. Certified in Jira roadmaps &amp; user stories (Coursera '25).`},
+ {nm:'Hire me',e:'⭐',c:'#ffd23f',k:'Starfish · for you',
+  p:`The one that sticks to the glass hoping you'll notice. Websites · React frontends · logos · cards · social visuals · coordination. <b>Riyadh · AR+EN</b>.`,
+  btns:[['✉ Email','mailto:nouraldeentofi@gmail.com'],['LinkedIn','https://www.linkedin.com/in/nour-aldeen-tofi-19b116240'],['Website','https://nouraldeentofi.netlify.app']]}
+];
+const fish=FISH.map((f,i)=>({
+  ...f,x:Math.random()*innerWidth,y:100+Math.random()*(innerHeight-260),
+  vx:(Math.random()<.5?-1:1)*(0.6+Math.random()*.8),vy:(Math.random()-.5)*.4,
+  sz:i===0||f.e==='🐋'?44:(f.e==='🦈'?38:26+Math.random()*8),wig:Math.random()*7
+}));
+let food=[],bubbles=[];
+for(let i=0;i<26;i++)bubbles.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:2+Math.random()*4,s:.4+Math.random()*.9});
+
+/* interactions */
+let mx=-999,my=-999;
+addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;});
+document.getElementById('tank').addEventListener('pointerdown',e=>{
+  if(e.target.closest('#card'))return;
+  /* fish under cursor? */
+  let hit=null;
+  for(const f of fish){if(Math.hypot(e.clientX-f.x,e.clientY-f.y)<f.sz*.9){hit=f;break;}}
+  if(hit){openCard(hit);return;}
+  /* drop food */
+  for(let i=0;i<6;i++)food.push({x:e.clientX+(Math.random()-.5)*30,y:e.clientY+(Math.random()-.5)*10,vy:.4+Math.random()*.5,life:1});
+  document.getElementById('hint').style.opacity='0';
+});
+
+function tick(){
+  ctx.clearRect(0,0,W,H);
+  /* light rays */
+  ctx.save();ctx.globalAlpha=.07;
+  for(let i=0;i<4;i++){ctx.fillStyle='#fff';
+    ctx.beginPath();
+    const bx=W*(0.15+i*0.25)+Math.sin(Date.now()/3000+i)*30;
+    ctx.moveTo(bx-30,0);ctx.lineTo(bx+50,0);ctx.lineTo(bx+150,H);ctx.lineTo(bx-10,H);ctx.fill();}
+  ctx.restore();
+  /* sand */
+  ctx.fillStyle='#d9c48f';ctx.beginPath();
+  ctx.moveTo(0,H);ctx.lineTo(0,H-40);
+  for(let x=0;x<=W;x+=60)ctx.quadraticCurveTo(x+30,H-52-(x/60%2)*10,x+60,H-40);
+  ctx.lineTo(W,H);ctx.fill();
+  /* plants */
+  for(let i=0;i<6;i++){
+    const px=W*(0.08+i*0.17),sw=Math.sin(Date.now()/900+i)*8;
+    ctx.strokeStyle='#2e8a5c';ctx.lineWidth=5;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(px,H-36);
+    ctx.quadraticCurveTo(px+sw,H-90,px+sw*1.6,H-140-i%3*22);ctx.stroke();
+  }
+  /* bubbles */
+  ctx.fillStyle='rgba(255,255,255,.35)';
+  for(const b of bubbles){
+    b.y-=b.s;b.x+=Math.sin(b.y/30)*.4;
+    if(b.y<-10){b.y=H+10;b.x=Math.random()*W;}
+    ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,7);ctx.fill();
+  }
+  /* food */
+  ctx.fillStyle='#e8b96a';
+  food=food.filter(fd=>fd.life>0&&fd.y<H-44);
+  for(const fd of food){fd.y+=fd.vy;fd.life-=.002;
+    ctx.beginPath();ctx.arc(fd.x,fd.y,3,0,7);ctx.fill();}
+  /* fish */
+  for(const f of fish){
+    /* seek food */
+    let tx=null,ty=null,bd=1e9;
+    for(const fd of food){const d=Math.hypot(fd.x-f.x,fd.y-f.y);if(d<bd){bd=d;tx=fd.x;ty=fd.y;}}
+    if(tx!==null&&bd<420){
+      f.vx+=(tx-f.x)/bd*.14;f.vy+=(ty-f.y)/bd*.14;
+      if(bd<f.sz*.7){food=food.filter(fd=>Math.hypot(fd.x-f.x,fd.y-f.y)>=f.sz*.7);}
+    }else{
+      f.vy+=(Math.sin(Date.now()/1200+f.wig))*.006;
+    }
+    /* avoid cursor slightly */
+    const md=Math.hypot(mx-f.x,my-f.y);
+    if(md<80&&md>0){f.vx+=(f.x-mx)/md*.05;f.vy+=(f.y-my)/md*.05;}
+    /* limits */
+    const sp=Math.hypot(f.vx,f.vy),max=reduced?.5:1.6;
+    if(sp>max){f.vx*=max/sp;f.vy*=max/sp;}
+    if(sp<.3)f.vx+=f.vx>=0?.02:-.02;
+    f.x+=f.vx;f.y+=f.vy;
+    if(f.x<40){f.x=40;f.vx=Math.abs(f.vx);}
+    if(f.x>W-40){f.x=W-40;f.vx=-Math.abs(f.vx);}
+    if(f.y<90){f.y=90;f.vy=Math.abs(f.vy);}
+    if(f.y>H-80){f.y=H-80;f.vy=-Math.abs(f.vy);}
+    /* draw */
+    ctx.save();ctx.translate(f.x,f.y);
+    if(f.vx<0)ctx.scale(-1,1);
+    ctx.font=f.sz+'px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.shadowColor='rgba(0,0,0,.35)';ctx.shadowBlur=8;
+    ctx.fillText(f.e,0,Math.sin(Date.now()/300+f.wig)*3);
+    ctx.restore();
+    /* label */
+    ctx.font='700 10px Comfortaa';ctx.textAlign='center';
+    ctx.fillStyle='rgba(234,246,251,.75)';
+    ctx.fillText(f.nm,f.x,f.y+f.sz*.8);
+  }
+  requestAnimationFrame(tick);
+}
+tick();
+
+/* card */
+const card=document.getElementById('card');
+function openCard(f){
+  let btns='';(f.btns||[]).forEach(([lb,href])=>{
+    btns+=`<a class="btn" href="${href}"${href.startsWith('http')?' target="_blank" rel="noopener"':''}>${lb}</a>`;});
+  document.getElementById('cc').innerHTML=`<div class="k">${f.k}</div><h2>${f.e} ${f.nm}</h2><p>${f.p}</p>
+    ${btns?'<div class="btns">'+btns+'</div>':''}`;
+  card.classList.add('show');
+}
+document.getElementById('cclose').onclick=()=>card.classList.remove('show');
+addEventListener('keydown',e=>{if(e.key==='Escape')card.classList.remove('show');});
+</script>
+</body>
+</html>

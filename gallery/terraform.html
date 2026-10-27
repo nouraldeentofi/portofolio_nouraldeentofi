@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — TERRAFORM · Dead Projects Made Alive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--space2:#0a0e1a;--fg:#e8eefc;--dim:rgba(232,238,252,.6);--acc:#5edc8a;--amber4:#ffc14d}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;color:var(--fg);min-height:100vh;
+    background:radial-gradient(80vw 70vh at 50% 40%,#141c30,var(--space2));
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--acc);color:#0a0e1a}
+  .starT{position:fixed;background:#fff;border-radius:50%;animation:twT 3s infinite}
+  @keyframes twT{50%{opacity:.2}}
+  h1{font-family:'Michroma';font-size:clamp(16px,3.4vw,28px);letter-spacing:.1em;text-align:center}
+  h1 span{color:var(--acc)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.26em;color:var(--dim);
+    margin:8px 0 16px;text-transform:uppercase;text-align:center}
+
+  #planetWrap{position:relative;width:min(340px,80vw);aspect-ratio:1;margin-bottom:8px}
+  #planet2{width:100%;height:100%;border-radius:50%;position:relative;overflow:hidden;transition:box-shadow 1.2s;
+    background:radial-gradient(circle at 34% 28%,#6a6e78,#3a3e48 60%,#22252e);
+    box-shadow:0 0 60px rgba(0,0,0,.6), inset -20px -20px 60px rgba(0,0,0,.6)}
+  #planet2.alive{box-shadow:0 0 80px rgba(94,220,138,.35), inset -20px -20px 60px rgba(0,10,20,.5)}
+  .layerT{position:absolute;inset:0;border-radius:50%;opacity:0;transition:opacity 1.4s}
+  .layerT.on{opacity:1}
+  #atmo{box-shadow:inset 0 0 40px rgba(120,200,255,.6);background:radial-gradient(circle at 34% 28%,rgba(140,210,255,.2),transparent 60%)}
+  #oceans{background:radial-gradient(circle at 34% 28%,#3a8ac0,#1c4a74 65%,#0e2a44)}
+  #landT{background:
+    radial-gradient(28% 22% at 30% 40%,#4a8a4a 0 60%,transparent 61%),
+    radial-gradient(20% 26% at 66% 30%,#5a9a4a 0 60%,transparent 61%),
+    radial-gradient(24% 18% at 60% 68%,#4a8a5a 0 60%,transparent 61%),
+    radial-gradient(14% 12% at 26% 72%,#5a9a5a 0 60%,transparent 61%)}
+  #cloudsT{background:
+    radial-gradient(20% 8% at 40% 26%,rgba(255,255,255,.8) 0 60%,transparent 61%),
+    radial-gradient(26% 9% at 64% 48%,rgba(255,255,255,.7) 0 60%,transparent 61%),
+    radial-gradient(18% 7% at 30% 60%,rgba(255,255,255,.75) 0 60%,transparent 61%);
+    animation:cl 40s linear infinite}
+  @keyframes cl{to{transform:rotate(360deg)}}
+  #cities{background:
+    radial-gradient(3% 3% at 32% 42%,#ffd97a 0 60%,transparent 61%),
+    radial-gradient(2.5% 2.5% at 62% 32%,#ffd97a 0 60%,transparent 61%),
+    radial-gradient(3% 3% at 58% 66%,#ffd97a 0 60%,transparent 61%)}
+  #lifeT{font-size:0}
+  #lifeT span{position:absolute;font-size:18px}
+  #vitalsT{position:absolute;left:50%;bottom:-10px;transform:translateX(-50%);font-family:'IBM Plex Mono';
+    font-size:9px;letter-spacing:.2em;background:rgba(10,14,26,.8);border:1px solid rgba(94,220,138,.4);
+    padding:8px 14px;border-radius:99px;white-space:nowrap}
+  #vitalsT b{color:var(--acc)}
+
+  #systems{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:9px;width:min(720px,96vw);margin-top:16px}
+  .sys{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.05);border:1.5px solid rgba(232,238,252,.18);
+    border-radius:12px;padding:11px 13px;cursor:pointer;color:var(--fg);text-align:left;font-family:'Karla';
+    font-weight:700;font-size:12px;transition:all .2s}
+  .sys:hover{border-color:var(--acc);transform:translateY(-2px)}
+  .sys:disabled{opacity:.35;pointer-events:none}
+  .sys.done2{border-color:var(--acc);background:rgba(94,220,138,.1)}
+  .sys .em{font-size:19px}
+  .sys small{display:block;font-weight:400;font-size:9.5px;color:var(--dim)}
+
+  #logT{margin-top:16px;max-width:620px;text-align:center;min-height:100px}
+  #logT .k{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.28em;color:var(--acc);text-transform:uppercase;font-weight:600}
+  #logT h2{font-family:'Michroma';font-size:clamp(14px,2.8vw,20px);margin:8px 0 6px;letter-spacing:.04em}
+  #logT p{font-size:12.5px;line-height:1.75;color:var(--dim)}
+  #logT p b{color:var(--fg)}
+  .btns{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 18px;border-radius:99px;
+    border:2px solid var(--acc);color:var(--acc);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--acc);color:#0a0e1a}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>PROJECT <span>TERRAFORM</span></h1>
+<div class="sub">This planet is your dead project · deploy all six systems · revive it · أحيِ الكوكب</div>
+
+<div id="planetWrap">
+  <div id="planet2">
+    <div class="layerT" id="oceans"></div>
+    <div class="layerT" id="landT"></div>
+    <div class="layerT" id="cloudsT"></div>
+    <div class="layerT" id="cities"></div>
+    <div class="layerT" id="lifeT"></div>
+    <div class="layerT" id="atmo"></div>
+  </div>
+  <div id="vitalsT">HABITABILITY <b id="hab">0%</b> · STATUS: <b id="statT">BARREN</b></div>
+</div>
+
+<div id="systems">
+  <button class="sys" data-s="0"><span class="em">🌬</span><span>Atmosphere<small>hosting & infrastructure that breathes</small></span></button>
+  <button class="sys" data-s="1"><span class="em">🌊</span><span>Oceans<small>a flow of clean React code</small></span></button>
+  <button class="sys" data-s="2"><span class="em">🏔</span><span>Continents<small>solid design & brand landmass</small></span></button>
+  <button class="sys" data-s="3"><span class="em">☁️</span><span>Weather<small>social presence in the air</small></span></button>
+  <button class="sys" data-s="4"><span class="em">🏙</span><span>Cities<small>features shipped & glowing</small></span></button>
+  <button class="sys" data-s="5"><span class="em">🌱</span><span>Life<small>real users arrive & thrive</small></span></button>
+</div>
+
+<div id="logT">
+  <div class="k">Terraforming log · day 0</div>
+  <h2>Dead rock detected</h2>
+  <p>No website, no brand, no users — a gray project floating in space. The good news: <b>Nour has revived these before.</b> Deploy the first system.</p>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+for(let i=0;i<60;i++){const s=document.createElement('div');s.className='starT';
+  const z=Math.random()*2+1;
+  s.style.cssText=`width:${z}px;height:${z}px;left:${Math.random()*100}vw;top:${Math.random()*100}vh;animation-delay:${Math.random()*3}s`;
+  document.body.appendChild(s);}
+const SYSTEMS=[
+ {layer:'atmo',k:'SYSTEM 1 · ATMOSPHERE ONLINE',h:'The project can breathe',
+  p:'A blue haze wraps the rock: <b>infrastructure and clean foundations</b> — the environment every feature will live in. (His daily habitat at Distinctive Frontier Co.)'},
+ {layer:'oceans',k:'SYSTEM 2 · OCEANS FILLED',h:'Code flows across the surface',
+  p:'Deep blue: <b>React + TypeScript + Tailwind</b>, flowing clean since 2023. Currents tested at Minicodeleader, Khwarizm, and supervisor depth since Jan 2026.'},
+ {layer:'landT',k:'SYSTEM 3 · CONTINENTS RAISED',h:'Solid ground: design & brand',
+  p:'Landmass emerges: <b>logos, identity, visual design</b> — the terrain users actually stand on and remember.'},
+ {layer:'cloudsT',k:'SYSTEM 4 · WEATHER SYSTEMS',h:'Clouds of social presence',
+  p:'White systems circling: <b>Instagram &amp; LinkedIn visuals</b> — a climate of consistent, branded content raining engagement.'},
+ {layer:'cities',k:'SYSTEM 5 · CITIES LIT',h:'Features shipped and glowing',
+  p:'Golden lights at night: <b>shipped features</b>. One famous settlement — <b>GoldenTag</b> — was delivered all the way to Google Play by the same engineer.'},
+ {layer:'lifeT',k:'SYSTEM 6 · LIFE DETECTED',h:'Users. Real ones.',
+  p:'The final miracle: <b>people using the thing.</b> Habitability 100%. Planet classification upgraded from "dead project" to "business".',final:true}
+];
+let AC=null;
+function whoosh(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const b=AC.createBuffer(1,AC.sampleRate*1.2,AC.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.sin(i/d.length*Math.PI);
+  const s=AC.createBufferSource();s.buffer=b;
+  const f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=800;
+  const g=AC.createGain();g.gain.value=.09;
+  s.connect(f);f.connect(g);g.connect(AC.destination);s.start();}catch(e){}}
+function lifeChime(){[523,659,784,1047,1319].forEach((f,i)=>setTimeout(()=>{
+  try{const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f;
+  g.gain.setValueAtTime(.055,AC.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.6);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.65);}catch(e){}},i*150));}
+
+let done=0;
+document.querySelectorAll('.sys').forEach(b=>b.onclick=()=>{
+  if(b.classList.contains('done2'))return;
+  b.classList.add('done2');
+  const i=+b.dataset.s;
+  const sys=SYSTEMS[i];
+  whoosh();
+  document.getElementById(sys.layer).classList.add('on');
+  if(sys.layer==='lifeT'){
+    const lt=document.getElementById('lifeT');
+    ['🐋','🦅','🌴','🦌'].forEach((e2,j)=>{
+      const sp=document.createElement('span');sp.textContent=e2;
+      sp.style.left=(24+j*18)+'%';sp.style.top=(30+(j%2)*32)+'%';
+      lt.appendChild(sp);
+    });
+  }
+  done++;
+  const hab=Math.round(done/6*100);
+  document.getElementById('hab').textContent=hab+'%';
+  document.getElementById('statT').textContent=hab<40?'WARMING':hab<80?'STABILIZING':hab<100?'NEARLY ALIVE':'THRIVING';
+  document.querySelector('#logT .k').textContent=sys.k+' · DAY '+(done*40);
+  document.querySelector('#logT h2').textContent=sys.h;
+  document.querySelector('#logT p').innerHTML=sys.p;
+  const old=document.querySelector('#logT .btns');if(old)old.remove();
+  if(done>=6){
+    document.getElementById('planet2').classList.add('alive');
+    lifeChime();
+    const d=document.createElement('div');d.className='btns';
+    d.innerHTML=`<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Terraform%20my%20project&body=My%20planet%20is%20gray.%20Deploy%20the%20systems%3A%20">🪐 Revive my project</a>
+      <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`;
+    document.getElementById('logT').appendChild(d);
+  }
+});
+</script>
+</body>
+</html>

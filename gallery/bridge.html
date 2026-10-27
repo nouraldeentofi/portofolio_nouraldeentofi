@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — BRIDGE · Your Project Crosses Safely</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,500;0,800;1,500&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--sky:#cfe6ee;--sky2:#a8cdd9;--water:#3a7a94;--waterd:#245a70;--cliff:#8a6a45;--cliffd:#6e5236;
+        --wood:#a8743c;--ink:#2c2418;--dim:rgba(44,36,24,.65);--red:#c04535;--green:#2e8a5c}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Bitter',serif;background:linear-gradient(180deg,var(--sky),var(--sky2));color:var(--ink);
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:5vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--red);color:#fff}
+  h1{font-weight:800;font-size:clamp(24px,4.8vw,42px);text-align:center}
+  h1 em{color:var(--red);font-style:italic}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.26em;color:var(--dim);
+    margin:8px 0 24px;text-transform:uppercase;text-align:center}
+
+  #scene{position:relative;width:min(860px,96vw);height:380px;border-radius:18px;overflow:hidden;
+    box-shadow:0 24px 60px rgba(36,90,112,.35);background:linear-gradient(180deg,#dff0f5 0%,#bcdce6 55%,var(--water) 55%,var(--waterd))}
+  .cloud{position:absolute;background:rgba(255,255,255,.85);border-radius:99px;filter:blur(1px);animation:drift linear infinite}
+  @keyframes drift{from{transform:translateX(-15vw)}to{transform:translateX(100vw)}}
+  /* cliffs */
+  .cliff{position:absolute;bottom:0;width:150px;height:210px;background:linear-gradient(180deg,#9db86a 0 14px,var(--cliff) 14px,var(--cliffd));z-index:4}
+  #cliffL{left:0;border-radius:0 14px 0 0}
+  #cliffR{right:0;border-radius:14px 0 0 0}
+  .signpost{position:absolute;top:-56px;font-family:'IBM Plex Mono';font-size:9px;letter-spacing:.1em;
+    background:#fdf8ec;border:2px solid var(--ink);padding:6px 9px;border-radius:4px;text-align:center;font-weight:600}
+  #cliffL .signpost{left:12px}
+  #cliffR .signpost{right:12px;background:#e2f4e8}
+  /* water waves */
+  .wave{position:absolute;width:200%;height:14px;bottom:var(--b);left:0;opacity:.35;z-index:2;
+    background:radial-gradient(14px 8px at 14px 8px,#fff 40%,transparent 42%) 0 0/56px 14px repeat-x;
+    animation:wmove 7s linear infinite}
+  @keyframes wmove{to{transform:translateX(-56px)}}
+  /* bridge deck */
+  #planks{position:absolute;left:150px;right:150px;bottom:196px;height:18px;z-index:5;display:flex;gap:4px}
+  .plank{flex:1;background:linear-gradient(180deg,#c98a4a,var(--wood));border:2px solid #7a5226;border-radius:4px;
+    display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono';font-size:8.5px;font-weight:600;
+    color:#fdf3e0;letter-spacing:.02em;opacity:0;transform:translateY(-60px) rotate(-6deg);white-space:nowrap;overflow:hidden}
+  .plank.set{opacity:1;transform:none;transition:all .5s cubic-bezier(.2,1.3,.4,1)}
+  /* ropes */
+  #ropeTop{position:absolute;left:150px;right:150px;bottom:238px;height:36px;z-index:4;opacity:0;transition:opacity .6s}
+  #ropeTop.show{opacity:1}
+  #ropeTop svg{width:100%;height:100%}
+  /* car */
+  #car{position:absolute;bottom:212px;left:30px;z-index:6;width:92px;transition:none}
+  #car .body{width:92px;height:30px;background:linear-gradient(180deg,#ff8a5c,var(--red));border-radius:10px 14px 6px 6px;position:relative;
+    box-shadow:0 4px 8px rgba(0,0,0,.3)}
+  #car .top{position:absolute;top:-16px;left:16px;width:44px;height:20px;background:var(--red);border-radius:8px 10px 0 0}
+  #car .win{position:absolute;top:-13px;left:20px;width:16px;height:13px;background:#cfe6ee;border-radius:4px 0 0 0}
+  #car .lbl{position:absolute;top:6px;left:50%;transform:translateX(-50%);font-family:'IBM Plex Mono';font-size:7.5px;
+    font-weight:600;color:#fff;white-space:nowrap;letter-spacing:.04em}
+  .wheel{position:absolute;bottom:-10px;width:20px;height:20px;border-radius:50%;background:#2c2418;border:4px solid #4a4238}
+  .wheel.w1{left:10px}.wheel.w2{right:10px}
+  #splash{position:absolute;z-index:6;font-size:30px;display:none}
+
+  /* controls */
+  #bar{width:min(860px,96vw);margin-top:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:center}
+  #buildB{font-family:'Bitter';font-weight:800;font-size:15px;border:none;border-radius:12px;padding:15px 28px;
+    cursor:pointer;background:var(--ink);color:#fdf8ec;box-shadow:0 5px 0 #14100a;transition:transform .1s,box-shadow .1s}
+  #buildB:active{transform:translateY(4px);box-shadow:0 1px 0 #14100a}
+  #driveB{font-family:'Bitter';font-weight:800;font-size:15px;border:none;border-radius:12px;padding:15px 28px;
+    cursor:pointer;background:var(--green);color:#fff;box-shadow:0 5px 0 #1d5c3c;opacity:.45;pointer-events:none}
+  #driveB.ready{opacity:1;pointer-events:auto;animation:bump 1.4s infinite}
+  @keyframes bump{50%{transform:translateY(-3px)}}
+  #meter{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;background:#fdf8ec;
+    border:2px solid var(--ink);border-radius:99px;padding:12px 18px;font-weight:600}
+  #story{margin-top:18px;max-width:600px;text-align:center;min-height:90px}
+  #story .k{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.3em;color:var(--red);text-transform:uppercase;font-weight:600}
+  #story h2{font-weight:800;font-size:clamp(18px,3.2vw,26px);margin:8px 0 6px}
+  #story p{font-size:13.5px;line-height:1.7;color:var(--dim)}
+  #story p b{color:var(--ink)}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .btn{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.12em;padding:12px 20px;border-radius:99px;
+    border:2px solid var(--ink);font-weight:600;text-transform:uppercase}
+  .btn:hover{background:var(--ink);color:#fdf8ec}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>Your project needs to cross.<br><em>My skills are the bridge.</em></h1>
+<div class="sub">Build plank by plank · then drive across · جسر مضمون</div>
+
+<div id="scene">
+  <div class="cloud" style="top:26px;width:90px;height:26px;animation-duration:60s"></div>
+  <div class="cloud" style="top:60px;width:60px;height:18px;animation-duration:80s;animation-delay:-30s"></div>
+  <div class="cliff" id="cliffL"><div class="signpost">YOUR IDEA<br>« هون فكرتك »</div></div>
+  <div class="cliff" id="cliffR"><div class="signpost">✓ LAUNCHED<br>« مشروع ناجح »</div></div>
+  <div class="wave" style="--b:96px"></div><div class="wave" style="--b:60px;animation-duration:9s"></div>
+  <div id="ropeTop"><svg viewBox="0 0 100 36" preserveAspectRatio="none">
+    <path d="M0 2 Q50 34 100 2" fill="none" stroke="#7a5226" stroke-width="2.6"/>
+    <path d="M0 0 Q50 30 100 0" fill="none" stroke="#a8743c" stroke-width="1.6"/>
+  </svg></div>
+  <div id="planks"></div>
+  <div id="car"><div class="top"></div><div class="win"></div>
+    <div class="body"><span class="lbl">YOUR PROJECT</span></div>
+    <div class="wheel w1"></div><div class="wheel w2"></div></div>
+  <div id="splash">💦</div>
+</div>
+
+<div id="bar">
+  <button id="buildB">🔨 Add a plank</button>
+  <div id="meter">PLANKS: <span id="pn">0</span>/8</div>
+  <button id="driveB">🚗 Drive across!</button>
+</div>
+
+<div id="story">
+  <div class="k">The engineering report</div>
+  <h2>No plank, no crossing</h2>
+  <p>Every plank is a real skill of <b>Nour Aldeen Tofi</b>. Try driving early if you like risk — or build all 8 like a sensible client.</p>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const PLANKS=['REACT','TYPESCRIPT','TAILWIND','JAVASCRIPT','COORDINATION','CLEAN CODE','ICPC LOGIC','LEADERSHIP'];
+const FACTS=[
+ ['Plank 1 · React','Since 2023: Minicodeleader → Khwarizm → Distinctive Frontier Co. The main load-bearing beam.'],
+ ['Plank 2 · TypeScript','Certified (Coursera \'25). Strict types = a bridge that doesn\'t wobble.'],
+ ['Plank 3 · Tailwind','Fast, consistent styling (Packt \'24). Beautiful decking.'],
+ ['Plank 4 · JavaScript','~3 years professional. The original timber.'],
+ ['Plank 5 · Coordination','NexLead (2025→): scope, user stories, releases. GoldenTag crossed this exact bridge to Google Play.'],
+ ['Plank 6 · Clean Code','Scrimba \'24 + daily habit. No rusty nails.'],
+ ['Plank 7 · ICPC Logic','ICPC/ACPC 2021. Load calculations done in his head.'],
+ ['Plank 8 · Leadership','Software Engineering Supervisor (2026→). The final bolt. Bridge certified.']
+];
+let AC=null;
+function knock(f){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f||160;
+  g.gain.setValueAtTime(.12,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.18);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.2);}catch(e){}}
+function honk(){knock(440);setTimeout(()=>knock(440),150);}
+function splashS(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const b=AC.createBuffer(1,AC.sampleRate*.5,AC.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length);
+  const s=AC.createBufferSource();s.buffer=b;
+  const f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=800;
+  const g=AC.createGain();g.gain.value=.14;
+  s.connect(f);f.connect(g);g.connect(AC.destination);s.start();}catch(e){}}
+
+const planksEl=document.getElementById('planks');
+PLANKS.forEach(p=>{const d=document.createElement('div');d.className='plank';d.textContent=p;planksEl.appendChild(d);});
+let built=0,driving=false;
+
+document.getElementById('buildB').onclick=()=>{
+  if(built>=PLANKS.length||driving)return;
+  const pl=planksEl.children[built];
+  pl.classList.add('set');
+  knock(140+built*22);
+  const [k,p]=FACTS[built];
+  setStory(k,PLANKS[built],p);
+  built++;
+  document.getElementById('pn').textContent=built;
+  if(built===1)document.getElementById('ropeTop').classList.add('show');
+  if(built>=PLANKS.length){
+    document.getElementById('driveB').classList.add('ready');
+    setStory('Bridge complete ✓','All 8 skills in place','Structurally certified by a Software Engineering Supervisor. <b>Now drive your project across.</b>');
+  }
+};
+function setStory(k,h,p,btns){
+  document.querySelector('#story .k').textContent=k;
+  document.querySelector('#story h2').innerHTML=h;
+  document.querySelector('#story p').innerHTML=p;
+  const old=document.querySelector('#story .btns');if(old)old.remove();
+  if(btns){const d=document.createElement('div');d.className='btns';d.innerHTML=btns;
+    document.getElementById('story').appendChild(d);}
+}
+document.getElementById('driveB').onclick=async()=>{
+  if(driving)return;driving=true;honk();
+  const car=document.getElementById('car');
+  const sceneW=document.getElementById('scene').clientWidth;
+  const dur=reduced?400:2800;
+  const anim=car.animate([
+    {transform:'translateX(0)'},
+    {transform:`translateX(${sceneW-150}px)`}
+  ],{duration:dur,easing:'ease-in-out',fill:'forwards'});
+  /* bounce planks as car passes */
+  if(!reduced){
+    for(let i=0;i<PLANKS.length;i++){
+      setTimeout(()=>{const pl=planksEl.children[i];
+        pl.animate([{transform:'translateY(0)'},{transform:'translateY(4px)'},{transform:'translateY(0)'}],{duration:260});
+        knock(120+i*10);
+      },dur*0.18+i*(dur*0.62/PLANKS.length));
+    }
+  }
+  anim.onfinish=()=>{
+    honk();
+    setStory('Arrival · الضفة التانية 🎉','Crossed. Zero splashes.',
+      `That's the whole pitch: <b>your idea gets to the other side</b> — websites, React frontends, logos, business cards, social visuals, project coordination. Riyadh · AR+EN.`,
+      `<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Build%20my%20bridge&body=My%20project%20needs%20to%20cross%3A%20">✉ Start crossing</a>
+       <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+       <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`);
+    driving=false;
+  };
+};
+/* risky early drive: car falls */
+document.getElementById('scene').addEventListener('dblclick',()=>{
+  if(built>=PLANKS.length||driving)return;
+  driving=true;knock(300);
+  const car=document.getElementById('car');
+  const gap=150+built*((document.getElementById('scene').clientWidth-300)/PLANKS.length);
+  car.animate([{transform:'translateX(0) rotate(0)'},
+    {transform:`translateX(${gap-60}px) rotate(0)`,offset:.6},
+    {transform:`translateX(${gap}px) translateY(140px) rotate(40deg)`}],
+    {duration:reduced?300:1400,easing:'ease-in',fill:'forwards'}).onfinish=()=>{
+    splashS();
+    const sp=document.getElementById('splash');
+    sp.style.cssText+=`display:block;left:${gap+20}px;bottom:150px`;
+    setTimeout(()=>{sp.style.display='none';
+      car.animate([{transform:'translateX(0)'}],{duration:1,fill:'forwards'});
+      driving=false;
+      setStory('⚠ Incident report','That\'s what missing skills do','A project drove onto an unfinished bridge. Nobody was harmed. <b>Finish the planks first</b> — this is also how real projects work.');
+    },1100);
+  };
+});
+</script>
+</body>
+</html>

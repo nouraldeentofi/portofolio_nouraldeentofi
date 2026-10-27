@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOURFLIX — Binge One Career</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;900&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--flix:#0e0e12;--fg:#f4f4f6;--dim:rgba(244,244,246,.6);--red17:#e0392e}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;background:var(--flix);color:var(--fg);min-height:100vh;padding-bottom:8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--red17);color:#fff}
+  header{display:flex;align-items:center;gap:18px;padding:16px 4vw;position:sticky;top:0;z-index:20;
+    background:linear-gradient(180deg,rgba(14,14,18,.95),rgba(14,14,18,.7))}
+  #logo2{font-family:'Archivo';font-weight:900;font-size:22px;color:var(--red17);letter-spacing:.02em}
+  header nav{display:flex;gap:16px;font-size:12px;color:var(--dim)}
+  #prof{margin-left:auto;width:32px;height:32px;border-radius:6px;background:linear-gradient(135deg,#e0392e,#8a1e1e);
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+
+  /* hero */
+  #heroF{position:relative;padding:7vh 4vw 5vh;background:
+    linear-gradient(90deg,rgba(14,14,18,.95) 30%,rgba(14,14,18,.4)),
+    linear-gradient(160deg,#2a1a3a,#12141c 70%)}
+  #heroF .tag3{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.24em;color:var(--red17);text-transform:uppercase;font-weight:600}
+  #heroF h1{font-family:'Archivo';font-weight:900;font-size:clamp(30px,6vw,58px);line-height:1.02;margin:12px 0;max-width:640px}
+  #heroF p{font-size:14px;line-height:1.7;color:var(--dim);max-width:520px}
+  #heroF .meta3{font-family:'IBM Plex Mono';font-size:10.5px;color:#4adc7a;margin-top:10px;letter-spacing:.06em}
+  .hbtns{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+  .hb2{font-family:'Archivo';font-weight:900;font-size:13px;border:none;border-radius:8px;padding:13px 26px;cursor:pointer}
+  .hb2.play2{background:#fff;color:#0e0e12}
+  .hb2.info2{background:rgba(255,255,255,.2);color:#fff}
+
+  .rowF{padding:2.5vh 4vw 0}
+  .rowF .rt{font-weight:700;font-size:15px;margin-bottom:10px}
+  .cards2{display:flex;gap:10px;overflow-x:auto;padding-bottom:14px;scrollbar-width:thin}
+  .show2{flex-shrink:0;width:190px;border-radius:8px;overflow:hidden;cursor:pointer;transition:transform .25s;position:relative;background:#1a1a22}
+  .show2:hover{transform:scale(1.07);z-index:5}
+  .thumb2{height:106px;display:flex;align-items:center;justify-content:center;font-size:40px}
+  .sinfo{padding:9px 11px}
+  .sn2{font-weight:700;font-size:12px}
+  .sm3{font-family:'IBM Plex Mono';font-size:8.5px;color:var(--dim);margin-top:3px;letter-spacing:.04em}
+  .badge2{position:absolute;top:7px;left:7px;font-family:'IBM Plex Mono';font-size:7.5px;background:var(--red17);
+    padding:3px 7px;border-radius:3px;letter-spacing:.1em;font-weight:600}
+
+  /* player modal */
+  #player{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;
+    background:rgba(0,0,0,.88);padding:4vw}
+  #player.open{display:flex}
+  #pbox2{max-width:640px;width:100%;background:#16161c;border-radius:14px;overflow:hidden;position:relative;
+    box-shadow:0 40px 100px rgba(0,0,0,.8)}
+  #pscreen{height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;position:relative}
+  #pscreen .pe{font-size:64px}
+  #pbar{position:absolute;bottom:14px;left:20px;right:20px;height:5px;background:rgba(255,255,255,.25);border-radius:3px;overflow:hidden}
+  #pbar i{display:block;height:100%;width:0;background:var(--red17)}
+  #pmeta{padding:20px 24px}
+  #pmeta .k{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.22em;color:var(--red17);text-transform:uppercase;font-weight:600}
+  #pmeta h2{font-family:'Archivo';font-weight:900;font-size:clamp(18px,3.4vw,26px);margin:8px 0}
+  #pmeta .meta3{font-family:'IBM Plex Mono';font-size:10px;color:#4adc7a;letter-spacing:.06em;margin-bottom:8px}
+  #pmeta p{font-size:13px;line-height:1.7;color:var(--dim)}
+  #pmeta p b{color:var(--fg)}
+  #pclose2{position:absolute;top:12px;right:14px;z-index:5;background:rgba(0,0,0,.5);border:none;color:#fff;
+    width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:15px}
+  .btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 18px;border-radius:8px;
+    background:var(--red17);color:#fff;text-transform:uppercase;font-weight:600}
+  .btn.g{background:rgba(255,255,255,.15)}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div id="logo2">NOURFLIX</div>
+  <nav><span>Home</span><span>Series</span><span>Documentaries</span><span>My List (you soon)</span></nav>
+  <div id="prof">N</div>
+</header>
+
+<div id="heroF">
+  <div class="tag3">№ 1 IN RIYADH TODAY</div>
+  <h1>THE SUPERVISOR</h1>
+  <p>He writes the React. He runs the project. One developer's rise from first commit to the corner seat — filmed entirely on location in production.</p>
+  <div class="meta3">98% MATCH · 2026 · SEASON 4 ONGOING · HD (HONEST DELIVERY)</div>
+  <div class="hbtns">
+    <button class="hb2 play2" data-p="0">▶ Play</button>
+    <a class="hb2 info2" href="mailto:nouraldeentofi@gmail.com?subject=NOURFLIX%20inquiry&body=Binged%20the%20catalog.%20My%20project%3A%20">+ My Project</a>
+  </div>
+</div>
+
+<div class="rowF"><div class="rt">Career Originals</div><div class="cards2" id="row1"></div></div>
+<div class="rowF"><div class="rt">Because you watched "Shipping Things"</div><div class="cards2" id="row2"></div></div>
+
+<div id="player"><div id="pbox2">
+  <button id="pclose2">✕</button>
+  <div id="pscreen"><span class="pe">🎬</span><div id="pbar"><i id="pfill"></i></div></div>
+  <div id="pmeta"><div class="k" id="pk2"></div><h2 id="ph2"></h2><div class="meta3" id="pm2"></div><p id="pp2"></p><div class="btns" id="pb2"></div></div>
+</div></div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const SHOWS=[
+ {e:'👑',bg:'linear-gradient(160deg,#2a1a3a,#141018)',nm:'The Supervisor',m:'S4 · 2026 · DRAMA',badge:'№1',
+  k:'NOURFLIX ORIGINAL',h:'The Supervisor',meta:'98% MATCH · 2026 → ONGOING',
+  p:`Season 4: promoted at <b>Distinctive Frontier Co.</b> to Software Engineering Supervisor. React systems, coding standards, backend politics, features shipped before the credits. Critics: "the rare show that delivers every episode."`},
+ {e:'💍',bg:'linear-gradient(160deg,#3a2e10,#141018)',nm:'GoldenTag: The Movie',m:'FILM · 2025 · THRILLER',badge:'HIT',
+  k:'NOURFLIX FILM',h:'GoldenTag: Shipped',meta:'ACTION · COORDINATION · GOOGLE PLAY',
+  p:`One coordinator. One jewelry app. One deadline. From requirements to release at <b>NexLead</b> — inventory, barcode scanning, USD/SYP rates. Based on a true story (it's on Google Play).`},
+ {e:'⚔️',bg:'linear-gradient(160deg,#3a1414,#141018)',nm:'The Merciless Clock',m:'DOC · 2021 · SPORT',badge:'DOC',
+  k:'DOCUMENTARY',h:'The Merciless Clock',meta:'ICPC/ACPC 2021 · COMPETITION',
+  p:`Inside collegiate competitive programming: the training, the timer, the reflexes that never left. <b>"The best sports doc about algorithms ever made."</b> — someone, probably.`},
+ {e:'🎓',bg:'linear-gradient(160deg,#14283a,#141018)',nm:'Five Years at Kalamoon',m:'LIMITED SERIES · 2019–24',badge:'CLASSIC',
+  k:'LIMITED SERIES',h:'Five Years at Kalamoon',meta:'B.TECH IT · COMING-OF-AGE',
+  p:`The origin series: fundamentals, first code, and the slow montage of becoming an engineer. <b>University of Kalamoon, 2019–2024.</b> Watch it before the sequels.`},
+ {e:'⚛️',bg:'linear-gradient(160deg,#0e2a3a,#141018)',nm:'Shipping Things',m:'S3 · REALITY',badge:'BINGE',
+  k:'REALITY SERIES',h:'Shipping Things',meta:'REACT · TYPESCRIPT · TAILWIND',
+  p:`Each episode: a real feature goes from ticket to production. Season 1 at <b>Minicodeleader</b>, season 2 at <b>Khwarizm</b>, season 3 ongoing. No drama, just deploys — which is the drama.`},
+ {e:'🎨',bg:'linear-gradient(160deg,#3a142a,#141018)',nm:'Brand New Look',m:'MAKEOVER · WEEKLY',badge:'NEW',
+  k:'MAKEOVER SHOW',h:'Brand New Look',meta:'LOGOS · CARDS · SOCIAL VISUALS',
+  p:`Ugly brands walk in, gorgeous identities walk out. <b>Logo + business cards + social packs</b>, weekly transformations. Your company could be next week's episode.`},
+ {e:'🤝',bg:'linear-gradient(160deg,#143a28,#141018)',nm:'Your Project',m:'UNRELEASED · TBA',badge:'SOON',
+  k:'COMING SOON — NEEDS A GREENLIGHT',h:'Your Project (Working Title)',meta:'CAST: YOU + NOUR · RIYADH · AR+EN',
+  p:`The pilot is written; production awaits a single email. <b>Websites · React frontends · logos · social visuals · coordination.</b> Greenlight it and NOURFLIX guarantees a satisfying finale.`,final:true}
+];
+let AC=null;
+function tudum(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  [98,196].forEach((f,i)=>{const o=AC.createOscillator(),g=AC.createGain();
+    o.type='sine';o.frequency.value=f;
+    g.gain.setValueAtTime(.14,AC.currentTime+i*.16);
+    g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+i*.16+.7);
+    o.connect(g);g.connect(AC.destination);o.start(AC.currentTime+i*.16);o.stop(AC.currentTime+i*.16+.75);});}catch(e){}}
+
+function card2(s,i){
+  const d=document.createElement('div');d.className='show2';
+  d.innerHTML=`<span class="badge2">${s.badge}</span><div class="thumb2" style="background:${s.bg}">${s.e}</div>
+    <div class="sinfo"><div class="sn2">${s.nm}</div><div class="sm3">${s.m}</div></div>`;
+  d.onclick=()=>play(i);
+  return d;
+}
+SHOWS.slice(0,4).forEach((s,i)=>document.getElementById('row1').appendChild(card2(s,i)));
+SHOWS.slice(4).forEach((s,i)=>document.getElementById('row2').appendChild(card2(s,i+4)));
+document.querySelector('[data-p="0"]').onclick=()=>play(0);
+
+function play(i){
+  const s=SHOWS[i];
+  tudum();
+  document.getElementById('pscreen').style.background=s.bg;
+  document.querySelector('#pscreen .pe').textContent=s.e;
+  document.getElementById('pk2').textContent=s.k;
+  document.getElementById('ph2').textContent=s.h;
+  document.getElementById('pm2').textContent=s.meta;
+  document.getElementById('pp2').innerHTML=s.p;
+  const pb=document.getElementById('pb2');
+  pb.innerHTML=s.final
+    ?`<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Greenlighting%20%22Your%20Project%22&body=Producer%20here.%20The%20pilot%3A%20">🎬 Greenlight it</a>
+      <a class="btn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`
+    :`<a class="btn g" href="mailto:nouraldeentofi@gmail.com">✉ Contact the studio</a>`;
+  document.getElementById('player').classList.add('open');
+  /* fake progress */
+  const f=document.getElementById('pfill');
+  f.style.width='0';
+  if(!reduced)f.animate([{width:'0%'},{width:'100%'}],{duration:8000,fill:'forwards'});
+  else f.style.width='60%';
+}
+document.getElementById('pclose2').onclick=()=>document.getElementById('player').classList.remove('open');
+document.getElementById('player').addEventListener('pointerdown',e=>{
+  if(e.target===document.getElementById('player'))document.getElementById('player').classList.remove('open');});
+addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('player').classList.remove('open');});
+</script>
+</body>
+</html>

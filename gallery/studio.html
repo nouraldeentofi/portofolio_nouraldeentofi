@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — STUDIO · Draw It Yourself (Or Don't)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--studio:#f2ede2;--fg:#2c2822;--dim:rgba(44,40,34,.6);--acc:#d05a3c;--blue3:#3a6ec0;--green4:#2e8a5c}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;background:linear-gradient(180deg,#f7f3ea,var(--studio));color:var(--fg);
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--acc);color:#fff}
+  h1{font-family:'Gochi Hand',cursive;font-size:clamp(26px,5.2vw,46px)}
+  h1 span{color:var(--acc)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.26em;color:var(--dim);
+    margin:6px 0 20px;text-transform:uppercase;text-align:center}
+
+  #studioGrid{width:min(820px,96vw);display:grid;grid-template-columns:1fr 300px;gap:18px}
+  @media(max-width:720px){#studioGrid{grid-template-columns:1fr}}
+  /* easel */
+  #easel2{background:#fff;border-radius:14px;padding:14px;box-shadow:0 20px 50px rgba(44,40,34,.18);position:relative}
+  #easel2 .t{font-family:'Gochi Hand';font-size:16px;text-align:center;margin-bottom:10px}
+  #cvWrap{position:relative;border:3px dashed rgba(44,40,34,.25);border-radius:10px;overflow:hidden}
+  #draw{display:block;width:100%;height:300px;cursor:crosshair;background:#fdfcf8;touch-action:none}
+  #tools2{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:12px;flex-wrap:wrap}
+  .swatch{width:30px;height:30px;border-radius:50%;border:3px solid transparent;cursor:pointer;transition:transform .15s}
+  .swatch:hover{transform:scale(1.12)}
+  .swatch.on{border-color:var(--fg)}
+  .tbtn{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.1em;border:2px solid var(--fg);border-radius:99px;
+    background:none;padding:9px 14px;cursor:pointer;font-weight:600;color:var(--fg);text-transform:uppercase}
+  .tbtn:hover{background:var(--fg);color:#fff}
+  #timer2{font-family:'IBM Plex Mono';font-size:11px;font-weight:600;color:var(--acc);letter-spacing:.1em}
+
+  /* verdict / pro panel */
+  #proSide{display:flex;flex-direction:column;gap:14px}
+  #verdict{background:#fff;border-radius:14px;padding:20px 22px;box-shadow:0 20px 50px rgba(44,40,34,.15)}
+  #verdict .k{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.26em;color:var(--acc);text-transform:uppercase;font-weight:600}
+  #verdict h2{font-family:'Gochi Hand';font-size:clamp(19px,3.2vw,26px);margin:6px 0}
+  #verdict p{font-size:12.5px;line-height:1.65;color:var(--dim)}
+  #verdict p b{color:var(--fg)}
+  #proCard{background:linear-gradient(160deg,#2c2822,#4a4238);color:#f2ede2;border-radius:14px;padding:20px 22px;
+    box-shadow:0 20px 50px rgba(44,40,34,.3)}
+  #proCard .k{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.26em;color:#e8c060;text-transform:uppercase;font-weight:600}
+  #proCard h3{font-family:'Gochi Hand';font-size:19px;margin:6px 0}
+  #proCard p{font-size:12px;line-height:1.65;color:rgba(242,237,226,.75)}
+  #proCard p b{color:#fff}
+  .proLogos{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap}
+  .plogo{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    font-family:'Gochi Hand';font-size:20px;color:#fff;box-shadow:0 4px 10px rgba(0,0,0,.3)}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .btn{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.1em;padding:10px 16px;border-radius:99px;
+    background:#e8c060;color:#2c2822;text-transform:uppercase;font-weight:600}
+  .btn.g{background:none;border:2px solid #e8c060;color:#e8c060}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>🎨 The <span>DIY Logo</span> Studio</h1>
+<div class="sub">Challenge: draw your company logo in 15 seconds · then compare · ارسم بنفسك</div>
+
+<div id="studioGrid">
+  <div id="easel2">
+    <div class="t">Your canvas — go on, design something!</div>
+    <div id="cvWrap"><canvas id="draw"></canvas></div>
+    <div id="tools2">
+      <div class="swatch on" style="background:#2c2822" data-c="#2c2822"></div>
+      <div class="swatch" style="background:#d05a3c" data-c="#d05a3c"></div>
+      <div class="swatch" style="background:#3a6ec0" data-c="#3a6ec0"></div>
+      <div class="swatch" style="background:#2e8a5c" data-c="#2e8a5c"></div>
+      <div class="swatch" style="background:#e8b93c" data-c="#e8b93c"></div>
+      <button class="tbtn" id="clearB">✕ Clear</button>
+      <button class="tbtn" id="challengeB">⏱ 15-sec challenge</button>
+      <span id="timer2"></span>
+    </div>
+  </div>
+
+  <div id="proSide">
+    <div id="verdict">
+      <div class="k">Live art critique</div>
+      <h2 id="vh">The canvas awaits…</h2>
+      <p id="vp">Draw something! First one's free. The critique is honest but loving.</p>
+    </div>
+    <div id="proCard">
+      <div class="k">Or… the professional option</div>
+      <h3>Let Nour hold the brush</h3>
+      <div class="proLogos">
+        <div class="plogo" style="background:linear-gradient(135deg,#d05a3c,#8a2e1c)">N</div>
+        <div class="plogo" style="background:linear-gradient(135deg,#3a6ec0,#1c3a74)">◆</div>
+        <div class="plogo" style="background:linear-gradient(135deg,#2e8a5c,#14522e)">⬡</div>
+        <div class="plogo" style="background:linear-gradient(135deg,#2c2822,#5c5246)">✦</div>
+      </div>
+      <p><b>Logos, business cards, social visuals</b> — designed with actual taste by Nour Aldeen Tofi (also a frontend dev &amp; SW engineering supervisor, so your logo will even look good <b>on the website he builds you</b>).</p>
+      <div class="btns">
+        <a class="btn" id="rescueMail" href="mailto:nouraldeentofi@gmail.com?subject=Logo%20rescue&body=I%20tried%20drawing%20it%20myself.%20Please%20help%3A%20">🆘 Logo rescue</a>
+        <a class="btn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cv=document.getElementById('draw'),ctx=cv.getContext('2d');
+function size(){const r=cv.getBoundingClientRect();cv.width=r.width*2;cv.height=r.height*2;ctx.scale(2,2);
+  ctx.lineCap='round';ctx.lineJoin='round';}
+size();addEventListener('resize',size);
+let col='#2c2822',drawing=false,px=0,py=0,strokes=0,inkTime=0,lastT=0;
+document.querySelectorAll('.swatch').forEach(s=>s.onclick=()=>{
+  document.querySelectorAll('.swatch').forEach(x=>x.classList.remove('on'));
+  s.classList.add('on');col=s.dataset.c;});
+function pos(e){const r=cv.getBoundingClientRect();
+  return [ (e.touches?e.touches[0].clientX:e.clientX)-r.left, (e.touches?e.touches[0].clientY:e.clientY)-r.top ];}
+cv.addEventListener('pointerdown',e=>{drawing=true;[px,py]=pos(e);strokes++;lastT=performance.now();});
+cv.addEventListener('pointermove',e=>{
+  if(!drawing)return;
+  const [x,y]=pos(e);
+  ctx.strokeStyle=col;ctx.lineWidth=4;
+  ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(x,y);ctx.stroke();
+  px=x;py=y;
+  const now=performance.now();inkTime+=now-lastT;lastT=now;
+  critique();
+});
+addEventListener('pointerup',()=>drawing=false);
+document.getElementById('clearB').onclick=()=>{
+  ctx.clearRect(0,0,cv.width,cv.height);strokes=0;inkTime=0;
+  setV('The canvas awaits…','Fresh start! Masterpieces take attempts. (Professionals take fewer.)');
+};
+function setV(h,p){document.getElementById('vh').textContent=h;document.getElementById('vp').innerHTML=p;}
+let lastCrit=0;
+function critique(){
+  const now=Date.now();if(now-lastCrit<1800)return;lastCrit=now;
+  const secs=inkTime/1000;
+  if(strokes<3)setV('Bold first strokes!','Picasso also started somewhere. Keep going…');
+  else if(strokes<8)setV('Hmm… abstract. Very abstract.','Is that your logo or a map of Riyadh traffic? Either way — <b>respect for trying.</b>');
+  else if(secs<10)setV('The energy is there!','The precision… is on its way. This is exactly the phase where clients call <b>a designer.</b>');
+  else setV('Okay, you\'ve suffered enough 😄','Real talk: your time is worth more than this. A pro logo takes Nour a few days and looks right <b>forever</b>. See the dark card →');
+}
+/* challenge */
+let tmr=null;
+document.getElementById('challengeB').onclick=()=>{
+  clearTimeout(tmr);
+  ctx.clearRect(0,0,cv.width,cv.height);strokes=0;inkTime=0;
+  let t=15;
+  document.getElementById('timer2').textContent='⏱ 15s — GO!';
+  setV('CHALLENGE ON!','Draw your dream logo before the timer dies. No pressure. (Some pressure.)');
+  const iv=setInterval(()=>{
+    t--;
+    document.getElementById('timer2').textContent='⏱ '+t+'s';
+    if(t<=0){clearInterval(iv);
+      document.getElementById('timer2').textContent='⏱ TIME!';
+      setV('Aaand… time! 🔔',
+        strokes>4?'Not bad for 15 seconds! Now imagine what a <b>professional with days and taste</b> does. That\'s the pitch. That\'s the whole pitch.'
+        :'You froze! Happens to everyone staring at a blank canvas. <b>That\'s literally why designers exist.</b>');
+    }
+  },1000);
+};
+</script>
+</body>
+</html>

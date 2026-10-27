@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — DRIFT · An Infinite Archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;500;800&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#120e1c;--peach:#ff8a5c;--lilac:#9d8cff;--cream:#f4eee6;--ink:#1c1626;--fg:#efeaf6;--dim:rgba(239,234,246,.55)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden;overscroll-behavior:none}
+  body{font-family:'Sora',sans-serif;background:
+    radial-gradient(60vmax 40vmax at 78% 18%,rgba(157,140,255,.14),transparent 60%),
+    radial-gradient(50vmax 36vmax at 15% 85%,rgba(255,138,92,.12),transparent 60%),
+    var(--bg);color:var(--fg);cursor:grab;touch-action:none}
+  body.dragging{cursor:grabbing}
+  a{color:inherit}
+
+  #space{position:fixed;inset:0;z-index:1}
+  .item{position:absolute;left:0;top:0;will-change:transform;user-select:none}
+
+  .dust{width:3px;height:3px;border-radius:50%;background:rgba(239,234,246,.5)}
+  .dust.b{width:5px;height:5px;background:rgba(157,140,255,.55)}
+  .word{font-family:'Unbounded';font-weight:300;font-size:12px;letter-spacing:.5em;color:rgba(239,234,246,.28);
+    text-transform:uppercase;white-space:nowrap}
+
+  .card{width:300px;padding:24px 26px;border-radius:14px;cursor:pointer;transition:box-shadow .3s;
+    box-shadow:0 18px 50px rgba(0,0,0,.45)}
+  .card:hover{box-shadow:0 26px 70px rgba(0,0,0,.6),0 0 0 2px var(--peach)}
+  .card.paper{background:var(--cream);color:var(--ink)}
+  .card.glass{background:rgba(28,22,38,.72);border:1px solid rgba(157,140,255,.35);backdrop-filter:blur(6px)}
+  .card.hot{background:linear-gradient(135deg,var(--peach),#ff5e7e);color:#2a0f14}
+  .card .k{font-family:'Unbounded';font-weight:300;font-size:9px;letter-spacing:.4em;text-transform:uppercase;opacity:.65;margin-bottom:10px}
+  .card h3{font-family:'Unbounded';font-weight:500;font-size:17px;line-height:1.25;margin-bottom:8px}
+  .card p{font-size:12.5px;line-height:1.6;font-weight:300;opacity:.85}
+  .card .more{font-family:'Unbounded';font-size:8.5px;letter-spacing:.35em;margin-top:14px;opacity:.6;text-transform:uppercase}
+  .card template{display:none}
+
+  /* intro */
+  #intro{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;pointer-events:none;transition:opacity .8s}
+  #intro h1{font-family:'Unbounded';font-weight:800;font-size:clamp(34px,7vw,84px);line-height:1.05;
+    background:linear-gradient(100deg,var(--cream),var(--lilac),var(--peach));-webkit-background-clip:text;background-clip:text;color:transparent}
+  #intro .sub{font-family:'Unbounded';font-weight:300;font-size:clamp(10px,1.6vw,14px);letter-spacing:.4em;color:var(--dim);margin-top:20px;text-transform:uppercase}
+  #intro .drag{margin-top:44px;font-size:11px;letter-spacing:.45em;color:var(--peach);font-family:'Unbounded';font-weight:300;
+    animation:pulse 2.2s infinite;text-transform:uppercase}
+  @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+  body.moved #intro{opacity:0}
+
+  /* HUD */
+  #coords{position:fixed;z-index:15;top:22px;left:24px;font-family:'Unbounded';font-weight:300;font-size:9px;
+    letter-spacing:.35em;color:var(--dim);text-transform:uppercase;line-height:2}
+  #map{position:fixed;z-index:15;bottom:22px;right:24px;width:120px;height:88px;border:1px solid rgba(239,234,246,.25);
+    border-radius:8px;background:rgba(18,14,28,.6);backdrop-filter:blur(4px)}
+  #map .you{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--peach);box-shadow:0 0 10px var(--peach);transform:translate(-50%,-50%)}
+  #map .pt{position:absolute;width:3px;height:3px;border-radius:50%;background:rgba(157,140,255,.7);transform:translate(-50%,-50%)}
+  #compass{position:fixed;z-index:15;bottom:26px;left:24px;font-family:'Unbounded';font-weight:300;font-size:9px;letter-spacing:.35em;color:var(--dim);text-transform:uppercase}
+
+  /* modal */
+  #modal{position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;padding:5vw;
+    background:rgba(10,7,18,.72);backdrop-filter:blur(10px)}
+  #modal.open{display:flex}
+  #modalBox{max-width:560px;width:100%;max-height:82vh;overflow:auto;border-radius:18px;padding:40px 42px;position:relative;
+    background:var(--cream);color:var(--ink);box-shadow:0 40px 120px rgba(0,0,0,.7)}
+  #modalBox .k{font-family:'Unbounded';font-weight:300;font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:#a05a3c;margin-bottom:12px}
+  #modalBox h2{font-family:'Unbounded';font-weight:500;font-size:clamp(20px,3.4vw,30px);line-height:1.2;margin-bottom:14px}
+  #modalBox p{font-size:14.5px;line-height:1.75;font-weight:300}
+  #modalBox p+p{margin-top:10px}
+  #modalBox .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  #modalBox .tag{font-family:'Unbounded';font-weight:300;font-size:9px;letter-spacing:.2em;padding:7px 12px;
+    border:1px solid var(--ink);border-radius:999px;text-transform:uppercase}
+  #modalBox a.link{display:inline-block;font-family:'Unbounded';font-weight:500;font-size:11px;letter-spacing:.25em;
+    margin:16px 14px 0 0;padding:14px 22px;background:var(--ink);color:var(--cream);border-radius:999px;text-decoration:none;text-transform:uppercase}
+  #close{position:absolute;top:16px;right:20px;font-family:'Unbounded';font-size:11px;letter-spacing:.2em;cursor:pointer;
+    border:none;background:none;color:var(--ink);padding:8px}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div id="space"></div>
+
+<div id="intro">
+  <h1>NOUR ALDEEN<br>TOFI</h1>
+  <div class="sub">Frontend Developer · Software Engineering Supervisor · Riyadh</div>
+  <div class="drag">◈ Drag anywhere — there is no scroll here ◈</div>
+</div>
+
+<div id="coords">DRIFT ARCHIVE<br><span id="xy">X +0000 · Y +0000</span></div>
+<div id="compass">∞ INFINITE IN ALL DIRECTIONS</div>
+<div id="map"><div class="you"></div></div>
+
+<div id="modal"><div id="modalBox">
+  <button id="close">✕ CLOSE</button><div id="modalContent"></div>
+</div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const TW=3400,TH=2400,MX=520,MY=460;
+const space=document.getElementById('space');
+const items=[];
+
+function addItem(el,x,y,d,rot){el.classList.add('item');el.dataset.rot=rot||0;
+  space.appendChild(el);items.push({el,x,y,d,rot:rot||0,w:el.offsetWidth||300});return el;}
+
+/* dust + far words */
+for(let i=0;i<90;i++){const d=document.createElement('div');
+  d.className='dust'+(Math.random()<.25?' b':'');
+  addItem(d,Math.random()*TW,Math.random()*TH,.25+Math.random()*.2,0);}
+['REACT','TYPESCRIPT','TAILWIND','RIYADH','ICPC','CLEAN CODE','GOLDENTAG','ن'].forEach((w,i)=>{
+  const el=document.createElement('div');el.className='word';el.textContent=w;
+  addItem(el,(i*.13*TW+300)%TW,(i*.31*TH+200)%TH,.45,(Math.random()-.5)*20);});
+
+/* cards */
+function card(cls,k,title,short,detailHTML,x,y,rot){
+  const el=document.createElement('div');el.className='card '+cls;
+  el.innerHTML=`<div class="k">${k}</div><h3>${title}</h3><p>${short}</p><div class="more">Open fragment →</div>
+    <template>${detailHTML}</template>`;
+  addItem(el,x,y,1,rot);
+  el.addEventListener('click',()=>{if(movedFar)return;openModal(k,el.querySelector('template').innerHTML);});
+}
+card('paper','Fragment 01 · Identity','The person behind the drift',
+  'Frontend developer & engineering supervisor, ~3 years deep. Based in Riyadh.',
+  `<div class="k">Fragment 01 · Identity</div><h2>Nour Aldeen Tofi</h2>
+   <p><b>Frontend Developer &amp; Software Engineering Supervisor</b> — Riyadh, Saudi Arabia. ~3 years building modern, scalable web apps and leading the people who build them. The rare combination: writes the code, runs the project.</p>
+   <p>Languages: Arabic + English. Education: B.Tech IT, University of Kalamoon (2019–2024).</p>
+   <div class="tags"><span class="tag">Riyadh</span><span class="tag">AR + EN</span><span class="tag">B.Tech IT</span></div>`,
+  260,220,-2);
+card('glass','Fragment 02 · Now','Supervisor · Distinctive Frontier Co.',
+  'Jan 2026 → present. Leading frontend at a safety equipment company.',
+  `<div class="k">Fragment 02 · Now</div><h2>Software Engineering Supervisor</h2>
+   <p><b>Distinctive Frontier Co. for Safety Equipment — Riyadh, Jan 2026 → present.</b> Leads frontend development: scalable React UI systems, coding standards, backend collaboration, product ideas turned into shipped features.</p>
+   <p>Previously (Jan 2025 – Jan 2026): Frontend Developer &amp; Project Coordination at the same company — the year that earned the promotion.</p>
+   <div class="tags"><span class="tag">React</span><span class="tag">Leadership</span><span class="tag">Architecture</span></div>`,
+  1350,420,2);
+card('hot','Fragment 03 · Shipped','GoldenTag — live on Google Play',
+  'Jewelry store management: inventory, barcode scanning, USD/SYP rates.',
+  `<div class="k">Fragment 03 · Shipped</div><h2>GoldenTag</h2>
+   <p>Flagship delivery as <b>Freelance Project Coordinator at NexLead</b> (Mar 2025 → present, remote): a jewelry store management app on Google Play — inventory, employees, barcode scanning, USD/SYP exchange rates, sales logging, TXT export.</p>
+   <p>The role: requirements → scope → user stories on Trello → quality across frontend/backend/UI-UX → release.</p>
+   <div class="tags"><span class="tag">Google Play</span><span class="tag">Trello</span><span class="tag">Releases</span></div>`,
+  2450,300,-3);
+card('glass','Fragment 04 · Record','Khwarizm Technologies',
+  'Sep 2024 – Apr 2025 · production React in Riyadh.',
+  `<div class="k">Fragment 04 · Record</div><h2>Khwarizm Technologies</h2>
+   <p><b>Frontend Developer, Sep 2024 – Apr 2025, Riyadh.</b> Production React interfaces, tight collaboration with design and backend. Named after the man who named algorithms — a good omen for an ICPC alum.</p>`,
+  700,1150,3);
+card('paper','Fragment 05 · Origin','Minicodeleader — first React role',
+  'Jun 2023 – Feb 2024 · where the discipline started.',
+  `<div class="k">Fragment 05 · Origin</div><h2>Minicodeleader</h2>
+   <p><b>Frontend Developer (React), Jun 2023 – Feb 2024.</b> First professional role: component-driven development, first real codebase, the start of the clean-code habit.</p>`,
+  1850,1250,-2);
+card('glass','Fragment 06 · Arena','ICPC / ACPC — 2021',
+  'Collegiate competitive programming. Algorithmic combat.',
+  `<div class="k">Fragment 06 · Arena</div><h2>ICPC / ACPC</h2>
+   <p><b>International Collegiate Programming Contest, 2021.</b> Problem solving and team leadership under a merciless clock. The reflexes never left.</p>
+   <div class="tags"><span class="tag">Algorithms</span><span class="tag">Speed</span><span class="tag">Teamwork</span></div>`,
+  2900,1100,2);
+card('paper','Fragment 07 · Stack','React · TS · Tailwind · JS',
+  'Plus Python (DS/AI), Git, Jira, Trello, prompt engineering.',
+  `<div class="k">Fragment 07 · Stack</div><h2>The Instruments</h2>
+   <p><b>Core:</b> React, TypeScript, Tailwind CSS, JavaScript.</p>
+   <p><b>Also:</b> Python (data science / AI basics), Git, Jira, Trello, Prompt Engineering, Markdown — plus requirements gathering, team leadership and clean code as daily practice.</p>
+   <div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Tailwind</span><span class="tag">Python</span></div>`,
+  480,1900,2);
+card('glass','Fragment 08 · Papers','10+ certifications',
+  'Meta · Google ×2 · IBM ×2 · Coursera · Packt · Scrimba.',
+  `<div class="k">Fragment 08 · Papers</div><h2>Certified</h2>
+   <p>Advanced React — Meta '25 · TypeScript in React — Coursera '25 · Foundations of PM — Google '25 · Project Initiation — Google '25 · Python for DS, AI &amp; Dev — IBM '24 · GenAI Prompt Engineering — IBM '24 · Tailwind From Scratch — Packt '24 · Clean Code — Scrimba '24 · Jira Roadmaps &amp; User Stories — Coursera '25 · Learn Markdown — Scrimba '25.</p>`,
+  1600,2000,-3);
+card('paper','Fragment 09 · Off-duty','Anime · Chess · Badminton · Film',
+  'The four food groups of a balanced developer.',
+  `<div class="k">Fragment 09 · Off-duty</div><h2>Off-duty Protocols</h2>
+   <p>Anime for long-arc storytelling, chess for thinking three moves ahead, badminton for reflexes, movies &amp; series for everything else. All four leak into how I build software.</p>`,
+  2700,1950,3);
+card('hot','Fragment 10 · Signal','Open for projects →',
+  'Websites · frontends · logos · cards · social · coordination.',
+  `<div class="k">Fragment 10 · Signal</div><h2>Start a transmission</h2>
+   <p>Available for: websites, React frontends, logos, business cards, social media visuals, and full project coordination for remote teams.</p>
+   <a class="link" href="mailto:nouraldeentofi@gmail.com">Email</a>
+   <a class="link" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+   <a class="link" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`,
+  1100,700,-1);
+
+/* mid-layer glows */
+for(let i=0;i<6;i++){const g=document.createElement('div');
+  g.style.cssText=`width:${220+Math.random()*260}px;height:${220+Math.random()*260}px;border-radius:50%;
+  background:radial-gradient(circle,${i%2?'rgba(157,140,255,.14)':'rgba(255,138,92,.12)'},transparent 70%)`;
+  addItem(g,Math.random()*TW,Math.random()*TH,.6,0);}
+
+/* ===== engine ===== */
+let camX=0,camY=0,vx=0,vy=0,dragging=false,lx=0,ly=0,lastMove=Date.now(),movedFar=false,downX=0,downY=0;
+function wrap(v,m,margin){let r=(v+margin)%m;if(r<0)r+=m;return r-margin;}
+function renderFrame(){
+  for(const it of items){
+    const sx=wrap(it.x-camX*it.d,TW,MX), sy=wrap(it.y-camY*it.d,TH,MY);
+    if(sx<-MX+1||sx>innerWidth+MX-1||sy<-MY+1||sy>innerHeight+MY-1){it.el.style.visibility='hidden';continue;}
+    it.el.style.visibility='visible';
+    it.el.style.transform=`translate3d(${sx}px,${sy}px,0) rotate(${it.rot}deg) scale(${.7+it.d*.3})`;
+    it.el.style.opacity=it.d<.5?.9:1;
+    it.el.style.zIndex=Math.round(it.d*10);
+  }
+  document.getElementById('xy').textContent=
+    `X ${camX<0?'-':'+'}${String(Math.abs(Math.round(camX))%10000).padStart(4,'0')} · Y ${camY<0?'-':'+'}${String(Math.abs(Math.round(camY))%10000).padStart(4,'0')}`;
+  /* minimap */
+  const you=document.querySelector('#map .you');
+  you.style.left=(wrap(-camX,TW,0)/TW*120)+'px';
+  you.style.top=(wrap(-camY,TH,0)/TH*88)+'px';
+}
+/* minimap points */
+items.filter(i=>i.d===1&&i.el.classList.contains('card')).forEach(i=>{
+  const p=document.createElement('div');p.className='pt';
+  p.style.left=(i.x/TW*120)+'px';p.style.top=(i.y/TH*88)+'px';
+  document.getElementById('map').appendChild(p);});
+
+function loop(){
+  if(!dragging){
+    camX+=vx;camY+=vy;vx*=.94;vy*=.94;
+    if(!reduced&&Date.now()-lastMove>3200){vx+=(0.18-vx)*.01;vy+=(0.05-vy)*.01;}
+  }
+  renderFrame();requestAnimationFrame(loop);
+}
+addEventListener('pointerdown',e=>{if(e.target.closest('#modal'))return;
+  dragging=true;document.body.classList.add('dragging');
+  lx=e.clientX;ly=e.clientY;downX=e.clientX;downY=e.clientY;movedFar=false;});
+addEventListener('pointermove',e=>{if(!dragging)return;
+  const dx=e.clientX-lx,dy=e.clientY-ly;
+  camX-=dx;camY-=dy;vx=-dx*.9;vy=-dy*.9;lx=e.clientX;ly=e.clientY;lastMove=Date.now();
+  if(Math.hypot(e.clientX-downX,e.clientY-downY)>10){movedFar=true;document.body.classList.add('moved');}
+});
+addEventListener('pointerup',()=>{dragging=false;document.body.classList.remove('dragging');
+  setTimeout(()=>movedFar=false,50);});
+addEventListener('wheel',e=>{camX+=e.deltaX;camY+=e.deltaY;lastMove=Date.now();
+  document.body.classList.add('moved');},{passive:true});
+addEventListener('keydown',e=>{const s=60;lastMove=Date.now();
+  if(e.key==='ArrowLeft')camX-=s;if(e.key==='ArrowRight')camX+=s;
+  if(e.key==='ArrowUp')camY-=s;if(e.key==='ArrowDown')camY+=s;
+  document.body.classList.add('moved');});
+loop();
+
+/* ===== modal ===== */
+const modal=document.getElementById('modal'),mc=document.getElementById('modalContent');
+function openModal(k,html){mc.innerHTML=html;modal.classList.add('open');
+  if(window.gsap&&!reduced)gsap.fromTo('#modalBox',{scale:.85,opacity:0,y:30},{scale:1,opacity:1,y:0,duration:.5,ease:'back.out(1.6)'});}
+document.getElementById('close').onclick=()=>modal.classList.remove('open');
+modal.addEventListener('pointerdown',e=>{if(e.target===modal)modal.classList.remove('open');});
+addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open');});
+</script>
+</body>
+</html>

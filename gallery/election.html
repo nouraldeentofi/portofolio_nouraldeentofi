@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ELECTION NIGHT — Vote Nour for Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--studio:#101828;--studiod:#0a0f1c;--fg:#eef2f8;--dim:rgba(238,242,248,.6);--blue7:#2e6fd0;--red13:#d04545;--gold11:#ffd23f}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Archivo',sans-serif;color:var(--fg);min-height:100vh;
+    background:radial-gradient(80vw 60vh at 50% 0%,#1a2540,var(--studio) 55%,var(--studiod));
+    display:flex;flex-direction:column;align-items:center;padding:0 0 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold11);color:#101828}
+  #breaking{width:100%;background:var(--red13);overflow:hidden;white-space:nowrap;padding:8px 0}
+  #brIn{display:inline-block;animation:br 20s linear infinite;font-family:'IBM Plex Mono';font-size:11px;
+    letter-spacing:.12em;font-weight:600}
+  @keyframes br{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  h1{font-weight:900;font-size:clamp(22px,4.6vw,40px);margin-top:3vh;text-align:center;padding:0 4vw}
+  h1 span{color:var(--gold11)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.26em;color:var(--dim);
+    margin:8px 0 16px;text-transform:uppercase;text-align:center;padding:0 4vw}
+
+  #nightBoard{width:min(860px,96vw);display:grid;grid-template-columns:1fr 260px;gap:16px}
+  @media(max-width:740px){#nightBoard{grid-template-columns:1fr}}
+  /* districts map */
+  #mapE{background:#0c1220;border:1px solid rgba(255,210,63,.25);border-radius:14px;padding:16px}
+  #mapE .t{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.24em;color:var(--dim);text-transform:uppercase;text-align:center;margin-bottom:12px}
+  #districts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .dist{aspect-ratio:1.2;border-radius:8px;background:#2a3244;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:3px;transition:all .5s;border:1.5px solid transparent}
+  .dist .dnm{font-family:'IBM Plex Mono';font-size:7.5px;letter-spacing:.06em;color:var(--dim);text-align:center;text-transform:uppercase}
+  .dist .dic{font-size:20px;opacity:.4;transition:opacity .5s}
+  .dist.called{background:var(--blue7);border-color:#8ab8ff}
+  .dist.called .dic{opacity:1}
+  .dist.called .dnm{color:#fff}
+  /* results panel */
+  #results{background:#0c1220;border:1px solid rgba(255,210,63,.25);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px}
+  #results .t{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.2em;color:var(--gold11);text-transform:uppercase;text-align:center;font-weight:600}
+  .cand{display:flex;align-items:center;gap:10px}
+  .cand .face3{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:22px;flex-shrink:0;border:2.5px solid}
+  .cand .info3{flex:1}
+  .cand .cn{font-weight:900;font-size:12px}
+  .cand .barE{height:14px;background:#1c2434;border-radius:8px;margin-top:4px;overflow:hidden}
+  .cand .barE i{display:block;height:100%;width:0;transition:width .8s;border-radius:8px}
+  .cand .pct{font-family:'IBM Plex Mono';font-size:13px;font-weight:600;min-width:52px;text-align:right}
+  #callBox{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.1em;line-height:1.8;color:var(--dim);
+    border-top:1px dashed rgba(238,242,248,.2);padding-top:10px;min-height:60px}
+  #callBox b{color:var(--gold11)}
+  #startE{font-family:'Archivo';font-weight:900;font-size:13px;border:none;border-radius:10px;padding:13px;
+    background:var(--gold11);color:#101828;cursor:pointer;box-shadow:0 4px 0 #b8912e}
+  #startE:active{transform:translateY(3px);box-shadow:0 1px 0 #b8912e}
+  #startE:disabled{filter:grayscale(.5);pointer-events:none}
+
+  /* victory */
+  #victory{margin-top:18px;max-width:640px;text-align:center;display:none;padding:0 4vw}
+  #victory.show{display:block}
+  #victory h2{font-weight:900;font-size:clamp(19px,3.8vw,30px)}
+  #victory h2 b{color:var(--gold11)}
+  #victory p{font-size:12.5px;line-height:1.75;color:var(--dim);margin-top:10px}
+  #victory p b{color:var(--fg)}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:12px 20px;border-radius:99px;
+    border:2px solid var(--gold11);color:var(--gold11);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--gold11);color:#101828}
+  .confE{position:fixed;z-index:80;width:8px;height:12px;pointer-events:none}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="breaking"><span id="brIn">🔴 BREAKING: POLLS CLOSE IN THE GREAT DEVELOPER ELECTION · TURNOUT AT RECORD HIGH · ANALYSTS PREDICT LANDSLIDE ····· 🔴 BREAKING: POLLS CLOSE IN THE GREAT DEVELOPER ELECTION · TURNOUT AT RECORD HIGH · ANALYSTS PREDICT LANDSLIDE ····· </span></div>
+
+<h1>🗳 ELECTION NIGHT: <span>DEVELOPER OF YOUR PROJECT</span></h1>
+<div class="sub">12 districts · 2 candidates · live coverage · press start · ليلة الحسم</div>
+
+<div id="nightBoard">
+  <div id="mapE"><div class="t">— DISTRICT MAP · LIVE CALLS —</div><div id="districts"></div></div>
+  <div id="results">
+    <div class="t">LIVE RESULTS</div>
+    <div class="cand"><div class="face3" style="border-color:#8ab8ff;background:#1a2a4a">👨‍💻</div>
+      <div class="info3"><div class="cn">NOUR ALDEEN TOFI</div><div class="barE"><i id="b1" style="background:linear-gradient(90deg,#2e6fd0,#8ab8ff)"></i></div></div>
+      <div class="pct" id="p1">0%</div></div>
+    <div class="cand"><div class="face3" style="border-color:#e88a8a;background:#4a1a1a">🍝</div>
+      <div class="info3"><div class="cn">SPAGHETTI CODE</div><div class="barE"><i id="b2" style="background:linear-gradient(90deg,#d04545,#e88a8a)"></i></div></div>
+      <div class="pct" id="p2">0%</div></div>
+    <div id="callBox">The anchor desk is ready. Twelve districts will report — each one a real part of the candidate's record.</div>
+    <button id="startE">📡 START THE COVERAGE</button>
+  </div>
+</div>
+
+<div id="victory">
+  <h2>✓ RACE CALLED — <b>NOUR WINS IN A LANDSLIDE</b></h2>
+  <p>"My fellow project-owners… I promise <b>websites that load, frontends that scale, brands that shine, and deadlines that hold.</b> I did not win alone — I won with React, TypeScript, Tailwind, and a decade of showing up. Now, let's get to work." — <b>Riyadh · AR+EN</b></p>
+  <div class="btns">
+    <a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=You%20have%20my%20vote&body=The%20landslide%20convinced%20me.%20My%20project%3A%20">🗳 Give him your project</a>
+    <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+  </div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const DISTRICTS=[
+ ['🎓','KALAMOON','B.Tech IT 2019–24 — the education district reports 98% for Nour.'],
+ ['⚔️','ICPC','The competitive district: 2021 veterans break heavily for Nour.'],
+ ['🌱','MINICODE','First-job district (2023–24): "he showed up and shipped," say voters.'],
+ ['🏙','KHWARIZM','Riyadh production district (2024–25) — decisive margin.'],
+ ['💍','GOLDENTAG','The shipped-app district goes unanimous: Google Play delivery remembered.'],
+ ['🧭','NEXLEAD','Coordination county (2025→): scope and timelines carried the day.'],
+ ['👑','FRONTIER','Supervisor stronghold (2026→): standards and architecture in a sweep.'],
+ ['📜','CERTS','Meta, Google ×2, IBM ×2 — the credentials belt delivers.'],
+ ['⚛️','REACT','The framework heartland: no contest whatsoever.'],
+ ['🎨','DESIGN','Logos & visuals precinct — turnout beautiful, results more so.'],
+ ['📱','SOCIAL','The engagement district trends #Nour within minutes.'],
+ ['🤝','YOUR DIST.','The only undecided district… reporting when YOU vote.']
+];
+const dEl=document.getElementById('districts');
+DISTRICTS.forEach(d=>{
+  const el=document.createElement('div');el.className='dist';
+  el.innerHTML=`<div class="dic">${d[0]}</div><div class="dnm">${d[1]}</div>`;
+  dEl.appendChild(el);
+});
+let AC=null;
+function dingE(f){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f||880;
+  g.gain.setValueAtTime(.06,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.4);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.45);}catch(e){}}
+function anthem(){[392,523,659,784,1047].forEach((f,i)=>setTimeout(()=>{
+  try{const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;
+  g.gain.setValueAtTime(.08,AC.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.5);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.55);}catch(e){}},i*180));}
+
+let n=0,s=0;
+document.getElementById('startE').onclick=async()=>{
+  document.getElementById('startE').disabled=true;
+  const dists=document.querySelectorAll('.dist');
+  for(let i=0;i<DISTRICTS.length;i++){
+    await new Promise(r=>setTimeout(r,reduced?150:900));
+    dists[i].classList.add('called');
+    dingE(700+i*30);
+    /* votes: nour gains big, spaghetti crumbs */
+    n+=6+Math.random()*3;s+=Math.random()*1.4;
+    const tot=n+s;
+    const pn=n/tot*100,ps=s/tot*100;
+    document.getElementById('b1').style.width=pn+'%';
+    document.getElementById('b2').style.width=ps+'%';
+    document.getElementById('p1').textContent=pn.toFixed(0)+'%';
+    document.getElementById('p2').textContent=ps.toFixed(0)+'%';
+    document.getElementById('callBox').innerHTML=`<b>DISTRICT CALLED — ${DISTRICTS[i][1]}:</b> ${DISTRICTS[i][2]}`;
+  }
+  await new Promise(r=>setTimeout(r,reduced?200:800));
+  anthem();
+  if(!reduced)for(let i=0;i<80;i++){
+    const c=document.createElement('div');c.className='confE';
+    c.style.cssText=`left:${30+Math.random()*40}vw;top:20vh;background:${['#ffd23f','#2e6fd0','#fff','#8ab8ff'][i%4]}`;
+    document.body.appendChild(c);
+    c.animate([{transform:'translate(0,0) rotate(0)',opacity:1},
+      {transform:`translate(${(Math.random()-.5)*60}vw,${40+Math.random()*40}vh) rotate(${Math.random()*720}deg)`,opacity:0}],
+      {duration:1800+Math.random()*900,easing:'cubic-bezier(.2,.6,.6,1)'}).onfinish=()=>c.remove();
+  }
+  document.getElementById('victory').classList.add('show');
+  document.getElementById('victory').scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest'});
+  document.getElementById('startE').textContent='✓ RACE CALLED';
+};
+</script>
+</body>
+</html>

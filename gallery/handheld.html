@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — HANDHELD · Insert Cartridge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Karla:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--shell:#c8c2d8;--shelld:#a39cb8;--screenbg:#8fae54;--screend:#5c7a33;--px:#1d2a10;
+        --fg:#2c2838;--btnA:#a83a5c;--btnB:#3a5ca8}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;background:radial-gradient(80vw 60vh at 50% 0%,#3a3548,#242030);
+    color:#efeaf8;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--btnA);color:#fff}
+  h1{font-family:'Press Start 2P';font-size:clamp(13px,3vw,22px);line-height:1.5;text-align:center}
+  h1 span{color:#ffd23f}
+  .sub{font-size:11px;letter-spacing:.24em;opacity:.7;margin:10px 0 22px;text-transform:uppercase;text-align:center}
+
+  #device{width:min(420px,95vw);background:linear-gradient(160deg,#ded9ea,var(--shell) 40%,var(--shelld));
+    border-radius:22px 22px 60px 22px;padding:22px 22px 28px;box-shadow:0 34px 70px rgba(0,0,0,.55), inset 0 3px 0 rgba(255,255,255,.5)}
+  #bezel{background:#4a4556;border-radius:14px 14px 40px 14px;padding:18px 22px 14px}
+  #lcd{background:var(--screenbg);border-radius:6px;aspect-ratio:10/8.6;padding:12px;position:relative;overflow:hidden;
+    box-shadow:inset 0 3px 12px rgba(0,0,0,.45);font-family:'Press Start 2P';color:var(--px)}
+  #lcd::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:.16;
+    background:repeating-linear-gradient(0deg,#000 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,#000 0 1px,transparent 1px 3px);
+    background-size:3px 3px}
+  #powerRow{display:flex;justify-content:space-between;font-size:8px;color:#c9c2dd;margin-top:8px;letter-spacing:.14em}
+  #pled{color:#ff5e5e}
+
+  /* screen content */
+  .scr-title{font-size:clamp(9px,2.4vw,13px);line-height:1.9;text-align:center}
+  .scr-title .logo{font-size:clamp(13px,3.4vw,19px);margin:8px 0}
+  .blink{animation:bk 1s steps(1) infinite}
+  @keyframes bk{50%{opacity:0}}
+  .menuList{font-size:clamp(7px,1.9vw,10px);line-height:2.4}
+  .menuList .sel::before{content:'▶ '}
+  .gameScr{font-size:clamp(7px,1.9vw,10px);line-height:2}
+  .gameScr .hd{font-size:clamp(8px,2.2vw,11px);border-bottom:2px solid var(--px);padding-bottom:6px;margin-bottom:8px}
+  .bar{height:8px;border:2px solid var(--px);margin:3px 0 8px;position:relative}
+  .bar i{position:absolute;inset:0;background:var(--px);transform-origin:left;display:block}
+  .gameScr a{color:var(--px);text-decoration:underline}
+
+  /* controls */
+  #controls{display:flex;justify-content:space-between;align-items:center;margin-top:20px;padding:0 6px}
+  #dpad{position:relative;width:110px;height:110px}
+  .dbtn{position:absolute;width:38px;height:38px;background:#3a3544;border:none;cursor:pointer;color:#c9c2dd;font-size:13px;
+    box-shadow:0 4px 0 #201c2a;transition:transform .06s,box-shadow .06s}
+  .dbtn:active{transform:translateY(3px);box-shadow:0 1px 0 #201c2a}
+  #dUp{left:36px;top:0;border-radius:8px 8px 0 0}
+  #dDown{left:36px;bottom:0;border-radius:0 0 8px 8px}
+  #dLeft{left:0;top:36px;border-radius:8px 0 0 8px}
+  #dRight{right:0;top:36px;border-radius:0 8px 8px 0}
+  #dMid{left:36px;top:36px;background:#2c2838;pointer-events:none}
+  #ab{display:flex;gap:14px;transform:rotate(-14deg)}
+  .rbtn{width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;font-family:'Press Start 2P';
+    font-size:13px;color:#fff;box-shadow:0 5px 0 rgba(0,0,0,.4);transition:transform .06s,box-shadow .06s}
+  .rbtn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(0,0,0,.4)}
+  #btnB{background:var(--btnB)}
+  #btnA{background:var(--btnA)}
+  #startSel{display:flex;gap:14px;justify-content:center;margin-top:16px}
+  .pill{width:56px;height:14px;border-radius:8px;background:#3a3544;border:none;cursor:pointer;
+    box-shadow:0 3px 0 #201c2a;transform:rotate(-14deg)}
+  .pillLb{font-size:8px;color:#5c5670;text-align:center;margin-top:5px;letter-spacing:.1em;font-weight:700}
+  #hint{margin-top:16px;font-size:10px;letter-spacing:.2em;opacity:.6;text-transform:uppercase;text-align:center}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>NOUR<span>BOY</span> COLOR</h1>
+<div class="sub">6 cartridges · D-pad to choose · A to select · B to go back</div>
+
+<div id="device">
+  <div id="bezel">
+    <div id="lcd"></div>
+    <div id="powerRow"><span id="pled">● POWER</span><span>NOURBOY™ · DOT MATRIX WITH STEREO CAREER</span></div>
+  </div>
+  <div id="controls">
+    <div id="dpad">
+      <button class="dbtn" id="dUp">▲</button><button class="dbtn" id="dDown">▼</button>
+      <button class="dbtn" id="dLeft">◀</button><button class="dbtn" id="dRight">▶</button>
+      <div class="dbtn" id="dMid"></div>
+    </div>
+    <div id="ab">
+      <div><button class="rbtn" id="btnB">B</button><div class="pillLb">BACK</div></div>
+      <div><button class="rbtn" id="btnA">A</button><div class="pillLb">SELECT</div></div>
+    </div>
+  </div>
+  <div id="startSel">
+    <div><button class="pill" id="selP"></button><div class="pillLb">SELECT</div></div>
+    <div><button class="pill" id="startP"></button><div class="pillLb">START</div></div>
+  </div>
+</div>
+<div id="hint">KEYBOARD WORKS TOO: ARROWS + ENTER (A) + BACKSPACE (B)</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const lcd=document.getElementById('lcd');
+const GAMES=[
+ {t:'SUPER NOUR WORLD',body:`<div class="hd">SUPER NOUR WORLD</div>
+   WORLD 1-1: MINICODELEADER '23<br>WORLD 2-1: KHWARIZM '24<br>WORLD 3-1: D.FRONTIER '25<br>FINAL CASTLE: SUPERVISOR '26 ★<br><br>STATUS: ALL LEVELS CLEARED<br>LIVES: ∞ (clean code)`},
+ {t:'SKILL FIGHTER II',body:`<div class="hd">SKILL FIGHTER II — MOVE LIST</div>
+   REACT ......... HADOUKEN<div class="bar"><i style="transform:scaleX(.96)"></i></div>
+   TYPESCRIPT ... SHORYUKEN<div class="bar"><i style="transform:scaleX(.9)"></i></div>
+   TAILWIND ..... SPIN KICK<div class="bar"><i style="transform:scaleX(.88)"></i></div>
+   PYTHON/AI .... SECRET MOVE<div class="bar"><i style="transform:scaleX(.7)"></i></div>`},
+ {t:'GOLDENTAG QUEST',body:`<div class="hd">GOLDENTAG QUEST — COMPLETED</div>
+   QUEST: SHIP JEWELRY APP<br>PARTY: NEXLEAD (2025→)<br>ITEMS: BARCODE SCANNER,<br>USD/SYP RATES, INVENTORY<br><br>REWARD: GOOGLE PLAY RELEASE ✓<br>XP GAINED: COORDINATION LV.99`},
+ {t:'ICPC SPEEDRUN',body:`<div class="hd">ICPC SPEEDRUN '21</div>
+   CATEGORY: ANY% ALGORITHMS<br>TIME: MERCILESS CLOCK<br>RESULT: REFLEXES UNLOCKED<br><br>ALSO ON THIS CART:<br>B.TECH IT — KALAMOON<br>2019–2024 (100% COMPLETE)`},
+ {t:'CERT COLLECTOR',body:`<div class="hd">CERT COLLECTOR — 10/10</div>
+   ☑ META ADV REACT '25<br>☑ GOOGLE PM ×2 '25<br>☑ IBM PYTHON + GENAI '24<br>☑ TS-REACT · TAILWIND<br>☑ CLEAN CODE · JIRA ×3<br><br>ACHIEVEMENT: FULLY LOADED`},
+ {t:'HIRE ME (2-PLAYER)',body:`<div class="hd">HIRE ME — 2 PLAYER MODE</div>
+   P1: YOU (project owner)<br>P2: NOUR (Riyadh · AR+EN)<br><br>CO-OP MOVES: websites,<br>React, logos, cards,<br>social, coordination<br><br>PRESS: <a href="mailto:nouraldeentofi@gmail.com?subject=2-Player%20Mode&body=Player%201%20ready.%20My%20project%3A%20">EMAIL START</a><br>OR: <a href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LINKEDIN</a> · <a href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">WEBSITE</a>`}
+];
+let mode='boot',sel=0;
+let AC=null;
+function bleep(f,t){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='square';o.frequency.value=f||880;
+  g.gain.setValueAtTime(.04,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+(t||.09));
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+(t||.11));}catch(e){}}
+function jingle(){[392,523,659,784].forEach((f,i)=>setTimeout(()=>bleep(f,.14),i*110));}
+
+function render(){
+  if(mode==='boot'){
+    lcd.innerHTML=`<div class="scr-title"><br>NOURBOY™<div class="logo">NOUR ALDEEN<br>TOFI</div>FRONTEND DEV ·<br>SW SUPERVISOR<br><br><span class="blink">PRESS A / START</span></div>`;
+  }else if(mode==='menu'){
+    lcd.innerHTML=`<div class="gameScr"><div class="hd">SELECT CARTRIDGE</div><div class="menuList">${
+      GAMES.map((g,i)=>`<div class="${i===sel?'sel':''}">${g.t}</div>`).join('')}</div></div>`;
+  }else{
+    lcd.innerHTML=`<div class="gameScr">${GAMES[sel].body}<br><span class="blink">B = BACK</span></div>`;
+  }
+}
+render();
+function press(k){
+  if(mode==='boot'&&(k==='A'||k==='START')){jingle();mode='menu';render();return;}
+  if(mode==='menu'){
+    if(k==='UP'){sel=(sel-1+GAMES.length)%GAMES.length;bleep(660);}
+    if(k==='DOWN'){sel=(sel+1)%GAMES.length;bleep(660);}
+    if(k==='A'||k==='START'){bleep(990,.15);mode='game';}
+    render();return;
+  }
+  if(mode==='game'){
+    if(k==='B'){bleep(330,.12);mode='menu';render();}
+    if(k==='UP'||k==='DOWN'){bleep(440);}
+    return;
+  }
+}
+document.getElementById('dUp').onclick=()=>press('UP');
+document.getElementById('dDown').onclick=()=>press('DOWN');
+document.getElementById('dLeft').onclick=()=>press('B');
+document.getElementById('dRight').onclick=()=>press('A');
+document.getElementById('btnA').onclick=()=>press('A');
+document.getElementById('btnB').onclick=()=>press('B');
+document.getElementById('startP').onclick=()=>press('START');
+document.getElementById('selP').onclick=()=>press('DOWN');
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowUp')press('UP');
+  else if(e.key==='ArrowDown')press('DOWN');
+  else if(e.key==='Enter'||e.key==='ArrowRight')press('A');
+  else if(e.key==='Backspace'||e.key==='ArrowLeft'){e.preventDefault();press('B');}
+});
+</script>
+</body>
+</html>

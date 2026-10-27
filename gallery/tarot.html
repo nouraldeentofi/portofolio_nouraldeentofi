@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — TAROT · The Career Arcana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{--table:#1a1030;--tabled:#0d0819;--gold:#d9b25f;--goldhi:#f3dfa8;--violet:#8a6ad4;
+        --card:#221541;--fg:#efe6f8;--dim:rgba(239,230,248,.6)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'EB Garamond',serif;color:var(--fg);min-height:100vh;overflow-x:hidden;
+    background:radial-gradient(85vw 70vh at 50% 8%,#2c1c52,var(--table) 55%,var(--tabled));
+    display:flex;flex-direction:column;align-items:center;padding:6vh 4vw 9vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold);color:#1a1030}
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;opacity:.5;
+    background:radial-gradient(1.5px 1.5px at 22% 28%,#fff8,transparent),radial-gradient(1px 1px at 68% 14%,#fff6,transparent),
+    radial-gradient(1.5px 1.5px at 82% 60%,#fff7,transparent),radial-gradient(1px 1px at 12% 74%,#fff5,transparent);
+    background-size:340px 340px}
+
+  h1{font-family:'Cinzel Decorative',serif;font-weight:900;font-size:clamp(26px,5.2vw,48px);
+    text-align:center;color:var(--goldhi);text-shadow:0 0 30px rgba(217,178,95,.4)}
+  .sub{font-size:15px;font-style:italic;color:var(--dim);margin:10px 0 30px;text-align:center}
+
+  /* reading slots */
+  #slots{display:flex;gap:clamp(10px,3vw,30px);justify-content:center;flex-wrap:wrap;min-height:300px}
+  .slotWrap{text-align:center}
+  .slotLbl{font-family:'Cinzel Decorative',serif;font-size:12px;letter-spacing:.3em;color:var(--gold);
+    margin-bottom:12px;text-transform:uppercase}
+  .slot{width:clamp(120px,22vw,170px);aspect-ratio:2/3.4;border:1.5px dashed rgba(217,178,95,.4);border-radius:12px;
+    display:flex;align-items:center;justify-content:center;color:rgba(217,178,95,.35);font-size:26px;position:relative;
+    perspective:900px}
+
+  /* fan of cards */
+  #fanArea{margin-top:44px;min-height:190px;position:relative;width:min(680px,94vw)}
+  .fanCard{position:absolute;left:50%;bottom:0;width:104px;aspect-ratio:2/3.4;cursor:pointer;
+    transform-origin:50% 120%;transition:transform .35s,filter .35s}
+  .fanCard:hover{filter:brightness(1.25);z-index:9!important}
+  .cardBack{width:100%;height:100%;border-radius:10px;border:2px solid var(--gold);
+    background:
+      radial-gradient(circle at 50% 50%,rgba(217,178,95,.25) 0 8%,transparent 9%),
+      repeating-conic-gradient(from 0deg,#2c1c52 0deg 22.5deg,var(--card) 22.5deg 45deg);
+    box-shadow:0 10px 26px rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center}
+  .cardBack::after{content:'✦';color:var(--gold);font-size:26px}
+
+  /* flipping card in slot */
+  .flipCard{position:absolute;inset:0;transform-style:preserve-3d;transition:transform 1s cubic-bezier(.3,.9,.3,1)}
+  .flipCard.flipped{transform:rotateY(180deg)}
+  .cface{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;overflow:hidden}
+  .cfront{transform:rotateY(180deg);background:linear-gradient(170deg,#2c1c52,var(--card));border:2px solid var(--gold);
+    display:flex;flex-direction:column;padding:12px 10px;box-shadow:0 0 40px rgba(217,178,95,.25)}
+  .cfront .no{font-family:'Cinzel Decorative',serif;font-size:11px;color:var(--gold);letter-spacing:.2em}
+  .cfront .art{flex:1;display:flex;align-items:center;justify-content:center;font-size:clamp(38px,7vw,58px);
+    filter:drop-shadow(0 0 16px rgba(217,178,95,.5))}
+  .cfront .cnm{font-family:'Cinzel Decorative',serif;font-weight:700;font-size:clamp(10px,1.7vw,13px);
+    text-align:center;color:var(--goldhi);letter-spacing:.08em;text-transform:uppercase;line-height:1.3}
+  .cfront .foil{position:absolute;inset:0;pointer-events:none;opacity:.24;
+    background:linear-gradient(115deg,transparent 30%,rgba(255,240,190,.9) 45%,transparent 60%);background-size:250% 250%;
+    animation:foil 3.4s ease-in-out infinite}
+  @keyframes foil{0%,100%{background-position:0% 0%}50%{background-position:100% 100%}}
+
+  /* reading text */
+  #reading{margin-top:40px;max-width:640px;text-align:center;min-height:120px}
+  #reading .rk{font-family:'Cinzel Decorative',serif;font-size:11px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase}
+  #reading h2{font-family:'Cinzel Decorative',serif;font-weight:700;font-size:clamp(20px,3.6vw,30px);margin:10px 0 10px;color:var(--goldhi)}
+  #reading p{font-size:16.5px;line-height:1.8;color:var(--dim)}
+  #reading p b{color:var(--fg)}
+  .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+  .btn{font-family:'Cinzel Decorative',serif;font-size:12px;letter-spacing:.2em;padding:13px 24px;
+    border:1.5px solid var(--gold);color:var(--gold);border-radius:99px;transition:all .3s;text-transform:uppercase;cursor:pointer;background:none}
+  .btn:hover{background:var(--gold);color:#1a1030;box-shadow:0 0 34px rgba(217,178,95,.5)}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<h1>The Career Arcana</h1>
+<div class="sub">Madame Nour sees all… choose three cards — past, present, future · اسحب ورقك</div>
+
+<div id="slots">
+  <div class="slotWrap"><div class="slotLbl">✦ The Past</div><div class="slot" data-s="0">?</div></div>
+  <div class="slotWrap"><div class="slotLbl">✦ The Present</div><div class="slot" data-s="1">?</div></div>
+  <div class="slotWrap"><div class="slotLbl">✦ The Future</div><div class="slot" data-s="2">?</div></div>
+</div>
+
+<div id="fanArea"></div>
+
+<div id="reading">
+  <div class="rk">The spirits are shuffling…</div>
+  <p id="rp">Six cards wait below. Draw three. The deck already knows everything about Nour Aldeen Tofi — it's you it's curious about.</p>
+  <div class="btns" id="rb"></div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const CARDS=[
+ {no:'I',e:'🎓',nm:'The Student',
+  r:`<b>University of Kalamoon, B.Tech IT (2019–2024).</b> The card of foundations — five years of fundamentals laid in stone. Whoever draws this card benefits from someone who learned things properly.`},
+ {no:'II',e:'⚔️',nm:'The Competitor',
+  r:`<b>ICPC / ACPC 2021.</b> Crossed swords under a merciless clock — collegiate competitive programming. This card grants algorithmic reflexes and calm under pressure. It never reverses.`},
+ {no:'III',e:'🔨',nm:'The Builder',
+  r:`<b>React · TypeScript · Tailwind · JavaScript.</b> Forged at Minicodeleader (2023–24), tempered at Khwarizm Technologies (2024–25, Riyadh). The card of things that actually ship.`},
+ {no:'IV',e:'🧭',nm:'The Coordinator',
+  r:`<b>NexLead, freelance (Mar 2025 →).</b> The compass card: requirements → user stories → releases. Its treasure: <b>GoldenTag</b> on Google Play — inventory, barcode scanning, USD/SYP rates.`},
+ {no:'V',e:'👑',nm:'The Supervisor',
+  r:`<b>Distinctive Frontier Co. (Jan 2026 →).</b> The crown card — leads frontend engineering: React systems, standards, backend alignment, shipped product. Drawn upright, it means your project is in adult hands.`},
+ {no:'VI',e:'🤝',nm:'The Collaborator',
+  r:`The rarest card — it shows <b>you</b>, working with Nour. Websites, React frontends, logos, business cards, social visuals, coordination. The spirits whisper: <b>nouraldeentofi@gmail.com</b>.`,
+  btns:[['✉ Email','mailto:nouraldeentofi@gmail.com'],['LinkedIn','https://www.linkedin.com/in/nour-aldeen-tofi-19b116240'],['Website','https://nouraldeentofi.netlify.app']]}
+];
+const SLOTMEAN=['THE PAST REVEALS','THE PRESENT REVEALS','THE FUTURE REVEALS'];
+
+let AC=null;
+function chime(f,v,t){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f;
+  g.gain.setValueAtTime(v||.05,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+(t||.8));
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+(t||.85));}catch(e){}}
+
+const fan=document.getElementById('fanArea');
+let deck=[],drawn=0;
+function shuffleFan(){
+  fan.innerHTML='';drawn=0;deck=[...CARDS.keys()].sort(()=>Math.random()-.5);
+  document.querySelectorAll('.slot').forEach(s=>{s.innerHTML='?';});
+  setReading('The spirits are shuffling…','', 'Six cards wait below. Draw three — past, present, future.');
+  deck.forEach((ci,i)=>{
+    const c=document.createElement('div');c.className='fanCard';c.dataset.ci=ci;
+    const spread=(i-(deck.length-1)/2);
+    c.style.transform=`translateX(-50%) rotate(${spread*9}deg) translateY(${Math.abs(spread)*10}px)`;
+    c.style.zIndex=i;
+    c.innerHTML='<div class="cardBack"></div>';
+    c.onclick=()=>draw(c);
+    fan.appendChild(c);
+    if(!reduced)c.animate([{transform:`translateX(-50%) rotate(0deg) translateY(120px)`,opacity:0},
+      {transform:c.style.transform,opacity:1}],{duration:600,delay:i*90,easing:'cubic-bezier(.2,.9,.3,1.2)',fill:'backwards'});
+  });
+  chime(520,.05,1.2);
+}
+function draw(cardEl){
+  if(drawn>=3)return;
+  const ci=+cardEl.dataset.ci;
+  const slot=document.querySelector(`.slot[data-s="${drawn}"]`);
+  const slotIdx=drawn;
+  drawn++;
+  cardEl.style.pointerEvents='none';
+  chime(700+slotIdx*160,.06,1);
+  /* fly to slot */
+  const r1=cardEl.getBoundingClientRect(),r2=slot.getBoundingClientRect();
+  const fly=cardEl.cloneNode(true);
+  Object.assign(fly.style,{position:'fixed',left:r1.left+'px',top:r1.top+'px',width:r1.width+'px',height:r1.height+'px',
+    margin:0,zIndex:99,transform:'none',transition:'none'});
+  document.body.appendChild(fly);cardEl.style.visibility='hidden';
+  const dur=reduced?0:700;
+  fly.animate([{left:r1.left+'px',top:r1.top+'px',width:r1.width+'px'},
+    {left:r2.left+'px',top:r2.top+'px',width:r2.width+'px'}],
+    {duration:dur,easing:'cubic-bezier(.3,.9,.3,1)',fill:'forwards'});
+  setTimeout(()=>{
+    fly.remove();
+    const card=CARDS[ci];
+    slot.innerHTML=`<div class="flipCard">
+      <div class="cface"><div class="cardBack" style="border-radius:12px"></div></div>
+      <div class="cface cfront"><div class="foil"></div>
+        <div class="no">${card.no} ✦</div>
+        <div class="art">${card.e}</div>
+        <div class="cnm">${card.nm}</div></div></div>`;
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      slot.querySelector('.flipCard').classList.add('flipped');
+      chime(900+slotIdx*120,.07,1.4);
+    }));
+    setTimeout(()=>reveal(ci,slotIdx),reduced?60:900);
+  },dur+30);
+}
+function setReading(k,h,p,btns){
+  document.querySelector('#reading .rk').textContent=k;
+  document.getElementById('rp').innerHTML=(h?`<h2>${h}</h2>`:'')+`<p style="display:contents">${p}</p>`;
+  const rb=document.getElementById('rb');rb.innerHTML='';
+  (btns||[]).forEach(([lb,href])=>{
+    const a=document.createElement('a');a.className='btn';a.textContent=lb;a.href=href;
+    if(href.startsWith('http')){a.target='_blank';a.rel='noopener';}
+    rb.appendChild(a);});
+}
+function reveal(ci,slotIdx){
+  const card=CARDS[ci];
+  setReading(SLOTMEAN[slotIdx],`${card.no} · ${card.nm}`,card.r,card.btns);
+  if(drawn===3){
+    setTimeout(()=>{
+      const again=document.createElement('button');
+      again.className='btn';again.textContent='⟲ Read again';
+      again.onclick=shuffleFan;
+      document.getElementById('rb').appendChild(again);
+    },reduced?100:1200);
+  }
+}
+shuffleFan();
+</script>
+</body>
+</html>

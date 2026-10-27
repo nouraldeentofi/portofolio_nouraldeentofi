@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — METRO · Career Transit Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;500;700;900&family=IBM+Plex+Mono:wght@400;600&family=Noto+Kufi+Arabic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f7f5f0;--ink:#17161a;--dim:rgba(23,22,26,.55);--red:#d9302f;--green:#0f8a4d;--blue:#1f5fd0;--gold:#c8951f;--line:rgba(23,22,26,.12)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{font-family:'Hanken Grotesk',sans-serif;background:var(--bg);color:var(--ink);overflow:hidden}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--ink);color:var(--bg)}
+
+  header{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:16px;
+    padding:16px 22px;background:rgba(247,245,240,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .roundel{width:44px;height:44px;border-radius:50%;border:5px solid var(--red);position:relative;flex-shrink:0}
+  .roundel::after{content:'';position:absolute;left:-8px;right:-8px;top:50%;transform:translateY(-50%);height:12px;background:var(--ink);border-radius:3px}
+  header h1{font-size:clamp(15px,2.6vw,21px);font-weight:900;letter-spacing:.02em}
+  header .ar{font-family:'Noto Kufi Arabic';font-size:12px;color:var(--dim);display:block;font-weight:400}
+  header .tag{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase;text-align:right}
+
+  #mapWrap{position:fixed;inset:0;padding-top:76px;display:flex;align-items:center;justify-content:center}
+  svg{width:100%;height:100%;max-width:1200px}
+  .rail{fill:none;stroke-width:9;stroke-linecap:round;stroke-linejoin:round}
+  .st{cursor:pointer}
+  .st circle.c{fill:#fff;stroke-width:4;transition:r .2s}
+  .st:hover circle.c{r:12}
+  .st text{font-family:'Hanken Grotesk';font-size:13px;font-weight:700;fill:var(--ink)}
+  .st text.ar{font-family:'Noto Kufi Arabic';font-size:10px;font-weight:400;fill:var(--dim)}
+  .st .yr{font-family:'IBM Plex Mono',monospace;font-size:9px;fill:var(--dim);font-weight:400}
+  .interchange circle.c{stroke:var(--ink)!important;stroke-width:4}
+  .train{filter:drop-shadow(0 2px 3px rgba(0,0,0,.4))}
+
+  /* legend */
+  #legend{position:fixed;left:18px;bottom:18px;z-index:20;background:#fff;border:1px solid var(--line);
+    border-radius:12px;padding:14px 18px;box-shadow:0 10px 30px rgba(0,0,0,.08);font-size:12px}
+  #legend .lg{display:flex;align-items:center;gap:10px;padding:4px 0;font-weight:700}
+  #legend .sw{width:26px;height:7px;border-radius:4px}
+  #legend .note{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--dim);margin-top:8px;letter-spacing:.08em}
+
+  /* panel */
+  #panel{position:fixed;top:76px;right:0;bottom:0;width:min(420px,92vw);z-index:30;background:#fff;
+    border-left:1px solid var(--line);box-shadow:-20px 0 60px rgba(0,0,0,.12);transform:translateX(105%);
+    transition:transform .45s cubic-bezier(.2,.9,.25,1);padding:34px 32px;overflow-y:auto}
+  #panel.open{transform:translateX(0)}
+  #pline{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:10px;
+    letter-spacing:.2em;color:#fff;padding:7px 13px;border-radius:99px;margin-bottom:16px;text-transform:uppercase}
+  #panel h2{font-size:clamp(24px,3.4vw,32px);font-weight:900;line-height:1.08}
+  #par{font-family:'Noto Kufi Arabic';font-size:15px;color:var(--dim);margin:6px 0 16px}
+  #pbody{font-size:14.5px;font-weight:300;line-height:1.75;color:rgba(23,22,26,.8)}
+  #pbody b{font-weight:700}
+  #pbody .mono{font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:2;margin-top:12px}
+  .pbtns{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+  .pbtn{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.15em;padding:12px 18px;border-radius:8px;
+    border:1.5px solid var(--ink);font-weight:600;transition:all .2s;text-transform:uppercase}
+  .pbtn:hover{background:var(--ink);color:#fff}
+  #pclose{position:absolute;top:16px;right:18px;border:none;background:var(--bg);width:36px;height:36px;border-radius:50%;
+    font-size:15px;cursor:pointer;font-family:'IBM Plex Mono'}
+  #pnext{margin-top:26px;width:100%;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:.2em;padding:14px;border:1.5px dashed var(--dim);border-radius:8px;cursor:pointer;background:none;
+    color:var(--dim);text-transform:uppercase}
+  #pnext:hover{border-color:var(--ink);color:var(--ink)}
+
+  #hint{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:20;font-family:'IBM Plex Mono',monospace;
+    font-size:10px;letter-spacing:.3em;color:var(--dim);background:#fff;border:1px solid var(--line);
+    padding:10px 18px;border-radius:99px;text-transform:uppercase;animation:hb 2.6s infinite}
+  @keyframes hb{0%,100%{opacity:.5}50%{opacity:1}}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+  @media(max-width:700px){#legend{display:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="roundel"></div>
+  <h1>NOUR TRANSIT AUTHORITY<span class="ar">هيئة نور للنقل المهني — خريطة المسار</span></h1>
+  <div class="tag">CAREER NETWORK MAP<br>EST. 2019 · RIYADH</div>
+</header>
+
+<div id="mapWrap">
+<svg viewBox="0 0 1000 640" role="img" aria-label="Career metro map">
+  <!-- rails -->
+  <path class="rail" stroke="#1f5fd0" d="M90 540 L260 540 L430 480 L500 350"/>
+  <path class="rail" stroke="#d9302f" d="M150 130 L350 190 L500 350 L650 270 L845 190"/>
+  <path class="rail" stroke="#0f8a4d" d="M500 350 L650 440 L820 505"/>
+  <path class="rail" stroke="#c8951f" stroke-dasharray="1 14" d="M845 190 L925 330 L820 505"/>
+  <g id="stations"></g>
+  <g id="trains"></g>
+</svg>
+</div>
+
+<div id="legend">
+  <div class="lg"><span class="sw" style="background:#d9302f"></span>Career Line · خط المسيرة</div>
+  <div class="lg"><span class="sw" style="background:#0f8a4d"></span>Freelance Line · الخط الحر</div>
+  <div class="lg"><span class="sw" style="background:#1f5fd0"></span>Foundation Line · خط الأساس</div>
+  <div class="lg"><span class="sw" style="background:#c8951f"></span>Hire Link · وصلة التوظيف</div>
+  <div class="note">TAP ANY STATION FOR DETAILS</div>
+</div>
+
+<div id="hint">◈ Tap a station — trains run on time ◈</div>
+
+<div id="panel">
+  <button id="pclose">✕</button>
+  <span id="pline">LINE</span>
+  <h2 id="ptitle">Station</h2>
+  <div id="par">المحطة</div>
+  <div id="pbody"></div>
+  <button id="pnext">Next station →</button>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const LINES={red:{c:'#d9302f',n:'CAREER LINE'},green:{c:'#0f8a4d',n:'FREELANCE LINE'},
+  blue:{c:'#1f5fd0',n:'FOUNDATION LINE'},gold:{c:'#c8951f',n:'HIRE LINK'}};
+const ST=[
+ {x:90,y:540,line:'blue',name:'Kalamoon University',ar:'جامعة القلمون',yr:'2019',
+  html:`<b>B.Tech Information Technology</b> — University of Kalamoon, 2019–2024. First stop on the network: where the code, the discipline and the all-nighters started.`},
+ {x:260,y:540,line:'blue',name:'ICPC Arena',ar:'ساحة البرمجة التنافسية',yr:'2021',
+  html:`<b>ICPC / ACPC 2021</b> — collegiate competitive programming. Problem solving and team leadership under a merciless clock. The express-train reflexes come from here.`},
+ {x:430,y:480,line:'blue',name:'Certification Yard',ar:'محطة الشهادات',yr:'24–25',
+  html:`The maintenance depot where skills get stamped:<div class="mono"><b>Meta</b> Advanced React '25<br><b>Coursera</b> TypeScript in React '25<br><b>Google</b> Foundations of PM + Project Initiation '25<br><b>IBM</b> Python DS/AI + GenAI Prompting '24<br><b>Packt</b> Tailwind '24 · <b>Scrimba</b> Clean Code '24<br><b>Coursera</b> Jira suite '25</div>`},
+ {x:150,y:130,line:'red',name:'Minicodeleader',ar:'ميني كود ليدر',yr:'2023–24',
+  html:`<b>React Developer</b> — Jun 2023 to Feb 2024. First professional station: component-driven development, real codebase, clean-code habit formed on this platform.`},
+ {x:350,y:190,line:'red',name:'Khwarizm Technologies',ar:'تقنيات الخوارزم',yr:'2024–25',
+  html:`<b>Frontend Developer</b> — Riyadh, Sep 2024 to Apr 2025. Production React alongside design and backend. Station named for the father of algorithms — a good omen.`},
+ {x:500,y:350,line:'red',name:'Riyadh Central',ar:'الرياض المركزية',yr:'HUB',inter:true,
+  html:`<b>The interchange.</b> Nour Aldeen Tofi — frontend developer &amp; software engineering supervisor. All lines meet here: the builder, the coordinator, the competitor. Languages on the platform: Arabic + English. Off-peak: anime, chess, badminton, film.`},
+ {x:650,y:270,line:'red',name:'Distinctive Frontier',ar:'الحدود المميزة',yr:'2025',
+  html:`<b>Frontend Developer &amp; Project Coordination</b> — Jan 2025 to Jan 2026. Scalable React UI by day, coordination the rest of the day. The year that earned the terminus.`},
+ {x:845,y:190,line:'red',name:'Supervisor Terminus',ar:'محطة المشرف النهائية',yr:'2026→',inter:true,
+  html:`<b>Software Engineering Supervisor</b> — Distinctive Frontier Co., Jan 2026 → present. Leads frontend: React systems, coding standards, backend alignment, shipped product. Current position of the train you're watching.`},
+ {x:650,y:440,line:'green',name:'NexLead Junction',ar:'مفرق نكس ليد',yr:'2025→',
+  html:`<b>Freelance Project Coordinator</b> — Mar 2025 → present, remote. Requirements → scope → user stories on Trello → quality across frontend/backend/UI-UX → releases.`},
+ {x:820,y:505,line:'green',name:'GoldenTag',ar:'الوسم الذهبي',yr:'SHIPPED',inter:true,
+  html:`<b>GoldenTag</b> — jewelry store management app delivered to Google Play: inventory, employees, barcode scanning, USD/SYP exchange rates, sales logging, TXT export.<div class="pbtns"><a class="pbtn" href="https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag" target="_blank" rel="noopener">Google Play ↗</a></div>`},
+ {x:925,y:330,line:'gold',name:'Your Project',ar:'مشروعك أنت',yr:'NEXT',inter:true,
+  html:`The unbuilt station — <b>yours</b>. Websites, React frontends, logos, business cards, social visuals, project coordination.<div class="pbtns"><a class="pbtn" href="mailto:nouraldeentofi@gmail.com">✉ Email</a><a class="pbtn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a><a class="pbtn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a></div>`}
+];
+
+/* build stations */
+const NS='http://www.w3.org/2000/svg';
+const gSt=document.getElementById('stations');
+ST.forEach((s,i)=>{
+  const g=document.createElementNS(NS,'g');
+  g.setAttribute('class','st'+(s.inter?' interchange':''));
+  const c=document.createElementNS(NS,'circle');
+  c.setAttribute('class','c');c.setAttribute('cx',s.x);c.setAttribute('cy',s.y);
+  c.setAttribute('r',s.inter?11:8);c.setAttribute('stroke',LINES[s.line].c);
+  g.appendChild(c);
+  if(s.inter){const c2=document.createElementNS(NS,'circle');
+    c2.setAttribute('cx',s.x);c2.setAttribute('cy',s.y);c2.setAttribute('r',16);
+    c2.setAttribute('fill','none');c2.setAttribute('stroke',LINES[s.line].c);
+    c2.setAttribute('stroke-width','2');g.appendChild(c2);}
+  const above=s.y<330;
+  const t=document.createElementNS(NS,'text');
+  t.setAttribute('x',s.x);t.setAttribute('y',above?s.y-30:s.y+32);t.setAttribute('text-anchor','middle');
+  t.textContent=s.name;g.appendChild(t);
+  const ar=document.createElementNS(NS,'text');
+  ar.setAttribute('class','ar');ar.setAttribute('x',s.x);ar.setAttribute('y',above?s.y-16:s.y+47);
+  ar.setAttribute('text-anchor','middle');ar.textContent=s.ar;g.appendChild(ar);
+  const yr=document.createElementNS(NS,'text');
+  yr.setAttribute('class','yr');yr.setAttribute('x',s.x);yr.setAttribute('y',above?s.y-44:s.y+61);
+  yr.setAttribute('text-anchor','middle');yr.textContent=s.yr;g.appendChild(yr);
+  g.addEventListener('click',()=>open(i));
+  gSt.appendChild(g);
+});
+
+/* trains */
+const rails=[...document.querySelectorAll('.rail')].slice(0,3);
+const gTr=document.getElementById('trains');
+const trains=rails.map((r,i)=>{
+  const d=document.createElementNS(NS,'circle');
+  d.setAttribute('r','6');d.setAttribute('class','train');
+  d.setAttribute('fill',r.getAttribute('stroke'));
+  gTr.appendChild(d);
+  return {el:d,path:r,len:r.getTotalLength(),t:Math.random(),speed:.00055+i*.0001,dir:1};
+});
+if(!reduced){
+  (function move(){
+    for(const tr of trains){
+      tr.t+=tr.speed*tr.dir;
+      if(tr.t>1){tr.t=1;tr.dir=-1;}if(tr.t<0){tr.t=0;tr.dir=1;}
+      const p=tr.path.getPointAtLength(tr.t*tr.len);
+      tr.el.setAttribute('cx',p.x);tr.el.setAttribute('cy',p.y);
+    }
+    requestAnimationFrame(move);
+  })();
+}else{trains.forEach(tr=>{const p=tr.path.getPointAtLength(tr.len*.5);
+  tr.el.setAttribute('cx',p.x);tr.el.setAttribute('cy',p.y);});}
+
+/* panel */
+let cur=0;
+const panel=document.getElementById('panel');
+function open(i){
+  cur=i;const s=ST[i];
+  document.getElementById('pline').textContent=LINES[s.line].n+' · '+s.yr;
+  document.getElementById('pline').style.background=LINES[s.line].c;
+  document.getElementById('ptitle').textContent=s.name;
+  document.getElementById('par').textContent=s.ar;
+  document.getElementById('pbody').innerHTML=s.html;
+  panel.classList.add('open');
+  document.getElementById('hint').style.display='none';
+}
+document.getElementById('pclose').onclick=()=>panel.classList.remove('open');
+document.getElementById('pnext').onclick=()=>open((cur+1)%ST.length);
+addEventListener('keydown',e=>{if(e.key==='Escape')panel.classList.remove('open');});
+</script>
+</body>
+</html>

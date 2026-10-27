@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Nour Museum — Six Wings, One Career</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--hall2:#f2eee6;--wall2:#faf8f2;--ink5:#26221c;--dim:rgba(38,34,28,.62);--gold7:#a8823c;--wine3:#7a3040}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;background:linear-gradient(180deg,#f7f4ec,var(--hall2));color:var(--ink5);
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold7);color:#fff}
+  h1{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(26px,5vw,46px)}
+  h1 em{color:var(--gold7)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--dim);
+    margin:8px 0 20px;text-transform:uppercase;text-align:center}
+
+  /* floor plan */
+  #plan{width:min(720px,96vw);background:var(--wall2);border:2px solid var(--ink5);border-radius:14px;
+    padding:18px;box-shadow:0 20px 50px rgba(38,34,28,.14)}
+  #plan .t{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.28em;color:var(--dim);
+    text-transform:uppercase;text-align:center;margin-bottom:12px}
+  #rooms{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .room{border:2px solid var(--ink5);border-radius:8px;padding:16px 12px;cursor:pointer;text-align:center;
+    transition:all .2s;position:relative;background:#fff}
+  .room:hover{background:#f7efdc;transform:translateY(-3px)}
+  .room.cur{background:var(--ink5);color:var(--wall2)}
+  .room.seen::after{content:'✓';position:absolute;top:6px;right:9px;color:var(--gold7);font-weight:700}
+  .room .ric{font-size:24px}
+  .room .rnm{font-family:'Cormorant Garamond';font-weight:700;font-size:14px;margin-top:6px}
+  .room .rsub{font-family:'IBM Plex Mono';font-size:8px;letter-spacing:.1em;opacity:.6;text-transform:uppercase;margin-top:2px}
+  #visitorLb{font-family:'IBM Plex Mono';font-size:9px;letter-spacing:.2em;color:var(--dim);text-align:center;margin-top:10px;text-transform:uppercase}
+
+  /* gallery hall */
+  #hall3{width:min(720px,96vw);margin-top:16px;background:var(--wall2);border:2px solid var(--ink5);border-radius:14px;
+    padding:26px 30px;box-shadow:0 20px 50px rgba(38,34,28,.14);min-height:320px}
+  #wingK{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.28em;color:var(--wine3);text-transform:uppercase;font-weight:600}
+  #wingT{font-family:'Cormorant Garamond';font-weight:700;font-size:clamp(22px,4vw,32px);margin:8px 0 16px}
+  #exhibits{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+  .exhibit{border:2px solid var(--ink5);border-radius:6px;padding:10px;background:#fff;cursor:pointer;transition:all .2s;text-align:center}
+  .exhibit:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(38,34,28,.18)}
+  .exhibit .frameE{height:76px;display:flex;align-items:center;justify-content:center;font-size:36px;
+    border:6px solid var(--gold7);border-radius:3px;background:linear-gradient(160deg,#f5efdc,#e8dfc8)}
+  .exhibit .cap2{font-family:'IBM Plex Mono';font-size:8.5px;letter-spacing:.06em;margin-top:8px;color:var(--dim);text-transform:uppercase}
+  /* audio guide */
+  #guide{margin-top:18px;border-top:2px solid var(--ink5);padding-top:14px;display:flex;gap:14px;align-items:flex-start}
+  #guideIc{font-size:26px;flex-shrink:0;margin-top:2px}
+  #guideTxt{font-size:13.5px;line-height:1.7;color:var(--dim);min-height:66px;flex:1}
+  #guideTxt b{color:var(--ink5)}
+  .btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 18px;border-radius:99px;
+    background:var(--ink5);color:var(--wall2);text-transform:uppercase;font-weight:600}
+  .btn.g{background:none;border:2px solid var(--ink5);color:var(--ink5)}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>The <em>Nour</em> Museum</h1>
+<div class="sub">Six wings · free entry forever · tap a wing on the floor plan · المتحف مفتوح</div>
+
+<div id="plan">
+  <div class="t">— FLOOR PLAN · GROUND LEVEL —</div>
+  <div id="rooms"></div>
+  <div id="visitorLb">WINGS VISITED: <span id="wN">0</span>/6 · AUDIO GUIDE INCLUDED</div>
+</div>
+
+<div id="hall3">
+  <div id="wingK">WELCOME HALL</div>
+  <div id="wingT">Start anywhere — history has no queue</div>
+  <div id="exhibits"></div>
+  <div id="guide"><div id="guideIc">🎧</div><div id="guideTxt">Your audio guide: <b>"Ahlan! Pick a wing from the plan above. Every artifact in this museum is real — from the career of Nour Aldeen Tofi, frontend developer &amp; software engineering supervisor, Riyadh."</b></div></div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const WINGS=[
+ {ic:'🏺',nm:'Antiquities',sub:'2019–2024',k:'WING I · HALL OF ANTIQUITIES',t:'The Foundation Collection',
+  ex:[['🎓','B.TECH IT · KALAMOON'],['📚','FIVE YEARS OF FUNDAMENTALS'],['⌨️','FIRST LINES OF CODE']],
+  g:`"Here lie the oldest artifacts: a <b>B.Tech in Information Technology from the University of Kalamoon (2019–2024)</b>. Note the load-bearing quality — everything in later wings stands on these."`},
+ {ic:'⚔️',nm:'War Room',sub:'2021',k:'WING II · THE WAR ROOM',t:'Artifacts of Competition',
+  ex:[['🏆','ICPC/ACPC 2021'],['⏱','THE MERCILESS CLOCK'],['🧠','ALGORITHMIC REFLEXES']],
+  g:`"The famous <b>ICPC/ACPC campaign of 2021</b> — collegiate competitive programming. The reflexes displayed here are not replicas; the curator still uses them daily."`},
+ {ic:'🖼️',nm:'React Era',sub:'2023–2025',k:'WING III · THE REACT ERA',t:'Early &amp; Middle Period Works',
+  ex:[['🌱','MINICODELEADER 2023-24'],['🏙','KHWARIZM · RIYADH 24-25'],['🧩','COMPONENT MASTERWORKS']],
+  g:`"Observe the brushwork evolve: component-driven pieces at <b>Minicodeleader</b>, then production-scale canvases at <b>Khwarizm Technologies, Riyadh</b>. Critics note the unusually clean lines."`},
+ {ic:'💍',nm:'Gold Vault',sub:'2025',k:'WING IV · THE GOLD VAULT',t:'The GoldenTag Treasure',
+  ex:[['💍','GOLDENTAG · GOOGLE PLAY'],['📦','INVENTORY & BARCODE SYSTEMS'],['🧭','NEXLEAD COORDINATION']],
+  g:`"Our most visited exhibit: <b>GoldenTag</b>, a jewelry store management app coordinated end-to-end at NexLead and shipped to Google Play — inventory, barcode scanning, USD/SYP rates. Please do not tap the glass; it is production code."`},
+ {ic:'👑',nm:'Modern Art',sub:'2026 →',k:'WING V · MODERN COLLECTION',t:'The Supervisor Period (ongoing)',
+  ex:[['👑','SUPERVISOR · JAN 2026'],['🏗','REACT SYSTEMS & STANDARDS'],['🤝','TEAM LEADERSHIP']],
+  g:`"The living collection: <b>Software Engineering Supervisor at Distinctive Frontier Co.</b> New pieces are added weekly — standards, architecture, shipped features. The artist is, unusually, still improving."`},
+ {ic:'🎁',nm:'Gift Shop',sub:'exit here',k:'WING VI · THE GIFT SHOP',t:'Take Something Home',
+  ex:[['🌐','A WEBSITE'],['🎨','A LOGO & CARDS'],['🧭','FULL COORDINATION']],
+  g:`"Every museum exits through the gift shop 😄 — but here, everything is commissionable: <b>websites, React frontends, logos, business cards, social visuals, project coordination.</b> The curator takes orders personally."`,final:true}
+];
+let AC=null;
+function step2(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=340;
+  g.gain.setValueAtTime(.05,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.18);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.2);}catch(e){}}
+function dingM(){[880,1100].forEach((f,i)=>setTimeout(()=>{
+  try{const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f;
+  g.gain.setValueAtTime(.05,AC.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.4);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.45);}catch(e){}},i*140));}
+
+const rooms=document.getElementById('rooms');
+let seen=new Set();
+WINGS.forEach((w,i)=>{
+  const r=document.createElement('button');r.className='room';
+  r.innerHTML=`<div class="ric">${w.ic}</div><div class="rnm">${w.nm}</div><div class="rsub">${w.sub}</div>`;
+  r.onclick=()=>enter(i,r);
+  rooms.appendChild(r);
+});
+let typeTimer=null;
+function enter(i,el){
+  step2();
+  document.querySelectorAll('.room').forEach(x=>x.classList.remove('cur'));
+  el.classList.add('cur');el.classList.add('seen');
+  if(!seen.has(i)){seen.add(i);document.getElementById('wN').textContent=seen.size;}
+  const w=WINGS[i];
+  document.getElementById('wingK').textContent=w.k;
+  document.getElementById('wingT').innerHTML=w.t;
+  const ex=document.getElementById('exhibits');ex.innerHTML='';
+  w.ex.forEach(([e2,c],j)=>{
+    const d=document.createElement('div');d.className='exhibit';
+    d.innerHTML=`<div class="frameE">${e2}</div><div class="cap2">${c}</div>`;
+    d.style.animation=reduced?'':'none';
+    if(!reduced){d.style.opacity=0;
+      setTimeout(()=>{d.style.transition='opacity .5s,transform .5s';d.style.opacity=1;},j*160);}
+    d.onclick=()=>typeGuide(`"${c} — ${w.g.replace(/<[^>]+>/g,'').slice(0,0)}" `+w.g,w,i);
+    ex.appendChild(d);
+  });
+  typeGuide(w.g,w,i);
+}
+function typeGuide(html,w,i){
+  clearInterval(typeTimer);
+  const el=document.getElementById('guideTxt');
+  const old=document.querySelector('#guide .btns');if(old)old.remove();
+  if(reduced){el.innerHTML=html;addBtns(w);return;}
+  const tokens=html.match(/<[^>]+>|[\s\S]/g)||[];
+  let out='',p=0;
+  typeTimer=setInterval(()=>{
+    for(let k=0;k<3&&p<tokens.length;k++)out+=tokens[p++];
+    el.innerHTML=out;
+    if(p>=tokens.length){clearInterval(typeTimer);addBtns(w);}
+  },14);
+}
+function addBtns(w){
+  if(seen.size>=6)dingM();
+  const d=document.createElement('div');d.className='btns';
+  d.innerHTML=(w.final||seen.size>=6)
+    ?`<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Gift%20shop%20order&body=Visited%20all%20six%20wings.%20I%27d%20like%20to%20commission%3A%20">🎁 Commission the curator</a>
+      <a class="btn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`
+    :`<a class="btn g" href="mailto:nouraldeentofi@gmail.com">✉ Ask the curator</a>`;
+  document.getElementById('guide').appendChild(d);
+}
+</script>
+</body>
+</html>

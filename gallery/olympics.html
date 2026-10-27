@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE NOUR GAMES — Opening Ceremony to Podium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--sky4:#14203a;--fg:#f0f4fa;--dim:rgba(240,244,250,.6);--gold12:#ffd23f;--silver:#c9d2de;--bronze:#c9854a}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Archivo',sans-serif;color:var(--fg);min-height:100vh;
+    background:radial-gradient(80vw 60vh at 50% 0%,#1e3050,var(--sky4) 60%,#0c1424);
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold12);color:#14203a}
+  h1{font-weight:900;font-size:clamp(22px,4.6vw,40px);text-align:center}
+  h1 span{color:var(--gold12)}
+  .rings{font-size:20px;letter-spacing:4px;margin-top:4px}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.26em;color:var(--dim);
+    margin:8px 0 16px;text-transform:uppercase;text-align:center}
+
+  #arena2{position:relative;width:min(720px,96vw);min-height:340px;background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,210,63,.25);border-radius:18px;padding:26px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;overflow:hidden}
+  #cauldron{font-size:70px;filter:grayscale(1) brightness(.5);transition:filter .8s}
+  #cauldron.lit{filter:none;animation:flick 1s infinite}
+  @keyframes flick{50%{transform:scale(1.05)}}
+  #eventIcon{font-size:64px;margin-bottom:8px}
+  #eventName{font-weight:900;font-size:clamp(17px,3.4vw,26px)}
+  #eventDesc{font-size:12.5px;line-height:1.7;color:var(--dim);max-width:480px;margin-top:8px}
+  #eventDesc b{color:var(--fg)}
+  #resultLine{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.14em;color:var(--gold12);margin-top:12px;min-height:20px}
+  /* progress meter for events */
+  #meterBar{width:min(380px,80%);height:16px;border:2px solid rgba(240,244,250,.3);border-radius:10px;margin-top:14px;overflow:hidden;display:none}
+  #meterFill{height:100%;width:0;background:linear-gradient(90deg,var(--gold12),#ff9a3c)}
+  /* podium */
+  #podium2{display:none;align-items:flex-end;gap:8px;margin-top:14px}
+  .step3{width:82px;display:flex;flex-direction:column;align-items:center;gap:5px}
+  .step3 .block2{width:100%;border-radius:6px 6px 0 0;display:flex;align-items:flex-end;justify-content:center;
+    font-weight:900;padding-bottom:6px}
+  .step3 .medal{font-size:26px}
+  .step3 .who2{font-family:'IBM Plex Mono';font-size:8px;letter-spacing:.06em;color:var(--dim);text-align:center;text-transform:uppercase}
+
+  #nextB{margin-top:18px;font-family:'Archivo';font-weight:900;font-size:14px;border:none;border-radius:12px;
+    padding:15px 32px;background:var(--gold12);color:#14203a;cursor:pointer;box-shadow:0 5px 0 #b8912e;
+    transition:transform .1s,box-shadow .1s}
+  #nextB:active{transform:translateY(4px);box-shadow:0 1px 0 #b8912e}
+  #medalTable{display:flex;gap:10px;margin-top:14px;font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.12em;flex-wrap:wrap;justify-content:center}
+  #medalTable span{background:rgba(255,255,255,.08);padding:9px 14px;border-radius:99px}
+  .btns{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 18px;border-radius:99px;
+    border:2px solid var(--gold12);color:var(--gold12);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--gold12);color:#14203a}
+  .confO{position:fixed;z-index:80;width:8px;height:12px;pointer-events:none}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>🏟 THE <span>NOUR</span> GAMES</h1>
+<div class="rings">🔵⚫🔴🟡🟢</div>
+<div class="sub">Riyadh 2026 · opening ceremony → 4 events → podium · دورة الألعاب</div>
+
+<div id="arena2">
+  <div id="cauldron">🔥</div>
+  <div id="eventIcon" style="display:none"></div>
+  <div id="eventName">The Opening Ceremony</div>
+  <div id="eventDesc">The stadium is dark. One athlete carries the torch — he's been training since <b>2019</b>. Press the button to light the cauldron and declare the Games open.</div>
+  <div id="resultLine"></div>
+  <div id="meterBar"><div id="meterFill"></div></div>
+  <div id="podium2">
+    <div class="step3"><div class="medal">🥈</div><div class="block2" style="height:52px;background:var(--silver);color:#14203a">2</div><div class="who2">"GOOD ENOUGH" DEV</div></div>
+    <div class="step3"><div class="medal">🥇</div><div class="block2" style="height:78px;background:var(--gold12);color:#14203a">1</div><div class="who2">NOUR ALDEEN TOFI</div></div>
+    <div class="step3"><div class="medal">🥉</div><div class="block2" style="height:38px;background:var(--bronze);color:#14203a">3</div><div class="who2">"WE'LL FIX IT LATER"</div></div>
+  </div>
+</div>
+
+<button id="nextB">🔥 LIGHT THE CAULDRON</button>
+<div id="medalTable"><span>🥇 <b id="golds">0</b> GOLD</span><span>EVENTS <b id="evN">0</b>/4</span><span>HOST: RIYADH</span></div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const EVENTS=[
+ {ic:'🏃',nm:'The 100m Sprint — Deadline Dash',desc:'Event 1: ship a feature before the clock. His PB was set at <b>ICPC 2021</b> and he\'s been beating it in production ever since.',
+  result:'⏱ 9.58s — GOLD · a new Games record'},
+ {ic:'🏋️',nm:'Heavy Lifting — Legacy Code Clean & Jerk',desc:'Event 2: lift an entire legacy codebase overhead and refactor it. <b>Clean-code technique</b> (Scrimba \'24) prevents injury.',
+  result:'💪 200kg of spaghetti — GOLD · zero dropped requirements'},
+ {ic:'🤸',nm:'Rhythmic Coordination — Team All-Around',desc:'Event 3: judges score scope, user stories, timelines and delivery. The <b>GoldenTag routine</b> (NexLead → Google Play) is performed flawlessly.',
+  result:'🎯 10.0 · 10.0 · 10.0 — PERFECT SCORES ACROSS THE PANEL'},
+ {ic:'🏸',nm:'Badminton — His Actual Sport',desc:'Event 4: the one he plays for real. Reflexes from competitive programming, footwork from years of rallies. <b>The shuttle never sees it coming.</b>',
+  result:'🏸 21–14, 21–9 — GOLD · crowd on its feet'}
+];
+let AC=null;
+function crowd(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const b=AC.createBuffer(1,AC.sampleRate*1.6,AC.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.min(1,i/(AC.sampleRate*.15))*(1-i/d.length);
+  const s=AC.createBufferSource();s.buffer=b;
+  const f=AC.createBiquadFilter();f.type='bandpass';f.frequency.value=1400;
+  const g=AC.createGain();g.gain.value=.13;
+  s.connect(f);f.connect(g);g.connect(AC.destination);s.start();}catch(e){}}
+function anthem2(){[392,392,523,659,784,1047].forEach((f,i)=>setTimeout(()=>{
+  try{const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;
+  g.gain.setValueAtTime(.08,AC.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.45);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.5);}catch(e){}},i*220));}
+function whistle(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=2200;
+  g.gain.setValueAtTime(.06,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.4);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.45);}catch(e){}}
+
+let phase=-1,busy=false;
+const btn=document.getElementById('nextB');
+btn.onclick=async()=>{
+  if(busy)return;busy=true;
+  if(phase===-1){
+    /* light cauldron */
+    crowd();
+    document.getElementById('cauldron').classList.add('lit');
+    document.getElementById('eventName').textContent='THE GAMES ARE OPEN!';
+    document.getElementById('eventDesc').innerHTML='The cauldron burns with <b>~3 years of professional fire</b>. Four events await — each one a real discipline.';
+    btn.textContent='▶ EVENT 1: THE SPRINT';
+    phase=0;busy=false;return;
+  }
+  if(phase<EVENTS.length){
+    const ev=EVENTS[phase];
+    document.getElementById('cauldron').style.display='none';
+    document.getElementById('eventIcon').style.display='block';
+    document.getElementById('eventIcon').textContent=ev.ic;
+    document.getElementById('eventName').textContent=ev.nm;
+    document.getElementById('eventDesc').innerHTML=ev.desc;
+    document.getElementById('resultLine').textContent='';
+    const mb=document.getElementById('meterBar');mb.style.display='block';
+    const mf=document.getElementById('meterFill');mf.style.width='0';
+    whistle();
+    /* animate performance */
+    await new Promise(res=>{
+      let p=0;
+      (function run(){
+        p+=reduced?8:1.4+Math.random()*1.4;
+        mf.style.width=Math.min(100,p)+'%';
+        if(p<100)requestAnimationFrame(run);else res();
+      })();
+    });
+    crowd();
+    document.getElementById('resultLine').textContent=ev.result;
+    document.getElementById('golds').textContent=phase+1;
+    document.getElementById('evN').textContent=phase+1;
+    phase++;
+    btn.textContent=phase<EVENTS.length?('▶ EVENT '+(phase+1)):'🏆 MEDAL CEREMONY';
+    busy=false;return;
+  }
+  /* ceremony */
+  anthem2();crowd();
+  document.getElementById('eventIcon').style.display='none';
+  document.getElementById('meterBar').style.display='none';
+  document.getElementById('eventName').textContent='THE MEDAL CEREMONY';
+  document.getElementById('eventDesc').innerHTML=
+    `Four events, four golds. Standing on top: <b>Nour Aldeen Tofi</b> — frontend developer &amp; SW engineering supervisor, Riyadh · AR+EN. He dedicates the medals to <b>every project that ships on time.</b>`;
+  document.getElementById('resultLine').innerHTML='';
+  document.getElementById('podium2').style.display='flex';
+  const d=document.createElement('div');d.className='btns';
+  d.innerHTML=`<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Signing%20the%20champion&body=Four%20golds.%20I%20want%20him%20on%20my%20team%3A%20">🥇 Sign the champion</a>
+    <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`;
+  document.getElementById('arena2').appendChild(d);
+  if(!reduced)for(let i=0;i<70;i++){
+    const c=document.createElement('div');c.className='confO';
+    c.style.cssText=`left:${35+Math.random()*30}vw;top:24vh;background:${['#ffd23f','#c9d2de','#c9854a','#fff'][i%4]}`;
+    document.body.appendChild(c);
+    c.animate([{transform:'translate(0,0) rotate(0)',opacity:1},
+      {transform:`translate(${(Math.random()-.5)*50}vw,${40+Math.random()*40}vh) rotate(${Math.random()*720}deg)`,opacity:0}],
+      {duration:1800+Math.random()*900}).onfinish=()=>c.remove();
+  }
+  btn.style.display='none';
+};
+</script>
+</body>
+</html>

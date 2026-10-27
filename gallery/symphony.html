@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — SYMPHONY · You Conduct</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--hall4:#1a1410;--halld4:#100c08;--fg:#f2ead8;--dim:rgba(242,234,216,.6);--gold10:#d4af5e;--wine4:#8a3040}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;color:var(--fg);min-height:100vh;
+    background:radial-gradient(80vw 55vh at 50% 100%,#2e2418,var(--hall4) 55%,var(--halld4));
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold10);color:#1a1410}
+  h1{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:clamp(24px,4.8vw,42px)}
+  h1 em{color:var(--gold10)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--dim);
+    margin:8px 0 14px;text-transform:uppercase;text-align:center}
+
+  /* stage */
+  #stage4{position:relative;width:min(760px,96vw);height:300px;border-radius:18px 18px 8px 8px;overflow:hidden;cursor:none;
+    background:radial-gradient(70% 90% at 50% 100%,#3a2c1c,#221a10);box-shadow:0 24px 60px rgba(0,0,0,.5)}
+  #spot4{position:absolute;left:50%;top:0;transform:translateX(-50%);width:300px;height:100%;pointer-events:none;
+    background:radial-gradient(ellipse at top,rgba(212,175,94,.14),transparent 70%)}
+  .section3{position:absolute;bottom:26px;text-align:center;transition:transform .2s}
+  .section3 .players{font-size:30px;letter-spacing:2px}
+  .section3 .snm{font-family:'IBM Plex Mono';font-size:8px;letter-spacing:.16em;color:var(--dim);margin-top:4px;text-transform:uppercase}
+  .section3.active .players{filter:drop-shadow(0 0 12px rgba(212,175,94,.8))}
+  .section3.active{transform:translateY(-6px)}
+  #baton{position:absolute;z-index:9;width:70px;pointer-events:none;transform-origin:20% 80%}
+  #baton .stick2{width:56px;height:4px;background:linear-gradient(90deg,#f0e2c8,#c9b896);border-radius:3px;transform:rotate(-30deg)}
+  #podium{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:110px;height:26px;background:#54371f;border-radius:8px 8px 0 0}
+  #tempoLb{position:absolute;top:14px;right:16px;font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.16em;
+    color:var(--gold10);background:rgba(0,0,0,.4);padding:8px 13px;border-radius:99px}
+  #hintS2{position:absolute;top:14px;left:16px;font-family:'IBM Plex Mono';font-size:9px;letter-spacing:.16em;
+    color:var(--dim);background:rgba(0,0,0,.4);padding:8px 13px;border-radius:99px;text-transform:uppercase}
+
+  /* program */
+  #mvts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;justify-content:center}
+  .mvtB{font-family:'Cormorant Garamond';font-weight:700;font-size:13px;border:1.5px solid rgba(212,175,94,.4);
+    color:var(--dim);background:none;border-radius:99px;padding:11px 18px;cursor:pointer;transition:all .25s}
+  .mvtB.on{border-color:var(--gold10);color:var(--gold10)}
+  #playS{font-family:'Cormorant Garamond';font-weight:700;font-size:15px;border:none;border-radius:99px;
+    padding:13px 30px;background:var(--gold10);color:#1a1410;cursor:pointer;box-shadow:0 4px 0 #8a6e38}
+  #playS:active{transform:translateY(3px);box-shadow:0 1px 0 #8a6e38}
+
+  #notesP{margin-top:16px;max-width:620px;text-align:center;min-height:100px}
+  #notesP .k{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.28em;color:var(--gold10);text-transform:uppercase;font-weight:600}
+  #notesP h2{font-family:'Cormorant Garamond';font-weight:700;font-size:clamp(18px,3.4vw,27px);margin:8px 0 6px}
+  #notesP p{font-size:13px;line-height:1.75;color:var(--dim)}
+  #notesP p b{color:var(--fg)}
+  .btns{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 18px;border-radius:99px;
+    border:2px solid var(--gold10);color:var(--gold10);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--gold10);color:#1a1410}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}#stage4{cursor:auto}}
+</style>
+</head>
+<body>
+<h1>The <em>Nour</em> Philharmonic</h1>
+<div class="sub">You are the conductor · move the baton over the stage · higher = louder, faster = faster · قُد الأوركسترا</div>
+
+<div id="stage4">
+  <div id="spot4"></div>
+  <div id="tempoLb">TEMPO — · VOLUME —</div>
+  <div id="hintS2">MOVE YOUR MOUSE OVER THE STAGE</div>
+  <div class="section3" style="left:6%"><div class="players">🎻🎻🎻</div><div class="snm">STRINGS · React section</div></div>
+  <div class="section3" style="left:32%"><div class="players">🎺🎺</div><div class="snm">BRASS · Leadership</div></div>
+  <div class="section3" style="right:28%"><div class="players">🪈🪈</div><div class="snm">WOODWIND · Design</div></div>
+  <div class="section3" style="right:5%"><div class="players">🥁🥁</div><div class="snm">PERCUSSION · Deadlines</div></div>
+  <div id="podium"></div>
+  <div id="baton"><div class="stick2"></div></div>
+</div>
+
+<div id="mvts">
+  <button class="mvtB on" data-m="0">I. Foundations</button>
+  <button class="mvtB" data-m="1">II. The Arena</button>
+  <button class="mvtB" data-m="2">III. Golden Ship</button>
+  <button class="mvtB" data-m="3">IV. Supervisor's Finale</button>
+  <button id="playS">▶ Raise the orchestra</button>
+</div>
+
+<div id="notesP">
+  <div class="k">Program notes</div>
+  <h2>A symphony in four movements</h2>
+  <p>Each movement is scored from real years. The orchestra follows <b>your</b> baton — tempo from horizontal motion, volume from height. The composer only asks that you finish the piece.</p>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const MVTS=[
+ {chords:[[220,277,330],[196,247,294],[175,220,262],[196,247,294]],
+  k:'MOVEMENT I · ADAGIO',h:'Foundations (2019–2024)',
+  p:'Slow, deliberate strings: <b>five years at the University of Kalamoon.</b> Listen for the recurring motif — it\'s called "fundamentals" and it never leaves the score.'},
+ {chords:[[262,330,392],[294,370,440],[262,330,392],[330,415,494]],
+  k:'MOVEMENT II · PRESTO',h:'The Arena (ICPC 2021)',
+  p:'Racing percussion, urgent brass: <b>competitive programming at full tempo.</b> The timpani is the merciless clock. Nobody misses their entrance.'},
+ {chords:[[247,311,370],[277,349,415],[311,392,466],[277,349,415]],
+  k:'MOVEMENT III · MAESTOSO',h:'The Golden Ship (2023–2025)',
+  p:'The triumphant middle: <b>React years, Riyadh, and GoldenTag sailing to Google Play.</b> The woodwinds carry the design themes; coordination holds the sections together.'},
+ {chords:[[330,415,494],[294,370,440],[392,494,587],[330,415,494]],
+  k:'MOVEMENT IV · FINALE',h:'The Supervisor\'s Finale (2026 →)',
+  p:'All sections at once: <b>Software Engineering Supervisor, Distinctive Frontier Co.</b> The full orchestra — React strings, leadership brass, design winds, deadline drums — under one baton. The final chord is unresolved on purpose: <b>your project resolves it.</b>',final:true}
+];
+let AC=null,playing=false,mvt=0,vol=.5,tempo=1,barI=0,timer=null;
+function note2(f,t0,dur,type,v){
+  const o=AC.createOscillator(),g=AC.createGain();
+  o.type=type;o.frequency.value=f;
+  g.gain.setValueAtTime(0,t0);
+  g.gain.linearRampToValueAtTime(v,t0+.04);
+  g.gain.exponentialRampToValueAtTime(.0001,t0+dur);
+  o.connect(g);g.connect(AC.destination);o.start(t0);o.stop(t0+dur+.05);
+}
+function playBar2(){
+  if(!AC)return;
+  const ch=MVTS[mvt].chords[barI%4];
+  const t0=AC.currentTime+.03;
+  const v=vol;
+  /* strings */
+  ch.forEach(f=>note2(f,t0,1.4/tempo,'sawtooth',.018*v*2));
+  /* brass on beat 1 */
+  note2(ch[0]/2,t0,.5/tempo,'square',.03*v*2);
+  /* woodwind melody */
+  note2(ch[2]*2,t0+.4/tempo,.3/tempo,'triangle',.03*v*2);
+  note2(ch[1]*2,t0+.8/tempo,.3/tempo,'triangle',.025*v*2);
+  /* percussion */
+  const b=AC.createBuffer(1,AC.sampleRate*.08,AC.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length);
+  const s=AC.createBufferSource();s.buffer=b;
+  const g=AC.createGain();g.gain.value=.05*v*2;
+  s.connect(g);g.connect(AC.destination);s.start(t0);
+  barI++;
+  /* light active section */
+  const secs=document.querySelectorAll('.section3');
+  secs.forEach(x=>x.classList.remove('active'));
+  secs[barI%4].classList.add('active');
+}
+function startP(){
+  try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();}catch(e){return;}
+  playing=true;
+  document.getElementById('playS').textContent='◼ Rest the orchestra';
+  schedule();
+}
+function schedule(){
+  clearTimeout(timer);
+  if(!playing)return;
+  playBar2();
+  timer=setTimeout(schedule,Math.max(280,900/tempo));
+}
+function stopP(){playing=false;clearTimeout(timer);
+  document.getElementById('playS').textContent='▶ Raise the orchestra';
+  document.querySelectorAll('.section3').forEach(x=>x.classList.remove('active'));}
+document.getElementById('playS').onclick=()=>playing?stopP():startP();
+document.querySelectorAll('.mvtB').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.mvtB').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');mvt=+b.dataset.m;barI=0;
+  const m=MVTS[mvt];
+  document.querySelector('#notesP .k').textContent=m.k;
+  document.querySelector('#notesP h2').textContent=m.h;
+  document.querySelector('#notesP p').innerHTML=m.p;
+  const old=document.querySelector('#notesP .btns');if(old)old.remove();
+  if(m.final){
+    const d=document.createElement('div');d.className='btns';
+    d.innerHTML=`<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Resolving%20the%20final%20chord&body=Conducted%20all%20four%20movements.%20My%20project%20is%20the%20encore%3A%20">🎼 Commission movement V</a>
+      <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`;
+    document.getElementById('notesP').appendChild(d);
+  }
+});
+/* baton */
+const stage=document.getElementById('stage4'),baton=document.getElementById('baton');
+let lastX=0,lastT=0;
+stage.addEventListener('pointermove',e=>{
+  const r=stage.getBoundingClientRect();
+  const x=e.clientX-r.left,y=e.clientY-r.top;
+  baton.style.left=x+'px';baton.style.top=y+'px';
+  baton.style.transform=`rotate(${(x/r.width-.5)*40}deg)`;
+  /* volume from height (top loud) */
+  vol=Math.max(.15,Math.min(1,1-(y/r.height)));
+  /* tempo from horizontal speed */
+  const now=performance.now();
+  const dx=Math.abs(e.clientX-lastX),dt=now-lastT||16;
+  const speed=dx/dt;
+  tempo=Math.max(.6,Math.min(2.4,.8+speed*2.4));
+  lastX=e.clientX;lastT=now;
+  document.getElementById('tempoLb').textContent=
+    `TEMPO ${(tempo*72|0)} BPM · VOLUME ${(vol*100|0)}%`;
+  document.getElementById('hintS2').style.opacity=0;
+});
+</script>
+</body>
+</html>

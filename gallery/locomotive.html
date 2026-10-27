@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — LOCOMOTIVE · Drive the Career Express</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Staatliches&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--cab:#2b2f38;--cabd:#1d2027;--brass:#d3a94e;--sky1:#ffd9a0;--sky2:#ff9a6e;--land:#c98a52;
+        --fg:#f2efe6;--dim:rgba(242,239,230,.6);--green:#59d97d;--red:#ff6a5e}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{font-family:'IBM Plex Mono',monospace;background:var(--cabd);color:var(--fg);overflow:hidden;
+    display:flex;flex-direction:column}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--brass);color:#1d2027}
+
+  /* windshield */
+  #wind{position:relative;flex:1;margin:14px 14px 0;border:10px solid var(--cab);border-bottom:none;
+    border-radius:22px 22px 0 0;overflow:hidden;background:linear-gradient(180deg,var(--sky1),var(--sky2) 55%,var(--land) 55.2%)}
+  #scene{position:absolute;inset:0}
+  .layer{position:absolute;left:0;top:0;height:100%;width:300%;display:flex}
+  .layer svg{width:50%;height:100%;flex-shrink:0}
+  #sun{position:absolute;right:12%;top:12%;width:90px;height:90px;border-radius:50%;
+    background:radial-gradient(circle at 40% 35%,#fff2c9,#ffce6e);box-shadow:0 0 60px rgba(255,206,110,.8)}
+  /* station sign appears when stopped */
+  #stationSign{position:absolute;left:50%;top:16%;transform:translateX(-50%) translateY(-160%);z-index:5;
+    background:#123a2a;border:4px solid #fff;border-radius:12px;padding:12px 30px;text-align:center;
+    box-shadow:0 14px 34px rgba(0,0,0,.4);transition:transform .7s cubic-bezier(.2,.9,.3,1.1)}
+  #stationSign.show{transform:translateX(-50%) translateY(0)}
+  #stationSign .nm{font-family:'Staatliches';font-size:clamp(18px,3.4vw,30px);letter-spacing:.1em;color:#fff}
+  #stationSign .ar{font-size:11px;color:rgba(255,255,255,.8)}
+  /* info card in window */
+  #info{position:absolute;left:50%;bottom:8%;transform:translateX(-50%) translateY(150%);z-index:5;
+    width:min(560px,88%);background:rgba(20,26,22,.88);border:1px solid rgba(211,169,78,.5);border-radius:14px;
+    padding:20px 24px;backdrop-filter:blur(6px);transition:transform .6s cubic-bezier(.2,.9,.3,1)}
+  #info.show{transform:translateX(-50%) translateY(0)}
+  #info .k{font-size:9.5px;letter-spacing:.3em;color:var(--brass);text-transform:uppercase}
+  #info h2{font-family:'Staatliches';font-size:clamp(18px,3vw,26px);letter-spacing:.06em;margin:6px 0}
+  #info p{font-size:11.5px;line-height:1.7;color:var(--dim)}
+  #info p b{color:var(--fg)}
+  #info .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  #info .btn{font-size:10px;letter-spacing:.14em;padding:9px 14px;border:1px solid var(--brass);color:var(--brass);
+    border-radius:6px;text-transform:uppercase}
+  #info .btn:hover{background:var(--brass);color:#1d2027}
+
+  /* dashboard */
+  #dash{background:linear-gradient(180deg,#3a3f4a,var(--cab));border-top:4px solid #12141a;padding:14px 20px 18px;
+    display:flex;gap:18px;align-items:center;justify-content:center;flex-wrap:wrap}
+  .gauge{text-align:center}
+  .glabel{font-size:8.5px;letter-spacing:.25em;color:var(--dim);margin-top:6px;text-transform:uppercase}
+  #speedo{width:110px;height:60px;position:relative;overflow:hidden}
+  #speedo .arc{position:absolute;inset:0 0 -60px;border-radius:50%;border:8px solid #12141a;
+    border-bottom-color:transparent;border-left-color:var(--green);border-right-color:#12141a}
+  #needle{position:absolute;left:50%;bottom:0;width:3px;height:48px;background:var(--red);transform-origin:bottom center;
+    transform:rotate(-80deg);border-radius:2px}
+  #speedTxt{font-family:'Staatliches';font-size:20px;color:var(--fg)}
+  /* throttle */
+  #throttleBox{display:flex;flex-direction:column;align-items:center}
+  #slider{position:relative;width:56px;height:120px;background:#191c22;border-radius:12px;border:2px solid #0d0f13;
+    box-shadow:inset 0 4px 10px rgba(0,0,0,.6)}
+  #knob{position:absolute;left:50%;transform:translateX(-50%);bottom:6px;width:66px;height:26px;cursor:grab;
+    background:linear-gradient(180deg,#e8c987,var(--brass));border-radius:8px;border:2px solid #8a6a2c;
+    box-shadow:0 4px 10px rgba(0,0,0,.5);touch-action:none}
+  #knob:active{cursor:grabbing}
+  #nextB{font-family:'Staatliches';font-size:15px;letter-spacing:.1em;padding:14px 24px;border:none;border-radius:10px;
+    background:var(--green);color:#10281a;cursor:pointer;box-shadow:0 4px 0 #2b7a44}
+  #nextB:active{transform:translateY(3px);box-shadow:0 1px 0 #2b7a44}
+  #routeTxt{font-size:9.5px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase;text-align:center;max-width:190px;line-height:1.8}
+  #routeTxt b{color:var(--brass)}
+  #hornB{font-size:20px;border:none;background:#191c22;color:var(--brass);width:52px;height:52px;border-radius:50%;
+    cursor:pointer;border:2px solid #0d0f13}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div id="wind">
+  <div id="scene">
+    <div id="sun"></div>
+    <div class="layer" id="lFar"></div>
+    <div class="layer" id="lMid"></div>
+    <div class="layer" id="lNear"></div>
+  </div>
+  <div id="stationSign"><div class="nm">—</div><div class="ar">—</div></div>
+  <div id="info"><div class="k"></div><h2></h2><p></p><div class="btns"></div></div>
+</div>
+
+<div id="dash">
+  <div class="gauge"><div id="speedo"><div class="arc"></div><div id="needle"></div></div>
+    <div id="speedTxt">0 KM/H</div><div class="glabel">Velocity</div></div>
+  <div id="throttleBox"><div id="slider"><div id="knob"></div></div><div class="glabel">Throttle — drag up</div></div>
+  <button id="hornB" title="horn">📯</button>
+  <div><button id="nextB">NEXT STATION →</button><div class="glabel" style="margin-top:8px">Auto-drive</div></div>
+  <div id="routeTxt">CAREER EXPRESS · LINE 26<br>NEXT: <b id="nextNm">KALAMOON</b> · <span id="distTxt">1.2</span> KM</div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const STOPS=[
+ {nm:'KALAMOON UNIVERSITY',ar:'جامعة القلمون · 2019–2024',k:'Stop 01 · Foundation',
+  h:'B.Tech Information Technology',
+  p:`Where the line was laid: <b>University of Kalamoon, 2019–2024</b>. Five years of track-building — fundamentals, discipline, first code. Also on this platform: <b>ICPC/ACPC 2021</b>, competitive programming at full steam.`},
+ {nm:'MINICODELEADER',ar:'المحطة الأولى · 2023–2024',k:'Stop 02 · First job',
+  h:'React Developer',
+  p:`<b>Jun 2023 – Feb 2024.</b> First commercial service: component-driven React development. The clean-code whistle was installed here and never stopped blowing.`},
+ {nm:'KHWARIZM TECHNOLOGIES',ar:'الرياض · 2024–2025',k:'Stop 03 · The capital',
+  h:'Frontend Developer — Riyadh',
+  p:`<b>Sep 2024 – Apr 2025.</b> Production React through the capital's busiest junctions, coupling smoothly with design and backend cars. IBM Python & GenAI certificates loaded as cargo ('24).`},
+ {nm:'NEXLEAD JUNCTION',ar:'مفرق العمل الحر · 2025←',k:'Stop 04 · Freelance line',
+  h:'Project Coordinator (remote)',
+  p:`<b>Mar 2025 → ongoing.</b> A parallel track: requirements → user stories on Trello → releases. Heaviest freight delivered: <b>GoldenTag</b> to Google Play — inventory, barcode scanning, USD/SYP rates, sales logs.`,
+  btns:[['GoldenTag ↗','https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag']]},
+ {nm:'DISTINCTIVE FRONTIER',ar:'الترقية · 2025 → 2026',k:'Stop 05 · Terminus (current)',
+  h:'Frontend + Coordination → Supervisor',
+  p:`<b>Jan 2025:</b> boarded as Frontend Dev & Project Coordination. <b>Jan 2026:</b> promoted to <b>Software Engineering Supervisor</b> — driving the frontend engine: React systems, standards, backend alignment, shipped features. Stack on board: React · TS · Tailwind · JS · Python · Git · Jira.`},
+ {nm:'YOUR PROJECT CENTRAL',ar:'محطتك أنت · القادمة',k:'Stop 06 · Next departure',
+  h:'All aboard?',
+  p:`Websites · React frontends · logos · business cards · social visuals · project coordination. Conductor speaks <b>Arabic + English</b>, enjoys anime, chess, badminton and film between shifts.`,
+  btns:[['✉ Email','mailto:nouraldeentofi@gmail.com'],['LinkedIn','https://www.linkedin.com/in/nour-aldeen-tofi-19b116240'],['Website','https://nouraldeentofi.netlify.app']]}
+];
+
+/* build parallax layers */
+function hills(id,color,amp,base){
+  const el=document.getElementById(id);
+  let svg='';
+  for(let k=0;k<2;k++){
+    let d=`M0 ${base} `;
+    for(let x=0;x<=100;x+=10){d+=`Q${x+5} ${base-amp-Math.sin(x*.7+k)*amp*.5} ${x+10} ${base} `;}
+    svg+=`<svg viewBox="0 0 100 100" preserveAspectRatio="none"><path d="${d} L100 100 L0 100Z" fill="${color}"/></svg>`;
+  }
+  el.innerHTML=svg;
+}
+hills('lFar','#e8a06e',9,58);
+hills('lMid','#b3703f',14,66);
+/* near layer: ground + poles */
+(function(){
+  let svg='';
+  for(let k=0;k<2;k++){
+    let items='';
+    for(let x=6;x<100;x+=12){
+      items+=`<rect x="${x}" y="46" width="1.2" height="34" fill="#5c3a1e"/><rect x="${x-3}" y="46" width="7.5" height="2" fill="#5c3a1e"/>`;
+      if(x%24===6)items+=`<circle cx="${x+6}" cy="70" r="6" fill="#7a9e4a"/><rect x="${x+5.4}" y="70" width="1.4" height="12" fill="#5c3a1e"/>`;
+    }
+    svg+=`<svg viewBox="0 0 100 100" preserveAspectRatio="none">
+      <rect x="0" y="80" width="100" height="20" fill="#8a5a33"/>
+      <rect x="0" y="79" width="100" height="2.4" fill="#6e4526"/>
+      ${items}</svg>`;
+  }
+  document.getElementById('lNear').innerHTML=svg;
+})();
+
+/* audio */
+let AC=null;
+function chug(v){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const b=AC.createBuffer(1,AC.sampleRate*.09,AC.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length);
+  const s=AC.createBufferSource();s.buffer=b;
+  const f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=420;
+  const g=AC.createGain();g.gain.value=Math.min(.11,v*.14);
+  s.connect(f);f.connect(g);g.connect(AC.destination);s.start();}catch(e){}}
+function horn(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  [311,392].forEach(fr=>{const o=AC.createOscillator(),g=AC.createGain();
+    o.type='sawtooth';o.frequency.value=fr;
+    g.gain.setValueAtTime(.06,AC.currentTime);
+    g.gain.setValueAtTime(.06,AC.currentTime+.55);
+    g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.85);
+    o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.9);});}catch(e){}}
+function ding(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=880;
+  g.gain.setValueAtTime(.08,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.9);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.95);}catch(e){}}
+document.getElementById('hornB').onclick=horn;
+
+/* throttle drag */
+const knob=document.getElementById('knob'),slider=document.getElementById('slider');
+let throttle=0,dragK=false;
+knob.addEventListener('pointerdown',e=>{dragK=true;knob.setPointerCapture(e.pointerId);});
+addEventListener('pointermove',e=>{
+  if(!dragK)return;
+  const r=slider.getBoundingClientRect();
+  const v=1-Math.max(0,Math.min(1,(e.clientY-r.top-14)/(r.height-40)));
+  throttle=v;
+  knob.style.bottom=(6+v*(r.height-38))+'px';
+});
+addEventListener('pointerup',()=>dragK=false);
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowUp'){throttle=Math.min(1,throttle+.1);syncKnob();}
+  if(e.key==='ArrowDown'){throttle=Math.max(0,throttle-.1);syncKnob();}});
+function syncKnob(){const r=slider.getBoundingClientRect();knob.style.bottom=(6+throttle*(r.height-38))+'px';}
+
+/* drive state */
+let speed=0,dist=1.2,stopIdx=0,atStation=true,offFar=0,offMid=0,offNear=0,lastChug=0;
+const sign=document.getElementById('stationSign'),info=document.getElementById('info');
+function showStop(i){
+  const s=STOPS[i];
+  sign.querySelector('.nm').textContent=s.nm;
+  sign.querySelector('.ar').textContent=s.ar;
+  info.querySelector('.k').textContent=s.k;
+  info.querySelector('h2').textContent=s.h;
+  info.querySelector('p').innerHTML=s.p;
+  const bx=info.querySelector('.btns');bx.innerHTML='';
+  (s.btns||[]).forEach(([lb,href])=>{
+    const a=document.createElement('a');a.className='btn';a.textContent=lb;a.href=href;
+    if(href.startsWith('http')){a.target='_blank';a.rel='noopener';}
+    bx.appendChild(a);});
+  sign.classList.add('show');info.classList.add('show');
+  ding();
+}
+function hideStop(){sign.classList.remove('show');info.classList.remove('show');}
+showStop(0);
+document.getElementById('nextNm').textContent=STOPS[1].nm.split(' ')[0];
+
+/* auto-drive */
+document.getElementById('nextB').onclick=()=>{throttle=.85;syncKnob();};
+
+function loop(ts){
+  /* physics: throttle accelerates; approaching station auto-brakes if throttle low */
+  const target=throttle*140;
+  speed+=(target-speed)*.02;
+  if(speed>1&&atStation){atStation=false;hideStop();}
+  if(!atStation){
+    dist-=speed/60/60/6;
+    if(dist<=0){
+      stopIdx=Math.min(STOPS.length-1,stopIdx+1);
+      dist=1.2;
+      speed=0;throttle=0;syncKnob();
+      atStation=true;
+      showStop(stopIdx);
+      const nx=STOPS[(stopIdx+1)%STOPS.length];
+      document.getElementById('nextNm').textContent=(stopIdx===STOPS.length-1?'END OF LINE':nx.nm.split(' ')[0]);
+    }
+  }
+  /* scenery scroll */
+  if(!reduced){
+    offFar-=speed*.008;offMid-=speed*.02;offNear-=speed*.05;
+    document.getElementById('lFar').style.transform=`translateX(${offFar%50}%)`;
+    document.getElementById('lMid').style.transform=`translateX(${offMid%50}%)`;
+    document.getElementById('lNear').style.transform=`translateX(${offNear%50}%)`;
+  }
+  /* gauge */
+  document.getElementById('needle').style.transform=`rotate(${-80+speed/140*160}deg)`;
+  document.getElementById('speedTxt').textContent=Math.round(speed)+' KM/H';
+  document.getElementById('distTxt').textContent=Math.max(0,dist).toFixed(1);
+  /* chug sound */
+  if(speed>4&&ts-lastChug>Math.max(90,420-speed*2.4)){chug(speed/140);lastChug=ts;}
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

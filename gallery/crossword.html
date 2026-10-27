@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — CROSSWORD · Solve Him</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@0;1&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--news:#f4f0e6;--ink4:#22201a;--dim:rgba(34,32,26,.62);--red9:#b3402e;--green10:#2e7a54;--hl:#f5e0a0}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;background:linear-gradient(180deg,#faf7ef,var(--news));color:var(--ink4);
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--hl)}
+  h1{font-family:'Libre Baskerville',serif;font-size:clamp(22px,4.4vw,38px)}
+  h1 em{color:var(--red9)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.26em;color:var(--dim);
+    margin:8px 0 20px;text-transform:uppercase;text-align:center}
+
+  #puzzleWrap{display:grid;grid-template-columns:auto 260px;gap:22px;align-items:start}
+  @media(max-width:720px){#puzzleWrap{grid-template-columns:1fr}}
+  #gridC{display:flex;flex-direction:column;gap:4px;background:#fff;padding:16px;border-radius:12px;
+    box-shadow:0 16px 40px rgba(34,32,26,.15);border:2px solid var(--ink4)}
+  .rowC{display:flex;gap:4px}
+  .cell3{width:clamp(30px,7vw,42px);height:clamp(30px,7vw,42px);position:relative}
+  .cell3 input{width:100%;height:100%;border:2px solid var(--ink4);border-radius:5px;text-align:center;
+    font-family:'IBM Plex Mono';font-weight:600;font-size:clamp(13px,3vw,17px);text-transform:uppercase;
+    background:#fff;color:var(--ink4);outline:none;caret-color:var(--red9)}
+  .cell3 input:focus{background:var(--hl)}
+  .cell3.key input{background:#fdf3d0}
+  .cell3.key input:focus{background:var(--hl)}
+  .cell3.good input{background:#dff0e4;border-color:var(--green10);color:var(--green10)}
+  .cell3 .no3{position:absolute;top:1px;left:3px;font-size:8px;font-weight:700;color:var(--dim);z-index:2}
+  .cell3.void{visibility:hidden}
+
+  #cluesC{background:#fff;border-radius:12px;padding:18px 20px;box-shadow:0 16px 40px rgba(34,32,26,.12);border:2px solid var(--ink4)}
+  #cluesC .t{font-family:'Libre Baskerville';font-weight:700;font-size:14px;border-bottom:2px solid var(--ink4);
+    padding-bottom:6px;margin-bottom:10px}
+  .clue{font-size:12px;line-height:1.6;padding:6px 0;color:var(--dim);cursor:pointer;border-radius:6px;padding-left:6px}
+  .clue:hover{background:var(--hl)}
+  .clue b{color:var(--ink4)}
+  .clue.solved{color:var(--green10);text-decoration:line-through}
+  #checkB{width:100%;margin-top:10px;font-family:'Libre Baskerville';font-weight:700;font-size:13px;border:none;
+    border-radius:9px;padding:12px;background:var(--ink4);color:var(--news);cursor:pointer}
+  #revealB{width:100%;margin-top:6px;font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.1em;border:2px solid var(--ink4);
+    border-radius:9px;padding:10px;background:none;cursor:pointer;text-transform:uppercase;font-weight:600;color:var(--ink4)}
+
+  #winC{margin-top:20px;max-width:560px;text-align:center;display:none}
+  #winC.show{display:block}
+  #winC h2{font-family:'Libre Baskerville';font-size:clamp(18px,3.4vw,26px)}
+  #winC h2 em{color:var(--red9)}
+  #winC p{font-size:13px;line-height:1.7;color:var(--dim);margin-top:8px}
+  #winC p b{color:var(--ink4)}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:12px 20px;border-radius:99px;
+    background:var(--ink4);color:var(--news);text-transform:uppercase;font-weight:600}
+  .btn.g{background:none;border:2px solid var(--ink4);color:var(--ink4)}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>The Sunday <em>Nour</em> Crossword</h1>
+<div class="sub">5 across · the shaded column spells the answer to everything · حلّها</div>
+
+<div id="puzzleWrap">
+  <div id="gridC"></div>
+  <div id="cluesC">
+    <div class="t">ACROSS</div>
+    <div class="clue" data-r="0"><b>1.</b> The library he's fluent in — the one with hooks and components (5)</div>
+    <div class="clue" data-r="1"><b>2.</b> His base city — capital of Saudi Arabia (6)</div>
+    <div class="clue" data-r="2"><b>3.</b> The golden app he shipped to Google Play, "______Tag" (6)</div>
+    <div class="clue" data-r="3"><b>4.</b> What he became in Jan 2026 — team leader title, short form (5)</div>
+    <div class="clue" data-r="4"><b>5.</b> The contest of merciless clocks, 2021 (4)</div>
+    <button id="checkB">✓ Check my answers</button>
+    <button id="revealB">👀 I give up — reveal</button>
+  </div>
+</div>
+
+<div id="winC">
+  <h2>The shaded column says: <em>HIRED</em></h2>
+  <p>It was always going to say that 😄 You now know the essentials: <b>React · Riyadh · GoldenTag · Super(visor) · ICPC.</b> The rest — websites, frontends, logos, social visuals, coordination — you learn by working with him.</p>
+  <div class="btns">
+    <a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Crossword%20says%20HIRED&body=Solved%20it.%20The%20answer%20was%20obvious.%20My%20project%3A%20">✏️ Make it official</a>
+    <a class="btn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+  </div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* words + key column index within each word (letters spelling HIRED vertically) */
+const WORDS=[
+ {w:'REACT',key:4,off:0},   /* T? need H... let's craft: HIRED letters from words */
+];
+/* Design: key letters spell HIRED:
+ 1. REACT — no H. Redesign words:
+ use: KHWARIZM? Simpler: choose words containing needed letter at key pos:
+ H: ?; I: R I Y A D H has I at idx1; R: REACT idx0? R; E: GOLDEN idx4=E; D: ?;
+ Let's choose 5 words with key letters H,I,R,E,D:
+ 1. HOOKS? clue: React feature (5) → H at 0
+ 2. RIYADH (6) → I at 1
+ 3. GOLDEN (6) → ? contains E at 4 → need R… order H,I,R,E,D:
+ 3rd word needs R: SUPER (5) has R at 4
+ 4th needs E: GOLDEN has E at 4
+ 5th needs D: RIYADH used... ICPC no D. Use 'CODED'? clue 'what he's done daily since 2023 (5)' D at 4? CODED ends D idx4.
+ Final: HOOKS(H@0), RIYADH(I@1), SUPER(R@4), GOLDEN(E@4), CODED(D@2? C O D E D → D at 2 and 4; use idx2).
+*/
+const PUZZ=[
+ {w:'HOOKS',key:0,off:2,clue:0},
+ {w:'RIYADH',key:1,off:1,clue:1},
+ {w:'SUPER',key:4,off:0,clue:3},
+ {w:'GOLDEN',key:4,off:0,clue:2},
+ {w:'CODED',key:2,off:2,clue:4}
+];
+/* align key column: column position = off+key must be equal for all → compute target col */
+const COL=Math.max(...PUZZ.map(p=>p.key));
+PUZZ.forEach(p=>p.off=COL-p.key);
+const WIDTH=Math.max(...PUZZ.map(p=>p.off+p.w.length));
+
+/* fix clues to match new words */
+const CLUES=[
+ '<b>1.</b> React\'s magic functions — use___ (5)',
+ '<b>2.</b> His base city — capital of Saudi Arabia (6)',
+ '<b>3.</b> "______Tag" — the app he shipped to Google Play (6)',
+ '<b>4.</b> Jan 2026 title, first half of "___visor" (5)',
+ '<b>5.</b> What he has done daily since 2023, past tense (5)'
+];
+document.querySelectorAll('.clue').forEach((c,i)=>{
+  const p=PUZZ.find(x=>x.clue===i);
+  c.innerHTML=CLUES[i];
+  c.dataset.r=PUZZ.findIndex(x=>x.clue===i);
+});
+
+const gridC=document.getElementById('gridC');
+const inputs=[];
+PUZZ.forEach((p,r)=>{
+  const row=document.createElement('div');row.className='rowC';
+  const rowInputs=[];
+  for(let c=0;c<WIDTH;c++){
+    const cell=document.createElement('div');cell.className='cell3';
+    const li=c-p.off;
+    if(li<0||li>=p.w.length){cell.classList.add('void');cell.innerHTML='<input disabled>';}
+    else{
+      if(c===COL)cell.classList.add('key');
+      cell.innerHTML=`${li===0?`<span class="no3">${r+1}</span>`:''}<input maxlength="1" data-r="${r}" data-c="${li}">`;
+    }
+    row.appendChild(cell);
+    rowInputs.push(cell);
+  }
+  gridC.appendChild(row);
+  inputs.push(rowInputs);
+});
+let AC=null;
+function tickC(f){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f||700;
+  g.gain.setValueAtTime(.045,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.1);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.12);}catch(e){}}
+
+gridC.addEventListener('input',e=>{
+  const inp=e.target;if(!inp.dataset.r)return;
+  inp.value=inp.value.toUpperCase().replace(/[^A-Z]/g,'');
+  tickC(600+Math.random()*200);
+  if(inp.value){
+    /* advance */
+    const r=+inp.dataset.r,c=+inp.dataset.c;
+    const next=gridC.querySelector(`input[data-r="${r}"][data-c="${c+1}"]`);
+    if(next)next.focus();
+  }
+  checkAuto();
+});
+function checkAuto(){
+  let allGood=true;
+  PUZZ.forEach((p,r)=>{
+    let word='';
+    for(let i=0;i<p.w.length;i++){
+      const inp=gridC.querySelector(`input[data-r="${r}"][data-c="${i}"]`);
+      word+=(inp.value||'_');
+    }
+    const good=word===p.w;
+    document.querySelector(`.clue[data-r="${r}"]`)?.classList.toggle('solved',good);
+    if(good){
+      inputs[r].forEach(cell=>{if(!cell.classList.contains('void'))cell.classList.add('good');});
+    }else allGood=false;
+  });
+  if(allGood)win2();
+}
+document.getElementById('checkB').onclick=()=>{
+  checkAuto();
+  /* mark wrong cells red flash */
+  PUZZ.forEach((p,r)=>{
+    for(let i=0;i<p.w.length;i++){
+      const inp=gridC.querySelector(`input[data-r="${r}"][data-c="${i}"]`);
+      if(inp.value&&inp.value!==p.w[i]){
+        inp.style.borderColor='#b3402e';inp.style.color='#b3402e';
+        setTimeout(()=>{inp.style.borderColor='';inp.style.color='';},900);
+      }
+    }
+  });
+};
+document.getElementById('revealB').onclick=()=>{
+  PUZZ.forEach((p,r)=>{
+    for(let i=0;i<p.w.length;i++){
+      gridC.querySelector(`input[data-r="${r}"][data-c="${i}"]`).value=p.w[i];
+    }
+  });
+  checkAuto();
+};
+let won=false;
+function win2(){
+  if(won)return;won=true;
+  [523,659,784,1047].forEach((f,i)=>setTimeout(()=>tickC(f),i*130));
+  document.getElementById('winC').classList.add('show');
+  document.getElementById('winC').scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest'});
+}
+</script>
+</body>
+</html>

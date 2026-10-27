@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kai Sato — Game Developer & Creative Coder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #050507;
+      --surface: #0a0b10;
+      --card:    #0f1018;
+      --border:  #1a1d2e;
+      --green:   #00ff88;
+      --cyan:    #00d4ff;
+      --magenta: #ff2d78;
+      --yellow:  #ffd700;
+      --text:    #e8eaf6;
+      --muted:   #5a5f7a;
+      --glow-g:  rgba(0,255,136,.25);
+      --glow-c:  rgba(0,212,255,.2);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--green); border-radius: 2px; }
+
+    /* scanline overlay */
+    body::after {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9000;
+      background: repeating-linear-gradient(0deg, rgba(0,0,0,.03) 0px, rgba(0,0,0,.03) 1px, transparent 1px, transparent 3px);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 800;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 5%;
+      background: rgba(5,5,7,.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1rem; color: var(--green);
+      letter-spacing: 2px;
+    }
+    .nav-logo span { color: var(--cyan); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .78rem; letter-spacing: 1.5px; text-transform: uppercase;
+      text-decoration: none; color: var(--muted);
+      transition: color .2s;
+      position: relative;
+    }
+    .nav-links a::before {
+      content: '// '; color: var(--green); opacity: 0; transition: opacity .2s;
+    }
+    .nav-links a:hover { color: var(--green); }
+    .nav-links a:hover::before { opacity: 1; }
+    .nav-status {
+      font-family: 'Share Tech Mono', monospace; font-size: .72rem;
+      color: var(--green); letter-spacing: 1px;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .status-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--green); box-shadow: 0 0 8px var(--green);
+      animation: statusBlink 1.5s infinite;
+    }
+    @keyframes statusBlink { 0%,100%{opacity:1}49%{opacity:1}50%{opacity:0}99%{opacity:0} }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; padding: 8rem 5% 5rem;
+      position: relative; overflow: hidden;
+    }
+    #hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+    .hero-inner { position: relative; z-index: 2; max-width: 900px; }
+    .hero-prompt {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .8rem; color: var(--green); letter-spacing: 1px;
+      margin-bottom: 1.5rem; display: flex; align-items: center; gap: .5rem;
+    }
+    .prompt-symbol { color: var(--cyan); }
+    .blink-cursor {
+      display: inline-block; width: 10px; height: 1.1em;
+      background: var(--green); vertical-align: middle;
+      animation: blink .9s infinite;
+    }
+    @keyframes blink { 0%,49%{opacity:1}50%,100%{opacity:0} }
+
+    .hero-title {
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 900; line-height: .95; letter-spacing: -3px;
+      margin-bottom: .75rem;
+    }
+    .glitch {
+      position: relative; display: inline-block;
+      color: var(--text);
+    }
+    .glitch::before, .glitch::after {
+      content: attr(data-text);
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+    .glitch::before {
+      color: var(--cyan); clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+      transform: translateX(-3px);
+      animation: glitch1 4s infinite;
+    }
+    .glitch::after {
+      color: var(--magenta); clip-path: polygon(0 60%, 100% 60%, 100% 75%, 0 75%);
+      transform: translateX(3px);
+      animation: glitch2 4s infinite;
+    }
+    @keyframes glitch1 {
+      0%,90%,100%{transform:translateX(-3px);opacity:1}
+      92%{transform:translateX(4px) skewX(5deg);opacity:.8}
+      94%{transform:translateX(-4px);opacity:1}
+    }
+    @keyframes glitch2 {
+      0%,88%,100%{transform:translateX(3px);opacity:1}
+      90%{transform:translateX(-5px) skewX(-3deg);opacity:.8}
+      92%{transform:translateX(5px);opacity:1}
+    }
+
+    .hero-sub-title {
+      font-size: clamp(1.2rem, 3vw, 2rem); font-weight: 300;
+      color: var(--muted); letter-spacing: 4px; text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+    .hero-sub-title em { color: var(--cyan); font-style: normal; font-weight: 600; }
+
+    .hero-desc {
+      font-size: 1rem; color: var(--muted); line-height: 1.8;
+      max-width: 560px; margin-bottom: 3rem;
+    }
+    .hero-desc code {
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--green); background: rgba(0,255,136,.08);
+      padding: .1em .4em; border-radius: 3px; font-size: .9em;
+    }
+
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 4rem; }
+    .btn-neon {
+      padding: .85rem 2rem; border-radius: 4px;
+      border: 1.5px solid var(--green); background: transparent;
+      color: var(--green); font-family: 'Share Tech Mono', monospace;
+      font-size: .85rem; letter-spacing: 2px; text-transform: uppercase;
+      text-decoration: none; cursor: pointer;
+      transition: background .2s, box-shadow .2s, transform .2s;
+    }
+    .btn-neon:hover {
+      background: rgba(0,255,136,.1);
+      box-shadow: 0 0 20px var(--glow-g), inset 0 0 20px rgba(0,255,136,.05);
+      transform: translateY(-2px);
+    }
+    .btn-neon-cyan {
+      border-color: var(--cyan); color: var(--cyan);
+    }
+    .btn-neon-cyan:hover {
+      background: rgba(0,212,255,.1);
+      box-shadow: 0 0 20px var(--glow-c), inset 0 0 20px rgba(0,212,255,.05);
+    }
+
+    .hero-stats {
+      display: flex; gap: 3rem; flex-wrap: wrap;
+      border-top: 1px solid var(--border); padding-top: 2rem;
+    }
+    .h-stat-num {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.8rem; color: var(--green);
+      text-shadow: 0 0 12px var(--green);
+    }
+    .h-stat-label { font-size: .75rem; color: var(--muted); letter-spacing: 1px; margin-top: .2rem; text-transform: uppercase; }
+
+    /* ── TERMINAL BLOCK ── */
+    .terminal {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; overflow: hidden; margin: 0 5%; margin-bottom: 2rem;
+    }
+    .terminal-bar {
+      background: var(--card); padding: .75rem 1.25rem;
+      display: flex; align-items: center; gap: .75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .t-dot { width: 11px; height: 11px; border-radius: 50%; }
+    .t-red { background: #ff5f57; }
+    .t-yellow { background: #ffbd2e; }
+    .t-green { background: #28c840; }
+    .t-title { font-family: 'Share Tech Mono', monospace; font-size: .78rem; color: var(--muted); margin-left: auto; margin-right: auto; }
+    .terminal-body { padding: 1.5rem; font-family: 'Share Tech Mono', monospace; font-size: .82rem; line-height: 2; }
+    .t-line { display: flex; gap: .75rem; }
+    .t-prompt { color: var(--green); flex-shrink: 0; }
+    .t-cmd { color: var(--cyan); }
+    .t-out { color: var(--muted); padding-left: 1.75rem; }
+    .t-green-text { color: var(--green); padding-left: 1.75rem; }
+    .t-highlight { color: var(--yellow); }
+
+    /* ── GAMES / PROJECTS ── */
+    #projects { padding: 6rem 5%; }
+    .sec-header { margin-bottom: 3.5rem; }
+    .sec-tag {
+      font-family: 'Share Tech Mono', monospace; font-size: .72rem;
+      color: var(--green); letter-spacing: 3px; text-transform: uppercase;
+      margin-bottom: .5rem;
+    }
+    .sec-title {
+      font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800;
+      letter-spacing: -1.5px; line-height: 1.05;
+    }
+    .sec-title span { color: var(--green); }
+
+    .projects-list { display: flex; flex-direction: column; gap: 1.5px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .proj-row {
+      background: var(--surface); padding: 2rem 2.5rem;
+      display: grid; grid-template-columns: 80px 1fr auto;
+      align-items: center; gap: 2rem;
+      transition: background .2s;
+      cursor: pointer; position: relative;
+    }
+    .proj-row:hover { background: var(--card); }
+    .proj-row::after {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+      background: var(--green); transform: scaleY(0);
+      transition: transform .2s; transform-origin: top;
+    }
+    .proj-row:hover::after { transform: scaleY(1); }
+    .proj-num {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 2rem; font-weight: 700; color: var(--border);
+      line-height: 1; transition: color .2s;
+    }
+    .proj-row:hover .proj-num { color: var(--green); text-shadow: 0 0 10px var(--green); }
+    .proj-name { font-size: 1.15rem; font-weight: 700; margin-bottom: .35rem; }
+    .proj-desc { font-size: .85rem; color: var(--muted); line-height: 1.6; }
+    .proj-tags { display: flex; gap: .4rem; margin-top: .6rem; flex-wrap: wrap; }
+    .ptag {
+      font-family: 'Share Tech Mono', monospace; font-size: .68rem;
+      padding: .2rem .55rem; border-radius: 3px; letter-spacing: .5px;
+    }
+    .ptag-g { background: rgba(0,255,136,.1); color: var(--green); border: 1px solid rgba(0,255,136,.2); }
+    .ptag-c { background: rgba(0,212,255,.1); color: var(--cyan); border: 1px solid rgba(0,212,255,.2); }
+    .ptag-m { background: rgba(255,45,120,.1); color: var(--magenta); border: 1px solid rgba(255,45,120,.2); }
+    .ptag-y { background: rgba(255,215,0,.1); color: var(--yellow); border: 1px solid rgba(255,215,0,.2); }
+    .proj-meta { text-align: right; }
+    .proj-year { font-family: 'Share Tech Mono', monospace; font-size: .78rem; color: var(--muted); margin-bottom: .4rem; }
+    .proj-arrow {
+      font-size: 1.3rem; color: var(--muted); display: block;
+      transition: color .2s, transform .2s;
+    }
+    .proj-row:hover .proj-arrow { color: var(--green); transform: translateX(4px); }
+
+    /* ── SKILLS ── */
+    #skills { padding: 6rem 5%; background: var(--surface); }
+    .skills-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .skills-left .sec-desc { color: var(--muted); line-height: 1.8; margin-top: 1rem; margin-bottom: 2.5rem; }
+    .skill-list { display: flex; flex-direction: column; gap: 1.1rem; }
+    .skill-item { }
+    .skill-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .45rem; }
+    .skill-name { font-size: .9rem; font-weight: 600; }
+    .skill-pct { font-family: 'Share Tech Mono', monospace; font-size: .78rem; color: var(--green); }
+    .skill-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+    .skill-fill {
+      height: 100%; border-radius: 2px; width: 0;
+      transition: width 1.3s cubic-bezier(.4,0,.2,1);
+    }
+    .fill-green { background: linear-gradient(90deg, var(--green), rgba(0,255,136,.5)); box-shadow: 0 0 8px var(--glow-g); }
+    .fill-cyan  { background: linear-gradient(90deg, var(--cyan), rgba(0,212,255,.5)); }
+    .fill-magenta { background: linear-gradient(90deg, var(--magenta), rgba(255,45,120,.5)); }
+
+    .skills-right { }
+    .tech-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+      background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+    }
+    .tech-cell {
+      background: var(--card); padding: 1.5rem 1.25rem; text-align: center;
+      transition: background .2s;
+    }
+    .tech-cell:hover { background: var(--surface); }
+    .tech-icon { font-size: 1.75rem; margin-bottom: .6rem; display: block; }
+    .tech-name { font-family: 'Share Tech Mono', monospace; font-size: .72rem; color: var(--muted); letter-spacing: 1px; }
+
+    /* ── ABOUT ── */
+    #about { padding: 6rem 5%; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .about-canvas-wrap { position: relative; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+    #about-canvas { width: 100%; display: block; }
+    .about-glow {
+      position: absolute; inset: -2px; border-radius: 10px; z-index: -1;
+      background: linear-gradient(135deg, var(--green), var(--cyan), var(--magenta));
+      opacity: .2; filter: blur(16px);
+    }
+    .about-content { }
+    .about-intro {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem); font-weight: 600; line-height: 1.45;
+      margin-bottom: 1.5rem; color: var(--text);
+    }
+    .about-intro em { color: var(--green); font-style: normal; }
+    .about-body { color: var(--muted); line-height: 1.85; margin-bottom: 1.25rem; }
+    .about-divider { width: 40px; height: 2px; background: var(--green); margin: 1.75rem 0; box-shadow: 0 0 8px var(--green); }
+    .about-details { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .detail-key { font-family: 'Share Tech Mono', monospace; font-size: .7rem; color: var(--green); letter-spacing: 1px; margin-bottom: .3rem; text-transform: uppercase; }
+    .detail-val { font-size: .9rem; color: var(--text); font-weight: 500; }
+
+    /* ── EXPERIENCE ── */
+    #experience { padding: 6rem 5%; background: var(--surface); }
+    .exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .exp-card {
+      padding: 2rem; border: 1px solid var(--border); border-radius: 8px;
+      background: var(--card); position: relative; overflow: hidden;
+      transition: border-color .3s, transform .3s;
+    }
+    .exp-card:hover { border-color: var(--green); transform: translateY(-3px); }
+    .exp-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--green), var(--cyan));
+      transform: scaleX(0); transition: transform .3s; transform-origin: left;
+    }
+    .exp-card:hover::before { transform: scaleX(1); }
+    .exp-year {
+      font-family: 'Share Tech Mono', monospace; font-size: .72rem;
+      color: var(--green); letter-spacing: 2px; margin-bottom: .75rem;
+    }
+    .exp-role { font-size: 1.05rem; font-weight: 700; margin-bottom: .25rem; }
+    .exp-company { font-size: .85rem; color: var(--cyan); margin-bottom: 1rem; font-weight: 500; }
+    .exp-desc { font-size: .84rem; color: var(--muted); line-height: 1.7; }
+
+    /* ── CONTACT ── */
+    #contact { padding: 6rem 5%; }
+    .contact-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
+    .contact-left h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -1px; line-height: 1.1; margin-bottom: 1.25rem; }
+    .contact-left h2 em { color: var(--green); font-style: normal; }
+    .contact-left p { color: var(--muted); line-height: 1.8; margin-bottom: 2.5rem; }
+    .contact-links { display: flex; flex-direction: column; gap: .75rem; }
+    .c-link {
+      display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem;
+      border: 1px solid var(--border); border-radius: 6px; text-decoration: none;
+      color: var(--text); background: var(--card);
+      transition: border-color .2s, background .2s, transform .2s;
+      font-family: 'Share Tech Mono', monospace; font-size: .8rem;
+    }
+    .c-link:hover { border-color: var(--green); background: var(--surface); transform: translateX(6px); }
+    .c-link-icon {
+      width: 36px; height: 36px; border-radius: 6px;
+      background: rgba(0,255,136,.08); border: 1px solid rgba(0,255,136,.15);
+      display: flex; align-items: center; justify-content: center; font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .c-link-label { color: var(--muted); font-size: .65rem; }
+
+    .contact-form { display: flex; flex-direction: column; gap: 1.1rem; }
+    .cf-label {
+      font-family: 'Share Tech Mono', monospace; font-size: .72rem;
+      color: var(--green); letter-spacing: 1.5px; margin-bottom: .4rem;
+      display: block; text-transform: uppercase;
+    }
+    .cf-input, .cf-textarea {
+      width: 100%; padding: .875rem 1rem;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 5px; color: var(--text);
+      font-family: 'Share Tech Mono', monospace; font-size: .85rem;
+      outline: none; transition: border-color .2s, box-shadow .2s;
+      resize: none;
+    }
+    .cf-input:focus, .cf-textarea:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(0,255,136,.1), 0 0 12px rgba(0,255,136,.08);
+    }
+    .cf-textarea { min-height: 120px; }
+    .cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .cf-submit {
+      padding: 1rem 2rem; background: var(--green); color: var(--bg);
+      border: none; border-radius: 5px; cursor: pointer;
+      font-family: 'Share Tech Mono', monospace; font-size: .85rem;
+      letter-spacing: 2px; text-transform: uppercase; font-weight: 700;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .cf-submit:hover { box-shadow: 0 0 24px var(--glow-g); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 5%; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-mono { font-family: 'Share Tech Mono', monospace; font-size: .75rem; color: var(--muted); }
+    .footer-mono span { color: var(--green); }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media(max-width: 900px) {
+      .skills-layout, .about-grid, .contact-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+      .exp-grid { grid-template-columns: 1fr; }
+      .cf-row { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .proj-row { grid-template-columns: 50px 1fr; }
+      .proj-meta { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-logo">KS<span>.</span>DEV</div>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">XP</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-status"><span class="status-dot"></span>SYSTEM ONLINE</div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <canvas id="hero-bg"></canvas>
+  <div class="hero-inner">
+    <div class="hero-prompt">
+      <span class="prompt-symbol">❯</span>
+      <span>whoami</span>
+      <span class="blink-cursor"></span>
+    </div>
+    <h1 class="hero-title">
+      <span class="glitch" data-text="KAI">KAI</span><br />
+      <span class="glitch" data-text="SATO">SATO</span>
+    </h1>
+    <div class="hero-sub-title">
+      <em>Game Dev</em> &amp; <em>Creative Coder</em>
+    </div>
+    <p class="hero-desc">
+      I build worlds — from <code>pixel-art</code> indie games to
+      <code>WebGL</code> simulations and procedural tools. 6 years
+      turning caffeine and curiosity into interactive experiences people
+      can't stop playing.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-neon">View Projects</a>
+      <a href="#contact" class="btn-neon btn-neon-cyan">Get in Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="h-stat-num">6+</div><div class="h-stat-label">Years shipping</div></div>
+      <div><div class="h-stat-num">28</div><div class="h-stat-label">Games released</div></div>
+      <div><div class="h-stat-num">2.1M</div><div class="h-stat-label">Players worldwide</div></div>
+      <div><div class="h-stat-num">4</div><div class="h-stat-label">Game jams won</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TERMINAL ── -->
+<div class="terminal reveal" style="margin: 0 5% 0; border-radius: 8px; overflow: hidden;">
+  <div class="terminal-bar">
+    <div class="t-dot t-red"></div>
+    <div class="t-dot t-yellow"></div>
+    <div class="t-dot t-green"></div>
+    <span class="t-title">zara@dev ~ zsh</span>
+  </div>
+  <div class="terminal-body">
+    <div class="t-line"><span class="t-prompt">❯</span><span class="t-cmd">cat about.txt</span></div>
+    <div class="t-green-text">Lagos-born, Amsterdam-based game developer &amp; creative coder.</div>
+    <div class="t-line" style="margin-top:.5rem"><span class="t-prompt">❯</span><span class="t-cmd">ls skills/</span></div>
+    <div class="t-out"><span class="t-highlight">Unity3D/</span> &nbsp; Godot/ &nbsp; <span class="t-highlight">WebGL/</span> &nbsp; Rust/ &nbsp; <span class="t-highlight">C#/</span> &nbsp; GLSL/ &nbsp; <span class="t-highlight">Blender/</span> &nbsp; Aseprite/</div>
+    <div class="t-line" style="margin-top:.5rem"><span class="t-prompt">❯</span><span class="t-cmd">git log --oneline -3</span></div>
+    <div class="t-out">a3f21bc <span class="t-highlight">feat: add procedural dungeon gen v2</span></div>
+    <div class="t-out">9c84dd1 fix: particle system memory leak on mobile</div>
+    <div class="t-out">2e17fa0 <span class="t-highlight">release: Neon Breach v1.4.0 — 40k downloads</span></div>
+    <div class="t-line" style="margin-top:.5rem"><span class="t-prompt">❯</span><span class="t-cmd blink-cursor"></span></div>
+  </div>
+</div>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="sec-header reveal">
+    <div class="sec-tag">// selected projects</div>
+    <h2 class="sec-title">What I've <span>Built</span></h2>
+  </div>
+  <div class="projects-list reveal">
+
+    <div class="proj-row">
+      <div class="proj-num">01</div>
+      <div>
+        <div class="proj-name">Neon Breach</div>
+        <div class="proj-desc">Top-down cyberpunk roguelite with procedural level generation. 40k downloads on itch.io. Built in Unity with a custom ECS architecture for performance at scale.</div>
+        <div class="proj-tags">
+          <span class="ptag ptag-g">Unity3D</span>
+          <span class="ptag ptag-c">C#</span>
+          <span class="ptag ptag-m">Procedural Gen</span>
+          <span class="ptag ptag-y">itch.io</span>
+        </div>
+      </div>
+      <div class="proj-meta">
+        <div class="proj-year">2024</div>
+        <span class="proj-arrow">→</span>
+      </div>
+    </div>
+
+    <div class="proj-row">
+      <div class="proj-num">02</div>
+      <div>
+        <div class="proj-name">Voidwalker Online</div>
+        <div class="proj-desc">Browser-based multiplayer dungeon crawler using WebGL and WebSockets. 200 concurrent players at peak. Custom shader pipeline for the retro-CRT aesthetic.</div>
+        <div class="proj-tags">
+          <span class="ptag ptag-c">WebGL</span>
+          <span class="ptag ptag-g">GLSL</span>
+          <span class="ptag ptag-c">Node.js</span>
+          <span class="ptag ptag-m">WebSockets</span>
+        </div>
+      </div>
+      <div class="proj-meta">
+        <div class="proj-year">2023</div>
+        <span class="proj-arrow">→</span>
+      </div>
+    </div>
+
+    <div class="proj-row">
+      <div class="proj-num">03</div>
+      <div>
+        <div class="proj-name">ProceduralKit — Open Source</div>
+        <div class="proj-desc">A Godot plugin for procedural content generation — terrain, dungeons, NPCs. 1.4k GitHub stars. Used by 300+ indie studios. Full documentation and video tutorials.</div>
+        <div class="proj-tags">
+          <span class="ptag ptag-g">Godot 4</span>
+          <span class="ptag ptag-m">GDScript</span>
+          <span class="ptag ptag-y">Open Source</span>
+          <span class="ptag ptag-c">1.4k ★</span>
+        </div>
+      </div>
+      <div class="proj-meta">
+        <div class="proj-year">2023</div>
+        <span class="proj-arrow">→</span>
+      </div>
+    </div>
+
+    <div class="proj-row">
+      <div class="proj-num">04</div>
+      <div>
+        <div class="proj-name">Echoes of the Hollow</div>
+        <div class="proj-desc">48-hour game jam entry that won first place at Global Game Jam 2023. Narrative puzzle game with hand-drawn art and adaptive audio. 8k plays in the first week.</div>
+        <div class="proj-tags">
+          <span class="ptag ptag-g">Unity</span>
+          <span class="ptag ptag-m">Narrative Design</span>
+          <span class="ptag ptag-y">GGJ 2023 🥇</span>
+        </div>
+      </div>
+      <div class="proj-meta">
+        <div class="proj-year">2023</div>
+        <span class="proj-arrow">→</span>
+      </div>
+    </div>
+
+    <div class="proj-row">
+      <div class="proj-num">05</div>
+      <div>
+        <div class="proj-name">Cosmos Renderer</div>
+        <div class="proj-desc">Real-time WebGL galaxy simulator with 500k star particles, gravitational physics, and bloom post-processing. Ships as a screensaver and embeddable background.</div>
+        <div class="proj-tags">
+          <span class="ptag ptag-c">WebGL</span>
+          <span class="ptag ptag-g">GLSL</span>
+          <span class="ptag ptag-c">TypeScript</span>
+          <span class="ptag ptag-m">Physics</span>
+        </div>
+      </div>
+      <div class="proj-meta">
+        <div class="proj-year">2022</div>
+        <span class="proj-arrow">→</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="skills-layout">
+    <div class="reveal">
+      <div class="sec-tag">// expertise</div>
+      <h2 class="sec-title" style="font-size:clamp(1.6rem,3.5vw,2.4rem)">Skills &amp; <span>Tools</span></h2>
+      <p class="sec-desc">Built through game jams, shipped products, and far too many late nights debugging shaders.</p>
+      <div class="skill-list">
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Unity3D / C#</span><span class="skill-pct">96%</span></div>
+          <div class="skill-track"><div class="skill-fill fill-green" data-width="96"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">WebGL / GLSL Shaders</span><span class="skill-pct">88%</span></div>
+          <div class="skill-track"><div class="skill-fill fill-cyan" data-width="88"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Godot 4 / GDScript</span><span class="skill-pct">91%</span></div>
+          <div class="skill-track"><div class="skill-fill fill-green" data-width="91"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Procedural Generation</span><span class="skill-pct">90%</span></div>
+          <div class="skill-track"><div class="skill-fill fill-magenta" data-width="90"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Rust / Systems Programming</span><span class="skill-pct">72%</span></div>
+          <div class="skill-track"><div class="skill-fill fill-cyan" data-width="72"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Pixel Art / Blender 3D</span><span class="skill-pct">80%</span></div>
+          <div class="skill-track"><div class="skill-fill fill-green" data-width="80"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal" style="transition-delay:.15s">
+      <div class="sec-tag" style="margin-bottom:1.5rem">// tech stack</div>
+      <div class="tech-grid">
+        <div class="tech-cell"><span class="tech-icon">🎮</span><div class="tech-name">Unity3D</div></div>
+        <div class="tech-cell"><span class="tech-icon">🦾</span><div class="tech-name">Godot 4</div></div>
+        <div class="tech-cell"><span class="tech-icon">🌐</span><div class="tech-name">WebGL</div></div>
+        <div class="tech-cell"><span class="tech-icon">⚡</span><div class="tech-name">GLSL</div></div>
+        <div class="tech-cell"><span class="tech-icon">🦀</span><div class="tech-name">Rust</div></div>
+        <div class="tech-cell"><span class="tech-icon">🎯</span><div class="tech-name">C#</div></div>
+        <div class="tech-cell"><span class="tech-icon">🎨</span><div class="tech-name">Aseprite</div></div>
+        <div class="tech-cell"><span class="tech-icon">🔷</span><div class="tech-name">Blender</div></div>
+        <div class="tech-cell"><span class="tech-icon">🔊</span><div class="tech-name">FMOD</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-canvas-wrap reveal">
+      <canvas id="about-canvas" width="520" height="520"></canvas>
+      <div class="about-glow"></div>
+    </div>
+    <div class="about-content reveal" style="transition-delay:.15s">
+      <div class="sec-tag">// about me</div>
+      <h2 class="sec-title" style="font-size:clamp(1.6rem,3.5vw,2.4rem);margin-bottom:1.25rem;">Who Am <span>I?</span></h2>
+      <p class="about-intro">
+        I turn <em>complex systems</em> into games people actually want to play.
+      </p>
+      <p class="about-body">
+        Born in Lagos, raised on early PlayStation demos, now based in Amsterdam. I got into game dev by reverse-engineering Flash games at age 12 and never looked back. My approach is to treat every mechanic like a mini-language — it should feel intuitive, surprising, and inevitable all at once.
+      </p>
+      <p class="about-body">
+        Beyond games I do creative coding, contribute to open-source tooling for indie devs, and occasionally make generative art that I sell as prints.
+      </p>
+      <div class="about-divider"></div>
+      <div class="about-details">
+        <div><div class="detail-key">Location</div><div class="detail-val">Amsterdam, NL</div></div>
+        <div><div class="detail-key">Status</div><div class="detail-val" style="color:var(--green)">Open for work</div></div>
+        <div><div class="detail-key">Specialty</div><div class="detail-val">Procedural systems</div></div>
+        <div><div class="detail-key">Education</div><div class="detail-val">HKU Utrecht, BDes</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ── -->
+<section id="experience">
+  <div class="sec-header reveal">
+    <div class="sec-tag">// experience</div>
+    <h2 class="sec-title">Career <span>Log</span></h2>
+  </div>
+  <div class="exp-grid reveal">
+    <div class="exp-card">
+      <div class="exp-year">2022 — PRESENT</div>
+      <div class="exp-role">Senior Game Developer</div>
+      <div class="exp-company">Artefact Games, Amsterdam</div>
+      <div class="exp-desc">Lead developer on two shipped AA titles. Architected the procedural world system used in the studio's flagship RPG. Mentoring a team of 4 junior devs.</div>
+    </div>
+    <div class="exp-card">
+      <div class="exp-year">2020 — 2022</div>
+      <div class="exp-role">Gameplay Engineer</div>
+      <div class="exp-company">Pixel Forge Studio, Remote</div>
+      <div class="exp-desc">Shipped 5 mobile games with combined 1.8M downloads. Owned the physics engine integration and wrote the custom animation state machine still in use today.</div>
+    </div>
+    <div class="exp-card">
+      <div class="exp-year">2019 — 2020</div>
+      <div class="exp-role">Junior Developer</div>
+      <div class="exp-company">Koality Interactive, Lagos</div>
+      <div class="exp-desc">First industry role. Built mini-games for an educational platform used by 30k students across West Africa. Learned fast and shipped faster.</div>
+    </div>
+    <div class="exp-card">
+      <div class="exp-year">2015 — 2019</div>
+      <div class="exp-role">B.Des Interaction Design</div>
+      <div class="exp-company">HKU University of the Arts, Utrecht</div>
+      <div class="exp-desc">Graduated with distinction. Thesis project: a generative music-driven platformer that won the HKU Innovation Award 2019.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="reveal">
+      <div class="sec-tag">// contact</div>
+      <h2>Let's Make<br /><em>Something Cool</em></h2>
+      <p>Looking for a game developer, creative collaborator, or technical consultant? Hit me up — I reply fast.</p>
+      <div class="contact-links">
+        <a class="c-link" href="#">
+          <div class="c-link-icon">✉️</div>
+          <div><div>kai@kaidev.gg</div><div class="c-link-label">email</div></div>
+        </a>
+        <a class="c-link" href="#">
+          <div class="c-link-icon">🐙</div>
+          <div><div>github.com/kaisato</div><div class="c-link-label">github</div></div>
+        </a>
+        <a class="c-link" href="#">
+          <div class="c-link-icon">🎮</div>
+          <div><div>kaisato.itch.io</div><div class="c-link-label">itch.io</div></div>
+        </a>
+        <a class="c-link" href="#">
+          <div class="c-link-icon">🐦</div>
+          <div><div>@kaibuilds</div><div class="c-link-label">twitter / x</div></div>
+        </a>
+      </div>
+    </div>
+    <div class="reveal" style="transition-delay:.15s">
+      <form class="contact-form" onsubmit="handleForm(event)">
+        <div class="cf-row">
+          <div><label class="cf-label">Name</label><input class="cf-input" type="text" placeholder="Your name" /></div>
+          <div><label class="cf-label">Email</label><input class="cf-input" type="email" placeholder="you@example.com" /></div>
+        </div>
+        <div><label class="cf-label">Subject</label><input class="cf-input" type="text" placeholder="Game collab, contract work..." /></div>
+        <div><label class="cf-label">Message</label><textarea class="cf-textarea" placeholder="Tell me about your project..."></textarea></div>
+        <button type="submit" class="cf-submit">SEND_MESSAGE.EXE</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-mono">© 2026 <span>ZARA OKONKWO</span> — Amsterdam, NL</div>
+  <div class="footer-mono">Built with <span>&lt;3</span> and too much coffee</div>
+  <div class="footer-mono"><span>SYS:</span> ALL SYSTEMS NOMINAL</div>
+  <div class="footer-mono" style="margin-top:.5rem"><span>&gt;</span> MADE_BY <span>NOUR</span></div>
+</footer>
+
+<script>
+/* ── Seeded RNG ── */
+function mkRng(s) {
+  let seed = s;
+  return () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+}
+
+/* ── Hero Canvas: Circuit / Grid World ── */
+(function() {
+  const canvas = document.getElementById('hero-bg');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  const rng = mkRng(99);
+  const particles = [];
+
+  function resize() {
+    W = canvas.width  = canvas.offsetWidth  || window.innerWidth;
+    H = canvas.height = canvas.offsetHeight || window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Grid
+  function drawGrid() {
+    ctx.strokeStyle = 'rgba(0,255,136,.04)';
+    ctx.lineWidth = 1;
+    const step = 48;
+    for (let x = 0; x < W; x += step) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for (let y = 0; y < H; y += step) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+    // Intersection dots
+    ctx.fillStyle = 'rgba(0,255,136,.08)';
+    for (let x = 0; x < W; x += step) {
+      for (let y = 0; y < H; y += step) {
+        ctx.beginPath(); ctx.arc(x, y, 1.5, 0, Math.PI*2); ctx.fill();
+      }
+    }
+  }
+
+  // Neon shooting lines
+  const lines = [];
+  for (let i = 0; i < 12; i++) {
+    lines.push({
+      x: mkRng(i*7 + 3)() * W,
+      y: mkRng(i*11 + 5)() * H,
+      vx: (mkRng(i*13)() - .5) * 2.5,
+      vy: (mkRng(i*17)() - .5) * 2.5,
+      len: mkRng(i*19)() * 80 + 30,
+      color: ['#00ff88','#00d4ff','#ff2d78'][i % 3],
+      alpha: mkRng(i*23)() * .4 + .2
+    });
+  }
+
+  function drawLines() {
+    lines.forEach(l => {
+      l.x += l.vx; l.y += l.vy;
+      if (l.x < 0 || l.x > W) l.vx *= -1;
+      if (l.y < 0 || l.y > H) l.vy *= -1;
+      const g = ctx.createLinearGradient(l.x - l.vx * l.len, l.y - l.vy * l.len, l.x, l.y);
+      g.addColorStop(0, 'transparent');
+      g.addColorStop(1, l.color);
+      ctx.strokeStyle = g; ctx.lineWidth = 1.5; ctx.globalAlpha = l.alpha;
+      ctx.beginPath();
+      ctx.moveTo(l.x - l.vx * l.len, l.y - l.vy * l.len);
+      ctx.lineTo(l.x, l.y);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    });
+  }
+
+  // Stars / particles
+  const stars = [];
+  for (let i = 0; i < 120; i++) {
+    const r = mkRng(i*31 + 7);
+    stars.push({ x: r()*1, y: r()*1, size: r()*1.5+.3, color: ['#00ff88','#00d4ff','#ff2d78','#ffd700'][Math.floor(r()*4)], alpha: r()*.6+.2 });
+  }
+  // Initialise star positions after W/H set
+  stars.forEach((s, i) => { const r = mkRng(i*31 + 7); r(); r(); s.x = r()*W; s.y = r()*H; });
+
+  function drawStars() {
+    stars.forEach(s => {
+      ctx.fillStyle = s.color; ctx.globalAlpha = s.alpha;
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI*2); ctx.fill();
+      ctx.globalAlpha = 1;
+    });
+  }
+
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    // Dark BG
+    ctx.fillStyle = '#050507'; ctx.fillRect(0, 0, W, H);
+    // Glow orbs
+    const o1 = ctx.createRadialGradient(W*.2, H*.6, 0, W*.2, H*.6, W*.4);
+    o1.addColorStop(0, 'rgba(0,255,136,.07)'); o1.addColorStop(1, 'transparent');
+    ctx.fillStyle = o1; ctx.fillRect(0, 0, W, H);
+    const o2 = ctx.createRadialGradient(W*.8, H*.3, 0, W*.8, H*.3, W*.35);
+    o2.addColorStop(0, 'rgba(0,212,255,.06)'); o2.addColorStop(1, 'transparent');
+    ctx.fillStyle = o2; ctx.fillRect(0, 0, W, H);
+
+    drawGrid(); drawStars(); drawLines();
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+/* ── About Canvas: Pixel Art Portrait ── */
+(function() {
+  const canvas = document.getElementById('about-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const rng = mkRng(55);
+
+  // BG
+  ctx.fillStyle = '#0a0b10'; ctx.fillRect(0, 0, W, H);
+
+  // Pixel grid background
+  ctx.strokeStyle = 'rgba(0,255,136,.05)'; ctx.lineWidth = 1;
+  for (let x = 0; x < W; x += 16) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+  }
+  for (let y = 0; y < H; y += 16) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  }
+
+  // Helper: draw pixel-art pixel
+  function px(x, y, c, size = 16) {
+    ctx.fillStyle = c; ctx.fillRect(x, y, size - 1, size - 1);
+  }
+
+  const ps = 14; // pixel size
+  const ox = (W - 22 * ps) / 2; // origin x
+  const oy = 40; // origin y
+
+  // Pixel art character map (rows x cols)
+  // Each row: array of color codes (null = transparent)
+  const S = null; // transparent
+  const B = '#0a0b10'; // dark bg
+  const SK = '#f4c27a'; // skin
+  const SK2 = '#e8a850'; // shadow skin
+  const H1 = '#1a0a14'; // hair dark
+  const H2 = '#2d1020'; // hair mid
+  const C1 = '#00ff88'; // shirt / accent
+  const C2 = '#00aa55'; // shirt shadow
+  const W1 = '#e8eaf6'; // white
+  const EY = '#00d4ff'; // eyes
+  const PU = '#050507'; // pupil
+  const LP = '#c06050'; // lips
+  const JN = '#2a1a0a'; // jeans dark
+  const JN2 = '#3d2a14'; // jeans mid
+
+  const sprite = [
+    //      0    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21
+    [S,  S,  S,  S,  S,  H1,  H1,  H1,  H1,  H1,  H1,  H1,  H1,  H1,  H1,  H1,  S,  S,  S,  S,  S,  S], // 0
+    [S,  S,  S,  H1,  H1,  H2,  H2,  H2,  H2,  H2,  H2,  H2,  H2,  H2,  H2,  H2,  H1,  H1,  S,  S,  S,  S], // 1
+    [S,  S,  H1,  H2,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  H2,  H1,  S,  S,  S], // 2
+    [S,  H1,  H2,  SK,  SK,  SK,  EY,  EY,  SK,  SK,  SK,  SK,  EY,  EY,  SK,  SK,  SK,  SK,  H2,  H1,  S,  S], // 3
+    [S,  H1,  SK,  SK,  EY,  PU,  PU,  EY,  SK,  SK,  SK,  EY,  PU,  PU,  EY,  SK,  SK,  SK,  SK,  H1,  S,  S], // 4
+    [S,  H1,  SK,  SK,  EY,  W1,  PU,  EY,  SK,  SK,  SK,  EY,  W1,  PU,  EY,  SK,  SK,  SK,  SK,  H1,  S,  S], // 5
+    [S,  H1,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  H1,  S,  S], // 6
+    [S,  H1,  SK,  SK,  SK,  SK,  SK,  SK2, SK2, SK2, SK2, SK2, SK,  SK,  SK,  SK,  SK,  SK,  SK,  H1,  S,  S], // 7
+    [S,  H1,  SK,  SK,  SK,  LP,  LP,  LP,  LP,  LP,  LP,  LP,  LP,  LP,  SK,  SK,  SK,  SK,  SK,  H1,  S,  S], // 8
+    [S,  S,  H1,  SK,  SK,  SK,  LP,  LP,  LP,  LP,  LP,  LP,  SK,  SK,  SK,  SK,  SK,  H1,  H1,  S,  S,  S], // 9
+    [S,  S,  S,  H1,  H1,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  SK,  H1,  H1,  S,  S,  S,  S,  S], // 10
+    [S,  S,  S,  C1,  C1,  C1,  C1,  C2,  C2,  C2,  C2,  C1,  C1,  C1,  C1,  C1,  C1,  S,  S,  S,  S,  S], // 11
+    [S,  C1,  C1,  C1,  C1,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C1,  C1,  C1,  C1,  C1,  S,  S,  S,  S], // 12
+    [C1, C1,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C1,  C1,  S,  S,  S], // 13
+    [C1, C1,  C1,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C1,  C1,  C1,  S,  S,  S], // 14
+    [C1, C1,  C1,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C2,  C1,  C1,  C1,  S,  S,  S], // 15
+    [S,  C1,  C1,  JN,  JN,  JN2, JN2, JN2, JN2, JN2, JN2, JN2, JN2, JN,  JN,  JN,  C1,  C1,  S,  S,  S,  S], // 16
+    [S,  S,  JN,  JN,  JN2, JN2, JN2, JN2, JN,  JN,  JN,  JN2, JN2, JN2, JN2, JN,  JN,  S,  S,  S,  S,  S], // 17
+    [S,  S,  JN,  JN,  JN2, JN2, JN2, JN,  JN,  S,  S,  JN,  JN2, JN2, JN2, JN,  JN,  S,  S,  S,  S,  S], // 18
+    [S,  S,  JN,  JN,  JN2, JN2, JN,  JN,  S,  S,  S,  S,  JN,  JN2, JN2, JN,  JN,  S,  S,  S,  S,  S], // 19
+    [S,  S,  JN,  JN,  JN2, JN2, JN,  S,  S,  S,  S,  S,  S,  JN2, JN2, JN,  JN,  S,  S,  S,  S,  S], // 20
+    [S,  S,  JN,  JN,  JN,  JN,  S,  S,  S,  S,  S,  S,  S,  JN,  JN,  JN,  JN,  S,  S,  S,  S,  S], // 21
+  ];
+
+  sprite.forEach((row, ri) => {
+    row.forEach((col, ci) => {
+      if (col) px(ox + ci * ps, oy + ri * ps, col, ps);
+    });
+  });
+
+  // Neon outline glow around figure
+  ctx.shadowColor = '#00ff88'; ctx.shadowBlur = 16;
+  ctx.strokeStyle = 'rgba(0,255,136,.2)'; ctx.lineWidth = 1;
+  ctx.strokeRect(ox - 5, oy - 5, 22 * ps + 10, 22 * ps + 10);
+  ctx.shadowBlur = 0;
+
+  // Scanlines over character
+  for (let y = oy; y < oy + 22 * ps; y += 2) {
+    ctx.fillStyle = 'rgba(0,0,0,.15)';
+    ctx.fillRect(ox, y, 22 * ps, 1);
+  }
+
+  // Name tag bottom
+  ctx.fillStyle = 'rgba(10,11,16,.92)';
+  ctx.beginPath(); ctx.roundRect(ox - 5, H - 80, 22 * ps + 10, 60, 6); ctx.fill();
+  ctx.strokeStyle = 'rgba(0,255,136,.3)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.roundRect(ox - 5, H - 80, 22 * ps + 10, 60, 6); ctx.stroke();
+  ctx.fillStyle = '#e8eaf6'; ctx.font = 'bold 17px Outfit, sans-serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  ctx.fillText('Kai Sato', W/2, H - 68);
+  ctx.fillStyle = '#00ff88'; ctx.font = '12px "Share Tech Mono", monospace';
+  ctx.fillText('GAME DEV // CREATIVE CODER', W/2, H - 48);
+
+  // Corner coords (HUD style)
+  ctx.fillStyle = 'rgba(0,255,136,.25)'; ctx.font = '10px "Share Tech Mono", monospace';
+  ctx.textAlign = 'left';
+  ctx.fillText('[AMS_NL]', 12, 18);
+  ctx.textAlign = 'right';
+  ctx.fillText('[v6.0.0]', W - 12, 18);
+})();
+
+/* ── Scroll reveal + skill bars ── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      e.target.querySelectorAll('.skill-fill').forEach(b => {
+        b.style.width = b.dataset.width + '%';
+      });
+    }
+  });
+}, { threshold: .1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ── Form ── */
+function handleForm(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.cf-submit');
+  btn.textContent = '> SENT_OK';
+  btn.style.background = '#00aa55';
+  setTimeout(() => { btn.textContent = 'SEND_MESSAGE.EXE'; btn.style.background = ''; e.target.reset(); }, 3000);
+}
+</script>
+</body>
+</html>

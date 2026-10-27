@@ -108,7 +108,7 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 **Stack.** JavaScript, Canvas, WebCodecs, Mediabunny, Web Audio API, IndexedDB, MP4, WebM, RTL
 
-**Live.** https://nouraldeentofi.github.io/motion-studio/
+**Live.** https://nouraldeentofi.com/motion-studio/
 
 ### Braille Certificate Maker (2026)
 
@@ -124,7 +124,7 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 **Stack.** HTML, JavaScript, Canvas, jsPDF, QR codes, Unified Arabic Braille, BRF, Hijri calendar, GitHub Actions, RTL
 
-**Live.** https://nouraldeentofi.github.io/braille-certificate/
+**Live.** https://braille.nouraldeentofi.com/
 
 ### Khatm · ختم (2026)
 
@@ -140,7 +140,7 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 **Stack.** TypeScript, PostgreSQL, Drizzle ORM, UBL 2.1, XML C14N, ECDSA, AES-GCM, React, esbuild, Vitest, Playwright, GitHub Actions
 
-**Live.** https://nouraldeentofi.github.io/khatm/
+**Live.** https://khatm.nouraldeentofi.com/
 
 ### The Complete Umrah Guide (2026)
 
@@ -156,7 +156,7 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 **Stack.** HTML, JavaScript, PWA, Service worker, Web Speech API, i18n, RTL, JSON-LD
 
-**Live.** https://nouraldeentofi.github.io/The-Complete-Umrah-Guide/
+**Live.** https://nouraldeentofi.com/umrah-guide/
 
 ### DFS Dashboard (2025–2026)
 
@@ -495,7 +495,7 @@ On arrival a search plays out: look-alike results blur away and one name rises t
 - A gap check that names your first gap and opens a ready message
 - Her brand on one page: message, pillars, voice and colours
 
-**Live.** https://nouraldeentofi.github.io/aya-rady/
+**Live.** https://nouraldeentofi.com/sites/aya-rady/
 
 ### Mohammed Alhabbarah — Head of Learning & Capability Development, Riyadh Metro
 
@@ -505,7 +505,7 @@ Arrival on a platform: a split-flap board flips his name, his role and his desti
 - A metro-line footer where the page you are on is the lit station
 - Tested across screen sizes, both themes, touch and accessibility
 
-**Live.** https://nouraldeentofi.github.io/mohammed-alhabbarah/
+**Live.** https://nouraldeentofi.com/sites/mohammed-alhabbarah/
 
 ### Layal Joumaa — CV writer, LinkedIn optimisation and personal branding
 
@@ -515,7 +515,7 @@ Her craft is the opening: a red pen sharpens a sample CV, the page folds into a 
 - Client stories on a map of where they landed
 - A few taps to a ready first message
 
-**Live.** https://nouraldeentofi.github.io/layal-joumaa/
+**Live.** https://nouraldeentofi.com/sites/layal-joumaa/
 
 ### Salam Aksimi — Personal branding and content on LinkedIn
 
@@ -525,7 +525,7 @@ The post that lands: her own hook types itself into a post, she publishes, the c
 - A page for every event she spoke at or hosted
 - Mobile first, with an app-like dock and a booking button
 
-**Live.** https://nouraldeentofi.github.io/salam-aksimi/
+**Live.** https://nouraldeentofi.com/sites/salam-aksimi/
 
 ### Tawheed Malkat — Product designer (UI/UX)
 
@@ -535,7 +535,7 @@ The portfolio as a design file that never stops working: on arrival the hero des
 - A deck of projects to swipe through, each card fanning its own screens
 - A page for every project, with its whole case study screen by screen
 
-**Live.** https://nouraldeentofi.github.io/tawheed-malkat/
+**Live.** https://nouraldeentofi.com/sites/tawheed-malkat/
 
 ### Monther Al-Ashqar — Senior project manager and owner's representative
 
@@ -545,7 +545,7 @@ The hero is an engineering sheet: a tower elevation draws itself floor by floor 
 - English and Arabic, each under its own path
 - Structured data and llms.txt for search engines and AI assistants
 
-**Live.** https://nouraldeentofi.github.io/monther-al-ashqar/
+**Live.** https://nouraldeentofi.com/sites/monther-al-ashqar/
 
 ### Othman Almashaqba — Technology leader, ERP and IT governance, Riyadh
 
@@ -555,7 +555,7 @@ Threads arrive tangled at the start of the line and leave as ordered lanes once 
 - A lens passes over a clear process and a confused one to show what technology enlarges
 - Pick a topic and the email opens with its subject and greeting ready
 
-**Live.** https://nouraldeentofi.github.io/othman-almashaqba/
+**Live.** https://nouraldeentofi.com/sites/othman-almashaqba/
 
 ### Dr. Hamad Al-Thiapi — AI and digital transformation leader in government
 
@@ -565,7 +565,7 @@ Convergence: gold routes cross a night sky over Najd and all meet at his portrai
 - A journey whose gold line swings out with each scholarship abroad and comes home
 - Tested at every screen size, in both languages and both themes
 
-**Live.** https://nouraldeentofi.github.io/hamad-al-thiapi/
+**Live.** https://nouraldeentofi.com/sites/hamad-al-thiapi/
 
 ### Mazen Alobaidi — General manager, IT and digital transformation
 
@@ -575,7 +575,7 @@ The stack: in the hero, isometric planes float one above another, server boxes a
 - Notes from the field: short reads he wrote on running technology
 - A message form that opens a ready email for the visitor to review
 
-**Live.** https://nouraldeentofi.github.io/mazen-alobaidi/
+**Live.** https://nouraldeentofi.com/sites/mazen-alobaidi/
 
 ### Ayman Alawwad — PMO manager, portfolio and program governance
 
@@ -585,7 +585,7 @@ Drafted on linen: behind the page a portfolio roadmap draws itself in ink, task 
 - An executive bio, short and long, ready to copy for organisers and media
 - His leadership programme as a dated path, module by module
 
-**Live.** https://nouraldeentofi.github.io/ayman-alawwad/
+**Live.** https://nouraldeentofi.com/sites/ayman-alawwad/
 
 ### TechSpark Karam — A young creator and explorer, inspiring kids to love technology
 
@@ -595,7 +595,7 @@ A night sky for a young tech fan: words like HTML, JS, Robots and Gaming drift d
 - His YouTube, TikTok and Instagram in one place
 - Made for a young audience: big type, bright colours and playful motion
 
-**Live.** https://nouraldeentofi.github.io/karam/
+**Live.** https://nouraldeentofi.com/sites/karam/
 
 ### Gambit Tournaments — Tournaments platform for a chess club in Dammam
 
@@ -615,7 +615,7 @@ Al-Bader is the full moon, so the site opens at night: the logo's three road lin
 - Each service shown as a technical drawing on a drafting grid
 - On the phone it works like an app: a bottom bar and a quote in three steps
 
-**Live.** https://nouraldeentofi.github.io/albader-transport/
+**Live.** https://nouraldeentofi.com/sites/albader-transport/
 
 ### Arabian Access — Business setup consultancy, Riyadh
 
@@ -625,7 +625,7 @@ Built on their logo: two waves in two colours, the firm and its client, moving t
 - A three-step consultation request that opens WhatsApp with the message ready
 - A live open-or-closed badge on Riyadh time
 
-**Live.** https://nouraldeentofi.github.io/arabian-access/
+**Live.** https://nouraldeentofi.com/sites/arabian-access/
 
 ### Saudi Brothers — Hajj services for domestic pilgrims, Makkah and Al-Qassim
 
@@ -635,7 +635,7 @@ From Al-Qassim to the holy sites. A gold eight-pointed star draws itself, the Ta
 - A live countdown to the Day of Arafah, on the Umm al-Qura calendar
 - A review form that previews the card as you type and sends it on WhatsApp
 
-**Live.** https://nouraldeentofi.github.io/saudi-brothers-hajj/
+**Live.** https://nouraldeentofi.com/sites/saudi-brothers-hajj/
 
 ### Al-Hemaya Al-Kamela — Fire alarm and fire suppression systems, Khamis Mushait
 
@@ -645,7 +645,7 @@ The site is a fire alarm control panel. Each section is a zone with its own lamp
 - A live lamp that says whether the showroom is open right now
 - Photos of the real showroom shelves, each opening full screen
 
-**Live.** https://nouraldeentofi.github.io/alhemaya-alkamela/
+**Live.** https://nouraldeentofi.com/sites/alhemaya-alkamela/
 
 ### Prestige VIP Tailor — Men's tailor, Al Khobar
 
@@ -655,7 +655,7 @@ Cut to measure: tailor's chalk drafts the thobe pattern, a tape measures it and 
 - A three-step booking that opens WhatsApp with the message ready
 - Light by default, with a moon toggle for dark
 
-**Live.** https://nouraldeentofi.github.io/prestige-vip-tailor/
+**Live.** https://nouraldeentofi.com/sites/prestige-vip-tailor/
 
 ### Al-Reem Grilled Lamb — Charcoal-grilled lamb, Al Khobar
 
@@ -665,11 +665,11 @@ Live coals: the hero opens at night, then the charcoal catches. Embers and spark
 - Photo gallery and Google reviews
 - Light and dark modes
 
-**Live.** https://nouraldeentofi.github.io/alreem-mashwi/
+**Live.** https://nouraldeentofi.com/sites/alreem-mashwi/
 
 ### Portfolio Gallery
 
-120 portfolio designs. Personas, scroll stories, interactive machines and whole worlds — a city builder, a solar system, a museum, a stock exchange — each one a single hand-crafted HTML file. https://nouraldeentofi.github.io/portfolio-gallery/
+120 portfolio designs. Personas, scroll stories, interactive machines and whole worlds — a city builder, a solar system, a museum, a stock exchange — each one a single hand-crafted HTML file. https://nouraldeentofi.com/gallery/
 
 ## Experience
 

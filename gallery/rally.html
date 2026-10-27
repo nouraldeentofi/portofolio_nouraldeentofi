@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — RALLY · Beat the Deadline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Chivo:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--court:#1e6e4e;--courtd:#154f38;--linec:#f2f7f0;--wood:#8a5a33;--shuttle:#fff;
+        --accent:#ffd23f;--ink:#0f231a;--fg:#f2f7f0;--dim:rgba(242,247,240,.6)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{font-family:'Chivo',sans-serif;background:radial-gradient(100vw 80vh at 50% -10%,#2a8a63,var(--courtd));
+    color:var(--fg);overflow:hidden;display:flex;flex-direction:column}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--accent);color:var(--ink)}
+
+  /* top bar: score + fact */
+  #top{display:flex;gap:16px;align-items:stretch;padding:14px 18px;z-index:10}
+  #scorebox{background:var(--ink);border-radius:14px;padding:12px 20px;text-align:center;flex-shrink:0;
+    border:2px solid rgba(255,210,63,.4)}
+  #scorebox .lbl{font-size:9px;letter-spacing:.3em;color:var(--dim);text-transform:uppercase}
+  #rallyN{font-family:'Bungee';font-size:clamp(26px,4.4vw,40px);color:var(--accent);line-height:1}
+  #best{font-size:10px;color:var(--dim);letter-spacing:.1em}
+  #fact{flex:1;background:rgba(15,35,26,.82);border:1px solid rgba(242,247,240,.18);border-radius:14px;
+    padding:12px 20px;backdrop-filter:blur(6px);min-height:74px;display:flex;flex-direction:column;justify-content:center}
+  #fact .fk{font-size:9.5px;letter-spacing:.3em;color:var(--accent);text-transform:uppercase;margin-bottom:4px}
+  #fact .fv{font-size:clamp(12px,1.8vw,15px);line-height:1.5;font-weight:300}
+  #fact .fv b{font-weight:900;color:#fff}
+  @media(max-width:640px){#top{flex-direction:column}}
+
+  #court{flex:1;position:relative;margin:4px 18px 14px;border:6px solid var(--wood);border-radius:16px;
+    background:linear-gradient(180deg,#237a57,var(--court) 60%,#1a5f43);
+    box-shadow:0 30px 60px rgba(0,0,0,.4), inset 0 0 80px rgba(0,0,0,.25);overflow:hidden;cursor:none}
+  #cv{position:absolute;inset:0;width:100%;height:100%}
+
+  #msg{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);text-align:center;z-index:5;pointer-events:none}
+  #msg .big{font-family:'Bungee';font-size:clamp(28px,6vw,64px);color:var(--accent);
+    text-shadow:0 4px 0 rgba(0,0,0,.35);line-height:1.05}
+  #msg .small{font-size:12px;letter-spacing:.3em;color:var(--fg);margin-top:10px;text-transform:uppercase;animation:pu 1.8s infinite}
+  @keyframes pu{0%,100%{opacity:.5}50%{opacity:1}}
+
+  /* win overlay */
+  #win{position:absolute;inset:0;z-index:20;display:none;align-items:center;justify-content:center;
+    background:rgba(10,25,18,.86);backdrop-filter:blur(8px);padding:5vw}
+  #win.open{display:flex}
+  #wcard{max-width:540px;width:100%;background:#f6f3ea;color:var(--ink);border-radius:20px;padding:40px 42px;
+    text-align:center;box-shadow:0 40px 100px rgba(0,0,0,.6)}
+  #wcard .k{font-size:10px;letter-spacing:.35em;color:#0f8a4d;text-transform:uppercase;font-weight:900}
+  #wcard h2{font-family:'Bungee';font-size:clamp(24px,4.6vw,40px);margin:10px 0 12px;line-height:1.05}
+  #wcard p{font-size:14.5px;line-height:1.7;color:rgba(15,35,26,.75)}
+  #wcard p b{color:var(--ink)}
+  .wbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+  .wbtn{font-weight:900;font-size:12px;letter-spacing:.12em;padding:14px 24px;border-radius:99px;
+    background:var(--ink);color:#f6f3ea;text-transform:uppercase;transition:transform .15s}
+  .wbtn:hover{transform:translateY(-3px)}
+  .wbtn.y{background:#0f8a4d}
+  #again{margin-top:16px;background:none;border:none;font-family:'Chivo';font-size:11px;letter-spacing:.2em;
+    color:rgba(15,35,26,.5);cursor:pointer;text-transform:uppercase;text-decoration:underline}
+
+  footer{padding:0 22px 12px;display:flex;justify-content:space-between;font-size:9.5px;
+    letter-spacing:.25em;color:var(--dim);text-transform:uppercase;flex-wrap:wrap;gap:8px}
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none!important}
+    #court{display:none}
+    #reducedList{display:block!important;overflow:auto;flex:1;margin:0 18px 14px}
+  }
+  #reducedList{display:none;background:rgba(15,35,26,.82);border-radius:14px;padding:26px 28px;font-size:13.5px;line-height:2}
+</style>
+</head>
+<body>
+
+<div id="top">
+  <div id="scorebox"><div class="lbl">Rally</div><div id="rallyN">0</div><div id="best">BEST 0 · TARGET 10</div></div>
+  <div id="fact">
+    <div class="fk" id="fk">HOW TO PLAY · هيك منلعب</div>
+    <div class="fv" id="fv">Move your mouse to swing the racket. Every shot you return against <b>DEADLINE-BOT</b> reveals one fact about <b>Nour Aldeen Tofi</b>. Survive a 10-shot rally to win the match — and unlock the contact card. Click to serve!</div>
+  </div>
+</div>
+
+<div id="court">
+  <canvas id="cv"></canvas>
+  <div id="msg"><div class="big">RALLY FOR<br>MY RÉSUMÉ</div><div class="small">◈ Click to serve ◈</div></div>
+  <div id="win"><div id="wcard">
+    <div class="k">Match won · 10-shot rally survived</div>
+    <h2>YOU BEAT THE DEADLINE 🏸</h2>
+    <p><b>Nour Aldeen Tofi</b> — frontend developer &amp; software engineering supervisor, Riyadh. If you rally like that, we should work together: websites, React frontends, logos, business cards, social visuals, project coordination.</p>
+    <div class="wbtns">
+      <a class="wbtn" href="mailto:nouraldeentofi@gmail.com">✉ Email</a>
+      <a class="wbtn y" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="wbtn y" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+    </div>
+    <button id="again">Play again</button>
+  </div></div>
+  <div id="reducedList">
+    <b>Nour Aldeen Tofi — Frontend Developer &amp; Software Engineering Supervisor, Riyadh.</b><br>
+    2026→ Supervisor · Distinctive Frontier Co. · 2025→ Project Coordinator · NexLead (GoldenTag on Google Play) ·
+    2024–25 Khwarizm Technologies · 2023–24 Minicodeleader · ICPC/ACPC 2021 · B.Tech IT Kalamoon 2019–24.<br>
+    React · TypeScript · Tailwind · JavaScript · Python · Git · Jira · Trello. Certs: Meta, Google ×2, IBM ×2, more.<br>
+    <a href="mailto:nouraldeentofi@gmail.com" style="text-decoration:underline">nouraldeentofi@gmail.com</a>
+  </div>
+</div>
+
+<footer><span>NOUR ALDEEN TOFI · RIYADH</span><span>OPPONENT: DEADLINE-BOT v2.6 · NEVER MISSES</span><span>HOBBY: BADMINTON (OBVIOUSLY)</span></footer>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FACTS=[
+ ['FACT 1 · WHO','<b>Nour Aldeen Tofi</b> — frontend developer & software engineering supervisor. ~3 years professional. Based in Riyadh, Saudi Arabia. Arabic + English.'],
+ ['FACT 2 · NOW','<b>Software Engineering Supervisor</b> @ Distinctive Frontier Co. (Jan 2026 →). Leads frontend: React systems, standards, backend alignment, shipped features.'],
+ ['FACT 3 · PARALLEL','<b>Freelance Project Coordinator</b> @ NexLead (Mar 2025 →, remote). Requirements → user stories → quality → releases.'],
+ ['FACT 4 · SHIPPED','<b>GoldenTag</b> — jewelry store management app on Google Play: inventory, barcode scanning, USD/SYP rates, sales logs.'],
+ ['FACT 5 · 2024–25','<b>Frontend Developer</b> @ Khwarizm Technologies, Riyadh — production React with design & backend teams.'],
+ ['FACT 6 · ORIGIN','<b>React Developer</b> @ Minicodeleader (2023–24). First professional role; clean-code habit installed.'],
+ ['FACT 7 · ARENA','<b>ICPC / ACPC 2021</b> — collegiate competitive programming. Algorithms under a merciless clock. Reflexes: still active (as you can see).'],
+ ['FACT 8 · DEGREE','<b>B.Tech Information Technology</b> — University of Kalamoon, 2019–2024.'],
+ ['FACT 9 · STACK','<b>React · TypeScript · Tailwind · JavaScript</b> + Python (DS/AI), Git, Jira, Trello, prompt engineering.'],
+ ['FACT 10 · PAPERS','<b>10+ certifications</b>: Meta Advanced React, Google PM ×2, IBM Python & GenAI, TS in React, Tailwind, Clean Code, Jira suite. MATCH POINT!']
+];
+
+const court=document.getElementById('court'),cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+let W,H;
+function size(){W=cv.width=court.clientWidth;H=cv.height=court.clientHeight;}
+if(!reduced){size();addEventListener('resize',size);}
+
+/* audio */
+let AC=null;
+function tone(f,t,type,v){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type=type||'sine';o.frequency.value=f;
+  g.gain.setValueAtTime(v||.07,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+(t||.12));
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+(t||.15));}catch(e){}}
+
+/* state */
+let shuttle={x:0,y:0,vx:0,vy:0},trail=[],playing=false,rally=0,best=0,py=0,pty=0,boty=0,confetti=[];
+const G=0.22;
+function serve(){
+  shuttle={x:120,y:H*.45,vx:7.2,vy:-4.5};
+  trail=[];playing=true;
+  document.getElementById('msg').style.display='none';
+  rally=0;updateScore();
+  tone(520,.1,'triangle',.08);
+}
+function updateScore(){
+  document.getElementById('rallyN').textContent=rally;
+  best=Math.max(best,rally);
+  document.getElementById('best').textContent='BEST '+best+' · TARGET 10';
+}
+function showFact(i){
+  const f=FACTS[Math.min(i,FACTS.length-1)];
+  document.getElementById('fk').textContent=f[0];
+  document.getElementById('fv').innerHTML=f[1];
+  const el=document.getElementById('fact');
+  el.animate([{transform:'translateY(-8px)',opacity:.3},{transform:'none',opacity:1}],{duration:300,easing:'ease-out'});
+}
+function fault(){
+  playing=false;
+  tone(160,.4,'sawtooth',.09);
+  const m=document.getElementById('msg');
+  m.style.display='block';
+  m.querySelector('.big').textContent='FAULT!';
+  m.querySelector('.small').textContent='◈ THE DEADLINE ALWAYS RETURNS — CLICK TO SERVE ◈';
+}
+function winGame(){
+  playing=false;
+  [660,830,990,1320].forEach((f,i)=>setTimeout(()=>tone(f,.25,'triangle',.09),i*140));
+  for(let i=0;i<120;i++)confetti.push({x:W/2,y:H*.4,vx:(Math.random()-.5)*11,vy:-4-Math.random()*7,
+    c:['#ffd23f','#ffffff','#7dffb0','#ff9d5c'][i%4],r:2+Math.random()*4,life:1});
+  setTimeout(()=>document.getElementById('win').classList.add('open'),900);
+}
+document.getElementById('again').onclick=e=>{e.stopPropagation();
+  document.getElementById('win').classList.remove('open');serve();};
+
+court.addEventListener('pointermove',e=>{
+  const r=court.getBoundingClientRect();pty=e.clientY-r.top;});
+court.addEventListener('pointerdown',e=>{
+  if(document.getElementById('win').classList.contains('open'))return;
+  if(!playing)serve();});
+
+function drawCourt(){
+  ctx.clearRect(0,0,W,H);
+  /* floor lines */
+  ctx.strokeStyle='rgba(242,247,240,.5)';ctx.lineWidth=3;
+  ctx.strokeRect(24,H*.12,W-48,H*.8);
+  ctx.beginPath();ctx.moveTo(24,H*.92);ctx.lineTo(W-24,H*.92);ctx.stroke();
+  /* net */
+  ctx.setLineDash([7,7]);ctx.strokeStyle='rgba(242,247,240,.75)';
+  ctx.beginPath();ctx.moveTo(W/2,H*.34);ctx.lineTo(W/2,H*.92);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle='rgba(242,247,240,.75)';ctx.fillRect(W/2-14,H*.34,28,5);
+}
+function drawRacket(x,y,color,label){
+  ctx.save();ctx.translate(x,y);
+  ctx.fillStyle=color;ctx.strokeStyle='rgba(0,0,0,.35)';ctx.lineWidth=3;
+  /* head */
+  ctx.beginPath();ctx.ellipse(0,-26,20,30,0,0,7);ctx.fill();ctx.stroke();
+  ctx.strokeStyle='rgba(255,255,255,.55)';ctx.lineWidth=1;
+  for(let i=-14;i<=14;i+=6){ctx.beginPath();ctx.moveTo(i,-52);ctx.lineTo(i,0);ctx.stroke();}
+  for(let j=-48;j<=-6;j+=7){ctx.beginPath();ctx.moveTo(-18,j);ctx.lineTo(18,j);ctx.stroke();}
+  /* handle */
+  ctx.fillStyle='#3a2a1a';ctx.fillRect(-4,4,8,44);
+  ctx.restore();
+  if(label){ctx.fillStyle='rgba(242,247,240,.65)';ctx.font='700 10px Chivo';
+    ctx.textAlign='center';ctx.fillText(label,x,y+70);}
+}
+function drawShuttle(){
+  /* trail */
+  for(let i=0;i<trail.length;i++){const t=trail[i];
+    ctx.fillStyle=`rgba(255,255,255,${i/trail.length*.28})`;
+    ctx.beginPath();ctx.arc(t.x,t.y,3,0,7);ctx.fill();}
+  const s=shuttle,ang=Math.atan2(s.vy,s.vx);
+  ctx.save();ctx.translate(s.x,s.y);ctx.rotate(ang);
+  /* feathers */
+  ctx.fillStyle='rgba(255,255,255,.92)';
+  ctx.beginPath();ctx.moveTo(-4,0);ctx.lineTo(-22,-9);ctx.lineTo(-22,9);ctx.closePath();ctx.fill();
+  ctx.strokeStyle='rgba(0,0,0,.25)';ctx.stroke();
+  /* cork */
+  ctx.fillStyle='#e8e2d6';ctx.beginPath();ctx.arc(2,0,6.5,0,7);ctx.fill();
+  ctx.strokeStyle='#c93a2e';ctx.lineWidth=2;ctx.beginPath();ctx.arc(2,0,6.5,0,7);ctx.stroke();
+  ctx.restore();
+}
+function loop(){
+  if(reduced)return;
+  drawCourt();
+  /* paddles */
+  py+=(pty-py)*.22;
+  py=Math.max(H*.2,Math.min(H*.88,py||H*.5));
+  boty+=((playing?shuttle.y:H*.5)-boty)*.11;
+  boty=Math.max(H*.2,Math.min(H*.88,boty||H*.5));
+  drawRacket(86,py,'#2b6fb8','YOU');
+  drawRacket(W-86,boty,'#c93a2e','DEADLINE-BOT');
+  if(playing){
+    shuttle.vy+=G;
+    shuttle.vx*=.997;shuttle.vy*=.999;
+    shuttle.x+=shuttle.vx;shuttle.y+=shuttle.vy;
+    trail.push({x:shuttle.x,y:shuttle.y});if(trail.length>16)trail.shift();
+    /* player hit */
+    if(shuttle.vx<0&&shuttle.x<118&&shuttle.x>60&&Math.abs(shuttle.y-py)<74){
+      rally++;updateScore();showFact(rally-1);
+      tone(740+rally*30,.09,'triangle',.09);
+      const off=(shuttle.y-py)/74;
+      shuttle.vx=7+rally*.38;
+      shuttle.vy=-5.2+off*3.4;
+      if(rally>=10){winGame();}
+    }
+    /* bot hit */
+    if(shuttle.vx>0&&shuttle.x>W-118&&shuttle.x<W-60&&Math.abs(shuttle.y-boty)<80){
+      tone(430,.09,'square',.06);
+      shuttle.vx=-(6.6+rally*.34);
+      shuttle.vy=-4.6+(Math.random()-.5)*3.2;
+    }
+    /* ceiling */
+    if(shuttle.y<H*.06){shuttle.y=H*.06;shuttle.vy*=-.5;}
+    /* fault: floor or behind player */
+    if(shuttle.y>H*.9||shuttle.x<28){fault();}
+    if(shuttle.x>W-28){shuttle.x=W-28;shuttle.vx=-Math.abs(shuttle.vx);}
+  }
+  if(playing||trail.length)drawShuttle();
+  /* confetti */
+  for(let i=confetti.length-1;i>=0;i--){const c=confetti[i];
+    c.vy+=.18;c.x+=c.vx;c.y+=c.vy;c.life-=.008;
+    if(c.life<=0||c.y>H){confetti.splice(i,1);continue;}
+    ctx.fillStyle=c.c;ctx.globalAlpha=Math.max(0,c.life);
+    ctx.fillRect(c.x,c.y,c.r,c.r*1.6);ctx.globalAlpha=1;}
+  requestAnimationFrame(loop);
+}
+if(!reduced){py=pty=innerHeight*.4;loop();}
+</script>
+</body>
+</html>

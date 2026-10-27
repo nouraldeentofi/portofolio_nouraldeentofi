@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — SWARM · 15,000 Particles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Chivo+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#05070d;--fg:#e8ecf8;--dim:rgba(232,236,248,.55);--cy:#59f3ff;--vi:#a78bfa}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{font-family:'Chivo Mono',monospace;background:var(--bg);color:var(--fg);overflow:hidden}
+  ::selection{background:var(--cy);color:#05070d}
+  a{color:inherit;text-decoration:none}
+  #scene{position:fixed;inset:0;z-index:0}
+  #vig{position:fixed;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.6))}
+
+  /* HUD frame */
+  .hudline{position:fixed;z-index:5;font-size:10px;letter-spacing:.35em;color:var(--dim);text-transform:uppercase}
+  #hudTL{top:24px;left:28px}
+  #hudTR{top:24px;right:28px;text-align:right}
+  #hudBR{bottom:24px;right:28px;text-align:right}
+
+  /* stage panel */
+  #panelWrap{position:fixed;z-index:6;left:28px;bottom:34px;max-width:min(480px,86vw)}
+  .panel{display:none}
+  .panel.active{display:block}
+  .stageNo{font-size:10px;letter-spacing:.4em;color:var(--cy);margin-bottom:12px}
+  .stageTitle{font-family:'Syncopate',sans-serif;font-weight:700;font-size:clamp(26px,4.6vw,46px);
+    line-height:1.05;text-transform:uppercase;letter-spacing:.02em;margin-bottom:14px}
+  .stageTitle span{color:var(--cy)}
+  .stageBody{font-weight:300;font-size:13.5px;line-height:1.75;color:var(--dim)}
+  .stageBody b{color:var(--fg);font-weight:700}
+  .rows{margin-top:10px}
+  .rows .r{display:flex;gap:14px;padding:7px 0;border-top:1px solid rgba(232,236,248,.12);font-size:12.5px}
+  .rows .r span:first-child{color:var(--cy);min-width:86px;letter-spacing:.06em}
+  .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .btn{border:1px solid var(--cy);color:var(--cy);padding:12px 20px;font-size:11px;letter-spacing:.25em;
+    transition:all .25s;cursor:pointer}
+  .btn:hover{background:var(--cy);color:#05070d;box-shadow:0 0 30px rgba(89,243,255,.5)}
+
+  /* dots nav */
+  #dots{position:fixed;z-index:6;right:28px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:16px}
+  .dot{width:10px;height:10px;border:1px solid var(--dim);border-radius:50%;cursor:pointer;transition:all .3s;position:relative}
+  .dot.on{background:var(--cy);border-color:var(--cy);box-shadow:0 0 14px var(--cy)}
+  .dot .lbl{position:absolute;right:22px;top:50%;transform:translateY(-50%);font-size:9px;letter-spacing:.3em;
+    color:var(--dim);white-space:nowrap;opacity:0;transition:opacity .25s;text-transform:uppercase}
+  .dot:hover .lbl,.dot.on .lbl{opacity:1}
+
+  #scrollHint{position:fixed;z-index:6;bottom:26px;left:50%;transform:translateX(-50%);
+    font-size:10px;letter-spacing:.4em;color:var(--dim);animation:hb 2s infinite}
+  @keyframes hb{0%,100%{opacity:.35}50%{opacity:1}}
+
+  /* no-WebGL fallback */
+  html.nogl body{overflow:auto}
+  html.nogl #scene,html.nogl #dots,html.nogl #scrollHint,html.nogl #vig{display:none}
+  html.nogl #panelWrap{position:static;max-width:640px;margin:60px auto;padding:0 24px}
+  html.nogl .panel{display:block;margin-bottom:60px}
+  @media(max-width:640px){#panelWrap{left:18px;bottom:80px}#dots{right:14px}}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+
+<canvas id="scene"></canvas><div id="vig"></div>
+
+<div class="hudline" id="hudTL">SWARM · N=15,000</div>
+<div class="hudline" id="hudTR">NOUR ALDEEN TOFI<br>FRONTEND · SUPERVISOR</div>
+<div class="hudline" id="hudBR">RIYADH · 24.71°N 46.68°E</div>
+<div id="scrollHint">SCROLL / SWIPE — THE SWARM OBEYS</div>
+
+<div id="panelWrap">
+  <div class="panel active" data-stage="0">
+    <div class="stageNo">STAGE 00 · ASSEMBLY</div>
+    <div class="stageTitle">Fifteen thousand points <span>know my name</span></div>
+    <div class="stageBody">Every particle you see is obeying two forces: a target, and <b>your cursor</b>. Push through them — they always come home. That's also how I run projects.</div>
+  </div>
+  <div class="panel" data-stage="1">
+    <div class="stageNo">STAGE 01 · ن · THE PERSON</div>
+    <div class="stageTitle">Made in <span>Arabic</span>, shipped in English</div>
+    <div class="stageBody"><b>Riyadh, Saudi Arabia.</b> B.Tech IT — University of Kalamoon (2019–2024). Bilingual AR/EN. Off-duty: anime, chess, badminton, film. The letter ن (noon) starts my name and never leaves the swarm.</div>
+  </div>
+  <div class="panel" data-stage="2">
+    <div class="stageNo">STAGE 02 · THE STACK</div>
+    <div class="stageTitle">Orbiting the <span>atom</span></div>
+    <div class="stageBody"><b>React · TypeScript · Tailwind · JavaScript</b> — plus Python (DS/AI), Git, Jira, Trello, prompt engineering. Certified: Meta Advanced React '25, Google PM ×2 '25, IBM Python &amp; GenAI '24, TS in React '25, Clean Code '24.</div>
+  </div>
+  <div class="panel" data-stage="3">
+    <div class="stageNo">STAGE 03 · ♞ · THE RECORD</div>
+    <div class="stageTitle">Every move <span>calculated</span></div>
+    <div class="rows">
+      <div class="r"><span>2026 →</span><span><b>Supervisor</b> · Distinctive Frontier Co. — leads frontend, standards, delivery</span></div>
+      <div class="r"><span>2025 →</span><span><b>Project Coordinator</b> · NexLead — shipped GoldenTag to Google Play</span></div>
+      <div class="r"><span>2025</span><span><b>Frontend + Coordination</b> · Distinctive Frontier Co.</span></div>
+      <div class="r"><span>2024–25</span><span><b>Frontend Dev</b> · Khwarizm Technologies, Riyadh</span></div>
+      <div class="r"><span>2023–24</span><span><b>React Dev</b> · Minicodeleader</span></div>
+      <div class="r"><span>2021</span><span><b>ICPC / ACPC</b> — competitive programming</span></div>
+    </div>
+  </div>
+  <div class="panel" data-stage="4">
+    <div class="stageNo">STAGE 04 · SIGNAL</div>
+    <div class="stageTitle">Point the swarm <span>at your project</span></div>
+    <div class="stageBody">Websites · React frontends · logos · business cards · social visuals · project coordination.</div>
+    <div class="btns">
+      <a class="btn" href="mailto:nouraldeentofi@gmail.com">EMAIL</a>
+      <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LINKEDIN</a>
+      <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">WEBSITE</a>
+    </div>
+  </div>
+</div>
+
+<div id="dots"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const N=15000, STAGES=5;
+let renderer;
+try{
+  renderer=new THREE.WebGLRenderer({canvas:document.getElementById('scene'),antialias:false,alpha:false});
+}catch(e){}
+if(!window.THREE||!renderer){document.documentElement.classList.add('nogl');}
+else{
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(innerWidth,innerHeight);
+renderer.setClearColor(0x05070d,1);
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(50,innerWidth/innerHeight,.1,100);
+camera.position.z=16;
+
+/* ---- glyph sampling ---- */
+function sample(draw,jitter){
+  const S=340,c=document.createElement('canvas');c.width=c.height=S;
+  const x=c.getContext('2d');x.fillStyle='#000';x.fillRect(0,0,S,S);
+  x.fillStyle='#fff';x.strokeStyle='#fff';x.textAlign='center';x.textBaseline='middle';
+  draw(x,S);
+  const d=x.getImageData(0,0,S,S).data,pts=[];
+  for(let y=0;y<S;y+=2)for(let xx=0;xx<S;xx+=2){
+    if(d[(y*S+xx)*4]>110)pts.push([(xx/S-.5),-(y/S-.5)]);
+  }
+  const out=new Float32Array(N*3);
+  for(let i=0;i<N;i++){
+    const p=pts[Math.floor(Math.random()*pts.length)]||[0,0];
+    const sc=13.2;
+    out[i*3]=p[0]*sc+(Math.random()-.5)*jitter;
+    out[i*3+1]=p[1]*sc+(Math.random()-.5)*jitter;
+    out[i*3+2]=(Math.random()-.5)*1.6;
+  }
+  return out;
+}
+const targets=[
+  sample((x,S)=>{x.font='900 '+S*.30+'px Arial Black,Arial';x.fillText('NOUR',S/2,S*.36);x.fillText('TOFI',S/2,S*.66);},.12),
+  sample((x,S)=>{x.font=S*.86+'px Arial';x.fillText('ن',S/2,S*.46);},.12),
+  sample((x,S)=>{x.lineWidth=S*.035;
+    for(let a=0;a<3;a++){x.save();x.translate(S/2,S/2);x.rotate(a*Math.PI/3);
+      x.beginPath();x.ellipse(0,0,S*.4,S*.15,0,0,Math.PI*2);x.stroke();x.restore();}
+    x.beginPath();x.arc(S/2,S/2,S*.055,0,Math.PI*2);x.fill();},.1),
+  sample((x,S)=>{x.font=S*.8+'px Arial';x.fillText('♞',S/2,S*.5);},.12),
+  sample((x,S)=>{x.font='700 '+S*.72+'px Arial';x.fillText('@',S/2,S*.5);},.12)
+];
+
+/* ---- particles ---- */
+const pos=new Float32Array(N*3), vel=new Float32Array(N*3), stag=new Float32Array(N);
+for(let i=0;i<N;i++){
+  pos[i*3]=(Math.random()-.5)*30;pos[i*3+1]=(Math.random()-.5)*30;pos[i*3+2]=(Math.random()-.5)*10;
+  stag[i]=Math.random();
+}
+let fromT=targets[0],toT=targets[0],mix=1;
+const geo=new THREE.BufferGeometry();
+geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+const sprite=(()=>{const c=document.createElement('canvas');c.width=c.height=64;
+  const x=c.getContext('2d');const g=x.createRadialGradient(32,32,0,32,32,32);
+  g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.4,'rgba(255,255,255,.5)');g.addColorStop(1,'rgba(255,255,255,0)');
+  x.fillStyle=g;x.fillRect(0,0,64,64);return new THREE.CanvasTexture(c);})();
+const mat=new THREE.PointsMaterial({size:.11,map:sprite,transparent:true,depthWrite:false,
+  blending:THREE.AdditiveBlending,color:new THREE.Color('#59f3ff')});
+const points=new THREE.Points(geo,mat);
+scene.add(points);
+
+/* starfield backdrop */
+const sPos=new Float32Array(900*3);
+for(let i=0;i<900;i++){sPos[i*3]=(Math.random()-.5)*70;sPos[i*3+1]=(Math.random()-.5)*45;sPos[i*3+2]=-12-Math.random()*22;}
+const sGeo=new THREE.BufferGeometry();sGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
+scene.add(new THREE.Points(sGeo,new THREE.PointsMaterial({size:.05,color:0x2a3550,transparent:true,opacity:.8})));
+
+/* ---- interaction ---- */
+let mxN=0,myN=0,mWorld=new THREE.Vector3(999,999,0),mActive=false;
+addEventListener('pointermove',e=>{
+  mxN=e.clientX/innerWidth*2-1;myN=-(e.clientY/innerHeight)*2+1;
+  const halfH=Math.tan(camera.fov*Math.PI/360)*camera.position.z;
+  mWorld.set(mxN*halfH*camera.aspect,myN*halfH,0);mActive=true;
+});
+addEventListener('pointerleave',()=>mActive=false);
+
+const STAGE_COLORS=['#59f3ff','#ffd166','#61dafb','#c9a2ff','#7dffb0'];
+let stage=0,locked=false;
+function goto(n){
+  n=Math.max(0,Math.min(STAGES-1,n));
+  if(n===stage&&mix>=1)return;
+  fromT=toT;toT=targets[n];stage=n;mix=0;
+  gsap.to({v:0},{v:1,duration:reduced?.01:1.6,ease:'power2.inOut',onUpdate:function(){mix=this.targets()[0].v;}});
+  gsap.to(mat.color,{...new THREE.Color(STAGE_COLORS[n]),duration:1.2});
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',+p.dataset.stage===n));
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('on',i===n));
+  const pw=document.getElementById('panelWrap');
+  gsap.fromTo(pw,{opacity:0,y:24},{opacity:1,y:0,duration:.7,ease:'power3.out'});
+  if(n>0)gsap.to('#scrollHint',{opacity:0,duration:.4});
+}
+/* dots */
+const labels=['ASSEMBLY','THE PERSON','THE STACK','THE RECORD','SIGNAL'];
+const dotsEl=document.getElementById('dots');
+labels.forEach((l,i)=>{const d=document.createElement('div');d.className='dot'+(i===0?' on':'');
+  d.innerHTML=`<span class="lbl">${l}</span>`;d.onclick=()=>goto(i);dotsEl.appendChild(d);});
+/* wheel/touch/keys */
+addEventListener('wheel',e=>{if(locked)return;locked=true;setTimeout(()=>locked=false,1000);
+  goto(stage+(e.deltaY>0?1:-1));},{passive:true});
+let ty=null;
+addEventListener('touchstart',e=>ty=e.touches[0].clientY,{passive:true});
+addEventListener('touchend',e=>{if(ty===null)return;const dy=ty-e.changedTouches[0].clientY;
+  if(Math.abs(dy)>40)goto(stage+(dy>0?1:-1));ty=null;},{passive:true});
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowDown'||e.key==='ArrowRight'||e.key===' ')goto(stage+1);
+  if(e.key==='ArrowUp'||e.key==='ArrowLeft')goto(stage-1);
+});
+
+/* ---- loop ---- */
+const clock=new THREE.Clock();
+function tick(){
+  const dt=Math.min(clock.getDelta(),.05),t=clock.elapsedTime;
+  const spring=reduced?.3:.055,damp=reduced?.6:.88,repelR=2.6,repelR2=repelR*repelR;
+  for(let i=0;i<N;i++){
+    const i3=i*3;
+    const m=Math.max(0,Math.min(1,(mix*1.35)-stag[i]*.35));
+    const e=m*m*(3-2*m);
+    const tx=fromT[i3]+(toT[i3]-fromT[i3])*e,
+          tty=fromT[i3+1]+(toT[i3+1]-fromT[i3+1])*e,
+          tz=fromT[i3+2]+(toT[i3+2]-fromT[i3+2])*e;
+    vel[i3]+=(tx-pos[i3])*spring;
+    vel[i3+1]+=(tty-pos[i3+1])*spring;
+    vel[i3+2]+=(tz-pos[i3+2])*spring;
+    if(mActive&&!reduced){
+      const dx=pos[i3]-mWorld.x,dy=pos[i3+1]-mWorld.y;
+      const d2=dx*dx+dy*dy;
+      if(d2<repelR2&&d2>.0001){
+        const f=(1-d2/repelR2)*.5/Math.sqrt(d2);
+        vel[i3]+=dx*f;vel[i3+1]+=dy*f;
+      }
+    }
+    vel[i3]*=damp;vel[i3+1]*=damp;vel[i3+2]*=damp;
+    pos[i3]+=vel[i3];pos[i3+1]+=vel[i3+1];pos[i3+2]+=vel[i3+2];
+  }
+  geo.attributes.position.needsUpdate=true;
+  if(!reduced){
+    points.rotation.y=Math.sin(t*.22)*.14+mxN*.1;
+    points.rotation.x=Math.cos(t*.18)*.06+ -myN*.06;
+    camera.position.x+=((mxN*1.1)-camera.position.x)*.04;
+    camera.position.y+=((myN*.7)-camera.position.y)*.04;
+    camera.lookAt(0,0,0);
+  }
+  renderer.render(scene,camera);
+  requestAnimationFrame(tick);
+}
+tick();
+addEventListener('resize',()=>{
+  camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+});
+/* entrance */
+goto(0);
+}
+</script>
+</body>
+</html>

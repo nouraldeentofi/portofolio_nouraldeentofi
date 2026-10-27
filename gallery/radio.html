@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — RADIO · Tune In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Monoton&family=Share+Tech+Mono&family=Karla:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--walnut:#2e2019;--walnut2:#4a3527;--face:#efe3cd;--amber:#ffb54d;--amberhi:#ffd894;
+        --needle:#d94f3d;--ink:#241a12;--dim:rgba(36,26,18,.6);--glow:rgba(255,181,77,.5)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;color:var(--face);min-height:100vh;
+    background:radial-gradient(90vw 70vh at 50% -10%,#584434,var(--walnut) 60%,#1c130d)}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--amber);color:#241a12}
+
+  #wrap{max-width:920px;margin:0 auto;padding:7vh 5vw 12vh}
+  .logo{font-family:'Monoton',cursive;font-size:clamp(30px,6vw,54px);color:var(--amber);
+    text-shadow:0 0 26px var(--glow);text-align:center;letter-spacing:.06em}
+  .sublogo{text-align:center;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.5em;
+    color:rgba(239,227,205,.55);margin:10px 0 40px;text-transform:uppercase}
+
+  /* ===== RADIO DEVICE ===== */
+  #radio{background:linear-gradient(180deg,#5c452f,var(--walnut2));border-radius:26px;
+    box-shadow:0 40px 90px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,255,255,.15);
+    padding:26px 28px 30px;border:1px solid rgba(0,0,0,.4)}
+  #faceplate{background:linear-gradient(180deg,var(--face),#e2d2b4);border-radius:14px;padding:22px 24px;
+    box-shadow:inset 0 3px 14px rgba(0,0,0,.35)}
+  #freqRow{display:flex;justify-content:space-between;align-items:baseline;font-family:'Share Tech Mono',monospace;color:var(--ink)}
+  #freqBig{font-size:clamp(34px,6vw,52px);color:#8a2f1f}
+  #freqBig small{font-size:.4em;color:var(--dim)}
+  #stName{font-size:clamp(12px,2vw,15px);letter-spacing:.2em;text-transform:uppercase;color:var(--dim);text-align:right}
+  #stName.locked{color:#8a2f1f;text-shadow:0 0 12px rgba(217,79,61,.3)}
+
+  /* dial band */
+  #band{position:relative;height:86px;margin-top:16px;border-radius:8px;cursor:ew-resize;
+    background:linear-gradient(180deg,#f7edd7,#ead9b8);box-shadow:inset 0 2px 10px rgba(0,0,0,.3);
+    touch-action:none;user-select:none}
+  #ticks{position:absolute;inset:0}
+  .tick{position:absolute;bottom:12px;width:1px;background:rgba(36,26,18,.45)}
+  .tick.major{width:2px;background:rgba(36,26,18,.7)}
+  .tick .n{position:absolute;top:-22px;left:50%;transform:translateX(-50%);
+    font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim)}
+  .stMark{position:absolute;top:8px;transform:translateX(-50%);font-size:9px;font-family:'Share Tech Mono',monospace;
+    letter-spacing:.08em;color:#8a2f1f;white-space:nowrap}
+  .stMark::after{content:'▼';display:block;text-align:center;font-size:8px}
+  #needle{position:absolute;top:0;bottom:0;width:3px;background:var(--needle);left:20%;
+    box-shadow:0 0 12px rgba(217,79,61,.8);pointer-events:none}
+  #needle::after{content:'';position:absolute;top:-7px;left:50%;transform:translateX(-50%);
+    border:7px solid transparent;border-top-color:var(--needle)}
+  #lamp{position:absolute;right:10px;top:10px;width:10px;height:10px;border-radius:50%;background:#7a5b2c;transition:all .3s}
+  #lamp.on{background:var(--amber);box-shadow:0 0 16px var(--glow)}
+
+  /* wave + vu */
+  #meters{display:flex;gap:18px;margin-top:18px;align-items:stretch}
+  #wave{flex:1;height:64px;background:#161009;border-radius:8px;box-shadow:inset 0 2px 8px rgba(0,0,0,.7)}
+  #vu{display:flex;gap:5px;align-items:flex-end;background:#161009;border-radius:8px;padding:8px;box-shadow:inset 0 2px 8px rgba(0,0,0,.7)}
+  #vu i{width:7px;background:linear-gradient(180deg,var(--needle),var(--amber));border-radius:2px;height:8%}
+
+  /* knobs row */
+  #knobs{display:flex;justify-content:space-between;align-items:center;margin-top:20px;flex-wrap:wrap;gap:14px}
+  .knob{width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#6b5138,#33241786);
+    background-color:#402d1d;box-shadow:0 6px 14px rgba(0,0,0,.5), inset 0 2px 3px rgba(255,255,255,.2);
+    position:relative;cursor:pointer;transition:transform .3s}
+  .knob::after{content:'';position:absolute;top:6px;left:50%;transform:translateX(-50%);width:4px;height:16px;
+    background:var(--amber);border-radius:2px;box-shadow:0 0 8px var(--glow)}
+  .knob:hover{transform:rotate(14deg)}
+  .klabel{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.25em;color:rgba(239,227,205,.6);
+    text-align:center;margin-top:8px;text-transform:uppercase}
+  #presets{display:flex;gap:8px;flex-wrap:wrap}
+  .preset{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.1em;background:#241a12;
+    color:var(--amber);border:1px solid rgba(255,181,77,.4);border-radius:6px;padding:10px 13px;cursor:pointer;transition:all .2s}
+  .preset:hover,.preset.on{background:var(--amber);color:#241a12;box-shadow:0 0 18px var(--glow)}
+
+  /* ===== STATION PANEL ===== */
+  #panel{margin-top:36px;background:rgba(22,16,9,.75);border:1px solid rgba(255,181,77,.25);border-radius:18px;
+    padding:36px 38px;min-height:280px;backdrop-filter:blur(6px);transition:opacity .4s}
+  #panel.static{opacity:.45}
+  .onair{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.35em;
+    color:var(--needle);border:1px solid var(--needle);padding:6px 12px;border-radius:4px;margin-bottom:18px;text-transform:uppercase}
+  .onair.live{animation:blinkair 1.4s infinite}
+  @keyframes blinkair{50%{opacity:.35}}
+  #panel h2{font-size:clamp(24px,4.4vw,40px);font-weight:700;line-height:1.12;margin-bottom:14px;color:var(--face)}
+  #panel h2 em{font-style:normal;color:var(--amber)}
+  #panel p{font-size:14.5px;font-weight:300;line-height:1.8;color:rgba(239,227,205,.8);max-width:640px}
+  #panel p b{color:var(--face);font-weight:700}
+  #panel .rowline{font-family:'Share Tech Mono',monospace;font-size:12.5px;line-height:2.2;color:rgba(239,227,205,.75)}
+  #panel .rowline b{color:var(--amber)}
+  .btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+  .btn{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:.2em;padding:14px 24px;
+    border:1px solid var(--amber);color:var(--amber);border-radius:8px;transition:all .25s;text-transform:uppercase}
+  .btn:hover{background:var(--amber);color:#241a12;box-shadow:0 0 26px var(--glow)}
+  #hint{text-align:center;font-family:'Share Tech Mono',monospace;font-size:10.5px;letter-spacing:.35em;
+    color:rgba(239,227,205,.5);margin-top:26px;text-transform:uppercase;animation:blinkair 2.6s infinite}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+  @media(max-width:640px){#faceplate{padding:16px}#panel{padding:26px 22px}}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div class="logo">NOUR·FM</div>
+  <div class="sublogo">Broadcasting one career across five frequencies · Riyadh</div>
+
+  <div id="radio">
+    <div id="faceplate">
+      <div id="freqRow"><div id="freqBig">88.0<small> MHz</small></div><div id="stName">— STATIC —</div></div>
+      <div id="band"><div id="ticks"></div><div id="needle"></div><div id="lamp"></div></div>
+      <div id="meters"><canvas id="wave"></canvas><div id="vu"></div></div>
+    </div>
+    <div id="knobs">
+      <div><div class="knob" id="powerKnob"></div><div class="klabel">Sound</div></div>
+      <div id="presets"></div>
+      <div><div class="knob" id="tuneKnob"></div><div class="klabel">Tune</div></div>
+    </div>
+  </div>
+
+  <div id="panel" class="static">
+    <span class="onair" id="onair">SCANNING…</span>
+    <div id="panelBody">
+      <h2>Between stations, there is only <em>static.</em></h2>
+      <p>Drag the red needle across the band — five stations are broadcasting. Lock onto a frequency and the noise clears.</p>
+    </div>
+  </div>
+  <div id="hint">◈ Drag the dial · or press a preset ◈</div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FMIN=88,FMAX=108;
+const STATIONS=[
+  {f:89.1,name:'IDENTITY FM',html:`
+    <h2>Nour Aldeen Tofi — <em>clear signal from Riyadh</em></h2>
+    <p><b>Frontend developer &amp; software engineering supervisor</b>, ~3 years on air. Writes the React <b>and</b> runs the project — requirements, scope, delivery. B.Tech IT, University of Kalamoon (2019–2024). Broadcasting in Arabic + English.</p>`},
+  {f:93.5,name:'CAREER FM',html:`
+    <h2>The employment <em>broadcast log</em></h2>
+    <div class="rowline">
+      <b>2026 →</b> Software Engineering Supervisor — Distinctive Frontier Co.<br>
+      <b>2025 →</b> Project Coordinator — NexLead (freelance, remote)<br>
+      <b>2025</b> Frontend + Coordination — Distinctive Frontier Co.<br>
+      <b>2024–25</b> Frontend Developer — Khwarizm Technologies<br>
+      <b>2023–24</b> React Developer — Minicodeleader<br>
+      <b>2021</b> ICPC / ACPC — competitive programming
+    </div>`},
+  {f:98.7,name:'SKILLS FM',html:`
+    <h2>Now playing: <em>the stack</em></h2>
+    <p><b>React · TypeScript · Tailwind CSS · JavaScript</b> on heavy rotation. B-sides: Python (DS/AI), Git, Jira, Trello, prompt engineering, clean code.</p>
+    <div class="rowline" style="margin-top:12px"><b>CERTIFIED</b> — Meta Advanced React '25 · TS in React '25 · Google PM ×2 '25 · IBM Python &amp; GenAI '24 · Tailwind '24 · Clean Code '24 · Jira suite '25</div>`},
+  {f:102.3,name:'GOLDENTAG',html:`
+    <h2>Special report: <em>GoldenTag shipped</em></h2>
+    <p>As freelance coordinator at NexLead, took a jewelry store management app from requirements to <b>Google Play</b>: inventory, employees, barcode scanning, USD/SYP exchange rates, sales logging, TXT export.</p>
+    <div class="btns"><a class="btn" href="https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag" target="_blank" rel="noopener">Listen on Google Play ↗</a></div>`},
+  {f:106.9,name:'CONTACT FM',html:`
+    <h2>Call in — <em>lines are open</em></h2>
+    <p>Requests accepted: websites · React frontends · logos · business cards · social visuals · project coordination. After the show: anime, chess, badminton, film.</p>
+    <div class="btns">
+      <a class="btn" href="mailto:nouraldeentofi@gmail.com">Email</a>
+      <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+    </div>`}
+];
+
+/* ===== band ticks + markers ===== */
+const band=document.getElementById('band'),ticks=document.getElementById('ticks');
+for(let f=FMIN;f<=FMAX;f+=0.5){
+  const x=(f-FMIN)/(FMAX-FMIN)*100;
+  const t=document.createElement('div');
+  const major=f%2===0;
+  t.className='tick'+(major?' major':'');
+  t.style.left=x+'%';t.style.height=major?'26px':'14px';
+  if(major)t.innerHTML=`<span class="n">${f}</span>`;
+  ticks.appendChild(t);
+}
+STATIONS.forEach(s=>{const m=document.createElement('div');m.className='stMark';
+  m.style.left=((s.f-FMIN)/(FMAX-FMIN)*100)+'%';m.textContent=s.f.toFixed(1);ticks.appendChild(m);});
+
+/* presets */
+const presetsEl=document.getElementById('presets');
+STATIONS.forEach((s,i)=>{const b=document.createElement('button');b.className='preset';b.textContent=s.f.toFixed(1);
+  b.onclick=()=>{audioOn();tuneTo(s.f);};presetsEl.appendChild(b);});
+
+/* ===== audio ===== */
+let AC=null,noiseGain=null,carrierGain=null,carrier=null,muted=false;
+function audioOn(){
+  if(muted)return;
+  if(AC){if(AC.state==='suspended')AC.resume();return;}
+  try{
+    AC=new (window.AudioContext||window.webkitAudioContext)();
+    const len=AC.sampleRate*2,buf=AC.createBuffer(1,len,AC.sampleRate),d=buf.getChannelData(0);
+    for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*.5;
+    const src=AC.createBufferSource();src.buffer=buf;src.loop=true;
+    const bp=AC.createBiquadFilter();bp.type='bandpass';bp.frequency.value=1200;bp.Q.value=.6;
+    noiseGain=AC.createGain();noiseGain.gain.value=.05;
+    src.connect(bp);bp.connect(noiseGain);noiseGain.connect(AC.destination);src.start();
+    carrier=AC.createOscillator();carrier.type='sine';carrier.frequency.value=220;
+    const lfo=AC.createOscillator();lfo.type='sine';lfo.frequency.value=3;
+    const lfoG=AC.createGain();lfoG.gain.value=8;
+    lfo.connect(lfoG);lfoG.connect(carrier.frequency);lfo.start();
+    carrierGain=AC.createGain();carrierGain.gain.value=0;
+    carrier.connect(carrierGain);carrierGain.connect(AC.destination);carrier.start();
+  }catch(e){}
+}
+document.getElementById('powerKnob').onclick=()=>{muted=!muted;
+  if(AC){noiseGain.gain.value=muted?0:.05;if(muted&&carrierGain)carrierGain.gain.value=0;}
+  else if(!muted)audioOn();
+};
+
+/* ===== tuning ===== */
+let freq=88.0,target=88.0,locked=null;
+const needle=document.getElementById('needle'),freqBig=document.getElementById('freqBig'),
+      stName=document.getElementById('stName'),panel=document.getElementById('panel'),
+      panelBody=document.getElementById('panelBody'),onair=document.getElementById('onair'),
+      lamp=document.getElementById('lamp');
+function tuneTo(f){target=Math.max(FMIN,Math.min(FMAX,f));}
+function bandDrag(e){
+  const r=band.getBoundingClientRect();
+  const x=Math.max(0,Math.min(1,((e.touches?e.touches[0].clientX:e.clientX)-r.left)/r.width));
+  tuneTo(FMIN+x*(FMAX-FMIN));
+}
+let dragging=false;
+band.addEventListener('pointerdown',e=>{audioOn();dragging=true;bandDrag(e);});
+addEventListener('pointermove',e=>{if(dragging)bandDrag(e);});
+addEventListener('pointerup',()=>dragging=false);
+addEventListener('keydown',e=>{audioOn();
+  if(e.key==='ArrowRight')tuneTo(target+0.2);
+  if(e.key==='ArrowLeft')tuneTo(target-0.2);});
+document.getElementById('tuneKnob').onclick=()=>{audioOn();
+  /* jump to next station */
+  const next=STATIONS.find(s=>s.f>freq+0.3)||STATIONS[0];tuneTo(next.f);};
+
+function nearest(){
+  let best=null,bd=99;
+  for(const s of STATIONS){const d=Math.abs(freq-s.f);if(d<bd){bd=d;best=s;}}
+  return {s:best,d:bd};
+}
+function updateStation(){
+  const {s,d}=nearest();
+  const lockNow=d<0.35?s:null;
+  const sig=Math.max(0,1-d/0.35);
+  if(AC&&!muted){
+    noiseGain.gain.value=.05*(1-sig*.92);
+    carrierGain.gain.value=.028*sig;
+    if(carrier)carrier.frequency.value=160+STATIONS.indexOf(s)*60;
+  }
+  lamp.classList.toggle('on',!!lockNow);
+  if(lockNow!==locked){
+    locked=lockNow;
+    if(locked){
+      stName.textContent='● '+locked.name;stName.classList.add('locked');
+      onair.textContent='ON AIR · '+locked.name;onair.classList.add('live');
+      panel.classList.remove('static');panelBody.innerHTML=locked.html;
+      document.querySelectorAll('.preset').forEach((p,i)=>p.classList.toggle('on',STATIONS[i]===locked));
+    }else{
+      stName.textContent='— STATIC —';stName.classList.remove('locked');
+      onair.textContent='SCANNING…';onair.classList.remove('live');
+      panel.classList.add('static');
+      panelBody.innerHTML='<h2>Between stations, there is only <em>static.</em></h2><p>Keep tuning — you\'re close to something.</p>';
+      document.querySelectorAll('.preset').forEach(p=>p.classList.remove('on'));
+    }
+  }
+  return sig;
+}
+
+/* ===== wave + vu ===== */
+const wcv=document.getElementById('wave'),wctx=wcv.getContext('2d');
+const vu=document.getElementById('vu');
+for(let i=0;i<8;i++){vu.appendChild(document.createElement('i'));}
+function sizeWave(){wcv.width=wcv.clientWidth*2;wcv.height=wcv.clientHeight*2;}
+sizeWave();addEventListener('resize',sizeWave);
+
+let t=0;
+(function loop(){
+  freq+=(target-freq)*(reduced?1:.12);
+  const x=(freq-FMIN)/(FMAX-FMIN)*100;
+  needle.style.left=x+'%';
+  freqBig.innerHTML=freq.toFixed(1)+'<small> MHz</small>';
+  const sig=updateStation();
+  /* wave draw */
+  t+=.08;
+  const W=wcv.width,H=wcv.height;
+  wctx.fillStyle='#161009';wctx.fillRect(0,0,W,H);
+  wctx.strokeStyle=sig>.5?'#ffb54d':'#7a5b2c';
+  wctx.lineWidth=2;wctx.shadowColor='#ffb54d';wctx.shadowBlur=sig*14;
+  wctx.beginPath();
+  for(let px=0;px<W;px+=4){
+    const clean=Math.sin(px*.03+t*3)*H*.26*sig;
+    const noise=(Math.random()-.5)*H*.5*(1-sig);
+    const y=H/2+clean+noise;
+    px===0?wctx.moveTo(px,y):wctx.lineTo(px,y);
+  }
+  wctx.stroke();wctx.shadowBlur=0;
+  /* vu */
+  vu.querySelectorAll('i').forEach((b,i)=>{
+    const level=sig*(.5+.5*Math.abs(Math.sin(t*2+i)))+(1-sig)*Math.random()*.3;
+    b.style.height=(8+level*84)+'%';
+  });
+  requestAnimationFrame(loop);
+})();
+tuneTo(88.6);
+</script>
+</body>
+</html>

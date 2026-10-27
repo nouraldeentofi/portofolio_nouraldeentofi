@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — LAUNDRY · We Clean Messy Projects</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--tile:#dff0f2;--tile2:#c2e2e6;--mach:#f5f8fa;--machd:#d8e0e6;--drum:#1c2a38;--fg:#22343f;--dim:rgba(34,52,63,.65);
+        --acc:#2ea8b8;--pink:#f08aa8}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Quicksand',sans-serif;color:var(--fg);min-height:100vh;
+    background:linear-gradient(180deg,var(--tile),var(--tile2));
+    background-image:linear-gradient(rgba(255,255,255,.5) 2px,transparent 2px),linear-gradient(90deg,rgba(255,255,255,.5) 2px,transparent 2px);
+    background-size:60px 60px;display:flex;flex-direction:column;align-items:center;padding:5vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--acc);color:#fff}
+  h1{font-weight:700;font-size:clamp(24px,4.8vw,42px)}
+  h1 span{color:var(--acc)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.24em;color:var(--dim);
+    margin:8px 0 24px;text-transform:uppercase;text-align:center}
+
+  #shopL{width:min(820px,96vw);display:grid;grid-template-columns:220px 1fr;gap:18px}
+  @media(max-width:700px){#shopL{grid-template-columns:1fr}}
+
+  /* basket */
+  #basket{background:#fff;border:3px solid var(--acc);border-radius:16px;padding:16px;box-shadow:0 16px 40px rgba(46,168,184,.2)}
+  #basket .t{font-weight:700;font-size:13px;color:var(--acc);text-align:center;margin-bottom:10px;letter-spacing:.06em}
+  .cloth{display:flex;align-items:center;gap:10px;width:100%;background:#f5fafb;border:2px solid rgba(34,52,63,.15);
+    border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer;font-family:'Quicksand';font-weight:700;
+    font-size:12px;color:var(--fg);text-align:left;transition:all .2s}
+  .cloth:hover{border-color:var(--acc);transform:translateX(4px)}
+  .cloth:disabled{opacity:.3;pointer-events:none}
+  .cloth .em{font-size:19px}
+  .cloth small{display:block;font-weight:500;font-size:10px;color:var(--dim)}
+
+  /* machine */
+  #machineL{position:relative;background:linear-gradient(180deg,var(--mach),var(--machd));border-radius:20px;
+    padding:20px;box-shadow:0 24px 60px rgba(34,52,63,.25), inset 0 2px 0 #fff;display:flex;flex-direction:column;align-items:center}
+  #panelL{width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:10px;flex-wrap:wrap}
+  #lcdL{font-family:'IBM Plex Mono',monospace;font-size:12px;background:#12242e;color:#5ee8d0;border-radius:8px;
+    padding:10px 16px;letter-spacing:.1em;min-width:210px;text-align:center}
+  #progSel{display:flex;gap:6px;flex-wrap:wrap}
+  .prog{font-family:'Quicksand';font-weight:700;font-size:10.5px;border:2px solid var(--acc);border-radius:99px;
+    background:none;color:var(--acc);padding:8px 13px;cursor:pointer;transition:all .2s}
+  .prog.on{background:var(--acc);color:#fff}
+  #door2{position:relative;width:230px;height:230px;border-radius:50%;
+    background:radial-gradient(circle at 36% 30%,#fff,#c9d6de 70%);padding:18px;
+    box-shadow:0 10px 26px rgba(0,0,0,.2), inset 0 2px 0 #fff}
+  #drum{position:relative;width:100%;height:100%;border-radius:50%;overflow:hidden;
+    background:radial-gradient(circle at 50% 40%,#2c4256,var(--drum));box-shadow:inset 0 6px 20px rgba(0,0,0,.6)}
+  #load{position:absolute;inset:0}
+  .item2{position:absolute;font-size:26px;transition:filter 1s}
+  #waterL{position:absolute;left:0;right:0;bottom:0;height:0;background:rgba(94,216,232,.4);transition:height .8s}
+  .bubbleL{position:absolute;border-radius:50%;border:2px solid rgba(255,255,255,.7);
+    background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.6),transparent)}
+  #glass{position:absolute;inset:18px;border-radius:50%;pointer-events:none;
+    background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.35),transparent 45%)}
+  #startL{margin-top:16px;font-family:'Quicksand';font-weight:700;font-size:15px;border:none;border-radius:12px;
+    padding:14px 30px;background:var(--acc);color:#fff;cursor:pointer;box-shadow:0 5px 0 #1c7a86;transition:transform .1s,box-shadow .1s}
+  #startL:active{transform:translateY(4px);box-shadow:0 1px 0 #1c7a86}
+  #startL:disabled{filter:grayscale(.5);pointer-events:none}
+
+  /* clean line */
+  #line2{width:min(820px,96vw);margin-top:18px;background:#fff;border-radius:16px;padding:16px 20px;
+    box-shadow:0 16px 40px rgba(34,52,63,.15);display:none}
+  #line2.show{display:block}
+  #line2 .t{font-weight:700;font-size:13px;color:var(--acc);letter-spacing:.06em;margin-bottom:8px}
+  #rope{height:3px;background:#8aa0ac;border-radius:2px;margin-bottom:-8px}
+  #hangers{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;padding-top:4px}
+  .hang{text-align:center;animation:sway 3s ease-in-out infinite;transform-origin:top center}
+  @keyframes sway{50%{transform:rotate(3deg)}}
+  .hang .pinL{width:8px;height:14px;background:#c05a2e;margin:0 auto 2px;border-radius:2px}
+  .hang .cl{font-size:30px}
+  .hang .lb{font-size:9px;font-weight:700;color:var(--dim);margin-top:2px;max-width:80px}
+  #ctaL{margin-top:14px;text-align:center}
+  #ctaL p{font-size:13px;color:var(--dim);line-height:1.65}
+  #ctaL p b{color:var(--fg)}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .btn{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.1em;padding:12px 20px;border-radius:99px;
+    background:var(--fg);color:#fff;text-transform:uppercase;font-weight:600}
+  .btn.g{background:none;border:2px solid var(--fg);color:var(--fg)}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>🫧 NOUR <span>WASH-O-MAT</span></h1>
+<div class="sub">We launder messy projects · stains guaranteed gone · مصبغة المشاريع</div>
+
+<div id="shopL">
+  <div id="basket">
+    <div class="t">🧺 DIRTY BASKET — toss items in</div>
+    <button class="cloth" data-i="0"><span class="em">👕</span><span>Spaghetti Code Shirt<small>stains: legacy CSS, !important everywhere</small></span></button>
+    <button class="cloth" data-i="1"><span class="em">👖</span><span>Slow Website Jeans<small>stains: 12s load time</small></span></button>
+    <button class="cloth" data-i="2"><span class="em">🧥</span><span>Outdated Brand Jacket<small>stains: logo from 2009</small></span></button>
+    <button class="cloth" data-i="3"><span class="em">🧦</span><span>Lost Deadline Socks<small>always missing, like your timeline</small></span></button>
+    <button class="cloth" data-i="4"><span class="em">🎽</span><span>Dead Social Vest<small>last post: 14 months ago</small></span></button>
+  </div>
+
+  <div id="machineL">
+    <div id="panelL">
+      <div id="lcdL">LOAD THE DRUM (0/5)</div>
+      <div id="progSel">
+        <button class="prog on" data-p="REACT WASH 60°">REACT 60°</button>
+        <button class="prog" data-p="DESIGN DELICATE">DESIGN</button>
+        <button class="prog" data-p="COORDINATION SPIN">COORD SPIN</button>
+      </div>
+    </div>
+    <div id="door2"><div id="drum"><div id="waterL"></div><div id="load"></div></div><div id="glass"></div></div>
+    <button id="startL" disabled>▶ START CYCLE</button>
+  </div>
+</div>
+
+<div id="line2">
+  <div class="t">✨ FRESH &amp; FOLDED — ready for pickup</div>
+  <div id="rope"></div>
+  <div id="hangers"></div>
+  <div id="ctaL">
+    <p><b>Same service, real projects:</b> messy code → clean React · slow sites → fast frontends · old brands → fresh logos &amp; visuals · lost deadlines → coordinated delivery (see: GoldenTag on Google Play).</p>
+    <div class="btns">
+      <a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Laundry%20drop-off&body=My%20project%20has%20stains%3A%20">🧺 Drop off your project</a>
+      <a class="btn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const CLOTHES=['👕','👖','🧥','🧦','🎽'];
+const CLEAN=[
+ ['👔','Clean React Shirt — components pressed'],
+ ['🩳','Fast Site Shorts — loads in 1s'],
+ ['🧥','Fresh Brand Jacket — new logo stitched'],
+ ['🧦','Matched Deadline Socks — pair found ✓'],
+ ['🎽','Active Social Vest — posting weekly']
+];
+let loaded=[],spinning=false;
+let AC=null;
+function blip(f){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f||600;
+  g.gain.setValueAtTime(.06,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.14);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.16);}catch(e){}}
+function motorL(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sawtooth';
+  o.frequency.setValueAtTime(70,AC.currentTime);
+  o.frequency.linearRampToValueAtTime(150,AC.currentTime+2.4);
+  g.gain.setValueAtTime(.045,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+3.2);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+3.3);}catch(e){}}
+
+document.querySelectorAll('.cloth').forEach(b=>b.onclick=()=>{
+  if(spinning)return;
+  b.disabled=true;blip(500+loaded.length*80);
+  const i=+b.dataset.i;
+  loaded.push(i);
+  const el=document.createElement('div');el.className='item2';el.textContent=CLOTHES[i];
+  el.style.filter='sepia(.8) brightness(.6)';
+  const ang=Math.random()*Math.PI*2,r=30+Math.random()*45;
+  el.style.left=(50+Math.cos(ang)*25)+'%';el.style.top=(48+Math.sin(ang)*22)+'%';
+  el.dataset.baseA=ang;el.dataset.baseR=r;
+  document.getElementById('load').appendChild(el);
+  document.getElementById('lcdL').textContent=`LOAD THE DRUM (${loaded.length}/5)`;
+  if(loaded.length>=5){document.getElementById('startL').disabled=false;
+    document.getElementById('lcdL').textContent='DRUM FULL — PICK PROGRAM & START';}
+});
+document.querySelectorAll('.prog').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.prog').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');blip(700);
+});
+document.getElementById('startL').onclick=async()=>{
+  if(spinning)return;spinning=true;
+  document.getElementById('startL').disabled=true;
+  const prog=document.querySelector('.prog.on').dataset.p;
+  const lcd=document.getElementById('lcdL');
+  lcd.textContent='FILLING… '+prog;
+  document.getElementById('waterL').style.height='55%';
+  await wait(reduced?150:1000);
+  /* bubbles */
+  const drum=document.getElementById('drum');
+  if(!reduced)for(let i=0;i<10;i++){
+    const bb=document.createElement('div');bb.className='bubbleL';
+    const s=8+Math.random()*16;
+    bb.style.cssText+=`width:${s}px;height:${s}px;left:${10+Math.random()*80}%;top:${40+Math.random()*50}%`;
+    drum.appendChild(bb);
+    bb.animate([{transform:'translateY(0)',opacity:.9},{transform:'translateY(-60px)',opacity:0}],
+      {duration:1800+Math.random()*1200,iterations:3}).onfinish=()=>bb.remove();
+  }
+  lcd.textContent='WASHING — '+prog;
+  motorL();
+  /* spin items */
+  const items=[...document.querySelectorAll('.item2')];
+  const t0=performance.now();
+  const spinDur=reduced?500:3400;
+  await new Promise(res=>{
+    (function sp(t){
+      const p=(t-t0)/spinDur;
+      const speed=p<.7?p*14:14*(1-((p-.7)/.3))+1;
+      items.forEach((el,ix)=>{
+        const a=+el.dataset.baseA+(t-t0)/1000*speed;
+        const r=+el.dataset.baseR*.55;
+        el.style.left=(50+Math.cos(a)*r*.8)+'%';
+        el.style.top=(48+Math.sin(a)*r*.7)+'%';
+        el.style.transform=`rotate(${a*40}deg)`;
+        if(p>.5)el.style.filter='none';
+      });
+      if(p<1)requestAnimationFrame(sp);else res();
+    })(t0);
+  });
+  document.getElementById('waterL').style.height='0';
+  lcd.textContent='✓ CYCLE DONE — SPARKLING';
+  blip(880);blip(1100);
+  await wait(reduced?100:600);
+  /* hang clean clothes */
+  const hg=document.getElementById('hangers');hg.innerHTML='';
+  loaded.forEach((i,ix)=>{
+    const h=document.createElement('div');h.className='hang';
+    h.style.animationDelay=(ix*.3)+'s';
+    h.innerHTML=`<div class="pinL"></div><div class="cl">${CLEAN[i][0]}</div><div class="lb">${CLEAN[i][1]}</div>`;
+    hg.appendChild(h);
+  });
+  document.getElementById('line2').classList.add('show');
+  document.getElementById('line2').scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest'});
+  spinning=false;
+};
+function wait(ms){return new Promise(r=>setTimeout(r,ms));}
+</script>
+</body>
+</html>

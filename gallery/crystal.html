@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IRIS · Prism — A 3D Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Unbounded:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:        #050416;
+  --bg-deep:   #02010a;
+  --ink:       #f3eef8;
+  --muted:     #8c87a5;
+  --accent:    #c084fc;
+  --accent2:   #6af0ff;
+  --accent3:   #ff9ec7;
+  --accent4:   #ffd166;
+  --glass:     rgba(20, 18, 50, .55);
+  --glass-bd:  rgba(180,160,255,.18);
+}
+
+html, body{ height: 100%; overflow: hidden }
+body{
+  font-family: 'Space Grotesk', sans-serif;
+  background: var(--bg-deep);
+  color: var(--ink);
+  user-select: none;
+}
+
+/* ─── BACKGROUND ─── */
+#bg{
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 70% at 30% 30%, rgba(120,80,220,.35), transparent 65%),
+    radial-gradient(ellipse 70% 60% at 75% 70%, rgba(110,240,255,.25), transparent 65%),
+    radial-gradient(ellipse 90% 80% at 50% 100%, rgba(255,158,199,.18), transparent 70%),
+    linear-gradient(180deg, #050416, #02010a);
+}
+
+/* Three.js canvas */
+#scene{
+  position: fixed; inset: 0; z-index: 1;
+  cursor: grab;
+}
+#scene.grabbing{ cursor: grabbing }
+
+/* ─── HUD / OVERLAY ─── */
+.hud{
+  position: fixed; z-index: 10;
+  pointer-events: none;
+}
+.hud.tl{ top: 28px; left: 32px }
+.hud.tr{ top: 28px; right: 32px; text-align: right }
+.hud.bl{ bottom: 28px; left: 32px }
+.hud.br{ bottom: 28px; right: 32px; text-align: right }
+.hud.bc{ bottom: 28px; left: 50%; transform: translateX(-50%); text-align: center }
+
+.brand{
+  font-family:'Unbounded', sans-serif;
+  font-size: 1.05rem; font-weight: 800;
+  letter-spacing: -.5px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.brand small{
+  display: block;
+  font-family:'JetBrains Mono', monospace;
+  font-size: .7rem;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 3px;
+  -webkit-text-fill-color: var(--muted);
+}
+
+.status{
+  font-family:'JetBrains Mono', monospace;
+  font-size: .72rem; letter-spacing: 2px;
+  color: var(--muted); text-transform: uppercase;
+}
+.status .dot{
+  display:inline-block;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent2);
+  box-shadow: 0 0 10px var(--accent2);
+  animation: pulse 2s infinite;
+  margin-right: 6px; vertical-align: middle;
+}
+@keyframes pulse{ 0%,100%{opacity:1} 50%{opacity:.3} }
+
+.hint{
+  font-family:'JetBrains Mono', monospace;
+  font-size: .7rem; letter-spacing: 2px;
+  color: var(--muted); text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px; justify-content: center;
+}
+.hint .kbd{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding: 3px 8px; border-radius: 4px;
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+  color: var(--ink); font-size: .68rem;
+}
+
+.compass{
+  font-family:'JetBrains Mono', monospace;
+  font-size: .7rem; letter-spacing: 2px;
+  color: var(--muted); text-transform: uppercase;
+}
+
+/* ─── HERO TEXT (center top) ─── */
+.intro{
+  position: fixed; z-index: 8;
+  top: 22%; left: 50%; transform: translateX(-50%);
+  text-align: center;
+  pointer-events: none;
+  transition: opacity .6s, transform .6s;
+}
+.intro.hidden{ opacity: 0; transform: translate(-50%, -30px) }
+.intro .eyebrow{
+  font-family:'JetBrains Mono', monospace;
+  font-size: .72rem; letter-spacing: 6px; text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: 14px;
+}
+.intro h1{
+  font-family:'Unbounded', sans-serif;
+  font-size: clamp(2.2rem, 5.4vw, 4rem);
+  font-weight: 800;
+  line-height: .98; letter-spacing: -2px;
+  background: linear-gradient(135deg,
+    #fff 0%, var(--accent) 40%, var(--accent2) 70%, var(--accent3) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 30px rgba(192,132,252,.3));
+}
+.intro p{
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 1.02rem;
+  max-width: 520px;
+  margin-left: auto; margin-right: auto;
+  line-height: 1.7;
+}
+
+/* ─── FACET LABEL (when hovering a card) ─── */
+.facet-label{
+  position: fixed; z-index: 9;
+  pointer-events: none;
+  background: var(--glass);
+  border: 1px solid var(--glass-bd);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: .82rem;
+  color: var(--ink);
+  opacity: 0;
+  transition: opacity .15s;
+  transform: translate(-50%, -100%);
+  margin-top: -16px;
+  white-space: nowrap;
+  box-shadow: 0 12px 30px rgba(0,0,0,.5);
+}
+.facet-label.show{ opacity: 1 }
+.facet-label small{
+  display: block;
+  font-family:'JetBrains Mono', monospace;
+  font-size: .62rem; letter-spacing: 2px;
+  color: var(--accent2);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+/* ─── PANEL (content overlay when a card is opened) ─── */
+.panel{
+  position: fixed; z-index: 20;
+  top: 50%; right: -560px;
+  width: min(560px, 92vw);
+  max-height: 84vh;
+  transform: translateY(-50%);
+  background: var(--glass);
+  border: 1px solid var(--glass-bd);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border-radius: 24px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.6),
+              0 0 60px rgba(192,132,252,.15),
+              0 1px 0 rgba(255,255,255,.1) inset;
+  transition: right .55s cubic-bezier(.2,1,.3,1);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  pointer-events: auto;
+}
+.panel.open{ right: 28px }
+.panel-head{
+  padding: 22px 28px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--glass-bd);
+  flex-shrink: 0;
+}
+.panel-head .lbl{
+  font-family:'JetBrains Mono', monospace;
+  font-size: .72rem; letter-spacing: 3px;
+  color: var(--accent2); text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.panel-head h2{
+  font-family:'Unbounded', sans-serif;
+  font-size: 1.5rem; font-weight: 700;
+  letter-spacing: -.5px;
+}
+.panel-close{
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid var(--glass-bd);
+  background: rgba(255,255,255,.06);
+  color: var(--ink); font-size: 1rem;
+  cursor: pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition: background .15s, transform .15s;
+}
+.panel-close:hover{ background: rgba(255,255,255,.12); transform: rotate(90deg) }
+.panel-body{
+  padding: 24px 28px 28px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(192,132,252,.4) transparent;
+}
+.panel-body::-webkit-scrollbar{ width: 6px }
+.panel-body::-webkit-scrollbar-thumb{ background: rgba(192,132,252,.3); border-radius: 3px }
+
+/* About */
+.about-meta{
+  display:grid; grid-template-columns: repeat(2,1fr);
+  gap: 8px; margin-top: 18px;
+}
+.about-meta .cell{
+  padding: 10px 14px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--glass-bd);
+  border-radius: 10px;
+}
+.about-meta .n{
+  font-family:'Unbounded', sans-serif;
+  font-size: 1.4rem; font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.about-meta .l{ font-size: .72rem; color: var(--muted); margin-top: 2px }
+.about-text p{
+  color: #cdc7e0; line-height: 1.75; margin-bottom: 12px; font-size: .94rem;
+}
+.tags{ display:flex; flex-wrap:wrap; gap: 6px; margin-top: 14px }
+.tag{
+  padding: 4px 10px; border-radius: 100px;
+  background: rgba(192,132,252,.13);
+  border: 1px solid rgba(192,132,252,.25);
+  font-family:'JetBrains Mono', monospace;
+  font-size: .7rem; color: var(--accent);
+}
+
+/* Projects */
+.proj-list{ display:flex; flex-direction:column; gap: 14px }
+.proj{
+  padding: 16px 18px; border-radius: 14px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--glass-bd);
+  transition: transform .15s, border-color .15s;
+  cursor: pointer;
+}
+.proj:hover{ transform: translateY(-2px); border-color: var(--accent) }
+.proj-h{ display:flex; align-items:center; justify-content:space-between; margin-bottom: 6px }
+.proj-h h3{
+  font-family:'Unbounded', sans-serif;
+  font-weight: 700; font-size: 1.05rem;
+  letter-spacing: -.3px;
+}
+.proj-h .badge{
+  font-family:'JetBrains Mono', monospace;
+  font-size: .58rem; letter-spacing: 2px;
+  padding: 3px 8px; border-radius: 4px;
+  background: rgba(255,209,102,.13);
+  color: var(--accent4);
+  text-transform: uppercase;
+}
+.proj .stack{
+  font-family:'JetBrains Mono', monospace;
+  font-size: .7rem; color: var(--accent2);
+  letter-spacing: 1.5px; margin-bottom: 8px;
+}
+.proj p{ font-size: .86rem; color: #cdc7e0; line-height: 1.55 }
+.proj .link{
+  display:inline-block; margin-top: 8px;
+  font-size: .75rem; color: var(--accent);
+  font-family:'JetBrains Mono', monospace;
+  letter-spacing: 1px;
+}
+
+/* Skills */
+.skill-block{ margin-bottom: 16px }
+.skill-block h4{
+  font-size: .78rem; font-weight: 700;
+  color: var(--accent2); text-transform: uppercase;
+  letter-spacing: 2px; margin-bottom: 10px;
+  font-family:'JetBrains Mono', monospace;
+}
+.skill-row{ margin-bottom: 8px }
+.skill-row .top{
+  display:flex; justify-content:space-between;
+  font-size: .8rem; margin-bottom: 4px;
+  color: #cdc7e0;
+}
+.skill-row .top .val{
+  font-family:'JetBrains Mono', monospace;
+  color: var(--accent);
+}
+.bar{
+  height: 4px; background: rgba(255,255,255,.06);
+  border-radius: 2px; overflow: hidden;
+}
+.bar i{
+  display:block; height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 2px;
+  width: 0;
+  transition: width 1s cubic-bezier(.4,0,.2,1);
+}
+
+/* Experience */
+.timeline-it{
+  position: relative;
+  padding: 0 0 22px 24px;
+  border-left: 1px solid rgba(192,132,252,.3);
+}
+.timeline-it:last-child{ padding-bottom: 4px }
+.timeline-it::before{
+  content:''; position: absolute; left: -5px; top: 4px;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  box-shadow: 0 0 10px var(--accent);
+}
+.timeline-it .date{
+  font-family:'JetBrains Mono', monospace;
+  font-size: .7rem; color: var(--accent);
+  letter-spacing: 1.5px; margin-bottom: 4px;
+}
+.timeline-it h4{
+  font-family:'Unbounded', sans-serif;
+  font-weight: 700; font-size: 1rem;
+  margin-bottom: 2px;
+}
+.timeline-it .where{
+  font-size: .82rem; color: var(--muted);
+  font-style: italic; margin-bottom: 8px;
+}
+.timeline-it ul{ list-style: none }
+.timeline-it li{
+  font-size: .84rem; color: #cdc7e0; line-height: 1.55;
+  padding-left: 14px; position: relative; margin-bottom: 4px;
+}
+.timeline-it li::before{
+  content:'▸'; position: absolute; left: 0; color: var(--accent2);
+}
+
+/* Contact */
+.contact-grid{ display:flex; flex-direction: column; gap: 14px }
+.contact-form{ display:flex; flex-direction: column; gap: 12px }
+.contact-row{ display:flex; flex-direction: column; gap: 4px }
+.contact-row label{
+  font-family:'JetBrains Mono', monospace;
+  font-size: .68rem; letter-spacing: 2px;
+  color: var(--accent2); text-transform: uppercase;
+}
+.contact-row input, .contact-row textarea{
+  padding: 10px 14px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--glass-bd);
+  border-radius: 10px;
+  color: var(--ink);
+  font: inherit; font-size: .9rem;
+  outline: none;
+}
+.contact-row input:focus, .contact-row textarea:focus{
+  border-color: var(--accent);
+  background: rgba(255,255,255,.08);
+}
+.contact-row textarea{ min-height: 110px; resize: vertical }
+.contact-submit{
+  margin-top: 4px;
+  padding: 12px 22px;
+  border: none; border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #0a0418;
+  font: inherit; font-size: .9rem; font-weight: 700;
+  letter-spacing: .5px;
+  cursor: pointer;
+  transition: transform .15s, filter .15s;
+}
+.contact-submit:hover{ transform: translateY(-1px); filter: brightness(1.05) }
+.contact-links{
+  display:flex; flex-direction: column; gap: 8px; margin-bottom: 14px;
+}
+.contact-link{
+  display:flex; align-items:center; gap: 12px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--glass-bd);
+  border-radius: 10px;
+  text-decoration: none; color: var(--ink);
+  font-size: .85rem;
+  transition: border-color .15s, transform .15s;
+}
+.contact-link:hover{ border-color: var(--accent); transform: translateX(3px) }
+.contact-link .ico{
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(192,132,252,.15);
+  display:flex; align-items:center; justify-content:center;
+  font-size: .9rem;
+}
+.contact-link small{
+  display:block; color: var(--muted); font-size: .68rem;
+  font-family:'JetBrains Mono', monospace;
+  letter-spacing: 1px;
+}
+
+/* GitHub external */
+.external-cta{
+  margin-top: 8px;
+  padding: 22px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--glass-bd);
+  border-radius: 14px;
+  text-align: center;
+}
+.external-cta p{ color: #cdc7e0; margin-bottom: 14px; line-height: 1.6 }
+
+/* Loader */
+.loader{
+  position: fixed; inset:0; z-index: 100;
+  background: var(--bg-deep);
+  display:flex; flex-direction: column; align-items:center; justify-content: center;
+  gap: 18px;
+  transition: opacity .8s;
+}
+.loader.gone{ opacity: 0; pointer-events: none }
+.loader-crystal{
+  width: 50px; height: 50px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  clip-path: polygon(50% 0, 100% 38%, 82% 100%, 18% 100%, 0 38%);
+  animation: spinLoad 1.6s linear infinite;
+  box-shadow: 0 0 30px rgba(192,132,252,.6);
+}
+@keyframes spinLoad{ to{ transform: rotateY(360deg) } }
+.loader-text{
+  font-family:'JetBrains Mono', monospace;
+  font-size: .72rem; letter-spacing: 4px;
+  color: var(--muted); text-transform: uppercase;
+}
+
+@media (max-width: 600px){
+  .hud.tl{ top: 18px; left: 18px }
+  .hud.tr{ top: 18px; right: 18px }
+  .hud.bl{ bottom: 18px; left: 18px }
+  .hud.br{ bottom: 18px; right: 18px }
+  .hud.bc{ bottom: 14px }
+  .intro h1{ font-size: 2rem }
+  .panel.open{ right: 12px; left: 12px; width: auto; max-height: 80vh }
+  .compass{ display: none }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── Loader ─── -->
+<div class="loader" id="loader">
+  <div class="loader-crystal"></div>
+  <div class="loader-text">Cutting the prism …</div>
+</div>
+
+<!-- ─── Background ─── -->
+<div id="bg"></div>
+
+<!-- ─── Three.js canvas mount ─── -->
+<div id="scene"></div>
+
+<!-- ─── Intro Text ─── -->
+<div class="intro" id="intro">
+  <div class="eyebrow">— a portfolio in three dimensions —</div>
+  <h1>Iris Bloom</h1>
+  <p>Drag to orbit the prism. Click any floating facet to open. Full-stack developer &amp; creative technologist in residence.</p>
+</div>
+
+<!-- ─── HUD corners ─── -->
+<div class="hud tl">
+  <div class="brand">IRIS · PRISM
+    <small>3D · MMXXVI · v1</small>
+  </div>
+</div>
+<div class="hud tr">
+  <div class="status"><span class="dot"></span>Engine online · 60fps</div>
+</div>
+<div class="hud bl">
+  <div class="compass" id="compass">
+    YAW 0.0° / PITCH 0.0°
+  </div>
+</div>
+<div class="hud br">
+  <div class="compass">CARDS · 6 / SHARDS · 240</div>
+</div>
+<div class="hud bc">
+  <div class="hint">
+    <span class="kbd">DRAG</span> orbit
+    <span class="kbd">CLICK</span> open
+    <span class="kbd">ESC</span> close
+  </div>
+</div>
+
+<!-- ─── Floating facet label (follows mouse on hover) ─── -->
+<div class="facet-label" id="facetLabel">
+  <small id="facetKind">—</small>
+  <span id="facetName">—</span>
+</div>
+
+<!-- ─── PANEL ─── -->
+<aside class="panel" id="panel">
+  <div class="panel-head">
+    <div>
+      <div class="lbl" id="panelKind">— Facet 01 —</div>
+      <h2 id="panelTitle">Title</h2>
+    </div>
+    <button class="panel-close" id="panelClose" title="Close (Esc)">✕</button>
+  </div>
+  <div class="panel-body" id="panelBody"></div>
+</aside>
+
+<!-- ═══════════════════════════════════════════
+     PANEL CONTENT — hidden, loaded into panel on demand
+═══════════════════════════════════════════ -->
+<template id="tpl-about">
+  <div class="about-text">
+    <p>Full-stack developer &amp; creative technologist in San Francisco — seven years across SaaS, fintech, and creative tools. The sweet spot: where design meets engineering. I obsess over micro-interactions as much as database schemas.</p>
+    <p>Outside work I'm contributing to open source, mentoring juniors, and running experiments in generative art.</p>
+    <div class="tags">
+      <span class="tag">TypeScript</span><span class="tag">React</span>
+      <span class="tag">Node.js</span><span class="tag">Next.js</span>
+      <span class="tag">PostgreSQL</span><span class="tag">AWS</span>
+      <span class="tag">WebGL</span><span class="tag">Three.js</span>
+      <span class="tag">Figma</span><span class="tag">GraphQL</span>
+    </div>
+    <div class="about-meta">
+      <div class="cell"><div class="n">7+</div><div class="l">Years experience</div></div>
+      <div class="cell"><div class="n">42</div><div class="l">Projects shipped</div></div>
+      <div class="cell"><div class="n">18</div><div class="l">Happy clients</div></div>
+      <div class="cell"><div class="n">3.2k</div><div class="l">GitHub stars</div></div>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-projects">
+  <div class="proj-list">
+    <div class="proj">
+      <div class="proj-h"><h3>Flowboard</h3><span class="badge">★ Featured</span></div>
+      <div class="stack">Next.js · GraphQL · PostgreSQL</div>
+      <p>Notion-meets-Linear PM platform serving 12,000+ teams. Co-designed the realtime collaboration engine on CRDTs &amp; WebSockets.</p>
+      <a class="link" href="#">live demo →</a>
+    </div>
+    <div class="proj">
+      <div class="proj-h"><h3>Verdant</h3></div>
+      <div class="stack">React Native · Node.js · Redis</div>
+      <p>Cross-platform carbon-footprint tracker. Banking-API integration auto-categorises purchases and scores their environmental impact.</p>
+      <a class="link" href="#">app store →</a>
+    </div>
+    <div class="proj">
+      <div class="proj-h"><h3>Lumina</h3></div>
+      <div class="stack">WebGL · TypeScript · Canvas</div>
+      <p>Open-source generative art engine — 18 algorithms, SVG / PNG export, sharable presets. 3.2k GitHub stars.</p>
+      <a class="link" href="#">try it →</a>
+    </div>
+    <div class="proj">
+      <div class="proj-h"><h3>DocuMind</h3></div>
+      <div class="stack">Python · FastAPI · OpenAI</div>
+      <p>RAG-based document Q&amp;A for enterprise teams — PDFs, Notion, Confluence. Used by 200+ companies.</p>
+      <a class="link" href="#">product →</a>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-skills">
+  <div>
+    <div class="skill-block">
+      <h4>// frontend</h4>
+      <div class="skill-row"><div class="top"><span>React / Next.js</span><span class="val">95</span></div><div class="bar"><i data-w="95"></i></div></div>
+      <div class="skill-row"><div class="top"><span>TypeScript</span><span class="val">90</span></div><div class="bar"><i data-w="90"></i></div></div>
+      <div class="skill-row"><div class="top"><span>CSS &amp; Animation</span><span class="val">88</span></div><div class="bar"><i data-w="88"></i></div></div>
+      <div class="skill-row"><div class="top"><span>WebGL / Three.js</span><span class="val">72</span></div><div class="bar"><i data-w="72"></i></div></div>
+    </div>
+    <div class="skill-block">
+      <h4>// backend</h4>
+      <div class="skill-row"><div class="top"><span>Node / Express</span><span class="val">92</span></div><div class="bar"><i data-w="92"></i></div></div>
+      <div class="skill-row"><div class="top"><span>PostgreSQL / Redis</span><span class="val">87</span></div><div class="bar"><i data-w="87"></i></div></div>
+      <div class="skill-row"><div class="top"><span>GraphQL / REST</span><span class="val">89</span></div><div class="bar"><i data-w="89"></i></div></div>
+      <div class="skill-row"><div class="top"><span>Python / FastAPI</span><span class="val">75</span></div><div class="bar"><i data-w="75"></i></div></div>
+    </div>
+    <div class="skill-block">
+      <h4>// devops</h4>
+      <div class="skill-row"><div class="top"><span>AWS</span><span class="val">83</span></div><div class="bar"><i data-w="83"></i></div></div>
+      <div class="skill-row"><div class="top"><span>Docker / Kubernetes</span><span class="val">78</span></div><div class="bar"><i data-w="78"></i></div></div>
+      <div class="skill-row"><div class="top"><span>CI / CD</span><span class="val">85</span></div><div class="bar"><i data-w="85"></i></div></div>
+      <div class="skill-row"><div class="top"><span>Terraform</span><span class="val">65</span></div><div class="bar"><i data-w="65"></i></div></div>
+    </div>
+    <div class="skill-block">
+      <h4>// design</h4>
+      <div class="skill-row"><div class="top"><span>Figma / Prototyping</span><span class="val">88</span></div><div class="bar"><i data-w="88"></i></div></div>
+      <div class="skill-row"><div class="top"><span>Design Systems</span><span class="val">85</span></div><div class="bar"><i data-w="85"></i></div></div>
+      <div class="skill-row"><div class="top"><span>User Research</span><span class="val">70</span></div><div class="bar"><i data-w="70"></i></div></div>
+      <div class="skill-row"><div class="top"><span>A11y (WCAG)</span><span class="val">82</span></div><div class="bar"><i data-w="82"></i></div></div>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-experience">
+  <div>
+    <div class="timeline-it">
+      <div class="date">2023 — Present</div>
+      <h4>Senior Full-Stack Engineer</h4>
+      <div class="where">Veritas Labs · San Francisco</div>
+      <ul>
+        <li>Leads 5 engineers on a developer-first observability platform.</li>
+        <li>Re-architected ingestion from monolith to microservices — p99 down 60%.</li>
+        <li>Owns the cross-product component library used by 3 product lines.</li>
+      </ul>
+    </div>
+    <div class="timeline-it">
+      <div class="date">2021 — 2023</div>
+      <h4>Full-Stack Engineer</h4>
+      <div class="where">Mosaic Finance · Remote</div>
+      <ul>
+        <li>Core dashboard features for a fintech serving 400k+ investors.</li>
+        <li>Owned the realtime portfolio sync on WebSockets + Redis pub/sub.</li>
+        <li>Spearheaded REST → GraphQL migration, cutting API calls by 45%.</li>
+      </ul>
+    </div>
+    <div class="timeline-it">
+      <div class="date">2019 — 2021</div>
+      <h4>Frontend Developer</h4>
+      <div class="where">Pixel &amp; Co. Agency · New York</div>
+      <ul>
+        <li>Delivered 14 client sites across media, healthcare, e-commerce.</li>
+        <li>Team specialist for complex CSS motion and dataviz.</li>
+      </ul>
+    </div>
+    <div class="timeline-it">
+      <div class="date">2017 — 2019</div>
+      <h4>B.S. Computer Science (Honors)</h4>
+      <div class="where">UC Berkeley · California</div>
+      <ul>
+        <li>HCI, Distributed Systems, Computer Graphics.</li>
+        <li>Senior thesis: procedural terrain generation in WebGL.</li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-contact">
+  <div class="contact-grid">
+    <div class="contact-links">
+      <a class="contact-link" href="mailto:iris@irisbloom.studio">
+        <div class="ico">✉</div>
+        <div>iris@irisbloom.studio<small>Email — replied within 24h</small></div>
+      </a>
+      <a class="contact-link" href="#">
+        <div class="ico">⌥</div>
+        <div>github.com/irisbloom<small>GitHub — open-source work</small></div>
+      </a>
+      <a class="contact-link" href="#">
+        <div class="ico">in</div>
+        <div>linkedin.com/in/irisbloom<small>LinkedIn — full résumé</small></div>
+      </a>
+    </div>
+    <form class="contact-form" onsubmit="handleContact(event)">
+      <div class="contact-row">
+        <label>Your name</label>
+        <input type="text" placeholder="Alex Hartwell" />
+      </div>
+      <div class="contact-row">
+        <label>Email</label>
+        <input type="email" placeholder="alex@studio.com" />
+      </div>
+      <div class="contact-row">
+        <label>Message</label>
+        <textarea placeholder="Hi Iris — I'm working on..."></textarea>
+      </div>
+      <button type="submit" class="contact-submit" id="contactBtn">Send transmission →</button>
+    </form>
+  </div>
+</template>
+
+<template id="tpl-external">
+  <div class="external-cta">
+    <p>The prism is open source. The codebase, the shaders, and every other portfolio variant in this set live on GitHub. Stars and pull requests warmly welcomed.</p>
+    <a href="#" class="contact-link" style="justify-content:center">
+      <div class="ico">⌥</div>
+      <div>View on GitHub →<small>github.com/irisbloom/iris-prism</small></div>
+    </a>
+  </div>
+</template>
+
+<script>
+/* ════════════════════════════════════════════
+   THREE.JS — 3D Scene
+════════════════════════════════════════════ */
+const mount = document.getElementById('scene');
+const W0 = ()=>window.innerWidth, H0 = ()=>window.innerHeight;
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x050416, 0.012);
+
+const camera = new THREE.PerspectiveCamera(58, W0()/H0(), 0.1, 200);
+camera.position.set(0, 0, 14);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setSize(W0(), H0());
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.outputEncoding = THREE.sRGBEncoding;
+mount.appendChild(renderer.domElement);
+
+/* ─── Lights ─── */
+scene.add(new THREE.AmbientLight(0x4a3b8c, .65));
+const key = new THREE.PointLight(0xc084fc, 2.2, 50);
+key.position.set(8, 10, 8); scene.add(key);
+const fill = new THREE.PointLight(0x6af0ff, 1.6, 50);
+fill.position.set(-10, -6, 6); scene.add(fill);
+const rim = new THREE.PointLight(0xff9ec7, 1.2, 40);
+rim.position.set(0, -10, -8); scene.add(rim);
+
+/* ─── Starfield ─── */
+let starsRef = null;
+(function(){
+  const N = 1200;
+  const geo = new THREE.BufferGeometry();
+  const pos = new Float32Array(N*3);
+  const col = new Float32Array(N*3);
+  const palettes = [
+    [1,1,1],
+    [0.75, 0.51, 0.99],   // accent
+    [0.42, 0.94, 1],      // accent2
+    [1, 0.62, 0.78],      // accent3
+    [1, 0.82, 0.4],       // accent4
+  ];
+  for (let i=0;i<N;i++){
+    const r = 30 + Math.random()*30;
+    const t = Math.random()*Math.PI*2;
+    const p = Math.acos(2*Math.random()-1);
+    pos[i*3]   = Math.sin(p)*Math.cos(t)*r;
+    pos[i*3+1] = Math.cos(p)*r;
+    pos[i*3+2] = Math.sin(p)*Math.sin(t)*r;
+    const c = palettes[Math.floor(Math.random()*palettes.length)];
+    col[i*3]=c[0]; col[i*3+1]=c[1]; col[i*3+2]=c[2];
+  }
+  geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+  geo.setAttribute('color', new THREE.BufferAttribute(col,3));
+  const mat = new THREE.PointsMaterial({
+    size: .18,
+    vertexColors: true,
+    transparent: true,
+    opacity: .9,
+    sizeAttenuation: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+  });
+  const stars = new THREE.Points(geo, mat);
+  scene.add(stars);
+  stars.userData.spin = 0.0008;
+  starsRef = stars;
+})();
+
+/* ─── Sphere environment look (faux env reflection via second mesh) ─── */
+/* The crystal — icosahedron with refractive feel */
+const crystalGroup = new THREE.Group();
+scene.add(crystalGroup);
+
+const crystalGeo = new THREE.IcosahedronGeometry(2.6, 1);
+// Multi-layered crystal:
+const crystalMat = new THREE.MeshPhysicalMaterial({
+  color: 0x8a6cff,
+  metalness: 0.2,
+  roughness: 0.05,
+  transmission: 0.92,
+  thickness: 1.4,
+  ior: 1.7,
+  clearcoat: 1.0,
+  clearcoatRoughness: 0.05,
+  envMapIntensity: 1.0,
+  transparent: true,
+  opacity: 0.85,
+});
+const crystal = new THREE.Mesh(crystalGeo, crystalMat);
+crystalGroup.add(crystal);
+
+// Wireframe overlay
+const wfMat = new THREE.LineBasicMaterial({ color: 0xc084fc, transparent: true, opacity: .35 });
+const wf = new THREE.LineSegments(new THREE.EdgesGeometry(crystalGeo), wfMat);
+crystalGroup.add(wf);
+
+// Inner core sphere — adds depth
+const coreGeo = new THREE.SphereGeometry(1.05, 32, 32);
+const coreMat = new THREE.MeshBasicMaterial({
+  color: 0xffffff,
+  transparent: true,
+  opacity: .25,
+  blending: THREE.AdditiveBlending,
+});
+const core = new THREE.Mesh(coreGeo, coreMat);
+crystalGroup.add(core);
+
+// Halo glow ring
+const haloGeo = new THREE.RingGeometry(3.4, 4.2, 64);
+const haloMat = new THREE.MeshBasicMaterial({
+  color: 0xc084fc,
+  transparent: true,
+  opacity: .12,
+  blending: THREE.AdditiveBlending,
+  side: THREE.DoubleSide,
+});
+const halo = new THREE.Mesh(haloGeo, haloMat);
+halo.rotation.x = Math.PI/2;
+crystalGroup.add(halo);
+
+const halo2 = new THREE.Mesh(
+  new THREE.RingGeometry(3.0, 3.1, 64),
+  new THREE.MeshBasicMaterial({ color: 0x6af0ff, transparent: true, opacity: .35, blending: THREE.AdditiveBlending, side: THREE.DoubleSide })
+);
+halo2.rotation.x = Math.PI/2;
+crystalGroup.add(halo2);
+
+/* ─── FACET CARDS — six orbiting 3D cards ─── */
+const FACETS = [
+  { id:'about',      title:'About',       kind:'Facet 01',  icon:'☉', color:'#c084fc', radius: 5.6, ang: 0,            yo: 0.6 },
+  { id:'projects',   title:'Projects',    kind:'Facet 02',  icon:'◆', color:'#6af0ff', radius: 6.4, ang: Math.PI/3,    yo:-0.5 },
+  { id:'skills',     title:'Skills',      kind:'Facet 03',  icon:'▲', color:'#ff9ec7', radius: 5.4, ang: 2*Math.PI/3,  yo: 1.0 },
+  { id:'experience', title:'Experience',  kind:'Facet 04',  icon:'❍', color:'#ffd166', radius: 6.0, ang: Math.PI,      yo:-0.2 },
+  { id:'contact',    title:'Contact',     kind:'Facet 05',  icon:'✉', color:'#52e3a4', radius: 5.8, ang: 4*Math.PI/3,  yo: 0.4 },
+  { id:'external',   title:'GitHub',      kind:'Facet 06',  icon:'⌥', color:'#a290e8', radius: 6.2, ang: 5*Math.PI/3,  yo:-0.8 },
+];
+
+function makeFacetTexture(facet){
+  const c = document.createElement('canvas');
+  c.width = 512; c.height = 512;
+  const ctx = c.getContext('2d');
+  const W=c.width, H=c.height;
+
+  // gradient bg
+  const g = ctx.createRadialGradient(W*.5, H*.4, 0, W*.5, H*.5, W*.7);
+  g.addColorStop(0, '#1a1838');
+  g.addColorStop(.5, '#0d0b22');
+  g.addColorStop(1, '#06051a');
+  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+
+  // border frame
+  ctx.strokeStyle = facet.color;
+  ctx.lineWidth = 4;
+  ctx.strokeRect(20, 20, W-40, H-40);
+  // inner thin frame
+  ctx.strokeStyle = facet.color + '55';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(32, 32, W-64, H-64);
+  // corner ticks
+  ctx.fillStyle = facet.color;
+  [[20,20],[W-26,20],[20,H-26],[W-26,H-26]].forEach(([x,y])=>{
+    ctx.fillRect(x,y,6,6);
+  });
+
+  // big glow disc behind icon
+  const ig = ctx.createRadialGradient(W/2, H*.42, 0, W/2, H*.42, 150);
+  ig.addColorStop(0, facet.color + 'aa');
+  ig.addColorStop(.5, facet.color + '44');
+  ig.addColorStop(1, 'transparent');
+  ctx.fillStyle = ig;
+  ctx.beginPath(); ctx.arc(W/2, H*.42, 160, 0, Math.PI*2); ctx.fill();
+
+  // icon
+  ctx.fillStyle = facet.color;
+  ctx.font = 'bold 220px "Unbounded", sans-serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(facet.icon, W/2, H*.42);
+
+  // kind label (top)
+  ctx.fillStyle = facet.color;
+  ctx.font = '500 22px "JetBrains Mono", monospace';
+  ctx.fillText(facet.kind.toUpperCase(), W/2, 70);
+
+  // title (bottom)
+  ctx.fillStyle = '#f3eef8';
+  ctx.font = '800 56px "Unbounded", sans-serif';
+  ctx.fillText(facet.title.toUpperCase(), W/2, H - 110);
+
+  // subtitle ruler
+  ctx.strokeStyle = facet.color + '99';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(W*.4, H - 70); ctx.lineTo(W*.6, H - 70); ctx.stroke();
+
+  // small "click to open" hint
+  ctx.fillStyle = '#8c87a5';
+  ctx.font = '500 16px "JetBrains Mono", monospace';
+  ctx.fillText('— CLICK TO OPEN —', W/2, H - 48);
+
+  return new THREE.CanvasTexture(c);
+}
+
+const facetMeshes = [];
+const facetGroup = new THREE.Group();
+scene.add(facetGroup);
+
+FACETS.forEach((f, i)=>{
+  const tex = makeFacetTexture(f);
+  tex.anisotropy = 8;
+  const geo = new THREE.PlaneGeometry(2.2, 2.2);
+  const mat = new THREE.MeshBasicMaterial({
+    map: tex, transparent: true, opacity: .96, side: THREE.DoubleSide,
+  });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.userData = { facet: f, baseAng: f.ang, baseY: f.yo, radius: f.radius, hovered:false };
+
+  // Halo behind card
+  const halog = new THREE.Mesh(
+    new THREE.PlaneGeometry(2.8, 2.8),
+    new THREE.MeshBasicMaterial({
+      color: new THREE.Color(f.color),
+      transparent: true,
+      opacity: .25,
+      blending: THREE.AdditiveBlending,
+      side: THREE.DoubleSide,
+    })
+  );
+  halog.position.z = -0.01;
+  mesh.add(halog);
+  mesh.userData.halo = halog;
+
+  facetGroup.add(mesh);
+  facetMeshes.push(mesh);
+});
+
+/* small drifting micro-shards around the crystal */
+const shardGroup = new THREE.Group();
+scene.add(shardGroup);
+(function(){
+  const N = 240;
+  for (let i=0;i<N;i++){
+    const g = new THREE.OctahedronGeometry(0.04 + Math.random()*0.08);
+    const m = new THREE.MeshBasicMaterial({
+      color: [0xc084fc,0x6af0ff,0xff9ec7,0xffd166][Math.floor(Math.random()*4)],
+      transparent: true, opacity: .7,
+      blending: THREE.AdditiveBlending,
+    });
+    const mesh = new THREE.Mesh(g, m);
+    const r = 3.4 + Math.random()*5;
+    const t = Math.random()*Math.PI*2;
+    const p = (Math.random()-.5)*1.4;
+    mesh.position.set(Math.cos(t)*r, p*2.5, Math.sin(t)*r);
+    mesh.userData = {
+      a: t, r, y: p*2.5,
+      spin: 0.0003 + Math.random()*0.0008,
+      rotSp: (Math.random()-.5)*0.02,
+    };
+    shardGroup.add(mesh);
+  }
+})();
+
+/* ─── Camera Orbit ─── */
+const orbit = {
+  yaw: 0, pitch: 0.05, dist: 14,
+  targetYaw: 0, targetPitch: 0.05, targetDist: 14,
+  autoYaw: 0, isDragging: false, lastX: 0, lastY: 0,
+  zoomedTo: null, // a facet mesh when "focused"
+};
+
+let dragMoved = 0;
+mount.addEventListener('mousedown', e=>{
+  orbit.isDragging = true;
+  orbit.lastX = e.clientX; orbit.lastY = e.clientY;
+  dragMoved = 0;
+  mount.classList.add('grabbing');
+});
+window.addEventListener('mousemove', e=>{
+  // Hover detection
+  hoverRay(e.clientX, e.clientY);
+
+  if (!orbit.isDragging) return;
+  const dx = e.clientX - orbit.lastX;
+  const dy = e.clientY - orbit.lastY;
+  dragMoved += Math.abs(dx) + Math.abs(dy);
+  orbit.targetYaw   -= dx * 0.005;
+  orbit.targetPitch += dy * 0.004;
+  orbit.targetPitch = Math.max(-0.8, Math.min(0.8, orbit.targetPitch));
+  orbit.lastX = e.clientX; orbit.lastY = e.clientY;
+  introHide();
+});
+window.addEventListener('mouseup', e=>{
+  if (orbit.isDragging){
+    orbit.isDragging = false;
+    mount.classList.remove('grabbing');
+  }
+});
+
+// Touch
+mount.addEventListener('touchstart', e=>{
+  if (!e.touches.length) return;
+  orbit.isDragging = true;
+  orbit.lastX = e.touches[0].clientX; orbit.lastY = e.touches[0].clientY;
+}, {passive: true});
+mount.addEventListener('touchmove', e=>{
+  if (!orbit.isDragging || !e.touches.length) return;
+  const t = e.touches[0];
+  const dx = t.clientX - orbit.lastX;
+  const dy = t.clientY - orbit.lastY;
+  orbit.targetYaw   -= dx * 0.005;
+  orbit.targetPitch += dy * 0.004;
+  orbit.targetPitch = Math.max(-0.8, Math.min(0.8, orbit.targetPitch));
+  orbit.lastX = t.clientX; orbit.lastY = t.clientY;
+  introHide();
+}, {passive: true});
+mount.addEventListener('touchend', ()=>orbit.isDragging=false, {passive: true});
+
+// Wheel zoom (subtle)
+mount.addEventListener('wheel', e=>{
+  e.preventDefault();
+  orbit.targetDist += e.deltaY * 0.008;
+  orbit.targetDist = Math.max(10, Math.min(22, orbit.targetDist));
+}, {passive: false});
+
+/* ─── Raycaster (hover + click) ─── */
+const raycaster = new THREE.Raycaster();
+const ndc = new THREE.Vector2();
+let hovered = null;
+const facetLabel = document.getElementById('facetLabel');
+const facetLabelKind = document.getElementById('facetKind');
+const facetLabelName = document.getElementById('facetName');
+
+function hoverRay(clientX, clientY){
+  if (orbit.zoomedTo) return; // disable hover while panel open
+  ndc.x = (clientX / W0()) * 2 - 1;
+  ndc.y = -(clientY / H0()) * 2 + 1;
+  raycaster.setFromCamera(ndc, camera);
+  const hits = raycaster.intersectObjects(facetMeshes, false);
+  if (hits.length){
+    const m = hits[0].object;
+    if (hovered !== m){
+      if (hovered) hovered.userData.hovered = false;
+      hovered = m;
+      hovered.userData.hovered = true;
+      mount.style.cursor = orbit.isDragging ? 'grabbing' : 'pointer';
+      facetLabelKind.textContent = m.userData.facet.kind;
+      facetLabelName.textContent = m.userData.facet.title;
+      facetLabel.classList.add('show');
+    }
+    facetLabel.style.left = clientX + 'px';
+    facetLabel.style.top  = clientY + 'px';
+  } else {
+    if (hovered){ hovered.userData.hovered = false; hovered = null; }
+    mount.style.cursor = orbit.isDragging ? 'grabbing' : 'grab';
+    facetLabel.classList.remove('show');
+  }
+}
+
+mount.addEventListener('click', e=>{
+  // Only treat as click if the pointer barely moved during press
+  if (dragMoved > 6) return;
+  ndc.x = (e.clientX / W0()) * 2 - 1;
+  ndc.y = -(e.clientY / H0()) * 2 + 1;
+  raycaster.setFromCamera(ndc, camera);
+  const hits = raycaster.intersectObjects(facetMeshes, false);
+  if (hits.length){
+    openFacet(hits[0].object);
+  }
+});
+
+/* ─── Panel open / close ─── */
+const panel = document.getElementById('panel');
+const panelKind = document.getElementById('panelKind');
+const panelTitle = document.getElementById('panelTitle');
+const panelBody = document.getElementById('panelBody');
+
+function openFacet(mesh){
+  const f = mesh.userData.facet;
+  panelKind.textContent = `— ${f.kind} —`;
+  panelTitle.textContent = f.title;
+  const tpl = document.getElementById('tpl-' + f.id);
+  panelBody.innerHTML = '';
+  if (tpl) panelBody.appendChild(tpl.content.cloneNode(true));
+  panel.classList.add('open');
+  orbit.zoomedTo = mesh;
+  facetLabel.classList.remove('show');
+  introHide();
+
+  // Animate skill bars when shown
+  setTimeout(()=>{
+    panelBody.querySelectorAll('.bar i').forEach(b=>{
+      b.style.width = b.dataset.w + '%';
+    });
+  }, 60);
+}
+function closeFacet(){
+  panel.classList.remove('open');
+  orbit.zoomedTo = null;
+}
+document.getElementById('panelClose').addEventListener('click', closeFacet);
+window.addEventListener('keydown', e=>{ if (e.key === 'Escape') closeFacet() });
+
+/* ─── Intro auto-hide ─── */
+const intro = document.getElementById('intro');
+let introTimer = setTimeout(()=>intro.classList.add('hidden'), 5500);
+function introHide(){
+  clearTimeout(introTimer);
+  intro.classList.add('hidden');
+}
+
+/* ─── Contact form ─── */
+window.handleContact = function(e){
+  e.preventDefault();
+  const btn = document.getElementById('contactBtn');
+  btn.textContent = 'Transmission sent ✓';
+  btn.style.filter = 'hue-rotate(90deg)';
+  setTimeout(()=>{
+    btn.textContent = 'Send transmission →';
+    btn.style.filter = '';
+    e.target.reset();
+  }, 2800);
+};
+
+/* ─── Animation Loop ─── */
+const compass = document.getElementById('compass');
+let lastCompassUpdate = 0;
+let frame = 0;
+
+function tick(){
+  requestAnimationFrame(tick);
+  frame++;
+
+  // Smooth orbit
+  orbit.yaw   += (orbit.targetYaw   - orbit.yaw)   * 0.08;
+  orbit.pitch += (orbit.targetPitch - orbit.pitch) * 0.08;
+  orbit.dist  += (orbit.targetDist  - orbit.dist)  * 0.08;
+
+  // Auto rotation when idle (not dragging and not zoomed)
+  if (!orbit.isDragging && !orbit.zoomedTo){
+    orbit.targetYaw -= 0.0015;
+  }
+
+  // Camera position from orbit
+  const dist = orbit.zoomedTo ? 11 : orbit.dist;
+  const cy = Math.sin(orbit.pitch) * dist;
+  const cr = Math.cos(orbit.pitch) * dist;
+  camera.position.set(
+    Math.sin(orbit.yaw) * cr,
+    cy,
+    Math.cos(orbit.yaw) * cr
+  );
+  camera.lookAt(0, 0, 0);
+
+  // Crystal rotation
+  crystal.rotation.y += 0.003;
+  crystal.rotation.x += 0.0014;
+  wf.rotation.y = crystal.rotation.y;
+  wf.rotation.x = crystal.rotation.x;
+  // Subtle pulsing
+  const pulse = 1 + Math.sin(frame * 0.02) * 0.03;
+  crystalGroup.scale.set(pulse, pulse, pulse);
+
+  // Halos rotate slowly
+  halo.rotation.z += 0.0015;
+  halo2.rotation.z -= 0.001;
+
+  // Cards orbit and billboard toward camera
+  const tFloat = frame * 0.01;
+  facetMeshes.forEach((m, i)=>{
+    const d = m.userData;
+    const a = d.baseAng + frame * 0.0008;
+    const r = d.radius + Math.sin(tFloat + i) * 0.15;
+    const y = d.baseY + Math.sin(tFloat * .7 + i * 1.3) * 0.4;
+    m.position.set(Math.cos(a)*r, y, Math.sin(a)*r);
+    // Billboard
+    m.lookAt(camera.position);
+
+    // Hover effects
+    const targetScale = d.hovered ? 1.18 : 1.0;
+    m.scale.x += (targetScale - m.scale.x) * 0.12;
+    m.scale.y += (targetScale - m.scale.y) * 0.12;
+
+    const targetHaloOp = d.hovered ? 0.55 : 0.25;
+    if (d.halo){
+      d.halo.material.opacity += (targetHaloOp - d.halo.material.opacity) * 0.1;
+    }
+  });
+
+  // Shards drift
+  shardGroup.children.forEach(s=>{
+    s.userData.a += s.userData.spin;
+    s.position.x = Math.cos(s.userData.a) * s.userData.r;
+    s.position.z = Math.sin(s.userData.a) * s.userData.r;
+    s.position.y = s.userData.y + Math.sin(frame*0.01 + s.userData.a*3)*0.2;
+    s.rotation.x += s.userData.rotSp;
+    s.rotation.y += s.userData.rotSp * .7;
+  });
+
+  // Stars gentle rotation
+  if (starsRef) starsRef.rotation.y += starsRef.userData.spin;
+
+  // Compass update
+  if (frame - lastCompassUpdate > 6){
+    lastCompassUpdate = frame;
+    const yawDeg = ((orbit.yaw * 180/Math.PI) % 360).toFixed(1);
+    const pitchDeg = (orbit.pitch * 180/Math.PI).toFixed(1);
+    compass.textContent = `YAW ${yawDeg}° / PITCH ${pitchDeg}°`;
+  }
+
+  renderer.render(scene, camera);
+}
+tick();
+
+/* Resize */
+window.addEventListener('resize', ()=>{
+  camera.aspect = W0()/H0();
+  camera.updateProjectionMatrix();
+  renderer.setSize(W0(), H0());
+});
+
+/* ─── Hide loader once a few frames have rendered ─── */
+setTimeout(()=>{
+  document.getElementById('loader').classList.add('gone');
+  setTimeout(()=>document.getElementById('loader').remove(), 900);
+}, 700);
+</script>
+</body>
+</html>

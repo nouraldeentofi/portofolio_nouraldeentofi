@@ -79,6 +79,7 @@ export function checkAll({ pages = pageFiles() } = {}) {
     if (/Receipt Scanner/.test(html)) fail(`${file}: uses "Receipt Scanner" — the product is "Smart Scanner"`);
     if (/Alessa/i.test(html)) fail(`${file}: mentions Alessa Group, which must stay off the site`);
     if (/ZATCA/i.test(html)) fail(`${file}: mentions ZATCA, which was taken off the site on request`);
+    if (/github\.io/i.test(html)) fail(`${file}: links to github.io — every site lives on nouraldeentofi.com now (data/hosting.json)`);
     if (/manhom/i.test(html)) fail(`${file}: names a crawled site — the scraper's crawl mode is described, never its target`);
 
     // 6 — language attributes.

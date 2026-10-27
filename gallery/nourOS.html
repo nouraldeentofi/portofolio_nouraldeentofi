@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TheoOS 14.2 — Desktop</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --wall1:#0d1d2c;
+  --wall2:#1b1238;
+  --wall3:#2b1140;
+  --accent:#ff9ec7;
+  --accent2:#85e6ff;
+  --accent3:#ffd166;
+  --glass:rgba(20,22,40,.62);
+  --glass-strong:rgba(14,16,32,.82);
+  --glass-border:rgba(255,255,255,.12);
+  --text:#eef1f7;
+  --muted:#9aa3b8;
+  --shadow: 0 30px 80px rgba(0,0,0,.55), 0 2px 0 rgba(255,255,255,.04) inset;
+}
+
+html, body{height:100%;overflow:hidden}
+body{
+  font-family:'Inter',sans-serif;
+  color:var(--text);
+  background:#000;
+  user-select:none;
+}
+
+/* ─── WALLPAPER ─── */
+#wallpaper{
+  position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(1100px 700px at 20% 25%, #1f2a55 0%, transparent 60%),
+    radial-gradient(900px 600px at 80% 75%, #4a1648 0%, transparent 60%),
+    linear-gradient(140deg, var(--wall1), var(--wall2) 50%, var(--wall3));
+}
+#aurora{position:fixed;inset:0;z-index:1;pointer-events:none}
+
+/* ─── BOOT SCREEN ─── */
+#boot{
+  position:fixed;inset:0;z-index:9999;
+  background:#000;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2rem;
+  transition: opacity .8s ease;
+}
+#boot.gone{opacity:0;pointer-events:none}
+.boot-logo{
+  width:78px;height:78px;border-radius:22px;
+  background: conic-gradient(from 0deg, var(--accent), var(--accent2), var(--accent3), var(--accent));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:32px;color:#0a0a14;
+  box-shadow: 0 0 60px rgba(255,158,199,.4);
+  animation: bootSpin 2.4s ease-in-out infinite;
+}
+@keyframes bootSpin{
+  0%,100%{transform:rotate(0deg) scale(1)}
+  50%{transform:rotate(180deg) scale(1.05)}
+}
+.boot-text{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.78rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;
+}
+.boot-bar{
+  width:240px;height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;
+}
+.boot-fill{
+  height:100%;width:0;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  border-radius:2px;
+  animation: bootLoad 2.2s .2s ease forwards;
+}
+@keyframes bootLoad{ to{width:100%} }
+
+/* ─── TOP MENU BAR ─── */
+#menubar{
+  position:fixed;top:0;left:0;right:0;height:30px;z-index:50;
+  display:flex;align-items:center;
+  padding: 0 14px;
+  background: rgba(8,10,20,.55);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  font-size:.78rem;
+}
+.mb-logo{
+  font-size:.95rem; margin-right:14px;
+  background: linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  font-weight:800;
+}
+.mb-item{
+  padding: 3px 10px;border-radius:5px;
+  cursor:pointer; font-weight:500;
+  transition: background .15s;
+}
+.mb-item:hover{ background: rgba(255,255,255,.1) }
+.mb-item.bold{ font-weight:700 }
+.mb-spacer{ flex:1 }
+.mb-tray{
+  display:flex;align-items:center;gap:10px;
+  font-size:.78rem;color:var(--text);
+}
+.tray-icon{
+  width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;opacity:.85;
+}
+.tray-icon:hover{opacity:1}
+.tray-clock{ font-variant-numeric: tabular-nums }
+.tray-clock .day{ color:var(--muted); margin-right:4px }
+
+/* ─── DESKTOP ICONS ─── */
+#desktop{
+  position:fixed;inset:30px 0 90px 0;z-index:2;
+  pointer-events:none;
+}
+.dicon-grid{
+  position:absolute; right:20px; top:14px;
+  display:grid; grid-template-columns: repeat(1, 90px);
+  gap:14px;
+  pointer-events:auto;
+}
+.dicon{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:8px 4px;border-radius:8px;
+  cursor:pointer;
+  transition: background .15s;
+}
+.dicon:hover{ background: rgba(255,255,255,.06) }
+.dicon-img{
+  width:48px;height:48px;border-radius:11px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.4);
+}
+.dicon-label{
+  font-size:.7rem;font-weight:500;text-align:center;
+  text-shadow:0 1px 2px rgba(0,0,0,.6);
+  line-height:1.15;
+}
+
+.dicon-img.folder{ background: linear-gradient(160deg,#5a8dee,#3461c1) }
+.dicon-img.bin{ background: linear-gradient(160deg,#3a4257,#22293a) }
+.dicon-img.pdf{ background: linear-gradient(160deg,#ff7676,#c83838); color:#fff; font-family:'JetBrains Mono';font-size:14px;font-weight:700 }
+.dicon-img.txt{ background: linear-gradient(160deg,#f0eada,#c7bf99); color:#3a2f12; font-family:'JetBrains Mono';font-size:14px;font-weight:700 }
+.dicon-img.gh{ background: linear-gradient(160deg,#2b2f3a,#13151b) }
+
+/* ─── WINDOWS ─── */
+.window{
+  position:fixed;
+  background: var(--glass-strong);
+  backdrop-filter: blur(38px) saturate(180%);
+  -webkit-backdrop-filter: blur(38px) saturate(180%);
+  border:1px solid var(--glass-border);
+  border-radius:14px;
+  box-shadow: var(--shadow);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  z-index:10;
+  animation: winOpen .26s cubic-bezier(.2,1.4,.4,1);
+}
+@keyframes winOpen{
+  from{opacity:0;transform:translate(-50%,-50%) scale(.9)}
+  to{opacity:1;transform:translate(-50%,-50%) scale(1)}
+}
+.window.dragging{ transition:none }
+.window.minimized{
+  transform:translate(-50%,-50%) scale(.05) translateY(500px) !important;
+  opacity:0;pointer-events:none;
+  transition: transform .35s ease, opacity .35s ease;
+}
+.win-titlebar{
+  height:40px;flex-shrink:0;
+  display:flex;align-items:center;
+  padding: 0 14px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  background: rgba(255,255,255,.02);
+  cursor:grab;
+}
+.win-titlebar:active{cursor:grabbing}
+.win-traffic{display:flex;gap:8px;margin-right:14px}
+.win-tdot{
+  width:12px;height:12px;border-radius:50%;
+  cursor:pointer;
+  transition: filter .12s;
+  position:relative;
+}
+.win-tdot:hover{filter:brightness(1.2)}
+.win-tdot.red{background:#ff5f57;box-shadow: inset 0 0 0 .5px rgba(0,0,0,.2)}
+.win-tdot.yellow{background:#febc2e;box-shadow: inset 0 0 0 .5px rgba(0,0,0,.2)}
+.win-tdot.green{background:#28c840;box-shadow: inset 0 0 0 .5px rgba(0,0,0,.2)}
+.win-title{
+  font-size:.82rem;font-weight:600;letter-spacing:.2px;
+  flex:1;text-align:center;
+  color:var(--text);
+}
+.win-title-icon{ margin-right:6px }
+.win-body{
+  flex:1;overflow:auto;
+  scrollbar-width:thin;scrollbar-color: rgba(255,255,255,.15) transparent;
+}
+.win-body::-webkit-scrollbar{width:8px}
+.win-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.13);border-radius:4px}
+
+/* ─── WINDOW CONTENT VARIANTS ─── */
+.padded{ padding: 24px 28px }
+.section-h{
+  font-size:.7rem; text-transform:uppercase;letter-spacing:2px;
+  color:var(--accent2); font-family:'JetBrains Mono',monospace;
+  margin-bottom: 10px;
+}
+.win h1, .win h2{ letter-spacing:-.5px }
+
+/* — Welcome — */
+.welcome{
+  display:flex;flex-direction:column;align-items:center;
+  padding: 36px 38px; text-align:center;
+}
+.welcome-orb{
+  width:96px;height:96px;border-radius:26px;
+  background: conic-gradient(from 30deg, var(--accent), var(--accent2), var(--accent3), var(--accent));
+  margin-bottom:18px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:40px;color:#0a0a14;
+  box-shadow: 0 12px 40px rgba(255,158,199,.3);
+}
+.welcome h1{font-size:1.65rem;font-weight:800;margin-bottom:.4rem}
+.welcome .role{
+  background: linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.welcome p{color:var(--muted);line-height:1.6;font-size:.92rem;max-width:380px;margin: .4rem 0 1.4rem}
+.welcome-cta{
+  display:flex;gap:10px;flex-wrap:wrap;justify-content:center;
+}
+.btn{
+  padding: 8px 16px;border-radius:8px;
+  border:1px solid var(--glass-border);
+  background: rgba(255,255,255,.05);
+  color:var(--text);font-size:.82rem;font-weight:600;
+  cursor:pointer;transition: background .15s, transform .15s;
+}
+.btn:hover{ background: rgba(255,255,255,.1) }
+.btn:active{ transform: translateY(1px) }
+.btn.primary{
+  background: linear-gradient(135deg,var(--accent),#ff7da8);
+  border-color: transparent; color:#1a0c12;
+}
+.btn.primary:hover{ filter: brightness(1.08) }
+
+/* — About — */
+.about-grid{
+  display:grid; grid-template-columns: 220px 1fr; gap:24px;
+  padding: 26px;
+}
+.about-avatar{
+  width:100%;aspect-ratio:1;border-radius:18px;
+  background: linear-gradient(160deg, #2a1f44, #46224d);
+  position:relative;overflow:hidden;
+  border:1px solid var(--glass-border);
+}
+.about-avatar canvas{width:100%;height:100%;display:block}
+.about-info h2{font-size:1.4rem;margin-bottom:6px}
+.about-info .meta{
+  color:var(--accent); font-size:.78rem; font-family:'JetBrains Mono',monospace;
+  margin-bottom: 14px;
+}
+.about-info p{ color:var(--muted);line-height:1.65;font-size:.9rem;margin-bottom:.85rem }
+.about-stats{
+  display:grid; grid-template-columns: repeat(4,1fr); gap:8px;
+  margin-top:16px;
+}
+.stat{
+  padding: 10px 12px;border-radius:10px;
+  background: rgba(255,255,255,.04);border:1px solid var(--glass-border);
+}
+.stat-n{ font-size:1.3rem;font-weight:800; background: linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent; }
+.stat-l{ font-size:.7rem;color:var(--muted) }
+
+/* — Skills — */
+.skills-list{ padding: 24px 26px; display:flex;flex-direction:column;gap:18px }
+.skill-group h3{font-size:.95rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.skill-row{ margin-bottom: 9px; }
+.skill-row-head{
+  display:flex;justify-content:space-between;
+  font-size:.78rem;color:var(--muted);margin-bottom:5px;
+  font-family:'JetBrains Mono',monospace;
+}
+.skill-track{
+  height:5px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden;
+}
+.skill-fill{
+  height:100%;border-radius:3px;
+  background: linear-gradient(90deg,var(--accent),var(--accent2));
+  width:0; transition: width 1.4s cubic-bezier(.4,0,.2,1);
+}
+
+/* — Finder / Projects — */
+.finder{ display:flex; height:100%; }
+.finder-sidebar{
+  width:170px;flex-shrink:0;
+  background: rgba(255,255,255,.025);
+  border-right:1px solid var(--glass-border);
+  padding: 18px 12px;
+  font-size:.82rem;
+}
+.fs-section{ color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;margin: 12px 6px 6px }
+.fs-item{
+  padding: 5px 8px;border-radius:6px;display:flex;align-items:center;gap:8px;
+  cursor:pointer;color:var(--text);
+}
+.fs-item:hover, .fs-item.active{ background: rgba(255,255,255,.07) }
+.fs-item span.dot{ width:8px;height:8px;border-radius:50% }
+.dot-blue{ background:#6aa6ff } .dot-green{ background:#52e3a4 }
+.dot-purple{ background:#c89cff } .dot-pink{ background:var(--accent) }
+.dot-orange{ background:var(--accent3) }
+.finder-main{
+  flex:1; padding: 18px 20px; overflow:auto;
+}
+.finder-toolbar{
+  display:flex;align-items:center;gap:10px;margin-bottom:14px;
+  font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--muted);
+}
+.toolbar-path{
+  flex:1;background: rgba(255,255,255,.03);padding: 5px 10px;border-radius:6px;
+  border:1px solid var(--glass-border);
+}
+.proj-grid{
+  display:grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr));
+  gap: 14px;
+}
+.proj-tile{
+  background: rgba(255,255,255,.04);
+  border:1px solid var(--glass-border);
+  border-radius:12px; overflow:hidden;
+  cursor:pointer; transition: transform .15s, border-color .15s;
+}
+.proj-tile:hover{ transform: translateY(-3px); border-color: var(--accent) }
+.proj-thumb{ width:100%; aspect-ratio: 16/10; display:block }
+.proj-meta{ padding: 10px 12px }
+.proj-name{ font-size:.84rem;font-weight:700;margin-bottom:3px }
+.proj-tags{ font-family:'JetBrains Mono',monospace; font-size:.66rem; color:var(--muted) }
+.proj-featured{ color:var(--accent3); font-size:.7rem; font-weight:700 }
+
+/* — Terminal — */
+.term{
+  font-family:'JetBrains Mono',monospace;
+  background: rgba(8,10,18,.85);
+  color:#e8f0ea;
+  font-size:.82rem;
+  height:100%;
+  padding: 14px 18px;
+  overflow:auto;
+  line-height:1.45;
+}
+.term-prompt{ color: var(--accent2) }
+.term-user{ color: #ff9ec7 }
+.term-host{ color: #ffd166 }
+.term-sep{ color: var(--muted) }
+.term-cmd{ color: #fff }
+.term-input{
+  background:transparent;border:none;outline:none;
+  color:#fff;font:inherit;width:80%;
+  caret-color: var(--accent2);
+}
+.term-line.out{ color:#cbd5e1; white-space: pre-wrap }
+.term-line.error{ color:#ff8b8b }
+.term-line.kw{ color: var(--accent2) }
+.cursor{
+  display:inline-block;width:8px;height:1em;background:var(--accent2);
+  vertical-align:-2px;margin-left:1px;animation:blink 1s steps(2) infinite;
+}
+@keyframes blink{ 50%{opacity:0} }
+
+/* — Mail — */
+.mail-wrap{ padding: 22px 26px; display:flex;flex-direction:column;gap:14px }
+.mail-row{ display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--glass-border);padding-bottom:8px }
+.mail-row label{ width:60px;color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:1px }
+.mail-row input{
+  flex:1;background:transparent;border:none;outline:none;color:var(--text);font:inherit;font-size:.9rem;
+}
+.mail-body{
+  background: rgba(255,255,255,.04);border:1px solid var(--glass-border);
+  border-radius:8px;
+  padding: 12px 14px;
+  min-height: 160px;
+  font:inherit;font-size:.9rem;color:var(--text);
+  resize:vertical; outline:none;
+}
+.mail-body:focus, .mail-row input:focus{ border-color: var(--accent) }
+.mail-actions{ display:flex;justify-content:flex-end;gap:8px;margin-top: 6px }
+
+/* — Notes / Experience — */
+.notes-board{
+  padding: 22px 24px;
+  display:grid;grid-template-columns: repeat(2,1fr);
+  gap:14px;
+}
+.note{
+  position:relative;
+  padding: 14px 16px 16px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #fff8c4, #f3e58a);
+  color:#3a2e0a;
+  box-shadow: 0 6px 16px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.5) inset;
+  transform: rotate(-1deg);
+  font-family:'Inter',sans-serif;
+}
+.note:nth-child(2){ transform: rotate(1.2deg); background: linear-gradient(180deg,#cdeefd,#9fd5f3); color:#0a2638 }
+.note:nth-child(3){ transform: rotate(-1.7deg); background: linear-gradient(180deg,#ffd9d6,#f7a5a0); color:#3a0a0a }
+.note:nth-child(4){ transform: rotate(.6deg); background: linear-gradient(180deg,#d8f5d0,#a8dca0); color:#13360a }
+.note .date{
+  font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:1px;opacity:.7;margin-bottom: 6px;
+}
+.note .role{ font-size:1.02rem;font-weight:800; margin-bottom:3px }
+.note .company{ font-size:.78rem;opacity:.85;margin-bottom:8px;font-style:italic }
+.note ul{ list-style:none; font-size:.78rem; line-height:1.6 }
+.note li::before{ content:"• "; opacity:.7 }
+.note .pin{
+  position:absolute;top:-7px;left:50%;transform:translateX(-50%);
+  width:12px;height:12px;border-radius:50%;
+  background: radial-gradient(circle at 35% 35%, #ff4d4d, #a31a1a 70%);
+  box-shadow: 0 2px 4px rgba(0,0,0,.4);
+}
+
+/* ─── DOCK ─── */
+#dock{
+  position:fixed;left:50%;bottom:14px;transform:translateX(-50%);
+  z-index:60;
+  display:flex;align-items:end;gap:6px;
+  padding: 8px 10px;
+  background: rgba(255,255,255,.06);
+  border:1px solid var(--glass-border);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border-radius:18px;
+  box-shadow: 0 14px 40px rgba(0,0,0,.45);
+}
+.dock-item{
+  width:50px;height:50px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+  cursor:pointer;
+  position:relative;
+  transition: transform .15s ease, margin .15s ease;
+  box-shadow: 0 6px 14px rgba(0,0,0,.35);
+}
+.dock-item:hover{ transform: translateY(-8px) scale(1.08) }
+.dock-item::after{
+  content:''; position:absolute;
+  bottom:-6px;left:50%;transform:translateX(-50%);
+  width:4px;height:4px;border-radius:50%;
+  background: var(--text); opacity:0; transition: opacity .2s;
+}
+.dock-item.open::after{ opacity:.7 }
+.dock-tip{
+  position:absolute;bottom: 64px;left:50%;transform:translateX(-50%);
+  background: rgba(8,10,20,.92);
+  padding: 4px 9px;border-radius:6px;
+  font-size:.72rem;white-space:nowrap;
+  opacity:0;pointer-events:none;transition: opacity .15s;
+}
+.dock-item:hover .dock-tip{opacity:1}
+
+.di-finder{ background: linear-gradient(160deg,#5dccff,#0079ff) }
+.di-about{ background: linear-gradient(160deg,#ff9ec7,#c4477c) }
+.di-skills{ background: linear-gradient(160deg,#ffd166,#e69a17) }
+.di-projects{ background: linear-gradient(160deg,#85e6ff,#0099b3) }
+.di-term{ background: linear-gradient(160deg,#2a2e3a,#0f1118); color:#85e6ff;font-family:'JetBrains Mono';font-size:18px;font-weight:700 }
+.di-notes{ background: linear-gradient(160deg,#ffe085,#e1b14a) }
+.di-mail{ background: linear-gradient(160deg,#a89df0,#5544c8) }
+.di-gh{ background: linear-gradient(160deg,#3a3f4d,#13151b) }
+.di-sep{ width:1px;height:38px;background:rgba(255,255,255,.18);margin: 4px 4px 0;align-self:center }
+
+/* ─── CONTEXT TOAST ─── */
+.toast{
+  position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
+  z-index:100;
+  padding: 10px 18px;border-radius:10px;
+  background: rgba(8,10,20,.92);
+  border:1px solid var(--glass-border);
+  font-size:.84rem;
+  opacity:0;pointer-events:none;
+  transition: opacity .3s, transform .3s;
+}
+.toast.show{ opacity:1; transform: translate(-50%,-6px) }
+
+@media (max-width: 700px){
+  .about-grid{grid-template-columns: 1fr}
+  .finder-sidebar{display:none}
+  .notes-board{grid-template-columns: 1fr}
+  .dicon-grid{ display:none }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── BOOT ─── -->
+<div id="boot">
+  <div class="boot-logo">N</div>
+  <div class="boot-bar"><div class="boot-fill"></div></div>
+  <div class="boot-text">Booting TheoOS 14.2 …</div>
+</div>
+
+<!-- ─── WALLPAPER ─── -->
+<div id="wallpaper"></div>
+<canvas id="aurora"></canvas>
+
+<!-- ─── TOP MENU BAR ─── -->
+<div id="menubar">
+  <span class="mb-logo">●</span>
+  <span class="mb-item bold">TheoOS</span>
+  <span class="mb-item">File</span>
+  <span class="mb-item">Edit</span>
+  <span class="mb-item">View</span>
+  <span class="mb-item">Window</span>
+  <span class="mb-item">Help</span>
+  <span class="mb-spacer"></span>
+  <div class="mb-tray">
+    <span class="tray-icon" title="Search">🔍</span>
+    <span class="tray-icon" title="WiFi">📶</span>
+    <span class="tray-icon" title="Battery">🔋</span>
+    <span class="tray-icon" title="Sound">🔊</span>
+    <span class="tray-clock" id="clock"><span class="day">—</span>00:00</span>
+  </div>
+</div>
+
+<!-- ─── DESKTOP / ICONS ─── -->
+<div id="desktop">
+  <div class="dicon-grid">
+    <div class="dicon" data-open="finder">
+      <div class="dicon-img folder">📁</div>
+      <div class="dicon-label">Portfolio</div>
+    </div>
+    <div class="dicon" data-open="about">
+      <div class="dicon-img" style="background:linear-gradient(160deg,#ff9ec7,#c4477c)">👤</div>
+      <div class="dicon-label">About&nbsp;Me</div>
+    </div>
+    <div class="dicon" data-link="https://github.com/">
+      <div class="dicon-img gh">⌥</div>
+      <div class="dicon-label">GitHub</div>
+    </div>
+    <div class="dicon" data-open="resume">
+      <div class="dicon-img pdf">PDF</div>
+      <div class="dicon-label">Resume.pdf</div>
+    </div>
+    <div class="dicon" data-open="readme">
+      <div class="dicon-img txt">TXT</div>
+      <div class="dicon-label">README</div>
+    </div>
+    <div class="dicon" data-toast="The trash is empty.">
+      <div class="dicon-img bin">🗑</div>
+      <div class="dicon-label">Bin</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── DOCK ─── -->
+<div id="dock">
+  <div class="dock-item di-finder" data-open="finder"><span class="dock-tip">Finder</span>📁</div>
+  <div class="dock-item di-about"  data-open="about"><span class="dock-tip">About Me</span>👤</div>
+  <div class="dock-item di-skills" data-open="skills"><span class="dock-tip">Skills</span>📊</div>
+  <div class="dock-item di-projects" data-open="projects"><span class="dock-tip">Projects</span>✦</div>
+  <div class="dock-item di-term"   data-open="terminal">_</div>
+  <div class="dock-item di-notes"  data-open="notes"><span class="dock-tip">Experience</span>📒</div>
+  <div class="dock-item di-mail"   data-open="mail"><span class="dock-tip">Mail</span>✉</div>
+  <div class="di-sep"></div>
+  <div class="dock-item di-gh"     data-toast="Opening repository…">⌥</div>
+</div>
+
+<!-- ─── TOAST ─── -->
+<div class="toast" id="toast">Hello, world.</div>
+
+<script>
+/* ════════════════════════════════════════════
+   WINDOW SYSTEM
+════════════════════════════════════════════ */
+let zCounter = 10;
+const openWindows = new Map();
+
+function bringFront(win){
+  zCounter++;
+  win.style.zIndex = zCounter;
+}
+
+function buildWin({id, title, icon='●', w=620, h=460, x, y, body, raw=false}){
+  if (openWindows.has(id)){
+    const ex = openWindows.get(id);
+    ex.classList.remove('minimized');
+    bringFront(ex);
+    return ex;
+  }
+  const win = document.createElement('div');
+  win.className = 'window';
+  win.dataset.winId = id;
+  win.style.width = w+'px';
+  win.style.height = h+'px';
+  const cx = x ?? (window.innerWidth/2 + (Math.random()*60-30));
+  const cy = y ?? (window.innerHeight/2 + (Math.random()*30-15));
+  win.style.left = cx+'px';
+  win.style.top = cy+'px';
+  win.style.transform = 'translate(-50%,-50%)';
+  win.innerHTML = `
+    <div class="win-titlebar">
+      <div class="win-traffic">
+        <div class="win-tdot red" data-act="close" title="Close"></div>
+        <div class="win-tdot yellow" data-act="min" title="Minimize"></div>
+        <div class="win-tdot green" data-act="zoom" title="Zoom"></div>
+      </div>
+      <div class="win-title"><span class="win-title-icon">${icon}</span>${title}</div>
+      <div style="width:54px"></div>
+    </div>
+    <div class="win-body"></div>
+  `;
+  const bodyEl = win.querySelector('.win-body');
+  if (raw) bodyEl.appendChild(body);
+  else bodyEl.innerHTML = body;
+  document.body.appendChild(win);
+  openWindows.set(id, win);
+  bringFront(win);
+
+  // Mark dock item as open
+  document.querySelectorAll(`.dock-item[data-open="${id}"]`).forEach(d=>d.classList.add('open'));
+
+  // Traffic lights
+  win.querySelectorAll('.win-tdot').forEach(dot=>{
+    dot.addEventListener('click', e=>{
+      e.stopPropagation();
+      const act = dot.dataset.act;
+      if (act==='close') closeWin(id);
+      else if (act==='min'){
+        win.classList.add('minimized');
+        setTimeout(()=>{ /* keep registered */ }, 0);
+      } else if (act==='zoom'){
+        const isMax = win.dataset.max==='1';
+        if (!isMax){
+          win.dataset.preMax = JSON.stringify({
+            l:win.style.left,t:win.style.top,w:win.style.width,h:win.style.height,tr:win.style.transform
+          });
+          win.style.left='0'; win.style.top='30px';
+          win.style.transform='none';
+          win.style.width = window.innerWidth+'px';
+          win.style.height = (window.innerHeight - 30 - 92)+'px';
+          win.dataset.max='1';
+        } else {
+          const p = JSON.parse(win.dataset.preMax);
+          win.style.left=p.l; win.style.top=p.t;
+          win.style.width=p.w; win.style.height=p.h;
+          win.style.transform=p.tr;
+          win.dataset.max='0';
+        }
+      }
+    });
+  });
+
+  // Focus on click
+  win.addEventListener('mousedown', ()=>bringFront(win));
+
+  // Drag
+  const bar = win.querySelector('.win-titlebar');
+  let drag=null;
+  bar.addEventListener('mousedown', e=>{
+    if (e.target.closest('.win-tdot')) return;
+    if (win.dataset.max==='1') return;
+    win.classList.add('dragging');
+    const r = win.getBoundingClientRect();
+    drag = { dx: e.clientX - (r.left + r.width/2), dy: e.clientY - (r.top + r.height/2) };
+    e.preventDefault();
+  });
+  window.addEventListener('mousemove', e=>{
+    if (!drag) return;
+    let nx = e.clientX - drag.dx;
+    let ny = e.clientY - drag.dy;
+    // clamp inside view
+    ny = Math.max(30 + win.offsetHeight/2, ny);
+    win.style.left = nx+'px';
+    win.style.top  = ny+'px';
+  });
+  window.addEventListener('mouseup', ()=>{
+    if (drag){ drag=null; win.classList.remove('dragging') }
+  });
+
+  return win;
+}
+
+function closeWin(id){
+  const w = openWindows.get(id);
+  if (!w) return;
+  w.style.transition='opacity .18s, transform .18s';
+  w.style.opacity='0';
+  w.style.transform = (w.style.transform||'') + ' scale(.92)';
+  setTimeout(()=>{
+    w.remove();
+    openWindows.delete(id);
+    document.querySelectorAll(`.dock-item[data-open="${id}"]`).forEach(d=>d.classList.remove('open'));
+  }, 180);
+}
+
+/* ════════════════════════════════════════════
+   APP CONTENT
+════════════════════════════════════════════ */
+function openApp(id){
+  if (id==='welcome') return openWelcome();
+  if (id==='about') return openAbout();
+  if (id==='skills') return openSkills();
+  if (id==='projects' || id==='finder') return openFinder(id);
+  if (id==='terminal') return openTerminal();
+  if (id==='mail') return openMail();
+  if (id==='notes') return openNotes();
+  if (id==='resume') return openResume();
+  if (id==='readme') return openReadme();
+}
+
+function openWelcome(){
+  buildWin({
+    id:'welcome', title:'Welcome', icon:'✦', w:440, h:380,
+    body: `
+      <div class="welcome">
+        <div class="welcome-orb">N</div>
+        <h1>Welcome to <span class="role">TheoOS</span></h1>
+        <p>You're inside an interactive desktop portfolio. Drag windows. Open apps from the dock. Or pop the <b>Terminal</b> and type <span class="kw" style="color:var(--accent2)">help</span>.</p>
+        <div class="welcome-cta">
+          <button class="btn primary" onclick="openApp('projects')">View Projects</button>
+          <button class="btn" onclick="openApp('terminal')">Open Terminal</button>
+          <button class="btn" onclick="openApp('mail')">Get in Touch</button>
+        </div>
+      </div>
+    `
+  });
+}
+
+function openAbout(){
+  const body = `
+    <div class="about-grid">
+      <div class="about-avatar"><canvas width="240" height="240" id="aboutAvatar"></canvas></div>
+      <div class="about-info">
+        <div class="section-h">// whoami</div>
+        <h2>Theo Park</h2>
+        <div class="meta">~/Sites/me — Full-Stack Developer · Creative Technologist · SF</div>
+        <p>I build end-to-end web products with an unhealthy obsession for the seams between design and engineering. Seven years across SaaS, fintech, and creative tools.</p>
+        <p>Outside work: open source, generative art, and mentoring devs starting out.</p>
+        <div class="about-stats">
+          <div class="stat"><div class="stat-n">7+</div><div class="stat-l">Years</div></div>
+          <div class="stat"><div class="stat-n">42</div><div class="stat-l">Projects</div></div>
+          <div class="stat"><div class="stat-n">18</div><div class="stat-l">Clients</div></div>
+          <div class="stat"><div class="stat-n">3.2k</div><div class="stat-l">GH Stars</div></div>
+        </div>
+      </div>
+    </div>
+  `;
+  buildWin({ id:'about', title:'About Me', icon:'👤', w:640, h:420, body });
+  drawAvatar();
+}
+
+function openSkills(){
+  const groups = [
+    { h:'⚛️ Frontend', rows:[['React / Next.js',95],['TypeScript',90],['CSS & Animation',88],['WebGL / Three.js',72]] },
+    { h:'🛠 Backend',  rows:[['Node / Express',92],['PostgreSQL / Redis',87],['GraphQL / REST',89],['Python / FastAPI',75]] },
+    { h:'☁ DevOps',    rows:[['AWS',83],['Docker / K8s',78],['CI/CD',85],['Terraform',65]] },
+    { h:'🎨 Design',   rows:[['Figma / Proto',88],['Design Systems',85],['User Research',70],['A11y (WCAG)',82]] },
+  ];
+  const html = groups.map(g=>`
+    <div class="skill-group">
+      <h3>${g.h}</h3>
+      ${g.rows.map(([n,v])=>`
+        <div class="skill-row">
+          <div class="skill-row-head"><span>${n}</span><span>${v}%</span></div>
+          <div class="skill-track"><div class="skill-fill" data-v="${v}"></div></div>
+        </div>`).join('')}
+    </div>
+  `).join('');
+  buildWin({
+    id:'skills', title:'Skills.app', icon:'📊', w:480, h:560,
+    body:`<div class="skills-list">${html}</div>`
+  });
+  setTimeout(()=>{
+    document.querySelectorAll('#window-skills .skill-fill').forEach(()=>{});
+    openWindows.get('skills').querySelectorAll('.skill-fill').forEach(b=>{
+      b.style.width = b.dataset.v + '%';
+    });
+  }, 60);
+}
+
+const PROJECTS = [
+  { id:1, name:'Flowboard', tags:'Next.js · GraphQL · Postgres', tag:'tag-blue',
+    blurb:'Notion-meets-Linear PM platform for 12k+ teams. Co-designed the realtime collab engine on CRDTs and WebSockets.',
+    featured:true, palette:{bg:'#0d1528',card:'#1e2d47',accent:'#5b8af5'} },
+  { id:2, name:'Verdant', tags:'React Native · Node · Redis', tag:'tag-green',
+    blurb:'Carbon-footprint tracker that scores bank transactions for environmental impact. iOS + Android.',
+    palette:{bg:'#0a1a12',card:'#112616',accent:'#34d399', colors:['#34d399','#6ee7b7','#10b981']} },
+  { id:3, name:'Lumina', tags:'WebGL · TypeScript · Canvas', tag:'tag-purple',
+    blurb:'Open-source generative art engine — 18 algorithms, export SVG/PNG, share presets. 3.2k stars.',
+    palette:{bg:'#12082a',card:'#1e0f40',accent:'#a78bfa', colors:['#a78bfa','#c084fc','#818cf8','#e879f9']} },
+  { id:4, name:'DocuMind', tags:'Python · FastAPI · OpenAI', tag:'tag-pink',
+    blurb:'RAG document Q&A for enterprise teams — PDFs, Notion, Confluence. Used by 200+ companies.',
+    palette:{bg:'#0f1218',card:'#1a1f2e',accent:'#60a5fa', colors:['#60a5fa','#34d399','#a78bfa','#fbbf24','#f87171']} },
+];
+
+function openFinder(id){
+  const body = `
+    <div class="finder">
+      <div class="finder-sidebar">
+        <div class="fs-section">Favorites</div>
+        <div class="fs-item active"><span class="dot dot-pink"></span>Portfolio</div>
+        <div class="fs-item"><span class="dot dot-blue"></span>Documents</div>
+        <div class="fs-item"><span class="dot dot-green"></span>Downloads</div>
+        <div class="fs-section">Tags</div>
+        <div class="fs-item"><span class="dot dot-blue"></span>Web</div>
+        <div class="fs-item"><span class="dot dot-green"></span>Mobile</div>
+        <div class="fs-item"><span class="dot dot-purple"></span>AI</div>
+        <div class="fs-item"><span class="dot dot-orange"></span>Creative</div>
+      </div>
+      <div class="finder-main">
+        <div class="finder-toolbar">
+          <span>&larr;  &rarr;</span>
+          <span class="toolbar-path">~/Portfolio/</span>
+          <span>⚏ ⊞ ⊟</span>
+        </div>
+        <div class="proj-grid">
+          ${PROJECTS.map(p=>`
+            <div class="proj-tile" data-pid="${p.id}">
+              <canvas class="proj-thumb" id="projThumb${p.id}" width="320" height="200"></canvas>
+              <div class="proj-meta">
+                <div class="proj-name">${p.featured?'<span class="proj-featured">★</span> ':''}${p.name}</div>
+                <div class="proj-tags">${p.tags}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        <div style="margin-top:18px;padding:14px;background:rgba(255,255,255,.03);border-radius:10px;border:1px solid var(--glass-border);font-size:.84rem;color:var(--muted)">
+          <b style="color:var(--text)">Tip:</b> click a project to view its README in Terminal &mdash; <span style="color:var(--accent2);font-family:JetBrains Mono">cat projects/&lt;name&gt;.md</span>
+        </div>
+      </div>
+    </div>
+  `;
+  const win = buildWin({ id, title:id==='finder'?'Finder — Portfolio':'Projects', icon:'📁', w:720, h:520, body });
+  // Draw thumbs
+  PROJECTS.forEach(p=>drawProjThumb('projThumb'+p.id, p));
+  // Click handlers
+  win.querySelectorAll('.proj-tile').forEach(t=>{
+    t.addEventListener('click', ()=>{
+      const p = PROJECTS.find(x=>x.id == t.dataset.pid);
+      openApp('terminal');
+      setTimeout(()=> termRun('cat projects/'+p.name.toLowerCase()+'.md'), 250);
+    });
+  });
+}
+
+function openTerminal(){
+  const wrap = document.createElement('div');
+  wrap.className = 'term';
+  wrap.id = 'termWrap';
+  wrap.innerHTML = `
+    <div class="term-line out">Theo Shell <span class="kw">v1.4.2</span> — type <span class="kw">help</span> to begin.</div>
+    <div class="term-line out">Last login: just now on ttys000</div>
+    <br>
+    <div id="termHistory"></div>
+    <div class="term-prompt-line">
+      <span class="term-user">theo</span><span class="term-sep">@</span><span class="term-host">desktop</span><span class="term-sep">:~$</span>
+      <input class="term-input" id="termInput" autofocus autocomplete="off" spellcheck="false">
+      <span class="cursor"></span>
+    </div>
+  `;
+  buildWin({ id:'terminal', title:'Terminal — bash', icon:'_', w:660, h:420, body: wrap, raw:true });
+
+  const input = document.getElementById('termInput');
+  input.addEventListener('keydown', e=>{
+    if (e.key==='Enter'){
+      const v = input.value.trim();
+      input.value = '';
+      termRun(v);
+    } else if (e.key==='ArrowUp'){
+      if (termHistory.length){
+        termHistIdx = Math.max(0, termHistIdx-1);
+        input.value = termHistory[termHistIdx] || '';
+      }
+      e.preventDefault();
+    } else if (e.key==='ArrowDown'){
+      termHistIdx = Math.min(termHistory.length, termHistIdx+1);
+      input.value = termHistory[termHistIdx] || '';
+      e.preventDefault();
+    }
+  });
+  // focus input on click anywhere in term
+  wrap.addEventListener('click', ()=>document.getElementById('termInput')?.focus());
+  input.focus();
+}
+
+const termHistory=[]; let termHistIdx=0;
+
+function termPrint(html, cls='out'){
+  const hist = document.getElementById('termHistory');
+  if (!hist) return;
+  const line = document.createElement('div');
+  line.className = 'term-line ' + cls;
+  line.innerHTML = html;
+  hist.appendChild(line);
+  const wrap = document.getElementById('termWrap');
+  wrap.scrollTop = wrap.scrollHeight;
+}
+
+function termRun(cmd){
+  if (!cmd) return;
+  termHistory.push(cmd); termHistIdx = termHistory.length;
+  termPrint(`<span class="term-user">theo</span><span class="term-sep">@</span><span class="term-host">desktop</span><span class="term-sep">:~$</span> <span class="term-cmd">${escapeHtml(cmd)}</span>`, 'cmd');
+
+  const parts = cmd.split(/\s+/);
+  const c = parts[0].toLowerCase();
+  const arg = parts.slice(1).join(' ');
+
+  switch (c){
+    case 'help':
+      termPrint(`available commands:
+  <span class="kw">about</span>      - who I am
+  <span class="kw">whoami</span>     - quick id
+  <span class="kw">skills</span>     - tech stack
+  <span class="kw">projects</span>   - list selected work
+  <span class="kw">experience</span> - career timeline
+  <span class="kw">contact</span>    - reach me
+  <span class="kw">ls</span>         - list files
+  <span class="kw">cat</span> &lt;file&gt; - read a file (e.g. cat projects/flowboard.md)
+  <span class="kw">open</span> &lt;app&gt; - open an app window (finder, mail, skills, ...)
+  <span class="kw">clear</span>      - clear terminal
+  <span class="kw">sudo</span>       - escalate (don't)`); break;
+    case 'whoami':
+      termPrint(`theo-park · full-stack developer · sf`); break;
+    case 'about':
+      termPrint(`Theo Park
+Full-Stack Developer & Creative Technologist · San Francisco
+7+ years across SaaS, fintech, creative tools.
+Open source: github.com/theopark · 3.2k stars across repos.`); break;
+    case 'skills':
+      termPrint(`Frontend  ████████████████████░  React, Next.js, TS, WebGL
+Backend   ██████████████████░░░  Node, Postgres, GraphQL, Python
+DevOps    ████████████████░░░░░  AWS, Docker, K8s, Terraform
+Design    █████████████████░░░░  Figma, Design Systems, A11y`); break;
+    case 'projects':
+      termPrint(`★ flowboard  — PM SaaS · Next.js · GraphQL
+  verdant    — carbon tracker · React Native
+  lumina     — generative art · WebGL
+  documind   — RAG doc Q&A · Python
+
+run: <span class="kw">cat projects/&lt;name&gt;.md</span> for details`); break;
+    case 'experience':
+      termPrint(`2023—Now   Veritas Labs · Senior Full-Stack Engineer
+2021—2023  Mosaic Finance · Full-Stack Engineer
+2019—2021  Pixel & Co · Frontend Developer
+2017—2019  UC Berkeley · B.S. Computer Science`); break;
+    case 'contact':
+      termPrint(`email     theo@theopark.io
+github    github.com/theopark
+linkedin  linkedin.com/in/theopark
+twitter   @theobuilds`); break;
+    case 'ls':
+      termPrint(`README.md  about.md  skills.md  contact.md  projects/  experience/`); break;
+    case 'cat': {
+      const file = arg.replace(/^\.?\//,'').toLowerCase();
+      if (!file){ termPrint('cat: missing operand','error'); break }
+      if (file==='readme.md') return termPrint(`# TheoOS — README
+
+A desktop-OS-as-portfolio.
+Try: open finder, open terminal, or click the dock.`);
+      if (file==='about.md') return termRun('about');
+      if (file==='skills.md') return termRun('skills');
+      if (file==='contact.md') return termRun('contact');
+      const m = file.match(/^projects\/(\w+)\.md$/);
+      if (m){
+        const p = PROJECTS.find(x=>x.name.toLowerCase()===m[1]);
+        if (!p) return termPrint(`cat: ${file}: No such file`, 'error');
+        return termPrint(`# ${p.name}
+${p.tags}
+
+${p.blurb}
+
+status: shipped${p.featured?' · featured':''}
+url:    https://theopark.io/work/${p.name.toLowerCase()}`);
+      }
+      termPrint(`cat: ${file}: No such file or directory`,'error');
+      break;
+    }
+    case 'open': {
+      const app = arg.toLowerCase();
+      const valid = ['finder','about','skills','projects','terminal','mail','notes'];
+      if (valid.includes(app)){ termPrint(`opening ${app}...`); openApp(app); }
+      else termPrint(`open: app "${app}" not found`,'error');
+      break;
+    }
+    case 'sudo':
+      termPrint(`theo is not in the sudoers file.  This incident will be reported.`,'error'); break;
+    case 'clear':
+      document.getElementById('termHistory').innerHTML = ''; break;
+    case 'echo':
+      termPrint(escapeHtml(arg)); break;
+    case 'date':
+      termPrint(new Date().toString()); break;
+    case 'exit':
+      termPrint(`logout`); setTimeout(()=>closeWin('terminal'), 250); break;
+    default:
+      termPrint(`zsh: command not found: ${escapeHtml(c)}`,'error');
+  }
+}
+
+function escapeHtml(s){ return (s||'').replace(/[&<>"]/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[m])); }
+
+function openMail(){
+  const body = `
+    <div class="mail-wrap">
+      <div class="section-h">// new message</div>
+      <div class="mail-row"><label>To</label><input value="theo@theopark.io" readonly></div>
+      <div class="mail-row"><label>From</label><input id="mfFrom" placeholder="alex@company.com"></div>
+      <div class="mail-row"><label>Subject</label><input id="mfSub" placeholder="Project inquiry — let's chat"></div>
+      <textarea class="mail-body" id="mfBody" placeholder="Tell me about your idea, timeline, and stack..."></textarea>
+      <div class="mail-actions">
+        <button class="btn" onclick="closeWin('mail')">Discard</button>
+        <button class="btn primary" id="mfSend">Send →</button>
+      </div>
+    </div>
+  `;
+  buildWin({ id:'mail', title:'Mail — New Message', icon:'✉', w:560, h:440, body });
+  document.getElementById('mfSend').addEventListener('click', ()=>{
+    const btn = document.getElementById('mfSend');
+    btn.textContent = 'Sent ✓';
+    btn.style.background = 'linear-gradient(135deg,#52e3a4,#1ea96a)';
+    showToast('Message sent. I\'ll get back to you soon.');
+    setTimeout(()=>closeWin('mail'), 1100);
+  });
+}
+
+function openNotes(){
+  const body = `
+    <div class="notes-board">
+      <div class="note">
+        <div class="pin"></div>
+        <div class="date">2023 — present</div>
+        <div class="role">Senior Full-Stack Engineer</div>
+        <div class="company">Veritas Labs · San Francisco</div>
+        <ul>
+          <li>Lead a team of 5 on a dev-first observability platform.</li>
+          <li>Re-architected ingestion to microservices — p99 down 60%.</li>
+          <li>Owned a cross-product component library.</li>
+        </ul>
+      </div>
+      <div class="note">
+        <div class="pin"></div>
+        <div class="date">2021 — 2023</div>
+        <div class="role">Full-Stack Engineer</div>
+        <div class="company">Mosaic Finance · Remote</div>
+        <ul>
+          <li>Core dashboard for 400k+ retail investors.</li>
+          <li>Real-time portfolio sync on WebSockets + Redis pub/sub.</li>
+          <li>Drove REST → GraphQL migration (-45% calls).</li>
+        </ul>
+      </div>
+      <div class="note">
+        <div class="pin"></div>
+        <div class="date">2019 — 2021</div>
+        <div class="role">Frontend Developer</div>
+        <div class="company">Pixel & Co. · New York</div>
+        <ul>
+          <li>Shipped 14 client sites across healthcare, media, e-comm.</li>
+          <li>Team go-to for advanced CSS motion and dataviz.</li>
+        </ul>
+      </div>
+      <div class="note">
+        <div class="pin"></div>
+        <div class="date">2017 — 2019</div>
+        <div class="role">B.S. Computer Science</div>
+        <div class="company">UC Berkeley · Honors</div>
+        <ul>
+          <li>HCI, Distributed Systems, Computer Graphics.</li>
+          <li>Senior thesis: procedural terrain generation in WebGL.</li>
+        </ul>
+      </div>
+    </div>
+  `;
+  buildWin({ id:'notes', title:'Sticky Notes — Experience', icon:'📒', w:580, h:520, body });
+}
+
+function openResume(){
+  showToast('Resume.pdf — Opening in Preview…');
+  setTimeout(()=>openApp('about'), 300);
+}
+function openReadme(){
+  openApp('terminal');
+  setTimeout(()=>termRun('cat readme.md'), 250);
+}
+
+/* ════════════════════════════════════════════
+   AVATAR DRAW
+════════════════════════════════════════════ */
+function drawAvatar(){
+  const c = document.getElementById('aboutAvatar');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  const W=c.width, H=c.height;
+  const g = ctx.createRadialGradient(W/2, H*.42, 0, W/2, H*.42, W*.6);
+  g.addColorStop(0,'#2a1f44'); g.addColorStop(1,'#0e0a1c');
+  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+
+  // Soft glow disc
+  const glow = ctx.createRadialGradient(W/2, H*.4, 0, W/2, H*.4, W*.4);
+  glow.addColorStop(0,'rgba(255,158,199,.4)');
+  glow.addColorStop(1,'transparent');
+  ctx.fillStyle = glow; ctx.fillRect(0,0,W,H);
+
+  // Ring
+  ctx.strokeStyle = 'rgba(255,255,255,.13)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.arc(W/2, H*.42, W*.32, 0, Math.PI*2); ctx.stroke();
+
+  const cx=W/2, cy=H*.42;
+  // Face
+  const skin = ctx.createRadialGradient(cx,cy,0,cx,cy,80);
+  skin.addColorStop(0,'#fcd9b3'); skin.addColorStop(.6,'#efb38a'); skin.addColorStop(1,'#d18a64');
+  ctx.fillStyle = skin;
+  ctx.beginPath(); ctx.ellipse(cx,cy,52,62,0,0,Math.PI*2); ctx.fill();
+  // Hair
+  ctx.fillStyle = '#1a0c0a';
+  ctx.beginPath(); ctx.ellipse(cx,cy-30,55,42,0,Math.PI,0); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(cx-50,cy+8,12,38,-.2,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(cx+50,cy+8,12,38,.2,0,Math.PI*2); ctx.fill();
+  // Eyes
+  [[cx-20,cy-8],[cx+20,cy-8]].forEach(([ex,ey])=>{
+    ctx.fillStyle='#fff';
+    ctx.beginPath(); ctx.ellipse(ex,ey,10,7,0,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#1a3e6c';
+    ctx.beginPath(); ctx.arc(ex,ey,5,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#06121e';
+    ctx.beginPath(); ctx.arc(ex,ey,2.5,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,.8)';
+    ctx.beginPath(); ctx.arc(ex+1.6,ey-1.6,1.2,0,Math.PI*2); ctx.fill();
+  });
+  // Brows
+  ctx.strokeStyle='#1a0c0a'; ctx.lineWidth=2.4; ctx.lineCap='round';
+  [[-1,-1],[1,1]].forEach(([s,d])=>{
+    ctx.beginPath();
+    ctx.moveTo(cx+s*30-10, cy-18); ctx.quadraticCurveTo(cx+s*30, cy-22, cx+s*30+10, cy-18);
+    ctx.stroke();
+  });
+  // Mouth
+  ctx.strokeStyle='rgba(160,60,70,.6)';
+  ctx.lineWidth=2.2;
+  ctx.beginPath(); ctx.moveTo(cx-14,cy+24); ctx.quadraticCurveTo(cx,cy+34,cx+14,cy+24); ctx.stroke();
+  // Shoulders
+  const sh = ctx.createLinearGradient(0,cy+60,0,H);
+  sh.addColorStop(0,'#2c2d52'); sh.addColorStop(1,'#0e0a1c');
+  ctx.fillStyle = sh;
+  ctx.beginPath();
+  ctx.moveTo(0,H); ctx.lineTo(0, cy+72);
+  ctx.quadraticCurveTo(W/2, cy+62, W, cy+72);
+  ctx.lineTo(W,H); ctx.closePath(); ctx.fill();
+}
+
+/* ════════════════════════════════════════════
+   PROJECT THUMBS (generative)
+════════════════════════════════════════════ */
+function rng(seed){ let s=seed; return ()=>{ s=(s*9301+49297)%233280; return s/233280 } }
+function drawProjThumb(id, p){
+  const c = document.getElementById(id);
+  if (!c) return;
+  const ctx = c.getContext('2d'); const W=c.width, H=c.height;
+  const r = rng(p.id*97 + 13);
+  ctx.fillStyle = p.palette.bg; ctx.fillRect(0,0,W,H);
+
+  if (p.id===1){
+    // Flowboard — kanban tiles
+    for (let col=0;col<3;col++) for (let row=0;row<2;row++){
+      const x = 16 + col*100, y = 14 + row*82;
+      ctx.fillStyle = p.palette.card;
+      roundRect(ctx, x,y,88,68,6); ctx.fill();
+      ctx.fillStyle = p.palette.accent;
+      ctx.fillRect(x+6, y+6, 30 + r()*30, 4);
+      ctx.fillStyle = 'rgba(255,255,255,.15)';
+      for (let i=0;i<3;i++) ctx.fillRect(x+6, y+18 + i*10, 30 + r()*40, 3);
+    }
+  } else if (p.id===2){
+    // Verdant — soft organic blobs + hex grid
+    for (let i=0;i<10;i++){
+      const x=r()*W, y=r()*H, R=r()*50+15;
+      const g = ctx.createRadialGradient(x,y,0,x,y,R);
+      g.addColorStop(0, p.palette.accent+'cc');
+      g.addColorStop(1, 'transparent');
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(x,y,R,0,Math.PI*2); ctx.fill();
+    }
+    ctx.strokeStyle = p.palette.accent+'44'; ctx.lineWidth=1;
+    for (let row=0;row<4;row++) for (let col=0;col<7;col++){
+      hex(ctx, col*50+(row%2)*25, row*44, 20); ctx.stroke();
+    }
+  } else if (p.id===3){
+    // Lumina — flow field
+    for (let row=0;row<10;row++) for (let col=0;col<16;col++){
+      const x = col*W/16 + W/32, y = row*H/10 + H/20;
+      const a = (Math.sin(col*.3 + row*.4) + Math.cos(col*.2 - row*.3))*Math.PI;
+      const L=10;
+      ctx.strokeStyle = p.palette.colors[Math.floor(r()*p.palette.colors.length)]+'aa';
+      ctx.beginPath();
+      ctx.moveTo(x-Math.cos(a)*L/2, y-Math.sin(a)*L/2);
+      ctx.lineTo(x+Math.cos(a)*L/2, y+Math.sin(a)*L/2);
+      ctx.stroke();
+    }
+  } else if (p.id===4){
+    // DocuMind — node graph
+    const nodes=[];
+    for (let i=0;i<14;i++) nodes.push({x:r()*W,y:r()*H,R:r()*6+3});
+    for (let i=0;i<nodes.length;i++) for (let j=i+1;j<nodes.length;j++){
+      const d = Math.hypot(nodes[i].x-nodes[j].x, nodes[i].y-nodes[j].y);
+      if (d<120){
+        ctx.strokeStyle = p.palette.accent+'44';
+        ctx.lineWidth=1;
+        ctx.beginPath(); ctx.moveTo(nodes[i].x,nodes[i].y); ctx.lineTo(nodes[j].x,nodes[j].y); ctx.stroke();
+      }
+    }
+    nodes.forEach((n,i)=>{
+      const g = ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.R);
+      g.addColorStop(0, p.palette.colors[i%p.palette.colors.length]);
+      g.addColorStop(1, p.palette.colors[i%p.palette.colors.length]+'33');
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.R,0,Math.PI*2); ctx.fill();
+    });
+  }
+  // Vignette
+  const v = ctx.createRadialGradient(W/2,H/2, H*.2, W/2,H/2, H*.85);
+  v.addColorStop(0,'transparent'); v.addColorStop(1,'rgba(0,0,0,.55)');
+  ctx.fillStyle=v; ctx.fillRect(0,0,W,H);
+}
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.arcTo(x+w,y,x+w,y+r,r);
+  ctx.lineTo(x+w,y+h-r); ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
+  ctx.lineTo(x+r,y+h); ctx.arcTo(x,y+h,x,y+h-r,r);
+  ctx.lineTo(x,y+r); ctx.arcTo(x,y,x+r,y,r);
+  ctx.closePath();
+}
+function hex(ctx,x,y,r){
+  ctx.beginPath();
+  for (let i=0;i<6;i++){
+    const a=Math.PI/3*i - Math.PI/6;
+    i===0 ? ctx.moveTo(x+Math.cos(a)*r, y+Math.sin(a)*r)
+          : ctx.lineTo(x+Math.cos(a)*r, y+Math.sin(a)*r);
+  }
+  ctx.closePath();
+}
+
+/* ════════════════════════════════════════════
+   AURORA WALLPAPER ANIM
+════════════════════════════════════════════ */
+(function(){
+  const c = document.getElementById('aurora');
+  const ctx = c.getContext('2d');
+  let W, H;
+  function size(){ W=c.width=window.innerWidth; H=c.height=window.innerHeight; }
+  window.addEventListener('resize', size); size();
+
+  let t=0;
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    // Three soft sin-wave bands
+    const bands = [
+      { color:'rgba(255,158,199,.10)', amp:60, freq:.0025, speed:.0005, baseY:.35, w:200 },
+      { color:'rgba(133,230,255,.09)', amp:80, freq:.002,  speed:.0007, baseY:.55, w:240 },
+      { color:'rgba(255,209,102,.07)', amp:50, freq:.003,  speed:.0009, baseY:.7,  w:160 },
+    ];
+    bands.forEach((b,i)=>{
+      const grd = ctx.createLinearGradient(0, H*b.baseY - b.w/2, 0, H*b.baseY + b.w/2);
+      grd.addColorStop(0,'transparent'); grd.addColorStop(.5, b.color); grd.addColorStop(1,'transparent');
+      ctx.fillStyle = grd;
+      ctx.beginPath();
+      ctx.moveTo(0, H*b.baseY);
+      for (let x=0; x<=W; x+=10){
+        const y = H*b.baseY + Math.sin(x*b.freq + t*b.speed + i)* b.amp;
+        ctx.lineTo(x, y);
+      }
+      ctx.lineTo(W, H*b.baseY + b.w/2);
+      ctx.lineTo(0, H*b.baseY + b.w/2);
+      ctx.closePath();
+      ctx.fill();
+    });
+    // sparse stars
+    if (!frame.stars){
+      frame.stars = [];
+      const r = rng(7);
+      for (let i=0;i<80;i++) frame.stars.push({x:r()*W,y:r()*H,r:r()*1.4+.3,p:r()*Math.PI*2});
+    }
+    frame.stars.forEach(s=>{
+      const a = 0.5 + Math.sin(t*.002 + s.p)*0.4;
+      ctx.fillStyle = `rgba(255,255,255,${a*.55})`;
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill();
+    });
+    t++;
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+/* ════════════════════════════════════════════
+   CLOCK
+════════════════════════════════════════════ */
+(function(){
+  const el = document.getElementById('clock');
+  const dayN = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  function tick(){
+    const d = new Date();
+    const hh = String(d.getHours()).padStart(2,'0');
+    const mm = String(d.getMinutes()).padStart(2,'0');
+    el.innerHTML = `<span class="day">${dayN[d.getDay()]}</span>${hh}:${mm}`;
+  }
+  tick(); setInterval(tick, 1000*15);
+})();
+
+/* ════════════════════════════════════════════
+   WIRE UP DOCK + ICONS
+════════════════════════════════════════════ */
+document.querySelectorAll('[data-open]').forEach(el=>{
+  el.addEventListener('click', e=>{
+    e.stopPropagation();
+    openApp(el.dataset.open);
+  });
+});
+document.querySelectorAll('[data-link]').forEach(el=>{
+  el.addEventListener('click', ()=>{
+    showToast('Opening '+el.dataset.link+' …');
+  });
+});
+document.querySelectorAll('[data-toast]').forEach(el=>{
+  el.addEventListener('click', ()=>showToast(el.dataset.toast));
+});
+
+let toastTimer;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+/* ════════════════════════════════════════════
+   BOOT SEQUENCE
+════════════════════════════════════════════ */
+setTimeout(()=>{
+  document.getElementById('boot').classList.add('gone');
+  openWelcome();
+  setTimeout(()=>{
+    document.getElementById('boot').remove();
+  }, 900);
+}, 2200);
+
+/* ════════════════════════════════════════════
+   KEYBOARD SHORTCUTS
+════════════════════════════════════════════ */
+window.addEventListener('keydown', e=>{
+  if ((e.metaKey||e.ctrlKey) && e.key==='t'){ e.preventDefault(); openApp('terminal'); }
+  if ((e.metaKey||e.ctrlKey) && e.key==='m'){ e.preventDefault(); openApp('mail'); }
+  if (e.key==='Escape'){
+    // close topmost
+    let top=null,z=-1;
+    openWindows.forEach(w=>{
+      const cz = +w.style.zIndex || 0;
+      if (cz>z){ z=cz; top=w; }
+    });
+    if (top) closeWin(top.dataset.winId);
+  }
+});
+</script>
+</body>
+</html>

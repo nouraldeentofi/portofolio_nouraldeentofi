@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — HEIST · Crack the Vault</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;600;800&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0d0f13;--steel:#3a4250;--steel2:#232a35;--fg:#e8ecf4;--dim:rgba(232,236,244,.55);
+        --brass:#d3a94e;--green:#59d97d;--red:#e35f5f}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Saira Condensed',sans-serif;background:radial-gradient(80vw 70vh at 50% 30%,#1a2029,var(--bg));
+    min-height:100vh;color:var(--fg);display:flex;flex-direction:column;align-items:center;padding:5vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--brass);color:#0d0f13}
+  h1{font-weight:800;font-size:clamp(22px,4.4vw,38px);letter-spacing:.06em;text-transform:uppercase}
+  h1 span{color:var(--brass)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.3em;color:var(--dim);margin:8px 0 26px;text-transform:uppercase;text-align:center}
+
+  #scene{position:relative;width:min(560px,94vw)}
+  /* vault door */
+  #door{position:relative;width:100%;aspect-ratio:1;border-radius:26px;
+    background:linear-gradient(150deg,#4a5566,var(--steel) 40%,var(--steel2));
+    box-shadow:0 40px 80px rgba(0,0,0,.6), inset 0 3px 0 rgba(255,255,255,.18), inset 0 -14px 40px rgba(0,0,0,.5);
+    border:5px solid #1a1f28;transform-origin:8% 50%;transition:transform 1.6s cubic-bezier(.6,.05,.3,1);z-index:5;
+    display:flex;align-items:center;justify-content:center}
+  #door.open{transform:perspective(1400px) rotateY(-104deg)}
+  .bolt{position:absolute;width:22px;height:22px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#7c8798,#39404d);box-shadow:inset 0 -2px 4px rgba(0,0,0,.5)}
+  /* dial */
+  #dialWrap{position:relative;width:62%;aspect-ratio:1;border-radius:50%;
+    background:radial-gradient(circle at 40% 35%,#525d70,#2a303c 70%);
+    box-shadow:0 14px 34px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,255,255,.2);cursor:grab;touch-action:none}
+  #dialWrap:active{cursor:grabbing}
+  #dial{position:absolute;inset:9%;border-radius:50%;background:radial-gradient(circle at 45% 40%,#e8ecf4,#aab3c2 70%);
+    box-shadow:inset 0 -6px 16px rgba(0,0,0,.35)}
+  #dial .tickring{position:absolute;inset:0;border-radius:50%}
+  #dial .tk{position:absolute;left:50%;top:0;width:2px;height:9%;background:#2a303c;transform-origin:50% calc(50% * 100/9 * 9/2)}
+  #dial .num{position:absolute;left:50%;top:10%;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;color:#2a303c;transform-origin:center}
+  #knob{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:26%;aspect-ratio:1;border-radius:50%;
+    background:radial-gradient(circle at 38% 32%,#6e7a8d,#333b48);box-shadow:0 5px 14px rgba(0,0,0,.5)}
+  #pointer{position:absolute;left:50%;top:-4%;transform:translateX(-50%);color:var(--brass);font-size:26px;z-index:6;
+    text-shadow:0 0 12px rgba(211,169,78,.7)}
+  /* lights + handle */
+  #lights{position:absolute;top:7%;left:50%;transform:translateX(-50%);display:flex;gap:14px}
+  .lt{width:16px;height:16px;border-radius:50%;background:#252b35;border:2px solid #12151b;transition:all .3s}
+  .lt.on{background:var(--green);box-shadow:0 0 16px var(--green)}
+  #handle{position:absolute;right:6%;top:50%;transform:translateY(-50%);width:14px;height:34%;border-radius:8px;
+    background:linear-gradient(90deg,#6e7a8d,#39404d);box-shadow:0 4px 12px rgba(0,0,0,.5)}
+
+  /* inside vault */
+  #inside{position:absolute;inset:0;border-radius:26px;background:linear-gradient(180deg,#141821,#0c0f15);
+    border:5px solid #1a1f28;padding:5% 6%;display:grid;grid-template-rows:auto 1fr 1fr;gap:3%;z-index:1;overflow:hidden}
+  #inside .vt{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.35em;color:var(--brass);text-transform:uppercase;text-align:center}
+  .shelfRow{display:grid;grid-template-columns:1fr 1fr;gap:4%}
+  .loot{background:linear-gradient(160deg,#1e2530,#151a23);border:1px solid rgba(211,169,78,.35);border-radius:12px;
+    padding:12px 14px;cursor:pointer;transition:all .25s;display:flex;flex-direction:column;justify-content:center}
+  .loot:hover{border-color:var(--brass);box-shadow:0 0 24px rgba(211,169,78,.25);transform:translateY(-3px)}
+  .loot .ic{font-size:22px}
+  .loot .nm{font-weight:600;font-size:clamp(11px,1.8vw,14px);letter-spacing:.04em;margin-top:4px;text-transform:uppercase}
+  .loot .sm{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:.08em}
+
+  /* console */
+  #console{margin-top:24px;width:min(560px,94vw);background:#12151b;border:1px solid rgba(232,236,244,.14);border-radius:12px;
+    padding:16px 20px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--green);letter-spacing:.06em;min-height:64px}
+  #console .d{color:var(--dim)}
+  #autoBtn{margin-top:14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;padding:12px 22px;
+    background:none;border:1px solid var(--brass);color:var(--brass);border-radius:8px;cursor:pointer;transition:all .25s;text-transform:uppercase}
+  #autoBtn:hover{background:var(--brass);color:#0d0f13}
+
+  /* modal */
+  #modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;
+    background:rgba(5,7,10,.78);backdrop-filter:blur(8px);padding:5vw}
+  #modal.open{display:flex}
+  #mbox{max-width:520px;width:100%;background:#151a23;border:1px solid rgba(211,169,78,.4);border-radius:16px;
+    padding:36px 38px;position:relative;box-shadow:0 40px 100px rgba(0,0,0,.7);max-height:84vh;overflow:auto}
+  #mbox .k{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--brass);text-transform:uppercase}
+  #mbox h2{font-size:clamp(22px,3.6vw,30px);font-weight:800;margin:8px 0 10px;letter-spacing:.04em;text-transform:uppercase}
+  #mbox p{font-family:'Saira Condensed';font-weight:400;font-size:15.5px;line-height:1.7;color:var(--dim)}
+  #mbox p b{color:var(--fg)}
+  .mbtns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+  .mbtn{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.15em;padding:12px 18px;border-radius:8px;
+    border:1px solid var(--brass);color:var(--brass);transition:all .2s;text-transform:uppercase}
+  .mbtn:hover{background:var(--brass);color:#0d0f13}
+  #mclose{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--dim);font-size:16px;cursor:pointer}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<h1>The <span>Résumé</span> Heist</h1>
+<div class="sub">Vault of N.A. Tofi · Combination: 3 numbers · Listen for the clicks</div>
+
+<div id="scene">
+  <div id="inside">
+    <div class="vt">◆ Vault contents — take everything ◆</div>
+    <div class="shelfRow">
+      <div class="loot" data-l="0"><span class="ic">👑</span><span class="nm">Supervisor Role</span><span class="sm">2026 · ACTIVE</span></div>
+      <div class="loot" data-l="1"><span class="ic">💍</span><span class="nm">GoldenTag</span><span class="sm">GOOGLE PLAY</span></div>
+    </div>
+    <div class="shelfRow">
+      <div class="loot" data-l="2"><span class="ic">🧰</span><span class="nm">Skill Cache</span><span class="sm">REACT · TS · MORE</span></div>
+      <div class="loot" data-l="3"><span class="ic">📞</span><span class="nm">Contact File</span><span class="sm">HIGH VALUE</span></div>
+    </div>
+  </div>
+  <div id="door">
+    <div id="lights"><div class="lt" id="l0"></div><div class="lt" id="l1"></div><div class="lt" id="l2"></div></div>
+    <div id="handle"></div>
+    <div id="pointer">▼</div>
+    <div id="dialWrap">
+      <div id="dial"></div>
+      <div id="knob"></div>
+    </div>
+  </div>
+</div>
+
+<div id="console">> SAFECRACKER v2.6 READY_<br><span class="d" id="clog">> STEP 1/3: rotate RIGHT (clockwise) and find the sweet spot…</span></div>
+<button id="autoBtn">🥷 Auto-crack (for busy recruiters)</button>
+
+<div id="modal"><div id="mbox"><button id="mclose">✕</button><div id="mc"></div></div></div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* dial markings — ticks as center-rotated spokes, visible only at the rim */
+const dial=document.getElementById('dial');
+for(let i=0;i<40;i++){
+  const major=i%5===0;
+  const sp=document.createElement('div');
+  sp.style.cssText=`position:absolute;left:50%;top:0;width:${major?3:1.5}px;height:50%;
+    transform:translateX(-50%) rotate(${i*9}deg);transform-origin:bottom center;
+    background:linear-gradient(180deg,#2a303c 0 ${major?'12%':'7%'},transparent ${major?'12%':'7%'});`;
+  dial.appendChild(sp);
+  if(major){
+    const nm=document.createElement('div');
+    nm.style.cssText=`position:absolute;left:50%;top:0;height:50%;transform:translateX(-50%) rotate(${i*9}deg);
+      transform-origin:bottom center;font-family:'IBM Plex Mono';font-size:12px;font-weight:700;color:#2a303c;
+      display:flex;justify-content:center;align-items:flex-start;padding-top:14%;width:24px;`;
+    nm.innerHTML=`<span>${i}</span>`;
+    dial.appendChild(nm);
+  }
+}
+
+/* audio */
+let AC=null;
+function snd(f,t,type,v){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type=type||'square';o.frequency.value=f;
+  g.gain.setValueAtTime(v||.05,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+(t||.06));
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+(t||.08));}catch(e){}}
+
+/* state */
+const COMBO=[{n:26,dir:1},{n:9,dir:-1},{n:34,dir:1}];
+let step=0,ang=0,lastTick=0,open=false;
+const wrap=document.getElementById('dialWrap'),clog=document.getElementById('clog');
+function num(){return ((Math.round(-ang/9)%40)+40)%40;}
+function setAng(a){ang=a;dial.style.transform=`rotate(${ang}deg)`;
+  const n=num();
+  if(Math.abs(n*9-lastTick)>=9){lastTick=n*9;snd(900+n*4,.03,'square',.028);}
+}
+let dragging=false,pa=0,pang=0,lastDir=0;
+function angleOf(e){const r=wrap.getBoundingClientRect();
+  const x=(e.touches?e.touches[0].clientX:e.clientX)-(r.left+r.width/2);
+  const y=(e.touches?e.touches[0].clientY:e.clientY)-(r.top+r.height/2);
+  return Math.atan2(y,x)*180/Math.PI;}
+wrap.addEventListener('pointerdown',e=>{dragging=true;pa=angleOf(e);pang=ang;wrap.setPointerCapture(e.pointerId);});
+wrap.addEventListener('pointermove',e=>{
+  if(!dragging||open)return;
+  let d=angleOf(e)-pa;
+  if(d>180)d-=360;if(d<-180)d+=360;
+  lastDir=d>0?1:(d<0?-1:lastDir);
+  setAng(pang+d);
+  if(Math.abs(d)>140){pa=angleOf(e);pang=ang;}
+  check();
+});
+addEventListener('pointerup',()=>dragging=false);
+
+function check(){
+  if(step>=COMBO.length)return;
+  const c=COMBO[step];
+  if(num()===c.n&&lastDir===c.dir){
+    document.getElementById('l'+step).classList.add('on');
+    snd(300,.25,'sine',.12);snd(500,.2,'sine',.08);
+    step++;
+    if(step<COMBO.length){
+      clog.innerHTML=`> CLICK! tumbler ${step} set.<br>> STEP ${step+1}/3: rotate ${COMBO[step].dir>0?'RIGHT (clockwise)':'LEFT (counter-clockwise)'}…`;
+    }else{unlock();}
+  }else if(Math.random()<.02){
+    clog.textContent='> '+(lastDir===c.dir?'good direction… feel for it…':'wrong direction! '+(c.dir>0?'go RIGHT →':'go ← LEFT'));
+  }
+}
+function unlock(){
+  open=true;
+  clog.innerHTML='> ALL TUMBLERS SET. VAULT OPEN.<br>> take everything. he would want you to.';
+  snd(120,.6,'sawtooth',.1);
+  setTimeout(()=>{document.getElementById('door').classList.add('open');snd(80,.9,'sine',.12);},400);
+}
+/* auto crack */
+document.getElementById('autoBtn').onclick=async()=>{
+  if(open)return;
+  document.getElementById('autoBtn').disabled=true;
+  for(let s=step;s<COMBO.length;s++){
+    const c=COMBO[s];
+    await new Promise(res=>{
+      const target=-c.n*9+(c.dir>0?-360:360)*0.0;
+      const startA=ang;const targetA=(c.dir>0? startA-((((startA/-9)%40+40)%40- c.n+40)%40)*9 - 90 : startA+((c.n-(((startA/-9)%40+40)%40)+40)%40)*9 + 90);
+      let t0=null;
+      function anim(ts){t0=t0||ts;const p=Math.min(1,(ts-t0)/1400);
+        lastDir=c.dir;
+        setAng(startA+(targetA-startA)*(p*p*(3-2*p)));
+        if(num()===c.n&&p>0.5){check();res();return;}
+        if(p<1)requestAnimationFrame(anim);else{setAng(-c.n*9);lastDir=c.dir;check();res();}
+      }
+      requestAnimationFrame(anim);
+    });
+    await new Promise(r=>setTimeout(r,350));
+  }
+};
+
+/* loot modals */
+const LOOT=[
+ `<div class="k">Asset 01 · Role</div><h2>The Supervisor Role</h2>
+  <p><b>Software Engineering Supervisor — Distinctive Frontier Co., Riyadh</b> (Jan 2026 → present). Leads frontend: scalable React systems, coding standards, backend alignment, shipped features. Previously Frontend Dev &amp; Project Coordination there (2025). Before that: <b>Khwarizm Technologies</b> (2024–25), <b>Minicodeleader</b> (2023–24).</p>`,
+ `<div class="k">Asset 02 · Deliverable</div><h2>GoldenTag</h2>
+  <p>As <b>freelance Project Coordinator at NexLead</b> (Mar 2025 →): jewelry store management app shipped to Google Play — inventory, employees, barcode scanning, USD/SYP rates, sales logging, TXT export.</p>
+  <div class="mbtns"><a class="mbtn" href="https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag" target="_blank" rel="noopener">Google Play ↗</a></div>`,
+ `<div class="k">Asset 03 · Cache</div><h2>The Skill Cache</h2>
+  <p><b>React · TypeScript · Tailwind CSS · JavaScript</b> + Python (DS/AI), Git, Jira, Trello, prompt engineering. Certified: Meta Advanced React '25, Google PM ×2 '25, IBM Python &amp; GenAI '24, TS in React '25, Tailwind '24, Clean Code '24, Jira suite '25. Foundation: B.Tech IT — Kalamoon (2019–24), ICPC/ACPC 2021.</p>`,
+ `<div class="k">Asset 04 · High value</div><h2>The Contact File</h2>
+  <p><b>Nour Aldeen Tofi</b> — Riyadh · Arabic + English · anime, chess, badminton, film. Open for: websites, React frontends, logos, business cards, social visuals, project coordination.</p>
+  <div class="mbtns"><a class="mbtn" href="mailto:nouraldeentofi@gmail.com">✉ Email</a>
+  <a class="mbtn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+  <a class="mbtn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a></div>`];
+const modal=document.getElementById('modal');
+document.querySelectorAll('.loot').forEach(l=>l.onclick=()=>{
+  document.getElementById('mc').innerHTML=LOOT[+l.dataset.l];modal.classList.add('open');});
+document.getElementById('mclose').onclick=()=>modal.classList.remove('open');
+modal.addEventListener('pointerdown',e=>{if(e.target===modal)modal.classList.remove('open');});
+addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open');});
+if(reduced){unlock();}
+</script>
+</body>
+</html>

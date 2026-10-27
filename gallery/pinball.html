@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — PINBALL · Career Table</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--felt:#131a2e;--rim:#2b3860;--neon:#5ee0ff;--pink:#ff5e9c;--yellow:#ffd23f;--fg:#eef4ff;--dim:rgba(238,244,255,.6)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{font-family:'IBM Plex Mono',monospace;background:radial-gradient(90vw 70vh at 50% -10%,#1d2a4a,#0b0f1d);
+    color:var(--fg);display:flex;flex-direction:column;align-items:center;overflow:hidden;padding:2vh 3vw}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--pink);color:#0b0f1d}
+  h1{font-family:'Audiowide',cursive;font-size:clamp(17px,3.2vw,26px);letter-spacing:.08em;color:var(--neon);
+    text-shadow:0 0 18px rgba(94,224,255,.6)}
+  #hud{display:flex;gap:22px;margin:6px 0 8px;font-size:11px;letter-spacing:.14em;flex-wrap:wrap;justify-content:center}
+  #hud b{color:var(--yellow)}
+  #wrap{position:relative;flex:1;display:flex;align-items:center;justify-content:center;width:100%;min-height:0}
+  canvas{background:linear-gradient(180deg,#182342,var(--felt));border:6px solid var(--rim);border-radius:18px;
+    box-shadow:0 30px 70px rgba(0,0,0,.6), inset 0 0 60px rgba(0,0,0,.5);max-height:100%;touch-action:none}
+  #toast{position:fixed;top:12vh;left:50%;transform:translate(-50%,-30px);z-index:30;opacity:0;
+    width:min(480px,90vw);background:rgba(12,16,32,.92);border:1px solid var(--neon);border-radius:12px;
+    padding:14px 18px;transition:all .4s;pointer-events:none;backdrop-filter:blur(6px)}
+  #toast.show{opacity:1;transform:translate(-50%,0)}
+  #toast .k{font-size:9px;letter-spacing:.28em;color:var(--neon);text-transform:uppercase}
+  #toast p{font-size:11.5px;line-height:1.6;color:var(--dim);margin-top:4px}
+  #toast p b{color:var(--fg)}
+  #controls{font-size:9.5px;letter-spacing:.2em;color:var(--dim);margin-top:8px;text-transform:uppercase;text-align:center}
+  #controls b{color:var(--yellow)}
+  #winO{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;
+    background:rgba(6,9,18,.85);backdrop-filter:blur(8px);padding:5vw}
+  #winO.open{display:flex}
+  #wbox{max-width:500px;width:100%;background:#141c36;border:1px solid var(--neon);border-radius:18px;
+    padding:36px 38px;text-align:center;box-shadow:0 0 60px rgba(94,224,255,.3)}
+  #wbox h2{font-family:'Audiowide';font-size:clamp(20px,3.8vw,30px);color:var(--yellow)}
+  #wbox p{font-size:12.5px;line-height:1.7;color:var(--dim);margin-top:10px}
+  #wbox p b{color:var(--fg)}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+  .btn{font-size:11px;letter-spacing:.14em;padding:12px 18px;border:1px solid var(--neon);color:var(--neon);
+    border-radius:8px;text-transform:uppercase;cursor:pointer;background:none;font-family:'IBM Plex Mono'}
+  .btn:hover{background:var(--neon);color:#0b0f1d}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<h1>NOUR PINBALL — CAREER TABLE</h1>
+<div id="hud"><span>SCORE <b id="score">0</b></span><span>BALLS <b id="balls">3</b></span><span>FACTS LIT <b id="lit">0</b>/8</span></div>
+<div id="wrap"><canvas id="cv"></canvas></div>
+<div id="controls"><b>← →</b> flippers · <b>SPACE / TAP</b> launch · light all 8 bumpers to win</div>
+<div id="toast"><div class="k" id="tk"></div><p id="tp"></p></div>
+<div id="winO"><div id="wbox">
+  <h2>🏆 JACKPOT — ALL FACTS LIT</h2>
+  <p><b>Nour Aldeen Tofi</b> — frontend developer &amp; software engineering supervisor, Riyadh. You just bounced through his whole career. High-score prize: his contact card.</p>
+  <div class="btns">
+    <a class="btn" href="mailto:nouraldeentofi@gmail.com">✉ Email</a>
+    <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+    <button class="btn" id="againB">↺ Replay</button>
+  </div>
+</div></div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+let W=480,H=720;
+function size(){
+  const wrap=document.getElementById('wrap');
+  const scale=Math.min(wrap.clientWidth/480,wrap.clientHeight/720);
+  cv.style.width=(480*scale)+'px';cv.style.height=(720*scale)+'px';
+  cv.width=480;cv.height=720;
+}
+size();addEventListener('resize',size);
+
+const BUMPERS=[
+ {x:150,y:150,r:30,c:'#ff5e9c',nm:'REACT',k:'BUMPER · REACT',p:'<b>React</b> — the core skill since 2023. Minicodeleader → Khwarizm → Distinctive Frontier Co.'},
+ {x:330,y:150,r:30,c:'#5ee0ff',nm:'TS',k:'BUMPER · TYPESCRIPT',p:'<b>TypeScript</b> — certified Coursera \'25. Strict types, loose wrists.'},
+ {x:240,y:230,r:34,c:'#ffd23f',nm:'2026',k:'BUMPER · SUPERVISOR',p:'<b>Software Engineering Supervisor</b> @ Distinctive Frontier Co. (Jan 2026 →). Leads frontend: systems, standards, delivery.'},
+ {x:110,y:300,r:26,c:'#59d97d',nm:'GOLD',k:'BUMPER · GOLDENTAG',p:'<b>GoldenTag</b> shipped to Google Play via NexLead — inventory, barcode scan, USD/SYP rates. Freelance coordination since 2025.'},
+ {x:370,y:300,r:26,c:'#c9a2ff',nm:'ICPC',k:'BUMPER · ICPC 2021',p:'<b>ICPC/ACPC 2021</b> — competitive programming. This table\'s physics are easier than those problems.'},
+ {x:170,y:390,r:24,c:'#ff9a5c',nm:'EDU',k:'BUMPER · KALAMOON',p:'<b>B.Tech IT — University of Kalamoon</b> (2019–2024). The launch ramp of everything.'},
+ {x:310,y:390,r:24,c:'#7dd3fc',nm:'PY',k:'BUMPER · PYTHON/AI',p:'<b>Python DS/AI</b> — IBM certified ×2 (\'24). The multiball of side skills.'},
+ {x:240,y:480,r:22,c:'#f0abfc',nm:'FUN',k:'BUMPER · OFF-DUTY',p:'Anime · chess · badminton · film. Tilt-free hobbies.'}
+];
+let ball,flipL,flipR,ballsLeft=3,score=0,litSet=new Set(),launched=false,won=false;
+function resetBall(){
+  ball={x:452,y:600,vx:0,vy:0,r:9};launched=false;
+}
+resetBall();
+const FL={y:640,len:95,w:14};
+flipL={x:120,ang:.5,target:.5};
+flipR={x:360,ang:-.5,target:-.5};
+
+let AC=null;
+function snd(f,t,type,v){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type=type||'square';o.frequency.value=f;
+  g.gain.setValueAtTime(v||.05,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+(t||.1));
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+(t||.12));}catch(e){}}
+
+/* input */
+const keys={};
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft'){keys.l=true;flipL.target=-.45;snd(220,.05,'square',.03);}
+  if(e.key==='ArrowRight'){keys.r=true;flipR.target=.45;snd(240,.05,'square',.03);}
+  if(e.key===' '){e.preventDefault();launch();}
+});
+addEventListener('keyup',e=>{
+  if(e.key==='ArrowLeft'){keys.l=false;flipL.target=.5;}
+  if(e.key==='ArrowRight'){keys.r=false;flipR.target=-.5;}
+});
+cv.addEventListener('pointerdown',e=>{
+  const r=cv.getBoundingClientRect();
+  const x=(e.clientX-r.left)/r.width;
+  if(!launched){launch();return;}
+  if(x<.5){flipL.target=-.45;setTimeout(()=>flipL.target=.5,180);}
+  else{flipR.target=.45;setTimeout(()=>flipR.target=-.5,180);}
+});
+function launch(){
+  if(launched||won)return;
+  launched=true;
+  ball.vy=-(15+Math.random()*2);ball.vx=-.4;
+  snd(180,.3,'sawtooth',.08);
+}
+
+let toastTimer=null;
+function toast(k,p){
+  document.getElementById('tk').textContent=k;
+  document.getElementById('tp').innerHTML=p;
+  const t=document.getElementById('toast');t.classList.add('show');
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3600);
+}
+
+function flipperEnds(f,left){
+  const dir=left?1:-1;
+  const x2=f.x+Math.cos(f.ang)*FL.len*dir;
+  const y2=FL.y+Math.sin(f.ang)*FL.len*(left?1:1)*(left?1:1);
+  return {x1:f.x,y1:FL.y,x2,y2:FL.y+Math.sin(f.ang)*FL.len*(left?1:-1)*(left?1:-1)};
+}
+function collideSeg(x1,y1,x2,y2,pow){
+  const dx=x2-x1,dy=y2-y1,len2=dx*dx+dy*dy;
+  let t=((ball.x-x1)*dx+(ball.y-y1)*dy)/len2;
+  t=Math.max(0,Math.min(1,t));
+  const px=x1+dx*t,py=y1+dy*t;
+  const d=Math.hypot(ball.x-px,ball.y-py);
+  if(d<ball.r+FL.w/2){
+    const nx=(ball.x-px)/d,ny=(ball.y-py)/d;
+    const dot=ball.vx*nx+ball.vy*ny;
+    ball.vx-=2*dot*nx;ball.vy-=2*dot*ny;
+    ball.x=px+nx*(ball.r+FL.w/2+.5);ball.y=py+ny*(ball.r+FL.w/2+.5);
+    ball.vx*=.85;ball.vy*=.85;
+    if(pow){ball.vy-=pow;snd(320,.08,'square',.06);}
+    return true;
+  }
+}
+function step(){
+  if(launched&&!won){
+    ball.vy+=.28;
+    ball.vx*=.999;ball.vy*=.999;
+    ball.x+=ball.vx;ball.y+=ball.vy;
+    /* walls */
+    if(ball.x<ball.r+8){ball.x=ball.r+8;ball.vx=Math.abs(ball.vx)*.8;snd(500,.04,'sine',.03);}
+    if(ball.x>W-ball.r-8&&ball.y<560){ball.x=W-ball.r-8;ball.vx=-Math.abs(ball.vx)*.8;snd(500,.04,'sine',.03);}
+    if(ball.x>440&&ball.y>=560){/* launch lane wall */
+      if(ball.x>W-ball.r-8){ball.x=W-ball.r-8;ball.vx=-Math.abs(ball.vx)*.8;}}
+    if(ball.y<ball.r+8){ball.y=ball.r+8;ball.vy=Math.abs(ball.vy)*.8;snd(500,.04,'sine',.03);}
+    /* launch lane guide */
+    if(ball.y<560&&ball.x>436&&ball.vy<0){} /* riding up lane */
+    if(ball.x>430&&ball.y<120){ball.vx-=.5;} /* curve into field */
+    /* bumpers */
+    for(const b of BUMPERS){
+      const d=Math.hypot(ball.x-b.x,ball.y-b.y);
+      if(d<ball.r+b.r){
+        const nx=(ball.x-b.x)/d,ny=(ball.y-b.y)/d;
+        ball.x=b.x+nx*(ball.r+b.r+1);ball.y=b.y+ny*(ball.r+b.r+1);
+        const sp=Math.max(6,Math.hypot(ball.vx,ball.vy)*1.05);
+        ball.vx=nx*sp;ball.vy=ny*sp;
+        score+=100;b.flash=8;
+        snd(600+Math.random()*300,.09,'triangle',.07);
+        if(!litSet.has(b.nm)){litSet.add(b.nm);toast(b.k,b.p);
+          document.getElementById('lit').textContent=litSet.size;
+          if(litSet.size===BUMPERS.length){won=true;
+            setTimeout(()=>document.getElementById('winO').classList.add('open'),700);
+            [660,880,1100,1320].forEach((f,i)=>setTimeout(()=>snd(f,.2,'triangle',.08),i*130));}
+        }
+        document.getElementById('score').textContent=score;
+      }
+    }
+    /* flippers */
+    const l1={x1:flipL.x,y1:FL.y,x2:flipL.x+Math.cos(flipL.ang)*FL.len,y2:FL.y+Math.sin(flipL.ang)*FL.len};
+    const r1={x1:flipR.x,y1:FL.y,x2:flipR.x-Math.cos(flipR.ang)*FL.len,y2:FL.y+Math.sin(flipR.ang)*FL.len};
+    collideSeg(l1.x1,l1.y1,l1.x2,l1.y2,flipL.target<0?9:0);
+    collideSeg(r1.x1,r1.y1,r1.x2,r1.y2,flipR.target>0?9:0);
+    /* side slings */
+    collideSeg(30,540,flipL.x-6,FL.y-4,0);
+    collideSeg(450-14,540,flipR.x+6,FL.y-4,0);
+    /* drain */
+    if(ball.y>H+30){
+      ballsLeft--;document.getElementById('balls').textContent=ballsLeft;
+      snd(120,.4,'sawtooth',.08);
+      if(ballsLeft<=0){ballsLeft=3;score=0;litSet.clear();
+        document.getElementById('balls').textContent=3;
+        document.getElementById('score').textContent=0;
+        document.getElementById('lit').textContent=0;
+        toast('GAME OVER','Fresh set of balls — the career is still here. Try again!');}
+      resetBall();
+    }
+  }
+  flipL.ang+=(flipL.target-flipL.ang)*.45;
+  flipR.ang+=(flipR.target-flipR.ang)*.45;
+  draw();
+  requestAnimationFrame(step);
+}
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  /* lane */
+  ctx.strokeStyle='rgba(94,224,255,.3)';ctx.lineWidth=3;
+  ctx.beginPath();ctx.moveTo(436,H);ctx.lineTo(436,140);ctx.quadraticCurveTo(436,40,340,30);ctx.stroke();
+  /* arc top */
+  ctx.strokeStyle='rgba(94,224,255,.25)';
+  ctx.beginPath();ctx.arc(240,150,190,Math.PI,0);ctx.stroke();
+  /* bumpers */
+  for(const b of BUMPERS){
+    const lit=litSet.has(b.nm);
+    ctx.save();
+    ctx.shadowColor=b.c;ctx.shadowBlur=lit?26:(b.flash?30:8);
+    ctx.fillStyle=lit?b.c:'rgba(255,255,255,.12)';
+    ctx.strokeStyle=b.c;ctx.lineWidth=3;
+    ctx.beginPath();ctx.arc(b.x,b.y,b.r+(b.flash?3:0),0,7);ctx.fill();ctx.stroke();
+    ctx.shadowBlur=0;
+    ctx.fillStyle=lit?'#0b0f1d':b.c;
+    ctx.font='700 11px IBM Plex Mono';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(b.nm,b.x,b.y);
+    ctx.restore();
+    if(b.flash)b.flash--;
+  }
+  /* slings */
+  ctx.strokeStyle='rgba(255,210,63,.6)';ctx.lineWidth=5;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(30,540);ctx.lineTo(flipL.x-6,FL.y-4);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(436,540);ctx.lineTo(flipR.x+6,FL.y-4);ctx.stroke();
+  /* flippers */
+  ctx.lineWidth=FL.w;ctx.lineCap='round';
+  ctx.strokeStyle='#ff5e9c';
+  ctx.beginPath();ctx.moveTo(flipL.x,FL.y);
+  ctx.lineTo(flipL.x+Math.cos(flipL.ang)*FL.len,FL.y+Math.sin(flipL.ang)*FL.len);ctx.stroke();
+  ctx.strokeStyle='#5ee0ff';
+  ctx.beginPath();ctx.moveTo(flipR.x,FL.y);
+  ctx.lineTo(flipR.x-Math.cos(flipR.ang)*FL.len,FL.y+Math.sin(flipR.ang)*FL.len);ctx.stroke();
+  /* ball */
+  ctx.save();
+  ctx.shadowColor='#fff';ctx.shadowBlur=14;
+  const grad=ctx.createRadialGradient(ball.x-3,ball.y-3,1,ball.x,ball.y,ball.r);
+  grad.addColorStop(0,'#fff');grad.addColorStop(1,'#9aa8c9');
+  ctx.fillStyle=grad;
+  ctx.beginPath();ctx.arc(ball.x,ball.y,ball.r,0,7);ctx.fill();
+  ctx.restore();
+  /* launch hint */
+  if(!launched){
+    ctx.fillStyle='rgba(255,210,63,.9)';ctx.font='700 12px IBM Plex Mono';ctx.textAlign='center';
+    ctx.fillText('PRESS SPACE / TAP',240,600);
+    ctx.fillText('TO LAUNCH ▲',240,618);
+  }
+}
+document.getElementById('againB').onclick=()=>{
+  document.getElementById('winO').classList.remove('open');
+  won=false;litSet.clear();score=0;ballsLeft=3;
+  document.getElementById('score').textContent=0;
+  document.getElementById('balls').textContent=3;
+  document.getElementById('lit').textContent=0;
+  resetBall();
+};
+step();
+</script>
+</body>
+</html>

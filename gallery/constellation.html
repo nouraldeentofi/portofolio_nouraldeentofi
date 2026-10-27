@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — CONSTELLATION · Connect the Stars</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--sky:#0a1024;--skyd:#050813;--star:#fdf6e0;--gold:#e8c060;--line:#8ab8ff;--fg:#eef2ff;--dim:rgba(238,242,255,.6)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{font-family:'Jost',sans-serif;background:radial-gradient(90vw 80vh at 50% 100%,#16204a,var(--sky) 55%,var(--skyd));
+    color:var(--fg);overflow:hidden;display:flex;flex-direction:column}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold);color:#0a1024}
+  header{text-align:center;padding:20px 4vw 8px;z-index:10}
+  h1{font-family:'Marcellus',serif;font-size:clamp(20px,3.8vw,32px);letter-spacing:.08em}
+  h1 span{color:var(--gold)}
+  .sub{font-size:11px;letter-spacing:.28em;color:var(--dim);margin-top:6px;text-transform:uppercase}
+
+  #sky{position:relative;flex:1;cursor:crosshair}
+  canvas{position:absolute;inset:0}
+  .starBtn{position:absolute;transform:translate(-50%,-50%);width:26px;height:26px;border:none;background:none;
+    cursor:pointer;z-index:5}
+  .starBtn::after{content:'';position:absolute;inset:7px;border-radius:50%;background:var(--star);
+    box-shadow:0 0 10px rgba(253,246,224,.9);transition:all .25s}
+  .starBtn:hover::after{inset:4px;box-shadow:0 0 18px var(--gold)}
+  .starBtn.next::after{background:var(--gold);animation:tw 1.2s infinite;box-shadow:0 0 16px var(--gold)}
+  @keyframes tw{50%{opacity:.4}}
+  .starBtn.lit::after{background:var(--gold);inset:5px;box-shadow:0 0 20px var(--gold)}
+
+  /* legend chips */
+  #legend{position:absolute;top:14px;left:50%;transform:translateX(-50%);z-index:8;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:94vw}
+  .lg{font-size:10px;letter-spacing:.14em;padding:8px 14px;border-radius:99px;border:1px solid rgba(238,242,255,.25);
+    color:var(--dim);cursor:pointer;background:rgba(10,16,36,.6);backdrop-filter:blur(4px);text-transform:uppercase;transition:all .25s}
+  .lg.cur{border-color:var(--gold);color:var(--gold)}
+  .lg.done{border-color:var(--line);color:var(--line)}
+  .lg.done::after{content:' ✓'}
+
+  /* story card */
+  #card{position:absolute;left:50%;bottom:22px;transform:translate(-50%,140%);z-index:9;width:min(560px,92vw);
+    background:rgba(8,12,28,.85);border:1px solid rgba(232,192,96,.4);border-radius:16px;padding:22px 26px;
+    backdrop-filter:blur(8px);transition:transform .5s cubic-bezier(.2,.9,.3,1);text-align:center}
+  #card.show{transform:translate(-50%,0)}
+  #card .k{font-size:10px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+  #card h2{font-family:'Marcellus',serif;font-size:clamp(18px,3.2vw,26px);margin:8px 0 6px}
+  #card p{font-size:12.5px;line-height:1.7;color:var(--dim)}
+  #card p b{color:var(--fg)}
+  .btns{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .btn{font-size:10.5px;letter-spacing:.14em;padding:10px 18px;border-radius:99px;border:1px solid var(--gold);
+    color:var(--gold);text-transform:uppercase}
+  .btn:hover{background:var(--gold);color:#0a1024}
+  #hint{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);z-index:8;font-size:10px;
+    letter-spacing:.3em;color:var(--dim);text-transform:uppercase;animation:hb 2.4s infinite}
+  @keyframes hb{0%,100%{opacity:.35}50%{opacity:1}}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header><h1>The <span>Nour</span> Planetarium</h1>
+<div class="sub">Connect the golden stars in order — draw all five constellations · وصّل النجوم</div></header>
+
+<div id="sky">
+  <canvas id="cv"></canvas>
+  <div id="legend"></div>
+  <div id="card"><div class="k" id="ck"></div><h2 id="ch"></h2><p id="cp"></p><div class="btns" id="cb"></div></div>
+  <div id="hint">◈ CLICK THE BLINKING STAR TO BEGIN ◈</div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* constellations: name + relative star coords (% of sky) + shape lines are the order chain */
+const CONS=[
+ {nm:'The Graduate',k:'CONSTELLATION I · 2019–2024',
+  stars:[[12,68],[18,52],[26,60],[22,76],[12,68]],
+  h:'The Graduate — سديم الخريج',
+  p:`<b>B.Tech Information Technology — University of Kalamoon (2019–2024)</b>, with the bright twin star <b>ICPC/ACPC 2021</b> burning beside it. Foundations, drawn in the oldest light.`},
+ {nm:'The First Commit',k:'CONSTELLATION II · 2023–2025',
+  stars:[[38,36],[46,28],[54,38],[48,50],[38,36]],
+  h:'The First Commit',
+  p:`<b>Minicodeleader (2023–24)</b> then <b>Khwarizm Technologies, Riyadh (2024–25)</b> — React burning brighter each year, production experience folding into the constellation.`},
+ {nm:'The Golden Ring',k:'CONSTELLATION III · 2025',
+  stars:[[68,30],[76,24],[82,34],[76,44],[68,38],[68,30]],
+  h:'The Golden Ring — GoldenTag',
+  p:`A perfect ring: <b>GoldenTag</b>, the jewelry store app coordinated at <b>NexLead</b> and shipped to Google Play — inventory, barcode scanning, USD/SYP rates. Freelance coordination since Mar 2025.`},
+ {nm:'The Crown',k:'CONSTELLATION IV · 2026',
+  stars:[[30,84],[38,74],[46,82],[54,72],[62,84]],
+  h:'The Crown — Supervisor',
+  p:`Five points of a crown: <b>Software Engineering Supervisor, Distinctive Frontier Co. (Jan 2026 →)</b> — React systems, standards, backend alignment, delivery. Stack: React · TS · Tailwind · JS · Python.`},
+ {nm:'The Handshake',k:'CONSTELLATION V · NEXT',
+  stars:[[74,62],[82,56],[90,62],[82,72],[74,62],[90,62]],
+  h:'The Handshake — you and him',
+  p:`The final constellation needs <b>two people</b> to shine. Websites · React frontends · logos · business cards · social visuals · coordination. Riyadh · AR+EN.`,
+  btns:[['✉ Email','mailto:nouraldeentofi@gmail.com?subject=I%20drew%20your%20stars&body=All%20five%20constellations%20connected.%20My%20project%3A%20'],
+        ['LinkedIn','https://www.linkedin.com/in/nour-aldeen-tofi-19b116240'],['Website','https://nouraldeentofi.netlify.app']]}
+];
+const sky=document.getElementById('sky'),cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+let W,H;
+function size(){W=cv.width=sky.clientWidth;H=cv.height=sky.clientHeight;placeStars();}
+let bgStars=[];
+for(let i=0;i<130;i++)bgStars.push([Math.random(),Math.random(),Math.random()*1.6+.4,Math.random()*7]);
+
+let cur=0,step=0,done=[],shoot=null;
+let AC=null;
+function chime(f,t){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f;
+  g.gain.setValueAtTime(.06,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+(t||.7));
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+(t||.75));}catch(e){}}
+
+/* legend */
+const legend=document.getElementById('legend');
+CONS.forEach((c,i)=>{const b=document.createElement('button');b.className='lg'+(i===0?' cur':'');
+  b.textContent=c.nm;legend.appendChild(b);});
+
+/* star buttons */
+let btns=[];
+function placeStars(){
+  btns.forEach(b=>b.remove());btns=[];
+  CONS.forEach((c,ci)=>{
+    c.stars.forEach((s,si)=>{
+      /* skip duplicate closing points for buttons */
+      if(si>0&&c.stars.findIndex(o=>o[0]===s[0]&&o[1]===s[1])<si)return;
+      const b=document.createElement('button');b.className='starBtn';
+      b.style.left=(s[0]/100*W)+'px';b.style.top=(s[1]/100*H)+'px';
+      b.dataset.ci=ci;b.dataset.x=s[0];b.dataset.y=s[1];
+      b.onclick=()=>clickStar(ci,s[0],s[1],b);
+      sky.appendChild(b);btns.push(b);
+    });
+  });
+  markNext();
+}
+function markNext(){
+  btns.forEach(b=>b.classList.remove('next'));
+  if(cur>=CONS.length)return;
+  const t=CONS[cur].stars[step];
+  const b=btns.find(x=>+x.dataset.ci===cur&&+x.dataset.x===t[0]&&+x.dataset.y===t[1]);
+  if(b)b.classList.add('next');
+}
+function clickStar(ci,x,y,b){
+  if(cur>=CONS.length||ci!==cur)return;
+  const t=CONS[cur].stars[step];
+  if(x!==t[0]||y!==t[1]){chime(180,.2);return;}
+  b.classList.add('lit');
+  chime(520+step*70,.5);
+  step++;
+  document.getElementById('hint').style.opacity=0;
+  if(step>=CONS[cur].stars.length){
+    done.push(cur);
+    showCard(CONS[cur]);
+    [660,830,990].forEach((f,i)=>setTimeout(()=>chime(f,.6),i*140));
+    legend.children[cur].classList.remove('cur');legend.children[cur].classList.add('done');
+    cur++;step=0;
+    if(cur<CONS.length)legend.children[cur].classList.add('cur');
+    if(!reduced)shoot={x:Math.random()*W*.8,y:Math.random()*H*.3,t:0};
+  }
+  markNext();
+}
+function showCard(c){
+  document.getElementById('ck').textContent=c.k;
+  document.getElementById('ch').textContent=c.h;
+  document.getElementById('cp').innerHTML=c.p;
+  const cb=document.getElementById('cb');cb.innerHTML='';
+  (c.btns||[]).forEach(([lb,href])=>{
+    const a=document.createElement('a');a.className='btn';a.textContent=lb;a.href=href;
+    if(href.startsWith('http')){a.target='_blank';a.rel='noopener';}
+    cb.appendChild(a);});
+  document.getElementById('card').classList.add('show');
+}
+document.getElementById('sky').addEventListener('pointerdown',e=>{
+  if(e.target===sky||e.target===cv)document.getElementById('card').classList.remove('show');
+});
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  /* bg stars */
+  for(const [x,y,r,ph] of bgStars){
+    ctx.globalAlpha=.35+.4*Math.abs(Math.sin(Date.now()/1600+ph));
+    ctx.fillStyle='#cdd8ff';
+    ctx.beginPath();ctx.arc(x*W,y*H,r,0,7);ctx.fill();
+  }
+  ctx.globalAlpha=1;
+  /* completed + in-progress lines */
+  CONS.forEach((c,ci)=>{
+    const isDone=done.includes(ci);
+    const upto=ci===cur?step:(isDone?c.stars.length:0);
+    if(upto<2&&!isDone)return;
+    ctx.strokeStyle=isDone?'rgba(138,184,255,.8)':'rgba(232,192,96,.9)';
+    ctx.lineWidth=isDone?1.6:2.2;
+    ctx.shadowColor=isDone?'#8ab8ff':'#e8c060';
+    ctx.shadowBlur=isDone?8:14;
+    ctx.beginPath();
+    const n=isDone?c.stars.length:upto;
+    for(let i=0;i<n;i++){
+      const [sx,sy]=c.stars[i];
+      i===0?ctx.moveTo(sx/100*W,sy/100*H):ctx.lineTo(sx/100*W,sy/100*H);
+    }
+    ctx.stroke();ctx.shadowBlur=0;
+    if(isDone){
+      const cx0=c.stars.reduce((a,s)=>a+s[0],0)/c.stars.length/100*W;
+      const cy0=c.stars.reduce((a,s)=>a+s[1],0)/c.stars.length/100*H;
+      ctx.font='12px Marcellus';ctx.fillStyle='rgba(238,242,255,.65)';ctx.textAlign='center';
+      ctx.fillText(c.nm,cx0,cy0-14);
+    }
+  });
+  /* shooting star */
+  if(shoot){
+    shoot.t+=.02;
+    const sx=shoot.x+shoot.t*300,sy=shoot.y+shoot.t*120;
+    ctx.strokeStyle='rgba(253,246,224,'+(1-shoot.t)+')';
+    ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(sx-40,sy-16);ctx.lineTo(sx,sy);ctx.stroke();
+    if(shoot.t>=1)shoot=null;
+  }
+  requestAnimationFrame(draw);
+}
+size();addEventListener('resize',size);
+draw();
+</script>
+</body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — Dive Log · The Abyss</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400;1,700&family=Karla:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --surface:#7fd8d4; --shallow:#2aa7ac; --twilight:#0e5f74; --midnight:#083048; --abyssal:#041826; --hadal:#010a12;
+    --glow:#35f0d0; --coral:#ff7a8a; --sand:#e8d9b0; --paper:#f2fbf9;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;color:var(--paper);background:var(--surface);overflow-x:hidden}
+  ::selection{background:var(--coral);color:#fff}
+
+  #ocean{position:fixed;inset:0;z-index:0;background:linear-gradient(180deg,var(--surface),var(--shallow))}
+  /* sun rays */
+  #rays{position:absolute;inset:0;overflow:hidden}
+  .ray{position:absolute;top:-20%;width:90px;height:150%;background:linear-gradient(180deg,rgba(255,255,240,.5),transparent 70%);
+    transform:skewX(-14deg);filter:blur(10px);animation:sway 7s ease-in-out infinite}
+  @keyframes sway{0%,100%{transform:skewX(-14deg) translateX(0)}50%{transform:skewX(-10deg) translateX(30px)}}
+  .bubble{position:absolute;border:1.5px solid rgba(255,255,255,.55);border-radius:50%;background:radial-gradient(circle at 32% 30%,rgba(255,255,255,.5),rgba(255,255,255,.06) 60%)}
+  .plank{position:absolute;background:var(--glow);border-radius:50%;box-shadow:0 0 8px var(--glow);opacity:0}
+  .fish{position:absolute;font-size:26px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4))}
+  #whale{position:absolute;left:-40%;top:34%;width:min(520px,70vw);opacity:.5}
+
+  /* submarine companion */
+  #sub{position:fixed;right:6vw;top:34vh;z-index:6;width:150px;pointer-events:none}
+  #subInner{animation:bob 3.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(2deg)}50%{transform:translateY(12px) rotate(-2deg)}}
+  .hull{width:140px;height:64px;background:#ffb703;border:3px solid #073042;border-radius:40px;position:relative}
+  .hull::after{content:'NT-SUB';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono';font-size:9px;font-weight:700;color:#073042;letter-spacing:1px}
+  .fin{position:absolute;left:-16px;top:18px;width:26px;height:28px;background:#ffb703;border:3px solid #073042;border-radius:8px 0 0 8px}
+  .porthole{position:absolute;top:16px;width:22px;height:22px;background:#9df3ff;border:3px solid #073042;border-radius:50%}
+  .porthole.p1{left:22px}.porthole.p2{left:56px}
+  .tower{position:absolute;top:-22px;left:52px;width:34px;height:26px;background:#ffb703;border:3px solid #073042;border-radius:8px 8px 0 0}
+  .scope{position:absolute;top:-38px;left:66px;width:5px;height:18px;background:#073042;border-radius:3px}
+  .scope::after{content:'';position:absolute;top:0;left:0;width:14px;height:5px;background:#073042;border-radius:3px}
+  .prop{position:absolute;right:-18px;top:24px;width:12px;height:18px;background:#073042;border-radius:4px;animation:spin .28s linear infinite}
+  @keyframes spin{0%{transform:scaleY(1)}50%{transform:scaleY(.2)}100%{transform:scaleY(1)}}
+  #beam{position:absolute;left:-190px;top:26px;width:190px;height:56px;opacity:0;
+    background:linear-gradient(270deg,rgba(255,244,180,.5),transparent);clip-path:polygon(100% 32%,0 0,0 100%,100% 68%)}
+
+  /* HUD */
+  #gauge{position:fixed;top:22px;left:22px;z-index:20;font-family:'JetBrains Mono',monospace;
+    background:rgba(2,18,28,.55);border:1px solid rgba(53,240,208,.4);border-radius:12px;padding:14px 18px;backdrop-filter:blur(6px)}
+  #depth{font-size:clamp(24px,3.6vw,36px);font-weight:700;color:var(--glow);line-height:1}
+  #depth span{font-size:.5em;opacity:.7}
+  #zone{font-size:11px;letter-spacing:2px;color:var(--glow);opacity:.8;margin-top:6px}
+  #o2wrap{position:fixed;top:22px;right:22px;z-index:20;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--glow);
+    background:rgba(2,18,28,.55);border:1px solid rgba(53,240,208,.4);border-radius:12px;padding:12px 16px;backdrop-filter:blur(6px);text-align:right}
+  #o2bar{width:120px;height:8px;border:1px solid var(--glow);border-radius:6px;margin-top:6px;overflow:hidden}
+  #o2fill{height:100%;width:100%;background:var(--glow)}
+
+  main{position:relative;z-index:10}
+  section{min-height:105vh;display:flex;align-items:center;padding:14vh 7vw;position:relative}
+  section:nth-child(even){justify-content:flex-end}
+  .card{max-width:600px;background:rgba(2,20,30,.6);border:1px solid rgba(53,240,208,.25);border-radius:20px;
+    padding:44px 46px;backdrop-filter:blur(12px);box-shadow:0 30px 90px rgba(0,0,0,.45)}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:3px;color:var(--coral);text-transform:uppercase;margin-bottom:14px}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(46px,8vw,104px);line-height:1.02}
+  h1 em,h2 em{font-style:italic;color:var(--glow)}
+  h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin-bottom:16px}
+  p{font-size:16.5px;line-height:1.7;color:rgba(242,251,249,.9)}
+  p+p{margin-top:12px}
+  .meta{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--glow);letter-spacing:1px;margin-bottom:10px}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .tag{font-family:'JetBrains Mono',monospace;font-size:12px;padding:6px 12px;border:1px solid rgba(53,240,208,.45);border-radius:999px;color:var(--glow)}
+  a{color:var(--glow);text-decoration:none;border-bottom:1px dashed rgba(53,240,208,.5)}
+  a:hover{color:#fff}
+
+  #heroSec{flex-direction:column;justify-content:center;text-align:center}
+  #heroSec .kicker{font-family:'JetBrains Mono',monospace;letter-spacing:4px;font-size:12px;color:#063a46;margin-bottom:14px}
+  #heroSec h1{color:#052e38;text-shadow:0 2px 0 rgba(255,255,255,.35)}
+  #heroSec .sub{font-family:'Fraunces',serif;font-style:italic;font-size:clamp(16px,2.4vw,22px);color:#063a46;margin-top:14px}
+  #diveHint{margin-top:46px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:3px;color:#052e38;animation:sink 1.8s infinite}
+  @keyframes sink{0%,100%{transform:translateY(0)}50%{transform:translateY(12px)}}
+
+  /* bioluminescent skill creatures */
+  .reef{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+  .jelly{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:#04222e;background:var(--glow);
+    padding:10px 16px;border-radius:16px 16px 8px 8px;box-shadow:0 0 18px rgba(53,240,208,.65);position:relative}
+  .jelly::after{content:'⌇⌇⌇';position:absolute;left:50%;transform:translateX(-50%);bottom:-14px;color:var(--glow);font-size:10px;letter-spacing:2px}
+  .jelly.c{background:var(--coral);box-shadow:0 0 18px rgba(255,122,138,.65)}.jelly.c::after{color:var(--coral)}
+
+  .certs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+  .cert{font-size:13px;padding:12px 14px;border:1px dashed rgba(53,240,208,.4);border-radius:10px;line-height:1.4}
+  .cert b{color:var(--glow);font-weight:700}
+  @media(max-width:640px){.certs{grid-template-columns:1fr}.card{padding:32px 26px}section{justify-content:center!important}}
+
+  /* trench floor / treasure */
+  #floorSec{flex-direction:column;justify-content:center;text-align:center}
+  #chest{width:120px;margin:0 auto 20px;position:relative}
+  #lid{width:120px;height:44px;background:#8a5a2b;border:3px solid #3c2410;border-radius:60px 60px 8px 8px;transform-origin:bottom center}
+  #box{width:120px;height:52px;background:#a06a34;border:3px solid #3c2410;border-radius:0 0 12px 12px;position:relative}
+  #box::after{content:'';position:absolute;top:-4px;left:50%;transform:translateX(-50%);width:18px;height:22px;background:#e9c46a;border:3px solid #3c2410;border-radius:4px}
+  #shine{position:absolute;left:50%;top:8px;transform:translateX(-50%);width:140px;height:70px;opacity:0;
+    background:radial-gradient(ellipse at center,rgba(255,230,140,.95),transparent 70%)}
+  .contactRow{display:flex;flex-wrap:wrap;gap:14px;margin-top:26px;justify-content:center}
+  .btn{font-family:'JetBrains Mono',monospace;font-weight:700;letter-spacing:1px;font-size:14px;padding:14px 22px;border-radius:12px;
+    border:2px solid var(--glow);color:#04222e;background:var(--glow);transition:transform .2s;box-shadow:0 0 26px rgba(53,240,208,.5)}
+  .btn.ghost{background:transparent;color:var(--glow)}
+  .btn:hover{transform:translateY(-3px)}
+
+  @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div id="ocean">
+  <div id="rays"></div>
+  <svg id="whale" viewBox="0 0 520 200" fill="rgba(4,26,38,.55)" aria-hidden="true">
+    <path d="M20 110 Q120 30 300 60 Q420 80 470 60 L500 30 Q505 70 480 92 Q505 114 500 154 L470 124 Q420 104 300 124 Q160 150 60 130 Q60 150 40 164 Q44 140 30 128 Q10 120 20 110Z"/>
+    <circle cx="90" cy="96" r="6" fill="#9df3ff"/>
+  </svg>
+  <div id="bubbles"></div>
+  <div id="plankton"></div>
+  <div id="fishes"></div>
+</div>
+
+<div id="sub" aria-hidden="true">
+  <div id="subInner">
+    <div id="beam"></div>
+    <div class="tower"></div><div class="scope"></div>
+    <div class="hull"><div class="fin"></div><div class="porthole p1"></div><div class="porthole p2"></div><div class="prop"></div></div>
+  </div>
+</div>
+
+<div id="gauge" role="status">
+  <div id="depth">0<span> M</span></div>
+  <div id="zone">SUNLIGHT ZONE</div>
+</div>
+<div id="o2wrap">DIVE LOG · N.A. TOFI<div id="o2bar"><div id="o2fill"></div></div></div>
+
+<main>
+  <section id="heroSec">
+    <div class="kicker">DIVE LOG № 26 · RED SEA → CODE SEA</div>
+    <h1>Nour Aldeen Tofi</h1>
+    <div class="sub">Frontend developer &amp; engineering supervisor. Comfortable at any depth of the stack’s surface layer.</div>
+    <div id="diveHint">▼ BREATHE IN. SCROLL TO DIVE ▼</div>
+  </section>
+
+  <section>
+    <div class="card" data-reveal>
+      <div class="eyebrow">−200 m · Twilight zone</div>
+      <h2>The diver on <em>this</em> expedition</h2>
+      <p>Based in Riyadh, Saudi Arabia. Around 3 years of professional experience building modern, scalable web applications — and supervising the people who build them.</p>
+      <p>Most devs pick one: write the code, or run the project. I never learned to choose. Requirements gathering, scope, delivery, clean React — one breath, all of it.</p>
+      <div class="tags"><span class="tag">B.Tech IT — University of Kalamoon '24</span><span class="tag">Arabic + English</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card" data-reveal>
+      <div class="eyebrow">−1,000 m · Midnight zone</div>
+      <div class="meta">JAN 2026 → PRESENT · RIYADH</div>
+      <h2>Software Engineering Supervisor — <em>Distinctive Frontier Co.</em></h2>
+      <p>Leading frontend at a safety equipment company. Scalable React UI systems, coding standards, backend alignment, product ideas turned into shipped features. Promoted after a year as Frontend Developer &amp; Project Coordinator at the same depth.</p>
+      <div class="tags"><span class="tag">React</span><span class="tag">Team Leadership</span><span class="tag">UI Architecture</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card" data-reveal>
+      <div class="eyebrow">−2,500 m · Abyssal plain</div>
+      <div class="meta">MAR 2025 → PRESENT · REMOTE</div>
+      <h2>Freelance Project Coordinator — <em>NexLead</em></h2>
+      <p>Deep-water client work: requirements, scope, acceptance criteria, user stories on Trello, quality control across frontend, backend and UI/UX, timelines and cost estimates, releases to Google Play.</p>
+      <p><strong>Recovered treasure: GoldenTag</strong> — jewelry store management app. Inventory, employees, barcode scanning, USD/SYP rates, sales logging, TXT export.</p>
+      <div class="tags"><span class="tag">GoldenTag · Google Play</span><span class="tag">Trello</span><span class="tag">Release Mgmt</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card" data-reveal>
+      <div class="eyebrow">−4,000 m · Earlier descents</div>
+      <div class="meta">SEP 2024 → APR 2025</div>
+      <h2>Frontend Developer — <em>Khwarizm Technologies</em></h2>
+      <p>Riyadh. Production React interfaces, tight design and backend collaboration.</p>
+      <div class="meta" style="margin-top:20px">JUN 2023 → FEB 2024</div>
+      <h2 style="font-size:clamp(22px,3vw,32px)">Frontend Developer (React) — <em>Minicodeleader</em></h2>
+      <p>First dive. Learned that pressure makes better developers, not worse ones.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="card" data-reveal>
+      <div class="eyebrow">−6,000 m · Hadal zone</div>
+      <h2>Bioluminescent <em>skills</em></h2>
+      <p>Down here, everything has to generate its own light:</p>
+      <div class="reef">
+        <span class="jelly" data-jelly>React</span><span class="jelly" data-jelly>TypeScript</span>
+        <span class="jelly" data-jelly>Tailwind CSS</span><span class="jelly c" data-jelly>JavaScript</span>
+        <span class="jelly c" data-jelly>Python · DS/AI</span><span class="jelly" data-jelly>Git</span>
+        <span class="jelly c" data-jelly>Jira · Trello</span><span class="jelly" data-jelly>Prompt Engineering</span>
+        <span class="jelly c" data-jelly>Clean Code</span><span class="jelly" data-jelly>Team Leadership</span>
+      </div>
+      <p style="margin-top:26px">Pressure rating: <strong>ICPC/ACPC</strong> competitive programming, 2021 — algorithmic problem-solving at crush depth.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="card" data-reveal>
+      <div class="eyebrow">−8,000 m · Certification locker</div>
+      <h2>Stamped &amp; <em>sealed</em></h2>
+      <div class="certs">
+        <div class="cert"><b>Advanced React</b> — Meta '25</div>
+        <div class="cert"><b>TypeScript in React</b> — Coursera '25</div>
+        <div class="cert"><b>Foundations of PM</b> — Google '25</div>
+        <div class="cert"><b>Project Initiation</b> — Google '25</div>
+        <div class="cert"><b>Python DS, AI & Dev</b> — IBM '24</div>
+        <div class="cert"><b>GenAI Prompting</b> — IBM '24</div>
+        <div class="cert"><b>Tailwind From Scratch</b> — Packt '24</div>
+        <div class="cert"><b>Clean Code Basics</b> — Scrimba '24</div>
+        <div class="cert"><b>Jira Roadmaps & Stories</b> — Coursera '25</div>
+        <div class="cert"><b>Learn Markdown</b> — Scrimba '25</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="floorSec">
+    <div class="card" data-reveal style="max-width:660px">
+      <div class="eyebrow" style="text-align:center">−10,911 m · Trench floor · You made it</div>
+      <div id="chest"><div id="shine"></div><div id="lid"></div><div id="box"></div></div>
+      <h2 style="text-align:center">The treasure is a <em>collaborator</em></h2>
+      <p style="text-align:center">Websites, React frontends, logos, business cards, social media visuals — or a project coordinator who keeps your whole crew breathing on schedule.</p>
+      <div class="contactRow">
+        <a class="btn" href="mailto:nouraldeentofi@gmail.com">SURFACE WITH ME</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LINKEDIN</a>
+        <a class="btn ghost" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">WEBSITE</a>
+      </div>
+      <p style="margin-top:20px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11.5px;opacity:.65">Shore leave: anime · chess · badminton · movies &amp; series</p>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* rays */
+const rays=document.getElementById('rays');
+for(let i=0;i<7;i++){const r=document.createElement('div');r.className='ray';
+  r.style.cssText=`left:${5+i*14}%;animation-delay:${i*.7}s;opacity:${.5+Math.random()*.4}`;rays.appendChild(r);}
+/* bubbles */
+const bub=document.getElementById('bubbles');
+for(let i=0;i<34;i++){const b=document.createElement('div');b.className='bubble';
+  const s=6+Math.random()*20;b.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;top:${100+Math.random()*40}%`;bub.appendChild(b);
+  if(!reduced) gsap.to(b,{y:'-=160vh',x:'+='+gsap.utils.random(-60,60),duration:gsap.utils.random(6,14),repeat:-1,ease:'none',delay:Math.random()*8});}
+/* plankton (glow at depth) */
+const pl=document.getElementById('plankton');
+for(let i=0;i<60;i++){const p=document.createElement('div');p.className='plank';
+  const s=2+Math.random()*4;p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;top:${Math.random()*100}%`;pl.appendChild(p);
+  if(!reduced) gsap.to(p,{x:'+='+gsap.utils.random(-40,40),y:'+='+gsap.utils.random(-30,30),duration:gsap.utils.random(4,9),repeat:-1,yoyo:true,ease:'sine.inOut'});}
+/* fish */
+const fishes=document.getElementById('fishes');const kinds=['🐠','🐟','🐡','🦑','🐙'];
+for(let i=0;i<9;i++){const f=document.createElement('div');f.className='fish';f.textContent=kinds[i%kinds.length];
+  f.style.cssText=`top:${10+Math.random()*70}%;left:-8%`;fishes.appendChild(f);
+  if(!reduced) gsap.to(f,{x:'115vw',duration:gsap.utils.random(14,30),repeat:-1,ease:'none',delay:Math.random()*16,
+    onRepeat:()=>{f.style.top=(10+Math.random()*70)+'%'}});}
+
+/* zones + water color */
+const zones=[
+  {p:0.00,name:'SUNLIGHT ZONE',bg:'linear-gradient(180deg,#7fd8d4,#2aa7ac)'},
+  {p:0.16,name:'TWILIGHT ZONE',bg:'linear-gradient(180deg,#2aa7ac,#0e5f74)'},
+  {p:0.34,name:'MIDNIGHT ZONE',bg:'linear-gradient(180deg,#0e5f74,#083048)'},
+  {p:0.55,name:'ABYSSAL ZONE',bg:'linear-gradient(180deg,#083048,#041826)'},
+  {p:0.78,name:'HADAL ZONE',bg:'linear-gradient(180deg,#041826,#010a12)'}
+];
+const ocean=document.getElementById('ocean'),depthEl=document.getElementById('depth'),zoneEl=document.getElementById('zone');
+
+ScrollTrigger.create({trigger:'main',start:'top top',end:'bottom bottom',scrub:true,
+  onUpdate(self){
+    const p=self.progress, d=Math.round(10911*p);
+    depthEl.innerHTML=d.toLocaleString()+'<span> M</span>';
+    for(let i=zones.length-1;i>=0;i--){if(p>=zones[i].p-0.001){zoneEl.textContent=zones[i].name;ocean.style.background=zones[i].bg;break;}}
+    document.getElementById('rays').style.opacity=Math.max(0,1-p*4);
+    document.getElementById('o2fill').style.width=(100-p*82)+'%';
+    /* plankton glows brighter with depth */
+    pl.style.opacity=Math.min(1,Math.max(0,(p-0.3)*2.2));
+    gsap.utils.toArray('.plank').forEach(el=>el.style.opacity=Math.min(.9,Math.max(0,(p-0.3)*2)));
+    /* headlight on in the dark */
+    document.getElementById('beam').style.opacity=p>0.4?Math.min(1,(p-0.4)*3):0;
+    /* sub dives, tilts and drifts */
+    if(!reduced) gsap.set('#sub',{rotate:4+Math.sin(p*10)*4,y:Math.sin(p*6)*30});
+  }});
+
+/* whale crossing in twilight */
+if(!reduced){
+  gsap.fromTo('#whale',{x:'-40vw'},{x:'150vw',ease:'none',
+    scrollTrigger:{trigger:'main',start:'12% top',end:'45% top',scrub:1.5}});
+}
+
+/* card reveals — float up like released ballast */
+gsap.utils.toArray('[data-reveal]').forEach(c=>{
+  gsap.from(c,{opacity:0,y:reduced?0:90,rotate:reduced?0:1.5,duration:.9,ease:'power2.out',
+    scrollTrigger:{trigger:c,start:'top 80%',toggleActions:'play none none reverse'}});
+});
+/* jellies pulse in */
+gsap.from('[data-jelly]',{opacity:0,scale:.3,y:30,stagger:.07,duration:.6,ease:'back.out(2)',
+  scrollTrigger:{trigger:'.reef',start:'top 82%'}});
+if(!reduced) gsap.to('[data-jelly]',{y:-6,duration:1.6,repeat:-1,yoyo:true,ease:'sine.inOut',stagger:{each:.2,from:'random'}});
+
+/* treasure chest opens at floor */
+ScrollTrigger.create({trigger:'#floorSec',start:'top 55%',
+  onEnter(){gsap.to('#lid',{rotateX:0,rotate:-38,y:-14,duration:.8,ease:'back.out(1.6)'});
+    gsap.to('#shine',{opacity:1,duration:1.2});},
+  onLeaveBack(){gsap.to('#lid',{rotate:0,y:0,duration:.4});gsap.to('#shine',{opacity:0,duration:.4});}});
+
+/* hero title sinks away */
+gsap.to('#heroSec > *',{y:-60,opacity:0,stagger:.05,ease:'power1.in',
+  scrollTrigger:{trigger:'#heroSec',start:'top top',end:'bottom 45%',scrub:true}});
+</script>
+</body>
+</html>

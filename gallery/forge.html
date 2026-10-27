@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — FORGE · Hammer the Blade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Alegreya:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{--soot:#17120e;--stone:#2a221b;--ember:#ff6b2e;--emberhi:#ffb35c;--steel:#c8cdd6;--steelhot:#ff8c4a;
+        --fg:#f2e8da;--dim:rgba(242,232,218,.6)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Alegreya',serif;color:var(--fg);min-height:100vh;overflow-x:hidden;
+    background:radial-gradient(80vw 55vh at 50% 105%,#3a2416,var(--soot) 60%);
+    display:flex;flex-direction:column;align-items:center;padding:5vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--ember);color:#17120e}
+  h1{font-family:'Cinzel',serif;font-weight:800;font-size:clamp(24px,4.8vw,44px);letter-spacing:.06em;text-align:center}
+  h1 span{color:var(--emberhi);text-shadow:0 0 24px rgba(255,107,46,.5)}
+  .sub{font-size:13px;font-style:italic;color:var(--dim);margin:8px 0 8px;text-align:center}
+  #progressLb{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.3em;color:var(--emberhi);margin-bottom:18px;text-transform:uppercase}
+
+  #anvilZone{position:relative;width:min(720px,95vw);height:380px;cursor:pointer;user-select:none}
+  /* glow */
+  #heatGlow{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);width:400px;height:180px;
+    background:radial-gradient(ellipse,rgba(255,107,46,.35),transparent 70%);pointer-events:none;transition:opacity .5s}
+  /* blade */
+  #blade{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:min(430px,80vw);height:56px;pointer-events:none}
+  #bladeSvg{width:100%;height:100%;filter:drop-shadow(0 0 18px rgba(255,140,74,.6))}
+  /* anvil */
+  #anvil{position:absolute;left:50%;top:56%;transform:translateX(-50%);width:240px;pointer-events:none}
+  /* hammer */
+  #hammer{position:absolute;left:58%;top:8%;width:120px;transform-origin:85% 85%;transform:rotate(18deg);pointer-events:none;
+    transition:transform .1s}
+  #hammer.strike{transform:rotate(72deg);transition:transform .07s cubic-bezier(.6,0,1,1)}
+  .spark{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--emberhi);pointer-events:none;
+    box-shadow:0 0 8px var(--ember)}
+  #tapHint{position:absolute;left:50%;bottom:4px;transform:translateX(-50%);font-family:'Cinzel',serif;
+    font-size:11px;letter-spacing:.35em;color:var(--dim);text-transform:uppercase;animation:hb 2s infinite}
+  @keyframes hb{0%,100%{opacity:.35}50%{opacity:1}}
+
+  /* fact scroll */
+  #scrolls{width:min(620px,94vw);margin-top:10px;display:flex;flex-direction:column;gap:10px}
+  .fact{background:rgba(42,34,27,.8);border:1px solid rgba(255,179,92,.3);border-left:4px solid var(--ember);
+    border-radius:8px;padding:16px 20px;opacity:0;transform:translateY(16px);transition:all .6s}
+  .fact.vis{opacity:1;transform:none}
+  .fact .fk{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.28em;color:var(--emberhi);text-transform:uppercase}
+  .fact p{font-size:14px;line-height:1.65;color:var(--dim);margin-top:5px}
+  .fact p b{color:var(--fg)}
+  /* quench + final */
+  #quenchB{display:none;margin:20px auto 0;font-family:'Cinzel',serif;font-size:13px;letter-spacing:.24em;
+    padding:15px 30px;background:linear-gradient(180deg,#3a5a7a,#22405c);color:#cfe4f5;border:1px solid #5c88ad;
+    border-radius:8px;cursor:pointer;text-transform:uppercase;box-shadow:0 0 30px rgba(92,136,173,.35)}
+  #quenchB.show{display:block}
+  #final{display:none;text-align:center;margin-top:26px;max-width:600px}
+  #final.show{display:block}
+  #final h2{font-family:'Cinzel',serif;font-size:clamp(20px,3.6vw,30px);color:var(--emberhi);letter-spacing:.08em}
+  #final p{font-size:14.5px;line-height:1.7;color:var(--dim);margin-top:10px}
+  .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+  .btn{font-family:'Cinzel',serif;font-size:12px;letter-spacing:.2em;padding:13px 24px;border:1px solid var(--emberhi);
+    color:var(--emberhi);border-radius:6px;transition:all .25s;text-transform:uppercase}
+  .btn:hover{background:var(--emberhi);color:#17120e;box-shadow:0 0 30px rgba(255,179,92,.5)}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>THE <span>FORGE</span> OF NOUR</h1>
+<div class="sub">Nine hammer strikes forged this career. Now you swing the hammer — click the anvil. اطرق الحديد</div>
+<div id="progressLb">STRIKE 0 / 9 — THE STEEL IS COLD</div>
+
+<div id="anvilZone">
+  <div id="heatGlow"></div>
+  <svg id="blade" viewBox="0 0 430 56" style="opacity:.9">
+    <g id="bladeG"></g>
+  </svg>
+  <svg id="anvil" viewBox="0 0 240 120">
+    <path d="M20 34 L220 34 L204 58 L150 58 L158 86 L82 86 L90 58 L36 58 Z" fill="#3c3f47"/>
+    <rect x="66" y="86" width="108" height="18" rx="4" fill="#2b2016"/>
+    <path d="M20 34 L220 34 L214 44 L26 44 Z" fill="#565b66"/>
+  </svg>
+  <svg id="hammer" viewBox="0 0 120 120">
+    <rect x="52" y="8" width="14" height="86" rx="6" fill="#6b4a2e"/>
+    <rect x="24" y="2" width="72" height="30" rx="7" fill="#4a4f59"/>
+    <rect x="24" y="2" width="72" height="10" rx="5" fill="#666c78"/>
+  </svg>
+  <div id="tapHint">◈ CLICK TO STRIKE ◈</div>
+</div>
+
+<div id="scrolls"></div>
+<button id="quenchB">🌊 QUENCH THE BLADE</button>
+<div id="final">
+  <h2>⚔ THE BLADE "TOFI" IS FORGED</h2>
+  <p>Engraved along the fuller: <b>React · TypeScript · Tailwind · JavaScript · Python · Git · Jira · Trello</b>. Balanced for both hands: code and coordination. Forged in Riyadh, quenched in deadlines.</p>
+  <p style="font-style:italic">Commission your own weapon: websites · React frontends · logos · business cards · social visuals · project coordination.</p>
+  <div class="btns">
+    <a class="btn" href="mailto:nouraldeentofi@gmail.com">✉ Email the smith</a>
+    <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+  </div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FACTS=[
+ ['STRIKE I — THE ORE','<b>B.Tech IT, University of Kalamoon (2019–2024).</b> Raw ore, five years in the mountain.'],
+ ['STRIKE II — FIRST HEAT','<b>ICPC/ACPC 2021.</b> The steel meets real fire: competitive programming under a merciless clock.'],
+ ['STRIKE III — ROUGH SHAPE','<b>Minicodeleader (2023–24).</b> React Developer — the first professional hammering. Component-driven form appears.'],
+ ['STRIKE IV — FOLDING','<b>Khwarizm Technologies (2024–25, Riyadh).</b> Production React folds strength into the blade.'],
+ ['STRIKE V — TEMPERING','<b>Distinctive Frontier Co. (2025).</b> Frontend Dev & Project Coordination — two metals, one alloy.'],
+ ['STRIKE VI — THE EDGE','<b>NexLead (Mar 2025 →).</b> Freelance coordination sharpens the edge. <b>GoldenTag</b> shipped to Google Play: inventory, barcode scanning, USD/SYP rates.'],
+ ['STRIKE VII — ENGRAVING','Certs etched into the steel: <b>Meta Advanced React, Google PM ×2, IBM Python & GenAI, TS in React, Tailwind, Clean Code, Jira suite.</b>'],
+ ['STRIKE VIII — THE GUARD','Hobbies forged as the crossguard: <b>anime, chess, badminton, film.</b> A blade needs balance.'],
+ ['STRIKE IX — MASTER MARK','<b>Software Engineering Supervisor — Jan 2026 →.</b> The smith\'s mark stamped: leads frontend at Distinctive Frontier Co.']
+];
+const TOTAL=FACTS.length;
+let strikes=0,quenched=false;
+
+/* blade drawing: grows/refines per strike */
+const bg=document.getElementById('bladeG');
+function drawBlade(){
+  const p=strikes/TOTAL;
+  const len=60+330*p;
+  const tipX=30+len;
+  const hot=quenched?0:Math.min(1,strikes/3);
+  const col=quenched?'#c8cdd6':`rgb(${200+55*hot|0},${140-40*hot+60|0},${80-30*hot|0})`;
+  const edge=quenched?'#eef2f8':'#ffd9a8';
+  bg.innerHTML=`
+    <rect x="8" y="20" width="26" height="16" rx="3" fill="#5c4630"/>
+    <rect x="30" y="14" width="10" height="28" rx="2" fill="#8a6a3c"/>
+    <path d="M40 28 L${tipX} ${28-6*p} L${tipX+14*p} 28 L${tipX} ${28+6*p} Z" fill="${col}"/>
+    <path d="M40 28 L${tipX} ${28-6*p}" stroke="${edge}" stroke-width="2"/>
+    ${p>.5?`<line x1="60" y1="28" x2="${tipX-30}" y2="28" stroke="rgba(0,0,0,.28)" stroke-width="2"/>`:''}
+  `;
+  document.getElementById('blade').style.opacity=.35+p*.65;
+  document.getElementById('heatGlow').style.opacity=quenched?0:(.3+p*.7);
+}
+drawBlade();
+
+/* audio */
+let AC=null;
+function clang(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';
+  o.frequency.setValueAtTime(1400+Math.random()*500,AC.currentTime);
+  o.frequency.exponentialRampToValueAtTime(300,AC.currentTime+.16);
+  g.gain.setValueAtTime(.14,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.5);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.55);
+  const o2=AC.createOscillator(),g2=AC.createGain();o2.type='sine';o2.frequency.value=90;
+  g2.gain.setValueAtTime(.16,AC.currentTime);
+  g2.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.2);
+  o2.connect(g2);g2.connect(AC.destination);o2.start();o2.stop(AC.currentTime+.22);}catch(e){}}
+function hiss(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const b=AC.createBuffer(1,AC.sampleRate*1.4,AC.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length);
+  const s=AC.createBufferSource();s.buffer=b;
+  const f=AC.createBiquadFilter();f.type='highpass';f.frequency.value=3000;
+  const g=AC.createGain();g.gain.value=.12;
+  s.connect(f);f.connect(g);g.connect(AC.destination);s.start();}catch(e){}}
+
+/* strike */
+const zone=document.getElementById('anvilZone'),hammer=document.getElementById('hammer');
+zone.addEventListener('pointerdown',()=>{
+  if(strikes>=TOTAL||quenched)return;
+  hammer.classList.add('strike');
+  setTimeout(()=>{
+    hammer.classList.remove('strike');
+    clang();
+    strikes++;
+    drawBlade();
+    sparks();
+    if(!reduced){zone.animate([{transform:'translateY(0)'},{transform:'translateY(4px)'},{transform:'translateY(0)'}],{duration:120});}
+    document.getElementById('progressLb').textContent=
+      strikes<TOTAL?`STRIKE ${strikes} / ${TOTAL} — THE STEEL GLOWS`:`${TOTAL} / ${TOTAL} — READY TO QUENCH`;
+    revealFact(strikes-1);
+    document.getElementById('tapHint').style.opacity=strikes>=2?0:'';
+    if(strikes>=TOTAL)document.getElementById('quenchB').classList.add('show');
+  },reduced?0:80);
+});
+function sparks(){
+  if(reduced)return;
+  const r=zone.getBoundingClientRect();
+  const cx=r.left+r.width/2,cy=r.top+r.height*.48;
+  for(let i=0;i<16;i++){
+    const s=document.createElement('div');s.className='spark';
+    s.style.left=cx+'px';s.style.top=cy+'px';
+    document.body.appendChild(s);
+    const a=Math.random()*Math.PI-Math.PI,d=40+Math.random()*120;
+    s.animate([{transform:'translate(0,0)',opacity:1},
+      {transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d+60}px)`,opacity:0}],
+      {duration:500+Math.random()*400,easing:'cubic-bezier(.2,.6,.6,1)'}).onfinish=()=>s.remove();
+  }
+}
+function revealFact(i){
+  const [k,p]=FACTS[i];
+  const d=document.createElement('div');d.className='fact';
+  d.innerHTML=`<div class="fk">${k}</div><p>${p}</p>`;
+  document.getElementById('scrolls').prepend(d);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>d.classList.add('vis')));
+}
+/* quench */
+document.getElementById('quenchB').onclick=e=>{
+  if(quenched)return;quenched=true;
+  hiss();drawBlade();
+  e.target.style.display='none';
+  /* steam puffs */
+  if(!reduced){
+    const r=zone.getBoundingClientRect();
+    for(let i=0;i<10;i++){
+      const st=document.createElement('div');
+      st.style.cssText=`position:fixed;left:${r.left+r.width/2+(Math.random()-.5)*160}px;top:${r.top+r.height*.45}px;
+        width:${20+Math.random()*30}px;height:${20+Math.random()*30}px;border-radius:50%;z-index:40;
+        background:radial-gradient(circle,rgba(230,240,250,.5),transparent 70%);pointer-events:none`;
+      document.body.appendChild(st);
+      st.animate([{transform:'translateY(0) scale(.6)',opacity:.8},{transform:'translateY(-120px) scale(1.8)',opacity:0}],
+        {duration:1400+Math.random()*600,easing:'ease-out'}).onfinish=()=>st.remove();
+    }
+  }
+  document.getElementById('progressLb').textContent='QUENCHED — THE BLADE IS TRUE';
+  setTimeout(()=>document.getElementById('final').classList.add('show'),reduced?0:900);
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — SNOWGLOBE · Shake the Story</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Mulish:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--room:#1c2438;--roomd:#12182a;--glass:rgba(190,220,255,.14);--wood:#7a4a2a;--woodd:#5c351c;
+        --fg:#eef4ff;--dim:rgba(238,244,255,.65);--gold:#e8c88a}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Mulish',sans-serif;color:var(--fg);min-height:100vh;overflow-x:hidden;
+    background:radial-gradient(80vw 60vh at 50% 20%,#28324e,var(--room) 60%,var(--roomd));
+    display:flex;flex-direction:column;align-items:center;padding:5vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold);color:#1c2438}
+  h1{font-family:'Berkshire Swash',cursive;font-size:clamp(28px,5.4vw,50px);color:var(--gold);
+    text-shadow:0 2px 20px rgba(232,200,138,.35)}
+  .sub{font-size:12.5px;font-weight:700;color:var(--dim);margin:8px 0 26px;letter-spacing:.1em;text-align:center}
+
+  #globeWrap{position:relative;width:min(400px,88vw);cursor:grab;user-select:none;touch-action:none}
+  #globeWrap:active{cursor:grabbing}
+  #globe{position:relative;width:100%;aspect-ratio:1;border-radius:50%;overflow:hidden;
+    background:radial-gradient(circle at 32% 26%,rgba(255,255,255,.35),var(--glass) 40%,rgba(90,120,180,.18));
+    border:3px solid rgba(220,235,255,.4);
+    box-shadow:0 30px 70px rgba(0,0,0,.5), inset 0 0 80px rgba(140,180,255,.15), inset 0 -20px 60px rgba(20,30,60,.4)}
+  #shine{position:absolute;left:14%;top:9%;width:26%;height:15%;border-radius:50%;
+    background:rgba(255,255,255,.5);filter:blur(6px);transform:rotate(-24deg);pointer-events:none;z-index:6}
+  #sceneArt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+    padding-bottom:16%;text-align:center;z-index:2;transition:opacity .6s}
+  #sceneArt .big{font-size:clamp(54px,13vw,86px);filter:drop-shadow(0 6px 10px rgba(0,0,0,.4))}
+  #sceneArt .cap{font-family:'Berkshire Swash',cursive;font-size:clamp(15px,3vw,21px);color:#fff;margin-top:6px;
+    text-shadow:0 2px 8px rgba(0,0,0,.5)}
+  #snowCv{position:absolute;inset:0;z-index:4;pointer-events:none}
+  #ground{position:absolute;bottom:0;left:0;right:0;height:18%;z-index:1;
+    background:radial-gradient(ellipse at 50% 110%,#fff 40%,rgba(255,255,255,.7) 65%,transparent 75%)}
+
+  /* base */
+  #base{width:78%;margin:-6% auto 0;position:relative;z-index:5}
+  #baseTop{height:26px;background:linear-gradient(180deg,#9a6236,var(--wood));border-radius:8px 8px 0 0}
+  #basePlaque{background:linear-gradient(180deg,var(--wood),var(--woodd));border-radius:0 0 14px 14px;
+    padding:14px 18px 18px;text-align:center;box-shadow:0 20px 44px rgba(0,0,0,.5)}
+  #plq{background:var(--gold);color:#4a2f10;border-radius:6px;padding:8px 10px;font-weight:700;
+    font-size:11px;letter-spacing:.14em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+
+  #shakeB{margin-top:22px;font-family:'Berkshire Swash',cursive;font-size:17px;padding:14px 34px;
+    border:none;border-radius:99px;background:var(--gold);color:#4a2f10;cursor:pointer;
+    box-shadow:0 5px 0 #a8834e;transition:transform .1s,box-shadow .1s}
+  #shakeB:active{transform:translateY(4px);box-shadow:0 1px 0 #a8834e}
+  #story{margin-top:24px;max-width:520px;text-align:center;min-height:110px}
+  #story .k{font-size:10px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;font-weight:700}
+  #story h2{font-family:'Berkshire Swash',cursive;font-size:clamp(20px,3.8vw,30px);margin:8px 0}
+  #story p{font-size:13.5px;line-height:1.75;color:var(--dim)}
+  #story p b{color:var(--fg)}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .btn{font-weight:700;font-size:11px;letter-spacing:.12em;padding:11px 20px;border-radius:99px;
+    border:1.5px solid var(--gold);color:var(--gold);text-transform:uppercase}
+  .btn:hover{background:var(--gold);color:#4a2f10}
+  #counter{margin-top:14px;font-size:10px;letter-spacing:.3em;color:var(--dim);text-transform:uppercase}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>The Snow Globe of Nour</h1>
+<div class="sub">Seven winters inside one globe — shake it (drag fast or press the button) · هزّها</div>
+
+<div id="globeWrap">
+  <div id="globe">
+    <div id="ground"></div>
+    <div id="sceneArt"><div class="big">🎓</div><div class="cap">Kalamoon · 2019</div></div>
+    <canvas id="snowCv"></canvas>
+    <div id="shine"></div>
+  </div>
+  <div id="base"><div id="baseTop"></div><div id="basePlaque"><div id="plq">SCENE 1 / 7 — THE FIRST WINTER</div></div></div>
+</div>
+
+<button id="shakeB">❄ Shake the globe</button>
+<div id="counter">SHAKE TO TRAVEL FORWARD IN TIME</div>
+
+<div id="story">
+  <div class="k" id="sk">2019 · WHERE IT STARTED</div>
+  <h2 id="sh">The Student Winter</h2>
+  <p id="sp"><b>B.Tech Information Technology — University of Kalamoon (2019–2024).</b> The first snow: fundamentals falling quietly, settling into foundations.</p>
+  <div class="btns" id="sb"></div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const SCENES=[
+ {e:'🎓',cap:'Kalamoon · 2019',plq:'SCENE 1 / 7 — THE FIRST WINTER',k:'2019 · WHERE IT STARTED',h:'The Student Winter',
+  p:`<b>B.Tech Information Technology — University of Kalamoon (2019–2024).</b> The first snow: fundamentals falling quietly, settling into foundations.`},
+ {e:'⚔️',cap:'ICPC · 2021',plq:'SCENE 2 / 7 — THE STORM',k:'2021 · THE COMPETITION',h:'The Blizzard of ICPC',
+  p:`<b>ICPC/ACPC 2021</b> — competitive programming. A storm of algorithms under a merciless clock; he walked out with reflexes that never melted.`},
+ {e:'🌱',cap:'Minicodeleader · 2023',plq:'SCENE 3 / 7 — FIRST THAW',k:'2023–24 · FIRST ROLE',h:'The First Thaw',
+  p:`<b>React Developer — Minicodeleader.</b> The first professional spring: component-driven development, a real codebase, the clean-code habit taking root under the snow.`},
+ {e:'🏙️',cap:'Khwarizm · Riyadh 2024',plq:'SCENE 4 / 7 — THE CAPITAL',k:'2024–25 · RIYADH',h:'Snow on the Towers',
+  p:`<b>Frontend Developer — Khwarizm Technologies.</b> Production React in the capital, plus IBM Python & GenAI certificates ('24) tucked like gifts under the tree.`},
+ {e:'💍',cap:'GoldenTag · 2025',plq:'SCENE 5 / 7 — THE GOLDEN FLAKE',k:'2025 · NEXLEAD',h:'The Golden Snowflake',
+  p:`<b>Freelance Project Coordinator — NexLead (Mar 2025 →).</b> Requirements → user stories → releases. The one-of-a-kind flake: <b>GoldenTag</b> on Google Play — inventory, barcode scanning, USD/SYP rates.`},
+ {e:'👑',cap:'Supervisor · 2026',plq:'SCENE 6 / 7 — THE SUMMIT',k:'2026 · THE PROMOTION',h:'Snow on the Summit',
+  p:`<b>Software Engineering Supervisor — Distinctive Frontier Co. (Jan 2026 →).</b> Leading frontend from the peak: React systems, standards, backend alignment, shipped features. Stack: React · TS · Tailwind · JS · Python · Git · Jira.`},
+ {e:'🤝',cap:'You · Next',plq:'SCENE 7 / 7 — YOUR WINTER',k:'NEXT · YOUR PROJECT',h:'Two Sets of Footprints',
+  p:`The last scene is unfinished on purpose. Websites · React frontends · logos · business cards · social visuals · coordination. <b>Riyadh · AR+EN</b> · off-season: anime, chess, badminton, film.`,
+  btns:[['✉ Email','mailto:nouraldeentofi@gmail.com'],['LinkedIn','https://www.linkedin.com/in/nour-aldeen-tofi-19b116240'],['Website','https://nouraldeentofi.netlify.app']]}
+];
+let scene=0,storm=0;
+
+const cv=document.getElementById('snowCv'),ctx=cv.getContext('2d');
+const globe=document.getElementById('globe');
+let R;function size(){cv.width=globe.clientWidth;cv.height=globe.clientHeight;R=cv.width/2;}
+size();addEventListener('resize',size);
+const N=reduced?60:170;
+const flakes=[];
+for(let i=0;i<N;i++)flakes.push({
+  x:(Math.random()*2-1),y:(Math.random()*2-1),r:1+Math.random()*2.6,
+  vx:0,vy:0,settled:Math.random()<.7});
+
+let AC=null;
+function shh(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const b=AC.createBuffer(1,AC.sampleRate*.8,AC.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length)*.6;
+  const s=AC.createBufferSource();s.buffer=b;
+  const f=AC.createBiquadFilter();f.type='bandpass';f.frequency.value=3200;
+  const g=AC.createGain();g.gain.value=.07;
+  s.connect(f);f.connect(g);g.connect(AC.destination);s.start();}catch(e){}}
+function chime(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  [1047,1319,1568].forEach((fr,i)=>{const o=AC.createOscillator(),g=AC.createGain();
+    o.type='sine';o.frequency.value=fr;
+    g.gain.setValueAtTime(.045,AC.currentTime+i*.12);
+    g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+i*.12+.9);
+    o.connect(g);g.connect(AC.destination);o.start(AC.currentTime+i*.12);o.stop(AC.currentTime+i*.12+.95);});}catch(e){}}
+
+function shake(){
+  if(storm>0.5)return;
+  storm=1;shh();
+  scene=(scene+1)%SCENES.length;
+  for(const f of flakes){
+    f.settled=false;
+    f.vx=(Math.random()-.5)*.09;
+    f.vy=-(Math.random()*.08+.02);
+  }
+  /* swap scene mid-storm */
+  const art=document.getElementById('sceneArt');
+  art.style.opacity=0;
+  setTimeout(()=>{
+    const s=SCENES[scene];
+    art.querySelector('.big').textContent=s.e;
+    art.querySelector('.cap').textContent=s.cap;
+    document.getElementById('plq').textContent=s.plq;
+    art.style.opacity=1;
+    document.getElementById('sk').textContent=s.k;
+    document.getElementById('sh').textContent=s.h;
+    document.getElementById('sp').innerHTML=s.p;
+    const sb=document.getElementById('sb');sb.innerHTML='';
+    (s.btns||[]).forEach(([lb,href])=>{
+      const a=document.createElement('a');a.className='btn';a.textContent=lb;a.href=href;
+      if(href.startsWith('http')){a.target='_blank';a.rel='noopener';}
+      sb.appendChild(a);});
+    chime();
+  },reduced?100:900);
+  if(!reduced){
+    document.getElementById('globeWrap').animate(
+      [{transform:'rotate(0)'},{transform:'rotate(-5deg)'},{transform:'rotate(4deg)'},
+       {transform:'rotate(-3deg)'},{transform:'rotate(0)'}],{duration:600,easing:'ease-in-out'});
+  }
+}
+document.getElementById('shakeB').onclick=shake;
+/* drag-shake detection */
+let px=null,acc=0;
+document.getElementById('globeWrap').addEventListener('pointermove',e=>{
+  if(px!==null){acc+=Math.abs(e.clientX-px);if(acc>240){acc=0;shake();}}
+  px=e.clientX;
+});
+document.getElementById('globeWrap').addEventListener('pointerleave',()=>{px=null;acc=0;});
+addEventListener('keydown',e=>{if(e.key===' '){e.preventDefault();shake();}});
+
+function tick(){
+  storm*=.988;
+  ctx.clearRect(0,0,cv.width,cv.height);
+  ctx.fillStyle='rgba(255,255,255,.95)';
+  for(const f of flakes){
+    if(!f.settled){
+      f.vy+=.0009;
+      f.vx+=(Math.random()-.5)*.003*storm*3;
+      f.x+=f.vx;f.y+=f.vy;
+      /* keep inside circle */
+      const d=Math.hypot(f.x,f.y);
+      if(d>0.94){
+        const nx=f.x/d,ny=f.y/d;
+        f.x=nx*.94;f.y=ny*.94;
+        if(ny>0.35&&Math.abs(f.vy)<.004&&storm<.25){f.settled=true;}
+        else{const dot=f.vx*nx+f.vy*ny;f.vx-=1.6*dot*nx;f.vy-=1.6*dot*ny;f.vx*=.6;f.vy*=.6;}
+      }
+    }
+    const sx=R+f.x*R,sy=R+f.y*R;
+    ctx.globalAlpha=f.settled?.9:.85;
+    ctx.beginPath();ctx.arc(sx,sy,f.r,0,7);ctx.fill();
+  }
+  ctx.globalAlpha=1;
+  requestAnimationFrame(tick);
+}
+tick();
+</script>
+</body>
+</html>

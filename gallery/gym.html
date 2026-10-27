@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — GYM · Deadline Lifting Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Karla:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--gym:#1c1a20;--gymd:#121016;--fg:#f2efe8;--dim:rgba(242,239,232,.6);--acc:#ffd23f;--red:#ff5e4a;--green:#4adc8a;--steel:#8a90a0}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;background:radial-gradient(80vw 60vh at 50% 0%,#2c2833,var(--gym) 60%,var(--gymd));
+    color:var(--fg);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--acc);color:#1c1a20}
+  h1{font-family:'Anton';font-size:clamp(24px,5vw,44px);letter-spacing:.04em;text-transform:uppercase}
+  h1 span{color:var(--acc)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--dim);
+    margin:8px 0 22px;text-transform:uppercase;text-align:center}
+
+  #floor{width:min(760px,96vw);display:grid;grid-template-columns:1fr 240px;gap:16px}
+  @media(max-width:660px){#floor{grid-template-columns:1fr}}
+
+  /* lifting rig */
+  #rig{position:relative;background:linear-gradient(180deg,#242028,#1a171e);border:1px solid rgba(242,239,232,.12);
+    border-radius:18px;min-height:380px;overflow:hidden;display:flex;flex-direction:column;align-items:center;
+    justify-content:flex-end;padding-bottom:22px;cursor:pointer}
+  #mirror{position:absolute;inset:12px 12px 60px;border-radius:12px;background:linear-gradient(160deg,rgba(255,255,255,.05),transparent 40%);
+    border:1px solid rgba(242,239,232,.08)}
+  #lifter{position:relative;z-index:3;text-align:center;user-select:none}
+  #barbell{position:relative;width:250px;height:14px;margin:0 auto;transition:transform .18s cubic-bezier(.3,1.4,.4,1)}
+  #barRod{position:absolute;top:5px;left:0;right:0;height:5px;background:linear-gradient(90deg,#6a7080,var(--steel),#6a7080);border-radius:3px}
+  .plate{position:absolute;top:-16px;width:18px;height:46px;border-radius:6px;background:linear-gradient(90deg,#ff7a5c,var(--red));box-shadow:0 3px 6px rgba(0,0,0,.4)}
+  .plate.p2{width:13px;height:36px;top:-11px;background:linear-gradient(90deg,#ffd23f,#e8a03c)}
+  #pl1{left:6px}#pl2{left:26px}#pl3{right:26px}#pl4{right:6px}
+  #athlete{font-size:74px;margin-top:2px;transition:transform .18s}
+  #grunt{position:absolute;font-family:'Anton';font-size:22px;color:var(--acc);opacity:0;left:50%;top:20%;transform:translateX(-50%)}
+  #repRing{position:absolute;top:16px;left:50%;transform:translateX(-50%);z-index:4;font-family:'Anton';
+    font-size:15px;letter-spacing:.12em;background:rgba(0,0,0,.4);border:1px solid rgba(255,210,63,.4);
+    color:var(--acc);padding:8px 18px;border-radius:99px}
+  #tapHint{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-family:'IBM Plex Mono';
+    font-size:9px;letter-spacing:.3em;color:var(--dim);text-transform:uppercase;animation:hb 2s infinite}
+  @keyframes hb{0%,100%{opacity:.35}50%{opacity:1}}
+
+  /* program card */
+  #program{background:#242028;border:1px solid rgba(242,239,232,.12);border-radius:18px;padding:18px}
+  #program .t{font-family:'Anton';font-size:13px;letter-spacing:.14em;color:var(--acc);text-transform:uppercase;
+    text-align:center;margin-bottom:12px}
+  .ex{padding:9px 4px;border-bottom:1px dashed rgba(242,239,232,.12)}
+  .ex .nm{display:flex;justify-content:space-between;font-weight:700;font-size:12px}
+  .ex .nm .st{color:var(--dim);font-family:'IBM Plex Mono';font-size:10px}
+  .ex .prog{height:8px;background:#17151b;border-radius:5px;margin-top:6px;overflow:hidden}
+  .ex .prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--green));
+    border-radius:5px;transition:width .4s}
+  .ex.done .nm{color:var(--green)}
+  #coach{margin-top:12px;font-size:11px;line-height:1.65;color:var(--dim);text-align:center;font-style:italic;min-height:52px}
+  #coach b{color:var(--fg)}
+
+  #ctaZone{margin-top:20px;max-width:560px;text-align:center;display:none}
+  #ctaZone.show{display:block}
+  #ctaZone h2{font-family:'Anton';font-size:clamp(19px,3.6vw,28px);letter-spacing:.04em;text-transform:uppercase}
+  #ctaZone h2 b{color:var(--acc)}
+  #ctaZone p{font-size:13px;line-height:1.7;color:var(--dim);margin-top:8px}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .btn{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.12em;padding:12px 20px;border-radius:99px;
+    border:2px solid var(--acc);color:var(--acc);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--acc);color:#1c1a20}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>💪 DEADLINE <span>LIFTING</span> CLUB</h1>
+<div class="sub">Coach: N.A. Tofi · tap the rig to lift · complete the program · نادي المواعيد النهائية</div>
+
+<div id="floor">
+  <div id="rig">
+    <div id="mirror"></div>
+    <div id="repRing">REPS: <span id="reps">0</span> / <span id="target">8</span></div>
+    <div id="grunt">HYAH!</div>
+    <div id="lifter">
+      <div id="barbell">
+        <div class="plate" id="pl1"></div><div class="plate p2" id="pl2"></div>
+        <div id="barRod"></div>
+        <div class="plate p2" id="pl3"></div><div class="plate" id="pl4"></div>
+      </div>
+      <div id="athlete">🏋️</div>
+    </div>
+    <div id="tapHint">◈ TAP / SPACE TO LIFT ◈</div>
+  </div>
+
+  <div id="program">
+    <div class="t">— Today's Program —</div>
+    <div class="ex" data-i="0"><div class="nm"><span>React Deadlifts</span><span class="st">since '23</span></div><div class="prog"><i></i></div></div>
+    <div class="ex" data-i="1"><div class="nm"><span>TypeScript Squats</span><span class="st">strict form</span></div><div class="prog"><i></i></div></div>
+    <div class="ex" data-i="2"><div class="nm"><span>Tailwind Sprints</span><span class="st">fast</span></div><div class="prog"><i></i></div></div>
+    <div class="ex" data-i="3"><div class="nm"><span>Coordination Core</span><span class="st">GoldenTag PR</span></div><div class="prog"><i></i></div></div>
+    <div class="ex" data-i="4"><div class="nm"><span>Leadership Press</span><span class="st">2026 max</span></div><div class="prog"><i></i></div></div>
+    <div id="coach">"Every rep here is real: React since 2023, supervisor since Jan 2026, GoldenTag shipped to Google Play. <b>Now lift.</b>"</div>
+  </div>
+</div>
+
+<div id="ctaZone">
+  <h2>PROGRAM COMPLETE — <b>NEW PR: YOUR PROJECT</b></h2>
+  <p>That's how deadlines feel with <b>Nour Aldeen Tofi</b>: heavy things, lifted on schedule. Websites · React frontends · logos · business cards · social visuals · coordination. Riyadh · AR+EN · off-days: badminton (obviously), anime, chess, film.</p>
+  <div class="btns">
+    <a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Train%20my%20project&body=Coach%2C%20my%20project%20needs%20gains%3A%20">🏋️ Hire the coach</a>
+    <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+  </div>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const COACH=[
+ '"React deadlifts — the daily driver since Minicodeleader \'23. Feel that clean form? That\'s <b>clean code</b>."',
+ '"TypeScript squats: strict types, strict depth. Certified Coursera \'25. No half reps."',
+ '"Tailwind sprints — utility-first cardio (Packt \'24). Fast, consistent, never skips."',
+ '"Coordination core: scope, stories, releases. This is the muscle that shipped <b>GoldenTag</b> to Google Play."',
+ '"Leadership press — supervisor weight since Jan 2026 at Distinctive Frontier Co. Spotting the whole team."'
+];
+const TARGETS=[8,8,8,8,8];
+let ex=0,reps=0,done=false,busy=false;
+let AC=null;
+function clank(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';
+  o.frequency.setValueAtTime(900,AC.currentTime);
+  o.frequency.exponentialRampToValueAtTime(300,AC.currentTime+.1);
+  g.gain.setValueAtTime(.09,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.25);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.28);}catch(e){}}
+function bell(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  [1568,1568,1568].forEach((f,i)=>{const o=AC.createOscillator(),g=AC.createGain();
+    o.type='sine';o.frequency.value=f;
+    g.gain.setValueAtTime(.09,AC.currentTime+i*.18);
+    g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+i*.18+.5);
+    o.connect(g);g.connect(AC.destination);o.start(AC.currentTime+i*.18);o.stop(AC.currentTime+i*.18+.55);});}catch(e){}}
+
+function lift(){
+  if(done||busy)return;busy=true;
+  clank();
+  const bar=document.getElementById('barbell'),ath=document.getElementById('athlete');
+  if(!reduced){
+    bar.style.transform='translateY(-34px)';
+    ath.style.transform='scaleY(1.06)';
+    const g=document.getElementById('grunt');
+    g.textContent=['HYAH!','SHIP IT!','ONE MORE!','LIGHT WEIGHT!'][Math.floor(Math.random()*4)];
+    g.animate([{opacity:0,transform:'translateX(-50%) translateY(0)'},{opacity:1},{opacity:0,transform:'translateX(-50%) translateY(-26px)'}],{duration:600});
+    setTimeout(()=>{bar.style.transform='';ath.style.transform='';},220);
+  }
+  reps++;
+  document.getElementById('reps').textContent=reps;
+  const row=document.querySelector(`.ex[data-i="${ex}"]`);
+  row.querySelector('.prog i').style.width=(reps/TARGETS[ex]*100)+'%';
+  if(reps>=TARGETS[ex]){
+    row.classList.add('done');
+    bell();
+    ex++;reps=0;
+    if(ex>=TARGETS.length){
+      done=true;
+      document.getElementById('repRing').textContent='★ ALL SETS DONE ★';
+      document.getElementById('coach').innerHTML='"Session over. <b>Go check your prize below.</b>" 🔔';
+      document.getElementById('ctaZone').classList.add('show');
+      document.getElementById('ctaZone').scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest'});
+    }else{
+      document.getElementById('reps').textContent=0;
+      document.getElementById('target').textContent=TARGETS[ex];
+      document.getElementById('coach').innerHTML=COACH[ex];
+    }
+  }
+  setTimeout(()=>busy=false,reduced?30:180);
+}
+document.getElementById('coach').innerHTML=COACH[0];
+document.getElementById('rig').addEventListener('pointerdown',lift);
+addEventListener('keydown',e=>{if(e.key===' '){e.preventDefault();lift();}});
+</script>
+</body>
+</html>

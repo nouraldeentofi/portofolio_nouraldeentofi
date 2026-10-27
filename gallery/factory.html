@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — FACTORY · The Idea Assembly Line</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira:wght@400;600;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--plant:#2a2e36;--plantd:#1a1d24;--fg:#f0f2f5;--dim:rgba(240,242,245,.6);--acc:#ffb648;--green11:#4adc7a;--steel2:#4a505c}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Saira',sans-serif;color:var(--fg);min-height:100vh;
+    background:radial-gradient(80vw 60vh at 50% 0%,#3a3f4a,var(--plant) 55%,var(--plantd));
+    display:flex;flex-direction:column;align-items:center;padding:4vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--acc);color:#2a2e36}
+  h1{font-family:'Saira Stencil One';font-size:clamp(22px,4.6vw,40px);letter-spacing:.06em}
+  h1 span{color:var(--acc)}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.26em;color:var(--dim);
+    margin:8px 0 14px;text-transform:uppercase;text-align:center}
+  #meterF{display:flex;gap:12px;margin-bottom:12px;font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.12em;flex-wrap:wrap;justify-content:center}
+  #meterF span{background:rgba(255,255,255,.08);padding:9px 15px;border-radius:99px}
+  #meterF b{color:var(--acc)}
+
+  #line3{position:relative;width:min(860px,97vw);height:270px;background:linear-gradient(180deg,#22262e,#1a1d24);
+    border-radius:18px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+  /* stations */
+  .station2{position:absolute;top:26px;width:98px;text-align:center;z-index:4}
+  .machineF{position:relative;height:110px;background:linear-gradient(180deg,#5a6070,var(--steel2));border-radius:10px;
+    border:2px solid #14161c;box-shadow:0 8px 18px rgba(0,0,0,.4), inset 0 2px 0 rgba(255,255,255,.2);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+  .machineF .mIc{font-size:26px}
+  .machineF .lampF{width:10px;height:10px;border-radius:50%;background:#2a2e36;transition:all .2s}
+  .machineF.working{animation:vibr .18s infinite}
+  .machineF.working .lampF{background:var(--green11);box-shadow:0 0 10px var(--green11)}
+  @keyframes vibr{0%,100%{transform:translateY(0)}50%{transform:translateY(1.6px)}}
+  .machineF .arm2{position:absolute;bottom:-16px;left:50%;width:8px;height:20px;background:#14161c;
+    transform:translateX(-50%);transform-origin:top;transition:transform .15s}
+  .machineF.working .arm2{animation:stampA .4s infinite}
+  @keyframes stampA{50%{transform:translateX(-50%) scaleY(1.5)}}
+  .stName{font-family:'IBM Plex Mono';font-size:7.5px;letter-spacing:.08em;color:var(--dim);margin-top:6px;text-transform:uppercase}
+  /* belt */
+  #beltF{position:absolute;left:0;right:0;bottom:44px;height:26px;background:#14161c;overflow:hidden}
+  #beltPat{position:absolute;inset:0;background:repeating-linear-gradient(90deg,#2a2e36 0 26px,#1e2128 26px 52px)}
+  .itemF{position:absolute;bottom:66px;font-size:30px;z-index:5;transition:none;filter:drop-shadow(0 4px 5px rgba(0,0,0,.4))}
+  .itemF .tagF{position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-family:'IBM Plex Mono';
+    font-size:7px;background:rgba(0,0,0,.6);color:#fff;padding:2px 6px;border-radius:99px;white-space:nowrap}
+  #chuteF{position:absolute;right:8px;bottom:40px;width:70px;height:80px;border-radius:10px 10px 0 0;
+    background:#14161c;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;
+    font-family:'IBM Plex Mono';font-size:7.5px;color:var(--acc);letter-spacing:.1em;z-index:6}
+
+  #ctrl{width:min(860px,97vw);margin-top:14px;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap}
+  #startF{font-family:'Saira Stencil One';font-size:15px;letter-spacing:.08em;border:none;border-radius:12px;
+    padding:14px 30px;background:var(--acc);color:#2a2e36;cursor:pointer;box-shadow:0 5px 0 #b87d1e;transition:transform .1s,box-shadow .1s}
+  #startF:active{transform:translateY(4px);box-shadow:0 1px 0 #b87d1e}
+  #startF:disabled{filter:grayscale(.5);pointer-events:none}
+  #speedCtl{display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.1em}
+  input[type=range]{accent-color:var(--acc);width:120px}
+
+  #foreman{margin-top:16px;max-width:600px;text-align:center;min-height:96px}
+  #foreman .k{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.28em;color:var(--acc);text-transform:uppercase;font-weight:600}
+  #foreman h2{font-family:'Saira';font-weight:800;font-size:clamp(16px,3.2vw,24px);margin:8px 0 6px}
+  #foreman p{font-size:12.5px;line-height:1.7;color:var(--dim)}
+  #foreman p b{color:var(--fg)}
+  .btns{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+  .btn{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;padding:11px 18px;border-radius:99px;
+    border:2px solid var(--acc);color:var(--acc);text-transform:uppercase;font-weight:600}
+  .btn:hover{background:var(--acc);color:#2a2e36}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>🏭 NOUR <span>WORKS</span></h1>
+<div class="sub">Raw ideas in — shipped products out · you run the line · خط الإنتاج</div>
+<div id="meterF"><span>SHIPPED <b id="shipN">0</b></span><span>DEFECTS <b>0</b> (always)</span><span>FOREMAN: N.A. TOFI</span></div>
+
+<div id="line3">
+  <div id="beltF"><div id="beltPat"></div></div>
+  <div id="chuteF">SHIP ▼</div>
+</div>
+
+<div id="ctrl">
+  <button id="startF">▶ FEED AN IDEA</button>
+  <div id="speedCtl">LINE SPEED <input type="range" id="spd" min="1" max="3" step="1" value="2"> <span id="spdLb">×2</span></div>
+</div>
+
+<div id="foreman">
+  <div class="k">Foreman's clipboard</div>
+  <h2>Six stations, zero shortcuts</h2>
+  <p>Every project passes through all six machines — that's why nothing ships broken. Feed an idea and watch the full line run.</p>
+</div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const STATIONS=[
+ {ic:'🔍',nm:'REQUIREMENTS',x:4,tip:'The intake scanner: listening before building — coordination habit from NexLead (2025→).'},
+ {ic:'📐',nm:'SCOPE & PLAN',x:19,tip:'Cut to size: user stories, timelines, estimates (Google PM certified ×2).'},
+ {ic:'🎨',nm:'DESIGN PRESS',x:34,tip:'Stamped with identity: layouts, logos, visuals with actual taste.'},
+ {ic:'⚛️',nm:'REACT WELDER',x:49,tip:'The heavy machine: React + TypeScript + Tailwind, supervisor-grade welds.'},
+ {ic:'🧪',nm:'QA CHAMBER',x:64,tip:'Clean-code inspection (Scrimba \'24) — ICPC-calibrated sensors find everything.'},
+ {ic:'📦',nm:'PACK & SHIP',x:79,tip:'Wrapped and released. GoldenTag rolled off this exact station onto Google Play.'}
+];
+const line=document.getElementById('line3');
+STATIONS.forEach((s,i)=>{
+  const el=document.createElement('div');el.className='station2';el.style.left=s.x+'%';
+  el.innerHTML=`<div class="machineF" id="m${i}"><div class="lampF"></div><span class="mIc">${s.ic}</span><div class="arm2"></div></div>
+    <div class="stName">${s.nm}</div>`;
+  line.appendChild(el);
+});
+let AC=null;
+function clunk(f){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='square';
+  o.frequency.setValueAtTime(f||220,AC.currentTime);
+  o.frequency.exponentialRampToValueAtTime((f||220)*.5,AC.currentTime+.1);
+  g.gain.setValueAtTime(.07,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.15);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.17);}catch(e){}}
+function humF(on){/* belt hum */
+  try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+    if(!humF.o){humF.o=AC.createOscillator();humF.o.type='sawtooth';humF.o.frequency.value=60;
+      humF.g=AC.createGain();humF.g.gain.value=0;
+      humF.o.connect(humF.g);humF.g.connect(AC.destination);humF.o.start();}
+    humF.g.gain.value=on?.025:0;}catch(e){}}
+function shipDing(){[880,1100,1320].forEach((f,i)=>setTimeout(()=>{
+  try{const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;
+  g.gain.setValueAtTime(.06,AC.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.3);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.35);}catch(e){}},i*110));}
+
+const FORMS=['💡','📋','🎨','⚙️','✅','📦'];
+let running=false,shipped=0,speed=2;
+document.getElementById('spd').oninput=e=>{speed=+e.target.value;
+  document.getElementById('spdLb').textContent='×'+speed;};
+document.getElementById('startF').onclick=async()=>{
+  if(running)return;running=true;
+  humF(true);
+  document.getElementById('startF').disabled=true;
+  const item=document.createElement('div');item.className='itemF';
+  item.innerHTML=`<span class="tagF">YOUR IDEA</span>💡`;
+  line.appendChild(item);
+  let x=-40;
+  item.style.left=x+'px';
+  const W=line.clientWidth;
+  const stops=STATIONS.map(s=>W*(s.x/100)+30);
+  for(let i=0;i<stops.length;i++){
+    /* move to station */
+    await new Promise(res=>{
+      (function mv(){
+        x+=1.6*speed*(reduced?2:1);
+        item.style.left=x+'px';
+        if(x<stops[i])requestAnimationFrame(mv);else res();
+      })();
+    });
+    /* station works */
+    const m=document.getElementById('m'+i);
+    m.classList.add('working');
+    clunk(200+i*40);
+    setF('STATION '+(i+1)+' · '+STATIONS[i].nm,STATIONS[i].nm.charAt(0)+STATIONS[i].nm.slice(1).toLowerCase()+' running…',STATIONS[i].tip);
+    await new Promise(r=>setTimeout(r,reduced?150:900/speed*2));
+    m.classList.remove('working');
+    item.innerHTML=`<span class="tagF">${i===stops.length-1?'SHIPPED ✓':'IN PROGRESS'}</span>${FORMS[Math.min(i+1,FORMS.length-1)]}`;
+  }
+  /* to chute */
+  await new Promise(res=>{
+    (function mv(){
+      x+=2*speed;
+      item.style.left=x+'px';
+      if(x<W-70)requestAnimationFrame(mv);else res();
+    })();
+  });
+  item.animate([{transform:'translateY(0)',opacity:1},{transform:'translateY(60px)',opacity:0}],
+    {duration:reduced?100:500,fill:'forwards'}).onfinish=()=>item.remove();
+  shipped++;shipDing();humF(false);
+  document.getElementById('shipN').textContent=shipped;
+  setF('SHIPMENT №'+shipped+' COMPLETE','Off the line, into the world',
+    `That's the full process — the same six stations that built <b>GoldenTag</b> (Google Play) and every project since. Foreman: <b>Nour Aldeen Tofi</b>, frontend developer &amp; SW engineering supervisor, Riyadh · AR+EN.`,true);
+  document.getElementById('startF').disabled=false;
+  document.getElementById('startF').textContent='▶ FEED ANOTHER IDEA';
+  running=false;
+};
+function setF(k,h,p,final){
+  document.querySelector('#foreman .k').textContent=k;
+  document.querySelector('#foreman h2').innerHTML=h;
+  document.querySelector('#foreman p').innerHTML=p;
+  const old=document.querySelector('#foreman .btns');if(old)old.remove();
+  if(final){
+    const d=document.createElement('div');d.className='btns';
+    d.innerHTML=`<a class="btn" href="mailto:nouraldeentofi@gmail.com?subject=Feed%20the%20line&body=I%20have%20raw%20ideas.%20Run%20them%20through%3A%20">🏭 Send your raw idea</a>
+      <a class="btn" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>`;
+    document.getElementById('foreman').appendChild(d);
+  }
+}
+if(!reduced){
+  /* belt pattern scroll */
+  let bp=0;
+  (function beltMove(){
+    if(running){bp-=1.2*speed;document.getElementById('beltPat').style.transform=`translateX(${bp%52}px)`;}
+    requestAnimationFrame(beltMove);
+  })();
+}
+</script>
+</body>
+</html>

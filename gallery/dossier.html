@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Case File 001 — Subject: Victor Kane</title>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Oswald:wght@500;700&family=Courier+Prime:wght@400;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+  :root{
+    --kraft:#c9a97a;
+    --kraft-dark:#a88a5e;
+    --kraft-shadow:#6e5838;
+    --paper:#f1e7d0;
+    --paper-aged:#e7dbbf;
+    --ink:#1a1712;
+    --ink-soft:#3a342b;
+    --stamp-red:#b8302a;
+    --stamp-red-dark:#8a241f;
+    --classified:#0a0907;
+    --highlight:#f0dc4a;
+    --thread:#7a1a15;
+  }
+
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Courier Prime',monospace;
+    background:var(--kraft);
+    color:var(--ink);
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* kraft texture */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.5;
+    background-image:
+      radial-gradient(rgba(110,88,56,.25) 1px,transparent 1px),
+      radial-gradient(rgba(255,255,255,.08) 1px,transparent 1px);
+    background-size:4px 4px,7px 7px;
+    mix-blend-mode:multiply;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:2;
+    background:radial-gradient(ellipse at 30% 20%,transparent 30%,rgba(0,0,0,.25) 100%);
+  }
+
+  ::-webkit-scrollbar{width:10px}
+  ::-webkit-scrollbar-track{background:var(--kraft-dark)}
+  ::-webkit-scrollbar-thumb{background:var(--ink);border-radius:0}
+
+  /* ─── NAV ─── */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:900;
+    background:linear-gradient(180deg,#1a1712,#0f0d0a);
+    border-bottom:2px solid var(--stamp-red);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:.7rem 5%;
+    box-shadow:0 4px 20px rgba(0,0,0,.35);
+  }
+  .brand{display:flex;align-items:center;gap:.8rem;color:var(--paper)}
+  .brand-seal{
+    width:38px;height:38px;border-radius:50%;
+    border:2px solid var(--stamp-red);
+    display:grid;place-items:center;
+    font-family:'Oswald',sans-serif;font-weight:700;font-size:.75rem;
+    color:var(--stamp-red);letter-spacing:1px;
+  }
+  .brand-text{line-height:1.1}
+  .brand-name{
+    font-family:'Oswald',sans-serif;font-weight:700;font-size:.95rem;
+    letter-spacing:2px;text-transform:uppercase;
+  }
+  .brand-sub{
+    font-family:'Courier Prime',monospace;font-size:.65rem;letter-spacing:2px;
+    color:var(--kraft);text-transform:uppercase;
+  }
+  .nav-links{display:flex;gap:0;list-style:none;align-items:center}
+  .nav-links a{
+    display:block;padding:.5rem .9rem;
+    font-family:'Courier Prime',monospace;
+    font-size:.72rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;
+    text-decoration:none;color:var(--paper);
+    transition:color .2s;
+    border-left:1px solid rgba(201,169,122,.15);
+  }
+  .nav-links a:hover{color:var(--highlight)}
+  .nav-cta{
+    margin-left:.6rem;padding:.55rem 1rem !important;
+    background:var(--stamp-red);color:var(--paper) !important;
+    border:1px solid var(--stamp-red) !important;
+    border-left:1px solid var(--stamp-red) !important;
+  }
+  .nav-cta:hover{background:var(--stamp-red-dark) !important;color:var(--paper) !important}
+
+  /* ─── STAMP ─── */
+  .stamp{
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:.6rem 1.2rem;
+    border:3px solid var(--stamp-red);
+    color:var(--stamp-red);
+    font-family:'Oswald',sans-serif;font-weight:700;font-size:1.1rem;
+    letter-spacing:3px;text-transform:uppercase;
+    transform:rotate(-4deg);
+    background:rgba(184,48,42,.03);
+    box-shadow:inset 0 0 0 1px rgba(184,48,42,.15);
+    position:relative;
+  }
+  .stamp.red-fill{background:var(--stamp-red);color:var(--paper);border-color:var(--stamp-red)}
+  .stamp::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(rgba(255,255,255,.25) 1px,transparent 1.5px);
+    background-size:3px 3px;mix-blend-mode:overlay;opacity:.7;
+  }
+
+  /* ─── HERO / CASE FILE COVER ─── */
+  #hero{
+    min-height:100vh;
+    padding:6rem 5% 4rem;
+    display:flex;align-items:center;justify-content:center;
+    position:relative;z-index:10;
+  }
+
+  .folder{
+    max-width:1100px;width:100%;
+    background:var(--paper);
+    padding:3rem 3rem 2.5rem;
+    box-shadow:
+      0 40px 80px rgba(0,0,0,.35),
+      0 10px 20px rgba(0,0,0,.2),
+      inset 0 0 0 1px rgba(26,23,18,.1);
+    position:relative;
+    transform:rotate(-.5deg);
+  }
+  .folder::before{
+    content:"";position:absolute;top:-18px;left:50%;transform:translateX(-50%);
+    width:120px;height:22px;background:rgba(26,23,18,.35);
+    border-top-left-radius:6px;border-top-right-radius:6px;
+  }
+  .folder::after{
+    content:"";position:absolute;top:15px;right:15px;
+    width:60px;height:80px;
+    background:
+      linear-gradient(135deg,transparent 48%,var(--paper-aged) 48%,var(--paper-aged) 52%,transparent 52%);
+    opacity:.5;
+  }
+
+  /* paperclip */
+  .paperclip{
+    position:absolute;top:-10px;left:8%;
+    width:22px;height:55px;
+    border:2.5px solid #7a7a7a;
+    border-bottom-left-radius:10px;border-bottom-right-radius:10px;
+    transform:rotate(8deg);
+    z-index:5;
+    box-shadow:1px 1px 3px rgba(0,0,0,.3);
+  }
+  .paperclip::before{
+    content:"";position:absolute;top:6px;left:3px;right:3px;height:35px;
+    border:2px solid #7a7a7a;
+    border-bottom-left-radius:6px;border-bottom-right-radius:6px;
+    border-top:none;
+  }
+
+  .file-head{
+    display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;
+    padding-bottom:1.25rem;margin-bottom:2rem;
+    border-bottom:2px dashed var(--ink-soft);
+  }
+  .file-ref{font-family:'Courier Prime',monospace;font-size:.75rem;letter-spacing:2px;line-height:2}
+  .file-ref b{font-weight:700}
+  .file-ref .label{color:var(--ink-soft);display:inline-block;min-width:110px}
+
+  .hero-body{
+    display:grid;grid-template-columns:200px 1fr;gap:2.5rem;align-items:start;
+  }
+  .subject-photo{
+    width:200px;height:240px;
+    background:
+      repeating-linear-gradient(45deg,rgba(26,23,18,.06) 0 2px,transparent 2px 5px),
+      linear-gradient(180deg,#d4c9a8,#a89978);
+    border:10px solid var(--paper);
+    box-shadow:0 8px 20px rgba(0,0,0,.25),0 0 0 1px var(--ink-soft);
+    position:relative;
+    transform:rotate(-2deg);
+    display:grid;place-items:center;
+    color:var(--ink-soft);
+    font-family:'Oswald',sans-serif;
+    text-align:center;padding:1rem;
+  }
+  .subject-photo::before{
+    content:"";position:absolute;top:-15px;left:50%;transform:translateX(-50%);
+    width:80px;height:18px;background:rgba(240,220,74,.7);
+    border:1px dashed rgba(0,0,0,.2);
+    box-shadow:0 2px 4px rgba(0,0,0,.2);
+  }
+  .photo-label{
+    position:absolute;bottom:-8px;left:50%;transform:translateX(-50%) rotate(-2deg);
+    background:var(--paper);
+    font-family:'Special Elite',cursive;
+    font-size:.8rem;padding:.2rem .8rem;
+    border:1px solid var(--ink-soft);
+    white-space:nowrap;
+  }
+  .photo-grid{
+    display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;
+    width:100%;height:100%;padding:.5rem;
+  }
+  .photo-grid span{background:rgba(26,23,18,.2)}
+
+  .hero-info h1{
+    font-family:'Oswald',sans-serif;font-weight:700;
+    font-size:clamp(2rem,5vw,3.3rem);line-height:1;letter-spacing:2px;
+    text-transform:uppercase;color:var(--ink);
+    margin-bottom:.25rem;
+  }
+  .hero-info .alias{
+    font-family:'Special Elite',cursive;
+    font-size:1.1rem;color:var(--ink-soft);
+    margin-bottom:1.5rem;
+  }
+  .dossier-row{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem 2rem;
+    margin-bottom:1.5rem;
+  }
+  .dossier-field{
+    display:flex;gap:.75rem;align-items:baseline;
+    font-family:'Courier Prime',monospace;font-size:.85rem;
+    border-bottom:1px dotted var(--ink-soft);
+    padding-bottom:.25rem;
+  }
+  .dossier-field b{
+    font-weight:700;color:var(--ink-soft);font-size:.7rem;
+    letter-spacing:1.5px;text-transform:uppercase;min-width:90px;
+  }
+
+  .brief{
+    background:var(--paper-aged);
+    padding:1.1rem 1.25rem;
+    border-left:4px solid var(--stamp-red);
+    font-family:'Special Elite',cursive;
+    font-size:1rem;line-height:1.65;color:var(--ink-soft);
+    position:relative;
+  }
+  .brief::before{
+    content:"CASE BRIEF";
+    position:absolute;top:-9px;left:1rem;
+    background:var(--paper);
+    padding:0 .5rem;
+    font-family:'Oswald',sans-serif;font-size:.65rem;
+    letter-spacing:2px;color:var(--stamp-red);font-weight:700;
+  }
+  .brief .redact{
+    display:inline-block;background:var(--classified);color:transparent;
+    user-select:none;padding:0 .35em;margin:0 .1em;border-radius:1px;
+  }
+
+  .stamps-row{
+    position:absolute;top:3rem;right:2.5rem;
+    display:flex;flex-direction:column;gap:1rem;align-items:flex-end;
+  }
+  .stamps-row .stamp:nth-child(2){transform:rotate(7deg)}
+
+  /* ─── SECTIONS ─── */
+  section{padding:6rem 5%;position:relative;z-index:10}
+
+  .sec-head{max-width:1100px;margin:0 auto 3rem;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1.5rem}
+  .sec-tag{
+    display:inline-block;
+    background:var(--ink);color:var(--paper);
+    padding:.4rem .8rem;
+    font-family:'Oswald',sans-serif;font-weight:700;font-size:.75rem;
+    letter-spacing:3px;text-transform:uppercase;
+    margin-bottom:.75rem;
+  }
+  .sec-title{
+    font-family:'Oswald',sans-serif;font-weight:700;
+    font-size:clamp(2rem,5vw,3.2rem);line-height:1;letter-spacing:2px;text-transform:uppercase;
+  }
+  .sec-desc{
+    font-family:'Special Elite',cursive;
+    font-size:1rem;color:var(--ink-soft);max-width:380px;text-align:right;
+  }
+
+  /* ─── EVIDENCE BOARD / PROJECTS ─── */
+  #evidence{background:linear-gradient(180deg,var(--kraft),var(--kraft-dark))}
+  .evidence-wrap{
+    max-width:1200px;margin:0 auto;
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:2.5rem;
+    position:relative;
+  }
+  .exhibit{
+    background:var(--paper);
+    padding:1.25rem 1.25rem 1.5rem;
+    box-shadow:
+      0 20px 40px rgba(0,0,0,.3),
+      0 8px 16px rgba(0,0,0,.2);
+    position:relative;
+    transition:transform .3s, box-shadow .3s;
+  }
+  .exhibit:nth-child(1){transform:rotate(-2deg)}
+  .exhibit:nth-child(2){transform:rotate(1.5deg)}
+  .exhibit:nth-child(3){transform:rotate(-1deg)}
+  .exhibit:nth-child(4){transform:rotate(2deg)}
+  .exhibit:nth-child(5){transform:rotate(-1.5deg)}
+  .exhibit:nth-child(6){transform:rotate(1deg)}
+  .exhibit:hover{transform:rotate(0) translateY(-6px);z-index:5;box-shadow:0 30px 60px rgba(0,0,0,.4)}
+
+  .exhibit::before{
+    content:"";position:absolute;top:-14px;left:50%;transform:translateX(-50%) rotate(-3deg);
+    width:100px;height:20px;
+    background:rgba(240,220,74,.85);
+    border:1px dashed rgba(0,0,0,.2);
+    box-shadow:0 3px 5px rgba(0,0,0,.25);
+  }
+
+  .exhibit-tag{
+    position:absolute;top:-10px;right:-10px;
+    background:var(--stamp-red);color:var(--paper);
+    padding:.35rem .65rem;
+    font-family:'Oswald',sans-serif;font-weight:700;font-size:.7rem;
+    letter-spacing:1.5px;
+    transform:rotate(6deg);
+    box-shadow:2px 3px 6px rgba(0,0,0,.25);
+  }
+
+  .polaroid{
+    width:100%;aspect-ratio:4/3;
+    background:linear-gradient(135deg,#2a241c,#3d342a);
+    margin-bottom:1rem;
+    position:relative;overflow:hidden;
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.3),inset 0 0 40px rgba(0,0,0,.5);
+  }
+  .polaroid::after{
+    content:"";position:absolute;inset:0;
+    background:
+      repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 1px,transparent 1px 3px),
+      radial-gradient(circle at 70% 30%,rgba(255,255,255,.06),transparent 50%);
+  }
+  .polaroid .p-text{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    font-family:'Oswald',sans-serif;font-weight:700;font-size:2rem;letter-spacing:3px;
+    color:rgba(241,231,208,.5);text-transform:uppercase;
+    white-space:nowrap;
+  }
+  .polaroid .p-corner{
+    position:absolute;
+    font-family:'Courier Prime',monospace;
+    font-size:.65rem;color:rgba(241,231,208,.5);
+    letter-spacing:1.5px;
+  }
+  .polaroid .p-corner.tl{top:.5rem;left:.75rem}
+  .polaroid .p-corner.br{bottom:.5rem;right:.75rem}
+
+  .exhibit-no{
+    font-family:'Courier Prime',monospace;
+    font-size:.7rem;letter-spacing:2px;color:var(--stamp-red);font-weight:700;
+    margin-bottom:.3rem;
+  }
+  .exhibit-title{
+    font-family:'Oswald',sans-serif;font-weight:700;
+    font-size:1.2rem;letter-spacing:.5px;text-transform:uppercase;line-height:1.15;
+    margin-bottom:.5rem;
+  }
+  .exhibit-desc{
+    font-family:'Special Elite',cursive;
+    font-size:.85rem;line-height:1.55;color:var(--ink-soft);
+    margin-bottom:1rem;
+  }
+  .exhibit-meta{
+    display:flex;justify-content:space-between;
+    padding-top:.75rem;border-top:1px dashed var(--ink-soft);
+    font-family:'Courier Prime',monospace;font-size:.7rem;
+    letter-spacing:1.5px;color:var(--ink-soft);
+  }
+
+  /* ─── KNOWN SKILLS / PROFILE ─── */
+  #profile{background:var(--paper-aged)}
+  .profile-sheet{
+    max-width:1000px;margin:0 auto;
+    background:var(--paper);
+    padding:2.5rem;
+    box-shadow:0 25px 50px rgba(0,0,0,.2);
+    position:relative;
+  }
+  .profile-sheet::before{
+    content:"FORM 7B — SKILL ASSESSMENT";
+    position:absolute;top:-12px;left:2rem;
+    background:var(--paper-aged);
+    padding:0 .8rem;
+    font-family:'Oswald',sans-serif;font-size:.7rem;
+    letter-spacing:3px;color:var(--stamp-red);font-weight:700;
+  }
+  .profile-head{
+    display:flex;justify-content:space-between;align-items:center;
+    padding-bottom:1rem;margin-bottom:2rem;flex-wrap:wrap;gap:1rem;
+    border-bottom:2px solid var(--ink);
+  }
+  .profile-title{
+    font-family:'Oswald',sans-serif;font-weight:700;
+    font-size:1.5rem;letter-spacing:2px;text-transform:uppercase;
+  }
+  .examiner{
+    font-family:'Special Elite',cursive;
+    font-size:.9rem;color:var(--ink-soft);
+  }
+
+  .skill-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;
+  }
+  .skill-row{
+    display:flex;flex-direction:column;gap:.4rem;
+  }
+  .skill-head{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-family:'Courier Prime',monospace;font-weight:700;
+  }
+  .skill-head .sk-name{font-size:.9rem;letter-spacing:1px;text-transform:uppercase}
+  .skill-head .sk-lvl{font-size:.75rem;color:var(--stamp-red)}
+  .tick-row{
+    display:flex;gap:3px;
+  }
+  .tick{
+    flex:1;height:14px;border:1px solid var(--ink);
+    background:var(--paper);
+  }
+  .tick.on{background:var(--ink)}
+  .tick.on.red{background:var(--stamp-red);border-color:var(--stamp-red)}
+
+  /* ─── CHRONOLOGY / EXPERIENCE ─── */
+  #chronology{background:var(--kraft)}
+  .chron-wrap{
+    max-width:1000px;margin:0 auto;position:relative;
+  }
+  .chron-wrap::before{
+    content:"";position:absolute;left:30px;top:0;bottom:0;
+    width:2px;background:var(--thread);
+    box-shadow:0 0 4px rgba(122,26,21,.5);
+  }
+  .incident{
+    display:grid;grid-template-columns:80px 1fr;gap:1.5rem;align-items:flex-start;
+    margin-bottom:2.5rem;position:relative;
+  }
+  .pin{
+    width:22px;height:22px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%,#e8534a,var(--stamp-red) 50%,var(--stamp-red-dark));
+    box-shadow:0 3px 6px rgba(0,0,0,.3),inset -2px -2px 4px rgba(0,0,0,.3);
+    margin:.5rem 0 0 20px;flex-shrink:0;
+    position:relative;z-index:2;
+  }
+  .pin::after{
+    content:"";position:absolute;top:6px;left:6px;width:5px;height:5px;
+    background:rgba(255,255,255,.4);border-radius:50%;
+  }
+
+  .incident-card{
+    background:var(--paper);
+    padding:1.5rem 1.75rem;
+    box-shadow:0 10px 20px rgba(0,0,0,.2);
+    position:relative;
+    transform:rotate(-.3deg);
+  }
+  .incident:nth-child(even) .incident-card{transform:rotate(.5deg)}
+  .incident-card::before{
+    content:"INCIDENT REPORT";
+    position:absolute;top:-9px;left:1.5rem;
+    background:var(--paper);
+    padding:0 .5rem;
+    font-family:'Oswald',sans-serif;font-size:.6rem;
+    letter-spacing:2.5px;color:var(--ink-soft);font-weight:700;
+  }
+  .incident-date{
+    font-family:'Courier Prime',monospace;font-weight:700;
+    font-size:.75rem;letter-spacing:2px;color:var(--stamp-red);margin-bottom:.4rem;
+  }
+  .incident-title{
+    font-family:'Oswald',sans-serif;font-weight:700;
+    font-size:1.3rem;letter-spacing:1px;text-transform:uppercase;line-height:1.15;
+    margin-bottom:.25rem;
+  }
+  .incident-where{
+    font-family:'Special Elite',cursive;
+    font-size:.9rem;color:var(--ink-soft);margin-bottom:.75rem;
+  }
+  .incident-body{
+    font-family:'Special Elite',cursive;
+    font-size:.9rem;line-height:1.65;color:var(--ink);
+  }
+
+  /* ─── FILE A REPORT / CONTACT ─── */
+  #contact{background:linear-gradient(180deg,var(--ink),#0a0907);color:var(--paper);position:relative;overflow:hidden}
+  #contact::before{
+    content:"CONFIDENTIAL";
+    position:absolute;inset:0;
+    display:grid;place-items:center;
+    font-family:'Oswald',sans-serif;font-weight:700;
+    font-size:18rem;letter-spacing:10px;
+    color:rgba(184,48,42,.04);
+    pointer-events:none;white-space:nowrap;
+  }
+  .contact-wrap{
+    max-width:900px;margin:0 auto;position:relative;z-index:3;text-align:center;
+  }
+  #contact .sec-tag{background:var(--stamp-red);color:var(--paper)}
+  #contact .sec-title{color:var(--paper)}
+  #contact .sec-desc{color:rgba(241,231,208,.6)}
+
+  .contact-head{display:flex;justify-content:center;margin-bottom:2.5rem}
+  .contact-block{
+    background:var(--paper);color:var(--ink);
+    padding:2.5rem;
+    border:2px solid var(--stamp-red);
+    position:relative;text-align:left;
+    box-shadow:0 25px 50px rgba(0,0,0,.5);
+  }
+  .contact-block::before{
+    content:"";position:absolute;top:-12px;left:-12px;width:24px;height:24px;
+    background:var(--stamp-red);
+    clip-path:polygon(0 0,100% 0,0 100%);
+  }
+  .contact-block::after{
+    content:"";position:absolute;bottom:-12px;right:-12px;width:24px;height:24px;
+    background:var(--stamp-red);
+    clip-path:polygon(100% 0,100% 100%,0 100%);
+  }
+
+  .contact-title{
+    font-family:'Oswald',sans-serif;font-weight:700;
+    font-size:1.6rem;letter-spacing:2px;text-transform:uppercase;
+    margin-bottom:.3rem;
+  }
+  .contact-sub{
+    font-family:'Special Elite',cursive;
+    font-size:.95rem;color:var(--ink-soft);margin-bottom:1.5rem;
+  }
+  .contact-fields{
+    display:grid;grid-template-columns:1fr 1fr;gap:.8rem 2rem;
+    padding-top:1.25rem;border-top:2px dashed var(--ink-soft);
+  }
+  .cf{
+    display:flex;gap:.75rem;align-items:center;
+    font-family:'Courier Prime',monospace;font-size:.85rem;
+    padding:.3rem 0;border-bottom:1px dotted var(--ink-soft);
+  }
+  .cf b{
+    font-weight:700;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;
+    color:var(--stamp-red);min-width:70px;
+  }
+
+  .cta-row{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:1rem;margin-top:2rem;
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:.6rem;
+    padding:1rem 1.8rem;
+    font-family:'Oswald',sans-serif;font-weight:700;
+    font-size:.8rem;letter-spacing:3px;text-transform:uppercase;
+    text-decoration:none;
+    transition:transform .2s, background .2s;
+    border:2px solid;
+  }
+  .btn-primary{background:var(--stamp-red);color:var(--paper);border-color:var(--stamp-red)}
+  .btn-primary:hover{background:var(--stamp-red-dark);border-color:var(--stamp-red-dark);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;color:var(--paper);border-color:var(--paper)}
+  .btn-ghost:hover{background:var(--paper);color:var(--ink);transform:translateY(-2px)}
+
+  footer{
+    margin-top:3.5rem;padding-top:1.5rem;
+    border-top:1px dashed rgba(241,231,208,.2);
+    display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;
+    font-family:'Courier Prime',monospace;
+    font-size:.7rem;letter-spacing:2px;text-transform:uppercase;
+    color:rgba(241,231,208,.4);text-align:left;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media(max-width:900px){
+    .nav-links{display:none}
+    .folder{padding:2rem 1.5rem;transform:none}
+    .hero-body{grid-template-columns:1fr;gap:1.5rem}
+    .subject-photo{margin:0 auto}
+    .dossier-row{grid-template-columns:1fr;gap:.5rem}
+    .stamps-row{position:static;flex-direction:row;margin-top:1rem;justify-content:center}
+    .sec-desc{text-align:left;max-width:none}
+    .chron-wrap::before{left:10px}
+    .incident{grid-template-columns:40px 1fr;gap:.75rem}
+    .pin{margin-left:0}
+    .incident-card{padding:1.25rem 1rem}
+    .contact-block{padding:1.75rem 1.25rem}
+    .contact-fields{grid-template-columns:1fr}
+    section{padding:4rem 5%}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">
+    <div class="brand-seal">VK</div>
+    <div class="brand-text">
+      <div class="brand-name">Case File 001</div>
+      <div class="brand-sub">Dept. of Engineering · Active</div>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#hero">Dossier</a></li>
+    <li><a href="#evidence">Evidence</a></li>
+    <li><a href="#profile">Profile</a></li>
+    <li><a href="#chronology">Chronology</a></li>
+    <li><a href="#contact" class="nav-cta">File Report</a></li>
+  </ul>
+</nav>
+
+<!-- ─── HERO / FOLDER ─── -->
+<section id="hero">
+  <div class="folder">
+    <div class="paperclip"></div>
+    <div class="stamps-row">
+      <div class="stamp red-fill">Classified</div>
+      <div class="stamp">Available</div>
+    </div>
+
+    <div class="file-head">
+      <div class="file-ref">
+        <div><span class="label">CASE FILE:</span> <b>VK-001</b></div>
+        <div><span class="label">DEPARTMENT:</span> <b>Engineering &amp; Creative Tech</b></div>
+        <div><span class="label">OPENED:</span> <b>2019 · 03 · 14</b></div>
+      </div>
+      <div class="file-ref" style="text-align:right">
+        <div><span class="label">STATUS:</span> <b style="color:var(--stamp-red)">ACTIVE</b></div>
+        <div><span class="label">CLEARANCE:</span> <b>LEVEL 5</b></div>
+        <div><span class="label">PRIORITY:</span> <b>HIGH</b></div>
+      </div>
+    </div>
+
+    <div class="hero-body">
+      <div class="subject-photo">
+        <div class="photo-grid">
+          <span></span><span></span><span></span>
+          <span></span><span></span><span></span>
+          <span></span><span></span><span></span>
+        </div>
+        <div class="photo-label">Subject — 03/2026</div>
+      </div>
+
+      <div class="hero-info">
+        <h1>Victor Kane</h1>
+        <div class="alias">a.k.a. "the full-stack operator"</div>
+
+        <div class="dossier-row">
+          <div class="dossier-field"><b>Occupation</b> Full-Stack Engineer</div>
+          <div class="dossier-field"><b>Specialty</b> Frontend &amp; AI UX</div>
+          <div class="dossier-field"><b>Base</b> Remote — Europe time</div>
+          <div class="dossier-field"><b>Arsenal</b> React · TS · Node · Claude</div>
+          <div class="dossier-field"><b>Languages</b> English · Arabic · JS</div>
+          <div class="dossier-field"><b>Known for</b> Shipping on time</div>
+        </div>
+
+        <div class="brief">
+          Subject demonstrates consistent pattern of <b>shipping</b> product-grade interfaces across multiple domains. Operates at the intersection of <b>frontend craft</b> and <b>AI-assisted engineering</b>. Last known sighting: deep in a Next.js codebase, at <span class="redact">█████████</span> hours, rewriting the same component for the <span class="redact">███</span>th time until it felt right. Subject is <b>not considered dangerous</b> — but is believed to be highly contagious in ideation sessions. Recommend <b>immediate engagement</b>.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── EVIDENCE / PROJECTS ─── -->
+<section id="evidence">
+  <div class="sec-head">
+    <div>
+      <div class="sec-tag">Exhibits A–F</div>
+      <h2 class="sec-title">Evidence Board</h2>
+    </div>
+    <p class="sec-desc">Six items recovered from the subject's repository. Each has been catalogued, photographed, and tagged.</p>
+  </div>
+
+  <div class="evidence-wrap">
+
+    <div class="exhibit">
+      <div class="exhibit-tag">Exhibit A</div>
+      <div class="polaroid">
+        <div class="p-corner tl">CAM-01 · 14:22</div>
+        <div class="p-text">Aurora</div>
+        <div class="p-corner br">ISO 800 · f/2.8</div>
+      </div>
+      <div class="exhibit-no">VK/EV/2025-001</div>
+      <div class="exhibit-title">Realtime Ops Dashboard</div>
+      <div class="exhibit-desc">
+        A live telemetry dashboard tracking thousands of events per second. Subject designed, built, and shipped in six weeks. Suspected use of React, D3, and unreasonable amounts of coffee.
+      </div>
+      <div class="exhibit-meta"><span>React · D3</span><span>2025 · Closed</span></div>
+    </div>
+
+    <div class="exhibit">
+      <div class="exhibit-tag">Exhibit B</div>
+      <div class="polaroid">
+        <div class="p-corner tl">CAM-02 · 09:41</div>
+        <div class="p-text">Spline</div>
+        <div class="p-corner br">ISO 400 · f/4</div>
+      </div>
+      <div class="exhibit-no">VK/EV/2025-002</div>
+      <div class="exhibit-title">3D Product Configurator</div>
+      <div class="exhibit-desc">
+        An interactive Three.js configurator allowing end-users to spin a product, swap materials, and generate a custom quote. Shipped with a 4.8s first paint on mobile.
+      </div>
+      <div class="exhibit-meta"><span>Three.js · GSAP</span><span>2025 · Closed</span></div>
+    </div>
+
+    <div class="exhibit">
+      <div class="exhibit-tag">Exhibit C</div>
+      <div class="polaroid">
+        <div class="p-corner tl">CAM-03 · 21:07</div>
+        <div class="p-text">Galaxy</div>
+        <div class="p-corner br">ISO 1600 · f/1.8</div>
+      </div>
+      <div class="exhibit-no">VK/EV/2025-003</div>
+      <div class="exhibit-title">AI Writing Companion</div>
+      <div class="exhibit-desc">
+        A tool that streams responses from the Claude API with token-by-token rendering, cache-aware caching, and keyboard-driven UX that genuinely feels fast.
+      </div>
+      <div class="exhibit-meta"><span>Claude · TS</span><span>2025 · Open</span></div>
+    </div>
+
+    <div class="exhibit">
+      <div class="exhibit-tag">Exhibit D</div>
+      <div class="polaroid">
+        <div class="p-corner tl">CAM-01 · 11:03</div>
+        <div class="p-text">Worlds</div>
+        <div class="p-corner br">ISO 200 · f/5.6</div>
+      </div>
+      <div class="exhibit-no">VK/EV/2024-011</div>
+      <div class="exhibit-title">Multi-Tenant SaaS Platform</div>
+      <div class="exhibit-desc">
+        A full-stack platform with row-level security, per-tenant theming, Stripe billing, and a CLI for ops. Currently serving several thousand paying seats.
+      </div>
+      <div class="exhibit-meta"><span>Node · PG</span><span>2024 · Ongoing</span></div>
+    </div>
+
+    <div class="exhibit">
+      <div class="exhibit-tag">Exhibit E</div>
+      <div class="polaroid">
+        <div class="p-corner tl">CAM-04 · 16:55</div>
+        <div class="p-text">Swiss</div>
+        <div class="p-corner br">ISO 100 · f/8</div>
+      </div>
+      <div class="exhibit-no">VK/EV/2024-014</div>
+      <div class="exhibit-title">Editorial Design System</div>
+      <div class="exhibit-desc">
+        A fully-tokenised design system used across six products. Bundle size cut by 38%; Lighthouse moved from 62 to 97. Documentation that people actually read.
+      </div>
+      <div class="exhibit-meta"><span>Storybook · TS</span><span>2024 · Closed</span></div>
+    </div>
+
+    <div class="exhibit">
+      <div class="exhibit-tag">Exhibit F</div>
+      <div class="polaroid">
+        <div class="p-corner tl">CAM-02 · 03:18</div>
+        <div class="p-text">Gallery</div>
+        <div class="p-corner br">ISO 3200 · f/2</div>
+      </div>
+      <div class="exhibit-no">VK/EV/2023-017</div>
+      <div class="exhibit-title">Headless CMS for Artists</div>
+      <div class="exhibit-desc">
+        A Payload-based CMS with R2 storage, signed URLs, and an image pipeline that gets under 50ms at the edge. Used by a small community of independent artists.
+      </div>
+      <div class="exhibit-meta"><span>Payload · R2</span><span>2023 · Handover</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── PROFILE / SKILLS ─── -->
+<section id="profile">
+  <div class="sec-head">
+    <div>
+      <div class="sec-tag">Form 7B</div>
+      <h2 class="sec-title">Skill Assessment</h2>
+    </div>
+    <p class="sec-desc">Evaluator ticks one cell per skill. Subject rated on a ten-cell scale, unfilled cells deducted.</p>
+  </div>
+
+  <div class="profile-sheet">
+    <div class="profile-head">
+      <div class="profile-title">Subject: Victor Kane</div>
+      <div class="examiner">Examiner — Dept. of Engineering · 04/2026</div>
+    </div>
+
+    <div class="skill-grid">
+      <div class="skill-row">
+        <div class="skill-head"><span class="sk-name">React / Next.js</span><span class="sk-lvl">9 / 10</span></div>
+        <div class="tick-row" data-score="9"></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="sk-name">TypeScript</span><span class="sk-lvl">9 / 10</span></div>
+        <div class="tick-row" data-score="9"></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="sk-name">Node.js / APIs</span><span class="sk-lvl">8 / 10</span></div>
+        <div class="tick-row" data-score="8"></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="sk-name">Python &amp; Tooling</span><span class="sk-lvl">8 / 10</span></div>
+        <div class="tick-row" data-score="8"></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="sk-name">Claude API &amp; AI UX</span><span class="sk-lvl">9 / 10</span></div>
+        <div class="tick-row" data-score="9"></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="sk-name">PostgreSQL</span><span class="sk-lvl">8 / 10</span></div>
+        <div class="tick-row" data-score="8"></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="sk-name">CSS &amp; Design Systems</span><span class="sk-lvl">9 / 10</span></div>
+        <div class="tick-row" data-score="9"></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="sk-name">Three.js / WebGL</span><span class="sk-lvl">7 / 10</span></div>
+        <div class="tick-row" data-score="7"></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="sk-name">Docker / Deploy</span><span class="sk-lvl">7 / 10</span></div>
+        <div class="tick-row" data-score="7"></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="sk-name">Getting Unstuck</span><span class="sk-lvl">10 / 10</span></div>
+        <div class="tick-row" data-score="10"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CHRONOLOGY / EXPERIENCE ─── -->
+<section id="chronology">
+  <div class="sec-head">
+    <div>
+      <div class="sec-tag">Chronology</div>
+      <h2 class="sec-title">Incident Timeline</h2>
+    </div>
+    <p class="sec-desc">Known incidents involving the subject, ordered by date. Details corroborated by witnesses.</p>
+  </div>
+
+  <div class="chron-wrap">
+
+    <div class="incident">
+      <div class="pin"></div>
+      <div class="incident-card">
+        <div class="incident-date">2025 · 07 — PRESENT</div>
+        <div class="incident-title">Independent Studio Established</div>
+        <div class="incident-where">Location: Remote · Solo Practice</div>
+        <div class="incident-body">
+          Subject founded an independent practice. Has since been observed shipping product-grade interfaces and AI-assisted tools to a diverse clientele of founders and product teams. Output remains consistently high-quality.
+        </div>
+      </div>
+    </div>
+
+    <div class="incident">
+      <div class="pin"></div>
+      <div class="incident-card">
+        <div class="incident-date">2023 · 02 — 2025 · 06</div>
+        <div class="incident-title">Senior Frontend Engineer</div>
+        <div class="incident-where">Product Company · Fully Remote</div>
+        <div class="incident-body">
+          Rewrote the design system used across six products. Documented reduction of bundle size by 38% and Lighthouse improvement 62 → 97. Mentored two juniors to mid-level during tenure.
+        </div>
+      </div>
+    </div>
+
+    <div class="incident">
+      <div class="pin"></div>
+      <div class="incident-card">
+        <div class="incident-date">2021 · 04 — 2023 · 01</div>
+        <div class="incident-title">Full-Stack Developer · Agency</div>
+        <div class="incident-where">Hybrid · Multiple Client Sites</div>
+        <div class="incident-body">
+          Delivered twelve client sites and two internal tools. Built a lightweight CMS on Postgres that the team still uses today. Subject reportedly learned how to scope, how to say no, and how to deploy without flinching.
+        </div>
+      </div>
+    </div>
+
+    <div class="incident">
+      <div class="pin"></div>
+      <div class="incident-card">
+        <div class="incident-date">2019 · 03 — 2021 · 03</div>
+        <div class="incident-title">First Sighting — Junior Developer</div>
+        <div class="incident-where">On-Site · First Employer</div>
+        <div class="incident-body">
+          Initial recorded entry into the industry. Worked on internal tools and small client builds. Witnesses describe "unusual willingness to read the documentation." Case officially opened 2019·03·14.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── FILE A REPORT / CONTACT ─── -->
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="sec-tag">Submit New File</div>
+    <h2 class="sec-title" style="margin-bottom:1rem">File a Report</h2>
+    <p class="sec-desc" style="text-align:center;margin:0 auto 2.5rem">
+      Have a project that needs investigating? Send the brief — we read every submission within two working days.
+    </p>
+
+    <div class="contact-block">
+      <div class="contact-title">Submit to Headquarters</div>
+      <div class="contact-sub">All communications handled confidentially. Encryption available on request.</div>
+
+      <div class="contact-fields">
+        <div class="cf"><b>Email</b> v.kane@casefile.io</div>
+        <div class="cf"><b>Response</b> 48 hours or less</div>
+        <div class="cf"><b>Base</b> Europe · Remote</div>
+        <div class="cf"><b>Hours</b> 09:00 — 19:00 CET</div>
+        <div class="cf"><b>GitHub</b> github.com/victorkane</div>
+        <div class="cf"><b>LinkedIn</b> linkedin.com/in/victorkane</div>
+      </div>
+
+      <div class="cta-row">
+        <a class="btn btn-primary" href="mailto:v.kane@casefile.io">Send the Brief</a>
+        <a class="btn btn-primary" href="#" style="background:var(--ink);border-color:var(--ink)">Request Dossier</a>
+      </div>
+    </div>
+
+    <div class="cta-row" style="margin-top:2.5rem">
+      <a class="btn btn-ghost" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn btn-ghost" href="https://linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn btn-ghost" href="mailto:v.kane@casefile.io">Email Direct</a>
+    </div>
+
+    <footer>
+      <span>File ID · VK/001/2026</span>
+      <span>Dept. of Engineering</span>
+      <span>© 2026 — All entries self-classified</span>
+    </footer>
+  </div>
+</section>
+
+<script>
+  // tick grid — render 10 cells per skill, fill according to data-score
+  document.querySelectorAll('.tick-row').forEach(row => {
+    const score = +row.dataset.score;
+    for (let i = 0; i < 10; i++){
+      const t = document.createElement('div');
+      t.className = 'tick';
+      if (i < score) t.classList.add('on');
+      if (score === 10 && i === 9) t.classList.add('red');
+      row.appendChild(t);
+    }
+  });
+
+  // reveal ticks on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting){
+        const row = e.target;
+        row.querySelectorAll('.tick').forEach((t, i) => {
+          t.style.opacity = 0;
+          setTimeout(() => { t.style.transition='opacity .25s'; t.style.opacity = 1; }, i * 40);
+        });
+        io.unobserve(row);
+      }
+    });
+  }, { threshold: .4 });
+  document.querySelectorAll('.tick-row').forEach(r => io.observe(r));
+</script>
+
+</body>
+</html>

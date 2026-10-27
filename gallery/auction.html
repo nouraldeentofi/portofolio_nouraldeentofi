@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — AUCTION · Lot № 26</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Karla:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--velvet:#2a1420;--velvetd:#1a0c14;--gold:#d4af5e;--goldhi:#f0dca8;--cream:#f5efe0;--ink:#2a2018;--dim:rgba(245,239,224,.6)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Karla',sans-serif;color:var(--cream);min-height:100vh;overflow-x:hidden;
+    background:radial-gradient(80vw 60vh at 50% 0%,#3d1e30,var(--velvet) 55%,var(--velvetd));
+    display:flex;flex-direction:column;align-items:center;padding:5vh 4vw 8vh}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold);color:#2a1420}
+  h1{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(24px,4.8vw,44px);text-align:center}
+  h1 em{font-style:italic;color:var(--gold)}
+  .sub{font-size:11.5px;letter-spacing:.3em;color:var(--dim);margin:10px 0 26px;text-transform:uppercase;text-align:center}
+
+  #hall{width:min(760px,96vw);display:grid;grid-template-columns:1fr 220px;gap:18px}
+  @media(max-width:700px){#hall{grid-template-columns:1fr}}
+
+  /* podium & lot */
+  #stage{background:linear-gradient(180deg,rgba(212,175,94,.08),transparent 40%),rgba(20,10,16,.5);
+    border:1px solid rgba(212,175,94,.35);border-radius:18px;padding:26px 28px;position:relative;min-height:430px;
+    display:flex;flex-direction:column}
+  #lotNo{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:var(--gold);letter-spacing:.1em}
+  #easel{margin:16px auto 0;width:min(300px,80%);background:var(--cream);color:var(--ink);border-radius:6px;
+    padding:14px 14px 20px;box-shadow:0 20px 50px rgba(0,0,0,.5);transform:rotate(-1deg);position:relative}
+  #easel::before{content:'';position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+    width:60px;height:22px;background:var(--gold);clip-path:polygon(0 100%,50% 0,100% 100%)}
+  #lotArt{height:130px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:60px}
+  #lotName{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(16px,2.8vw,21px);text-align:center;margin-top:10px}
+  #lotDesc{font-size:12px;line-height:1.65;color:rgba(42,32,24,.75);text-align:center;margin-top:6px}
+  #lotDesc b{color:var(--ink)}
+  #gavelWrap{position:absolute;right:22px;top:18px;font-size:40px;transform-origin:80% 80%;transition:transform .12s}
+  #gavelWrap.bang{transform:rotate(-42deg)}
+  #soldStamp{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%) rotate(-14deg) scale(0);
+    font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(34px,7vw,60px);color:#b3402e;
+    border:5px solid #b3402e;padding:4px 22px;border-radius:6px;background:rgba(245,239,224,.9);z-index:5;
+    transition:transform .3s cubic-bezier(.2,1.6,.4,1)}
+  #soldStamp.show{transform:translate(-50%,-50%) rotate(-14deg) scale(1)}
+  #bidRow{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:18px}
+  #price{font-family:'Playfair Display',serif;font-size:clamp(20px,3.6vw,30px);color:var(--goldhi)}
+  #price small{font-size:.5em;color:var(--dim)}
+  #bidB{font-family:'Playfair Display',serif;font-weight:800;font-size:15px;letter-spacing:.06em;padding:14px 30px;
+    border:none;border-radius:99px;background:var(--gold);color:#2a1420;cursor:pointer;
+    box-shadow:0 5px 0 #8a6e30;transition:transform .1s,box-shadow .1s}
+  #bidB:active{transform:translateY(4px);box-shadow:0 1px 0 #8a6e30}
+  #bidB:disabled{filter:grayscale(.6);pointer-events:none}
+  #rival{font-size:11px;color:var(--dim);font-style:italic;min-height:16px}
+
+  /* catalogue */
+  #cata{background:rgba(20,10,16,.5);border:1px solid rgba(212,175,94,.35);border-radius:18px;padding:18px}
+  #cata .t{font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--gold);margin-bottom:10px;text-align:center}
+  .lotRow{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;font-size:11.5px;color:var(--dim)}
+  .lotRow.done{color:var(--goldhi)}
+  .lotRow.cur{background:rgba(212,175,94,.14);color:var(--cream)}
+  .lotRow .em{font-size:16px}
+  .lotRow .chk{margin-left:auto;font-size:12px}
+
+  /* paddle */
+  #paddleNote{margin-top:18px;font-size:10.5px;letter-spacing:.25em;color:var(--dim);text-transform:uppercase;text-align:center}
+  /* final */
+  #winO{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;
+    background:rgba(15,6,12,.85);backdrop-filter:blur(8px);padding:5vw}
+  #winO.open{display:flex}
+  #wbox{max-width:520px;width:100%;background:var(--cream);color:var(--ink);border-radius:14px;padding:40px 42px;
+    text-align:center;box-shadow:0 40px 100px rgba(0,0,0,.7)}
+  #wbox h2{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(22px,4vw,32px)}
+  #wbox h2 em{color:#8a6e30;font-style:italic}
+  #wbox p{font-size:14px;line-height:1.7;color:rgba(42,32,24,.8);margin-top:10px}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+  .btn{font-family:'Playfair Display',serif;font-weight:800;font-size:13px;padding:13px 24px;border-radius:99px;
+    background:var(--ink);color:var(--cream)}
+  .btn.g{background:transparent;border:2px solid var(--ink);color:var(--ink)}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<h1>Maison <em>Nour</em> — Career Auction</h1>
+<div class="sub">Evening sale · 8 lots · your paddle is № 26 · بالمزاد العلني</div>
+
+<div id="hall">
+  <div id="stage">
+    <div id="lotNo">LOT 1 OF 8</div>
+    <div id="gavelWrap">🔨</div>
+    <div id="soldStamp">SOLD</div>
+    <div id="easel"><div id="lotArt">🎓</div><div id="lotName"></div><div id="lotDesc"></div></div>
+    <div id="bidRow">
+      <div><div id="price">0 <small>SAR</small></div><div id="rival"></div></div>
+      <button id="bidB">🪧 BID (paddle 26)</button>
+    </div>
+  </div>
+  <div id="cata"><div class="t">— Tonight's Catalogue —</div></div>
+</div>
+<div id="paddleNote">Each lot needs 3 bids · outbid the phone bidder · win them all</div>
+
+<div id="winO"><div id="wbox">
+  <h2>The collection is <em>yours</em></h2>
+  <p><b>Nour Aldeen Tofi</b> — frontend developer &amp; software engineering supervisor, Riyadh. You bid on the whole career; he'd rather just work with you directly. Websites · React frontends · logos · business cards · social visuals · project coordination.</p>
+  <div class="btns">
+    <a class="btn" href="mailto:nouraldeentofi@gmail.com">✉ Contact the house</a>
+    <a class="btn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a>
+  </div>
+</div></div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const LOTS=[
+ {e:'🎓',nm:'The Foundation Degree',d:`<b>B.Tech IT — University of Kalamoon, 2019–2024.</b> Provenance: five years, excellent condition.`,art:'linear-gradient(160deg,#cfe8e2,#8ab8ad)'},
+ {e:'⚔️',nm:'The ICPC Medal Case',d:`<b>ICPC/ACPC 2021</b> — competitive programming under a merciless clock. Rare piece.`,art:'linear-gradient(160deg,#e8cfcf,#c28f8f)'},
+ {e:'🪴',nm:'First Role, Framed',d:`<b>React Developer — Minicodeleader (2023–24).</b> The artist's early period.`,art:'linear-gradient(160deg,#d8e2cf,#93b28a)'},
+ {e:'🏙️',nm:'The Riyadh Canvas',d:`<b>Frontend Developer — Khwarizm Technologies (2024–25).</b> Production React, capital school.`,art:'linear-gradient(160deg,#cfd8e8,#8fa3c2)'},
+ {e:'💍',nm:'GoldenTag, 24 Karat',d:`<b>Shipped to Google Play via NexLead</b> — inventory, barcode scanning, USD/SYP rates. Coordination since Mar 2025.`,art:'linear-gradient(160deg,#efe0b8,#c9a24e)'},
+ {e:'🧰',nm:'The Master Toolbox',d:`<b>React · TypeScript · Tailwind · JS · Python · Git · Jira · Trello.</b> Complete set, daily use.`,art:'linear-gradient(160deg,#e2cfe8,#a08fc2)'},
+ {e:'📜',nm:'Folio of Certificates',d:`<b>Meta, Google ×2, IBM ×2, Coursera, Packt, Scrimba.</b> Ten pieces, authenticated.`,art:'linear-gradient(160deg,#e8dccf,#c2a88f)'},
+ {e:'👑',nm:'The Supervisor Crown',d:`<b>Software Engineering Supervisor — Distinctive Frontier Co., Jan 2026 →.</b> The centerpiece of tonight's sale.`,art:'linear-gradient(160deg,#f0e2c0,#d4af5e)'}
+];
+const RIVALS=['the phone bidder raises…','an online bid appears…','the gentleman in row 3 nods…','a paddle rises at the back…'];
+let lot=0,bids=0,price=0,busy=false;
+
+const cata=document.getElementById('cata');
+LOTS.forEach((l,i)=>{
+  const r=document.createElement('div');r.className='lotRow'+(i===0?' cur':'');
+  r.innerHTML=`<span class="em">${l.e}</span><span>${l.nm}</span><span class="chk"></span>`;
+  cata.appendChild(r);
+});
+
+let AC=null;
+function knock(n){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  for(let i=0;i<n;i++){
+    const t=AC.currentTime+i*.16;
+    const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=180;
+    g.gain.setValueAtTime(.16,t);g.gain.exponentialRampToValueAtTime(.0001,t+.13);
+    o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+.15);
+  }}catch(e){}}
+function murmur(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=520+Math.random()*200;
+  g.gain.setValueAtTime(.03,AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.25);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.28);}catch(e){}}
+
+function showLot(){
+  const l=LOTS[lot];
+  document.getElementById('lotNo').textContent=`LOT ${lot+1} OF ${LOTS.length}`;
+  document.getElementById('lotArt').style.background=l.art;
+  document.getElementById('lotArt').textContent=l.e;
+  document.getElementById('lotName').textContent=l.nm;
+  document.getElementById('lotDesc').innerHTML=l.d;
+  document.getElementById('soldStamp').classList.remove('show');
+  bids=0;price=1000+lot*2500;
+  document.getElementById('price').innerHTML=price.toLocaleString()+' <small>SAR</small>';
+  document.getElementById('rival').textContent='the auctioneer opens the bidding…';
+  document.querySelectorAll('.lotRow').forEach((r,i)=>{
+    r.classList.toggle('cur',i===lot);
+    r.classList.toggle('done',i<lot);
+    r.querySelector('.chk').textContent=i<lot?'✓':'';
+  });
+  if(!reduced)document.getElementById('easel').animate(
+    [{transform:'rotate(-1deg) translateY(20px)',opacity:0},{transform:'rotate(-1deg) translateY(0)',opacity:1}],
+    {duration:500,easing:'cubic-bezier(.2,.9,.3,1.2)'});
+}
+showLot();
+
+document.getElementById('bidB').onclick=()=>{
+  if(busy)return;
+  bids++;murmur();
+  price+=Math.round((500+Math.random()*900)/50)*50;
+  document.getElementById('price').innerHTML=price.toLocaleString()+' <small>SAR</small>';
+  if(bids<3){
+    document.getElementById('rival').textContent=RIVALS[Math.floor(Math.random()*RIVALS.length)];
+    /* rival counter-bid after delay */
+    busy=true;
+    setTimeout(()=>{
+      price+=Math.round((300+Math.random()*600)/50)*50;
+      document.getElementById('price').innerHTML=price.toLocaleString()+' <small>SAR</small>';
+      murmur();busy=false;
+      document.getElementById('rival').textContent='against you… bid again!';
+    },reduced?100:800);
+  }else{
+    busy=true;
+    document.getElementById('rival').textContent='going once… going twice…';
+    setTimeout(()=>{
+      const g=document.getElementById('gavelWrap');
+      g.classList.add('bang');knock(3);
+      setTimeout(()=>g.classList.remove('bang'),200);
+      document.getElementById('soldStamp').classList.add('show');
+      document.getElementById('rival').textContent=`SOLD to paddle 26 for ${price.toLocaleString()} SAR!`;
+      setTimeout(()=>{
+        lot++;
+        if(lot>=LOTS.length){document.getElementById('winO').classList.add('open');}
+        else{showLot();}
+        busy=false;
+      },reduced?300:1600);
+    },reduced?150:1100);
+  }
+};
+document.getElementById('winO').addEventListener('pointerdown',e=>{
+  if(e.target===document.getElementById('winO'))document.getElementById('winO').classList.remove('open');});
+addEventListener('keydown',e=>{
+  if(e.key==='Escape')document.getElementById('winO').classList.remove('open');
+  if(e.key===' '||e.key==='Enter'){e.preventDefault();document.getElementById('bidB').click();}});
+</script>
+</body>
+</html>

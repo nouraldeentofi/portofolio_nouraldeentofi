@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nour Aldeen Tofi — REDSTRING · The Investigation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Zilla+Slab:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{--cork:#b98a52;--corkd:#9a6f3e;--paper:#f7f1e2;--ink:#26201a;--red:#c8342a;--tape:rgba(240,230,180,.85)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{font-family:'Zilla Slab',serif;color:var(--ink);overflow:hidden;
+    background:
+      radial-gradient(3px 3px at 12% 22%,rgba(0,0,0,.14),transparent),
+      radial-gradient(3px 3px at 62% 74%,rgba(0,0,0,.12),transparent),
+      radial-gradient(3px 3px at 84% 30%,rgba(0,0,0,.12),transparent),
+      linear-gradient(160deg,var(--cork),var(--corkd));
+    background-size:160px 160px,220px 220px,190px 190px,100% 100%}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--red);color:#fff}
+
+  #title{position:fixed;top:22px;left:50%;transform:translateX(-50%) rotate(-1.5deg);z-index:30;text-align:center;pointer-events:none}
+  #title .board{background:var(--paper);padding:12px 30px;box-shadow:0 10px 26px rgba(0,0,0,.35);border:1px solid rgba(38,32,26,.2)}
+  #title h1{font-family:'Permanent Marker',cursive;font-size:clamp(20px,4vw,34px);color:var(--red)}
+  #title .st{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(38,32,26,.6)}
+  #status{position:fixed;top:24px;right:22px;z-index:30;transform:rotate(6deg);
+    font-family:'Permanent Marker',cursive;font-size:15px;color:var(--red);border:3px solid var(--red);
+    padding:8px 14px;background:rgba(247,241,226,.85);pointer-events:none}
+  #hint{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:30;font-family:'Permanent Marker',cursive;
+    font-size:13px;color:#fff;background:rgba(38,32,26,.75);padding:9px 20px;border-radius:99px;pointer-events:none}
+
+  #strings{position:fixed;inset:0;z-index:5;pointer-events:none}
+  #boardArea{position:fixed;inset:0;z-index:10}
+
+  .evi{position:absolute;cursor:grab;user-select:none;touch-action:none;transition:filter .2s}
+  .evi:active{cursor:grabbing}
+  .evi:hover{filter:brightness(1.05) drop-shadow(0 10px 18px rgba(0,0,0,.35));z-index:20!important}
+  .pin{position:absolute;top:-9px;left:50%;transform:translateX(-50%);width:16px;height:16px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#ff8a80,var(--red));box-shadow:0 3px 5px rgba(0,0,0,.4);z-index:3}
+  /* polaroid */
+  .pol{width:140px;background:var(--paper);padding:8px 8px 26px;box-shadow:0 10px 24px rgba(0,0,0,.35);transform:rotate(var(--r,0deg))}
+  .pol .img{height:104px;display:flex;align-items:center;justify-content:center;font-size:42px}
+  .pol .cap{font-family:'Permanent Marker',cursive;font-size:12px;text-align:center;margin-top:8px;color:var(--ink)}
+  /* index card */
+  .idx{width:190px;background:#fffdf2;padding:14px 16px;box-shadow:0 10px 24px rgba(0,0,0,.35);transform:rotate(var(--r,0deg));
+    background-image:repeating-linear-gradient(0deg,transparent 0 20px,rgba(200,52,42,.15) 20px 21px)}
+  .idx .t{font-family:'Permanent Marker',cursive;font-size:13.5px;color:var(--red);margin-bottom:4px}
+  .idx .b{font-size:12px;line-height:1.55;color:rgba(38,32,26,.85)}
+  /* sticky note */
+  .sticky{width:130px;background:#fbe870;padding:14px 14px 18px;box-shadow:0 8px 18px rgba(0,0,0,.3);
+    transform:rotate(var(--r,0deg));font-family:'Permanent Marker',cursive;font-size:12.5px;line-height:1.5;color:#4a3c10}
+  .tapebit{position:absolute;top:-8px;left:50%;transform:translateX(-50%) rotate(-3deg);width:52px;height:16px;background:var(--tape);opacity:.9}
+
+  /* modal */
+  #modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;
+    background:rgba(20,15,8,.72);backdrop-filter:blur(5px);padding:5vw}
+  #modal.open{display:flex}
+  #mbox{max-width:540px;width:100%;background:var(--paper);border-radius:4px;padding:36px 38px;position:relative;
+    box-shadow:0 40px 100px rgba(0,0,0,.6);transform:rotate(-.6deg);max-height:85vh;overflow:auto}
+  #mbox::before{content:'';position:absolute;top:-10px;left:50%;transform:translateX(-50%) rotate(2deg);
+    width:110px;height:26px;background:var(--tape)}
+  #mbox .k{font-family:'Permanent Marker',cursive;font-size:13px;color:var(--red);letter-spacing:.06em}
+  #mbox h2{font-family:'Permanent Marker',cursive;font-size:clamp(22px,3.8vw,32px);margin:8px 0 10px}
+  #mbox p{font-size:15px;line-height:1.75;color:rgba(38,32,26,.85)}
+  #mbox p b{color:var(--ink)}
+  .mbtns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  .mbtn{font-family:'Permanent Marker',cursive;font-size:13px;padding:11px 20px;border:2.5px solid var(--ink);
+    transition:all .2s;background:#fffdf2}
+  .mbtn:hover{background:var(--ink);color:var(--paper)}
+  #mclose{position:absolute;top:10px;right:14px;background:none;border:none;font-size:18px;cursor:pointer;color:var(--ink);font-family:'Permanent Marker'}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<svg id="strings"></svg>
+<div id="boardArea"></div>
+
+<div id="title"><div class="board"><h1>WHO IS NOUR TOFI?</h1><div class="st">Case № 26 · Evidence board · drag to rearrange</div></div></div>
+<div id="status">CASE STATUS:<br>HIREABLE ✓</div>
+<div id="hint">🧶 drag the evidence · click to read the case notes</div>
+
+<div id="modal"><div id="mbox"><button id="mclose">✕</button><div id="mc"></div></div></div>
+
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const area=document.getElementById('boardArea'),svg=document.getElementById('strings');
+/* evidence items: type, position (vw/vh %), rotation, content */
+const EV=[
+ {t:'pol',x:38,y:30,r:-4,e:'👨‍💻',cap:'THE SUBJECT',k:'Exhibit A · The Subject',h:'Nour Aldeen Tofi',
+  p:`<b>Frontend developer & software engineering supervisor.</b> ~3 years active. Last seen: Riyadh, Saudi Arabia. Speaks Arabic & English. Known behavior: writes the React <b>and</b> runs the project. Considered highly organized. Approach with a job offer.`},
+ {t:'idx',x:63,y:22,r:3,ti:'CURRENT EMPLOYER',b:'Distinctive Frontier Co. — promoted Jan 2026. Leads the frontend unit.',
+  k:'Exhibit B · Employment',h:'Distinctive Frontier Co.',
+  p:`Frontend Dev & Project Coordination (Jan 2025 – Jan 2026), then <b>Software Engineering Supervisor (Jan 2026 →)</b>. Witness reports: scalable React systems, coding standards, backend alignment, features shipped on schedule.`},
+ {t:'pol',x:78,y:44,r:5,e:'💍',cap:'THE GOLD JOB',k:'Exhibit C · The Gold Job',h:'GoldenTag',
+  p:`Subject coordinated a jewelry store management app and got it onto <b>Google Play</b> — inventory, employees, barcode scanning, USD/SYP exchange rates, sales logging. Freelance operation via <b>NexLead</b> (Mar 2025 →, remote). Motive: delivery.`},
+ {t:'idx',x:14,y:48,r:-3,ti:'PRIOR ADDRESSES',b:'Khwarizm Technologies (2024–25) · Minicodeleader (2023–24)',
+  k:'Exhibit D · Prior Addresses',h:'The Early Trail',
+  p:`<b>Khwarizm Technologies, Riyadh (Sep 2024 – Apr 2025)</b>: production React. <b>Minicodeleader (Jun 2023 – Feb 2024)</b>: first known professional activity — component-driven development.`},
+ {t:'sticky',x:30,y:66,r:4,txt:'ICPC 2021 —\nsolves problems\nFAST. suspicious? no.\nimpressive.',
+  k:'Exhibit E · The Arena',h:'ICPC / ACPC 2021',
+  p:`Collegiate competitive programming. Algorithms and team leadership under a merciless clock. Explains subject's unusual calm during production incidents.`},
+ {t:'idx',x:56,y:64,r:-2,ti:'SKILL PROFILE',b:'React · TypeScript · Tailwind · JS · Python · Git · Jira · Trello',
+  k:'Exhibit F · Capabilities',h:'Skill Profile',
+  p:`Core: <b>React, TypeScript, Tailwind CSS, JavaScript.</b> Side arms: Python (DS/AI), Git, Jira, Trello, prompt engineering. Papers found on subject: Meta Advanced React '25, Google PM ×2 '25, IBM Python & GenAI '24, TS in React '25, Tailwind '24, Clean Code '24, Jira suite '25.`},
+ {t:'sticky',x:8,y:26,r:-6,txt:'B.Tech IT\nKalamoon Univ.\n2019 → 2024',
+  k:'Exhibit G · Origins',h:'University of Kalamoon',
+  p:`<b>B.Tech Information Technology, 2019–2024.</b> The origin point of the whole case file.`},
+ {t:'sticky',x:80,y:70,r:7,txt:'hobbies:\nanime ♟ chess\nbadminton, film\n(harmless)',
+  k:'Exhibit H · Off-hours',h:'Known Habits',
+  p:`Subject unwinds with anime, chess (London System enjoyer), badminton and films. Habits assessed as harmless and, frankly, relatable.`},
+ {t:'pol',x:47,y:78,r:-3,e:'🤝',cap:'ACCOMPLICE: YOU?',k:'Exhibit I · The Accomplice',h:'Could be you',
+  p:`The missing piece of this board. Open collaborations: websites, React frontends, logos, business cards, social visuals, project coordination.`,
+  btns:[['✉ Email','mailto:nouraldeentofi@gmail.com'],['LinkedIn','https://www.linkedin.com/in/nour-aldeen-tofi-19b116240'],['Website','https://nouraldeentofi.netlify.app']]}
+];
+/* strings connect (indexes) */
+const LINKS=[[0,1],[0,3],[0,4],[0,6],[1,2],[3,6],[0,5],[5,1],[0,8],[8,2],[0,7]];
+
+const items=[];
+EV.forEach((ev,i)=>{
+  const el=document.createElement('div');el.className='evi';el.style.setProperty('--r',ev.r+'deg');
+  let inner='';
+  if(ev.t==='pol')inner=`<div class="pol" style="--r:${ev.r}deg"><div class="img">${ev.e}</div><div class="cap">${ev.cap}</div></div>`;
+  if(ev.t==='idx')inner=`<div class="idx" style="--r:${ev.r}deg"><div class="t">${ev.ti}</div><div class="b">${ev.b}</div></div>`;
+  if(ev.t==='sticky')inner=`<div class="sticky" style="--r:${ev.r}deg"><div class="tapebit"></div>${ev.txt.replace(/\n/g,'<br>')}</div>`;
+  el.innerHTML=`<div class="pin"></div>`+inner;
+  el.style.left=ev.x+'vw';el.style.top=ev.y+'vh';el.style.zIndex=5+i;
+  area.appendChild(el);
+  items.push({el,ev});
+});
+/* pin coords */
+function pinXY(it){
+  const r=it.el.getBoundingClientRect();
+  return [r.left+r.width/2,r.top+2];
+}
+function drawStrings(){
+  svg.setAttribute('viewBox',`0 0 ${innerWidth} ${innerHeight}`);
+  svg.innerHTML=LINKS.map(([a,b])=>{
+    const [x1,y1]=pinXY(items[a]),[x2,y2]=pinXY(items[b]);
+    const mx=(x1+x2)/2,my=(y1+y2)/2+Math.hypot(x2-x1,y2-y1)*.09;
+    return `<path d="M${x1} ${y1} Q${mx} ${my} ${x2} ${y2}" fill="none" stroke="#c8342a" stroke-width="2.2" opacity=".85"/>
+      <path d="M${x1} ${y1} Q${mx} ${my+3} ${x2} ${y2}" fill="none" stroke="rgba(0,0,0,.22)" stroke-width="2.2"/>`;
+  }).join('');
+}
+/* drag */
+let drag=null,ox=0,oy=0,sx=0,sy=0,moved=false;
+items.forEach(it=>{
+  it.el.addEventListener('pointerdown',e=>{
+    drag=it;moved=false;sx=e.clientX;sy=e.clientY;
+    const r=it.el.getBoundingClientRect();
+    ox=e.clientX-r.left;oy=e.clientY-r.top;
+    it.el.setPointerCapture(e.pointerId);
+    it.el.style.zIndex=40;
+  });
+  it.el.addEventListener('pointerup',()=>{
+    if(drag===it&&!moved)openModal(it.ev);
+    drag=null;
+  });
+});
+addEventListener('pointermove',e=>{
+  if(!drag)return;
+  if(Math.hypot(e.clientX-sx,e.clientY-sy)>6)moved=true;
+  drag.el.style.left=(e.clientX-ox)+'px';
+  drag.el.style.top=(e.clientY-oy)+'px';
+  drawStrings();
+});
+addEventListener('resize',drawStrings);
+/* initial draw after layout */
+requestAnimationFrame(()=>requestAnimationFrame(drawStrings));
+setTimeout(drawStrings,400);
+
+/* modal */
+const modal=document.getElementById('modal');
+function openModal(ev){
+  let btns='';(ev.btns||[]).forEach(([lb,href])=>{
+    btns+=`<a class="mbtn" href="${href}"${href.startsWith('http')?' target="_blank" rel="noopener"':''}>${lb}</a>`;});
+  document.getElementById('mc').innerHTML=`<div class="k">${ev.k}</div><h2>${ev.h}</h2><p>${ev.p}</p>
+    ${btns?'<div class="mbtns">'+btns+'</div>':''}`;
+  modal.classList.add('open');
+}
+document.getElementById('mclose').onclick=()=>modal.classList.remove('open');
+modal.addEventListener('pointerdown',e=>{if(e.target===modal)modal.classList.remove('open');});
+addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open');});
+</script>
+</body>
+</html>
