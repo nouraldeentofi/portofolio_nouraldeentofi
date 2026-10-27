@@ -587,6 +587,16 @@ Drafted on linen: behind the page a portfolio roadmap draws itself in ink, task 
 
 **Live.** https://nouraldeentofi.github.io/ayman-alawwad/
 
+### TechSpark Karam — A young creator and explorer, inspiring kids to love technology
+
+A night sky for a young tech fan: words like HTML, JS, Robots and Gaming drift down behind the page, his TechSpark badge glows at the centre, and a typewriter spells out TechSpark Karam, coding fun, cool gadgets and future tech in turn.
+
+- His achievements on cards: his first website, a gaming milestone and a digital art award
+- His YouTube, TikTok and Instagram in one place
+- Made for a young audience: big type, bright colours and playful motion
+
+**Live.** https://nouraldeentofi.github.io/karam/
+
 ### Gambit Tournaments — Tournaments platform for a chess club in Dammam
 
 The club's black and gold, built as a full product: upcoming tournaments with live seats, guest registration, and an archive of past tournaments.

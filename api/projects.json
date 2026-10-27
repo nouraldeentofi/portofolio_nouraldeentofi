@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-27T17:25:44.602Z",
+  "generated": "2026-10-27T17:31:58.644Z",
   "projects": [
     {
       "id": "smart-scanner",
@@ -3535,6 +3535,37 @@
       },
       "url": "https://nouraldeentofi.github.io/ayman-alawwad/",
       "image": "https://nouraldeentofi.com/assets/img/showcase/ayman-alawwad-desktop.webp"
+    },
+    {
+      "id": "karam",
+      "name": {
+        "en": "TechSpark Karam",
+        "ar": "TechSpark كرم"
+      },
+      "segment": "people",
+      "year": "2026",
+      "role": {
+        "en": "A young creator and explorer, inspiring kids to love technology",
+        "ar": "صانع محتوى صغير ومستكشف، يحبّب الأطفال بالتقنية"
+      },
+      "concept": {
+        "en": "A night sky for a young tech fan: words like HTML, JS, Robots and Gaming drift down behind the page, his TechSpark badge glows at the centre, and a typewriter spells out TechSpark Karam, coding fun, cool gadgets and future tech in turn.",
+        "ar": "سماء ليلية لمحبّ صغير للتقنية: كلمات مثل HTML وJS وRobots وGaming تنزل خلف الصفحة، وشارة TechSpark تتوهّج في المنتصف، وآلة كاتبة تكتب بالتناوب: TechSpark Karam، ومتعة البرمجة، والأجهزة الرائعة، وتقنية المستقبل."
+      },
+      "highlights": {
+        "en": [
+          "His achievements on cards: his first website, a gaming milestone and a digital art award",
+          "His YouTube, TikTok and Instagram in one place",
+          "Made for a young audience: big type, bright colours and playful motion"
+        ],
+        "ar": [
+          "إنجازاته على بطاقات: أول موقع بناه، ومرحلة في الألعاب، وجائزة في الفن الرقمي",
+          "يوتيوب وتيك توك وإنستغرام الخاصة به في مكان واحد",
+          "مصمّم لجمهور صغير: خط كبير وألوان زاهية وحركة مرحة"
+        ]
+      },
+      "url": "https://nouraldeentofi.github.io/karam/",
+      "image": "https://nouraldeentofi.com/assets/img/showcase/karam-desktop.webp"
     },
     {
       "id": "gambit-tournaments",
