@@ -41,7 +41,7 @@ function main() {
     stage(`${dir}404.html`, notFound(db, lang));
   }
 
-  // GitHub Pages has no redirect rules, so the shortcuts are real files.
+  // The shortcuts are real files, so they work on any host and /cv carries the CV's fingerprint.
   for (const { path, html } of buildRedirects(db)) stage(path, html);
 
   stage('llms.txt', buildLlmsTxt(db, 'en'));

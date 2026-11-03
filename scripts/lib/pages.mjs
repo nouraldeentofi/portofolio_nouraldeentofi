@@ -480,11 +480,11 @@ function notFound(db, lang) {
 /**
  * The shortcut URLs, as real files.
  *
- * `_redirects` only works on Netlify; this site is served by GitHub Pages,
- * which has no redirect rules at all. So each shortcut ships as a page that
- * redirects three ways: a meta refresh for browsers, a canonical for crawlers
- * that follow it, and a plain link for anything that honours neither. All are
- * noindex — the destination is the thing worth indexing, not the doorway.
+ * Each shortcut ships as a page that redirects three ways: a meta refresh for
+ * browsers, a canonical for crawlers that follow it, and a plain link for
+ * anything that honours neither. All are noindex — the destination is the
+ * thing worth indexing, not the doorway. They work on any host, with or
+ * without `_redirects`.
  */
 function redirectStub(target, label) {
   return `<!DOCTYPE html>
@@ -504,12 +504,17 @@ function redirectStub(target, label) {
 }
 
 export function buildRedirects(db) {
-  /* One CV. /cv/auto stays so links already shared for the old automation CV still land. */
+  /* One CV. /cv/auto stays so links already shared for the old automation CV still land.
+     `_redirects` has no rule for either on purpose: Cloudflare would answer it before
+     these pages, and a rule can only name the bare PDF, which the CDN keeps for a day
+     after a new CV ships. These carry its fingerprint instead. */
   const cv = db.profile.cv[0];
+  const v = db.assetVersions?.[cv.file];
+  const cvUrl = v ? `/${cv.file}?v=${v}` : `/${cv.file}`;
 
   return [
-    { path: 'cv/index.html', target: `/${cv.file}`, label: 'CV' },
-    { path: 'cv/auto/index.html', target: `/${cv.file}`, label: 'CV' },
+    { path: 'cv/index.html', target: cvUrl, label: 'CV' },
+    { path: 'cv/auto/index.html', target: cvUrl, label: 'CV' },
     { path: 'resume/index.html', target: '/api/resume.json', label: 'Résumé (JSON Resume)' },
     { path: 'profile/index.html', target: '/api/profile.json', label: 'Profile JSON' },
   ].map((r) => ({ ...r, html: redirectStub(r.target, r.label) }));

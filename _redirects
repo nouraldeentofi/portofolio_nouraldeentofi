@@ -1,5 +1,3 @@
-/cv       /assets/cv/Nour_Aldeen_Tofi.pdf             302
-/cv/auto  /assets/cv/Nour_Aldeen_Tofi_Automation.pdf  302
 /resume   /api/resume.json                            302
 /profile  /api/profile.json                           302
 /ar/*     /:splat                                     301

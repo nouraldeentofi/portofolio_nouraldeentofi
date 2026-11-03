@@ -137,8 +137,12 @@ and commit. `npm run validate` fails if any page still links to `github.io`.
 
 The shortcuts `/cv` (and the legacy `/cv/auto`, which now points to the same single CV), `/resume` and `/profile` are real generated files
 (`cv/index.html` and friends), each a noindex page that redirects to its target. On
-Cloudflare Pages the `_redirects` rules answer first; the files are there so the
-shortcuts still work on a host that ignores `_headers` and `_redirects`, such as GitHub
+Cloudflare Pages the `_redirects` rules answer first, except for the CV: a rule could only
+name the bare PDF, which the CDN would keep serving for a day after a new one ships, so
+`_redirects` leaves `/cv` and `/cv/auto` to the generated pages, which link to the
+fingerprinted PDF. To replace the CV, overwrite `assets/cv/Nour_Aldeen_Tofi.pdf`, run
+`npm run check` and push: every link changes with the file. The generated files also keep
+the shortcuts working on a host that ignores `_headers` and `_redirects`, such as GitHub
 Pages. Netlify reads both files as written too (build command `npm run build`, publish
 directory `.`).
 

@@ -20,6 +20,9 @@ import { join } from 'node:path';
  * The gallery screenshots are listed by folder rather than by hand: they are
  * re-shot under the same names whenever a client site changes, and a new shot
  * behind an old URL is exactly the stale-cache problem described above.
+ *
+ * The CV is listed by folder for the same reason: a new CV replaces the old
+ * one under the same name, and the CDN keeps a PDF for a day.
  */
 const VERSIONED_ASSETS = [
   'assets/css/tokens.css',
@@ -40,7 +43,7 @@ const VERSIONED_ASSETS = [
   'assets/img/icon-180.png',
 ];
 
-const VERSIONED_DIRS = ['assets/img/showcase', 'assets/img/workflows', 'assets/img/projects'];
+const VERSIONED_DIRS = ['assets/img/showcase', 'assets/img/workflows', 'assets/img/projects', 'assets/cv'];
 
 function listDir(dir) {
   try {

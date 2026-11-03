@@ -699,7 +699,7 @@ export function contactCv(db, lang) {
   return `<ul class="linklist">
 ${db.profile.cv
   .map(
-    (cv) => `  <li><a href="/${e(cv.file)}" download>
+    (cv) => `  <li><a href="${e(img(db, cv.file))}" download>
     <span class="linklist__mark linklist__mark--download" aria-hidden="true"></span>
     <span class="linklist__text">
       <span class="platform">${e(cv.label[lang])}</span>

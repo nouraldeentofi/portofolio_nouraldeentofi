@@ -1,10 +1,12 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { loadDb } from '../scripts/lib/load.mjs';
 import { buildLlmsTxt, buildLlmsFullTxt } from '../scripts/lib/llms.mjs';
 import { buildSitemap, PAGES, LANGS } from '../scripts/lib/sitemap.mjs';
 import { buildApiProfile, buildApiProjects, buildResumeJson } from '../scripts/lib/api.mjs';
 import { TEMPLATES, notFound, buildRedirects } from '../scripts/lib/pages.mjs';
+import { contactCv } from '../scripts/lib/blocks.mjs';
 
 const db = loadDb('data');
 
@@ -109,7 +111,7 @@ test('tab labels come from navShort and are never blank', () => {
   }
 });
 
-/* GitHub Pages ignores _redirects, so every shortcut has to be a real file.
+/* Every shortcut is a real file, so it works on hosts that ignore _redirects.
    These four are the ones robots.txt and the README hand out. */
 test('every documented shortcut is a real file, not a redirect rule', () => {
   const stubs = buildRedirects(db);
@@ -129,10 +131,24 @@ test('every documented shortcut is a real file, not a redirect rule', () => {
 test('the shortcuts resolve to the real files named in data', () => {
   const target = Object.fromEntries(buildRedirects(db).map((s) => [s.path, s.target]));
 
-  assert.equal(target['cv/index.html'], '/assets/cv/Nour_Aldeen_Tofi.pdf');
-  assert.equal(target['cv/auto/index.html'], '/assets/cv/Nour_Aldeen_Tofi.pdf');
+  assert.match(target['cv/index.html'], /^\/assets\/cv\/Nour_Aldeen_Tofi\.pdf\?v=[0-9a-f]{8}$/);
+  assert.equal(target['cv/auto/index.html'], target['cv/index.html']);
   assert.equal(target['resume/index.html'], '/api/resume.json');
   assert.equal(target['profile/index.html'], '/api/profile.json');
+});
+
+/* A new CV keeps its file name, and the CDN keeps a PDF for a day. Without the
+   fingerprint, visitors download the old CV long after the new one ships. */
+test('every way to the CV carries its fingerprint', () => {
+  const cvUrl = buildRedirects(db).find((s) => s.path === 'cv/index.html').target;
+  for (const lang of LANGS) {
+    assert.ok(contactCv(db, lang).includes(`href="${cvUrl}" download`), `${lang}: the download button skips the fingerprint`);
+  }
+
+  const rules = readFileSync('_redirects', 'utf8').split('\n').map((line) => line.trim().split(/\s+/)[0]);
+  for (const path of ['/cv', '/cv/auto']) {
+    assert.ok(!rules.includes(path), `_redirects answers ${path} with the bare PDF before the generated page can`);
+  }
 });
 
 /* The 404 is a real 200-status file at /404.html and /en/404.html. Without this
