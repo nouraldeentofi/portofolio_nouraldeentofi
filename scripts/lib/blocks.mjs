@@ -748,9 +748,9 @@ export function contactAvailability(db, lang) {
 ${badges(a.arrangements[lang])}${
     a.roles
       ? `
-<h3 class="card__title">${e(c.contact.rolesTitle)}</h3>
+<h4 class="card__title card__title--sub">${e(c.contact.rolesTitle)}</h4>
 ${badges(a.roles[lang])}
-<h3 class="card__title">${e(c.contact.areasTitle)}</h3>
+<h4 class="card__title card__title--sub">${e(c.contact.areasTitle)}</h4>
 ${badges(a.areas[lang])}`
       : ''
   }`;

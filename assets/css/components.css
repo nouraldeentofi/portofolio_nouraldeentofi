@@ -158,6 +158,9 @@
 
 .card__title { font-size: 1.25rem; }
 
+/* A second heading inside one card: smaller, and set apart from what precedes it. */
+.card__title--sub { font-size: 1rem; margin-block-start: var(--space-3); }
+
 .card__title a { color: inherit; text-decoration: none; }
 .card__title a:hover { color: var(--lime); }
 
