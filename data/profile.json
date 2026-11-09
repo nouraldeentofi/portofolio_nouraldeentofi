@@ -174,5 +174,6 @@
   "indexNow": {
     "key": "17557094c3ee21fe9e3235931c75cc3a",
     "_note": "IndexNow (indexnow.org) tells Bing, Yandex, Naver and Seznam that pages changed, with no account. The build writes <key>.txt at the site root, which proves the site owns the key; `npm run indexnow` then submits every address in the sitemap. The key is public by design."
-  }
+  },
+  "recommendationsUrl": "https://www.linkedin.com/in/nouraldeentofi/details/recommendations/"
 }

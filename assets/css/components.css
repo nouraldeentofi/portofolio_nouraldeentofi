@@ -314,6 +314,11 @@
 
 .quote__author { font-weight: 800; }
 .quote__role { color: var(--faint); font-size: 0.85rem; font-weight: 400; display: block; }
+.quote__meta { color: var(--faint); font-size: 0.8rem; font-weight: 400; display: block; margin-block-start: var(--space-1); }
+
+/* Under the quotes: where every recommendation can be checked. */
+.quote-source { margin-block-start: var(--space-5); font-size: 0.92rem; }
+.quote-source a { color: var(--mint); font-weight: 700; }
 
 /* ---------- credentials ---------- */
 

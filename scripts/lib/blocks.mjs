@@ -349,12 +349,27 @@ ${byCompany(db.experience)
 </ol>`;
 }
 
+/* "November 2026" / "نوفمبر 2026", with Latin digits like every other date on the site. */
+const monthYear = (iso, lang) =>
+  new Intl.DateTimeFormat(lang === 'ar' ? 'ar-u-nu-latn' : 'en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(
+    new Date(`${iso}T00:00:00Z`),
+  );
+
+/*
+ * Recommendations, newest first as they are in the data. Each one says who
+ * wrote it, how they knew Nour and when, and whether this is a translation:
+ * a quote shown in the other language from the one its author wrote in is
+ * marked as such, so nobody reads a translation as the author's own words.
+ */
 export function workTestimonials(db, lang) {
+  const c = db.copy[lang];
   return db.testimonials
     .map(
-      (t) => `<figure data-reveal class="quote">
+      (t) => `<figure data-reveal class="quote" lang="${lang}">
   <blockquote class="quote__body">${e(t.quote[lang])}</blockquote>
-  <figcaption class="quote__author">${person(db, t.author, lang)}<span class="quote__role">${e(t.title[lang])} · ${e(t.relationship[lang])}</span></figcaption>
+  <figcaption class="quote__author">${person(db, t.author, lang)}<span class="quote__role">${e(t.title[lang])}</span><span class="quote__meta">${e(t.relationship[lang])} · <time datetime="${e(t.date)}">${e(monthYear(t.date, lang))}</time>${
+    t.lang !== lang ? ` · ${e(c.work.quoteTranslated)}` : ''
+  }</span></figcaption>
 </figure>`,
     )
     .join('\n');

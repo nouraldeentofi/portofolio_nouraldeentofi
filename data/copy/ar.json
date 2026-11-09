@@ -203,7 +203,9 @@
     "timelineTitle": "الخبرة العملية",
     "testimonialsTitle": "التوصيات",
     "credentialsTitle": "الشهادات",
-    "educationTitle": "التعليم والجوائز"
+    "educationTitle": "التعليم والجوائز",
+    "quoteTranslated": "مترجمة من الإنجليزية",
+    "testimonialsSource": "كل التوصيات على LinkedIn"
   },
   "projects": {
     "title": "المشاريع",

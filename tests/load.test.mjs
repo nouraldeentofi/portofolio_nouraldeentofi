@@ -68,11 +68,13 @@ test('every certification records its issuer and credential id', () => {
   }
 });
 
-test('all four recommendations are present', () => {
+test('every LinkedIn recommendation is present, newest first', () => {
   const db = loadDb('data');
-  assert.equal(db.testimonials.length, 4);
   const authors = db.testimonials.map((t) => t.author).sort();
-  assert.deepEqual(authors, ['George Drouj', 'Haitham Zedan', 'Hamza Shansho', 'Tawheed Malkat']);
+  assert.deepEqual(authors, ['George Drouj', 'Haitham Zedan', 'Hamza Shansho', 'Sameeh Hussein', 'Tareq Nasif', 'Tawheed Malkat']);
+  const dates = db.testimonials.map((t) => t.date);
+  assert.deepEqual([...dates].sort().reverse(), dates, 'recommendations must be newest first');
+  for (const t of db.testimonials) assert.ok(['en', 'ar'].includes(t.lang), `${t.id}: lang must say which language the author wrote in`);
 });
 
 test('English and Arabic copy expose identical key sets', () => {

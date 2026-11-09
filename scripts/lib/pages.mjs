@@ -309,6 +309,14 @@ ${section('faq', null, c.about.faqTitle, null, `      <div class="stack">\n${B.a
   return shell(db, 'about', lang, main);
 }
 
+/* Under the quotes: where every one of them can be checked, on LinkedIn. */
+function recommendationsSource(db, lang) {
+  const url = db.profile.recommendationsUrl;
+  if (!url) return '';
+  const c = db.copy[lang];
+  return `\n      <p class="quote-source" data-reveal><a href="${e(url)}"${extAttrs(url)}>${e(c.work.testimonialsSource)}${newTabHint(c.ui.opensInNewTab)}</a></p>`;
+}
+
 function work(db, lang) {
   const c = db.copy[lang];
 
@@ -316,7 +324,7 @@ function work(db, lang) {
 
 ${section('timeline', null, c.work.timelineTitle, null, B.workTimeline(db, lang))}
 
-${section('testimonials', null, c.work.testimonialsTitle, null, `      <div class="masonry">\n${B.workTestimonials(db, lang)}\n      </div>`)}
+${section('testimonials', null, c.work.testimonialsTitle, null, `      <div class="masonry">\n${B.workTestimonials(db, lang)}\n      </div>${recommendationsSource(db, lang)}`)}
 
 ${section('credentials', null, c.work.credentialsTitle, null, B.workCredentials(db, lang))}
 

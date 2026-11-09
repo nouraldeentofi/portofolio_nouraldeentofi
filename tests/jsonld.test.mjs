@@ -65,7 +65,7 @@ test('certifications become credentials with their identifier', () => {
    thing reviewed. They are quotations about him instead. */
 test('recommendations become quotations about the person, never reviews', () => {
   const quotes = recommendationsLd(db, 'en');
-  assert.equal(quotes.length, 4);
+  assert.equal(quotes.length, db.testimonials.length);
   assert.equal(quotes[0]['@type'], 'Quotation');
   assert.equal(quotes[0].about['@id'], `${db.profile.site}/#nour`);
   assert.ok(quotes[0].text.length > 40);

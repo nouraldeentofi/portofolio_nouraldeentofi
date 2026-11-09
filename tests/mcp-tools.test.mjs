@@ -62,9 +62,9 @@ test('getCredentials can filter to certifications', () => {
   assert.equal(getCredentials(db, { kind: 'certification' }).length, 12);
 });
 
-test('getTestimonials returns all four with both languages resolved', () => {
+test('getTestimonials returns every recommendation with both languages resolved', () => {
   const rows = getTestimonials(db, { lang: 'ar' });
-  assert.equal(rows.length, 4);
+  assert.equal(rows.length, db.testimonials.length);
   assert.ok(rows.every((t) => t.quote.length > 40));
 });
 

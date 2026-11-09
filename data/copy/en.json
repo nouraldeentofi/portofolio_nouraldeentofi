@@ -203,7 +203,9 @@
     "timelineTitle": "Experience",
     "testimonialsTitle": "Recommendations",
     "credentialsTitle": "Certifications",
-    "educationTitle": "Education & awards"
+    "educationTitle": "Education & awards",
+    "quoteTranslated": "Translated from Arabic",
+    "testimonialsSource": "All recommendations on LinkedIn"
   },
   "projects": {
     "title": "Projects",
