@@ -44,8 +44,9 @@
   "_imageNote": "The portrait. 720×720, downscaled from me.png. Feeds Person.image in the structured data, the header avatar (via the 96px copy) and the full-size view behind it.",
   "ogImage": "assets/img/og.png",
   "analytics": {
-    "ga4": null,
-    "todo": "Paste the GA4 Measurement ID (G-XXXXXXXXXX) from analytics.google.com, Admin, Data streams"
+    "tag": "GTM-5FG7CGJF",
+    "measurementId": "G-KWLGX91PYK",
+    "_note": "Google Analytics for nouraldeentofi.com, on the nourtofi42@gmail.com account. `tag` is the Google tag the pages load, exactly as Analytics gives it under Admin, Data streams, View tag instructions. `measurementId` is the web stream it reports to, kept for reference."
   },
   "_ogImageNote": "Generated 1200×630 share card, emitted as og:image / twitter:image so links unfurl with a real preview. Wider than the portrait and captioned, so it stays the share image rather than the photo.",
   "email": "nouraldeentofi@gmail.com",

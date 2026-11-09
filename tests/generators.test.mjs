@@ -212,12 +212,28 @@ test('llms files and page heads carry no em dash', () => {
   }
 });
 
-test('Google Analytics loads only once a measurement ID is set', () => {
-  assert.ok(!headMeta(db, '', 'en').includes('googletagmanager'), 'a tag is emitted with no ID');
-  const withId = { ...db, profile: { ...db.profile, analytics: { ga4: 'G-TEST1234' } } };
-  const head = headMeta(withId, '', 'en');
-  assert.ok(head.includes('googletagmanager.com/gtag/js?id=G-TEST1234'));
-  assert.ok(head.includes("gtag('config','G-TEST1234')"));
+test('Google Analytics loads only once a tag ID is set, in the form Analytics gives for it', () => {
+  const withTag = (analytics) => headMeta({ ...db, profile: { ...db.profile, analytics } }, '', 'en');
+
+  assert.ok(!withTag({ tag: null }).includes('googletagmanager'), 'a tag is emitted with no ID');
+
+  const container = withTag({ tag: 'GTM-TEST123' });
+  assert.ok(container.includes('googletagmanager.com/gtm.js?id=GTM-TEST123'));
+  assert.ok(container.includes("gtag('js',new Date());"));
+  assert.ok(!container.includes("gtag('config'"), 'a container tag already knows its stream');
+
+  const stream = withTag({ tag: 'G-TEST1234' });
+  assert.ok(stream.includes('googletagmanager.com/gtag/js?id=G-TEST1234'));
+  assert.ok(stream.includes("gtag('config','G-TEST1234')"));
+});
+
+test('every page carries the Google tag exactly once', () => {
+  for (const lang of LANGS) {
+    for (const page of PAGES) {
+      const html = TEMPLATES[page](db, lang);
+      assert.equal(html.split(`gtm.js?id=${db.profile.analytics.tag}`).length - 1, 1, `${lang}/${page || 'index'}`);
+    }
+  }
 });
 
 /* He left DFS: no current employer may be claimed, and what he seeks is stated. */

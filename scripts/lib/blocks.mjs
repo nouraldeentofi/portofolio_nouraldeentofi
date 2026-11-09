@@ -72,12 +72,14 @@ const badges = (items) =>
  * only measures; it renders nothing, so every page reads the same without it.
  */
 const analyticsTags = (db) => {
-  const id = db.profile.analytics?.ga4;
+  const id = db.profile.analytics?.tag;
   if (!id) return [];
-  return [
-    `<script async src="https://www.googletagmanager.com/gtag/js?id=${id}"></script>`,
-    `<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${id}');</script>`,
-  ];
+  const boot = `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());`;
+  // Analytics hands out one of two snippets. A GTM- tag is a container that
+  // already knows which stream it reports to; a bare G- ID has to be named.
+  return id.startsWith('GTM-')
+    ? [`<script async src="https://www.googletagmanager.com/gtm.js?id=${id}"></script>`, `<script>${boot}</script>`]
+    : [`<script async src="https://www.googletagmanager.com/gtag/js?id=${id}"></script>`, `<script>${boot}gtag('config','${id}');</script>`];
 };
 
 export function headMeta(db, page, lang, { noindex = false } = {}) {

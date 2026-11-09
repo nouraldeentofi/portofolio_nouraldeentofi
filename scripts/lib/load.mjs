@@ -91,11 +91,11 @@ export function loadDb(dir = 'data') {
     'profile.json',
   );
 
-  // The measurement ID is pasted straight into a script tag, so it has to be
+  // The Google tag ID is pasted straight into a script tag, so it has to be
   // exactly an ID and nothing else.
-  const ga4 = profile.analytics?.ga4;
-  if (ga4 != null && !/^G-[A-Z0-9]{4,}$/.test(ga4)) {
-    throw new Error(`profile.json: analytics.ga4 "${ga4}" is not a GA4 measurement ID (G-XXXXXXXXXX)`);
+  const tag = profile.analytics?.tag;
+  if (tag != null && !/^(G|GTM)-[A-Z0-9]{4,}$/.test(tag)) {
+    throw new Error(`profile.json: analytics.tag "${tag}" is not a Google tag ID (GTM-XXXXXXX or G-XXXXXXXXXX)`);
   }
 
   const experience = readJson(dir, 'experience.json');

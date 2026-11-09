@@ -57,7 +57,7 @@ export function checkAll({ pages = pageFiles() } = {}) {
     else if (!/^https?:\/\//.test(s.url)) fail(`profile.json: ${s.platform} url is not absolute`);
   }
   if (!db.profile.image) warn('pending: no portrait set — Person.image is omitted (the generated ogImage covers the social preview)');
-  if (!db.profile.analytics?.ga4) warn(`pending: Google Analytics is off — ${db.profile.analytics?.todo ?? 'no measurement ID'}`);
+  if (!db.profile.analytics?.tag) warn(`pending: Google Analytics is off — ${db.profile.analytics?.todo ?? 'no Google tag ID'}`);
 
   const sectionCounts = {};
 
