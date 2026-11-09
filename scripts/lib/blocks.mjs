@@ -9,6 +9,7 @@ import { escapeHtml, extAttrs, newTabHint, linkifyPeople } from './render.mjs';
 import * as ld from './jsonld.mjs';
 import { flowDiagram } from './diagram.mjs';
 import { pagePath } from './sitemap.mjs';
+import { byCompany } from './experience.mjs';
 
 const e = escapeHtml;
 const base = (db) => db.profile.site.replace(/\/$/, '');
@@ -308,17 +309,42 @@ export function aboutFaq(db, lang) {
 
 export function workTimeline(db, lang) {
   const c = db.copy[lang];
-  return `<ol class="timeline">
-${db.experience
-  .map(
-    (x) => `  <li data-reveal class="timeline__item${x.end === null ? ' timeline__item--current' : ''}">
+  const current = (end) => (end === null ? ' timeline__item--current' : '');
+
+  const single = (x) => `  <li data-reveal class="timeline__item${current(x.end)}">
     <p class="timeline__period">${e(period(x.start, x.end, c))}</p>
     <h3 class="timeline__role">${e(x.role[lang])}</h3>
     <p class="timeline__org">${org(db, x.company, lang)} · ${e(x.location[lang])} · ${e(x.type[lang])}</p>
     ${list(x.bullets[lang].map((b) => prose(db, b, lang)), 'timeline__bullets')}
     ${badges(x.stack)}
-  </li>`,
+  </li>`;
+
+  // Several roles at one employer: the company and the whole tenure first,
+  // then each role with its own dates, newest first.
+  const group = (g) => {
+    const latest = g.roles[0];
+    return `  <li data-reveal class="timeline__item timeline__item--group${current(g.end)}">
+    <p class="timeline__period">${e(period(g.start, g.end, c))}</p>
+    <h3 class="timeline__role">${org(db, g.company, lang)}</h3>
+    <p class="timeline__org">${e(latest.location[lang])} · ${e(latest.type[lang])}</p>
+    <ol class="timeline__steps">
+${g.roles
+  .map(
+    (x) => `      <li class="timeline__step">
+        <h4 class="timeline__step-role">${e(x.role[lang])}</h4>
+        <p class="timeline__period">${e(period(x.start, x.end, c))}</p>
+        ${list(x.bullets[lang].map((b) => prose(db, b, lang)), 'timeline__bullets')}
+        ${badges(x.stack)}
+      </li>`,
   )
+  .join('\n')}
+    </ol>
+  </li>`;
+  };
+
+  return `<ol class="timeline">
+${byCompany(db.experience)
+  .map((g) => (g.roles.length === 1 ? single(g.roles[0]) : group(g)))
   .join('\n')}
 </ol>`;
 }

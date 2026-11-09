@@ -102,8 +102,8 @@ export const SCRIPT = {
     card: `<div class="chat__card-head">📜 The timeline</div>
 <div class="chat__card-body">
   <b>2026</b> Software Engineering Supervisor · Distinctive Frontier<br>
-  <b>2025–26</b> Project Coordinator &amp; Automation Builder · NexLead<br>
   <b>2025–26</b> Frontend Developer / Coordinator · Distinctive Frontier<br>
+  <b>2025–26</b> Project Coordinator &amp; Automation Builder · NexLead<br>
   <b>2024–25</b> Frontend Developer · Khwarizm Technologies<br>
   <b>2023–24</b> Frontend Developer · Minicodeleader<br>
   <b>2021</b> Competitive programming · ICPC / ACPC<br>

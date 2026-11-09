@@ -100,8 +100,8 @@ export const SCRIPT = {
     card: `<div class="chat__card-head">📜 الخط الزمني</div>
 <div class="chat__card-body">
   <b>٢٠٢٦</b> مشرف هندسة برمجيات · Distinctive Frontier<br>
-  <b>٢٠٢٥–٢٦</b> منسّق مشاريع ومطوّر أتمتة · NexLead<br>
   <b>٢٠٢٥–٢٦</b> مطوّر واجهات / منسّق · Distinctive Frontier<br>
+  <b>٢٠٢٥–٢٦</b> منسّق مشاريع ومطوّر أتمتة · NexLead<br>
   <b>٢٠٢٤–٢٥</b> مطوّر واجهات · Khwarizm Technologies<br>
   <b>٢٠٢٣–٢٤</b> مطوّر واجهات · Minicodeleader<br>
   <b>٢٠٢١</b> البرمجة التنافسية · ICPC / ACPC<br>

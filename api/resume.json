@@ -60,19 +60,6 @@
       ]
     },
     {
-      "name": "NexLead",
-      "position": "Freelance Project Coordinator",
-      "location": "Remote",
-      "startDate": "2025-03-01",
-      "endDate": "2026-05-01",
-      "highlights": [
-        "Ran client automation and software projects end to end: requirements, scope, workflow design, and release.",
-        "Gathered requirements directly with clients, defined acceptance criteria, and broke work into tasks and user stories on Trello.",
-        "Managed timelines and cost estimation while overseeing frontend, backend, and UI/UX quality.",
-        "Delivered GoldenTag, a jewelry store management app, to the Google Play Store."
-      ]
-    },
-    {
       "name": "Distinctive Frontier Co. for Safety Equipment L.L.C",
       "position": "Frontend Developer / Project Coordinator",
       "location": "Al Khobar, Saudi Arabia",
@@ -83,6 +70,19 @@
         "Implemented three core modules (task tracking, quotation generation, and workflow management), replacing manual spreadsheet processes.",
         "Coordinated between frontend and backend teams to clarify requirements and keep delivery on schedule.",
         "Promoted to Software Engineering Supervisor within twelve months."
+      ]
+    },
+    {
+      "name": "NexLead",
+      "position": "Freelance Project Coordinator",
+      "location": "Remote",
+      "startDate": "2025-03-01",
+      "endDate": "2026-05-01",
+      "highlights": [
+        "Ran client automation and software projects end to end: requirements, scope, workflow design, and release.",
+        "Gathered requirements directly with clients, defined acceptance criteria, and broke work into tasks and user stories on Trello.",
+        "Managed timelines and cost estimation while overseeing frontend, backend, and UI/UX quality.",
+        "Delivered GoldenTag, a jewelry store management app, to the Google Play Store."
       ]
     },
     {

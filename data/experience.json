@@ -41,45 +41,6 @@
     ]
   },
   {
-    "id": "nexlead-coordinator",
-    "role": {
-      "en": "Freelance Project Coordinator",
-      "ar": "منسّق مشاريع (عمل حر)"
-    },
-    "company": "NexLead",
-    "location": {
-      "en": "Remote",
-      "ar": "عن بُعد"
-    },
-    "type": {
-      "en": "Freelance",
-      "ar": "عمل حر"
-    },
-    "start": "2025-03",
-    "end": "2026-05",
-    "bullets": {
-      "en": [
-        "Ran client automation and software projects end to end: requirements, scope, workflow design, and release.",
-        "Gathered requirements directly with clients, defined acceptance criteria, and broke work into tasks and user stories on Trello.",
-        "Managed timelines and cost estimation while overseeing frontend, backend, and UI/UX quality.",
-        "Delivered GoldenTag, a jewelry store management app, to the Google Play Store."
-      ],
-      "ar": [
-        "قدت مشاريع الأتمتة والبرمجيات للعملاء من البداية إلى النهاية: المتطلبات، النطاق، تصميم سير العمل، والإصدار.",
-        "جمعت المتطلبات مباشرة من العملاء، وحدّدت معايير القبول، وقسّمت العمل إلى مهام وقصص مستخدم على Trello.",
-        "أدرت الجداول الزمنية وتقدير التكلفة، وأشرفت على جودة الواجهة الأمامية والخلفية وتجربة المستخدم.",
-        "سلّمت تطبيق GoldenTag لإدارة محلات المجوهرات ونشرته على متجر Google Play."
-      ]
-    },
-    "stack": [
-      "Trello",
-      "Requirements Gathering",
-      "n8n",
-      "React",
-      "Release Management"
-    ]
-  },
-  {
     "id": "dfs-frontend",
     "role": {
       "en": "Frontend Developer / Project Coordinator",
@@ -118,6 +79,45 @@
       "React Hook Form",
       "Axios",
       "Laravel Echo"
+    ]
+  },
+  {
+    "id": "nexlead-coordinator",
+    "role": {
+      "en": "Freelance Project Coordinator",
+      "ar": "منسّق مشاريع (عمل حر)"
+    },
+    "company": "NexLead",
+    "location": {
+      "en": "Remote",
+      "ar": "عن بُعد"
+    },
+    "type": {
+      "en": "Freelance",
+      "ar": "عمل حر"
+    },
+    "start": "2025-03",
+    "end": "2026-05",
+    "bullets": {
+      "en": [
+        "Ran client automation and software projects end to end: requirements, scope, workflow design, and release.",
+        "Gathered requirements directly with clients, defined acceptance criteria, and broke work into tasks and user stories on Trello.",
+        "Managed timelines and cost estimation while overseeing frontend, backend, and UI/UX quality.",
+        "Delivered GoldenTag, a jewelry store management app, to the Google Play Store."
+      ],
+      "ar": [
+        "قدت مشاريع الأتمتة والبرمجيات للعملاء من البداية إلى النهاية: المتطلبات، النطاق، تصميم سير العمل، والإصدار.",
+        "جمعت المتطلبات مباشرة من العملاء، وحدّدت معايير القبول، وقسّمت العمل إلى مهام وقصص مستخدم على Trello.",
+        "أدرت الجداول الزمنية وتقدير التكلفة، وأشرفت على جودة الواجهة الأمامية والخلفية وتجربة المستخدم.",
+        "سلّمت تطبيق GoldenTag لإدارة محلات المجوهرات ونشرته على متجر Google Play."
+      ]
+    },
+    "stack": [
+      "Trello",
+      "Requirements Gathering",
+      "n8n",
+      "React",
+      "Release Management"
     ]
   },
   {

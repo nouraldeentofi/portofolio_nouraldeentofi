@@ -6,7 +6,8 @@ import { buildLlmsTxt, buildLlmsFullTxt } from '../scripts/lib/llms.mjs';
 import { buildSitemap, PAGES, LANGS, pagePath } from '../scripts/lib/sitemap.mjs';
 import { buildApiProfile, buildApiProjects, buildResumeJson } from '../scripts/lib/api.mjs';
 import { TEMPLATES, notFound, buildRedirects } from '../scripts/lib/pages.mjs';
-import { contactCv, headMeta } from '../scripts/lib/blocks.mjs';
+import { contactCv, headMeta, period } from '../scripts/lib/blocks.mjs';
+import { byCompany } from '../scripts/lib/experience.mjs';
 import { personLd } from '../scripts/lib/jsonld.mjs';
 
 const db = loadDb('data');
@@ -246,5 +247,24 @@ test('the Person names no current employer between jobs, and says what he seeks'
     assert.deepEqual(p.seeks.areaServed, db.profile.availability.areas[lang]);
     assert.equal(p.image['@type'], 'ImageObject');
     assert.equal(p.image.creditText, db.profile.name[lang]);
+  }
+});
+
+/* A promotion is one tenure: both DFS roles sit in one card that runs from the
+   first day of the first role to the last day of the second. */
+test('roles at one employer render as one entry spanning the whole tenure', () => {
+  const groups = byCompany(db.experience);
+  const companies = groups.map((g) => g.company);
+  assert.equal(new Set(companies).size, companies.length, 'an employer appears twice: its roles are not adjacent in experience.json');
+
+  for (const lang of LANGS) {
+    const html = TEMPLATES.work(db, lang);
+    for (const g of groups.filter((x) => x.roles.length > 1)) {
+      const cards = html.split('<li data-reveal class="timeline__item').slice(1);
+      const card = cards.find((li) => li.includes(g.roles[0].role[lang]));
+      assert.ok(card.startsWith(' timeline__item--group'), `${lang}: ${g.company} is not grouped`);
+      for (const r of g.roles) assert.ok(card.includes(r.role[lang]), `${lang}: ${r.id} missing from its company card`);
+      assert.ok(card.includes(period(g.start, g.end, db.copy[lang])), `${lang}: ${g.company} does not show its whole tenure`);
+    }
   }
 });

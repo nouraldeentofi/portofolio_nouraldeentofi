@@ -25,7 +25,7 @@ Every fact appears in `data/` exactly once:
 | File | Holds |
 |---|---|
 | `data/profile.json` | Identity, contact, the `sameAs` link graph, availability |
-| `data/experience.json` | Employment, newest first |
+| `data/experience.json` | Employment, newest first; roles at one employer stay adjacent |
 | `data/projects.json` | Products and applications |
 | `data/workflows.json` | n8n automation systems: status, audience, curated flow, canvas screenshot |
 | `data/showcase.json` | Client websites (with the owner's permission) and the design lab |

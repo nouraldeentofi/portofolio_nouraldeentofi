@@ -272,6 +272,31 @@
 .timeline__org { color: var(--dim); font-size: 0.95rem; margin-block-end: var(--space-3); }
 .timeline__bullets { color: var(--dim); font-size: 0.95rem; display: grid; gap: var(--space-2); }
 
+/* Roles at one employer: a short line of steps inside the company's card. */
+.timeline__steps { list-style: none; padding: 0; display: grid; gap: var(--space-5); }
+
+.timeline__step {
+  position: relative;
+  padding-inline-start: var(--space-5);
+  border-inline-start: 2px solid var(--line);
+}
+
+.timeline__step::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 0.4em;
+  inset-inline-start: -7px;
+  inline-size: 12px;
+  block-size: 12px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid color-mix(in srgb, var(--mint) 55%, var(--bg));
+}
+
+.timeline__step-role { font-size: 1.05rem; margin-block-end: var(--space-1); }
+.timeline__step .timeline__period { margin-block-end: var(--space-3); }
+.timeline__step .badges { margin-block-start: var(--space-3); }
+
 /* ---------- quotes ---------- */
 
 .quote {

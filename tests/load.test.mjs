@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { loadDb } from '../scripts/lib/load.mjs';
+import { byCompany } from '../scripts/lib/experience.mjs';
 import { existsSync } from 'node:fs';
 
 test('loads profile with required identity fields', () => {
@@ -28,8 +29,16 @@ test('throws a named error when a required key is missing', () => {
 
 test('experience is newest-first and never mentions Alessa', () => {
   const db = loadDb('data');
-  const dates = db.experience.map((e) => e.start);
-  assert.deepEqual([...dates].sort().reverse(), dates, 'experience must be newest first');
+  // Newest first, by employer: a company's roles stay together (a promotion is
+  // one tenure), employers are ordered by when they ended (still running first),
+  // and roles inside one employer by when they started.
+  const groups = byCompany(db.experience);
+  const ends = groups.map((g) => g.end ?? '9999-12');
+  assert.deepEqual([...ends].sort().reverse(), ends, 'employers must be newest first by end date');
+  for (const g of groups) {
+    const starts = g.roles.map((r) => r.start);
+    assert.deepEqual([...starts].sort().reverse(), starts, `${g.company}: roles must be newest first`);
+  }
   const blob = JSON.stringify(db).toLowerCase();
   assert.ok(!blob.includes('alessa'), 'Alessa Group must not appear in any data file');
 });

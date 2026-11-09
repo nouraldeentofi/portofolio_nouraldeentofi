@@ -8,6 +8,7 @@
 
 import { PAGES, pagePath } from './sitemap.mjs';
 import { period } from './blocks.mjs';
+import { byCompany } from './experience.mjs';
 
 const base = (db) => db.profile.site.replace(/\/$/, '');
 
@@ -87,8 +88,13 @@ export function buildLlmsTxt(db, lang = 'en') {
 
   L.push('## Experience');
   L.push('');
-  for (const e of db.experience) {
-    L.push(`- ${e.role[lang]}, ${e.company} (${period(e.start, e.end, c)})`);
+  for (const g of byCompany(db.experience)) {
+    const roles = g.roles.map((e) => `${e.role[lang]} (${period(e.start, e.end, c)})`);
+    L.push(
+      g.roles.length === 1
+        ? `- ${g.roles[0].role[lang]}, ${g.company} (${period(g.start, g.end, c)})`
+        : `- ${g.company} (${period(g.start, g.end, c)}): ${roles.join('; ')}`,
+    );
   }
   L.push('');
 
@@ -210,13 +216,23 @@ export function buildLlmsFullTxt(db, lang = 'en') {
 
   L.push('## Experience');
   L.push('');
-  for (const e of db.experience) {
-    L.push(`### ${e.role[lang]}, ${e.company}`);
-    L.push('');
-    L.push(`${period(e.start, e.end, c)} · ${e.location[lang]} · ${e.type[lang]}`);
-    L.push('');
-    for (const bullet of e.bullets[lang]) L.push(`- ${bullet}`);
-    L.push('');
+  for (const g of byCompany(db.experience)) {
+    // Several roles at one employer: one tenure, each role inside it.
+    const nested = g.roles.length > 1;
+    if (nested) {
+      L.push(`### ${g.company}`);
+      L.push('');
+      L.push(`${period(g.start, g.end, c)} · ${g.roles[0].location[lang]}`);
+      L.push('');
+    }
+    for (const e of g.roles) {
+      L.push(nested ? `#### ${e.role[lang]}` : `### ${e.role[lang]}, ${e.company}`);
+      L.push('');
+      L.push(nested ? `${period(e.start, e.end, c)} · ${e.type[lang]}` : `${period(e.start, e.end, c)} · ${e.location[lang]} · ${e.type[lang]}`);
+      L.push('');
+      for (const bullet of e.bullets[lang]) L.push(`- ${bullet}`);
+      L.push('');
+    }
   }
 
   L.push('## Education and awards');

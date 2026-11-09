@@ -48,7 +48,7 @@ body {
   hyphens: manual;
 }
 
-h1, h2, h3, p, ul { margin: 0; padding: 0; }
+h1, h2, h3, h4, p, ul { margin: 0; padding: 0; }
 
 a { color: var(--teal); text-decoration: none; }
 
@@ -122,6 +122,19 @@ h3 {
   color: var(--ink);
 }
 .org { color: var(--grey); }
+
+/* A role inside an employer: indented under the company, its own date lighter. */
+.head--role { margin-block-start: 3.4pt; padding-inline-start: 7pt; }
+h2 + .head + .head--role, .head + .head--role { margin-block-start: 2.4pt; }
+h4 {
+  display: inline;
+  font-size: 9.2pt;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--teal);
+}
+.date.date--role { font-weight: 400; }
+ul.role { padding-inline-start: 7pt; }
 .projects h3 { margin-inline-end: 1.5pt; }
 .plink { margin-inline-start: 6.5pt; font-size: 8.74pt; }
 .date {
@@ -200,17 +213,33 @@ strong { font-weight: 700; }
 <section class="experience">
   <h2>EXPERIENCE</h2>
 
+  <!-- One employer, two roles: the tenure first, then each role with its own dates. -->
   <div class="head">
-    <div class="who"><h3>Technical Lead (Official title: Software Engineering Supervisor)</h3> <span class="org"><span class="dot">·</span> DFS, Al Khobar, KSA</span></div>
-    <div class="date">Jan 2026 – Nov 2026</div>
+    <div class="who"><h3>Distinctive Frontier Co. (DFS)</h3> <span class="org"><span class="dot">·</span> Al Khobar, KSA</span></div>
+    <div class="date">Jan 2025 – Nov 2026</div>
   </div>
-  <ul>
+
+  <div class="head head--role">
+    <div class="who"><h4>Technical Lead (Official title: Software Engineering Supervisor)</h4></div>
+    <div class="date date--role">Jan 2026 – Nov 2026</div>
+  </div>
+  <ul class="role">
     <li>Led engineering delivery on two custom CRMs: supervised the backend developer; owned requirements, user stories, task breakdown, code review, and release.</li>
     <li><strong>Custom CRM for DFS, built around its fire-pump sales cycle:</strong> built every page in React 19 and TypeScript, bilingual AR/EN with full RTL, including an enquiry board with pump specs and revision history, released and budgetary quotations with follow-up (stage, win probability, PO date, reminders), PO drafts and CSV / PDF export, a Product Support flow, and sales analytics with a probability-weighted pipeline.</li>
     <li>Built its separate quotation app, real-time notifications and @mentions (Laravel Echo / Reverb), and custom roles built from 120+ permissions, with route guards covered by Playwright tests.</li>
     <li><strong>Customized CRM for WAIS, DFS's parent company:</strong> led its frontend, delivery, and automation in React + TypeScript + Tailwind v4, with type-checked AR/EN translations and CI/CD that ships every push to main with zero downtime.</li>
     <li>Set coding standards, reviewed every frontend change before merge, mentored developers; aligned delivery with the backend (Laravel) and UI/UX teams so product ideas reach production on schedule.</li>
     <li>Introduced workflow automation with n8n and the OpenAI API for repetitive team work; used Claude Code daily to plan, build, test, and review.</li>
+  </ul>
+
+  <div class="head head--role">
+    <div class="who"><h4>Frontend Developer / Project Coordinator</h4></div>
+    <div class="date date--role">Jan 2025 – Jan 2026</div>
+  </div>
+  <ul class="role">
+    <li>Built the frontend of DFS's custom CRM &amp; quotation platform from scratch in React: task tracking, quotation generation, and workflow management in one place, replacing spreadsheets and hand-made quotes in every department.</li>
+    <li>Cut quotation preparation from a manual process to under 2 minutes once the data is entered; the platform was adopted by all 15 employees.</li>
+    <li>Coordinated frontend and backend teams on requirements, API contracts, and payload reviews to keep delivery on schedule; promoted to lead the team within 12 months.</li>
   </ul>
 
   <div class="head">
@@ -221,16 +250,6 @@ strong { font-weight: 700; }
     <li>Ran client automation and software projects end to end: requirements, scope, workflow design, cost estimation, acceptance criteria, and release, with work broken into user stories on Trello.</li>
     <li>Led delivery of GoldenTag, a jewelry-store management app (Flutter) with inventory, barcode scanning, USD/SYP exchange rates, and sales logging, from requirements to Google Play; adopted by 3 gold shops.</li>
     <li>Set up the studio's self-hosted infrastructure: n8n in Docker on a VPS, Apache virtual hosts for product subdomains, Cloudflare DNS and R2 storage, and GitHub Actions deployments.</li>
-  </ul>
-
-  <div class="head">
-    <div class="who"><h3>Frontend Developer / Project Coordinator</h3> <span class="org"><span class="dot">·</span> Distinctive Frontier Co. (DFS), Al Khobar, KSA</span></div>
-    <div class="date">Jan 2025 – Jan 2026</div>
-  </div>
-  <ul>
-    <li>Built the frontend of DFS's custom CRM &amp; quotation platform from scratch in React: task tracking, quotation generation, and workflow management in one place, replacing spreadsheets and hand-made quotes in every department.</li>
-    <li>Cut quotation preparation from a manual process to under 2 minutes once the data is entered; the platform was adopted by all 15 employees.</li>
-    <li>Coordinated frontend and backend teams on requirements, API contracts, and payload reviews to keep delivery on schedule; promoted to lead the team within 12 months.</li>
   </ul>
 
   <div class="head">

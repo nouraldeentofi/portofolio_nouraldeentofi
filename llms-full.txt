@@ -677,14 +677,27 @@ Live coals: the hero opens at night, then the charcoal catches. Embers and spark
 
 ## Experience
 
-### Software Engineering Supervisor, Distinctive Frontier Co. for Safety Equipment L.L.C
+### Distinctive Frontier Co. for Safety Equipment L.L.C
 
-2026-01 to 2026-11 · Al Khobar, Saudi Arabia · Full-time · On-site
+2025-01 to 2026-11 · Al Khobar, Saudi Arabia
+
+#### Software Engineering Supervisor
+
+2026-01 to 2026-11 · Full-time · On-site
 
 - Led frontend development across internal business platforms, delivering scalable UI features in Arabic and English with React and TypeScript.
 - Defined coding standards, reviewed every frontend change before merge, and mentored developers, which cut rework and kept the codebase maintainable.
 - Translated product ideas into shipped features in collaboration with backend (Laravel) and UI/UX teams, aligning technical delivery with business objectives.
 - Introduced internal workflow automation with n8n and OpenAI integrations to streamline repetitive team operations.
+
+#### Frontend Developer / Project Coordinator
+
+2025-01 to 2026-01 · Full-time · On-site
+
+- Built a dashboard-based internal platform combining Jira-style task tracking with a quotation management system in React, used daily across all departments.
+- Implemented three core modules (task tracking, quotation generation, and workflow management), replacing manual spreadsheet processes.
+- Coordinated between frontend and backend teams to clarify requirements and keep delivery on schedule.
+- Promoted to Software Engineering Supervisor within twelve months.
 
 ### Freelance Project Coordinator, NexLead
 
@@ -694,15 +707,6 @@ Live coals: the hero opens at night, then the charcoal catches. Embers and spark
 - Gathered requirements directly with clients, defined acceptance criteria, and broke work into tasks and user stories on Trello.
 - Managed timelines and cost estimation while overseeing frontend, backend, and UI/UX quality.
 - Delivered GoldenTag, a jewelry store management app, to the Google Play Store.
-
-### Frontend Developer / Project Coordinator, Distinctive Frontier Co. for Safety Equipment L.L.C
-
-2025-01 to 2026-01 · Al Khobar, Saudi Arabia · Full-time · On-site
-
-- Built a dashboard-based internal platform combining Jira-style task tracking with a quotation management system in React, used daily across all departments.
-- Implemented three core modules (task tracking, quotation generation, and workflow management), replacing manual spreadsheet processes.
-- Coordinated between frontend and backend teams to clarify requirements and keep delivery on schedule.
-- Promoted to Software Engineering Supervisor within twelve months.
 
 ### Frontend Developer (Part-Time), Khwarizm Technologies
 
