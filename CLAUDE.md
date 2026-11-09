@@ -13,6 +13,11 @@ The same goes for `sites/`, `gallery/`, `motion-studio/` and `umrah-guide/`: the
 copies of other repositories made by `npm run sites` (`data/hosting.json`). Change a
 client site in its own repository, then re-run the sync.
 
+The CV (`assets/cv/Nour_Aldeen_Tofi.pdf`) is printed from `scripts/cv/cv.html` by
+`npm run cv`. Change the HTML and print again; never edit the PDF itself, which leaves
+the new text out of reading order for applicant tracking systems. The CV is the one
+document that carries its own wording and figures instead of reading them from `data/`.
+
 ## Where facts live
 
 Every fact appears in `data/` exactly once:

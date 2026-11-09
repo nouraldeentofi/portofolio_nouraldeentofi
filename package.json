@@ -10,6 +10,7 @@
     "validate": "node scripts/validate.mjs",
     "sites": "node scripts/sync-sites.mjs",
     "indexnow": "node scripts/indexnow.mjs",
+    "cv": "node scripts/cv.mjs",
     "check": "npm run test && npm run build && npm run validate"
   },
   "engines": { "node": ">=20" }
