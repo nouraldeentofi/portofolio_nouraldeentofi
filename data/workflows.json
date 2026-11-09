@@ -16,8 +16,8 @@
     },
     "year": "2026",
     "summary": {
-      "en": "One link in, the whole site out. A shared engine fetches pages and escalates only as far as it must, reads structured data before it spends anything on AI, and writes the rows into a spreadsheet — with quick jobs and long crawls run as separate, controllable workers.",
-      "ar": "رابط واحد يدخل، والموقع كله يخرج. محرّك مشترك يجلب الصفحات ويتصاعد بقدر الحاجة فقط، ويقرأ البيانات المنظّمة قبل أن ينفق شيئاً على الذكاء الاصطناعي، ثم يكتب الصفوف في جدول — والمهام السريعة والزحف الطويل يعملان كعمّال منفصلين يمكن التحكّم بهم."
+      "en": "One link in, the whole site out. A shared engine fetches pages and escalates only as far as it must, reads structured data before it spends anything on AI, and writes the rows into a spreadsheet. Quick jobs and long crawls run as separate, controllable workers.",
+      "ar": "رابط واحد يدخل، والموقع كله يخرج. محرّك مشترك يجلب الصفحات ويتصاعد بقدر الحاجة فقط، ويقرأ البيانات المنظّمة قبل أن ينفق شيئاً على الذكاء الاصطناعي، ثم يكتب الصفوف في جدول. والمهام السريعة والزحف الطويل يعملان كعمّال منفصلين يمكن التحكّم بهم."
     },
     "trigger": {
       "en": "Web app (webhook) and a crawl schedule",
@@ -366,12 +366,12 @@
       "ar": "وكيل ذكاء اصطناعي على Telegram · مشروع عميل"
     },
     "year": {
-      "en": "2025 — present",
-      "ar": "2025 — حتى الآن"
+      "en": "2025 to present",
+      "ar": "2025 حتى الآن"
     },
     "summary": {
-      "en": "A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia. The tutor manages students, schedules, cancellations, and dues entirely through chat — the AI agent calls custom CRUD tools under strict business rules rather than guessing.",
-      "ar": "مساعد عربي بلغة طبيعية سُلّم لمدرّس خصوصي في السعودية. يدير المدرّس الطلاب والجداول والإلغاءات والمستحقات عبر المحادثة بالكامل — والوكيل الذكي يستدعي أدوات CRUD مخصّصة وفق قواعد عمل صارمة بدل التخمين."
+      "en": "A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia. The tutor manages students, schedules, cancellations, and dues entirely through chat. The AI agent calls custom CRUD tools under strict business rules rather than guessing.",
+      "ar": "مساعد عربي بلغة طبيعية سُلّم لمدرّس خصوصي في السعودية. يدير المدرّس الطلاب والجداول والإلغاءات والمستحقات عبر المحادثة بالكامل، والوكيل الذكي يستدعي أدوات CRUD مخصّصة وفق قواعد عمل صارمة بدل التخمين."
     },
     "trigger": {
       "en": "Telegram message",
@@ -547,8 +547,8 @@
     },
     "year": "2026",
     "summary": {
-      "en": "The production pipeline behind Smart Scanner. Every invoice — photo or PDF — is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and Saudi e-invoice fields.",
-      "ar": "الخط الإنتاجي خلف Smart Scanner. كل فاتورة — صورة أو PDF — يُتحقّق أولاً من كونها فاتورة حقيقية، ثم تُحلّل بـ GPT-4.1 Vision، وتُتحقّق، وتُنقّى من التكرار، وتُحفظ. يقرأ العربية والإنجليزية والمستندات المختلطة، ومضبوط للفواتير العربية المكتوبة بخط اليد ولحقول الفوترة الإلكترونية السعودية."
+      "en": "The production pipeline behind Smart Scanner. Every invoice, whether a photo or a PDF, is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and Saudi e-invoice fields.",
+      "ar": "الخط الإنتاجي خلف Smart Scanner. كل فاتورة، سواء كانت صورة أو ملف PDF، يُتحقّق أولاً من كونها فاتورة حقيقية، ثم تُحلّل بـ GPT-4.1 Vision، وتُتحقّق، وتُنقّى من التكرار، وتُحفظ. يقرأ العربية والإنجليزية والمستندات المختلطة، ومضبوط للفواتير العربية المكتوبة بخط اليد ولحقول الفوترة الإلكترونية السعودية."
     },
     "trigger": {
       "en": "Webhook (image or PDF upload)",
@@ -567,13 +567,13 @@
         "Rejects any file that is not a genuine invoice, before anything is saved",
         "Extracts 70+ fields plus line items: vendor, buyer, totals, VAT, dates",
         "Classifies every line item into per-company expense categories at extraction time",
-        "Refuses politely and explains why when required data is missing — accuracy before speed"
+        "Refuses politely and explains why when required data is missing: accuracy before speed"
       ],
       "ar": [
         "يرفض أي ملف ليس فاتورة حقيقية قبل حفظ أي شيء",
         "يستخرج أكثر من ٧٠ حقلاً إضافة إلى بنود الفاتورة: البائع، والمشتري، والإجماليات، والضريبة، والتواريخ",
         "يصنّف كل بند إلى فئة مصروف خاصة بالشركة لحظة الاستخراج",
-        "يرفض بأدب ويشرح السبب عند نقص البيانات الأساسية — الدقة قبل السرعة"
+        "يرفض بأدب ويشرح السبب عند نقص البيانات الأساسية، فالدقة قبل السرعة"
       ]
     },
     "outcome": {
@@ -924,8 +924,8 @@
     },
     "year": "2026",
     "summary": {
-      "en": "Messages from every channel land in one inbox. Each one is enriched with its dialect, intent, priority and a summary, plus a draft reply written in the sender's own dialect — and replies leave through an outbox that records every result.",
-      "ar": "تصل الرسائل من كل القنوات إلى صندوق واحد. تُثرى كل رسالة بلهجتها ونيّتها وأولويتها وملخّصها، مع مسودة ردّ بلهجة المرسل نفسه — وتخرج الردود عبر صندوق صادر يسجّل نتيجة كل إرسال."
+      "en": "Messages from every channel land in one inbox. Each one is enriched with its dialect, intent, priority and a summary, plus a draft reply written in the sender's own dialect. Replies leave through an outbox that records every result.",
+      "ar": "تصل الرسائل من كل القنوات إلى صندوق واحد. تُثرى كل رسالة بلهجتها ونيّتها وأولويتها وملخّصها، مع مسودة ردّ بلهجة المرسل نفسه. وتخرج الردود عبر صندوق صادر يسجّل نتيجة كل إرسال."
     },
     "trigger": {
       "en": "Incoming message, webhook and schedule",
@@ -940,13 +940,13 @@
     ],
     "highlights": {
       "en": [
-        "Greetings and emoji-only messages never reach the model — they are classified locally to save cost",
+        "Greetings and emoji-only messages never reach the model: they are classified locally to save cost",
         "Every channel is normalised to one contract and written with a single atomic call",
         "Enrichment continues on error, so no message is ever lost",
         "The outbox sends one message at a time and records a readable failure reason"
       ],
       "ar": [
-        "التحيّات والرسائل المكوّنة من رموز تعبيرية فقط لا تصل إلى النموذج — تُصنّف محلياً توفيراً للكلفة",
+        "التحيّات والرسائل المكوّنة من رموز تعبيرية فقط لا تصل إلى النموذج، بل تُصنّف محلياً توفيراً للكلفة",
         "كل قناة تُوحَّد إلى عقد واحد وتُكتب باستدعاء ذرّي واحد",
         "الإثراء يكمل عند الخطأ، فلا تضيع أي رسالة",
         "صندوق الصادر يرسل رسالة واحدة في كل مرة ويسجّل سبب الفشل بوضوح"
@@ -1309,7 +1309,7 @@
         "Telegram delivery of high-scoring matches only",
         "Human-in-the-loop approval before any application is sent",
         "Semi-automated applications with tailored AI-generated cover letters via Gmail",
-        "A factory clones the search into a separate daily bot for each user, through the n8n API — automation that builds automation"
+        "A factory clones the search into a separate daily bot for each user, through the n8n API: automation that builds automation"
       ],
       "ar": [
         "مُقيّم يُخرج JSON منظّماً ويمنح درجة ملاءمة من ١ إلى ١٠",
@@ -1317,7 +1317,7 @@
         "إرسال المطابقات عالية التقييم فقط عبر Telegram",
         "موافقة بشرية قبل إرسال أي طلب توظيف",
         "طلبات شبه آلية مع رسائل تغطية مخصّصة يولّدها الذكاء الاصطناعي وتُرسل عبر Gmail",
-        "مصنع ينسخ البحث إلى بوت يومي مستقل لكل مستخدم عبر واجهة n8n — أتمتة تبني أتمتة"
+        "مصنع ينسخ البحث إلى بوت يومي مستقل لكل مستخدم عبر واجهة n8n، أي أتمتة تبني أتمتة"
       ]
     },
     "outcome": {
@@ -2317,12 +2317,12 @@
       "en": [
         "Speaker diarization separates teacher from student",
         "Structured outputs guarantee a parseable result every time",
-        "Returns a score, not a transcript — the caller gets data, not homework"
+        "Returns a score rather than a transcript, so the caller gets data, not homework"
       ],
       "ar": [
         "فصل المتحدّثين يميّز المعلّم عن الطالب",
         "المخرجات المنظّمة تضمن نتيجة قابلة للتحليل في كل مرة",
-        "يُعيد تقييماً لا تفريغاً نصياً — فيحصل المستدعي على بيانات لا على عمل إضافي"
+        "يُعيد تقييماً لا تفريغاً نصياً، فيحصل المستدعي على بيانات لا على عمل إضافي"
       ]
     },
     "outcome": {
@@ -2656,8 +2656,8 @@
     },
     "year": "2026",
     "summary": {
-      "en": "Incoming CRM leads arrive scattered — duplicates, malformed emails, missing fields — and cost sales teams hours of manual triage. This pipeline cleans them automatically and reports on what it did.",
-      "ar": "تصل بيانات العملاء المحتملين إلى نظام إدارة العلاقات مبعثرة — تكرار، وبريد غير صالح، وحقول ناقصة — فتكلّف فرق المبيعات ساعات من الفرز اليدوي. هذا الخط ينظّفها تلقائياً ويُبلغ عمّا فعله."
+      "en": "Incoming CRM leads arrive scattered (duplicates, malformed emails, missing fields) and cost sales teams hours of manual triage. This pipeline cleans them automatically and reports on what it did.",
+      "ar": "تصل بيانات العملاء المحتملين إلى نظام إدارة العلاقات مبعثرة، بين تكرار وبريد غير صالح وحقول ناقصة، فتكلّف فرق المبيعات ساعات من الفرز اليدوي. هذا الخط ينظّفها تلقائياً ويُبلغ عمّا فعله."
     },
     "trigger": {
       "en": "Webhook or schedule",

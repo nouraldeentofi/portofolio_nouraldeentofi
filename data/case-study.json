@@ -24,7 +24,7 @@
   ],
 
   "flow": {
-    "trigger": { "en": "Webhook — file arrives", "ar": "‏Webhook — يصل الملف" },
+    "trigger": { "en": "Webhook: file arrives", "ar": "‏Webhook: يصل الملف" },
     "decision": { "en": "PDF with extractable text?", "ar": "‏PDF بنص قابل للاستخراج؟" },
     "branches": [
       {
@@ -43,8 +43,8 @@
       }
     ],
     "fallback": {
-      "en": "Extraction came back empty? The PDF was only a scan — send it back to the vision branch.",
-      "ar": "عاد الاستخراج فارغاً؟ إذن ملف PDF كان صورة ممسوحة فقط — أعده إلى فرع الرؤية."
+      "en": "Extraction came back empty? The PDF was only a scan, so send it back to the vision branch.",
+      "ar": "عاد الاستخراج فارغاً؟ إذن ملف PDF كان صورة ممسوحة فقط، فأعده إلى فرع الرؤية."
     }
   },
 

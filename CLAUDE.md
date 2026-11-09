@@ -46,6 +46,9 @@ These are not style preferences — `npm test` and `npm run validate` fail on th
 - A workflow `status` is a claim: `client` (running for a real client), `live`, or `built`.
   Diagrams in `flow` are curated from the real n8n node graph — no IDs, prompts or client data.
 - Prose contains **no figures** — every number comes from `data/` so it cannot drift.
+- **No em dashes** (`—`) anywhere a reader or a crawler looks: prose, titles, alt text,
+  JSON-LD, llms files. Use a comma, colon, full stop or words ("2025 to 2026").
+  `validate` fails on any it finds outside inline code comments.
 
 ## Code conventions
 

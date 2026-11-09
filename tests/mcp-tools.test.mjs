@@ -47,10 +47,9 @@ test('getExperience filters by company substring', () => {
   assert.equal(getExperience(db, {}).length, 5);
 });
 
-test('getExperience flags the current roles', () => {
-  const current = getExperience(db, {}).filter((e) => e.current);
-  assert.ok(current.length >= 1);
-  assert.ok(current.every((e) => e.end === null));
+/* Between jobs there is no current role at all, and that must read as such. */
+test('getExperience flags exactly the roles that are still running', () => {
+  for (const e of getExperience(db, {})) assert.equal(e.current, e.end === null, `${e.company}: current disagrees with end`);
 });
 
 test('getWorkflows returns every automation with its outcome', () => {

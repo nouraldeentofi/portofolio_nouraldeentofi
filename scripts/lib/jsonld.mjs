@@ -75,9 +75,22 @@ export function personLd(db, lang) {
     email: `mailto:${profile.email}`,
     telephone: profile.phone,
     url: base(db),
-    // `image` is emitted only once a real portrait exists — a broken image
-    // reference in structured data is worse than an absent one.
-    ...(profile.image ? { image: `${base(db)}/${profile.image}` } : {}),
+    // `image` is emitted only once a real portrait exists: a broken image
+    // reference in structured data is worse than an absent one. As an
+    // ImageObject it carries creator, credit and copyright, which Google
+    // Images shows next to the photo.
+    ...(profile.image
+      ? {
+          image: {
+            '@type': 'ImageObject',
+            contentUrl: `${base(db)}/${profile.image}`,
+            caption: `${profile.name[lang]}${lang === 'ar' ? '، ' : ', '}${profile.headline[lang]}`,
+            creator: { '@id': `${base(db)}/#nour` },
+            creditText: profile.name[lang],
+            copyrightNotice: `© ${profile.name[lang]}`,
+          },
+        }
+      : {}),
     address: {
       '@type': 'PostalAddress',
       addressLocality: profile.location.city[lang],
@@ -97,9 +110,14 @@ export function personLd(db, lang) {
       name: 'University of Kalamoon',
       ...entitySameAs(db, 'organizations', 'University of Kalamoon'),
     },
-    worksFor: db.experience
-      .filter((e) => e.end === null)
-      .map((e) => ({ '@type': 'Organization', name: e.company, ...entitySameAs(db, 'organizations', e.company) })),
+    // Only a role that is still running is a current employer. Between jobs
+    // the key is left out rather than emitted empty.
+    ...(() => {
+      const current = db.experience
+        .filter((e) => e.end === null)
+        .map((e) => ({ '@type': 'Organization', name: e.company, ...entitySameAs(db, 'organizations', e.company) }));
+      return current.length ? { worksFor: current } : {};
+    })(),
     hasOccupation: {
       '@type': 'Occupation',
       name: 'AI Automation Engineer',
@@ -107,7 +125,12 @@ export function personLd(db, lang) {
       skills: db.skills.find((g) => g.id === 'automation-ai').items.join(', '),
     },
     seeks: profile.availability.openToWork
-      ? { '@type': 'Demand', name: 'Automation and frontend engineering opportunities' }
+      ? {
+          '@type': 'Demand',
+          name: profile.availability.roles?.[lang].join(', ') ?? 'Automation and frontend engineering opportunities',
+          ...(profile.availability.areas ? { areaServed: profile.availability.areas[lang] } : {}),
+          ...(profile.availability.since ? { availabilityStarts: profile.availability.since } : {}),
+        }
       : undefined,
   };
 }

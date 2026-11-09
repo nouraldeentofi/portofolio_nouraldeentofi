@@ -6,7 +6,8 @@ import { buildLlmsTxt, buildLlmsFullTxt } from '../scripts/lib/llms.mjs';
 import { buildSitemap, PAGES, LANGS } from '../scripts/lib/sitemap.mjs';
 import { buildApiProfile, buildApiProjects, buildResumeJson } from '../scripts/lib/api.mjs';
 import { TEMPLATES, notFound, buildRedirects } from '../scripts/lib/pages.mjs';
-import { contactCv } from '../scripts/lib/blocks.mjs';
+import { contactCv, headMeta } from '../scripts/lib/blocks.mjs';
+import { personLd } from '../scripts/lib/jsonld.mjs';
 
 const db = loadDb('data');
 
@@ -169,5 +170,46 @@ test('no page ships a hamburger — the tab bar is the whole phone nav', () => {
       const html = TEMPLATES[page](db, lang);
       assert.ok(!html.includes('nav-toggle'), `${lang}/${page || 'index'} still renders a nav toggle`);
     }
+  }
+});
+
+/* One sitewide description reads as boilerplate to a search engine; each
+   page states its own subject in its title and description. */
+test('every page has its own title and description', () => {
+  for (const lang of LANGS) {
+    const heads = PAGES.map((page) => headMeta(db, page, lang));
+    const titles = heads.map((h) => h.match(/<title>([^<]*)<\/title>/)[1]);
+    const descriptions = heads.map((h) => h.match(/<meta name="description" content="([^"]*)"/)[1]);
+    assert.equal(new Set(titles).size, PAGES.length, `${lang}: two pages share a title`);
+    assert.equal(new Set(descriptions).size, PAGES.length, `${lang}: two pages share a description`);
+    for (const t of titles) assert.ok(t.includes(db.profile.name[lang]), `${lang}: "${t}" does not name him`);
+  }
+});
+
+test('llms files and page heads carry no em dash', () => {
+  for (const txt of [buildLlmsTxt(db), buildLlmsFullTxt(db)]) assert.ok(!txt.includes('—'), 'an llms file has an em dash');
+  for (const lang of LANGS) {
+    for (const page of PAGES) assert.ok(!headMeta(db, page, lang).includes('—'), `${lang}/${page || 'index'}: em dash in the head`);
+  }
+});
+
+test('Google Analytics loads only once a measurement ID is set', () => {
+  assert.ok(!headMeta(db, '', 'en').includes('googletagmanager'), 'a tag is emitted with no ID');
+  const withId = { ...db, profile: { ...db.profile, analytics: { ga4: 'G-TEST1234' } } };
+  const head = headMeta(withId, '', 'en');
+  assert.ok(head.includes('googletagmanager.com/gtag/js?id=G-TEST1234'));
+  assert.ok(head.includes("gtag('config','G-TEST1234')"));
+});
+
+/* He left DFS: no current employer may be claimed, and what he seeks is stated. */
+test('the Person names no current employer between jobs, and says what he seeks', () => {
+  for (const lang of LANGS) {
+    const p = personLd(db, lang);
+    const running = db.experience.filter((e) => e.end === null).length;
+    assert.equal('worksFor' in p, running > 0, `${lang}: worksFor disagrees with the experience data`);
+    assert.equal(p.seeks.name, db.profile.availability.roles[lang].join(', '));
+    assert.deepEqual(p.seeks.areaServed, db.profile.availability.areas[lang]);
+    assert.equal(p.image['@type'], 'ImageObject');
+    assert.equal(p.image.creditText, db.profile.name[lang]);
   }
 });

@@ -40,6 +40,7 @@ export function checkAll({ pages = pageFiles() } = {}) {
     else if (!/^https?:\/\//.test(s.url)) fail(`profile.json: ${s.platform} url is not absolute`);
   }
   if (!db.profile.image) warn('pending: no portrait set — Person.image is omitted (the generated ogImage covers the social preview)');
+  if (!db.profile.analytics?.ga4) warn(`pending: Google Analytics is off — ${db.profile.analytics?.todo ?? 'no measurement ID'}`);
 
   const sectionCounts = {};
 
@@ -81,6 +82,13 @@ export function checkAll({ pages = pageFiles() } = {}) {
     if (/ZATCA/i.test(html)) fail(`${file}: mentions ZATCA, which was taken off the site on request`);
     if (/github\.io/i.test(html)) fail(`${file}: links to github.io — every site lives on nouraldeentofi.com now (data/hosting.json)`);
     if (/manhom/i.test(html)) fail(`${file}: names a crawled site — the scraper's crawl mode is described, never its target`);
+    // Nour asked for no em dashes anywhere a reader or a crawler looks. Only
+    // code comments inside inline scripts and styles may keep theirs.
+    const readable = html
+      .replace(/<script(?![^>]*application\/ld\+json)[^>]*>[\s\S]*?<\/script>/g, '')
+      .replace(/<style[^>]*>[\s\S]*?<\/style>/g, '')
+      .replace(/<!--[\s\S]*?-->/g, '');
+    for (const [hit] of readable.matchAll(/.{0,30}—.{0,30}/g)) fail(`${file}: em dash in "${hit.trim()}"`);
 
     // 6 — language attributes.
     const expectDir = lang === 'ar' ? 'rtl' : 'ltr';

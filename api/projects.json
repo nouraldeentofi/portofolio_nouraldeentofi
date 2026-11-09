@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-03T13:54:50.800Z",
+  "generated": "2026-11-09T00:23:54.905Z",
   "projects": [
     {
       "id": "smart-scanner",
@@ -11,16 +11,16 @@
         "ar": "منتج SaaS بالذكاء الاصطناعي"
       },
       "tagline": {
-        "en": "Arabic-first AI invoice management — from photo to approval, with zero manual data entry.",
-        "ar": "إدارة فواتير بالذكاء الاصطناعي، عربية أولاً — من الصورة حتى الاعتماد، دون أي إدخال يدوي."
+        "en": "Arabic-first AI invoice management: from photo to approval, with zero manual data entry.",
+        "ar": "إدارة فواتير بالذكاء الاصطناعي، عربية أولاً: من الصورة حتى الاعتماد، دون أي إدخال يدوي."
       },
       "problem": {
         "en": "In most companies an invoice sleeps in a pocket or a drawer until month-end, when a stack of paper lands on the accountant's desk to be typed in by hand. The result is lost time, human error, duplicate and forged invoices slipping through unnoticed, and no record of who submitted what. Global tools mostly cannot read an Arabic invoice at all.",
         "ar": "في معظم الشركات تنام الفاتورة في جيب الموظف أو في درجه حتى نهاية الشهر، فتصل كومة ورق إلى مكتب المحاسب ليُدخلها يدوياً. والنتيجة: وقت ضائع، وأخطاء بشرية، وفواتير مكرّرة أو مزوّرة تمرّ دون ملاحظة، ولا أحد يعرف من سلّم ماذا. أما الأدوات العالمية فأغلبها لا يقرأ الفاتورة العربية أصلاً."
       },
       "built": {
-        "en": "I built two of the three layers: the entire AI extraction engine in n8n, and the complete frontend. The frontend is three role-based applications — admin, accountant, and employee — sharing one React 19 and TypeScript codebase, with an Arabic-default bilingual UI, full RTL through logical CSS properties, and a custom i18n layer. It includes a guided upload flow with in-page camera capture, a receipt browser with server-side filtering, Excel export, and feature gating across subscription tiers, all shipped through GitHub Actions quality gates and atomic SSH deploys.",
-        "ar": "بنيت طبقتين من أصل ثلاث: محرّك الاستخراج بالذكاء الاصطناعي كاملاً في n8n، والواجهة الأمامية بالكامل. الواجهة ثلاثة تطبيقات حسب الدور — مدير، ومحاسب، وموظف — تتشارك قاعدة كود واحدة بـ React 19 وTypeScript، بواجهة ثنائية اللغة افتراضها العربية، ودعم RTL كامل عبر خصائص CSS المنطقية، وطبقة i18n مخصّصة. وتتضمّن مسار رفع موجّهاً مع التقاط مباشر من الكاميرا، ومتصفّح فواتير بفلاتر تعمل على الخادم، وتصدير Excel، وتقييد المزايا حسب باقة الاشتراك، وكل ذلك يمرّ عبر بوابات جودة في GitHub Actions ونشر SSH ذرّي."
+        "en": "I built two of the three layers: the entire AI extraction engine in n8n, and the complete frontend. The frontend is three role-based applications (admin, accountant, and employee) sharing one React 19 and TypeScript codebase, with an Arabic-default bilingual UI, full RTL through logical CSS properties, and a custom i18n layer. It includes a guided upload flow with in-page camera capture, a receipt browser with server-side filtering, Excel export, and feature gating across subscription tiers, all shipped through GitHub Actions quality gates and atomic SSH deploys.",
+        "ar": "بنيت طبقتين من أصل ثلاث: محرّك الاستخراج بالذكاء الاصطناعي كاملاً في n8n، والواجهة الأمامية بالكامل. الواجهة ثلاثة تطبيقات حسب الدور (مدير، ومحاسب، وموظف) تتشارك قاعدة كود واحدة بـ React 19 وTypeScript، بواجهة ثنائية اللغة افتراضها العربية، ودعم RTL كامل عبر خصائص CSS المنطقية، وطبقة i18n مخصّصة. وتتضمّن مسار رفع موجّهاً مع التقاط مباشر من الكاميرا، ومتصفّح فواتير بفلاتر تعمل على الخادم، وتصدير Excel، وتقييد المزايا حسب باقة الاشتراك، وكل ذلك يمرّ عبر بوابات جودة في GitHub Actions ونشر SSH ذرّي."
       },
       "role": {
         "en": "AI/automation engine and complete frontend. Laravel backend by Haitham Zedan.",
@@ -94,20 +94,20 @@
         "ar": "منتج SaaS بالذكاء الاصطناعي"
       },
       "tagline": {
-        "en": "Upload a folder of CVs — every one is read, classified, and scored by AI, with each point traced to a quote from the CV.",
-        "ar": "ارفع مجلداً من السير الذاتية — فتُقرأ كلها وتُصنّف وتُقيّم بالذكاء الاصطناعي، وكل نقطة مربوطة باقتباس من السيرة نفسها."
+        "en": "Upload a folder of CVs and every one is read, classified, and scored by AI, with each point traced to a quote from the CV.",
+        "ar": "ارفع مجلداً من السير الذاتية، فتُقرأ كلها وتُصنّف وتُقيّم بالذكاء الاصطناعي، وكل نقطة مربوطة باقتباس من السيرة نفسها."
       },
       "problem": {
         "en": "HR teams receive hundreds of CVs per opening, many of them Arabic PDFs that most tools cannot read. Screening them by hand is slow and inconsistent, and an AI score with no explanation is not something a recruiter can trust or defend.",
         "ar": "تستقبل فرق الموارد البشرية مئات السير الذاتية لكل وظيفة، وكثير منها ملفات PDF عربية لا تقرؤها معظم الأدوات. فرزها يدوياً بطيء وغير متّسق، وتقييم الذكاء الاصطناعي بلا تفسير لا يستطيع المسؤول عن التوظيف أن يثق به أو يدافع عنه."
       },
       "built": {
-        "en": "A full-stack, Arabic-default bilingual product. HR uploads files, folders, or ZIPs; a background worker extracts the text — repairing Arabic visual order — and n8n profiles each CV, places it in the account's own categories, and scores it on several dimensions with quoted evidence. The server verifies every quote against the CV before it can raise a score, and computes every number people sort by. On top sit filters on every profile field, Arabic and English full-text search, HR status, stars and notes, role screenings with weighted criteria and must-haves, AI summaries of any scope, CSV export, and an admin console.",
-        "ar": "منتج متكامل ثنائي اللغة، العربية فيه افتراضية. يرفع فريق الموارد البشرية ملفات أو مجلدات أو ملفات ZIP؛ فيستخرج عامل في الخلفية النص — مع إصلاح ترتيب العربية المقلوب — ثم يبني n8n ملفاً لكل سيرة، ويضعها في تصنيفات الحساب نفسه، ويقيّمها على عدة أبعاد مع اقتباسات داعمة. ويتحقّق الخادم من كل اقتباس مقابل السيرة قبل أن يرفع أي درجة، ويحسب بنفسه كل رقم يُرتّب عليه. وفوق ذلك: فلاتر على كل حقل، وبحث نصي كامل بالعربية والإنجليزية، وحالة توظيف ونجمة وملاحظات، وفرز حسب الوظيفة بمعايير موزونة وشروط إلزامية، وملخّصات بالذكاء الاصطناعي لأي نطاق، وتصدير CSV، ولوحة إدارة."
+        "en": "A full-stack, Arabic-default bilingual product. HR uploads files, folders, or ZIPs; a background worker extracts the text (repairing Arabic visual order), and n8n profiles each CV, places it in the account's own categories, and scores it on several dimensions with quoted evidence. The server verifies every quote against the CV before it can raise a score, and computes every number people sort by. On top sit filters on every profile field, Arabic and English full-text search, HR status, stars and notes, role screenings with weighted criteria and must-haves, AI summaries of any scope, CSV export, and an admin console.",
+        "ar": "منتج متكامل ثنائي اللغة، العربية فيه افتراضية. يرفع فريق الموارد البشرية ملفات أو مجلدات أو ملفات ZIP؛ فيستخرج عامل في الخلفية النص مع إصلاح ترتيب العربية المقلوب، ثم يبني n8n ملفاً لكل سيرة، ويضعها في تصنيفات الحساب نفسه، ويقيّمها على عدة أبعاد مع اقتباسات داعمة. ويتحقّق الخادم من كل اقتباس مقابل السيرة قبل أن يرفع أي درجة، ويحسب بنفسه كل رقم يُرتّب عليه. وفوق ذلك: فلاتر على كل حقل، وبحث نصي كامل بالعربية والإنجليزية، وحالة توظيف ونجمة وملاحظات، وفرز حسب الوظيفة بمعايير موزونة وشروط إلزامية، وملخّصات بالذكاء الاصطناعي لأي نطاق، وتصدير CSV، ولوحة إدارة."
       },
       "role": {
-        "en": "Full build — product, frontend, backend, and AI workflows",
-        "ar": "البناء الكامل — المنتج والواجهة والخادم ومسارات الذكاء الاصطناعي"
+        "en": "Full build: product, frontend, backend, and AI workflows",
+        "ar": "البناء الكامل: المنتج والواجهة والخادم ومسارات الذكاء الاصطناعي"
       },
       "metrics": [
         {
@@ -165,20 +165,20 @@
         "ar": "منتج أتمتة بالذكاء الاصطناعي"
       },
       "tagline": {
-        "en": "One link in, the whole site out — every page discovered, the data classified, and an Excel file with a tab for each kind of data.",
-        "ar": "رابط واحد يدخل، والموقع كله يخرج — تُكتشف كل صفحاته، وتُصنّف بياناته، ويُملأ ملف Excel بتبويب لكل نوع منها."
+        "en": "One link in, the whole site out: every page discovered, the data classified, and an Excel file with a tab for each kind of data.",
+        "ar": "رابط واحد يدخل، والموقع كله يخرج: تُكتشف كل صفحاته، وتُصنّف بياناته، ويُملأ ملف Excel بتبويب لكل نوع منها."
       },
       "problem": {
-        "en": "Collecting data from websites usually means copying it by hand into Excel, or writing a new scraper for every site — and breaking it the moment a site blocks bots or renders its content with JavaScript.",
-        "ar": "جمع البيانات من المواقع يعني عادةً نسخها يدوياً إلى Excel، أو كتابة أداة سحب جديدة لكل موقع — ثم تتعطّل فور أن يحجب الموقع الروبوتات أو يعرض محتواه بـ JavaScript."
+        "en": "Collecting data from websites usually means copying it by hand into Excel, or writing a new scraper for every site, which breaks the moment a site blocks bots or renders its content with JavaScript.",
+        "ar": "جمع البيانات من المواقع يعني عادةً نسخها يدوياً إلى Excel، أو كتابة أداة سحب جديدة لكل موقع، ثم تتعطّل فور أن يحجب الموقع الروبوتات أو يعرض محتواه بـ JavaScript."
       },
       "built": {
-        "en": "You paste one link. The engine discovers every page of the site through its sitemap, classifies what it finds — companies, people, products, articles, jobs, places — and fills an Excel file with a tab per category, mirrored to Google Sheets. It runs in the background on n8n, so it keeps going after the laptop is closed, and the rows collected so far can be downloaded at any moment; large sites are split into parts. Each page fetch escalates only as far as it needs — direct request, proxy pool, scraping API, full renderer — and extraction reads JSON-LD and tables first, falling back to chunked, parallel AI extraction. A small web interface shows live progress, a time estimate, a preview of the rows, and pause, resume, cancel, and restart controls.",
-        "ar": "تضع رابطاً واحداً. يكتشف المحرّك كل صفحات الموقع عبر خريطة الموقع، ويصنّف ما يجده — شركات، وأشخاص، ومنتجات، ومقالات، ووظائف، وأماكن — ويملأ ملف Excel بتبويب لكل تصنيف، مع نسخة على Google Sheets. يعمل في الخلفية على n8n، فيكمل حتى لو أُغلق اللابتوب، ويمكن تنزيل ما وصل من صفوف في أي لحظة، وتُقسَم المواقع الكبيرة إلى أجزاء. كل طلب صفحة يتصاعد بقدر الحاجة فقط — طلب مباشر، ثم بروكسيات، ثم واجهة سحب، ثم متصفّح عرض كامل — والاستخراج يقرأ JSON-LD والجداول أولاً، ثم يلجأ إلى استخراج بالذكاء الاصطناعي مقسّم ومتوازٍ. وواجهة ويب صغيرة تعرض التقدّم مباشرة، والوقت المتبقّي، ومعاينة للصفوف، وأزرار الإيقاف والاستئناف والإلغاء والبدء من جديد."
+        "en": "You paste one link. The engine discovers every page of the site through its sitemap, classifies what it finds (companies, people, products, articles, jobs, places) and fills an Excel file with a tab per category, mirrored to Google Sheets. It runs in the background on n8n, so it keeps going after the laptop is closed, and the rows collected so far can be downloaded at any moment; large sites are split into parts. Each page fetch escalates only as far as it needs, from a direct request to a proxy pool, a scraping API, and finally a full renderer. Extraction reads JSON-LD and tables first, falling back to chunked, parallel AI extraction. A small web interface shows live progress, a time estimate, a preview of the rows, and pause, resume, cancel, and restart controls.",
+        "ar": "تضع رابطاً واحداً. يكتشف المحرّك كل صفحات الموقع عبر خريطة الموقع، ويصنّف ما يجده من شركات وأشخاص ومنتجات ومقالات ووظائف وأماكن، ويملأ ملف Excel بتبويب لكل تصنيف، مع نسخة على Google Sheets. يعمل في الخلفية على n8n، فيكمل حتى لو أُغلق اللابتوب، ويمكن تنزيل ما وصل من صفوف في أي لحظة، وتُقسَم المواقع الكبيرة إلى أجزاء. كل طلب صفحة يتصاعد بقدر الحاجة فقط: طلب مباشر، ثم بروكسيات، ثم واجهة سحب، ثم متصفّح عرض كامل. والاستخراج يقرأ JSON-LD والجداول أولاً، ثم يلجأ إلى استخراج بالذكاء الاصطناعي مقسّم ومتوازٍ. وواجهة ويب صغيرة تعرض التقدّم مباشرة، والوقت المتبقّي، ومعاينة للصفوف، وأزرار الإيقاف والاستئناف والإلغاء والبدء من جديد."
       },
       "role": {
-        "en": "Full build — interface and automation",
-        "ar": "البناء الكامل — الواجهة والأتمتة"
+        "en": "Full build: interface and automation",
+        "ar": "البناء الكامل: الواجهة والأتمتة"
       },
       "metrics": [
         {
@@ -226,20 +226,20 @@
         "ar": "استوديو موشن جرافيك"
       },
       "tagline": {
-        "en": "Pick a size and a style, add ready-made scenes, and export a motion video — free, in the browser, with no account and no server.",
-        "ar": "اختر المقاس والنمط، وأضف مشاهد جاهزة، ثم صدّر فيديو موشن — مجاناً وداخل المتصفح، دون حساب ولا خادم."
+        "en": "Pick a size and a style, add ready-made scenes, and export a motion video for free, in the browser, with no account and no server.",
+        "ar": "اختر المقاس والنمط، وأضف مشاهد جاهزة، ثم صدّر فيديو موشن مجاناً وداخل المتصفح، دون حساب ولا خادم."
       },
       "problem": {
         "en": "Making a short motion video for LinkedIn, Reels, or YouTube usually means a paid subscription, a professional editor that takes weeks to learn, or an online service that keeps your project and your files.",
         "ar": "صناعة فيديو موشن قصير للينكدإن أو الريلز أو يوتيوب تعني عادةً اشتراكاً مدفوعاً، أو برنامج مونتاج احترافياً يحتاج أسابيع لتعلّمه، أو خدمة على الإنترنت تحتفظ بمشروعك وملفاتك."
       },
       "built": {
-        "en": "An Arabic, right-to-left studio that runs entirely in the browser — no API key, no server, no subscription. A short wizard asks for the size and the style, then for a ready video idea or hand-picked scenes. Every template previews large and playing before it is added, and can be added as a new scene, merged into the current one, or swapped in for it. All of a scene's text sits in one place, a double tap writes straight onto the video, and a quick toolbar over any element enlarges, shrinks, recolours, animates, copies, or deletes it. Around that: a searchable library of animated backgrounds, including the living node mesh from this site; transitions previewed between your own scenes; camera moves with parallax depth; sound effects generated in the browser, plus your own voice-over; any moment saved as a PNG or JPG poster; and video themes, with day and night modes for the studio itself. The video is encoded on the visitor's own device with WebCodecs, falling back to real-time WebM recording where encoding is not supported. Projects autosave in the browser, and every frame carries a soft diagonal watermark that only the owner's password removes.",
-        "ar": "استوديو عربي من اليمين إلى اليسار يعمل كاملاً داخل المتصفح — بلا مفتاح API ولا خادم ولا اشتراك. يسأل معالج قصير عن المقاس والنمط، ثم عن فكرة فيديو جاهزة أو مشاهد يختارها المستخدم بنفسه. يُعرض كل قالب كبيراً وهو يعمل قبل إضافته، ويمكن إضافته مشهداً جديداً، أو دمج عناصره في المشهد الحالي، أو استبداله به. نصوص المشهد كلها في مكان واحد، ونقرتان على النص تتيحان الكتابة فوق الفيديو مباشرة، وشريط أدوات سريع فوق أي عنصر يكبّره ويصغّره ويغيّر لونه ويحرّكه وينسخه ويحذفه. وحول ذلك: مكتبة خلفيات متحركة فيها بحث، منها شبكة العُقد الحية من هذا الموقع؛ وانتقالات تُعايَن بين مشاهدك الحقيقية؛ وحركات كاميرا بعمق بارالاكس؛ ومؤثرات صوتية تتولّد داخل المتصفح، مع تعليق صوتي خاص بك؛ وحفظ أي لحظة بوستراً بصيغة PNG أو JPG؛ وثيمات للفيديو، مع وضع نهاري وليلي للاستوديو نفسه. يُرمَّز الفيديو على جهاز الزائر نفسه عبر WebCodecs، ويُسجَّل بصيغة WebM في الوقت الحقيقي حيث لا يتوفر الترميز. تُحفظ المشاريع تلقائياً في المتصفح، ويحمل كل إطار علامة مائية مائلة وناعمة لا يزيلها إلا كلمة سر صاحب الموقع."
+        "en": "An Arabic, right-to-left studio that runs entirely in the browser, with no API key, no server, and no subscription. A short wizard asks for the size and the style, then for a ready video idea or hand-picked scenes. Every template previews large and playing before it is added, and can be added as a new scene, merged into the current one, or swapped in for it. All of a scene's text sits in one place, a double tap writes straight onto the video, and a quick toolbar over any element enlarges, shrinks, recolours, animates, copies, or deletes it. Around that: a searchable library of animated backgrounds, including the living node mesh from this site; transitions previewed between your own scenes; camera moves with parallax depth; sound effects generated in the browser, plus your own voice-over; any moment saved as a PNG or JPG poster; and video themes, with day and night modes for the studio itself. The video is encoded on the visitor's own device with WebCodecs, falling back to real-time WebM recording where encoding is not supported. Projects autosave in the browser, and every frame carries a soft diagonal watermark that only the owner's password removes.",
+        "ar": "استوديو عربي من اليمين إلى اليسار يعمل كاملاً داخل المتصفح، بلا مفتاح API ولا خادم ولا اشتراك. يسأل معالج قصير عن المقاس والنمط، ثم عن فكرة فيديو جاهزة أو مشاهد يختارها المستخدم بنفسه. يُعرض كل قالب كبيراً وهو يعمل قبل إضافته، ويمكن إضافته مشهداً جديداً، أو دمج عناصره في المشهد الحالي، أو استبداله به. نصوص المشهد كلها في مكان واحد، ونقرتان على النص تتيحان الكتابة فوق الفيديو مباشرة، وشريط أدوات سريع فوق أي عنصر يكبّره ويصغّره ويغيّر لونه ويحرّكه وينسخه ويحذفه. وحول ذلك: مكتبة خلفيات متحركة فيها بحث، منها شبكة العُقد الحية من هذا الموقع؛ وانتقالات تُعايَن بين مشاهدك الحقيقية؛ وحركات كاميرا بعمق بارالاكس؛ ومؤثرات صوتية تتولّد داخل المتصفح، مع تعليق صوتي خاص بك؛ وحفظ أي لحظة بوستراً بصيغة PNG أو JPG؛ وثيمات للفيديو، مع وضع نهاري وليلي للاستوديو نفسه. يُرمَّز الفيديو على جهاز الزائر نفسه عبر WebCodecs، ويُسجَّل بصيغة WebM في الوقت الحقيقي حيث لا يتوفر الترميز. تُحفظ المشاريع تلقائياً في المتصفح، ويحمل كل إطار علامة مائية مائلة وناعمة لا يزيلها إلا كلمة سر صاحب الموقع."
       },
       "role": {
-        "en": "Full build — design, editor, and rendering engine",
-        "ar": "البناء الكامل — التصميم والمحرّر ومحرّك الرسم"
+        "en": "Full build: design, editor, and rendering engine",
+        "ar": "البناء الكامل: التصميم والمحرّر ومحرّك الرسم"
       },
       "metrics": [
         {
@@ -301,20 +301,20 @@
         "ar": "أداة إتاحة للمكفوفين"
       },
       "tagline": {
-        "en": "Fill in a training certificate and get a print-ready PDF — with a full Arabic Braille version a blind trainee can read by touch, and a file for Braille embossers.",
-        "ar": "املأ بيانات شهادة التدريب، فتحصل على ملف PDF جاهز للطباعة — ومعه نسخة برايل عربية كاملة يقرؤها المتدرب الكفيف باللمس، وملف لطابعات برايل."
+        "en": "Fill in a training certificate and get a print-ready PDF. It comes with a full Arabic Braille version a blind trainee can read by touch, and a file for Braille embossers.",
+        "ar": "املأ بيانات شهادة التدريب، فتحصل على ملف PDF جاهز للطباعة، ومعه نسخة برايل عربية كاملة يقرؤها المتدرب الكفيف باللمس، وملف لطابعات برايل."
       },
       "problem": {
         "en": "A training certificate is usually printed for sighted readers only, so a blind trainee receives a document they cannot read for themselves. And Braille printed on an ordinary printer comes out as flat ink that cannot be felt.",
         "ar": "تُطبع شهادة التدريب عادةً للمبصرين فقط، فيتسلّم المتدرب الكفيف وثيقة لا يستطيع قراءتها بنفسه. وحتى نص برايل إذا طُبع على طابعة عادية خرج حبراً مسطّحاً لا يُحَسّ باللمس."
       },
       "built": {
-        "en": "A free, single-page tool in Arabic. The form covers what Saudi certificates carry — the four-part name, ID or residency number, nationality, programme, training hours, period, grade, and licence number — and issues completion, pass, and attendance certificates, with wording that switches between masculine and feminine. Hijri dates on the Umm al-Qura calendar are computed alongside the Gregorian, and the logo, signatures, stamp, and a verification QR code can be added, with a live preview of every page. The PDF opens with the certificate for sighted readers, followed by Braille pages holding the full text in Unified Arabic Braille — issuer, title, name, ID, programme, hours, period, grade, date, and signatures. The dots are standard-size and drawn as separate shapes so they can be printed in raised UV ink, with a light printed transcription between the lines that can be switched off. A second button downloads the text as a BRF file that Braille embossers read directly, and an in-page guide explains three ways to make the dots raised: an embosser, swell paper, or a raised-ink print shop. Nothing is stored or sent anywhere; automated checks hold the page to that promise, and tests match the Braille output against the unified table.",
-        "ar": "أداة مجانية بالعربية في صفحة واحدة. تغطي حقولها ما تحمله الشهادات على العرف السعودي — الاسم الرباعي، ورقم الهوية أو الإقامة، والجنسية، والبرنامج، وعدد الساعات، والفترة، والتقدير، ورقم الترخيص — وتُصدر شهادات إتمام واجتياز وحضور، بصياغة تتغيّر تلقائياً بين المذكر والمؤنث. يُحسب التاريخ الهجري بتقويم أم القرى مع الميلادي، ويمكن إضافة الشعار والتوقيعات والختم ورمز QR للتحقق، مع معاينة مباشرة لكل صفحة. يبدأ ملف PDF بالشهادة للمبصرين، تليها صفحات برايل فيها نص الشهادة كاملاً بطريقة برايل العربية الموحدة — الجهة والعنوان والاسم والهوية والبرنامج والساعات والفترة والتقدير والتاريخ والتوقيعات. النقاط بالمقاس القياسي ومرسومة أشكالاً منفصلة لتسهل طباعتها بحبر UV بارز، وبين الأسطر ترجمة مطبوعة فاتحة يمكن إطفاؤها. وزر ثانٍ ينزّل النص بصيغة BRF التي تقرؤها طابعات برايل مباشرة، ودليل داخل الصفحة يشرح ثلاث طرق لجعل النقاط بارزة: طابعة برايل، والورق الانتفاخي، والمطبعة بحبر بارز. لا يُحفظ شيء ولا يُرسل إلى أي جهة؛ وفحوص آلية تُلزم الصفحة بهذا الوعد، واختبارات تطابق ترجمة برايل مع الجدول الموحد."
+        "en": "A free, single-page tool in Arabic. The form covers what Saudi certificates carry: the four-part name, ID or residency number, nationality, programme, training hours, period, grade, and licence number. It issues completion, pass, and attendance certificates, with wording that switches between masculine and feminine. Hijri dates on the Umm al-Qura calendar are computed alongside the Gregorian, and the logo, signatures, stamp, and a verification QR code can be added, with a live preview of every page. The PDF opens with the certificate for sighted readers, followed by Braille pages holding the full text in Unified Arabic Braille: issuer, title, name, ID, programme, hours, period, grade, date, and signatures. The dots are standard-size and drawn as separate shapes so they can be printed in raised UV ink, with a light printed transcription between the lines that can be switched off. A second button downloads the text as a BRF file that Braille embossers read directly, and an in-page guide explains three ways to make the dots raised: an embosser, swell paper, or a raised-ink print shop. Nothing is stored or sent anywhere; automated checks hold the page to that promise, and tests match the Braille output against the unified table.",
+        "ar": "أداة مجانية بالعربية في صفحة واحدة. تغطي حقولها ما تحمله الشهادات على العرف السعودي: الاسم الرباعي، ورقم الهوية أو الإقامة، والجنسية، والبرنامج، وعدد الساعات، والفترة، والتقدير، ورقم الترخيص. وتُصدر شهادات إتمام واجتياز وحضور، بصياغة تتغيّر تلقائياً بين المذكر والمؤنث. يُحسب التاريخ الهجري بتقويم أم القرى مع الميلادي، ويمكن إضافة الشعار والتوقيعات والختم ورمز QR للتحقق، مع معاينة مباشرة لكل صفحة. يبدأ ملف PDF بالشهادة للمبصرين، تليها صفحات برايل فيها نص الشهادة كاملاً بطريقة برايل العربية الموحدة: الجهة والعنوان والاسم والهوية والبرنامج والساعات والفترة والتقدير والتاريخ والتوقيعات. النقاط بالمقاس القياسي ومرسومة أشكالاً منفصلة لتسهل طباعتها بحبر UV بارز، وبين الأسطر ترجمة مطبوعة فاتحة يمكن إطفاؤها. وزر ثانٍ ينزّل النص بصيغة BRF التي تقرؤها طابعات برايل مباشرة، ودليل داخل الصفحة يشرح ثلاث طرق لجعل النقاط بارزة: طابعة برايل، والورق الانتفاخي، والمطبعة بحبر بارز. لا يُحفظ شيء ولا يُرسل إلى أي جهة؛ وفحوص آلية تُلزم الصفحة بهذا الوعد، واختبارات تطابق ترجمة برايل مع الجدول الموحد."
       },
       "role": {
-        "en": "Full build — design, Braille translation, and PDF output",
-        "ar": "البناء الكامل — التصميم وترجمة برايل وإخراج ملف PDF"
+        "en": "Full build: design, Braille translation, and PDF output",
+        "ar": "البناء الكامل: التصميم وترجمة برايل وإخراج ملف PDF"
       },
       "metrics": [
         {
@@ -370,20 +370,20 @@
         "ar": "منصة فوترة إلكترونية · مفتوحة المصدر"
       },
       "tagline": {
-        "en": "An open-source e-invoicing program for businesses in Saudi Arabia — with a public demo that issues and signs invoices entirely in the browser.",
-        "ar": "برنامج فوترة إلكترونية مفتوح المصدر للمنشآت في المملكة — مع نسخة عرض عامة تُصدر الفواتير وتوقّعها كاملاً داخل المتصفح."
+        "en": "An open-source e-invoicing program for businesses in Saudi Arabia, with a public demo that issues and signs invoices entirely in the browser.",
+        "ar": "برنامج فوترة إلكترونية مفتوح المصدر للمنشآت في المملكة، مع نسخة عرض عامة تُصدر الفواتير وتوقّعها كاملاً داخل المتصفح."
       },
       "problem": {
-        "en": "E-invoicing in the Kingdom's integration phase asks for more than a printed PDF: every invoice is a signed electronic file with a QR code, numbered in an unbroken chain and never edited once issued — corrections go through credit and debit notes. The hashing and signing must match the official reference exactly.",
-        "ar": "الفوترة الإلكترونية في مرحلة الربط والتكامل في المملكة تطلب أكثر من ملف PDF مطبوع: كل فاتورة ملف إلكتروني موقّع ومعه رمز QR، مرقّم في سلسلة لا تنقطع، ولا يُعدَّل بعد إصداره — وأي تصحيح يكون بإشعار دائن أو مدين. والتجزئة والتوقيع يجب أن يطابقا المرجع الرسمي تماماً."
+        "en": "E-invoicing in the Kingdom's integration phase asks for more than a printed PDF: every invoice is a signed electronic file with a QR code, numbered in an unbroken chain and never edited once issued. Corrections go through credit and debit notes. The hashing and signing must match the official reference exactly.",
+        "ar": "الفوترة الإلكترونية في مرحلة الربط والتكامل في المملكة تطلب أكثر من ملف PDF مطبوع: كل فاتورة ملف إلكتروني موقّع ومعه رمز QR، مرقّم في سلسلة لا تنقطع، ولا يُعدَّل بعد إصداره، وأي تصحيح يكون بإشعار دائن أو مدين. والتجزئة والتوقيع يجب أن يطابقا المرجع الرسمي تماماً."
       },
       "built": {
         "en": "A TypeScript monorepo in three parts. An invoicing library builds UBL invoices, hashes them over canonical XML, signs them with ECDSA, generates the QR code and the device's certificate request, and handles onboarding and submission through the official API. A PostgreSQL schema adds guards at the database level: triggers stop an issued invoice from being edited or deleted, stop the counter from going back or skipping, and protect the audit log. The issuing core locks the device row for the whole transaction, so invoices issued in parallel keep an unbroken count and hash chain. Device keys and secrets are encrypted with AES-GCM under a master key kept outside the database, and amounts are calculated in exact decimals. The public demo runs the same library in the browser without changing a line: the seller's invoices grouped by customer, tax invoices for businesses and simplified invoices for individuals, credit and debit notes from an invoice's page, printing to PDF, sending over WhatsApp, and the signed XML file for the accountant. It signs with a public test certificate, sends nothing anywhere, and keeps everything in the visitor's browser; end-to-end tests issue every document type in a real browser and pass each through the official validator.",
         "ar": "مستودع TypeScript من ثلاثة أجزاء. مكتبة فوترة تبني الفاتورة بصيغة UBL، وتحسب بصمتها على صيغة XML الموحّدة، وتوقّعها بـ ECDSA، وتولّد رمز QR وطلب شهادة الجهاز، وتتولّى الربط والإرسال عبر الواجهة البرمجية الرسمية. ومخطط PostgreSQL يضيف حمايات على مستوى قاعدة البيانات: محفّزات تمنع تعديل الفاتورة الصادرة أو حذفها، وتمنع رجوع العدّاد أو قفزه، وتحمي سجل التدقيق. ونواة الإصدار تقفل صف الجهاز طوال معاملة الإصدار، فتحتفظ الفواتير الصادرة بالتوازي بعدّاد متصل وسلسلة بصمات سليمة. مفاتيح الأجهزة والأسرار مشفّرة بـ AES-GCM بمفتاح رئيسي خارج القاعدة، والمبالغ تُحسب بأعداد عشرية دقيقة. ونسخة العرض العامة تشغّل المكتبة نفسها داخل المتصفح دون تعديل سطر واحد: فواتير البائع مصنّفة حسب العميل، وفاتورة ضريبية للمنشأة ومبسطة للفرد، وإشعار دائن أو مدين من صفحة الفاتورة، وطباعة وحفظ PDF، وإرسال عبر واتساب، وملف XML الموقّع للمحاسب. وهي توقّع بشهادة اختبار عامة، ولا ترسل شيئاً إلى أي جهة، وتُبقي كل شيء في متصفح الزائر؛ واختبارات شاملة تُصدر كل أنواع المستندات في متصفح حقيقي وتمرّر كلاً منها على المدقّق الرسمي."
       },
       "role": {
-        "en": "Full build — invoicing library, database, and demo",
-        "ar": "البناء الكامل — مكتبة الفوترة وقاعدة البيانات ونسخة العرض"
+        "en": "Full build: invoicing library, database, and demo",
+        "ar": "البناء الكامل: مكتبة الفوترة وقاعدة البيانات ونسخة العرض"
       },
       "metrics": [
         {
@@ -434,8 +434,8 @@
         "ar": "دليل يعمل دون إنترنت · PWA"
       },
       "tagline": {
-        "en": "An interactive Umrah checklist in the order the rites are performed, in ten languages — built to be used one-handed and offline, inside the Haram.",
-        "ar": "قائمة تفاعلية لمناسك العمرة بترتيب أدائها، بعشر لغات — مصمّمة لتُستخدم بيد واحدة ودون إنترنت داخل الحرم."
+        "en": "An interactive Umrah checklist in the order the rites are performed, in ten languages, and built to be used one-handed and offline inside the Haram.",
+        "ar": "قائمة تفاعلية لمناسك العمرة بترتيب أدائها، بعشر لغات، ومصمّمة لتُستخدم بيد واحدة ودون إنترنت داخل الحرم."
       },
       "problem": {
         "en": "Umrah guidance is everywhere, yet hard to use in the moment: long PDFs you cannot read while walking, videos you cannot open in a crowd, and articles that bury the order of the rites in paragraphs. Inside the Haram the signal is often weak, and a large share of pilgrims cannot read.",
@@ -446,8 +446,8 @@
         "ar": "ملف HTML واحد بلا مكتبات ولا خطوات بناء. المناسك خطوات مجمّعة في مراحل، من الاستعداد والإحرام عند الميقات حتى الحلق أو التقصير، وكل دعاء في موضعه لحظة قوله. عدّادات باللمس تحسب أشواط الطواف والسعي مع إمكانية التراجع، وإتمام الشوط الأخير يعلّم خطوته تلقائياً. ويضم الدليل محظورات الإحرام والمواقيت، ومنها ما يفعله القادم جواً. وزر سماعة يقرأ كل دعاء بالعربية وكل خطوة باللغة المختارة عبر محرّك النطق في المتصفح نفسه، لمن لا يقرأ من المعتمرين. وتبديل اللغة يغيّر اتجاه الصفحة وخطوطها وأرقامها عبر خمسة أنظمة كتابة، من النستعليق الأردي إلى الصينية، دون أن يفقد المستخدم موضعه. يُثبَّت على الشاشة الرئيسية ويعمل دون إنترنت، ويحفظ التقدّم أسبوعاً، ويمكن تنزيل نسخة مستقلة بأي لغة تعمل من ذاكرة الهاتف دون أي اتصال؛ ومعه ثلاثة أحجام للخط ونسخة مهيّأة للطباعة. المحتوى على المذهب الحنبلي كما يُعمل به في بلاد الحرمين، وقوبل على كتيّب دليل المعتمر الرسمي الذي يوزَّع على المعتمرين، وكل تصحيح موثّق في المستودع."
       },
       "role": {
-        "en": "Full build — content, design, and offline app",
-        "ar": "البناء الكامل — المحتوى والتصميم والتطبيق دون اتصال"
+        "en": "Full build: content, design, and offline app",
+        "ar": "البناء الكامل: المحتوى والتصميم والتطبيق دون اتصال"
       },
       "metrics": [
         {
@@ -509,8 +509,8 @@
         "ar": "كانت إدارة العملاء ومعالجة عروض الأسعار خطوات يدوية منفصلة بلا سياق مشترك، فلم يكن أي شيء قابلاً للتتبّع من طرف إلى طرف."
       },
       "built": {
-        "en": "I owned the two core frontend modules — CRM and Quotation — and connected them into one workflow: creating and updating quotations, tracking statuses, managing customers and leads, and an internal module for projects and tasks with assignment and progress tracking. I worked closely with the backend team on API definitions and payload reviews so UI behaviour matched the business workflow.",
-        "ar": "تولّيت وحدتَي الواجهة الأمامية الأساسيتين — إدارة العملاء وعروض الأسعار — وربطتهما في سير عمل واحد: إنشاء عروض الأسعار وتحديثها، وتتبّع الحالات، وإدارة العملاء والفرص، إضافة إلى وحدة داخلية للمشاريع والمهام مع الإسناد وتتبّع التقدّم. وعملت عن قرب مع فريق الواجهة الخلفية على تعريفات الـ API ومراجعة الحمولات ليطابق سلوك الواجهة سير العمل الفعلي."
+        "en": "I owned the two core frontend modules, CRM and Quotation, and connected them into one workflow: creating and updating quotations, tracking statuses, managing customers and leads, and an internal module for projects and tasks with assignment and progress tracking. I worked closely with the backend team on API definitions and payload reviews so UI behaviour matched the business workflow.",
+        "ar": "تولّيت وحدتَي الواجهة الأمامية الأساسيتين، وهما إدارة العملاء وعروض الأسعار، وربطتهما في سير عمل واحد: إنشاء عروض الأسعار وتحديثها، وتتبّع الحالات، وإدارة العملاء والفرص، إضافة إلى وحدة داخلية للمشاريع والمهام مع الإسناد وتتبّع التقدّم. وعملت عن قرب مع فريق الواجهة الخلفية على تعريفات الـ API ومراجعة الحمولات ليطابق سلوك الواجهة سير العمل الفعلي."
       },
       "role": {
         "en": "Frontend lead",
@@ -613,12 +613,12 @@
         "ar": "تجمع كومة بطاقات عمل بعد فعالية ثم لا تفتحها أبداً. مشكلة صغيرة، لكنها تكلّف فرق المبيعات فرصاً حقيقية بصمت."
       },
       "built": {
-        "en": "A web app that turns a photo of any business card into structured data — name, company, email, phone, website — in seconds, stores it in Google Sheets, and generates a vCard so the contact saves straight to the phone. No custom backend at all: an n8n workflow receives the image, GPT-4o Vision reads it, the data is validated and stored, and it flows back to the app. The one-tap save came from a user suggestion after the first release.",
-        "ar": "تطبيق ويب يحوّل صورة أي بطاقة عمل إلى بيانات منظّمة — الاسم، والشركة، والبريد، والهاتف، والموقع — خلال ثوانٍ، ويخزّنها في Google Sheets، ويولّد ملف vCard لتُحفظ جهة الاتصال مباشرة في الهاتف. دون أي واجهة خلفية مخصّصة: مسار عمل في n8n يستقبل الصورة، وGPT-4o Vision يقرأها، ثم تُتحقّق البيانات وتُخزّن وتعود إلى التطبيق. وميزة الحفظ بضغطة واحدة جاءت من اقتراح مستخدم بعد الإصدار الأول."
+        "en": "A web app that turns a photo of any business card into structured data (name, company, email, phone, website) in seconds, stores it in Google Sheets, and generates a vCard so the contact saves straight to the phone. No custom backend at all: an n8n workflow receives the image, GPT-4o Vision reads it, the data is validated and stored, and it flows back to the app. The one-tap save came from a user suggestion after the first release.",
+        "ar": "تطبيق ويب يحوّل صورة أي بطاقة عمل إلى بيانات منظّمة (الاسم، والشركة، والبريد، والهاتف، والموقع) خلال ثوانٍ، ويخزّنها في Google Sheets، ويولّد ملف vCard لتُحفظ جهة الاتصال مباشرة في الهاتف. دون أي واجهة خلفية مخصّصة: مسار عمل في n8n يستقبل الصورة، وGPT-4o Vision يقرأها، ثم تُتحقّق البيانات وتُخزّن وتعود إلى التطبيق. وميزة الحفظ بضغطة واحدة جاءت من اقتراح مستخدم بعد الإصدار الأول."
       },
       "role": {
-        "en": "Full build — frontend and automation",
-        "ar": "البناء الكامل — الواجهة والأتمتة"
+        "en": "Full build: frontend and automation",
+        "ar": "البناء الكامل: الواجهة والأتمتة"
       },
       "metrics": [
         {
@@ -661,12 +661,12 @@
         "ar": "خادم Model Context Protocol يتيح لنموذج ذكاء اصطناعي أن يستعلم بيانات حقيقية بدل توليد النصوص فقط."
       },
       "problem": {
-        "en": "Language models are fluent but disconnected. MCP is the bridge — but most of the discussion about it stays theoretical.",
-        "ar": "نماذج اللغة بليغة لكنها معزولة عن البيانات. وMCP هو الجسر — إلا أن أغلب الحديث عنه يبقى نظرياً."
+        "en": "Language models are fluent but disconnected. MCP is the bridge, but most of the discussion about it stays theoretical.",
+        "ar": "نماذج اللغة بليغة لكنها معزولة عن البيانات. وMCP هو الجسر، إلا أن أغلب الحديث عنه يبقى نظرياً."
       },
       "built": {
-        "en": "I built an MCP server with custom tools including a search tool, wired it to real data, and connected it to Claude — so a plain-language question like \"what are the details of user 2\" returns the correct record directly. The same pattern powers the MCP server that ships with this portfolio.",
-        "ar": "بنيت خادم MCP بأدوات مخصّصة من بينها أداة بحث، وربطته ببيانات حقيقية، ثم وصلته بـ Claude — بحيث يعيد سؤال بلغة طبيعية مثل «ما تفاصيل المستخدم رقم ٢» السجلّ الصحيح مباشرة. والنمط نفسه يشغّل خادم MCP المرفق مع هذا الموقع."
+        "en": "I built an MCP server with custom tools including a search tool, wired it to real data, and connected it to Claude, so a plain-language question like \"what are the details of user 2\" returns the correct record directly. The same pattern powers the MCP server that ships with this portfolio.",
+        "ar": "بنيت خادم MCP بأدوات مخصّصة من بينها أداة بحث، وربطته ببيانات حقيقية، ثم وصلته بـ Claude، بحيث يعيد سؤال بلغة طبيعية مثل «ما تفاصيل المستخدم رقم ٢» السجلّ الصحيح مباشرة. والنمط نفسه يشغّل خادم MCP المرفق مع هذا الموقع."
       },
       "role": {
         "en": "Full build",
@@ -703,8 +703,8 @@
         "ar": "محرّك سحب بيانات بالذكاء الاصطناعي"
       },
       "summary": {
-        "en": "One link in, the whole site out. A shared engine fetches pages and escalates only as far as it must, reads structured data before it spends anything on AI, and writes the rows into a spreadsheet — with quick jobs and long crawls run as separate, controllable workers.",
-        "ar": "رابط واحد يدخل، والموقع كله يخرج. محرّك مشترك يجلب الصفحات ويتصاعد بقدر الحاجة فقط، ويقرأ البيانات المنظّمة قبل أن ينفق شيئاً على الذكاء الاصطناعي، ثم يكتب الصفوف في جدول — والمهام السريعة والزحف الطويل يعملان كعمّال منفصلين يمكن التحكّم بهم."
+        "en": "One link in, the whole site out. A shared engine fetches pages and escalates only as far as it must, reads structured data before it spends anything on AI, and writes the rows into a spreadsheet. Quick jobs and long crawls run as separate, controllable workers.",
+        "ar": "رابط واحد يدخل، والموقع كله يخرج. محرّك مشترك يجلب الصفحات ويتصاعد بقدر الحاجة فقط، ويقرأ البيانات المنظّمة قبل أن ينفق شيئاً على الذكاء الاصطناعي، ثم يكتب الصفوف في جدول. والمهام السريعة والزحف الطويل يعملان كعمّال منفصلين يمكن التحكّم بهم."
       },
       "trigger": {
         "en": "Web app (webhook) and a crawl schedule",
@@ -1028,16 +1028,16 @@
         "ar": "بوت المساعد التعليمي بالذكاء الاصطناعي"
       },
       "year": {
-        "en": "2025 — present",
-        "ar": "2025 — حتى الآن"
+        "en": "2025 to present",
+        "ar": "2025 حتى الآن"
       },
       "kind": {
         "en": "Telegram AI agent · client project",
         "ar": "وكيل ذكاء اصطناعي على Telegram · مشروع عميل"
       },
       "summary": {
-        "en": "A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia. The tutor manages students, schedules, cancellations, and dues entirely through chat — the AI agent calls custom CRUD tools under strict business rules rather than guessing.",
-        "ar": "مساعد عربي بلغة طبيعية سُلّم لمدرّس خصوصي في السعودية. يدير المدرّس الطلاب والجداول والإلغاءات والمستحقات عبر المحادثة بالكامل — والوكيل الذكي يستدعي أدوات CRUD مخصّصة وفق قواعد عمل صارمة بدل التخمين."
+        "en": "A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia. The tutor manages students, schedules, cancellations, and dues entirely through chat. The AI agent calls custom CRUD tools under strict business rules rather than guessing.",
+        "ar": "مساعد عربي بلغة طبيعية سُلّم لمدرّس خصوصي في السعودية. يدير المدرّس الطلاب والجداول والإلغاءات والمستحقات عبر المحادثة بالكامل، والوكيل الذكي يستدعي أدوات CRUD مخصّصة وفق قواعد عمل صارمة بدل التخمين."
       },
       "trigger": {
         "en": "Telegram message",
@@ -1203,8 +1203,8 @@
         "ar": "خط إنتاجي لمعالجة المستندات بالذكاء الاصطناعي"
       },
       "summary": {
-        "en": "The production pipeline behind Smart Scanner. Every invoice — photo or PDF — is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and Saudi e-invoice fields.",
-        "ar": "الخط الإنتاجي خلف Smart Scanner. كل فاتورة — صورة أو PDF — يُتحقّق أولاً من كونها فاتورة حقيقية، ثم تُحلّل بـ GPT-4.1 Vision، وتُتحقّق، وتُنقّى من التكرار، وتُحفظ. يقرأ العربية والإنجليزية والمستندات المختلطة، ومضبوط للفواتير العربية المكتوبة بخط اليد ولحقول الفوترة الإلكترونية السعودية."
+        "en": "The production pipeline behind Smart Scanner. Every invoice, whether a photo or a PDF, is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and Saudi e-invoice fields.",
+        "ar": "الخط الإنتاجي خلف Smart Scanner. كل فاتورة، سواء كانت صورة أو ملف PDF، يُتحقّق أولاً من كونها فاتورة حقيقية، ثم تُحلّل بـ GPT-4.1 Vision، وتُتحقّق، وتُنقّى من التكرار، وتُحفظ. يقرأ العربية والإنجليزية والمستندات المختلطة، ومضبوط للفواتير العربية المكتوبة بخط اليد ولحقول الفوترة الإلكترونية السعودية."
       },
       "trigger": {
         "en": "Webhook (image or PDF upload)",
@@ -1223,13 +1223,13 @@
           "Rejects any file that is not a genuine invoice, before anything is saved",
           "Extracts 70+ fields plus line items: vendor, buyer, totals, VAT, dates",
           "Classifies every line item into per-company expense categories at extraction time",
-          "Refuses politely and explains why when required data is missing — accuracy before speed"
+          "Refuses politely and explains why when required data is missing: accuracy before speed"
         ],
         "ar": [
           "يرفض أي ملف ليس فاتورة حقيقية قبل حفظ أي شيء",
           "يستخرج أكثر من ٧٠ حقلاً إضافة إلى بنود الفاتورة: البائع، والمشتري، والإجماليات، والضريبة، والتواريخ",
           "يصنّف كل بند إلى فئة مصروف خاصة بالشركة لحظة الاستخراج",
-          "يرفض بأدب ويشرح السبب عند نقص البيانات الأساسية — الدقة قبل السرعة"
+          "يرفض بأدب ويشرح السبب عند نقص البيانات الأساسية، فالدقة قبل السرعة"
         ]
       },
       "outcome": {
@@ -1560,8 +1560,8 @@
         "ar": "صندوق وارد بفرز ذكي"
       },
       "summary": {
-        "en": "Messages from every channel land in one inbox. Each one is enriched with its dialect, intent, priority and a summary, plus a draft reply written in the sender's own dialect — and replies leave through an outbox that records every result.",
-        "ar": "تصل الرسائل من كل القنوات إلى صندوق واحد. تُثرى كل رسالة بلهجتها ونيّتها وأولويتها وملخّصها، مع مسودة ردّ بلهجة المرسل نفسه — وتخرج الردود عبر صندوق صادر يسجّل نتيجة كل إرسال."
+        "en": "Messages from every channel land in one inbox. Each one is enriched with its dialect, intent, priority and a summary, plus a draft reply written in the sender's own dialect. Replies leave through an outbox that records every result.",
+        "ar": "تصل الرسائل من كل القنوات إلى صندوق واحد. تُثرى كل رسالة بلهجتها ونيّتها وأولويتها وملخّصها، مع مسودة ردّ بلهجة المرسل نفسه. وتخرج الردود عبر صندوق صادر يسجّل نتيجة كل إرسال."
       },
       "trigger": {
         "en": "Incoming message, webhook and schedule",
@@ -1576,13 +1576,13 @@
       ],
       "highlights": {
         "en": [
-          "Greetings and emoji-only messages never reach the model — they are classified locally to save cost",
+          "Greetings and emoji-only messages never reach the model: they are classified locally to save cost",
           "Every channel is normalised to one contract and written with a single atomic call",
           "Enrichment continues on error, so no message is ever lost",
           "The outbox sends one message at a time and records a readable failure reason"
         ],
         "ar": [
-          "التحيّات والرسائل المكوّنة من رموز تعبيرية فقط لا تصل إلى النموذج — تُصنّف محلياً توفيراً للكلفة",
+          "التحيّات والرسائل المكوّنة من رموز تعبيرية فقط لا تصل إلى النموذج، بل تُصنّف محلياً توفيراً للكلفة",
           "كل قناة تُوحَّد إلى عقد واحد وتُكتب باستدعاء ذرّي واحد",
           "الإثراء يكمل عند الخطأ، فلا تضيع أي رسالة",
           "صندوق الصادر يرسل رسالة واحدة في كل مرة ويسجّل سبب الفشل بوضوح"
@@ -1925,7 +1925,7 @@
           "Telegram delivery of high-scoring matches only",
           "Human-in-the-loop approval before any application is sent",
           "Semi-automated applications with tailored AI-generated cover letters via Gmail",
-          "A factory clones the search into a separate daily bot for each user, through the n8n API — automation that builds automation"
+          "A factory clones the search into a separate daily bot for each user, through the n8n API: automation that builds automation"
         ],
         "ar": [
           "مُقيّم يُخرج JSON منظّماً ويمنح درجة ملاءمة من ١ إلى ١٠",
@@ -1933,7 +1933,7 @@
           "إرسال المطابقات عالية التقييم فقط عبر Telegram",
           "موافقة بشرية قبل إرسال أي طلب توظيف",
           "طلبات شبه آلية مع رسائل تغطية مخصّصة يولّدها الذكاء الاصطناعي وتُرسل عبر Gmail",
-          "مصنع ينسخ البحث إلى بوت يومي مستقل لكل مستخدم عبر واجهة n8n — أتمتة تبني أتمتة"
+          "مصنع ينسخ البحث إلى بوت يومي مستقل لكل مستخدم عبر واجهة n8n، أي أتمتة تبني أتمتة"
         ]
       },
       "outcome": {
@@ -2872,12 +2872,12 @@
         "en": [
           "Speaker diarization separates teacher from student",
           "Structured outputs guarantee a parseable result every time",
-          "Returns a score, not a transcript — the caller gets data, not homework"
+          "Returns a score rather than a transcript, so the caller gets data, not homework"
         ],
         "ar": [
           "فصل المتحدّثين يميّز المعلّم عن الطالب",
           "المخرجات المنظّمة تضمن نتيجة قابلة للتحليل في كل مرة",
-          "يُعيد تقييماً لا تفريغاً نصياً — فيحصل المستدعي على بيانات لا على عمل إضافي"
+          "يُعيد تقييماً لا تفريغاً نصياً، فيحصل المستدعي على بيانات لا على عمل إضافي"
         ]
       },
       "outcome": {
@@ -3190,8 +3190,8 @@
         "ar": "خط جودة بيانات · إثبات مفهوم"
       },
       "summary": {
-        "en": "Incoming CRM leads arrive scattered — duplicates, malformed emails, missing fields — and cost sales teams hours of manual triage. This pipeline cleans them automatically and reports on what it did.",
-        "ar": "تصل بيانات العملاء المحتملين إلى نظام إدارة العلاقات مبعثرة — تكرار، وبريد غير صالح، وحقول ناقصة — فتكلّف فرق المبيعات ساعات من الفرز اليدوي. هذا الخط ينظّفها تلقائياً ويُبلغ عمّا فعله."
+        "en": "Incoming CRM leads arrive scattered (duplicates, malformed emails, missing fields) and cost sales teams hours of manual triage. This pipeline cleans them automatically and reports on what it did.",
+        "ar": "تصل بيانات العملاء المحتملين إلى نظام إدارة العلاقات مبعثرة، بين تكرار وبريد غير صالح وحقول ناقصة، فتكلّف فرق المبيعات ساعات من الفرز اليدوي. هذا الخط ينظّفها تلقائياً ويُبلغ عمّا فعله."
       },
       "trigger": {
         "en": "Webhook or schedule",
@@ -3363,8 +3363,8 @@
         "ar": "مصممة منتجات UI/UX"
       },
       "concept": {
-        "en": "The portfolio as a design file that never stops working: on arrival the hero designs itself, one of her skills at a time — research, wireframe, type, colour, prototype.",
-        "ar": "البورتفوليو ملف تصميم لا يتوقّف عن العمل: عند الدخول تصمّم الواجهة نفسها أمامك، مهارةً تلو الأخرى — البحث، والهيكل، والخط، والألوان، والنموذج التفاعلي."
+        "en": "The portfolio as a design file that never stops working: on arrival the hero designs itself, one of her skills at a time (research, wireframe, type, colour, prototype).",
+        "ar": "البورتفوليو ملف تصميم لا يتوقّف عن العمل: عند الدخول تصمّم الواجهة نفسها أمامك، مهارةً تلو الأخرى (البحث، والهيكل، والخط، والألوان، والنموذج التفاعلي)."
       },
       "highlights": {
         "en": [
@@ -3740,12 +3740,12 @@
       },
       "highlights": {
         "en": [
-          "Design your thobe — collar, sleeve, pocket, buttons, fabric — and it travels with the booking",
+          "Design your thobe (collar, sleeve, pocket, buttons, fabric) and it travels with the booking",
           "A three-step booking that opens WhatsApp with the message ready",
           "Light by default, with a moon toggle for dark"
         ],
         "ar": [
-          "جهّز ثوبك — الياقة والكم والجيب والأزرار والقماش — ويصل اختيارك مع الحجز",
+          "جهّز ثوبك (الياقة والكم والجيب والأزرار والقماش) ويصل اختيارك مع الحجز",
           "حجز على ثلاث خطوات يفتح واتساب والرسالة جاهزة",
           "فاتح افتراضياً، مع زر قمر للوضع الداكن"
         ]
@@ -3792,8 +3792,8 @@
     },
     "count": "120",
     "tagline": {
-      "en": "Personas, scroll stories, interactive machines and whole worlds — a city builder, a solar system, a museum, a stock exchange — each one a single hand-crafted HTML file.",
-      "ar": "شخصيات، وقصص تمرير، وآلات تفاعلية، وعوالم كاملة — مدينة تُبنى، ومجموعة شمسية، ومتحف، وبورصة — كل واحد منها ملف HTML واحد مصنوع يدوياً."
+      "en": "Personas, scroll stories, interactive machines and whole worlds (a city builder, a solar system, a museum, a stock exchange), each one a single hand-crafted HTML file.",
+      "ar": "شخصيات، وقصص تمرير، وآلات تفاعلية، وعوالم كاملة (مدينة تُبنى، ومجموعة شمسية، ومتحف، وبورصة)، وكل واحد منها ملف HTML واحد مصنوع يدوياً."
     },
     "url": "https://nouraldeentofi.com/gallery/"
   }

@@ -2,11 +2,11 @@
   "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
   "basics": {
     "name": "Nour Aldeen Tofi",
-    "label": "AI Automation Engineer — n8n, LLM Agents, MCP · Frontend Developer",
+    "label": "AI Automation Engineer: n8n, LLM Agents, MCP · Frontend Developer",
     "email": "nouraldeentofi@gmail.com",
     "phone": "+966547972944",
     "url": "https://nouraldeentofi.com",
-    "summary": "I turn messy manual processes into self-running workflows — and build the interfaces people use on top of them.",
+    "summary": "I turn messy manual processes into self-running workflows, and build the interfaces people use on top of them.",
     "location": {
       "city": "Al Khobar",
       "region": "Eastern Province",
@@ -46,11 +46,12 @@
       "position": "Software Engineering Supervisor",
       "location": "Al Khobar, Saudi Arabia",
       "startDate": "2026-01-01",
+      "endDate": "2026-11-01",
       "highlights": [
-        "Lead frontend development across internal business platforms, delivering scalable UI features in Arabic and English with React and TypeScript.",
-        "Define coding standards, review every frontend change before merge, and mentor developers — reducing rework and keeping the codebase maintainable.",
-        "Translate product ideas into shipped features in collaboration with backend (Laravel) and UI/UX teams, aligning technical delivery with business objectives.",
-        "Introduce internal workflow automation with n8n and OpenAI integrations to streamline repetitive team operations."
+        "Led frontend development across internal business platforms, delivering scalable UI features in Arabic and English with React and TypeScript.",
+        "Defined coding standards, reviewed every frontend change before merge, and mentored developers, which cut rework and kept the codebase maintainable.",
+        "Translated product ideas into shipped features in collaboration with backend (Laravel) and UI/UX teams, aligning technical delivery with business objectives.",
+        "Introduced internal workflow automation with n8n and OpenAI integrations to streamline repetitive team operations."
       ]
     },
     {
@@ -74,7 +75,7 @@
       "endDate": "2026-01-01",
       "highlights": [
         "Built a dashboard-based internal platform combining Jira-style task tracking with a quotation management system in React, used daily across all departments.",
-        "Implemented three core modules — task tracking, quotation generation, and workflow management — replacing manual spreadsheet processes.",
+        "Implemented three core modules (task tracking, quotation generation, and workflow management), replacing manual spreadsheet processes.",
         "Coordinated between frontend and backend teams to clarify requirements and keep delivery on schedule.",
         "Promoted to Software Engineering Supervisor within twelve months."
       ]
@@ -100,7 +101,7 @@
       "highlights": [
         "Designed responsive user interfaces for a kids education platform using React and Material-UI, where users browse courses, open lessons, and save courses for later.",
         "Transformed Figma designs into functional interfaces with reusable components and optimized state management.",
-        "First professional React role — the foundation for everything that followed."
+        "First professional React role, and the foundation for everything that followed."
       ]
     }
   ],
@@ -165,7 +166,7 @@
       "date": "2024-11-01"
     },
     {
-      "name": "Tailwind CSS From Scratch — Learn by Building Projects",
+      "name": "Tailwind CSS From Scratch: Learn by Building Projects",
       "issuer": "Packt",
       "date": "2024-10-01"
     },
@@ -177,8 +178,8 @@
   ],
   "awards": [
     {
-      "title": "ACPC — Arab Collegiate Programming Contest",
-      "awarder": "ICPC — International Collegiate Programming Contest",
+      "title": "ACPC: Arab Collegiate Programming Contest",
+      "awarder": "ICPC: International Collegiate Programming Contest",
       "date": "2021-09-01",
       "summary": "Algorithmic problem solving and team leadership under contest time pressure."
     }
@@ -287,7 +288,7 @@
   "projects": [
     {
       "name": "Smart Scanner",
-      "description": "Arabic-first AI invoice management — from photo to approval, with zero manual data entry.",
+      "description": "Arabic-first AI invoice management: from photo to approval, with zero manual data entry.",
       "highlights": [
         "204 source files",
         "494 automated tests",
@@ -315,7 +316,7 @@
     },
     {
       "name": "CV Screener",
-      "description": "Upload a folder of CVs — every one is read, classified, and scored by AI, with each point traced to a quote from the CV.",
+      "description": "Upload a folder of CVs and every one is read, classified, and scored by AI, with each point traced to a quote from the CV.",
       "highlights": [
         "1,189 automated tests",
         "8 scoring dimensions",
@@ -338,12 +339,12 @@
       ],
       "url": "https://cv-screener.nouraldeentofi.com",
       "roles": [
-        "Full build — product, frontend, backend, and AI workflows"
+        "Full build: product, frontend, backend, and AI workflows"
       ]
     },
     {
       "name": "Universal Web Scraper",
-      "description": "One link in, the whole site out — every page discovered, the data classified, and an Excel file with a tab for each kind of data.",
+      "description": "One link in, the whole site out: every page discovered, the data classified, and an Excel file with a tab for each kind of data.",
       "highlights": [
         "1 link to scrape a whole site",
         "7 data categories, one Excel tab each",
@@ -361,12 +362,12 @@
         "JavaScript"
       ],
       "roles": [
-        "Full build — interface and automation"
+        "Full build: interface and automation"
       ]
     },
     {
       "name": "Nour Motion Studio",
-      "description": "Pick a size and a style, add ready-made scenes, and export a motion video — free, in the browser, with no account and no server.",
+      "description": "Pick a size and a style, add ready-made scenes, and export a motion video for free, in the browser, with no account and no server.",
       "highlights": [
         "318 ready-made templates",
         "349 scene transitions",
@@ -387,12 +388,12 @@
       ],
       "url": "https://nouraldeentofi.com/motion-studio/",
       "roles": [
-        "Full build — design, editor, and rendering engine"
+        "Full build: design, editor, and rendering engine"
       ]
     },
     {
       "name": "Braille Certificate Maker",
-      "description": "Fill in a training certificate and get a print-ready PDF — with a full Arabic Braille version a blind trainee can read by touch, and a file for Braille embossers.",
+      "description": "Fill in a training certificate and get a print-ready PDF. It comes with a full Arabic Braille version a blind trainee can read by touch, and a file for Braille embossers.",
       "highlights": [
         "3 certificate types",
         "3 ways to print raised Braille",
@@ -413,12 +414,12 @@
       ],
       "url": "https://braille.nouraldeentofi.com/",
       "roles": [
-        "Full build — design, Braille translation, and PDF output"
+        "Full build: design, Braille translation, and PDF output"
       ]
     },
     {
       "name": "Khatm · ختم",
-      "description": "An open-source e-invoicing program for businesses in Saudi Arabia — with a public demo that issues and signs invoices entirely in the browser.",
+      "description": "An open-source e-invoicing program for businesses in Saudi Arabia, with a public demo that issues and signs invoices entirely in the browser.",
       "highlights": [
         "6 document types: invoices, credit and debit notes",
         "19 official sample invoices the hashing is tested on",
@@ -440,12 +441,12 @@
       ],
       "url": "https://khatm.nouraldeentofi.com/",
       "roles": [
-        "Full build — invoicing library, database, and demo"
+        "Full build: invoicing library, database, and demo"
       ]
     },
     {
       "name": "The Complete Umrah Guide",
-      "description": "An interactive Umrah checklist in the order the rites are performed, in ten languages — built to be used one-handed and offline, inside the Haram.",
+      "description": "An interactive Umrah checklist in the order the rites are performed, in ten languages, and built to be used one-handed and offline inside the Haram.",
       "highlights": [
         "35 steps in performance order",
         "10 languages",
@@ -464,7 +465,7 @@
       ],
       "url": "https://nouraldeentofi.com/umrah-guide/",
       "roles": [
-        "Full build — content, design, and offline app"
+        "Full build: content, design, and offline app"
       ]
     },
     {
@@ -525,7 +526,7 @@
         "vCard"
       ],
       "roles": [
-        "Full build — frontend and automation"
+        "Full build: frontend and automation"
       ]
     },
     {
@@ -547,20 +548,20 @@
   ],
   "references": [
     {
-      "name": "Haitham Zedan — Software Engineer · Laravel PHP Developer",
-      "reference": "I worked closely with Nour Aldeen across two different companies, and he's one of the few people I've seen who combines strong frontend execution with real delivery ownership — requirements, task breakdown, and deadlines. I was the Backend Developer and he was the Frontend Developer. In our second collaboration, he also handled requirements clarification, turning them into actionable tasks, coordinating assignments, and keeping delivery on track. This made backend–frontend collaboration smooth, because expectations and API contracts were clear."
+      "name": "Haitham Zedan, Software Engineer · Laravel PHP Developer",
+      "reference": "I worked closely with Nour Aldeen across two different companies, and he's one of the few people I've seen who combines strong frontend execution with real delivery ownership: requirements, task breakdown, and deadlines. I was the Backend Developer and he was the Frontend Developer. In our second collaboration, he also handled requirements clarification, turning them into actionable tasks, coordinating assignments, and keeping delivery on track. This made backend–frontend collaboration smooth, because expectations and API contracts were clear."
     },
     {
-      "name": "George Drouj — SDE @ noon · Codeforces Master · ACPC Bronze Medalist",
+      "name": "George Drouj, SDE @ noon · Codeforces Master · ACPC Bronze Medalist",
       "reference": "I had the pleasure of coaching Nour in 2021 for competitive programming contests. During our time working on data structures and algorithms, Nour stood out for his exceptionally sharp analytical mind and his ability to grasp complex concepts rapidly. He is a natural problem-solver who approaches challenges with both speed and precision."
     },
     {
-      "name": "Tawheed Malkat — IT Engineer · Senior UI/UX Designer · Product Designer",
-      "reference": "I had the privilege of working with Nour Aldeen on the mobile development team at NexLead, and — as the person responsible for UI/UX — what distinguished his approach most was his focus on understanding before implementing. He was always careful to absorb the requirements fully and grasp the intent behind the design, so that implementation was never merely a visual translation but a coherent, logical user experience reflecting the design's core idea. He handled handoff and feedback with real professionalism: he asked precise questions and paid attention to details like consistency, edge cases, and user expectations. I recommend Nour Aldeen for any role requiring strong coordination between design and development, deep understanding of requirements, and genuine care for implementation quality through to delivery."
+      "name": "Tawheed Malkat, IT Engineer · Senior UI/UX Designer · Product Designer",
+      "reference": "I had the privilege of working with Nour Aldeen on the mobile development team at NexLead, and (as the person responsible for UI/UX) what distinguished his approach most was his focus on understanding before implementing. He was always careful to absorb the requirements fully and grasp the intent behind the design, so that implementation was never merely a visual translation but a coherent, logical user experience reflecting the design's core idea. He handled handoff and feedback with real professionalism: he asked precise questions and paid attention to details like consistency, edge cases, and user expectations. I recommend Nour Aldeen for any role requiring strong coordination between design and development, deep understanding of requirements, and genuine care for implementation quality through to delivery."
     },
     {
-      "name": "Hamza Shansho — Mobile Application Developer · Flutter Developer",
-      "reference": "I was on the graduation project team with Nour Aldeen. I handled the Flutter mobile application, while Nour handled the most important part of the project: the core algorithm and the AI component that builds a suitable nutrition plan from user data. What impressed me was that he worked with an owner's mindset — he clarified the required inputs, defined the data flow and integration points, and explained the decision logic in a way that got the whole team aligned on the same picture. Whenever something was unclear, he went back to fundamentals: what is the goal, what are the constraints, and how do we guarantee a sensible result? His presence raised the quality of what we shipped, because his work was built on understanding and analysis rather than guesswork."
+      "name": "Hamza Shansho, Mobile Application Developer · Flutter Developer",
+      "reference": "I was on the graduation project team with Nour Aldeen. I handled the Flutter mobile application, while Nour handled the most important part of the project: the core algorithm and the AI component that builds a suitable nutrition plan from user data. What impressed me was that he worked with an owner's mindset: he clarified the required inputs, defined the data flow and integration points, and explained the decision logic in a way that got the whole team aligned on the same picture. Whenever something was unclear, he went back to fundamentals: what is the goal, what are the constraints, and how do we guarantee a sensible result? His presence raised the quality of what we shipped, because his work was built on understanding and analysis rather than guesswork."
     }
   ]
 }

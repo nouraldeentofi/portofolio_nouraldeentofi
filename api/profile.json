@@ -1,6 +1,6 @@
 {
   "$schema": "https://nouraldeentofi.com/api/profile.json",
-  "generated": "2026-11-03T13:54:50.800Z",
+  "generated": "2026-11-09T00:23:54.905Z",
   "name": {
     "en": "Nour Aldeen Tofi",
     "ar": "نور الدين طفي"
@@ -19,11 +19,11 @@
     "نور توفي"
   ],
   "headline": {
-    "en": "AI Automation Engineer — n8n, LLM Agents, MCP · Frontend Developer",
-    "ar": "مهندس أتمتة بالذكاء الاصطناعي — n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية"
+    "en": "AI Automation Engineer: n8n, LLM Agents, MCP · Frontend Developer",
+    "ar": "مهندس أتمتة بالذكاء الاصطناعي: n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية"
   },
   "tagline": {
-    "en": "I turn messy manual processes into self-running workflows — and build the interfaces people use on top of them.",
+    "en": "I turn messy manual processes into self-running workflows, and build the interfaces people use on top of them.",
     "ar": "أُحوّل العمليات اليدوية المتعثّرة إلى مسارات عمل ذاتية التشغيل، وأبني الواجهات التي يستخدمها الناس فوقها."
   },
   "location": {
@@ -95,6 +95,42 @@
   ],
   "availability": {
     "openToWork": true,
+    "immediate": true,
+    "since": "2026-11",
+    "roles": {
+      "en": [
+        "AI Automation Engineer",
+        "n8n Workflow Automation Engineer",
+        "Applied AI and LLM Engineer",
+        "Frontend Developer (React, TypeScript, Next.js)",
+        "Frontend Lead and Technical Lead"
+      ],
+      "ar": [
+        "مهندس أتمتة بالذكاء الاصطناعي",
+        "مهندس أتمتة سير العمل بـ n8n",
+        "مهندس ذكاء اصطناعي تطبيقي ونماذج لغوية كبيرة",
+        "مطوّر واجهات أمامية (React وTypeScript وNext.js)",
+        "قائد فريق الواجهات الأمامية وقائد تقني"
+      ]
+    },
+    "areas": {
+      "en": [
+        "Al Khobar",
+        "Dammam",
+        "Dhahran",
+        "Eastern Province",
+        "Riyadh and anywhere in Saudi Arabia (open to relocation)",
+        "Remote"
+      ],
+      "ar": [
+        "الخبر",
+        "الدمام",
+        "الظهران",
+        "المنطقة الشرقية",
+        "الرياض وأي مدينة في السعودية (مستعد للانتقال)",
+        "عن بُعد"
+      ]
+    },
     "arrangements": {
       "en": [
         "On-site",

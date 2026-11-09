@@ -173,8 +173,8 @@
         "ar": "مصممة منتجات UI/UX"
       },
       "concept": {
-        "en": "The portfolio as a design file that never stops working: on arrival the hero designs itself, one of her skills at a time — research, wireframe, type, colour, prototype.",
-        "ar": "البورتفوليو ملف تصميم لا يتوقّف عن العمل: عند الدخول تصمّم الواجهة نفسها أمامك، مهارةً تلو الأخرى — البحث، والهيكل، والخط، والألوان، والنموذج التفاعلي."
+        "en": "The portfolio as a design file that never stops working: on arrival the hero designs itself, one of her skills at a time (research, wireframe, type, colour, prototype).",
+        "ar": "البورتفوليو ملف تصميم لا يتوقّف عن العمل: عند الدخول تصمّم الواجهة نفسها أمامك، مهارةً تلو الأخرى (البحث، والهيكل، والخط، والألوان، والنموذج التفاعلي)."
       },
       "highlights": {
         "en": [
@@ -658,12 +658,12 @@
       },
       "highlights": {
         "en": [
-          "Design your thobe — collar, sleeve, pocket, buttons, fabric — and it travels with the booking",
+          "Design your thobe (collar, sleeve, pocket, buttons, fabric) and it travels with the booking",
           "A three-step booking that opens WhatsApp with the message ready",
           "Light by default, with a moon toggle for dark"
         ],
         "ar": [
-          "جهّز ثوبك — الياقة والكم والجيب والأزرار والقماش — ويصل اختيارك مع الحجز",
+          "جهّز ثوبك (الياقة والكم والجيب والأزرار والقماش) ويصل اختيارك مع الحجز",
           "حجز على ثلاث خطوات يفتح واتساب والرسالة جاهزة",
           "فاتح افتراضياً، مع زر قمر للوضع الداكن"
         ]
@@ -733,8 +733,8 @@
       "ar": "تصميم بورتفوليو"
     },
     "tagline": {
-      "en": "Personas, scroll stories, interactive machines and whole worlds — a city builder, a solar system, a museum, a stock exchange — each one a single hand-crafted HTML file.",
-      "ar": "شخصيات، وقصص تمرير، وآلات تفاعلية، وعوالم كاملة — مدينة تُبنى، ومجموعة شمسية، ومتحف، وبورصة — كل واحد منها ملف HTML واحد مصنوع يدوياً."
+      "en": "Personas, scroll stories, interactive machines and whole worlds (a city builder, a solar system, a museum, a stock exchange), each one a single hand-crafted HTML file.",
+      "ar": "شخصيات، وقصص تمرير، وآلات تفاعلية، وعوالم كاملة (مدينة تُبنى، ومجموعة شمسية، ومتحف، وبورصة)، وكل واحد منها ملف HTML واحد مصنوع يدوياً."
     },
     "tags": [
       "HTML",

@@ -167,7 +167,7 @@ function shell(db, page, lang, main, opts = {}) {
 ${B.headMeta(db, page, lang, opts)}
 <script>
 /* Set before first paint so reveals never flash, and the stored theme never
-   flickers. Also tells CSS that JavaScript is available — without this class
+   flickers. Also tells CSS that JavaScript is available: without this class
    nothing is ever hidden. */
 (function(){var r=document.documentElement;r.classList.add('js');
 try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}

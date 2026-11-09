@@ -15,19 +15,19 @@
       "ar": "دوام كامل · في الموقع"
     },
     "start": "2026-01",
-    "end": null,
+    "end": "2026-11",
     "bullets": {
       "en": [
-        "Lead frontend development across internal business platforms, delivering scalable UI features in Arabic and English with React and TypeScript.",
-        "Define coding standards, review every frontend change before merge, and mentor developers — reducing rework and keeping the codebase maintainable.",
-        "Translate product ideas into shipped features in collaboration with backend (Laravel) and UI/UX teams, aligning technical delivery with business objectives.",
-        "Introduce internal workflow automation with n8n and OpenAI integrations to streamline repetitive team operations."
+        "Led frontend development across internal business platforms, delivering scalable UI features in Arabic and English with React and TypeScript.",
+        "Defined coding standards, reviewed every frontend change before merge, and mentored developers, which cut rework and kept the codebase maintainable.",
+        "Translated product ideas into shipped features in collaboration with backend (Laravel) and UI/UX teams, aligning technical delivery with business objectives.",
+        "Introduced internal workflow automation with n8n and OpenAI integrations to streamline repetitive team operations."
       ],
       "ar": [
-        "أقود تطوير الواجهات الأمامية عبر المنصات الداخلية للشركة، وأسلّم واجهات قابلة للتوسّع بالعربية والإنجليزية باستخدام React وTypeScript.",
-        "أضع معايير كتابة الكود، وأراجع كل تغيير في الواجهة الأمامية قبل الدمج، وأوجّه المطوّرين — ما يقلّل إعادة العمل ويحافظ على قابلية صيانة الكود.",
-        "أحوّل أفكار المنتج إلى مزايا تصل للإنتاج بالتعاون مع فريقي الواجهة الخلفية (Laravel) وتصميم تجربة المستخدم، بما يوائم التسليم التقني مع أهداف العمل.",
-        "أُدخل الأتمتة الداخلية عبر n8n وتكاملات OpenAI لتبسيط العمليات المتكرّرة داخل الفريق."
+        "قدت تطوير الواجهات الأمامية عبر المنصات الداخلية للشركة، وسلّمت واجهات قابلة للتوسّع بالعربية والإنجليزية باستخدام React وTypeScript.",
+        "وضعت معايير كتابة الكود، وراجعت كل تغيير في الواجهة الأمامية قبل الدمج، ووجّهت المطوّرين، ما قلّل إعادة العمل وحافظ على قابلية صيانة الكود.",
+        "حوّلت أفكار المنتج إلى مزايا تصل للإنتاج بالتعاون مع فريقي الواجهة الخلفية (Laravel) وتصميم تجربة المستخدم، بما يوائم التسليم التقني مع أهداف العمل.",
+        "أدخلت الأتمتة الداخلية عبر n8n وتكاملات OpenAI لتبسيط العمليات المتكرّرة داخل الفريق."
       ]
     },
     "stack": [
@@ -99,13 +99,13 @@
     "bullets": {
       "en": [
         "Built a dashboard-based internal platform combining Jira-style task tracking with a quotation management system in React, used daily across all departments.",
-        "Implemented three core modules — task tracking, quotation generation, and workflow management — replacing manual spreadsheet processes.",
+        "Implemented three core modules (task tracking, quotation generation, and workflow management), replacing manual spreadsheet processes.",
         "Coordinated between frontend and backend teams to clarify requirements and keep delivery on schedule.",
         "Promoted to Software Engineering Supervisor within twelve months."
       ],
       "ar": [
         "بنيت منصّة داخلية قائمة على لوحات التحكّم تجمع تتبّع المهام بأسلوب Jira مع نظام لإدارة عروض الأسعار باستخدام React، وتُستخدم يومياً في كل الأقسام.",
-        "نفّذت ثلاث وحدات أساسية — تتبّع المهام، وإصدار عروض الأسعار، وإدارة سير العمل — لتحلّ محل العمليات اليدوية على جداول البيانات.",
+        "نفّذت ثلاث وحدات أساسية (تتبّع المهام، وإصدار عروض الأسعار، وإدارة سير العمل) لتحلّ محل العمليات اليدوية على جداول البيانات.",
         "نسّقت بين فريقي الواجهة الأمامية والخلفية لتوضيح المتطلبات والحفاظ على الجدول الزمني للتسليم.",
         "تمّت ترقيتي إلى مشرف هندسة برمجيات خلال اثني عشر شهراً."
       ]
@@ -177,12 +177,12 @@
       "en": [
         "Designed responsive user interfaces for a kids education platform using React and Material-UI, where users browse courses, open lessons, and save courses for later.",
         "Transformed Figma designs into functional interfaces with reusable components and optimized state management.",
-        "First professional React role — the foundation for everything that followed."
+        "First professional React role, and the foundation for everything that followed."
       ],
       "ar": [
         "صمّمت واجهات مستخدم متجاوبة لمنصّة تعليمية للأطفال باستخدام React وMaterial-UI، حيث يتصفّح المستخدمون الدورات ويفتحون الدروس ويحفظون الدورات لوقت لاحق.",
         "حوّلت تصاميم Figma إلى واجهات عملية بمكوّنات قابلة لإعادة الاستخدام وإدارة حالة محسّنة.",
-        "أول دور احترافي لي بـ React — والأساس الذي بُني عليه كل ما تلاه."
+        "أول دور احترافي لي بـ React، والأساس الذي بُني عليه كل ما تلاه."
       ]
     },
     "stack": [

@@ -7,11 +7,23 @@
  */
 
 import { PAGES } from './sitemap.mjs';
+import { period } from './blocks.mjs';
 
 const base = (db) => db.profile.site.replace(/\/$/, '');
 
-const period = (start, end, presentLabel) =>
-  `${start} — ${end ?? presentLabel}`;
+/**
+ * What he is looking for and where, as plain lines. These are the words a
+ * recruiter types into a search box or asks an assistant, stated openly.
+ */
+function lookingFor(profile, c, lang) {
+  const a = profile.availability;
+  if (!a.openToWork || !a.roles) return [];
+  return [
+    `**${c.contact.rolesTitle}:** ${a.roles[lang].join(', ')}`,
+    `**${c.contact.areasTitle}:** ${a.areas[lang].join(', ')}`,
+    ...(a.immediate ? [`**${c.contact.availabilityTitle}:** ${c.contact.availableNow}`] : []),
+  ];
+}
 
 /** `year` may be a shared string or `{en, ar}` when the wording differs. */
 const yearOf = (y, lang) => (y && typeof y === 'object' ? y[lang] : y);
@@ -24,9 +36,9 @@ export function buildLlmsTxt(db, lang = 'en') {
 
   L.push(`# ${profile.name[lang]}`);
   L.push('');
-  L.push(`> ${profile.headline[lang]} — based in ${profile.location.city[lang]}, ${profile.location.country[lang]}. ${profile.tagline[lang]}`);
+  L.push(`> ${profile.headline[lang]}, based in ${profile.location.city[lang]}, ${profile.location.country[lang]}. ${profile.tagline[lang]}`);
   L.push('');
-  // Every spelling people actually type — so a model that meets any of them
+  // Every spelling people actually type, so a model that meets any of them
   // resolves it to this same person.
   if (profile.nameVariants?.length) {
     L.push(`Also known as: ${profile.nameVariants.join(' · ')}`);
@@ -34,6 +46,11 @@ export function buildLlmsTxt(db, lang = 'en') {
   }
   L.push(c.home.intro);
   L.push('');
+  const wanted = lookingFor(profile, c, lang);
+  if (wanted.length) {
+    L.push(...wanted.map((line) => `- ${line}`));
+    L.push('');
+  }
 
   L.push('## Start here');
   L.push('');
@@ -63,15 +80,15 @@ export function buildLlmsTxt(db, lang = 'en') {
   L.push('');
   for (const x of db.showcase.sites) {
     const link = x.url ? `[${x.name[lang]}](${x.url})` : x.name[lang];
-    L.push(`- ${link} — ${x.role[lang]}. ${x.concept[lang]}`);
+    L.push(`- ${link}: ${x.role[lang]}. ${x.concept[lang]}`);
   }
-  L.push(`- [${db.showcase.lab.name[lang]}](${db.showcase.lab.url}) — ${db.showcase.lab.count} ${db.showcase.lab.countLabel[lang]}. ${db.showcase.lab.tagline[lang]}`);
+  L.push(`- [${db.showcase.lab.name[lang]}](${db.showcase.lab.url}): ${db.showcase.lab.count} ${db.showcase.lab.countLabel[lang]}. ${db.showcase.lab.tagline[lang]}`);
   L.push('');
 
   L.push('## Experience');
   L.push('');
   for (const e of db.experience) {
-    L.push(`- ${e.role[lang]}, ${e.company} (${period(e.start, e.end, c.ui.present)})`);
+    L.push(`- ${e.role[lang]}, ${e.company} (${period(e.start, e.end, c)})`);
   }
   L.push('');
 
@@ -100,7 +117,7 @@ export function buildLlmsFullTxt(db, lang = 'en') {
   const c = copy[lang];
   const L = [];
 
-  L.push(`# ${profile.name[lang]} — complete profile`);
+  L.push(`# ${profile.name[lang]}: complete profile`);
   L.push('');
   L.push(`> ${profile.headline[lang]}`);
   L.push('');
@@ -111,7 +128,8 @@ export function buildLlmsFullTxt(db, lang = 'en') {
   L.push(`**Email:** ${profile.email}`);
   L.push(`**Phone:** ${profile.phone}`);
   L.push(`**Languages:** ${profile.languages.map((l) => `${l.name[lang]} (${l.level[lang]})`).join(', ')}`);
-  L.push(`**Open to work:** ${profile.availability.openToWork ? 'yes' : 'no'} — ${profile.availability.arrangements[lang].join(', ')}`);
+  L.push(`**Open to work:** ${profile.availability.openToWork ? 'yes' : 'no'} (${profile.availability.arrangements[lang].join(', ')})`);
+  L.push(...lookingFor(profile, c, lang));
   L.push('');
   L.push('**Links:**');
   for (const s of profile.sameAs.filter((x) => x.url)) L.push(`- ${s.platform}: ${s.url}`);
@@ -135,7 +153,7 @@ export function buildLlmsFullTxt(db, lang = 'en') {
   for (const p of db.projects) {
     L.push(`### ${p.name} (${yearOf(p.year, lang)})`);
     L.push('');
-    L.push(`*${p.category[lang]}* — ${p.tagline[lang]}`);
+    L.push(`*${p.category[lang]}*: ${p.tagline[lang]}`);
     L.push('');
     L.push(`**Problem.** ${p.problem[lang]}`);
     L.push('');
@@ -158,7 +176,7 @@ export function buildLlmsFullTxt(db, lang = 'en') {
   for (const w of db.workflows) {
     L.push(`### ${w.name[lang]} (${yearOf(w.year, lang)})`);
     L.push('');
-    L.push(`*${w.kind[lang]}* — ${c.ui.status[w.status]}${w.workflowCount ? ` — ${w.workflowCount} n8n workflow(s)` : ''} — trigger: ${w.trigger[lang]}`);
+    L.push(`*${w.kind[lang]}* · ${c.ui.status[w.status]}${w.workflowCount ? ` · ${w.workflowCount} n8n workflow(s)` : ''} · trigger: ${w.trigger[lang]}`);
     if (w.flow) {
       L.push('');
       L.push(`**Flow.** ${w.flow.nodes.map((n) => n.label[lang]).join(' → ')}`);
@@ -177,7 +195,7 @@ export function buildLlmsFullTxt(db, lang = 'en') {
   L.push('## Websites built for clients');
   L.push('');
   for (const x of db.showcase.sites) {
-    L.push(`### ${x.name[lang]} — ${x.role[lang]}`);
+    L.push(`### ${x.name[lang]}: ${x.role[lang]}`);
     L.push('');
     L.push(x.concept[lang]);
     L.push('');
@@ -193,9 +211,9 @@ export function buildLlmsFullTxt(db, lang = 'en') {
   L.push('## Experience');
   L.push('');
   for (const e of db.experience) {
-    L.push(`### ${e.role[lang]} — ${e.company}`);
+    L.push(`### ${e.role[lang]}, ${e.company}`);
     L.push('');
-    L.push(`${period(e.start, e.end, c.ui.present)} · ${e.location[lang]} · ${e.type[lang]}`);
+    L.push(`${period(e.start, e.end, c)} · ${e.location[lang]} · ${e.type[lang]}`);
     L.push('');
     for (const bullet of e.bullets[lang]) L.push(`- ${bullet}`);
     L.push('');
@@ -204,14 +222,14 @@ export function buildLlmsFullTxt(db, lang = 'en') {
   L.push('## Education and awards');
   L.push('');
   for (const cr of db.credentials.filter((x) => x.kind !== 'certification')) {
-    L.push(`- **${cr.name[lang]}** — ${cr.issuer} (${cr.issued})`);
+    L.push(`- **${cr.name[lang]}**, ${cr.issuer} (${cr.issued})`);
   }
   L.push('');
 
   L.push('## Certifications');
   L.push('');
   for (const cr of db.credentials.filter((x) => x.kind === 'certification')) {
-    L.push(`- **${cr.name[lang]}** — ${cr.issuer} (${cr.issued})${cr.credentialId ? ` · ID ${cr.credentialId}` : ''}`);
+    L.push(`- **${cr.name[lang]}**, ${cr.issuer} (${cr.issued})${cr.credentialId ? ` · ID ${cr.credentialId}` : ''}`);
   }
   L.push('');
 
@@ -225,7 +243,7 @@ export function buildLlmsFullTxt(db, lang = 'en') {
   L.push('## Recommendations');
   L.push('');
   for (const t of db.testimonials) {
-    L.push(`### ${t.author} — ${t.title[lang]}`);
+    L.push(`### ${t.author}, ${t.title[lang]}`);
     L.push('');
     L.push(`*${t.relationship[lang]}, ${t.date}*`);
     L.push('');

@@ -4,8 +4,8 @@
     "ar": "نور الدين طفي"
   },
   "headline": {
-    "en": "AI Automation Engineer — n8n, LLM Agents, MCP · Frontend Developer",
-    "ar": "مهندس أتمتة بالذكاء الاصطناعي — n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية"
+    "en": "AI Automation Engineer: n8n, LLM Agents, MCP · Frontend Developer",
+    "ar": "مهندس أتمتة بالذكاء الاصطناعي: n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية"
   },
   "nameVariants": [
     "Nour Aldeen Tofi",
@@ -22,7 +22,7 @@
   ],
   "_nameVariantsNote": "Every spelling people actually use — full names, the short form Nour Tofi / نور طفي, both handles, and the توفي misspelling. Emitted as schema.org alternateName and listed in llms.txt / llms-full.txt / api/profile.json, so a search or a model that meets any variant resolves to the same person. This does not endorse them — profile.name stays canonical.",
   "tagline": {
-    "en": "I turn messy manual processes into self-running workflows — and build the interfaces people use on top of them.",
+    "en": "I turn messy manual processes into self-running workflows, and build the interfaces people use on top of them.",
     "ar": "أُحوّل العمليات اليدوية المتعثّرة إلى مسارات عمل ذاتية التشغيل، وأبني الواجهات التي يستخدمها الناس فوقها."
   },
   "location": {
@@ -43,6 +43,10 @@
   "image": "assets/img/nour.jpg",
   "_imageNote": "The portrait. 720×720, downscaled from me.png. Feeds Person.image in the structured data, the header avatar (via the 96px copy) and the full-size view behind it.",
   "ogImage": "assets/img/og.png",
+  "analytics": {
+    "ga4": null,
+    "todo": "Paste the GA4 Measurement ID (G-XXXXXXXXXX) from analytics.google.com, Admin, Data streams"
+  },
   "_ogImageNote": "Generated 1200×630 share card, emitted as og:image / twitter:image so links unfurl with a real preview. Wider than the portrait and captioned, so it stays the share image rather than the photo.",
   "email": "nouraldeentofi@gmail.com",
   "phone": "+966547972944",
@@ -103,6 +107,42 @@
   ],
   "availability": {
     "openToWork": true,
+    "immediate": true,
+    "since": "2026-11",
+    "roles": {
+      "en": [
+        "AI Automation Engineer",
+        "n8n Workflow Automation Engineer",
+        "Applied AI and LLM Engineer",
+        "Frontend Developer (React, TypeScript, Next.js)",
+        "Frontend Lead and Technical Lead"
+      ],
+      "ar": [
+        "مهندس أتمتة بالذكاء الاصطناعي",
+        "مهندس أتمتة سير العمل بـ n8n",
+        "مهندس ذكاء اصطناعي تطبيقي ونماذج لغوية كبيرة",
+        "مطوّر واجهات أمامية (React وTypeScript وNext.js)",
+        "قائد فريق الواجهات الأمامية وقائد تقني"
+      ]
+    },
+    "areas": {
+      "en": [
+        "Al Khobar",
+        "Dammam",
+        "Dhahran",
+        "Eastern Province",
+        "Riyadh and anywhere in Saudi Arabia (open to relocation)",
+        "Remote"
+      ],
+      "ar": [
+        "الخبر",
+        "الدمام",
+        "الظهران",
+        "المنطقة الشرقية",
+        "الرياض وأي مدينة في السعودية (مستعد للانتقال)",
+        "عن بُعد"
+      ]
+    },
     "arrangements": {
       "en": [
         "On-site",

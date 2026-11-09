@@ -160,7 +160,7 @@ export function buildResumeJson(db, lang = 'en') {
       roles: [p.role[lang]],
     })),
     references: db.testimonials.map((t) => ({
-      name: `${t.author} — ${t.title[lang]}`,
+      name: `${t.author}, ${t.title[lang]}`,
       reference: t.quote[lang],
     })),
   };

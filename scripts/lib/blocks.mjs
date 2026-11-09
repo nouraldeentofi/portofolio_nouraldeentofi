@@ -23,8 +23,9 @@ export const yearOf = (y, lang) => (y && typeof y === 'object' ? y[lang] : y);
 
 const PAGE_KEY = { '': 'home', about: 'about', work: 'work', projects: 'projects', showcase: 'showcase', automation: 'automation', chat: 'chat', contact: 'contact' };
 
-function period(start, end, presentLabel) {
-  return `${start}<span aria-hidden="true"> — </span>${end ?? presentLabel}`;
+/* Words, not a dash: "2025-01 to 2026-11", and "حتى الآن" with no "إلى" in front of it. */
+export function period(start, end, c) {
+  return end ? `${start} ${c.ui.to} ${end}` : `${start} ${c.ui.toPresent}`;
 }
 
 const list = (items, cls = '') => `<ul class="${cls}">${items.map((i) => `<li>${i}</li>`).join('')}</ul>`;
@@ -66,13 +67,31 @@ const badges = (items) =>
 
 /* ------------------------------------------------------------------ head */
 
+/*
+ * Google Analytics, once a measurement ID is set in profile.json. The tag
+ * only measures; it renders nothing, so every page reads the same without it.
+ */
+const analyticsTags = (db) => {
+  const id = db.profile.analytics?.ga4;
+  if (!id) return [];
+  return [
+    `<script async src="https://www.googletagmanager.com/gtag/js?id=${id}"></script>`,
+    `<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${id}');</script>`,
+  ];
+};
+
 export function headMeta(db, page, lang, { noindex = false } = {}) {
   const c = db.copy[lang];
   const other = lang === 'en' ? 'ar' : 'en';
+  // Each page names what it is about and what people search for, rather than
+  // one sitewide description that search engines treat as boilerplate.
+  const own = c.meta.pages?.[PAGE_KEY[page]];
   const title =
-    page === ''
-      ? `${db.profile.name[lang]} — ${db.profile.headline[lang]}`
-      : `${c.nav[PAGE_KEY[page]]} — ${db.profile.name[lang]}`;
+    own?.title ??
+    (page === ''
+      ? `${db.profile.name[lang]} | ${db.profile.headline[lang]}`
+      : `${c.nav[PAGE_KEY[page]]} | ${db.profile.name[lang]}`);
+  const description = own?.description ?? c.meta.description;
   const url = `${base(db)}${href(page, lang)}`;
   // A generated share card, not the pending portrait — profile.image stays
   // reserved for a real photo and its own structured-data treatment.
@@ -80,7 +99,7 @@ export function headMeta(db, page, lang, { noindex = false } = {}) {
 
   return [
     `<title>${e(title)}</title>`,
-    `<meta name="description" content="${e(c.meta.description)}">`,
+    `<meta name="description" content="${e(description)}">`,
     // `follow` so the links out of the page still carry weight.
     ...(noindex ? [`<meta name="robots" content="noindex, follow">`] : []),
     `<link rel="canonical" href="${url}">`,
@@ -91,7 +110,7 @@ export function headMeta(db, page, lang, { noindex = false } = {}) {
     `<link rel="alternate" hreflang="x-default" href="${base(db)}${href(page, 'ar')}">`,
     `<meta property="og:type" content="profile">`,
     `<meta property="og:title" content="${e(title)}">`,
-    `<meta property="og:description" content="${e(c.meta.description)}">`,
+    `<meta property="og:description" content="${e(description)}">`,
     `<meta property="og:url" content="${url}">`,
     `<meta property="og:locale" content="${lang === 'en' ? 'en_US' : 'ar_SA'}">`,
     `<meta property="og:locale:alternate" content="${lang === 'en' ? 'ar_SA' : 'en_US'}">`,
@@ -106,6 +125,7 @@ export function headMeta(db, page, lang, { noindex = false } = {}) {
         ]
       : [`<meta name="twitter:card" content="summary">`]),
     `<meta name="author" content="${e(db.profile.name[lang])}">`,
+    ...analyticsTags(db),
   ].join('\n');
 }
 
@@ -290,7 +310,7 @@ export function workTimeline(db, lang) {
 ${db.experience
   .map(
     (x) => `  <li data-reveal class="timeline__item${x.end === null ? ' timeline__item--current' : ''}">
-    <p class="timeline__period">${period(x.start, x.end, c.ui.present)}</p>
+    <p class="timeline__period">${e(period(x.start, x.end, c))}</p>
     <h3 class="timeline__role">${e(x.role[lang])}</h3>
     <p class="timeline__org">${org(db, x.company, lang)} · ${e(x.location[lang])} · ${e(x.type[lang])}</p>
     ${list(x.bullets[lang].map((b) => prose(db, b, lang)), 'timeline__bullets')}
@@ -332,6 +352,7 @@ ${db.credentials
 }
 
 export function workEducation(db, lang) {
+  const c = db.copy[lang];
   return `<ul class="creds creds--feature">
 ${db.credentials
   .filter((x) => x.kind !== 'certification')
@@ -340,7 +361,7 @@ ${db.credentials
     <span class="cred__kind">${e(x.kind === 'award' ? '★' : '✦')}</span>
     <span class="cred__body">
       <span class="cred__name">${e(x.name[lang])}</span>
-      <span class="cred__issuer">${org(db, x.issuer, lang)} · ${e(x.start ? `${x.start} — ${x.issued}` : x.issued)}</span>
+      <span class="cred__issuer">${org(db, x.issuer, lang)} · ${e(x.start ? period(x.start, x.issued, c) : x.issued)}</span>
       ${x.note ? `<span class="cred__note">${e(x.note[lang])}</span>` : ''}
     </span>
   </li>`,
@@ -425,6 +446,14 @@ ${groups
 </div>`;
 }
 
+/*
+ * "Aya Rady, desktop view, designed and built by Nour Aldeen Tofi". The alt
+ * text is what image search and models read, so it names both the site and
+ * the person who made it.
+ */
+const shotAlt = (db, name, view, lang) =>
+  `${name}${lang === 'ar' ? '،' : ','} ${db.copy[lang].ui[view]} ${db.profile.name[lang]}`;
+
 /** A browser window holding the desktop shot, with the phone leaning on it. */
 function deviceStage(db, s, lang, { phone = true } = {}) {
   // A project's name is one string; a site's is per language.
@@ -433,11 +462,11 @@ function deviceStage(db, s, lang, { phone = true } = {}) {
   return `<figure class="show__media">
     <span class="browser">
       <span class="browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="browser__url">${e(host)}</span></span>
-      <img src="${img(db, s.images.desktop)}" alt="${e(name)} — desktop" width="1200" height="750" loading="lazy" decoding="async">
+      <img src="${img(db, s.images.desktop)}" alt="${e(shotAlt(db, name, 'shotDesktop', lang))}" width="1200" height="750" loading="lazy" decoding="async">
     </span>${
       phone && s.images.phone
         ? `
-    <span class="phone"><img src="${img(db, s.images.phone)}" alt="${e(name)} — phone" width="390" height="844" loading="lazy" decoding="async"></span>`
+    <span class="phone"><img src="${img(db, s.images.phone)}" alt="${e(shotAlt(db, name, 'shotPhone', lang))}" width="390" height="844" loading="lazy" decoding="async"></span>`
         : ''
     }
   </figure>`;
@@ -559,14 +588,14 @@ function systemCard(db, w, lang, { compact = false } = {}) {
   </div>${
     w.canvas
       ? `
-  <dialog class="lightbox" id="${dialogId}" aria-label="${e(`${name} — ${c.ui.canvasCaption}`)}">
+  <dialog class="lightbox" id="${dialogId}" aria-label="${e(`${name}: ${c.ui.canvasCaption}`)}">
     <div class="lightbox__head">
       <span>${e(name)} · ${e(c.ui.canvasCaption)}${
         (w.canvasSize?.[0] ?? 0) > 1280 ? ` <span class="lightbox__hint">${e(c.ui.panHint)}</span>` : ''
       }</span>
       <form method="dialog"><button class="lightbox__close" aria-label="${e(c.ui.closeCanvas)}">&times;</button></form>
     </div>
-    <div class="lightbox__body"><img src="${img(db, w.canvas)}" alt="${e(`${name} — ${c.ui.canvasCaption}`)}"${
+    <div class="lightbox__body"><img src="${img(db, w.canvas)}" alt="${e(`${name}: ${c.ui.canvasCaption}`)}"${
       w.canvasSize ? ` width="${w.canvasSize[0]}" height="${w.canvasSize[1]}"` : ''
     } loading="lazy" decoding="async"></div>
   </dialog>`
@@ -715,8 +744,16 @@ export function contactAvailability(db, lang) {
   const a = db.profile.availability;
   const c = db.copy[lang];
   return `<h3 class="card__title">${e(c.contact.availabilityTitle)}</h3>
-<p class="card__body">${e(db.profile.location.city[lang])}, ${e(db.profile.location.country[lang])}</p>
-${badges(a.arrangements[lang])}`;
+<p class="card__body">${e(db.profile.location.city[lang])}${lang === 'ar' ? '،' : ','} ${e(db.profile.location.country[lang])}${a.immediate ? ` · ${e(c.contact.availableNow)}` : ''}</p>
+${badges(a.arrangements[lang])}${
+    a.roles
+      ? `
+<h3 class="card__title">${e(c.contact.rolesTitle)}</h3>
+${badges(a.roles[lang])}
+<h3 class="card__title">${e(c.contact.areasTitle)}</h3>
+${badges(a.areas[lang])}`
+      : ''
+  }`;
 }
 
 export function contactMcp(db, lang) {
