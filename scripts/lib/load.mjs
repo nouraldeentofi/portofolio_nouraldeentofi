@@ -98,6 +98,12 @@ export function loadDb(dir = 'data') {
     throw new Error(`profile.json: analytics.tag "${tag}" is not a Google tag ID (GTM-XXXXXXX or G-XXXXXXXXXX)`);
   }
 
+  // The IndexNow key becomes a file name at the site root.
+  const indexNowKey = profile.indexNow?.key;
+  if (indexNowKey != null && !/^[a-f0-9]{8,128}$/.test(indexNowKey)) {
+    throw new Error('profile.json: indexNow.key must be 8 to 128 lowercase hex characters');
+  }
+
   const experience = readJson(dir, 'experience.json');
   const projects = readJson(dir, 'projects.json');
   const workflows = readJson(dir, 'workflows.json');

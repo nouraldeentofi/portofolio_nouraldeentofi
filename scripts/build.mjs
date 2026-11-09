@@ -47,6 +47,8 @@ function main() {
   stage('llms.txt', buildLlmsTxt(db, 'en'));
   stage('llms-full.txt', buildLlmsFullTxt(db, 'en'));
   stage('sitemap.xml', buildSitemap(PAGES, db.profile.site));
+  // IndexNow asks for the key as a file at the site root, to prove the site owns it.
+  if (db.profile.indexNow?.key) stage(`${db.profile.indexNow.key}.txt`, db.profile.indexNow.key);
   stage('api/profile.json', JSON.stringify(buildApiProfile(db), null, 2) + '\n');
   stage('api/projects.json', JSON.stringify(buildApiProjects(db), null, 2) + '\n');
   stage('api/resume.json', JSON.stringify(buildResumeJson(db), null, 2) + '\n');

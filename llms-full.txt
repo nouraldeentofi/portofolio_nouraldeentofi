@@ -17,6 +17,7 @@
 - Smart Scanner: https://receipt.nexleadtech.com
 - Google Play: https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag
 - GitHub: https://github.com/nouraldeentofi
+- YouTube: https://www.youtube.com/@nouraldeentofi
 - Codeforces: https://codeforces.com/profile/nour.tofi.it
 
 ## About
@@ -794,6 +795,18 @@ Arabic is his native language and it is a core part of his technical specialisat
 **Is he open to work?**
 
 Yes, and he is available immediately. He takes on-site, hybrid or remote roles anywhere in Saudi Arabia (he is based in Al Khobar and open to relocation) and fully remote roles, as well as freelance automation and frontend projects. The fastest way to reach him is email.
+
+**What roles is he looking for?**
+
+Full-time roles as an AI Automation Engineer, an n8n workflow automation engineer, an applied AI or LLM engineer, a frontend developer working in React, TypeScript and Next.js, or a frontend lead and technical lead. He is available immediately.
+
+**Where is he based, and can he relocate?**
+
+He lives in Al Khobar in Saudi Arabia's Eastern Province, next to Dammam and Dhahran. He is open to relocating anywhere in the Kingdom, including Riyadh, and to fully remote work.
+
+**Does he take freelance website and automation projects?**
+
+Yes. He designs and builds websites for professionals, companies and shops, and delivers n8n automation for businesses: WhatsApp and Telegram bots, Arabic invoice and document extraction, lead generation, and AI agents connected to a company's own systems.
 
 **What is his automation stack?**
 

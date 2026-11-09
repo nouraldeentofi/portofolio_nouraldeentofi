@@ -176,6 +176,18 @@
         "a": "Yes, and he is available immediately. He takes on-site, hybrid or remote roles anywhere in Saudi Arabia (he is based in Al Khobar and open to relocation) and fully remote roles, as well as freelance automation and frontend projects. The fastest way to reach him is email."
       },
       {
+        "q": "What roles is he looking for?",
+        "a": "Full-time roles as an AI Automation Engineer, an n8n workflow automation engineer, an applied AI or LLM engineer, a frontend developer working in React, TypeScript and Next.js, or a frontend lead and technical lead. He is available immediately."
+      },
+      {
+        "q": "Where is he based, and can he relocate?",
+        "a": "He lives in Al Khobar in Saudi Arabia's Eastern Province, next to Dammam and Dhahran. He is open to relocating anywhere in the Kingdom, including Riyadh, and to fully remote work."
+      },
+      {
+        "q": "Does he take freelance website and automation projects?",
+        "a": "Yes. He designs and builds websites for professionals, companies and shops, and delivers n8n automation for businesses: WhatsApp and Telegram bots, Arabic invoice and document extraction, lead generation, and AI agents connected to a company's own systems."
+      },
+      {
         "q": "What is his automation stack?",
         "a": "n8n for orchestration; the OpenAI API including GPT-4o and GPT-4.1 Vision with structured JSON outputs; AI agents with custom tool-calling; webhooks and REST integrations; Google Sheets, Google Drive, MySQL, and Telegram as data and delivery layers; and the Model Context Protocol for connecting models to real tools."
       },

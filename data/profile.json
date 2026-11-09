@@ -96,6 +96,10 @@
       "url": "https://github.com/nouraldeentofi"
     },
     {
+      "platform": "YouTube",
+      "url": "https://www.youtube.com/@nouraldeentofi"
+    },
+    {
       "platform": "Codeforces",
       "url": "https://codeforces.com/profile/nour.tofi.it",
       "note": "Corroborates the ICPC/ACPC award and George Drouj's recommendation about competitive programming."
@@ -166,5 +170,9 @@
         "ar": "السيرة الذاتية"
       }
     }
-  ]
+  ],
+  "indexNow": {
+    "key": "17557094c3ee21fe9e3235931c75cc3a",
+    "_note": "IndexNow (indexnow.org) tells Bing, Yandex, Naver and Seznam that pages changed, with no account. The build writes <key>.txt at the site root, which proves the site owns the key; `npm run indexnow` then submits every address in the sitemap. The key is public by design."
+  }
 }

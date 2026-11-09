@@ -59,6 +59,11 @@ export function checkAll({ pages = pageFiles() } = {}) {
   if (!db.profile.image) warn('pending: no portrait set — Person.image is omitted (the generated ogImage covers the social preview)');
   if (!db.profile.analytics?.tag) warn(`pending: Google Analytics is off — ${db.profile.analytics?.todo ?? 'no Google tag ID'}`);
 
+  const indexNowKey = db.profile.indexNow?.key;
+  if (indexNowKey && (!existsSync(`${indexNowKey}.txt`) || readFileSync(`${indexNowKey}.txt`, 'utf8') !== indexNowKey)) {
+    fail(`${indexNowKey}.txt: missing or wrong — the IndexNow key file must hold the key; run npm run build`);
+  }
+
   const sectionCounts = {};
 
   for (const { lang, page, file } of pages) {

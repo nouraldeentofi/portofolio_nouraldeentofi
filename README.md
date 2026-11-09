@@ -124,6 +124,11 @@ repository too). `_headers` and `_redirects` take effect there as written.
 There is no build step on the host, so **the generated files must be committed**. Run
 `npm run check` and commit the result — pushing the source alone deploys nothing.
 
+After a push has deployed, `npm run indexnow` tells Bing, Yandex, Naver and Seznam that
+the pages changed (IndexNow, no account needed). The key lives in `data/profile.json`
+and the build writes it to `<key>.txt` at the site root, which is how the engines check
+that the site owns it. Google does not use IndexNow; it reads `sitemap.xml`.
+
 ### Client sites and apps on the domain
 
 Every client site, the design gallery and the browser apps are served from this
