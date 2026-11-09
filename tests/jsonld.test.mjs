@@ -5,7 +5,8 @@ import {
   personLd,
   projectsLd,
   credentialsLd,
-  reviewsLd,
+  recommendationsLd,
+  profilePageLd,
   faqLd,
   breadcrumbLd,
   toScriptTag,
@@ -60,12 +61,19 @@ test('certifications become credentials with their identifier', () => {
   assert.equal(advancedReact.identifier, '1OMX1QZY5G5Q');
 });
 
-test('recommendations become reviews pointing at the person', () => {
-  const reviews = reviewsLd(db, 'en');
-  assert.equal(reviews.length, 4);
-  assert.equal(reviews[0]['@type'], 'Review');
-  assert.equal(reviews[0].itemReviewed['@id'], `${db.profile.site}/#nour`);
-  assert.ok(reviews[0].reviewBody.length > 40);
+/* Google reported every one as an invalid review: a person cannot be the
+   thing reviewed. They are quotations about him instead. */
+test('recommendations become quotations about the person, never reviews', () => {
+  const quotes = recommendationsLd(db, 'en');
+  assert.equal(quotes.length, 4);
+  assert.equal(quotes[0]['@type'], 'Quotation');
+  assert.equal(quotes[0].about['@id'], `${db.profile.site}/#nour`);
+  assert.ok(quotes[0].text.length > 40);
+  assert.ok(!JSON.stringify(quotes).includes('itemReviewed'));
+});
+
+test('the profile page carries a full timestamp, which Google requires', () => {
+  assert.match(profilePageLd(db, 'en').dateModified, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$/);
 });
 
 test('faq entries become questions with accepted answers', () => {
@@ -81,9 +89,11 @@ test('breadcrumbs are absolute and language-aware', () => {
   // moving the site to a new domain fails a test that is not about domains.
   const ar = breadcrumbLd('projects', 'ar', db);
   assert.equal(ar['@type'], 'BreadcrumbList');
-  assert.equal(ar.itemListElement.at(-1).item, `${db.profile.site}/projects.html`);
+  assert.equal(ar.itemListElement.at(-1).item, `${db.profile.site}/projects`);
+  assert.equal(ar.itemListElement[0].item, `${db.profile.site}/`);
   const en = breadcrumbLd('projects', 'en', db);
-  assert.equal(en.itemListElement.at(-1).item, `${db.profile.site}/en/projects.html`);
+  assert.equal(en.itemListElement.at(-1).item, `${db.profile.site}/en/projects`);
+  assert.equal(en.itemListElement[0].item, `${db.profile.site}/en/`);
 });
 
 test('script tag emits parseable json-ld', () => {

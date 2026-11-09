@@ -7,7 +7,7 @@
 
 import { escapeHtml, extAttrs, newTabHint } from './render.mjs';
 import * as B from './blocks.mjs';
-import { PAGES } from './sitemap.mjs';
+import { PAGES, pagePath } from './sitemap.mjs';
 
 const e = escapeHtml;
 const PAGE_KEY = { '': 'home', about: 'about', work: 'work', projects: 'projects', showcase: 'showcase', automation: 'automation', chat: 'chat', contact: 'contact' };
@@ -26,14 +26,12 @@ const PAGE_VARIANT = { '': 'graph', about: 'orbit', work: 'flow', projects: 'gri
 const GALLERY_PAGES = new Set(['', 'projects', 'showcase', 'automation']);
 
 /**
- * A link to another page *in the same language*.
+ * A link to another page *in the same language*, from the site root.
  *
- * Both language trees are flat and self-contained — Arabic at the root,
- * English in `/en/` — so pages are always siblings and never need a prefix.
- * (Assets are different: they live once at the root, so `asset()` below does
- * need to climb out of `/en/`.)
+ * Root-relative so it also works from the 404 page, which is served at
+ * whatever address was not found. See `pagePath` for why there is no `.html`.
  */
-const rel = (page) => `${page === '' ? 'index' : page}.html`;
+const rel = pagePath;
 
 const asset = (path, lang) => `${lang === 'ar' ? '' : '../'}${path}`;
 
@@ -70,17 +68,17 @@ function header(db, page, lang) {
 
   const nav = PAGES.map((p) => {
     const current = p === page ? ' aria-current="page"' : '';
-    return `          <a href="${rel(p)}"${current}>${e(c.nav[PAGE_KEY[p]])}</a>`;
+    return `          <a href="${rel(p, lang)}"${current}>${e(c.nav[PAGE_KEY[p]])}</a>`;
   }).join('\n');
 
   // The language switch points at the same page in the other tree.
-  const otherHref = lang === 'ar' ? `en/${page === '' ? 'index' : page}.html` : `../${page === '' ? 'index' : page}.html`;
+  const otherHref = pagePath(page, lang === 'ar' ? 'en' : 'ar');
 
   return `  <header class="site-header">
     <div class="container site-header__inner">
       <div class="brand">
         ${portraitTrigger(db, lang, 'brand__mark')}
-        <a class="brand__name" href="${rel('')}">${e(db.profile.name[lang])}</a>
+        <a class="brand__name" href="${rel('', lang)}">${e(db.profile.name[lang])}</a>
       </div>
       <nav class="site-nav" aria-label="${e(c.nav.home)}">
 ${nav}
@@ -127,7 +125,7 @@ function mobileTabs(db, page, lang) {
   return `  <nav class="mobile-tabs" aria-label="${e(c.nav.home)}">
 ${PAGES.map((t) => {
     const current = t === page ? ' aria-current="page"' : '';
-    return `    <a href="${rel(t)}"${current}><span>${e(c.navShort[PAGE_KEY[t]])}</span></a>`;
+    return `    <a href="${rel(t, lang)}"${current}><span>${e(c.navShort[PAGE_KEY[t]])}</span></a>`;
   }).join('\n')}
   </nav>`;
 }
@@ -174,7 +172,7 @@ try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.
 /* honour the visitor's last language choice on every arrival */
 try{var L=localStorage.getItem('nt-lang');var p=location.pathname;
 var en=p==='/en'||p.slice(0,4)==='/en/';
-if(L==='en'&&!en){location.replace(p==='/'?'/en/index.html':'/en'+p);}
+if(L==='en'&&!en){location.replace(p==='/'?'/en/':'/en'+p);}
 else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(e){}})();
 </script>
 <link rel="icon" type="image/png" sizes="32x32" href="${assetV(db, 'assets/img/icon-32.png', lang)}">
@@ -260,28 +258,28 @@ function home(db, lang) {
     headingClass: 'hero__name',
     headline: p.headline[lang],
     intro: c.home.intro,
-    actions: `        <a class="btn" href="${rel('contact')}">${e(c.home.ctaButton)}</a>
-        <a class="btn btn--ghost" href="${rel('automation')}">${e(c.nav.automation)}</a>`,
+    actions: `        <a class="btn" href="${rel('contact', lang)}">${e(c.home.ctaButton)}</a>
+        <a class="btn btn--ghost" href="${rel('automation', lang)}">${e(c.nav.automation)}</a>`,
   })}
 
-${section('proof', c.home.proofLabel, c.home.proofLabel, null, B.homeProof(db, lang), { href: rel('about'), label: c.nav.about })}
+${section('proof', c.home.proofLabel, c.home.proofLabel, null, B.homeProof(db, lang), { href: rel('about', lang), label: c.nav.about })}
 
-${section('featured', c.home.featuredLabel, c.home.featuredLabel, null, B.homeFeatured(db, lang), { href: rel('projects'), label: c.ui.seeAll })}
+${section('featured', c.home.featuredLabel, c.home.featuredLabel, null, B.homeFeatured(db, lang), { href: rel('projects', lang), label: c.ui.seeAll })}
 
-${section('automation', c.home.automationLabel, c.home.automationLabel, c.home.automationLead, `      <div class="grid grid--3">\n${B.homeAutomation(db, lang)}\n      </div>`, { href: rel('automation'), label: c.nav.automation })}
+${section('automation', c.home.automationLabel, c.home.automationLabel, c.home.automationLead, `      <div class="grid grid--3">\n${B.homeAutomation(db, lang)}\n      </div>`, { href: rel('automation', lang), label: c.nav.automation })}
 
-${section('projects', c.home.projectsLabel, c.home.projectsLabel, c.home.projectsLead, `      <div class="grid grid--3">\n${B.homeProjects(db, lang)}\n      </div>`, { href: rel('projects'), label: c.nav.projects })}
+${section('projects', c.home.projectsLabel, c.home.projectsLabel, c.home.projectsLead, `      <div class="grid grid--3">\n${B.homeProjects(db, lang)}\n      </div>`, { href: rel('projects', lang), label: c.nav.projects })}
 
-${section('showcase', c.home.showcaseLabel, c.home.showcaseLabel, c.home.showcaseLead, `      <div class="grid grid--3">\n${B.homeShowcase(db, lang)}\n      </div>`, { href: rel('showcase'), label: c.nav.showcase })}
+${section('showcase', c.home.showcaseLabel, c.home.showcaseLabel, c.home.showcaseLead, `      <div class="grid grid--3">\n${B.homeShowcase(db, lang)}\n      </div>`, { href: rel('showcase', lang), label: c.nav.showcase })}
 
-${section('quotes', c.home.quoteLabel, c.home.quoteLabel, null, `      <div class="grid grid--2">\n${B.homeQuote(db, lang)}\n      </div>`, { href: rel('work'), label: c.nav.work })}
+${section('quotes', c.home.quoteLabel, c.home.quoteLabel, null, `      <div class="grid grid--2">\n${B.homeQuote(db, lang)}\n      </div>`, { href: rel('work', lang), label: c.nav.work })}
 
   <section class="section">
     <div class="container">
       <div class="cta">
         <h2>${e(c.home.ctaTitle)}</h2>
         <p>${e(c.home.ctaBody)}</p>
-        <a class="btn" href="${rel('contact')}">${e(c.home.ctaButton)}</a>
+        <a class="btn" href="${rel('contact', lang)}">${e(c.home.ctaButton)}</a>
       </div>
     </div>
   </section>`;
@@ -359,7 +357,7 @@ ${section('lab', null, c.showcase.labTitle, c.showcase.labLead, B.showcaseLab(db
       <div class="cta">
         <h2>${e(c.showcase.ctaTitle)}</h2>
         <p>${e(c.showcase.ctaBody)}</p>
-        <a class="btn" href="${rel('contact')}">${e(c.home.ctaButton)}</a>
+        <a class="btn" href="${rel('contact', lang)}">${e(c.home.ctaButton)}</a>
       </div>
     </div>
   </section>`;
@@ -470,7 +468,7 @@ function notFound(db, lang) {
   const main = `${heroBlock({
     heading: '404',
     headline: lang === 'en' ? 'That page does not exist.' : 'هذه الصفحة غير موجودة.',
-    actions: `        <a class="btn" href="${rel('')}">${e(c.nav.home)}</a>`,
+    actions: `        <a class="btn" href="${rel('', lang)}">${e(c.nav.home)}</a>`,
   })}`;
   // Borrows the home page's head, so it must say noindex — otherwise it is a
   // crawlable duplicate of the home title and description.

@@ -7,6 +7,8 @@
  * (url === null) are dropped rather than emitted as dead references.
  */
 
+import { pagePath } from './sitemap.mjs';
+
 const CTX = 'https://schema.org';
 
 const PAGE_TITLES = {
@@ -35,7 +37,7 @@ const entitySameAs = (db, group, name) => {
 const langPath = (lang) => (lang === 'ar' ? '' : '/en');
 
 export function pageUrl(db, page, lang) {
-  return `${base(db)}${langPath(lang)}/${page === '' ? 'index' : page}.html`;
+  return `${base(db)}${pagePath(page, lang)}`;
 }
 
 export function credentialsLd(db, lang) {
@@ -156,7 +158,8 @@ export function profilePageLd(db, lang) {
     url: pageUrl(db, '', lang),
     inLanguage: lang,
     mainEntity: { '@id': `${base(db)}/#nour` },
-    dateModified: new Date().toISOString().slice(0, 10),
+    // A full timestamp with an offset: Google rejects a bare date here.
+    dateModified: `${new Date().toISOString().slice(0, 10)}T00:00:00+03:00`,
   };
 }
 
@@ -252,19 +255,26 @@ export function experienceLd(db, lang) {
   };
 }
 
-export function reviewsLd(db, lang) {
+/**
+ * Recommendations as quotations about Nour, each attributed to its author.
+ *
+ * Not `Review`: Google only accepts reviews of products, businesses, books
+ * and the like, and reported every one of these as invalid because a person
+ * cannot be the thing reviewed. A quotation says the same and breaks no rule.
+ */
+export function recommendationsLd(db, lang) {
   return db.testimonials.map((t) => ({
     '@context': CTX,
-    '@type': 'Review',
-    itemReviewed: { '@id': `${base(db)}/#nour` },
-    author: {
+    '@type': 'Quotation',
+    about: { '@id': `${base(db)}/#nour` },
+    creator: {
       '@type': 'Person',
       name: t.author,
       jobTitle: t.title[lang],
       ...entitySameAs(db, 'people', t.author),
     },
-    datePublished: t.date,
-    reviewBody: t.quote[lang],
+    dateCreated: t.date,
+    text: t.quote[lang],
     inLanguage: lang,
   }));
 }

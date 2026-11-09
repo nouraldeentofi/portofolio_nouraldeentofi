@@ -8,11 +8,11 @@
 import { escapeHtml, extAttrs, newTabHint, linkifyPeople } from './render.mjs';
 import * as ld from './jsonld.mjs';
 import { flowDiagram } from './diagram.mjs';
+import { pagePath } from './sitemap.mjs';
 
 const e = escapeHtml;
 const base = (db) => db.profile.site.replace(/\/$/, '');
-const langPath = (lang) => (lang === 'ar' ? '' : '/en');
-const href = (page, lang) => `${langPath(lang)}/${page === '' ? 'index' : page}.html`;
+const href = pagePath;
 
 /**
  * A year is usually one string shared by both languages ("2026"). It becomes
@@ -134,7 +134,7 @@ export function headLd(db, page, lang) {
   const extra = {
     '': [ld.profilePageLd(db, lang)],
     about: [ld.faqLd(db, lang)],
-    work: [ld.experienceLd(db, lang), ...ld.reviewsLd(db, lang)],
+    work: [ld.experienceLd(db, lang), ...ld.recommendationsLd(db, lang)],
     projects: [ld.projectsLd(db, lang)],
     showcase: [ld.showcaseLd(db, lang)],
     automation: [ld.workflowsLd(db, lang)],

@@ -3,7 +3,18 @@ export const PAGES = ['', 'about', 'work', 'projects', 'showcase', 'automation',
 
 export const LANGS = ['en', 'ar'];
 
-const path = (page, lang) => `${lang === 'ar' ? '' : '/en'}/${page === '' ? 'index' : page}.html`;
+/**
+ * The address a page is served at, from the site root: `/about`, `/en/about`,
+ * and `/` or `/en/` for the two home pages.
+ *
+ * No `.html`: the host answers `/about.html` with a redirect to `/about`, so
+ * the clean form is the only one that never redirects. Canonicals, hreflang,
+ * the sitemap, structured data and every link between pages use it, so a
+ * search engine is only ever told about one address per page.
+ */
+export const pagePath = (page, lang) => `${lang === 'ar' ? '' : '/en'}/${page}`;
+
+const path = pagePath;
 
 export function buildSitemap(pages, baseUrl) {
   const base = baseUrl.replace(/\/$/, '');

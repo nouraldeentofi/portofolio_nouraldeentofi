@@ -6,7 +6,7 @@
  * model can ingest everything in a single fetch without crawling.
  */
 
-import { PAGES } from './sitemap.mjs';
+import { PAGES, pagePath } from './sitemap.mjs';
 import { period } from './blocks.mjs';
 
 const base = (db) => db.profile.site.replace(/\/$/, '');
@@ -56,7 +56,7 @@ export function buildLlmsTxt(db, lang = 'en') {
   L.push('');
   for (const page of PAGES) {
     const name = page === '' ? c.nav.home : c.nav[page];
-    L.push(`- [${name}](${b}/en/${page === '' ? 'index' : page}.html)`);
+    L.push(`- [${name}](${b}${pagePath(page, 'en')})`);
   }
   L.push(`- [النسخة العربية](${b}/): the same site, Arabic-first, served at the root`);
   L.push('');

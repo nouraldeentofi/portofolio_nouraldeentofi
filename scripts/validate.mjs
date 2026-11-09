@@ -18,6 +18,23 @@ const warnings = [];
 const fail = (msg) => errors.push(msg);
 const warn = (msg) => warnings.push(msg);
 
+/**
+ * The file on disk behind a link.
+ *
+ * Pages are linked by their clean address (`/en/about`, `/en/`), and the host
+ * serves `en/about.html` and `en/index.html` behind those.
+ */
+function toFile(target, dir) {
+  // Neither the fragment nor the query is part of the path on disk.
+  // Stylesheets carry a `?v=` fingerprint so a CDN cannot serve a stale
+  // copy; without stripping it, every one of them reads as missing.
+  const clean = target.split('#')[0].split('?')[0];
+  if (!clean) return null;
+  const path = clean.startsWith('/') ? clean.slice(1) : clean.startsWith('../') ? clean.slice(3) : `${dir}${clean}`;
+  if (path === '' || path.endsWith('/')) return `${path}index.html`;
+  return /\.[a-z0-9]+$/i.test(path) ? path : `${path}.html`;
+}
+
 function pageFiles() {
   return LANGS.flatMap((lang) =>
     [...PAGES, '404'].map((p) => ({
@@ -106,14 +123,19 @@ export function checkAll({ pages = pageFiles() } = {}) {
       // Neither the fragment nor the query is part of the path on disk.
       // Stylesheets carry a `?v=` fingerprint so a CDN cannot serve a stale
       // copy; without stripping it, every one of them reads as missing.
-      const clean = target.split('#')[0].split('?')[0];
-      if (!clean) continue;
-      const resolved = clean.startsWith('/')
-        ? clean.slice(1)
-        : clean.startsWith('../')
-          ? clean.slice(3)
-          : `${dir}${clean}`;
+      const resolved = toFile(target, dir);
+      if (!resolved) continue;
       if (!existsSync(resolved)) fail(`${file}: link "${target}" resolves to missing ${resolved}`);
+    }
+
+    // 8a — pages are named by their clean address, never the .html one.
+    //
+    // The host redirects /about.html to /about. A link, canonical or hreflang
+    // that names the .html form sends every reader and crawler through that
+    // redirect, and tells Google about two addresses for one page.
+    for (const [, target] of html.matchAll(/(?:href|content)="([^"]*\.html(?:[#?][^"]*)?)"/g)) {
+      if (/^https?:/.test(target) && !target.startsWith(db.profile.site)) continue;
+      fail(`${file}: "${target}" names a page by its .html address — use pagePath()`);
     }
 
     // 8b — navigation must never cross language trees.
@@ -122,14 +144,12 @@ export function checkAll({ pages = pageFiles() } = {}) {
     // from an English page resolves to a real file — the *Arabic* one. That
     // silently dumped English readers back into Arabic on every nav click.
     // Only the deliberate language switch may cross.
-    for (const [, attrs, href] of html.matchAll(/<a\s+([^>]*?)href="([^"]+\.html)"/g)) {
+    for (const [, attrs, href] of html.matchAll(/<a\s+([^>]*?)href="([^"]+)"/g)) {
       if (attrs.includes('lang-switch')) continue;
-      if (/^(https?:|mailto:|tel:)/.test(href)) continue;
-      const resolved = href.startsWith('/')
-        ? href.slice(1)
-        : href.startsWith('../')
-          ? href.slice(3)
-          : `${dir}${href}`;
+      if (/^(https?:|mailto:|tel:|#)/.test(href)) continue;
+      const resolved = toFile(href, dir);
+      // Only a link to a page has a language; a PDF or an image does not.
+      if (!resolved?.endsWith('.html')) continue;
       const targetIsEnglish = resolved.startsWith('en/');
       if (targetIsEnglish !== (lang === 'en')) {
         fail(`${file}: link "${href}" leaves the ${lang} tree (goes to ${resolved})`);

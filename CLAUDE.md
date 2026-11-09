@@ -60,6 +60,9 @@ These are not style preferences — `npm test` and `npm run validate` fail on th
 - `mcp/tools.js` is pure; `mcp/server.js` is protocol wiring only. Do not mix them.
 - `assets/js/chat/engine.js` knows nothing about Nour; `script.*.js` knows nothing about
   rendering.
+- Pages are named by their **clean address** (`/en/about`, `/en/`), never `about.html`:
+  the host redirects the `.html` form. Build every link, canonical and structured-data
+  URL with `pagePath()` from `scripts/lib/sitemap.mjs`; `validate` fails on an `.html` one.
 - **No JavaScript may render user-facing content.** Everything must be in the HTML
   before scripts run — that is the entire premise of this rebuild.
 

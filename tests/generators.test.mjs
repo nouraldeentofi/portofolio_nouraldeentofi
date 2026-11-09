@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { loadDb } from '../scripts/lib/load.mjs';
 import { buildLlmsTxt, buildLlmsFullTxt } from '../scripts/lib/llms.mjs';
-import { buildSitemap, PAGES, LANGS } from '../scripts/lib/sitemap.mjs';
+import { buildSitemap, PAGES, LANGS, pagePath } from '../scripts/lib/sitemap.mjs';
 import { buildApiProfile, buildApiProjects, buildResumeJson } from '../scripts/lib/api.mjs';
 import { TEMPLATES, notFound, buildRedirects } from '../scripts/lib/pages.mjs';
 import { contactCv, headMeta } from '../scripts/lib/blocks.mjs';
@@ -20,7 +20,7 @@ test('llms.txt opens with an H1 and a blockquote summary', () => {
 test('llms.txt links every page and never emits a null href', () => {
   const txt = buildLlmsTxt(db);
   for (const page of ['about', 'work', 'projects', 'automation', 'contact']) {
-    assert.ok(txt.includes(`/${page}.html`), `missing link to ${page}`);
+    assert.ok(txt.includes(`(${db.profile.site}/en/${page})`), `missing link to ${page}`);
   }
   assert.ok(!txt.includes('(null)'));
   assert.ok(!txt.includes('undefined'));
@@ -47,7 +47,26 @@ test('sitemap emits one url per page per language with hreflang alternates', () 
   assert.match(xml, /hreflang="ar"/);
   assert.match(xml, /hreflang="en"/);
   assert.match(xml, /hreflang="x-default"/);
-  assert.ok(!xml.includes('//index.html'));
+  // The host redirects every .html address, so the sitemap must list none.
+  assert.ok(!xml.includes('.html'), 'the sitemap lists an address the host redirects');
+  assert.ok(xml.includes(`<loc>${db.profile.site}/</loc>`));
+  assert.ok(xml.includes(`<loc>${db.profile.site}/en/about</loc>`));
+});
+
+/* One address per page, everywhere a crawler looks: /about.html redirects to
+   /about, and Google listed both until every signal agreed on the clean one. */
+test('canonical, hreflang and og:url all use the clean address', () => {
+  for (const lang of LANGS) {
+    for (const page of PAGES) {
+      const head = headMeta(db, page, lang);
+      assert.ok(head.includes(`<link rel="canonical" href="${db.profile.site}${pagePath(page, lang)}">`), `${lang}/${page}: canonical`);
+      assert.ok(head.includes(`<meta property="og:url" content="${db.profile.site}${pagePath(page, lang)}">`), `${lang}/${page}: og:url`);
+      assert.ok(!head.includes('.html"'), `${lang}/${page || 'index'}: the head names an .html address`);
+    }
+  }
+  assert.equal(pagePath('', 'ar'), '/');
+  assert.equal(pagePath('', 'en'), '/en/');
+  assert.equal(pagePath('work', 'en'), '/en/work');
 });
 
 test('resume.json matches the JSON Resume shape', () => {
@@ -95,7 +114,7 @@ test('the phone tab bar links every page, in both languages', () => {
     assert.ok(bar, `${lang}: no tab bar rendered`);
 
     for (const page of PAGES) {
-      const href = `${page === '' ? 'index' : page}.html`;
+      const href = pagePath(page, lang);
       assert.ok(bar.includes(`href="${href}"`), `${lang}: tab bar is missing ${href}`);
     }
   }

@@ -12,14 +12,14 @@ I build AI automation systems that turn messy manual processes into clean, self-
 
 ## Start here
 
-- [Home](https://nouraldeentofi.com/en/index.html)
-- [About](https://nouraldeentofi.com/en/about.html)
-- [Work](https://nouraldeentofi.com/en/work.html)
-- [Projects](https://nouraldeentofi.com/en/projects.html)
-- [Showcase](https://nouraldeentofi.com/en/showcase.html)
-- [Automation Lab](https://nouraldeentofi.com/en/automation.html)
-- [Chat](https://nouraldeentofi.com/en/chat.html)
-- [Contact](https://nouraldeentofi.com/en/contact.html)
+- [Home](https://nouraldeentofi.com/en/)
+- [About](https://nouraldeentofi.com/en/about)
+- [Work](https://nouraldeentofi.com/en/work)
+- [Projects](https://nouraldeentofi.com/en/projects)
+- [Showcase](https://nouraldeentofi.com/en/showcase)
+- [Automation Lab](https://nouraldeentofi.com/en/automation)
+- [Chat](https://nouraldeentofi.com/en/chat)
+- [Contact](https://nouraldeentofi.com/en/contact)
 - [النسخة العربية](https://nouraldeentofi.com/): the same site, Arabic-first, served at the root
 
 ## Projects
