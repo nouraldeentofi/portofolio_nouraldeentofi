@@ -40,6 +40,7 @@ import {
   staleDetailFiles,
 } from '../scripts/lib/details.mjs';
 import { imageSize } from '../scripts/lib/image-size.mjs';
+import { hostedEntries } from '../scripts/lib/hosting.mjs';
 import { flowOrder } from '../scripts/lib/diagram.mjs';
 import { checkRedirects } from '../scripts/lib/gates.mjs';
 import { buildLlmsTxt, buildLlmsFullTxt } from '../scripts/lib/llms.mjs';
@@ -346,11 +347,17 @@ test('every page lists itself, the other language and x-default, the counterpart
   assert.equal(X_DEFAULT, 'en');
 
   const sitemap = files.get('sitemap.xml');
+  // The copies of other sites follow the pages, by address only: they are
+  // not pages the build writes and have no other language here
+  // (hosting.test.mjs holds them to that).
+  const copies = new Set(hostedEntries(db.hosting));
   const inSitemap = new Map(
-    [...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(([, block]) => [
-      block.match(/<loc>([^<]*)<\/loc>/)[1],
-      Object.fromEntries([...block.matchAll(/<xhtml:link rel="alternate" hreflang="([^"]+)" href="([^"]+)"\/>/g)].map((m) => [m[1], m[2]])),
-    ]),
+    [...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)]
+      .map(([, block]) => [
+        block.match(/<loc>([^<]*)<\/loc>/)[1],
+        Object.fromEntries([...block.matchAll(/<xhtml:link rel="alternate" hreflang="([^"]+)" href="([^"]+)"\/>/g)].map((m) => [m[1], m[2]])),
+      ])
+      .filter(([address]) => !copies.has(address)),
   );
   assert.deepEqual([...inSitemap.keys()].sort(), [...written.keys()].sort(), 'the sitemap and the pages written are not the same set');
 
@@ -949,7 +956,8 @@ test('the sitemap, the llms files and the API all name every detail page', () =>
   const full = buildLlmsFullTxt(db);
   const api = buildApiProjects(db);
 
-  assert.equal((sitemap.match(/<url>/g) ?? []).length, (PAGES.length + details.length) * LANGS.length);
+  // Every page in both languages, then the copies of other sites that are meant to be found.
+  assert.equal((sitemap.match(/<url>/g) ?? []).length, (PAGES.length + details.length) * LANGS.length + hostedEntries(db.hosting).length);
   assert.ok(!sitemap.includes('.html'));
 
   const section = short.slice(short.indexOf('## A page for each project and system'), short.indexOf('## Projects'));

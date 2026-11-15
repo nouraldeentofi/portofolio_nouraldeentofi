@@ -1,3 +1,0 @@
-# Private preview, not for indexing yet
-User-agent: *
-Disallow: /

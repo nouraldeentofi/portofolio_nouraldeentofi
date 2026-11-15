@@ -2,6 +2,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import { imageSize } from './image-size.mjs';
+import { hostingProblems } from './hosting.mjs';
 
 /**
  * Every asset the pages link to by URL.
@@ -238,6 +239,13 @@ export function loadDb(dir = 'data') {
     }
   }
 
+  // Every copy of another site on the domain says whether search engines
+  // may list it. There is no default: an entry without a decision stops the
+  // build, the tests and the sync alike.
+  const hosting = readJson(dir, 'hosting.json');
+  const [undecided] = hostingProblems(hosting);
+  if (undecided) throw new Error(undecided);
+
   const copy = {
     en: readJson(join(dir, 'copy'), 'en.json'),
     ar: readJson(join(dir, 'copy'), 'ar.json'),
@@ -254,6 +262,7 @@ export function loadDb(dir = 'data') {
     showcase,
     caseStudy,
     links,
+    hosting,
     copy,
     assetVersions: fingerprintAssets(),
     imageSizes: measureImages([profile.ogImage].filter(Boolean)),

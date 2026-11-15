@@ -17,6 +17,7 @@
 import { PAGES, LANGS, buildSitemap, pagePath } from './sitemap.mjs';
 import { LASTMOD_FILE, stampPages, pageDates, latestChange, serializeState } from './lastmod.mjs';
 import { detailPages } from './details.mjs';
+import { hostedEntries } from './hosting.mjs';
 import { buildLlmsTxt, buildLlmsFullTxt } from './llms.mjs';
 import { buildApiProfile, buildApiProjects, buildResumeJson } from './api.mjs';
 import { TEMPLATES, notFound, buildRedirects, buildDetailPages } from './pages.mjs';
@@ -86,7 +87,9 @@ export function buildSite(db) {
 
   stage('llms.txt', buildLlmsTxt(db, 'en'));
   stage('llms-full.txt', buildLlmsFullTxt(db, 'en'));
-  stage('sitemap.xml', buildSitemap(sitePages(db), db.profile.site, pageDates(stamps)));
+  // After the site's own pages, the entry address of each copy of another
+  // site that data/hosting.json says is meant to be found.
+  stage('sitemap.xml', buildSitemap(sitePages(db), db.profile.site, pageDates(stamps), hostedEntries(db.hosting)));
   // Not part of the site: what the next build compares against. It is
   // written with the rest so that it is committed with the rest.
   stage(LASTMOD_FILE, serializeState(stamps));

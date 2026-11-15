@@ -42,8 +42,15 @@ export const X_DEFAULT = 'en';
  * a date nobody gave.
  *
  * There is no `<priority>` and no `<changefreq>`: Google ignores both.
+ *
+ * `hosted` is the entry address of every copy of another site that is meant
+ * to be found (`hostedEntries` in hosting.mjs), already absolute. Such an
+ * entry is an address and nothing more: the copy is one page in one
+ * language as far as this site knows, so it has no hreflang set, and its
+ * content changes in another repository, so it has no date this build could
+ * vouch for.
  */
-export function buildSitemap(pages, baseUrl, dates = {}) {
+export function buildSitemap(pages, baseUrl, dates = {}, hosted = []) {
   const base = baseUrl.replace(/\/$/, '');
 
   const urls = LANGS.flatMap((lang) =>
@@ -70,6 +77,7 @@ export function buildSitemap(pages, baseUrl, dates = {}) {
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
     '        xmlns:xhtml="http://www.w3.org/1999/xhtml">',
     ...urls,
+    ...hosted.map((address) => ['  <url>', `    <loc>${address}</loc>`, '  </url>'].join('\n')),
     '</urlset>',
     '',
   ].join('\n');

@@ -25,6 +25,7 @@ import {
 } from './lib/gates.mjs';
 import { ROBOTS_INDEXABLE, ROBOTS_NOINDEX } from './lib/blocks.mjs';
 import { LASTMOD_FILE, pageFingerprint } from './lib/lastmod.mjs';
+import { isText, siteUrl, hostedEntries, copyFileProblems } from './lib/hosting.mjs';
 
 const errors = [];
 const warnings = [];
@@ -70,6 +71,14 @@ function pageFiles(db) {
 /** What is on disk in the folders the detail pages are generated into. */
 function generatedDetailFolders() {
   return LANGS.flatMap((lang) => DETAIL_FOLDERS.map((folder) => `${lang === 'ar' ? '' : 'en/'}${folder}`)).filter((folder) => existsSync(folder));
+}
+
+/** Every file under a folder, as paths from that folder, `/`-separated. */
+function filesUnder(dir, prefix = '') {
+  return readdirSync(dir).flatMap((name) => {
+    const rel = `${prefix}${name}`;
+    return statSync(`${dir}/${name}`).isDirectory() ? filesUnder(`${dir}/${name}`, `${rel}/`) : [rel];
+  });
 }
 
 export function checkAll({ pages } = {}) {
@@ -358,6 +367,16 @@ export function checkAll({ pages } = {}) {
       if (locs.filter((l) => l === own).length !== 1) fail(`sitemap.xml: ${own} (${file}) must be listed exactly once`);
     }
 
+    // 9d: the copies of other sites. The entry address of each one that is
+    // meant to be found is listed once; a copy kept out of search is never
+    // offered to a search engine here.
+    for (const address of hostedEntries(db.hosting)) {
+      if (locs.filter((l) => l === address).length !== 1) fail(`sitemap.xml: ${address} must be listed exactly once (data/hosting.json says it is meant to be found)`);
+    }
+    for (const copy of db.hosting.sites.filter((s) => s.index === false)) {
+      for (const loc of locs.filter((l) => l.startsWith(siteUrl(copy, db.hosting)))) fail(`sitemap.xml: lists ${loc}, but data/hosting.json keeps ${copy.path}/ out of search`);
+    }
+
     // 9c: a page's lastmod is the day its content last changed.
     //
     // The state file holds a hash of each page and the day that hash was
@@ -399,6 +418,24 @@ export function checkAll({ pages } = {}) {
   for (const f of PUBLIC_HAND_KEPT) {
     if (!existsSync(f)) continue;
     for (const hit of emDashHits(readFileSync(f, 'utf8'))) fail(`${f}: em dash in "${hit}"`);
+  }
+
+  // 12: the copies of other sites keep what data/hosting.json decided.
+  //
+  // They are written by `npm run sites`, not by the build, so nothing above
+  // has read them. Each file is held to the decision in the data and to what
+  // the sync promises (lib/hosting.mjs): a page of a copy kept out of search
+  // carries noindex, the entry page of a copy meant to be found has a
+  // canonical, no canonical, hreflang, og:url or sitemap entry names a page
+  // by its .html address, no page carries rating markup, and nothing is here
+  // that is not the site. A failure means the copy is older than the rule:
+  // run `npm run sites`, or fix the page in its own repository.
+  for (const copy of db.hosting.sites) {
+    if (!existsSync(`${copy.path}/index.html`)) { fail(`${copy.path}/: missing; run npm run sites`); continue; }
+    for (const rel of filesUnder(copy.path)) {
+      const text = isText(rel) ? readFileSync(`${copy.path}/${rel}`, 'utf8') : '';
+      for (const problem of copyFileProblems(text, rel, copy, db.hosting)) fail(`${copy.path}/${rel}: ${problem}`);
+    }
   }
 
   return { errors: [...errors], warnings: [...warnings] };

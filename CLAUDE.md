@@ -19,6 +19,13 @@ The same goes for `sites/`, `gallery/`, `motion-studio/` and `umrah-guide/`: the
 copies of other repositories made by `npm run sites` (`data/hosting.json`). Change a
 client site in its own repository, then re-run the sync.
 
+A copy is not a byte-for-byte copy. The sync (`transformFile` in `scripts/lib/hosting.mjs`)
+changes what a crawler reads and nothing a visitor reads: it writes the copy's indexing
+decision into every page, gives canonicals, hreflang, `og:url` and nested sitemaps the
+clean addresses the host serves, moves links from former hosts to the domain, removes
+rating markup from JSON-LD, and leaves behind test pages and nested `robots.txt` files.
+A rule about the copies therefore belongs in that file, never in a hand edit of a copy.
+
 The CV (`assets/cv/Nour_Aldeen_Tofi.pdf`) is printed from `scripts/cv/cv.html` by
 `npm run cv`. Change the HTML and print again; never edit the PDF itself, which leaves
 the new text out of reading order for applicant tracking systems. The CV is the one
@@ -46,7 +53,7 @@ Every fact appears in `data/` exactly once:
 | `data/projects.json` | Products and applications; `headline` is the search line of its page, `workflow` names the n8n workflow that is its engine |
 | `data/workflows.json` | n8n automation systems: status, audience, curated flow, canvas screenshot, `headline` |
 | `data/showcase.json` | Client websites (with the owner's permission) and the design lab |
-| `data/hosting.json` | Which repository and branch each site on the domain is copied from |
+| `data/hosting.json` | Which repository and branch each site on the domain is copied from, whether search engines may list it (`index`), and the hosts the portfolio used to live on |
 | `data/credentials.json` | Certifications, education, awards |
 | `data/testimonials.json` | Recommendations |
 | `data/skills.json` | Skills by category |
@@ -107,6 +114,18 @@ These are not style preferences — `npm test` and `npm run validate` fail on th
   or a shorter form of it, never longer than "Projects".
 - A showcase tag is one string when it names a technology, and an `{ en, ar }` pair when it
   is plain language ("Dark mode"), so the Arabic page prints no English that is not a name.
+- **Every copy of another site has an indexing decision.** `index` in `data/hosting.json`
+  is required: `true` (meant to be found here, the client's own robots tags stand), `false`
+  (every page carries `noindex, follow`) or `"root-only"` (only the entry page is listed,
+  as for the gallery). Loading the data fails on an entry without one. Set `true` only when
+  the client wants to be found on Google at this address; a `todo` beside it says when
+  that is still to be confirmed. The main sitemap lists the entry address of each copy
+  that is not `false`, with no hreflang and no date.
+- `validate` holds every copy to its decision and to the sync: noindex where the data says
+  so, a canonical on an entry page meant to be found, no canonical, hreflang, `og:url` or
+  sitemap entry ending in `.html`, no link to a former host, and **no rating markup**
+  (`aggregateRating`, `review`): a rating on this domain must come from its own visitors.
+  A failure there means run `npm run sites`, or fix the page in its own repository.
 
 ## Code conventions
 

@@ -19,6 +19,7 @@ import { detailPages } from '../scripts/lib/details.mjs';
 import { shotAlt, tagsOf, aboutPortrait } from '../scripts/lib/blocks.mjs';
 import { LASTMOD_FILE, pageFingerprint, stampPages, pageDates, latestChange, serializeState } from '../scripts/lib/lastmod.mjs';
 import { ogCardFields, renderOgCard } from '../scripts/lib/og.mjs';
+import { hostedEntries } from '../scripts/lib/hosting.mjs';
 import { parseHeaders, parseRedirects, emDashHits, fingerprintedImages, PUBLIC_HAND_KEPT } from '../scripts/lib/gates.mjs';
 
 const loaded = loadDb('data');
@@ -386,12 +387,16 @@ test('the public files written by hand carry no em dash', () => {
    every page changed every time anything was rebuilt. */
 
 const stateOf = (built) => JSON.parse(built.get(LASTMOD_FILE));
+/* The copies of other sites are on the sitemap by address only: they change
+   in another repository, so this build has no date to give them
+   (hosting.test.mjs). What is dated is every page the build writes. */
+const copies = new Set(hostedEntries(loaded.hosting));
 const lastmods = (built) =>
   Object.fromEntries(
-    [...built.get('sitemap.xml').matchAll(/<url>([\s\S]*?)<\/url>/g)].map(([, entry]) => [
-      entry.match(/<loc>([^<]*)<\/loc>/)[1].replace(site, ''),
-      entry.match(/<lastmod>([^<]*)<\/lastmod>/)?.[1],
-    ]),
+    [...built.get('sitemap.xml').matchAll(/<url>([\s\S]*?)<\/url>/g)]
+      .map(([, entry]) => [entry.match(/<loc>([^<]*)<\/loc>/)[1], entry.match(/<lastmod>([^<]*)<\/lastmod>/)?.[1]])
+      .filter(([address]) => !copies.has(address))
+      .map(([address, date]) => [address.replace(site, ''), date]),
   );
 
 test('the first build dates every page with its day, and writes down what it saw', () => {

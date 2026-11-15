@@ -220,6 +220,37 @@ repositories can stay private: the script reads them through the signed-in `gh` 
 To update one site, change it in its own repository, then `npm run sites -- <repo>`
 and commit. `npm run validate` fails if any page still links to `github.io`.
 
+Every entry in `data/hosting.json` also says whether search engines may list the copy.
+`index` is required, and loading the data fails without it:
+
+| `index` | Meaning | What the sync writes |
+|---|---|---|
+| `true` | The copy is meant to be found at this address | Nothing over the client's own robots tags; a self canonical on the entry page if it has none |
+| `false` | A sample, linked from the showcase only | One `noindex, follow` robots meta on every page |
+| `"root-only"` | Only the entry page is meant to be found (the gallery) | `noindex, follow` on every page except the entry page |
+
+Set `true` only when the client wants to be found on Google at this address; a `todo`
+beside the value records a confirmation that is still open. The main `sitemap.xml` lists
+the entry address of every copy that is not `false`.
+
+The sync changes what a crawler reads and nothing a visitor reads. Besides the decision
+above, for every copy it:
+
+- gives canonicals, hreflang links, `og:url`, JSON-LD addresses and nested sitemaps the
+  clean address the host serves (`/about`, never `/about.html`); links in the body are
+  left as their owner wrote them;
+- moves links to a former host of the portfolio (`formerHosts` in `data/hosting.json`)
+  to the domain;
+- removes rating markup (`aggregateRating`, `review`) from JSON-LD, because a rating
+  copied from another site must not be marked up here; the words on the page stay;
+- leaves behind a top-level `test` folder and every nested `robots.txt` (only the one at
+  the root of the domain is read). A copy keeps its own `404.html`: the host serves the
+  nearest one.
+
+A repository that cannot be cloned is tried three times; its copy then stays as it was,
+the others are still synced, and the run ends with an error naming it. `npm run validate`
+holds every copy to all of the above, so a hand edit or a stale copy fails there.
+
 The shortcuts `/cv` (and the legacy `/cv/auto`, which now points to the same single CV), `/resume` and `/profile` are real generated files
 (`cv/index.html` and friends), each a noindex page that redirects to its target. On
 Cloudflare Pages the `_redirects` rules answer first (`/resume` and `/profile` with a 301,

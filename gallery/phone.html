@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="robots" content="noindex, follow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nour Aldeen Tofi — PHONE · Swipe to Meet Me</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -194,7 +195,7 @@ const APPS=[
   b:`<h3>Open for projects</h3><p>Websites · React frontends · logos · business cards · social media visuals · remote project coordination.</p><p style="margin-top:10px">
      <a class="abtn" href="mailto:nouraldeentofi@gmail.com">✉ Email</a>
      <a class="abtn g" href="https://www.linkedin.com/in/nour-aldeen-tofi-19b116240" target="_blank" rel="noopener">LinkedIn</a>
-     <a class="abtn g" href="https://nouraldeentofi.netlify.app" target="_blank" rel="noopener">Website</a></p>`}
+     <a class="abtn g" href="https://nouraldeentofi.com" target="_blank" rel="noopener">Website</a></p>`}
 ];
 const appsEl=document.getElementById('apps'),dock=document.getElementById('dock');
 APPS.forEach((a,i)=>{
@@ -209,7 +210,7 @@ APPS.forEach((a,i)=>{
   b.innerHTML=`<div class="ic" style="background:rgba(255,255,255,.14)">${ic}</div>`;
   b.onclick=()=>{blip(500);
     if(act==='lock')show('lock');
-    else if(act==='web')window.open('https://nouraldeentofi.netlify.app','_blank');
+    else if(act==='web')window.open('https://nouraldeentofi.com','_blank');
     else if(act==='tel')openApp(7);
     else openApp(act);};
   dock.appendChild(b);
