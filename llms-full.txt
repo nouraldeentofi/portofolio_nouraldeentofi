@@ -30,6 +30,43 @@ I still write the frontend, and in my last role, as a Software Engineering Super
 
 The other half of the job is coordination. I gather requirements directly from clients, define scope and acceptance criteria, break work into tasks, and keep delivery on schedule across frontend, backend, and design. It is less glamorous than the AI part and it is often what decides whether a project ships.
 
+## What he offers
+
+- [AI automation with n8n](https://nouraldeentofi.com/en/automation): Workflows and AI agents that take over repetitive work: reading invoices, answering customers, screening CVs, moving data.
+- [Websites for professionals and businesses](https://nouraldeentofi.com/en/showcase): Arabic and English sites designed around the person or the business, fast on phones and readable by Google and AI assistants.
+- [Frontend development and technical leadership](https://nouraldeentofi.com/en/work): React, TypeScript and Next.js interfaces in Arabic and English with full right-to-left support, delivered from requirements to production.
+
+### n8n and AI automation for businesses
+
+I am an n8n developer based in Al Khobar. I build automation with language models for businesses across Saudi Arabia, on site in the Eastern Province and remotely everywhere else, in Arabic and English. Every system on this page is marked honestly: running for a client, live, or built and tested.
+
+- **Arabic invoices and documents.** A photo or a PDF of an invoice goes in, and checked, structured data comes out: supplier, amounts, tax and line items, in Arabic and English, handwriting included. This is the engine inside Smart Scanner. **Systems:** Smart Scanner Extraction Pipeline (Live)
+- **WhatsApp and Telegram bots.** Bots that take bookings through WhatsApp buttons, and Telegram assistants that run daily work from a chat, where the AI calls fixed tools under strict rules instead of guessing. **Systems:** WhatsApp Booking Bot (Built and tested), Teacher Assistant AI Bot (Running for a client)
+- **Customer reviews and messages.** Replies to Google reviews written automatically, with the owner approving the answer to any negative review on Telegram first, and one inbox that gathers every channel and drafts a reply in the customer's own dialect. **Systems:** Google Review Reply Manager (Built and tested), Unified Inbox (Built and tested)
+- **Hiring.** CV screening that reads Arabic and English CVs, scores each candidate against the role, and quotes the line of the CV behind every score. **Systems:** CV Screener agents (Live)
+- **Data and leads.** A whole website pulled into a spreadsheet, business leads found and scored, and messy contact lists cleaned, with a reason recorded for every rejected row. **Systems:** Universal Web Scraper (Live), Smart Lead Finder (Built and tested), CRM Lead Cleaner (Built and tested)
+
+**How a project runs**
+
+1. We go through the manual work as it happens today, on real samples.
+2. I build the workflow and test it on those samples until the results are right.
+3. It goes live with a person approving anything sensitive.
+4. I stay on to monitor it, fix it and extend it.
+
+### Websites I design and build
+
+I am an independent web developer in Al Khobar. I offer website design and development, in Arabic, English or both, for professionals, companies, shops and restaurants in Dammam, Dhahran and the rest of Saudi Arabia. Each site starts from who they are, not from a template.
+
+**What you get**
+
+- A site designed around you or your business, not a template with your name on it.
+- Arabic, English or both, each reading in its own direction.
+- Fast on phones, where most of your visitors are.
+- Readable by Google and by AI assistants, so people who ask about you find you.
+- For shops and restaurants: what you sell or serve shown in photos, the location on the map, and ordering or booking through WhatsApp.
+
+**Where I work.** I meet clients in person in Al Khobar, Dammam and Dhahran. For clients elsewhere in Saudi Arabia and abroad, the whole project runs remotely.
+
 ## How he works
 
 ### Agree the contract before the first line of code
@@ -802,7 +839,7 @@ He is an AI Automation Engineer and Frontend Developer based in Al Khobar, Saudi
 
 **How is Nour Aldeen Tofi's name written?**
 
-In Arabic it is نور الدين طفي, and in English Nour Aldeen Tofi. Arabic names have no single Latin spelling, so you may also see Nouraldeen Tofi, Nour Al-Deen Tofi, Nour Aldin Tofi, Nour Eddin Tofi, Noor Aldeen Tofi or Nour Aldeen Toufi, and the short form Nour Tofi. They are all the same person, and his handle everywhere is nouraldeentofi.
+In Arabic it is نور الدين طفي, and in English Nour Aldeen Tofi. Arabic names have no single Latin spelling, so you may also see Nouraldeen Tofi, Nour Al-Deen Tofi, Nour Aldin Tofi, Nour Eddin Tofi, Noor Aldeen Tofi or Nour Aldeen Toufi, and the short form Nour Tofi. They are all the same person. On LinkedIn, GitHub and YouTube his handle is nouraldeentofi.
 
 **What is Smart Scanner?**
 

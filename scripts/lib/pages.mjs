@@ -105,16 +105,21 @@ ${nav}
   </header>`;
 }
 
+/**
+ * The year comes from the build's own date (`db.build.modified`, see
+ * scripts/build.mjs), not from the clock, so the same data always gives the
+ * same page. Rendered without a build date, the line simply has no year.
+ */
 function footer(db, lang) {
   const c = db.copy[lang];
-  const year = new Date().getFullYear();
+  const year = db.build?.modified?.slice(0, 4);
   const alt = otherName(db, lang);
 
   return `  <footer class="site-footer">
     <div class="container site-footer__inner">
       <div>
         <p>${e(c.footer.tagline)}</p>
-        <p>© ${year} ${e(db.profile.name[lang])} · <span lang="${alt.lang}" dir="${alt.dir}">${e(alt.text)}</span> · ${e(c.footer.builtWith)}</p>
+        <p>© ${year ? `${year} ` : ''}${e(db.profile.name[lang])} · <span lang="${alt.lang}" dir="${alt.dir}">${e(alt.text)}</span> · ${e(c.footer.builtWith)}</p>
       </div>
       <ul class="footer__links">
         <li><a href="${asset('llms.txt', lang)}" target="_blank" rel="noopener">llms.txt${newTabHint(c.ui.opensInNewTab)}</a></li>
@@ -184,11 +189,13 @@ ${B.headMeta(db, page, lang, opts)}
    nothing is ever hidden. */
 (function(){var r=document.documentElement;r.classList.add('js');
 try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}
-/* honour the visitor's last language choice on every arrival */
-try{var L=localStorage.getItem('nt-lang');var p=location.pathname;
+/* honour the visitor's last language choice on every arrival. The query and
+   the fragment travel with it: ids are the same in both languages, so a link
+   to one item still lands on that item. */
+try{var L=localStorage.getItem('nt-lang');var p=location.pathname;var q=location.search+location.hash;
 var en=p==='/en'||p.slice(0,4)==='/en/';
-if(L==='en'&&!en){location.replace(p==='/'?'/en/':'/en'+p);}
-else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(e){}})();
+if(L==='en'&&!en){location.replace((p==='/'?'/en/':'/en'+p)+q);}
+else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}catch(e){}})();
 </script>
 <link rel="icon" type="image/png" sizes="32x32" href="${assetV(db, 'assets/img/icon-32.png', lang)}">
 <link rel="apple-touch-icon" sizes="180x180" href="${assetV(db, 'assets/img/icon-180.png', lang)}">
@@ -271,6 +278,15 @@ ${altName ? `      <p class="hero__altname" lang="${altName.lang}" dir="${altNam
 }
 
 /**
+ * Whether the pages may say he is available right now.
+ *
+ * It is a claim about today, so the data decides it, in one place: the home
+ * hero and the work hero both ask here, and neither keeps the claim in a
+ * sentence that would stay behind when the data changes.
+ */
+const availableNow = (db) => Boolean(db.profile.availability.openToWork && db.profile.availability.immediate);
+
+/**
  * The closing call to action: a question, a sentence and one button to the
  * contact page.
  *
@@ -304,8 +320,7 @@ function home(db, lang) {
     altName: otherName(db, lang),
     headline: p.headline[lang],
     intro: c.home.intro,
-    // The line is a claim about today, so the data decides whether it shows.
-    note: p.availability.openToWork && p.availability.immediate ? c.home.availability : null,
+    note: availableNow(db) ? c.home.availability : null,
     actions: `        <a class="btn" href="${rel('contact', lang)}">${e(c.home.ctaButton)}</a>
         <a class="btn btn--ghost" href="${rel('automation', lang)}">${e(c.nav.automation)}</a>`,
   })}
@@ -365,7 +380,12 @@ function recommendationsSource(db, lang) {
 function work(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ eyebrow: c.nav.work, heading: c.work.title, lead: c.work.lead })}
+  const main = `${heroBlock({
+    eyebrow: c.nav.work,
+    heading: c.work.title,
+    lead: c.work.lead,
+    note: availableNow(db) ? c.work.availability : null,
+  })}
 
 ${section('timeline', null, c.work.timelineTitle, null, B.workTimeline(db, lang))}
 

@@ -125,6 +125,35 @@ function initFilters() {
     if (button) apply(button.dataset.filter);
   });
 
+  /* A link to a card the filter is hiding would land on nothing: the card is
+     in the HTML but not laid out. Asking for a hidden card clears the filter.
+     Returns whether it had to. */
+  const reveal = (hash) => {
+    let id = '';
+    try {
+      id = decodeURIComponent(hash.slice(1));
+    } catch {
+      return false;
+    }
+    const target = id ? document.getElementById(id) : null;
+    if (!target || !target.classList.contains('is-filtered-out')) return false;
+    apply('all');
+    return true;
+  };
+
+  // A link on the page itself: the card is shown before the browser follows
+  // the link, so the jump lands. Heard on the click and not only on the hash
+  // changing, because the same link clicked twice changes no hash.
+  document.addEventListener('click', (event) => {
+    const link = event.target.closest('a[href^="#"]');
+    if (link) reveal(link.getAttribute('href'));
+  });
+
+  // Back and forward: the jump has already happened, and went nowhere.
+  window.addEventListener('hashchange', () => {
+    if (reveal(location.hash)) document.getElementById(decodeURIComponent(location.hash.slice(1))).scrollIntoView();
+  });
+
   bar.hidden = false;
 }
 

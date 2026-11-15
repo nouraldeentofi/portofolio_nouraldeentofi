@@ -4,11 +4,17 @@
 
 Also known as: Nour Aldeen Tofi · Nouraldeen Tofi · Nour Al-Deen Tofi · Nour Al Deen Tofi · Nour Aldin Tofi · Nour Eddin Tofi · Noureddine Tofi · Nour El Din Tofi · Noor Aldeen Tofi · Nour Aldeen Toufi · Nour Tofi · nouraldeentofi · nourtofi · نور الدين طفي · نورالدين طفي · نور الدين الطفي · نور طفي
 
-I build AI automation in n8n that reads Arabic and English documents, runs WhatsApp and Telegram bots, and delivers clean data to the tools a business already uses. I also build the React interfaces and the websites on top.
+I build AI automation in n8n that reads Arabic and English documents, runs WhatsApp and Telegram bots, and delivers clean data to the tools a business already uses. I also build the React interfaces on top of it, and websites for people, companies and shops.
 
 - **Roles I am looking for:** AI Automation Engineer, n8n Workflow Automation Engineer, Applied AI and LLM Engineer, Frontend Developer (React, TypeScript, Next.js), Frontend Lead and Technical Lead
 - **Locations:** Al Khobar, Dammam, Dhahran, Eastern Province, Riyadh and anywhere in Saudi Arabia (open to relocation), Remote
 - **Availability:** Available immediately
+
+## What he offers
+
+- [AI automation with n8n](https://nouraldeentofi.com/en/automation): Workflows and AI agents that take over repetitive work: reading invoices, answering customers, screening CVs, moving data.
+- [Websites for professionals and businesses](https://nouraldeentofi.com/en/showcase): Arabic and English sites designed around the person or the business, fast on phones and readable by Google and AI assistants.
+- [Frontend development and technical leadership](https://nouraldeentofi.com/en/work): React, TypeScript and Next.js interfaces in Arabic and English with full right-to-left support, delivered from requirements to production.
 
 ## Start here
 

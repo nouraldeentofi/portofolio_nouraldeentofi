@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <title>نور الدين طفي (Nour Aldeen Tofi) | مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية</title>
-<meta name="description" content="نور الدين طفي، مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية في الخبر بالسعودية. أبني أتمتة الأعمال بـ n8n ووكلاء الذكاء الاصطناعي، وبوتات واتساب وتيليجرام، وقراءة الفواتير العربية، ومواقع للشركات والمتاجر.">
+<meta name="description" content="نور الدين طفي، مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية في الخبر بالسعودية. أبني أتمتة الأعمال بـ n8n ووكلاء الذكاء الاصطناعي، وبوتات واتساب وتيليجرام، وأنظمة قراءة الفواتير العربية، ومواقع للشركات والمحلات.">
 <link rel="canonical" href="https://nouraldeentofi.com/">
 <link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/">
 <link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/">
@@ -13,7 +13,7 @@
 <meta property="og:type" content="profile">
 <meta property="og:site_name" content="Nour Aldeen Tofi">
 <meta property="og:title" content="نور الدين طفي (Nour Aldeen Tofi) | مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية">
-<meta property="og:description" content="نور الدين طفي، مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية في الخبر بالسعودية. أبني أتمتة الأعمال بـ n8n ووكلاء الذكاء الاصطناعي، وبوتات واتساب وتيليجرام، وقراءة الفواتير العربية، ومواقع للشركات والمتاجر.">
+<meta property="og:description" content="نور الدين طفي، مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية في الخبر بالسعودية. أبني أتمتة الأعمال بـ n8n ووكلاء الذكاء الاصطناعي، وبوتات واتساب وتيليجرام، وأنظمة قراءة الفواتير العربية، ومواقع للشركات والمحلات.">
 <meta property="og:url" content="https://nouraldeentofi.com/">
 <meta property="og:locale" content="ar_SA">
 <meta property="og:locale:alternate" content="en_US">
@@ -32,11 +32,13 @@
    nothing is ever hidden. */
 (function(){var r=document.documentElement;r.classList.add('js');
 try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}
-/* honour the visitor's last language choice on every arrival */
-try{var L=localStorage.getItem('nt-lang');var p=location.pathname;
+/* honour the visitor's last language choice on every arrival. The query and
+   the fragment travel with it: ids are the same in both languages, so a link
+   to one item still lands on that item. */
+try{var L=localStorage.getItem('nt-lang');var p=location.pathname;var q=location.search+location.hash;
 var en=p==='/en'||p.slice(0,4)==='/en/';
-if(L==='en'&&!en){location.replace(p==='/'?'/en/':'/en'+p);}
-else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(e){}})();
+if(L==='en'&&!en){location.replace((p==='/'?'/en/':'/en'+p)+q);}
+else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}catch(e){}})();
 </script>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/icon-32.png?v=b64ecc6d">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/img/icon-180.png?v=5cafdc8a">
@@ -82,7 +84,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
         "نور توفي"
       ],
       "jobTitle": "مهندس أتمتة بالذكاء الاصطناعي: n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية",
-      "description": "أبني أتمتة بالذكاء الاصطناعي على n8n تقرأ المستندات والفواتير العربية، وتشغّل بوتات واتساب وتيليجرام، وتوصل البيانات نظيفة إلى الأنظمة التي تستخدمها الشركة أصلاً. وأبني فوقها واجهات React ومواقع للأفراد والشركات والمتاجر.",
+      "description": "أبني أتمتة بالذكاء الاصطناعي على n8n تقرأ المستندات والفواتير بالعربية والإنجليزية، وتشغّل بوتات واتساب وتيليجرام، وتوصل البيانات نظيفة إلى الأنظمة التي تستخدمها الشركة أصلاً. وأبني فوقها واجهات React، ومواقع للأفراد والشركات والمحلات.",
       "email": "mailto:nouraldeentofi@gmail.com",
       "telephone": "+966547972944",
       "url": "https://nouraldeentofi.com",
@@ -391,7 +393,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     {
       "@type": "Service",
       "@id": "https://nouraldeentofi.com/#offer-automation",
-      "name": "أتمتة الأعمال بالذكاء الاصطناعي و n8n",
+      "name": "أتمتة الأعمال بالذكاء الاصطناعي وn8n",
       "description": "مسارات عمل ووكلاء ذكاء اصطناعي تتولّى العمل المتكرّر: قراءة الفواتير، والرد على العملاء، وفرز السير الذاتية، ونقل البيانات.",
       "serviceType": "أتمتة الأعمال بالذكاء الاصطناعي",
       "provider": {
@@ -414,9 +416,9 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     {
       "@type": "Service",
       "@id": "https://nouraldeentofi.com/#offer-websites",
-      "name": "مواقع للأفراد والشركات والمتاجر",
-      "description": "مواقع بالعربية والإنجليزية مصمّمة حول صاحبها، سريعة على الجوال ومقروءة لمحرّكات البحث ومساعدات الذكاء الاصطناعي.",
-      "serviceType": "تصميم وتطوير المواقع",
+      "name": "مواقع للأفراد والشركات والمحلات",
+      "description": "مواقع بالعربية والإنجليزية تُصمَّم لصاحبها خصيصاً، سريعة على الجوال ومقروءة لمحرّكات البحث ومساعدات الذكاء الاصطناعي.",
+      "serviceType": "مواقع للأفراد والشركات والمحلات",
       "provider": {
         "@id": "https://nouraldeentofi.com/#nour"
       },
@@ -496,7 +498,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
       <h1 class="hero__name">نور الدين طفي</h1>
       <p class="hero__altname" lang="en" dir="ltr">Nour Aldeen Tofi</p>
       <p class="hero__headline">مهندس أتمتة بالذكاء الاصطناعي: n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية</p>
-      <p class="hero__intro">أبني أتمتة بالذكاء الاصطناعي على n8n تقرأ المستندات والفواتير العربية، وتشغّل بوتات واتساب وتيليجرام، وتوصل البيانات نظيفة إلى الأنظمة التي تستخدمها الشركة أصلاً. وأبني فوقها واجهات React ومواقع للأفراد والشركات والمتاجر.</p>
+      <p class="hero__intro">أبني أتمتة بالذكاء الاصطناعي على n8n تقرأ المستندات والفواتير بالعربية والإنجليزية، وتشغّل بوتات واتساب وتيليجرام، وتوصل البيانات نظيفة إلى الأنظمة التي تستخدمها الشركة أصلاً. وأبني فوقها واجهات React، ومواقع للأفراد والشركات والمحلات.</p>
       <p class="hero__note">متاح الآن لوظائف ومشاريع الأتمتة بالذكاء الاصطناعي والواجهات الأمامية، في السعودية أو عن بُعد.</p>
       <div class="hero__actions">
         <a class="btn" href="/contact">لنبدأ الحديث</a>
@@ -517,13 +519,13 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
       </div>
       <div class="grid grid--3">
 <article data-reveal class="card" id="offer-automation">
-  <h3 class="card__title"><a href="/automation">أتمتة الأعمال بالذكاء الاصطناعي و n8n</a></h3>
+  <h3 class="card__title"><a href="/automation">أتمتة الأعمال بالذكاء الاصطناعي وn8n</a></h3>
   <p class="card__body">مسارات عمل ووكلاء ذكاء اصطناعي تتولّى العمل المتكرّر: قراءة الفواتير، والرد على العملاء، وفرز السير الذاتية، ونقل البيانات.</p>
   <div class="card__foot"><a class="btn btn--ghost" href="/automation">شاهد أنظمة الأتمتة</a></div>
 </article>
 <article data-reveal class="card" id="offer-websites">
-  <h3 class="card__title"><a href="/showcase">مواقع للأفراد والشركات والمتاجر</a></h3>
-  <p class="card__body">مواقع بالعربية والإنجليزية مصمّمة حول صاحبها، سريعة على الجوال ومقروءة لمحرّكات البحث ومساعدات الذكاء الاصطناعي.</p>
+  <h3 class="card__title"><a href="/showcase">مواقع للأفراد والشركات والمحلات</a></h3>
+  <p class="card__body">مواقع بالعربية والإنجليزية تُصمَّم لصاحبها خصيصاً، سريعة على الجوال ومقروءة لمحرّكات البحث ومساعدات الذكاء الاصطناعي.</p>
   <div class="card__foot"><a class="btn btn--ghost" href="/showcase">شاهد المواقع</a></div>
 </article>
 <article data-reveal class="card" id="offer-frontend">
@@ -810,6 +812,6 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </form>
     <img src="assets/img/nour.jpg?v=8858f5b0" alt="نور الدين طفي" width="720" height="720" loading="lazy" decoding="async">
   </dialog>
-<script src="assets/js/main.js?v=a485f325" type="module"></script>
+<script src="assets/js/main.js?v=6af10bef" type="module"></script>
 </body>
 </html>

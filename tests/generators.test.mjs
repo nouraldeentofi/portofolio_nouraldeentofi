@@ -9,8 +9,11 @@ import { TEMPLATES, notFound, buildRedirects } from '../scripts/lib/pages.mjs';
 import { contactCv, headMeta, periodWords } from '../scripts/lib/blocks.mjs';
 import { byCompany } from '../scripts/lib/experience.mjs';
 import { personLd } from '../scripts/lib/jsonld.mjs';
+import { homeOffers, automationServices } from '../scripts/lib/offers.mjs';
 
 const db = loadDb('data');
+// What the build adds: the one date the output carries.
+const built = { ...db, build: { modified: '2026-11-15T00:00:00+03:00' } };
 
 test('llms.txt opens with an H1 and a blockquote summary', () => {
   const txt = buildLlmsTxt(db);
@@ -40,6 +43,80 @@ test('llms-full.txt renders in Arabic too', () => {
   const full = buildLlmsFullTxt(db, 'ar');
   assert.ok(full.includes('نور الدين طفي'));
   assert.ok(!full.includes('undefined'));
+});
+
+/* robots.txt sends AI agents to these two files instead of the pages. What
+   the service pages say he offers, and where, has to be in them, in the
+   pages' own words. */
+test('the llms files say what he offers, in the words of the pages', () => {
+  for (const lang of LANGS) {
+    const c = db.copy[lang];
+    const short = buildLlmsTxt(db, lang);
+    const full = buildLlmsFullTxt(db, lang);
+    const base = db.profile.site;
+
+    for (const o of homeOffers(db, lang)) {
+      const line = `- [${o.title}](${base}${pagePath(o.page, lang)}): ${o.body}`;
+      assert.ok(short.includes(line), `${lang}: llms.txt does not offer "${o.title}"`);
+      assert.ok(full.includes(line), `${lang}: llms-full.txt does not offer "${o.title}"`);
+    }
+    // The map says it before it lists the pages; the profile right after "About".
+    assert.ok(short.indexOf('## What he offers') < short.indexOf('## Start here'));
+    assert.ok(full.indexOf('## About') < full.indexOf('## What he offers') && full.indexOf('## What he offers') < full.indexOf('## How he works'));
+    assert.equal(short.split('## What he offers').length - 1, 1);
+    assert.equal(full.split('## What he offers').length - 1, 1);
+
+    const section = full.slice(full.indexOf('## What he offers'), full.indexOf('## How he works'));
+    assert.ok(section.includes(c.automation.lead) && section.includes(c.showcase.lead), `${lang}: a lead is missing`);
+    for (const s of automationServices(db, lang)) {
+      const line = section.split('\n').find((l) => l.startsWith(`- **${s.title}.** ${s.body}`));
+      assert.ok(line, `${lang}: the service "${s.title}" is missing`);
+      // Each claim names the systems behind it, with the status the page gives them.
+      for (const w of s.systems) assert.ok(line.includes(`${w.name[lang]} (${c.ui.status[w.status]})`), `${lang}: ${s.id} does not name ${w.id}`);
+    }
+    c.automation.process.forEach((step, i) => assert.ok(section.includes(`\n${i + 1}. ${step}\n`), `${lang}: step ${i + 1}`));
+    for (const line of c.showcase.offer) assert.ok(section.includes(`\n- ${line}\n`), `${lang}: ${line}`);
+    assert.ok(section.includes(c.showcase.where), `${lang}: where he works is missing`);
+  }
+
+  // The words an assistant is asked for.
+  const full = buildLlmsFullTxt(db);
+  assert.match(full, /n8n developer/);
+  assert.match(full, /independent web developer/);
+  for (const city of ['Al Khobar', 'Dammam', 'Dhahran']) assert.ok(full.includes(city));
+});
+
+/* Everything under scripts/lib is a pure transform: the build hands it the
+   one date the output carries. Rendered at two different moments from the
+   same data, every artefact has to come out the same. */
+test('nothing the build writes depends on the clock', (t) => {
+  const everything = () =>
+    JSON.stringify([
+      ...LANGS.flatMap((lang) => [...PAGES.map((page) => TEMPLATES[page](built, lang)), notFound(built, lang)]),
+      buildLlmsTxt(built),
+      buildLlmsFullTxt(built),
+      buildSitemap(PAGES, built.profile.site, built.build.modified.slice(0, 10)),
+      buildApiProfile(built),
+      buildApiProjects(built),
+      buildResumeJson(built),
+      buildRedirects(built),
+    ]);
+
+  t.mock.timers.enable({ apis: ['Date'], now: new Date('2026-11-15T09:00:00Z') });
+  const first = everything();
+  t.mock.timers.setTime(new Date('2031-03-02T21:30:00Z').getTime());
+  assert.equal(new Date().getFullYear(), 2031, 'the clock did not move, so this test proves nothing');
+  assert.equal(everything(), first);
+});
+
+test('the sitemap and the API carry the date the build gave them, and no other', () => {
+  const xml = buildSitemap(PAGES, db.profile.site, '2026-11-15');
+  assert.equal((xml.match(/<lastmod>2026-11-15<\/lastmod>/g) || []).length, PAGES.length * LANGS.length);
+  assert.ok(!buildSitemap(PAGES, db.profile.site).includes('lastmod'), 'a date appeared that the build did not give');
+
+  assert.equal(buildApiProfile(built).generated, built.build.modified);
+  assert.equal(buildApiProjects(built).generated, built.build.modified);
+  assert.ok(!('generated' in JSON.parse(JSON.stringify(buildApiProfile(db)))));
 });
 
 test('sitemap emits one url per page per language with hreflang alternates', () => {

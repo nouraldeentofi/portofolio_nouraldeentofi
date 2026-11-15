@@ -13,16 +13,16 @@
         "description": "How Nour Aldeen Tofi works: n8n automation with language models, Arabic document AI, React and TypeScript frontends, and delivery from requirements to production."
       },
       "work": {
-        "title": "Technical Lead and Frontend Developer (React, TypeScript) | Nour Aldeen Tofi",
-        "description": "Experience of Nour Aldeen Tofi as a technical lead and React frontend developer in Saudi Arabia, with recommendations from managers and colleagues, certifications and education. Available immediately."
+        "title": "Technical Lead and React Frontend Developer | Nour Aldeen Tofi",
+        "description": "Experience of Nour Aldeen Tofi as a technical lead and React frontend developer in Saudi Arabia, with recommendations from his project manager and colleagues, certifications and education."
       },
       "projects": {
         "title": "AI Products and Web Apps: Smart Scanner, CV Screener | Nour Aldeen Tofi",
         "description": "Smart Scanner reads Arabic invoices with AI, CV Screener ranks CVs with quoted evidence, plus free browser tools and apps built with React, Next.js and n8n. By Nour Aldeen Tofi."
       },
       "showcase": {
-        "title": "Website Design in Al Khobar and Dammam | Nour Aldeen Tofi, Independent Web Developer",
-        "description": "Independent web developer in Al Khobar. I design and build bilingual Arabic and English websites for professionals, companies, shops and restaurants in Dammam, Dhahran and across Saudi Arabia. See the sites I built."
+        "title": "Website Design in Al Khobar and Dammam | Nour Aldeen Tofi",
+        "description": "Independent web developer in Al Khobar. I design and build Arabic and English websites for professionals, companies, shops and restaurants in Dammam, Dhahran and across Saudi Arabia. See the sites I built."
       },
       "automation": {
         "title": "n8n Developer and AI Automation in Saudi Arabia | Nour Aldeen Tofi",
@@ -104,7 +104,7 @@
   },
   "home": {
     "eyebrow": "Al Khobar, Saudi Arabia · Arabic & English",
-    "intro": "I build AI automation in n8n that reads Arabic and English documents, runs WhatsApp and Telegram bots, and delivers clean data to the tools a business already uses. I also build the React interfaces and the websites on top.",
+    "intro": "I build AI automation in n8n that reads Arabic and English documents, runs WhatsApp and Telegram bots, and delivers clean data to the tools a business already uses. I also build the React interfaces on top of it, and websites for people, companies and shops.",
     "availability": "Available now for AI automation and frontend roles and projects, in Saudi Arabia or remote.",
     "offersTitle": "What I can do for you",
     "offers": [
@@ -117,7 +117,7 @@
       {
         "id": "websites",
         "title": "Websites for professionals and businesses",
-        "body": "Bilingual sites designed around the person or the business, fast on phones and readable by Google and AI assistants.",
+        "body": "Arabic and English sites designed around the person or the business, fast on phones and readable by Google and AI assistants.",
         "cta": "See the websites"
       },
       {
@@ -186,7 +186,7 @@
       },
       {
         "q": "How is Nour Aldeen Tofi's name written?",
-        "a": "In Arabic it is نور الدين طفي, and in English Nour Aldeen Tofi. Arabic names have no single Latin spelling, so you may also see Nouraldeen Tofi, Nour Al-Deen Tofi, Nour Aldin Tofi, Nour Eddin Tofi, Noor Aldeen Tofi or Nour Aldeen Toufi, and the short form Nour Tofi. They are all the same person, and his handle everywhere is nouraldeentofi."
+        "a": "In Arabic it is نور الدين طفي, and in English Nour Aldeen Tofi. Arabic names have no single Latin spelling, so you may also see Nouraldeen Tofi, Nour Al-Deen Tofi, Nour Aldin Tofi, Nour Eddin Tofi, Noor Aldeen Tofi or Nour Aldeen Toufi, and the short form Nour Tofi. They are all the same person. On LinkedIn, GitHub and YouTube his handle is nouraldeentofi."
       },
       {
         "q": "What is Smart Scanner?",
@@ -224,7 +224,8 @@
   },
   "work": {
     "title": "Experience and recommendations",
-    "lead": "Frontend developer and technical lead (React, TypeScript, Next.js) who owns delivery from requirements to production. Based in Al Khobar and available immediately for roles in Saudi Arabia or remote.",
+    "lead": "Frontend developer and technical lead (React, TypeScript, Next.js), based in Al Khobar, Saudi Arabia, who owns delivery from requirements to production.",
+    "availability": "Available immediately for roles in Saudi Arabia or remote.",
     "timelineTitle": "Experience",
     "testimonialsTitle": "Recommendations",
     "credentialsTitle": "Certifications",
@@ -243,17 +244,17 @@
   },
   "showcase": {
     "title": "Websites I design and build",
-    "lead": "I am an independent web developer in Al Khobar. I design and build bilingual websites, Arabic and English, for professionals, companies, shops and restaurants in Dammam, Dhahran and the rest of Saudi Arabia. Each one starts from who they are, not from a template.",
+    "lead": "I am an independent web developer in Al Khobar. I offer website design and development, in Arabic, English or both, for professionals, companies, shops and restaurants in Dammam, Dhahran and the rest of Saudi Arabia. Each site starts from who they are, not from a template.",
     "offerTitle": "What you get",
     "offer": [
       "A site designed around you or your business, not a template with your name on it.",
-      "Arabic and English from the first day, each reading in its own direction.",
+      "Arabic, English or both, each reading in its own direction.",
       "Fast on phones, where most of your visitors are.",
       "Readable by Google and by AI assistants, so people who ask about you find you.",
       "For shops and restaurants: what you sell or serve shown in photos, the location on the map, and ordering or booking through WhatsApp."
     ],
     "whereTitle": "Where I work",
-    "where": "I am based in Al Khobar and meet clients in person in Al Khobar, Dammam and Dhahran. For clients elsewhere in Saudi Arabia and abroad, the whole project runs remotely.",
+    "where": "I meet clients in person in Al Khobar, Dammam and Dhahran. For clients elsewhere in Saudi Arabia and abroad, the whole project runs remotely.",
     "segments": {
       "people": "People",
       "companies": "Companies",

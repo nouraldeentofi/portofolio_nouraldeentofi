@@ -21,10 +21,11 @@ import { buildTranscript } from './lib/transcript.mjs';
 /**
  * Midnight today in Riyadh, as a full timestamp with its offset.
  *
- * This is the one place the build reads the clock for the pages. Everything
- * under scripts/lib is a pure transform, so the date is handed to it on the
- * data instead. Midnight rather than the second, so two builds on the same day
- * write the same pages.
+ * This is the one place the build reads the clock. Everything under
+ * scripts/lib is a pure transform, so the date is handed to it on the data
+ * instead: the ProfilePage date, the footer year, the sitemap's lastmod and
+ * the API's `generated` all come from here. Midnight rather than the second,
+ * so two builds on the same day write the same files.
  */
 function buildStamp(now = new Date()) {
   const riyadh = new Date(now.getTime() + 3 * 60 * 60 * 1000);
@@ -59,7 +60,7 @@ function main() {
 
   stage('llms.txt', buildLlmsTxt(db, 'en'));
   stage('llms-full.txt', buildLlmsFullTxt(db, 'en'));
-  stage('sitemap.xml', buildSitemap(PAGES, db.profile.site));
+  stage('sitemap.xml', buildSitemap(PAGES, db.profile.site, db.build.modified.slice(0, 10)));
   // IndexNow asks for the key as a file at the site root, to prove the site owns it.
   if (db.profile.indexNow?.key) stage(`${db.profile.indexNow.key}.txt`, db.profile.indexNow.key);
   stage('api/profile.json', JSON.stringify(buildApiProfile(db), null, 2) + '\n');

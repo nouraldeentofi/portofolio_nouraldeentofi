@@ -9,11 +9,18 @@
 const base = (db) => db.profile.site.replace(/\/$/, '');
 const iso = (ym) => (ym ? `${ym}-01` : undefined);
 
+/**
+ * When the files were generated: the build's own date (`db.build.modified`,
+ * set by scripts/build.mjs), not a reading of the clock. Two builds on the
+ * same day write the same bytes, and with no build date the key is left out.
+ */
+const generated = (db) => db.build?.modified;
+
 export function buildApiProfile(db) {
   const { profile } = db;
   return {
     $schema: `${base(db)}/api/profile.json`,
-    generated: new Date().toISOString(),
+    generated: generated(db),
     name: profile.name,
     // Alternate spellings people actually use — same list as the JSON-LD
     // alternateName, so agents can match any of them to this profile.
@@ -40,7 +47,7 @@ export function buildApiProfile(db) {
 
 export function buildApiProjects(db) {
   return {
-    generated: new Date().toISOString(),
+    generated: generated(db),
     projects: db.projects.map((p) => ({
       id: p.id,
       name: p.name,

@@ -9,6 +9,7 @@
 import { PAGES, pagePath } from './sitemap.mjs';
 import { period } from './blocks.mjs';
 import { byCompany } from './experience.mjs';
+import { homeOffers, automationServices } from './offers.mjs';
 
 const base = (db) => db.profile.site.replace(/\/$/, '');
 
@@ -24,6 +25,60 @@ function lookingFor(profile, c, lang) {
     `**${c.contact.areasTitle}:** ${a.areas[lang].join(', ')}`,
     ...(a.immediate ? [`**${c.contact.availabilityTitle}:** ${c.contact.availableNow}`] : []),
   ];
+}
+
+/**
+ * The three things he offers, one line each, linked to the page that covers
+ * it: the same cards the home page opens with, in the same words.
+ */
+function offerLines(db, lang) {
+  return homeOffers(db, lang).map((o) => `- [${o.title}](${base(db)}${pagePath(o.page, lang)}): ${o.body}`);
+}
+
+/**
+ * What he offers, in full: the offers, each automation service with the
+ * systems that back it, how a project runs, what a website client gets and
+ * where he works.
+ *
+ * robots.txt sends AI agents to these files instead of the pages, so what the
+ * service pages say has to be said here too. Every sentence is the pages' own
+ * copy, read from the same keys, so the two cannot drift apart.
+ */
+function offerSection(db, lang) {
+  const c = db.copy[lang];
+  const L = [];
+
+  L.push('## What he offers');
+  L.push('');
+  L.push(...offerLines(db, lang));
+  L.push('');
+
+  L.push(`### ${c.automation.title}`);
+  L.push('');
+  L.push(c.automation.lead);
+  L.push('');
+  for (const s of automationServices(db, lang)) {
+    const systems = s.systems.map((w) => `${w.name[lang]} (${c.ui.status[w.status]})`).join(', ');
+    L.push(`- **${s.title}.** ${s.body} **${c.automation.systemsTitle}:** ${systems}`);
+  }
+  L.push('');
+  L.push(`**${c.automation.processTitle}**`);
+  L.push('');
+  c.automation.process.forEach((step, i) => L.push(`${i + 1}. ${step}`));
+  L.push('');
+
+  L.push(`### ${c.showcase.title}`);
+  L.push('');
+  L.push(c.showcase.lead);
+  L.push('');
+  L.push(`**${c.showcase.offerTitle}**`);
+  L.push('');
+  for (const line of c.showcase.offer) L.push(`- ${line}`);
+  L.push('');
+  L.push(`**${c.showcase.whereTitle}.** ${c.showcase.where}`);
+  L.push('');
+
+  return L;
 }
 
 /** `year` may be a shared string or `{en, ar}` when the wording differs. */
@@ -52,6 +107,11 @@ export function buildLlmsTxt(db, lang = 'en') {
     L.push(...wanted.map((line) => `- ${line}`));
     L.push('');
   }
+
+  L.push('## What he offers');
+  L.push('');
+  L.push(...offerLines(db, lang));
+  L.push('');
 
   L.push('## Start here');
   L.push('');
@@ -144,6 +204,8 @@ export function buildLlmsFullTxt(db, lang = 'en') {
   L.push('## About');
   L.push('');
   for (const para of c.about.body) { L.push(para); L.push(''); }
+
+  L.push(...offerSection(db, lang));
 
   L.push('## How he works');
   L.push('');

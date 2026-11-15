@@ -4,23 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<title>Website Design in Al Khobar and Dammam | Nour Aldeen Tofi, Independent Web Developer</title>
-<meta name="description" content="Independent web developer in Al Khobar. I design and build bilingual Arabic and English websites for professionals, companies, shops and restaurants in Dammam, Dhahran and across Saudi Arabia. See the sites I built.">
+<title>Website Design in Al Khobar and Dammam | Nour Aldeen Tofi</title>
+<meta name="description" content="Independent web developer in Al Khobar. I design and build Arabic and English websites for professionals, companies, shops and restaurants in Dammam, Dhahran and across Saudi Arabia. See the sites I built.">
 <link rel="canonical" href="https://nouraldeentofi.com/en/showcase">
 <link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/showcase">
 <link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/showcase">
 <link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/showcase">
 <meta property="og:type" content="profile">
 <meta property="og:site_name" content="Nour Aldeen Tofi">
-<meta property="og:title" content="Website Design in Al Khobar and Dammam | Nour Aldeen Tofi, Independent Web Developer">
-<meta property="og:description" content="Independent web developer in Al Khobar. I design and build bilingual Arabic and English websites for professionals, companies, shops and restaurants in Dammam, Dhahran and across Saudi Arabia. See the sites I built.">
+<meta property="og:title" content="Website Design in Al Khobar and Dammam | Nour Aldeen Tofi">
+<meta property="og:description" content="Independent web developer in Al Khobar. I design and build Arabic and English websites for professionals, companies, shops and restaurants in Dammam, Dhahran and across Saudi Arabia. See the sites I built.">
 <meta property="og:url" content="https://nouraldeentofi.com/en/showcase">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="ar_SA">
 <meta property="og:image" content="https://nouraldeentofi.com/assets/img/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Website Design in Al Khobar and Dammam | Nour Aldeen Tofi, Independent Web Developer">
+<meta property="og:image:alt" content="Website Design in Al Khobar and Dammam | Nour Aldeen Tofi">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://nouraldeentofi.com/assets/img/og.png">
 <meta name="author" content="Nour Aldeen Tofi">
@@ -32,11 +32,13 @@
    nothing is ever hidden. */
 (function(){var r=document.documentElement;r.classList.add('js');
 try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}
-/* honour the visitor's last language choice on every arrival */
-try{var L=localStorage.getItem('nt-lang');var p=location.pathname;
+/* honour the visitor's last language choice on every arrival. The query and
+   the fragment travel with it: ids are the same in both languages, so a link
+   to one item still lands on that item. */
+try{var L=localStorage.getItem('nt-lang');var p=location.pathname;var q=location.search+location.hash;
 var en=p==='/en'||p.slice(0,4)==='/en/';
-if(L==='en'&&!en){location.replace(p==='/'?'/en/':'/en'+p);}
-else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(e){}})();
+if(L==='en'&&!en){location.replace((p==='/'?'/en/':'/en'+p)+q);}
+else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}catch(e){}})();
 </script>
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/icon-32.png?v=b64ecc6d">
 <link rel="apple-touch-icon" sizes="180x180" href="../assets/img/icon-180.png?v=5cafdc8a">
@@ -81,7 +83,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
         "نور توفي"
       ],
       "jobTitle": "AI Automation Engineer: n8n, LLM Agents, MCP · Frontend Developer",
-      "description": "I build AI automation in n8n that reads Arabic and English documents, runs WhatsApp and Telegram bots, and delivers clean data to the tools a business already uses. I also build the React interfaces and the websites on top.",
+      "description": "I build AI automation in n8n that reads Arabic and English documents, runs WhatsApp and Telegram bots, and delivers clean data to the tools a business already uses. I also build the React interfaces on top of it, and websites for people, companies and shops.",
       "email": "mailto:nouraldeentofi@gmail.com",
       "telephone": "+966547972944",
       "url": "https://nouraldeentofi.com",
@@ -721,7 +723,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     <div class="container">
       <p class="hero__eyebrow">Showcase</p>
       <h1>Websites I design and build</h1>
-      <p class="hero__headline hero__headline--lead">I am an independent web developer in Al Khobar. I design and build bilingual websites, Arabic and English, for professionals, companies, shops and restaurants in Dammam, Dhahran and the rest of Saudi Arabia. Each one starts from who they are, not from a template.</p>
+      <p class="hero__headline hero__headline--lead">I am an independent web developer in Al Khobar. I offer website design and development, in Arabic, English or both, for professionals, companies, shops and restaurants in Dammam, Dhahran and the rest of Saudi Arabia. Each site starts from who they are, not from a template.</p>
     </div>
   </section>
 
@@ -730,11 +732,11 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
 <div class="card card--row" data-reveal>
   <div class="card__main">
     <h2 class="card__title">What you get</h2>
-    <ul class="card__list"><li>A site designed around you or your business, not a template with your name on it.</li><li>Arabic and English from the first day, each reading in its own direction.</li><li>Fast on phones, where most of your visitors are.</li><li>Readable by Google and by AI assistants, so people who ask about you find you.</li><li>For shops and restaurants: what you sell or serve shown in photos, the location on the map, and ordering or booking through WhatsApp.</li></ul>
+    <ul class="card__list"><li>A site designed around you or your business, not a template with your name on it.</li><li>Arabic, English or both, each reading in its own direction.</li><li>Fast on phones, where most of your visitors are.</li><li>Readable by Google and by AI assistants, so people who ask about you find you.</li><li>For shops and restaurants: what you sell or serve shown in photos, the location on the map, and ordering or booking through WhatsApp.</li></ul>
   </div>
   <div class="card__aside">
     <h2 class="card__title">Where I work</h2>
-    <p class="card__body">I am based in Al Khobar and meet clients in person in Al Khobar, Dammam and Dhahran. For clients elsewhere in Saudi Arabia and abroad, the whole project runs remotely.</p>
+    <p class="card__body">I meet clients in person in Al Khobar, Dammam and Dhahran. For clients elsewhere in Saudi Arabia and abroad, the whole project runs remotely.</p>
   </div>
 </div>
     </div>
@@ -1145,6 +1147,6 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </form>
     <img src="../assets/img/nour.jpg?v=8858f5b0" alt="Nour Aldeen Tofi" width="720" height="720" loading="lazy" decoding="async">
   </dialog>
-<script src="../assets/js/main.js?v=a485f325" type="module"></script>
+<script src="../assets/js/main.js?v=6af10bef" type="module"></script>
 </body>
 </html>

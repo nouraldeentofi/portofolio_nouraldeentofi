@@ -12,8 +12,10 @@
 /**
  * The three things on the home page, and the page each one opens.
  *
- * `serviceType` is the plain category schema.org asks for next to the name:
- * it is not shown, so it is not copy.
+ * `serviceType` is the plain category schema.org asks for next to the name.
+ * It is not copy, but it may only use words the card itself shows: structured
+ * data says nothing a visitor cannot read, and a test holds each value to the
+ * visible text of the home page.
  */
 export const OFFERS = {
   automation: {
@@ -22,7 +24,7 @@ export const OFFERS = {
   },
   websites: {
     page: 'showcase',
-    serviceType: { en: 'Website design and development', ar: 'تصميم وتطوير المواقع' },
+    serviceType: { en: 'Websites for professionals and businesses', ar: 'مواقع للأفراد والشركات والمحلات' },
   },
   frontend: {
     page: 'work',

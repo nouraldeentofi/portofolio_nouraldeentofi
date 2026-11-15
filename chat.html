@@ -32,11 +32,13 @@
    nothing is ever hidden. */
 (function(){var r=document.documentElement;r.classList.add('js');
 try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}
-/* honour the visitor's last language choice on every arrival */
-try{var L=localStorage.getItem('nt-lang');var p=location.pathname;
+/* honour the visitor's last language choice on every arrival. The query and
+   the fragment travel with it: ids are the same in both languages, so a link
+   to one item still lands on that item. */
+try{var L=localStorage.getItem('nt-lang');var p=location.pathname;var q=location.search+location.hash;
 var en=p==='/en'||p.slice(0,4)==='/en/';
-if(L==='en'&&!en){location.replace(p==='/'?'/en/':'/en'+p);}
-else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(e){}})();
+if(L==='en'&&!en){location.replace((p==='/'?'/en/':'/en'+p)+q);}
+else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}catch(e){}})();
 </script>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/icon-32.png?v=b64ecc6d">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/img/icon-180.png?v=5cafdc8a">
@@ -82,7 +84,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
         "نور توفي"
       ],
       "jobTitle": "مهندس أتمتة بالذكاء الاصطناعي: n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية",
-      "description": "أبني أتمتة بالذكاء الاصطناعي على n8n تقرأ المستندات والفواتير العربية، وتشغّل بوتات واتساب وتيليجرام، وتوصل البيانات نظيفة إلى الأنظمة التي تستخدمها الشركة أصلاً. وأبني فوقها واجهات React ومواقع للأفراد والشركات والمتاجر.",
+      "description": "أبني أتمتة بالذكاء الاصطناعي على n8n تقرأ المستندات والفواتير بالعربية والإنجليزية، وتشغّل بوتات واتساب وتيليجرام، وتوصل البيانات نظيفة إلى الأنظمة التي تستخدمها الشركة أصلاً. وأبني فوقها واجهات React، ومواقع للأفراد والشركات والمحلات.",
       "email": "mailto:nouraldeentofi@gmail.com",
       "telephone": "+966547972944",
       "url": "https://nouraldeentofi.com",
@@ -564,7 +566,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </form>
     <img src="assets/img/nour.jpg?v=8858f5b0" alt="نور الدين طفي" width="720" height="720" loading="lazy" decoding="async">
   </dialog>
-<script src="assets/js/main.js?v=a485f325" type="module"></script>
+<script src="assets/js/main.js?v=6af10bef" type="module"></script>
 <script src="assets/js/chat/boot.ar.js?v=27679f5e" type="module"></script>
 </body>
 </html>

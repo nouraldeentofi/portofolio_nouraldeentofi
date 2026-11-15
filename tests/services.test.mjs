@@ -59,7 +59,7 @@ test('titles and descriptions carry the words people search for', () => {
     en: {
       '': ['n8n automation', 'WhatsApp and Telegram bots', 'Arabic invoice extraction', 'Al Khobar, Saudi Arabia'],
       about: ['AI Automation Engineer in Al Khobar'],
-      work: ['Technical Lead', 'Frontend Developer', 'React', 'Available immediately'],
+      work: ['Technical Lead', 'Frontend Developer', 'React', 'project manager and colleagues'],
       projects: ['Smart Scanner', 'CV Screener', 'Arabic invoices'],
       showcase: ['Website Design in Al Khobar and Dammam', 'Independent web developer', 'restaurants', 'Dhahran'],
       automation: ['n8n Developer', 'AI Automation in Saudi Arabia', 'Google review replies', 'CV screening'],
@@ -68,7 +68,7 @@ test('titles and descriptions carry the words people search for', () => {
     ar: {
       '': ['أتمتة الأعمال', 'بوتات واتساب وتيليجرام', 'قراءة الفواتير العربية', 'في الخبر بالسعودية'],
       about: ['في الخبر بالسعودية'],
-      work: ['قائد تقني', 'مطوّر واجهات أمامية', 'متاح للعمل فوراً'],
+      work: ['قائد تقني', 'مطوّر واجهات أمامية', 'مدير مشروعه وزملائه'],
       projects: ['برنامج لقراءة الفواتير', 'نظام لفرز السير الذاتية'],
       showcase: ['تصميم مواقع في الخبر والدمام', 'مطوّر مواقع مستقل', 'المطاعم', 'المنطقة الشرقية'],
       automation: ['مطوّر n8n', 'أتمتة الأعمال بالذكاء الاصطناعي', 'الرد على تقييمات قوقل', 'فرز السير الذاتية'],
@@ -82,6 +82,28 @@ test('titles and descriptions carry the words people search for', () => {
       const both = `${titleOf(head)} ${descriptionOf(head)}`;
       for (const phrase of phrases) assert.ok(both.includes(phrase), `${lang}/${name || 'index'}: "${phrase}" is missing from the title and description`);
     }
+  }
+});
+
+/* A title is cut at about seventy characters, and on these two pages the
+   part that went missing was his name. */
+test('the English work and showcase titles fit, and end with his name', () => {
+  for (const name of ['work', 'showcase']) {
+    const title = titleOf(headMeta(db, name, 'en'));
+    assert.ok(title.length <= 70, `en/${name}: ${title.length} characters`);
+    assert.ok(title.endsWith(`| ${db.profile.name.en}`), `en/${name}: "${title}"`);
+  }
+});
+
+/* The work page is the one recruiters read, and a recruiter can check this
+   sentence against LinkedIn. It may say "managers" only while the data
+   records more than one person who managed him. */
+test('the work description claims no more managers than the recommendations show', () => {
+  const managers = db.testimonials.filter((t) => /managed him directly/.test(t.relationship.en));
+  assert.ok(managers.length >= 1, 'no recommendation is from a manager, but the description says one is');
+  if (managers.length < 2) {
+    assert.ok(!/\bmanagers\b/i.test(db.copy.en.meta.pages.work.description), 'en: "managers", with one manager in the data');
+    assert.ok(!/مديرين|مديريه|مدراء/.test(db.copy.ar.meta.pages.work.description), 'ar: managers in the plural, with one manager in the data');
   }
 });
 
@@ -133,7 +155,7 @@ test('every page heading says what the page is, not what the nav calls it', () =
       work: 'الخبرة والتوصيات',
       projects: 'منتجات ذكاء اصطناعي وتطبيقات ويب بنيتها',
       showcase: 'مواقع أصمّمها وأبرمجها',
-      automation: 'أتمتة الأعمال بالذكاء الاصطناعي و n8n',
+      automation: 'أتمتة الأعمال بالذكاء الاصطناعي وn8n',
       contact: 'تواصل مع نور الدين طفي',
     },
   };
@@ -168,6 +190,57 @@ test('the service pages open with a lead that says who he is and where', () => {
       assert.ok(c[name].lead.includes(db.profile.location.city[lang]), `${lang}/${name}: the lead does not name his city`);
     }
   }
+});
+
+/* "Available immediately" is a claim about today. On the work page it is a
+   line of its own, shown by the same rule as the home hero, and it is not in
+   the lead or the search snippet, which would keep saying it after the data
+   stopped. */
+test('the work hero says he is available, only while the data says so', () => {
+  for (const lang of LANGS) {
+    const c = db.copy[lang];
+    const hero = page('work', lang).match(/<section class="hero">[\s\S]*?<\/section>/)[0];
+    const note = `<p class="hero__note">${c.work.availability}</p>`;
+    assert.ok(hero.includes(note), `${lang}: no availability line`);
+    assert.ok(hero.indexOf('hero__headline--lead') < hero.indexOf(note), `${lang}: the line is above the lead`);
+
+    for (const availability of [{ ...db.profile.availability, openToWork: false }, { ...db.profile.availability, immediate: false }]) {
+      const busy = page('work', lang, { ...db, profile: { ...db.profile, availability } });
+      assert.ok(!busy.includes('hero__note'), `${lang}: says available when the data does not`);
+    }
+  }
+});
+
+/* Copy that says "available now" outside the keys the data switches on and
+   off. The home and work hero lines and the contact badge are gated; anything
+   else found here has to be reworded by hand the day he is no longer free. */
+const AVAILABLE_NOW = /available immediately|available now|متاح فوراً|متاح الآن|متاح للعمل فوراً/i;
+const GATED_KEYS = new Set(['home.availability', 'work.availability', 'contact.availableNow']);
+
+function ungatedAvailabilityClaims(copy) {
+  const found = [];
+  const walk = (node, path) => {
+    if (typeof node === 'string') {
+      if (AVAILABLE_NOW.test(node) && !GATED_KEYS.has(path)) found.push(path);
+    } else if (Array.isArray(node)) node.forEach((x, i) => walk(x, `${path}[${i}]`));
+    else if (node && typeof node === 'object') for (const [k, v] of Object.entries(node)) walk(v, path ? `${path}.${k}` : k);
+  };
+  walk(copy, '');
+  return found;
+}
+
+test('no fixed sentence says he is available once the data says he is not', () => {
+  const { openToWork, immediate } = db.profile.availability;
+  for (const lang of LANGS) {
+    const claims = ungatedAvailabilityClaims(db.copy[lang]);
+    // The work lead and its search snippet are read by recruiters first, so
+    // they never carry the claim, whatever the data says.
+    assert.ok(!claims.some((p) => p === 'work.lead' || p.startsWith('meta.pages.work.')), `${lang}: ${claims}`);
+    if (!(openToWork && immediate)) assert.deepEqual(claims, [], `${lang}: the data says he is not available, and these still say he is`);
+  }
+  // The detector does find a sentence that says it.
+  assert.deepEqual(ungatedAvailabilityClaims({ a: { b: ['He is available immediately.'] }, home: { availability: 'Available now.' } }), ['a.b[0]']);
+  assert.deepEqual(ungatedAvailabilityClaims({ x: 'وهو متاح للعمل فوراً.' }), ['x']);
 });
 
 /* ---------------------------------------------------------- automation page */
@@ -269,6 +342,43 @@ test('the showcase says what a client gets and where he works, above the gallery
   for (const city of ['الخبر', 'الدمام', 'الظهران']) assert.ok(db.copy.ar.showcase.where.includes(city));
 });
 
+/* The gallery sits right under these sentences, and each card is tagged with
+   the languages its site speaks. While any of them speaks one language only,
+   the page cannot promise two on every site. */
+test('the showcase does not promise two languages on every site while some have one', () => {
+  const speaks = (s) => s.tags.find((t) => /^(Arabic|English)( \+ (Arabic|English))?$/.test(t));
+  const single = db.showcase.sites.filter((s) => /^(Arabic|English)$/.test(speaks(s) ?? ''));
+  const both = db.showcase.sites.filter((s) => /\+/.test(speaks(s) ?? ''));
+  assert.ok(both.length > 0, 'no site in the gallery is in both languages, but the page offers both');
+  if (single.length === 0) return;
+
+  const en = db.copy.en;
+  const ar = db.copy.ar;
+  for (const s of [en.showcase.lead, en.showcase.offer.join(' '), en.meta.pages.showcase.description, en.meta.pages.showcase.title]) {
+    assert.ok(!/bilingual|from the first day/i.test(s), `en: promises both languages on every site: ${s}`);
+  }
+  assert.match(en.showcase.lead, /Arabic, English or both/);
+  assert.ok(en.showcase.offer.some((line) => /Arabic, English or both/.test(line)));
+  for (const s of [ar.showcase.lead, ar.showcase.offer.join(' ')]) {
+    assert.ok(!/ثنائي|من اليوم الأول/.test(s), `ar: promises both languages on every site: ${s}`);
+    assert.match(s, /بالعربية أو الإنجليزية أو باللغتين معاً/);
+  }
+});
+
+/* The title of the page is the phrase people search. A title the body never
+   echoes is one a search engine is more likely to rewrite, so the lead says
+   it once, as a noun, the way it is typed. */
+test('the showcase lead says the phrase its title is built on, once', () => {
+  const phrase = { en: /website design/gi, ar: /تصميم مواقع/g };
+  for (const lang of LANGS) {
+    const c = db.copy[lang];
+    assert.match(titleOf(headMeta(db, 'showcase', lang)), new RegExp(phrase[lang].source, 'i'));
+    assert.equal(c.showcase.lead.match(phrase[lang])?.length, 1, `${lang}: the lead`);
+    const body = [c.showcase.title, ...c.showcase.offer, c.showcase.where, c.showcase.labLead, c.showcase.ctaTitle, c.showcase.ctaBody].join(' ');
+    assert.equal(body.match(phrase[lang]), null, `${lang}: the phrase is repeated outside the lead`);
+  }
+});
+
 /* The line for shops promises ordering or booking through WhatsApp. That is
    only honest while a real shop site in the gallery does it. */
 test('the offer to shops is true of real sites in the gallery', () => {
@@ -335,6 +445,8 @@ test('each offer is a schema.org Service, on the home page only, in the words on
       assert.equal(s['@id'], `${db.profile.site}${pagePath('', lang)}#offer-${offer.id}`);
       assert.ok(html.includes(` id="offer-${offer.id}"`), `${lang}: the Service points at a card that is not on the page`);
       assert.equal(typeof s.serviceType, 'string');
+      // The category is not copy, but it is still held to the words on the page.
+      assert.ok(text.includes(s.serviceType), `${lang}: ${offer.id} has a serviceType the page does not show: "${s.serviceType}"`);
       assert.deepEqual(s.provider, { '@id': `${db.profile.site}/#nour` });
       assert.deepEqual(s.areaServed, { '@type': 'Country', name: db.profile.location.country[lang] });
       assert.deepEqual(s.availableChannel.availableLanguage, ['ar', 'en']);
@@ -374,6 +486,19 @@ test('nothing true was lost when the home intro was shortened', () => {
     assert.ok(db.copy[lang].home.intro.length < 260, `${lang}: the intro grew back`);
     assert.ok(!/\d/.test(db.copy[lang].home.intro.replace(/n8n/g, '')), `${lang}: a figure in the intro`);
   }
+});
+
+/* The intro is Person.description and the opening of llms.txt in each
+   language, so both have to say the same thing. */
+test('the home intro says the same thing in both languages', () => {
+  const en = db.copy.en.home.intro;
+  const ar = db.copy.ar.home.intro;
+  assert.match(en, /Arabic and English documents/);
+  assert.match(ar, /بالعربية والإنجليزية/);
+  // The client websites are a separate thing he builds, not a layer on the automation.
+  assert.ok(!/websites on top/.test(en));
+  assert.match(en, /interfaces on top of it, and websites for people, companies and shops/);
+  assert.match(ar, /واجهات React، ومواقع للأفراد والشركات والمحلات/);
 });
 
 /* -------------------------------------------------------------------- links */
@@ -470,6 +595,36 @@ test('the work page shows every date in words and keeps the month for machines',
 /* In an Arabic sentence the two apps are written the way people in Saudi
    Arabia write them. The Latin names stay in the stack badges, which are
    lists of product names and not sentences. */
+/* One word per thing. Shops are محلات on the filter chips, so they are
+   محلات in every sentence too; and a conjunction joins the Latin word it
+   precedes ("وn8n"), the way the rest of the Arabic copy writes it. */
+test('Arabic copy uses one word for shops and joins و to a Latin word', () => {
+  const hits = [];
+  const walk = (node, path) => {
+    if (typeof node === 'string') {
+      if (/متاجر/.test(node)) hits.push(`${path}: متاجر`);
+      if (/(?<![\u0621-\u064A])و [A-Za-z]/.test(node)) hits.push(`${path}: a loose و before a Latin word`);
+    } else if (Array.isArray(node)) node.forEach((x, i) => walk(x, `${path}[${i}]`));
+    else if (node && typeof node === 'object') for (const [k, v] of Object.entries(node)) walk(v, `${path}.${k}`);
+  };
+  walk(db.copy.ar, 'copy.ar');
+  assert.deepEqual(hits, []);
+  assert.equal(db.copy.ar.showcase.segments.shops, 'محلات');
+});
+
+/* Arabic that says what the English says, in the places a reviewer found it
+   saying something else. */
+test('the Arabic service cards say what the systems do', () => {
+  const body = Object.fromEntries(db.copy.ar.automation.services.map((s) => [s.id, s.body]));
+  // A reason for every rejected row, not a rejection of every row.
+  assert.match(body.data, /سبب الرفض لكل صف مرفوض/);
+  // The owner approves on Telegram; the review is not "from Telegram".
+  assert.match(body.reviews, /يوافق صاحب العمل عبر تيليجرام/);
+  assert.ok(!/سلبي من تيليجرام/.test(body.reviews));
+  // The card and the system it links to name the product the same way.
+  assert.match(body.reviews, /تقييمات Google/);
+});
+
 test('Arabic sentences write واتساب and تيليجرام, one spelling each', () => {
   const hits = [];
   const walk = (node, path, arabic) => {

@@ -28,7 +28,12 @@ export const PRIVATE_PATHS = [
   '/data/*',
 ];
 
-/** `_redirects` as rules, in file order. Comments and blank lines are dropped. */
+/**
+ * `_redirects` as rules, in file order. Comments and blank lines are dropped.
+ *
+ * A rule written without a status is a 302: that is what Cloudflare Pages
+ * answers with, so it is what the gate has to see.
+ */
 export function parseRedirects(text) {
   return text
     .split('\n')
@@ -36,7 +41,7 @@ export function parseRedirects(text) {
     .filter((line) => line && !line.startsWith('#'))
     .map((line) => {
       const [from, to, status] = line.split(/\s+/);
-      return { from, to, status: Number(status ?? 301) };
+      return { from, to, status: Number(status ?? 302) };
     });
 }
 

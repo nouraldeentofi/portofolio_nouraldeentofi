@@ -16,9 +16,13 @@ export const pagePath = (page, lang) => `${lang === 'ar' ? '' : '/en'}/${page}`;
 
 const path = pagePath;
 
-export function buildSitemap(pages, baseUrl) {
+/**
+ * `today` is the day of the build as `YYYY-MM-DD`, handed in by
+ * scripts/build.mjs so nothing here reads the clock. Without it the entries
+ * carry no `lastmod`, which is better than a date nobody gave.
+ */
+export function buildSitemap(pages, baseUrl, today = null) {
   const base = baseUrl.replace(/\/$/, '');
-  const today = new Date().toISOString().slice(0, 10);
 
   const urls = LANGS.flatMap((lang) =>
     pages.map((page) => {
@@ -31,7 +35,7 @@ export function buildSitemap(pages, baseUrl) {
         `    <loc>${base}${path(page, lang)}</loc>`,
         alternates,
         `    <xhtml:link rel="alternate" hreflang="x-default" href="${base}${path(page, 'ar')}"/>`,
-        `    <lastmod>${today}</lastmod>`,
+        ...(today ? [`    <lastmod>${today}</lastmod>`] : []),
         `    <priority>${page === '' ? '1.0' : '0.8'}</priority>`,
         '  </url>',
       ].join('\n');

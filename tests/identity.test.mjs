@@ -9,6 +9,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { loadDb } from '../scripts/lib/load.mjs';
 import { buildLlmsTxt, buildLlmsFullTxt } from '../scripts/lib/llms.mjs';
 import { buildApiProfile, buildApiProjects, buildResumeJson } from '../scripts/lib/api.mjs';
@@ -82,9 +83,50 @@ test('removing or weakening any one of those rules fails the gate', () => {
   assert.notEqual(softened, redirects);
   assert.ok(checkRedirects(softened).some((p) => p.includes('/data/*')), 'a 302 is not a closed door');
 
+  // Cloudflare Pages answers a rule that names no status with a 302.
+  const unstated = redirects.replace(/^\/data\/\*\s+\/\s+301$/m, '/data/*  /');
+  assert.notEqual(unstated, redirects);
+  assert.equal(parseRedirects(unstated).find((r) => r.from === '/data/*').status, 302);
+  assert.ok(checkRedirects(unstated).some((p) => p.includes('/data/*')), 'a rule with no status is a 302, not a closed door');
+
   // First match wins: a private path below the catch-all is never reached.
   const below = `/*  /404.html  404\n${redirects}`;
   assert.ok(checkRedirects(below).some((p) => p.includes('comes after /*')));
+});
+
+/* The gate above only protects the paths it already lists. This one looks
+   at what the repository actually tracks at its root: each entry is either
+   part of the site or closed, so a new notes file or tooling folder cannot
+   start being served without someone deciding which of the two it is. */
+test('every file and folder at the root of the repository is either the site or closed', (t) => {
+  let tracked;
+  try {
+    tracked = execFileSync('git', ['ls-files'], { encoding: 'utf8' }).split('\n').filter(Boolean);
+  } catch {
+    t.skip('not a git checkout');
+    return;
+  }
+  const roots = [...new Set(tracked.map((f) => f.split('/')[0]))];
+
+  const hosting = JSON.parse(readFileSync('data/hosting.json', 'utf8'));
+  const site = new Set([
+    // The pages, in both languages, and what the build writes beside them.
+    ...PAGES.map((p) => `${p === '' ? 'index' : p}.html`),
+    '404.html', 'en', 'api', 'cv', 'resume', 'profile', 'llms.txt', 'llms-full.txt', 'sitemap.xml',
+    // Written by hand, and meant to be read.
+    'assets', 'mcp', 'robots.txt', 'humans.txt', 'me.png',
+    // Read by the host or by a search engine to prove the site is his.
+    '_redirects', '_headers', 'CNAME', '.nojekyll', 'google8fa9cd6fb89c6800.html',
+    ...(db.profile.indexNow?.key ? [`${db.profile.indexNow.key}.txt`] : []),
+    // The client sites and apps copied in by npm run sites.
+    ...hosting.sites.map((s) => s.path.split('/')[0]),
+  ]);
+  const closed = new Set(PRIVATE_PATHS.map((p) => p.replace(/^\//, '').replace(/\/\*$/, '')));
+
+  for (const name of roots) {
+    assert.ok(site.has(name) || closed.has(name), `/${name} is tracked at the root but is neither listed as part of the site nor closed in PRIVATE_PATHS`);
+    assert.ok(!(site.has(name) && closed.has(name)), `/${name} is listed as both public and closed`);
+  }
 });
 
 /* robots.txt and llms.txt both hand out /mcp/README.md. */
@@ -231,6 +273,14 @@ test('the FAQ says how his name is written, second in both languages', () => {
     }
     assert.ok(!MISSPELLED_NAME.test(f.a) && !f.a.includes('—') && !/\d/.test(f.a));
   }
+  // The handle is his on the profiles the answer names, and it names no
+  // more than that: his Codeforces profile goes by another one.
+  for (const f of [en, ar]) {
+    assert.ok(!/everywhere|كل المنصات|جميع المنصات/.test(f.a), `the handle is not the same everywhere: ${f.q}`);
+    const named = db.profile.sameAs.filter((s) => s.url && s.identity !== false && f.a.includes(s.platform));
+    assert.deepEqual(named.map((s) => s.platform).sort(), ['GitHub', 'LinkedIn', 'YouTube']);
+    for (const s of named) assert.ok(s.url.includes('nouraldeentofi'), `${s.platform} does not use the handle the FAQ gives`);
+  }
   // Every spelling the answer offers is one the data lists as real.
   for (const name of ['Nouraldeen Tofi', 'Nour Al-Deen Tofi', 'Nour Aldin Tofi', 'Nour Eddin Tofi', 'Noor Aldeen Tofi', 'Nour Aldeen Toufi', 'Nour Tofi']) {
     assert.ok(db.profile.nameVariants.includes(name), `${name} is in the FAQ but not in nameVariants`);
@@ -350,4 +400,22 @@ test('the home page carries the date the build gave it, and no other', () => {
   const stamp = (modified) => TEMPLATES['']({ ...loaded, build: { modified } }, 'en');
   assert.ok(stamp('2020-01-01T00:00:00+03:00').includes('"dateModified": "2020-01-01T00:00:00+03:00"'));
   assert.ok(!TEMPLATES[''](loaded, 'en').includes('dateModified'), 'a date appeared that the build did not give');
+
+  // The footer year is the build's year too, not the year of the clock.
+  assert.ok(stamp('2020-01-01T00:00:00+03:00').includes(`© 2020 ${db.profile.name.en}`));
+  assert.ok(TEMPLATES[''](loaded, 'en').includes(`© ${db.profile.name.en}`), 'a year appeared that the build did not give');
+});
+
+/* A visitor whose saved language differs from the link they were sent is
+   moved to the same page in their language. Links to one item are the norm
+   now, so the move has to keep the fragment, and the query with it. */
+test('the language redirect keeps the query and the fragment', () => {
+  for (const { lang, page, html } of everyPage()) {
+    const script = html.match(/<script>\s*\/\* Set before first paint[\s\S]*?<\/script>/)?.[0];
+    assert.ok(script, `${lang}/${page || 'index'}: no language script`);
+    assert.ok(script.includes('var q=location.search+location.hash;'));
+    const moves = [...script.matchAll(/location\.replace\(([^;]*)\);/g)].map((m) => m[1]);
+    assert.equal(moves.length, 2);
+    for (const to of moves) assert.ok(to.endsWith('+q'), `${lang}/${page || 'index'}: a redirect drops the fragment: ${to}`);
+  }
 });

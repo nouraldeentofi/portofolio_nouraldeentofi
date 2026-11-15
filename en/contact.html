@@ -32,11 +32,13 @@
    nothing is ever hidden. */
 (function(){var r=document.documentElement;r.classList.add('js');
 try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}
-/* honour the visitor's last language choice on every arrival */
-try{var L=localStorage.getItem('nt-lang');var p=location.pathname;
+/* honour the visitor's last language choice on every arrival. The query and
+   the fragment travel with it: ids are the same in both languages, so a link
+   to one item still lands on that item. */
+try{var L=localStorage.getItem('nt-lang');var p=location.pathname;var q=location.search+location.hash;
 var en=p==='/en'||p.slice(0,4)==='/en/';
-if(L==='en'&&!en){location.replace(p==='/'?'/en/':'/en'+p);}
-else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(e){}})();
+if(L==='en'&&!en){location.replace((p==='/'?'/en/':'/en'+p)+q);}
+else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}catch(e){}})();
 </script>
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/icon-32.png?v=b64ecc6d">
 <link rel="apple-touch-icon" sizes="180x180" href="../assets/img/icon-180.png?v=5cafdc8a">
@@ -80,7 +82,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
         "نور توفي"
       ],
       "jobTitle": "AI Automation Engineer: n8n, LLM Agents, MCP · Frontend Developer",
-      "description": "I build AI automation in n8n that reads Arabic and English documents, runs WhatsApp and Telegram bots, and delivers clean data to the tools a business already uses. I also build the React interfaces and the websites on top.",
+      "description": "I build AI automation in n8n that reads Arabic and English documents, runs WhatsApp and Telegram bots, and delivers clean data to the tools a business already uses. I also build the React interfaces on top of it, and websites for people, companies and shops.",
       "email": "mailto:nouraldeentofi@gmail.com",
       "telephone": "+966547972944",
       "url": "https://nouraldeentofi.com",
@@ -578,6 +580,6 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
     </form>
     <img src="../assets/img/nour.jpg?v=8858f5b0" alt="Nour Aldeen Tofi" width="720" height="720" loading="lazy" decoding="async">
   </dialog>
-<script src="../assets/js/main.js?v=a485f325" type="module"></script>
+<script src="../assets/js/main.js?v=6af10bef" type="module"></script>
 </body>
 </html>
