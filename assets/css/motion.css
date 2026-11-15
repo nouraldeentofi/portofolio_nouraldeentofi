@@ -190,6 +190,7 @@ main { position: relative; }
 
 /* Hero entrance — plays once, immediately, without waiting for scroll. */
 .js .hero__name,
+.js .hero__altname,
 .js .hero__headline,
 .js .hero__intro,
 .js .hero__actions,
@@ -199,6 +200,7 @@ main { position: relative; }
 
 .js .hero__eyebrow { animation-delay: 0.02s; }
 .js .hero__name { animation-delay: 0.08s; }
+.js .hero__altname { animation-delay: 0.12s; }
 .js .hero__headline { animation-delay: 0.16s; }
 .js .hero__intro { animation-delay: 0.24s; }
 .js .hero__actions { animation-delay: 0.32s; }
@@ -217,6 +219,7 @@ main { position: relative; }
     transition: none;
   }
   .js .hero__name,
+  .js .hero__altname,
   .js .hero__headline,
   .js .hero__intro,
   .js .hero__actions,

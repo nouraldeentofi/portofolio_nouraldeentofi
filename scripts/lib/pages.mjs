@@ -33,6 +33,20 @@ const GALLERY_PAGES = new Set(['', 'projects', 'showcase', 'automation']);
  */
 const rel = pagePath;
 
+/**
+ * His name in the other script: Latin on the Arabic pages, Arabic on the
+ * English ones.
+ *
+ * Each language used to show only its own spelling, so someone who searched
+ * the Latin name and landed on the Arabic home page found no trace of what
+ * they typed. `lang` and `dir` travel with the text, so a screen reader
+ * pronounces it and the browser lays it out as the script it is.
+ */
+function otherName(db, lang) {
+  const other = lang === 'ar' ? 'en' : 'ar';
+  return { text: db.profile.name[other], lang: other, dir: other === 'ar' ? 'rtl' : 'ltr' };
+}
+
 const asset = (path, lang) => `${lang === 'ar' ? '' : '../'}${path}`;
 
 /**
@@ -94,12 +108,13 @@ ${nav}
 function footer(db, lang) {
   const c = db.copy[lang];
   const year = new Date().getFullYear();
+  const alt = otherName(db, lang);
 
   return `  <footer class="site-footer">
     <div class="container site-footer__inner">
       <div>
         <p>${e(c.footer.tagline)}</p>
-        <p>© ${year} ${e(db.profile.name[lang])} · ${e(c.footer.builtWith)}</p>
+        <p>© ${year} ${e(db.profile.name[lang])} · <span lang="${alt.lang}" dir="${alt.dir}">${e(alt.text)}</span> · ${e(c.footer.builtWith)}</p>
       </div>
       <ul class="footer__links">
         <li><a href="${asset('llms.txt', lang)}" target="_blank" rel="noopener">llms.txt${newTabHint(c.ui.opensInNewTab)}</a></li>
@@ -192,7 +207,7 @@ else if(L==='ar'&&en){location.replace(p==='/en'?'/':(p.slice(3)||'/'));}}catch(
 <link rel="stylesheet" href="${assetV(db, 'assets/css/responsive.css', lang)}">${
     lang === 'ar' ? `\n<link rel="stylesheet" href="${assetV(db, 'assets/css/rtl.css', lang)}">` : ''
   }
-${B.headLd(db, page, lang)}
+${B.headLd(db, page, lang, opts)}
 </head>
 <body>
 <canvas class="site-bg" data-workflow data-variant="${PAGE_VARIANT[page] ?? 'drift'}" aria-hidden="true"></canvas>
@@ -237,12 +252,16 @@ ${body}
  * Every page opens with the same visual idea: the animated workflow graph.
  * The home hero runs it at full density; subpages run a sparser, quieter
  * version of the same graph, so the whole site reads as one system.
+ *
+ * `altName` is the heading again in the other script (see `otherName`), as a
+ * quiet line directly under it. Only the home page, whose heading is his
+ * name, passes one.
  */
-function heroBlock({ eyebrow = null, heading, headingClass = '', headline = null, intro = null, actions = null }) {
+function heroBlock({ eyebrow = null, heading, headingClass = '', altName = null, headline = null, intro = null, actions = null }) {
   return `  <section class="hero">
     <div class="container">
 ${eyebrow ? `      <p class="hero__eyebrow">${e(eyebrow)}</p>\n` : ''}      <h1${headingClass ? ` class="${headingClass}"` : ''}>${e(heading)}</h1>
-${headline ? `      <p class="hero__headline">${e(headline)}</p>\n` : ''}${intro ? `      <p class="hero__intro">${e(intro)}</p>\n` : ''}${actions ? `      <div class="hero__actions">\n${actions}\n      </div>\n` : ''}    </div>
+${altName ? `      <p class="hero__altname" lang="${altName.lang}" dir="${altName.dir}">${e(altName.text)}</p>\n` : ''}${headline ? `      <p class="hero__headline">${e(headline)}</p>\n` : ''}${intro ? `      <p class="hero__intro">${e(intro)}</p>\n` : ''}${actions ? `      <div class="hero__actions">\n${actions}\n      </div>\n` : ''}    </div>
   </section>`;
 }
 
@@ -256,6 +275,7 @@ function home(db, lang) {
     eyebrow: c.home.eyebrow,
     heading: p.name[lang],
     headingClass: 'hero__name',
+    altName: otherName(db, lang),
     headline: p.headline[lang],
     intro: c.home.intro,
     actions: `        <a class="btn" href="${rel('contact', lang)}">${e(c.home.ctaButton)}</a>
@@ -478,9 +498,10 @@ function notFound(db, lang) {
     headline: lang === 'en' ? 'That page does not exist.' : 'هذه الصفحة غير موجودة.',
     actions: `        <a class="btn" href="${rel('', lang)}">${e(c.nav.home)}</a>`,
   })}`;
-  // Borrows the home page's head, so it must say noindex — otherwise it is a
-  // crawlable duplicate of the home title and description.
-  return shell(db, '', lang, main, { noindex: true });
+  // Borrows the home page's head, so it must say noindex: otherwise it is a
+  // crawlable duplicate of the home title and description. And it is not the
+  // home page, so it leaves out the structured data that describes one.
+  return shell(db, '', lang, main, { noindex: true, pageLd: false });
 }
 
 /**
@@ -488,18 +509,23 @@ function notFound(db, lang) {
  *
  * Each shortcut ships as a page that redirects three ways: a meta refresh for
  * browsers, a canonical for crawlers that follow it, and a plain link for
- * anything that honours neither. All are noindex — the destination is the
+ * anything that honours neither. All are noindex: the destination is the
  * thing worth indexing, not the doorway. They work on any host, with or
  * without `_redirects`.
+ *
+ * `canonical` differs from `target` only where the target carries a
+ * fingerprint. The refresh and the link must name the fingerprinted address,
+ * or a visitor gets the copy the CDN still holds; the canonical must name the
+ * bare one, or every new version reads to a search engine as a new document.
  */
-function redirectStub(target, label) {
+function redirectStub(target, label, canonical = target) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="robots" content="noindex, follow">
 <meta http-equiv="refresh" content="0; url=${target}">
-<link rel="canonical" href="${target}">
+<link rel="canonical" href="${canonical}">
 <title>${e(label)}</title>
 </head>
 <body>
@@ -513,17 +539,22 @@ export function buildRedirects(db) {
   /* One CV. /cv/auto stays so links already shared for the old automation CV still land.
      `_redirects` has no rule for either on purpose: Cloudflare would answer it before
      these pages, and a rule can only name the bare PDF, which the CDN keeps for a day
-     after a new CV ships. These carry its fingerprint instead. */
+     after a new CV ships. These carry its fingerprint instead.
+
+     The canonical is the other way round: absolute and without the fingerprint, the
+     one address the CV keeps across versions. `_headers` sends the same one with
+     the PDF itself. */
   const cv = db.profile.cv[0];
   const v = db.assetVersions?.[cv.file];
   const cvUrl = v ? `/${cv.file}?v=${v}` : `/${cv.file}`;
+  const cvCanonical = `${db.profile.site.replace(/\/$/, '')}/${cv.file}`;
 
   return [
-    { path: 'cv/index.html', target: cvUrl, label: 'CV' },
-    { path: 'cv/auto/index.html', target: cvUrl, label: 'CV' },
+    { path: 'cv/index.html', target: cvUrl, label: 'CV', canonical: cvCanonical },
+    { path: 'cv/auto/index.html', target: cvUrl, label: 'CV', canonical: cvCanonical },
     { path: 'resume/index.html', target: '/api/resume.json', label: 'Résumé (JSON Resume)' },
     { path: 'profile/index.html', target: '/api/profile.json', label: 'Profile JSON' },
-  ].map((r) => ({ ...r, html: redirectStub(r.target, r.label) }));
+  ].map((r) => ({ ...r, html: redirectStub(r.target, r.label, r.canonical) }));
 }
 
 export const TEMPLATES = { '': home, about, work, projects, showcase, automation, chat, contact };

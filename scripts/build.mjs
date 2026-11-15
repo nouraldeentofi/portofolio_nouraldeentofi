@@ -18,8 +18,21 @@ import { TEMPLATES, notFound, buildRedirects } from './lib/pages.mjs';
 import { injectBlock } from './lib/render.mjs';
 import { buildTranscript } from './lib/transcript.mjs';
 
+/**
+ * Midnight today in Riyadh, as a full timestamp with its offset.
+ *
+ * This is the one place the build reads the clock for the pages. Everything
+ * under scripts/lib is a pure transform, so the date is handed to it on the
+ * data instead. Midnight rather than the second, so two builds on the same day
+ * write the same pages.
+ */
+function buildStamp(now = new Date()) {
+  const riyadh = new Date(now.getTime() + 3 * 60 * 60 * 1000);
+  return `${riyadh.toISOString().slice(0, 10)}T00:00:00+03:00`;
+}
+
 function main() {
-  const db = loadDb('data');
+  const db = { ...loadDb('data'), build: { modified: buildStamp() } };
   const pending = new Map();
   const stage = (path, content) => pending.set(path, content);
 

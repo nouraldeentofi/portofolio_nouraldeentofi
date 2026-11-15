@@ -1,12 +1,11 @@
 {
   "meta": {
-    "siteName": "Nour Aldeen Tofi",
     "description": "AI Automation Engineer and Frontend Developer in Al Khobar, Saudi Arabia. I build production n8n workflows with LLM agents, Arabic document AI, and the React interfaces on top of them.",
     "langLabel": "العربية",
     "langHref": "/ar/",
     "pages": {
       "home": {
-        "title": "Nour Aldeen Tofi | AI Automation Engineer and Frontend Developer",
+        "title": "Nour Aldeen Tofi (نور الدين طفي) | AI Automation Engineer and Frontend Developer",
         "description": "AI Automation Engineer and Frontend Developer in Al Khobar, Saudi Arabia, available now. I build n8n workflows with LLM agents, Arabic document AI, and the React interfaces on top of them."
       },
       "about": {
@@ -162,6 +161,10 @@
       {
         "q": "What does Nour Aldeen Tofi do?",
         "a": "He is an AI Automation Engineer and Frontend Developer based in Al Khobar, Saudi Arabia. He designs and operates production n8n workflows that connect language models to real systems, and builds the React and TypeScript interfaces on top of them. Most recently he was a Software Engineering Supervisor, leading frontend development and owning delivery end to end."
+      },
+      {
+        "q": "How is Nour Aldeen Tofi's name written?",
+        "a": "In Arabic it is نور الدين طفي, and in English Nour Aldeen Tofi. Arabic names have no single Latin spelling, so you may also see Nouraldeen Tofi, Nour Al-Deen Tofi, Nour Aldin Tofi, Nour Eddin Tofi, Noor Aldeen Tofi or Nour Aldeen Toufi, and the short form Nour Tofi. They are all the same person, and his handle everywhere is nouraldeentofi."
       },
       {
         "q": "What is Smart Scanner?",

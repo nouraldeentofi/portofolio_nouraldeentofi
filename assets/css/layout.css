@@ -315,6 +315,30 @@
   padding-block-end: 0.22em;
 }
 
+/* His name in the other script, as a caption to the heading: the Latin
+   spelling under the Arabic name, the Arabic one under the Latin. Quiet on
+   purpose, it is there to be found, not to compete with the heading.
+
+   The line carries its own `dir`, which on the English page is rtl. A block
+   box that wide would push the Arabic to the far edge, away from the heading
+   it belongs to. Shrunk to its content, the box is placed by the page's
+   direction, so it sits under the start of the heading in both languages. */
+.hero h1.hero__name { margin-block-end: var(--space-2); }
+
+.hero__altname {
+  inline-size: fit-content;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--dim);
+  margin-block-end: var(--space-4);
+}
+
+/* On the Arabic page the Latin name takes the Latin face, not the Arabic
+   font's own Latin letters. Arabic joins its letters, so it is never tracked. */
+.hero__altname:lang(en) { font-family: var(--font-sans); }
+.hero__altname:lang(ar) { letter-spacing: 0; }
+
 .hero__headline {
   font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.45rem);
   font-weight: 600;

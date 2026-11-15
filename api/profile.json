@@ -1,6 +1,6 @@
 {
   "$schema": "https://nouraldeentofi.com/api/profile.json",
-  "generated": "2026-11-09T10:13:53.579Z",
+  "generated": "2026-11-15T06:51:03.132Z",
   "name": {
     "en": "Nour Aldeen Tofi",
     "ar": "نور الدين طفي"
@@ -9,14 +9,20 @@
     "Nour Aldeen Tofi",
     "Nouraldeen Tofi",
     "Nour Al-Deen Tofi",
+    "Nour Al Deen Tofi",
+    "Nour Aldin Tofi",
+    "Nour Eddin Tofi",
+    "Noureddine Tofi",
+    "Nour El Din Tofi",
+    "Noor Aldeen Tofi",
     "Nour Aldeen Toufi",
     "Nour Tofi",
     "nouraldeentofi",
     "nourtofi",
     "نور الدين طفي",
-    "نور الدين توفي",
-    "نور طفي",
-    "نور توفي"
+    "نورالدين طفي",
+    "نور الدين الطفي",
+    "نور طفي"
   ],
   "headline": {
     "en": "AI Automation Engineer: n8n, LLM Agents, MCP · Frontend Developer",
@@ -75,13 +81,16 @@
     },
     {
       "platform": "Smart Scanner",
-      "url": "https://receipt.nexleadtech.com"
+      "url": "https://receipt.nexleadtech.com",
+      "identity": false,
+      "note": "A product he built, not a profile of him."
     },
     {
       "platform": "Google Play",
       "url": "https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag",
       "contactChannel": false,
-      "note": "A product link, not a way to reach Nour. Kept in sameAs so the identity graph still resolves it; shown on the Projects page as GoldenTag."
+      "note": "A product link, not a way to reach Nour and not a profile of him. Shown on the Projects page as GoldenTag.",
+      "identity": false
     },
     {
       "platform": "GitHub",

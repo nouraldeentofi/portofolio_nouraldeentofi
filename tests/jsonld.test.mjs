@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { loadDb } from '../scripts/lib/load.mjs';
 import {
   personLd,
@@ -9,6 +10,7 @@ import {
   profilePageLd,
   faqLd,
   breadcrumbLd,
+  websiteLd,
   toScriptTag,
 } from '../scripts/lib/jsonld.mjs';
 
@@ -34,8 +36,10 @@ test('person renders in Arabic when asked', () => {
 
 test('alternateName carries every spelling variant, without duplicates', () => {
   const p = personLd(db, 'en');
-  // the misspelling is listed deliberately, so a search for it still resolves
-  assert.ok(p.alternateName.includes('نور الدين توفي'));
+  // The misspellings are listed deliberately, so a search for one still
+  // resolves. This is the only place in the whole output that carries them.
+  for (const wrong of db.profile.nameMisspellings) assert.ok(p.alternateName.includes(wrong));
+  for (const real of db.profile.nameVariants.filter((n) => n !== p.name)) assert.ok(p.alternateName.includes(real));
   assert.ok(p.alternateName.includes('nouraldeentofi'));
   assert.equal(new Set(p.alternateName).size, p.alternateName.length, 'no duplicates');
   assert.ok(!p.alternateName.includes(p.name), 'the canonical name is not also an alias');
@@ -72,8 +76,49 @@ test('recommendations become quotations about the person, never reviews', () => 
   assert.ok(!JSON.stringify(quotes).includes('itemReviewed'));
 });
 
-test('the profile page carries a full timestamp, which Google requires', () => {
-  assert.match(profilePageLd(db, 'en').dateModified, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$/);
+/* The date is for the build to supply. A module under scripts/lib is a pure
+   transform, so it is handed the timestamp and never reads the clock. */
+test('the profile page carries the timestamp it is given, and invents none', () => {
+  const stamp = '2026-11-15T00:00:00+03:00';
+  assert.equal(profilePageLd(db, 'en', stamp).dateModified, stamp);
+  assert.deepEqual(profilePageLd(db, 'en', stamp), profilePageLd(db, 'en', stamp));
+  assert.ok(!('dateModified' in profilePageLd(db, 'en')), 'a date appeared from nowhere');
+  assert.ok(!/new Date|Date\.now/.test(readFileSync('scripts/lib/jsonld.mjs', 'utf8')), 'jsonld.mjs reads the clock');
+});
+
+/* schema.org has separate fields for the two halves of a name, and a model
+   that knows which half is the family name does not have to guess. */
+test('the person states given and family name in the language of the page', () => {
+  assert.equal(personLd(db, 'en').givenName, 'Nour Aldeen');
+  assert.equal(personLd(db, 'en').familyName, 'Tofi');
+  assert.equal(personLd(db, 'ar').givenName, 'نور الدين');
+  assert.equal(personLd(db, 'ar').familyName, 'طفي');
+});
+
+/* sameAs says "this address is the same thing as this person". A product he
+   built is not, however proud of it he is. */
+test('sameAs lists his own profiles only, never a product', () => {
+  const p = personLd(db, 'en');
+  const products = db.profile.sameAs.filter((s) => s.identity === false);
+  assert.deepEqual(products.map((s) => s.platform).sort(), ['Google Play', 'Smart Scanner']);
+  for (const s of products) assert.ok(!p.sameAs.includes(s.url), `${s.platform} is in Person.sameAs`);
+  for (const s of db.profile.sameAs.filter((x) => x.url && x.identity !== false)) assert.ok(p.sameAs.includes(s.url));
+});
+
+test('the person is described in words the home page shows', () => {
+  for (const lang of ['en', 'ar']) assert.equal(personLd(db, lang).description, db.copy[lang].home.intro);
+});
+
+/* Google reads the site name from this node, and one @id must say one thing. */
+test('the site is one node, the same in every language', () => {
+  const site = websiteLd(db);
+  assert.deepEqual(websiteLd(db, 'ar'), websiteLd(db, 'en'));
+  assert.equal(site.url, `${db.profile.site}/`);
+  assert.equal(site.name, 'Nour Aldeen Tofi');
+  assert.deepEqual(site.alternateName, ['نور الدين طفي', 'Nour Tofi', 'nouraldeentofi.com']);
+  assert.deepEqual(site.inLanguage, ['ar', 'en']);
+  assert.deepEqual(site.publisher, { '@id': `${db.profile.site}/#nour` });
+  assert.ok(!('description' in site), 'a description would differ by language');
 });
 
 test('faq entries become questions with accepted answers', () => {
@@ -94,6 +139,12 @@ test('breadcrumbs are absolute and language-aware', () => {
   const en = breadcrumbLd('projects', 'en', db);
   assert.equal(en.itemListElement.at(-1).item, `${db.profile.site}/en/projects`);
   assert.equal(en.itemListElement[0].item, `${db.profile.site}/en/`);
+});
+
+test('the home page has no breadcrumb: a trail of one is not eligible', () => {
+  assert.equal(breadcrumbLd('', 'en', db), null);
+  assert.equal(breadcrumbLd('', 'ar', db), null);
+  assert.equal(breadcrumbLd('about', 'en', db).itemListElement.length, 2);
 });
 
 test('script tag emits parseable json-ld', () => {

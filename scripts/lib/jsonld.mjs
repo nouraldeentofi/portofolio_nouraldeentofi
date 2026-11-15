@@ -2,9 +2,14 @@
  * schema.org JSON-LD generation.
  *
  * The `sameAs` array produced by `personLd` is the mechanism that resolves
- * scattered accounts — LinkedIn, GitHub, Play Store, product sites — into a
- * single entity for search engines and language models. Unresolved links
- * (url === null) are dropped rather than emitted as dead references.
+ * scattered accounts (LinkedIn, GitHub, YouTube, Codeforces) into a single
+ * entity for search engines and language models. It lists only profiles that
+ * are him: a product he built is not the same thing as the person, so an
+ * entry marked `identity: false` stays out. Unresolved links (url === null)
+ * are dropped rather than emitted as dead references.
+ *
+ * Nothing here reads the clock. A date that belongs in the output is handed
+ * in by the build, so the same data always gives the same markup.
  */
 
 import { pagePath } from './sitemap.mjs';
@@ -34,7 +39,6 @@ const entitySameAs = (db, group, name) => {
   const url = db.links?.[group]?.[name]?.url;
   return url ? { sameAs: url } : {};
 };
-const langPath = (lang) => (lang === 'ar' ? '' : '/en');
 
 export function pageUrl(db, page, lang) {
   return `${base(db)}${pagePath(page, lang)}`;
@@ -66,14 +70,24 @@ export function personLd(db, lang) {
     '@type': 'Person',
     '@id': `${base(db)}/#nour`,
     name: profile.name[lang],
+    ...(profile.nameParts
+      ? { givenName: profile.nameParts.given[lang], familyName: profile.nameParts.family[lang] }
+      : {}),
     // Every spelling people actually use, so a model or search engine that
     // meets any variant resolves it to this same person. The name being
-    // rendered is excluded — a canonical name is not its own alias.
-    alternateName: [...new Set([profile.name[other], ...(profile.nameVariants ?? [])])].filter(
-      (n) => n !== profile.name[lang],
-    ),
+    // rendered is excluded: a canonical name is not its own alias.
+    //
+    // This is the one place the misspellings are allowed. Nobody reads an
+    // alternateName, but a search for the wrong spelling still has to find
+    // him; everywhere a person or a language model reads, they stay out.
+    alternateName: [
+      ...new Set([profile.name[other], ...(profile.nameVariants ?? []), ...(profile.nameMisspellings ?? [])]),
+    ].filter((n) => n !== profile.name[lang]),
     jobTitle: profile.headline[lang],
-    description: profile.tagline[lang],
+    // The words a visitor reads at the top of the home page. Google expects
+    // structured data to describe what is on the page, and the tagline is
+    // not rendered anywhere a visitor can see it.
+    description: db.copy[lang].home.intro,
     email: `mailto:${profile.email}`,
     telephone: profile.phone,
     url: base(db),
@@ -104,7 +118,7 @@ export function personLd(db, lang) {
       name: l.name[lang],
       alternateName: l.code,
     })),
-    sameAs: profile.sameAs.filter((s) => s.url).map((s) => s.url),
+    sameAs: profile.sameAs.filter((s) => s.url && s.identity !== false).map((s) => s.url),
     knowsAbout: db.skills.flatMap((g) => g.items),
     hasCredential: credentialsLd(db, lang),
     alumniOf: {
@@ -137,20 +151,36 @@ export function personLd(db, lang) {
   };
 }
 
-export function websiteLd(db, lang) {
+/**
+ * The site, as one node that is identical on every page in both languages.
+ *
+ * Google takes the site name from the WebSite node and `og:site_name` of the
+ * domain root, and one `@id` must describe one thing. It used to carry a
+ * different name, address and description per language, which left Google to
+ * pick between two answers. So there is no `lang` argument: the address is
+ * the root, the name is the Latin one, and the Arabic name, the short form
+ * and the host are the alternatives it may show instead.
+ */
+export function websiteLd(db) {
+  const { profile } = db;
   return {
     '@context': CTX,
     '@type': 'WebSite',
     '@id': `${base(db)}/#website`,
-    url: `${base(db)}${langPath(lang)}/`,
-    name: db.copy[lang].meta.siteName,
-    description: db.copy[lang].meta.description,
-    inLanguage: lang,
-    author: { '@id': `${base(db)}/#nour` },
+    url: `${base(db)}/`,
+    name: profile.name.en,
+    alternateName: [profile.name.ar, profile.shortName?.en, new URL(profile.site).host].filter(Boolean),
+    inLanguage: ['ar', 'en'],
+    publisher: { '@id': `${base(db)}/#nour` },
   };
 }
 
-export function profilePageLd(db, lang) {
+/**
+ * `modified` is a full timestamp with an offset ("2026-11-15T00:00:00+03:00"):
+ * Google rejects a bare date here. The build passes it in, because this module
+ * must not read the clock; without one the key is left out rather than guessed.
+ */
+export function profilePageLd(db, lang, modified = null) {
   return {
     '@context': CTX,
     '@type': 'ProfilePage',
@@ -158,8 +188,7 @@ export function profilePageLd(db, lang) {
     url: pageUrl(db, '', lang),
     inLanguage: lang,
     mainEntity: { '@id': `${base(db)}/#nour` },
-    // A full timestamp with an offset: Google rejects a bare date here.
-    dateModified: `${new Date().toISOString().slice(0, 10)}T00:00:00+03:00`,
+    ...(modified ? { dateModified: modified } : {}),
   };
 }
 
@@ -302,9 +331,14 @@ export function contactPageLd(db, lang) {
   };
 }
 
+/**
+ * The trail from the home page to this one. The home page has none: a
+ * breadcrumb with a single item is not eligible for anything, so it returns
+ * null and `toScriptTag` drops it.
+ */
 export function breadcrumbLd(page, lang, db) {
+  if (page === '') return null;
   const home = { '@type': 'ListItem', position: 1, name: PAGE_TITLES[''][lang], item: pageUrl(db, '', lang) };
-  if (page === '') return { '@context': CTX, '@type': 'BreadcrumbList', itemListElement: [home] };
 
   return {
     '@context': CTX,

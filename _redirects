@@ -1,3 +1,24 @@
+# Internal files. Cloudflare Pages publishes the whole repository, and it
+# answers these rules before it looks for a file, so each one closes an
+# address that would otherwise serve the source, the tests or the notes.
+# They come first, and scripts/validate.mjs fails if one goes missing.
+# /mcp/ stays open on purpose: robots.txt and llms.txt hand out /mcp/README.md.
+/CLAUDE.md           /    301
+/README.md           /    301
+/package.json        /    301
+/package-lock.json   /    301
+/.gitignore          /    301
+/.gitattributes      /    301
+/docs/*              /    301
+/tests/*             /    301
+/scripts/*           /    301
+/data/*              /    301
+
+# Addresses that moved. The first is the old automation CV, which search
+# engines still hold; browsers and crawlers ask for the second unprompted.
+/assets/cv/Nour_Aldeen_Tofi_Automation.pdf  /assets/cv/Nour_Aldeen_Tofi.pdf  301
+/favicon.ico                                /assets/img/icon-32.png          301
+
 /resume   /api/resume.json                            302
 /profile  /api/profile.json                           302
 /ar/*     /:splat                                     301

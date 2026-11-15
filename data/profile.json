@@ -3,6 +3,21 @@
     "en": "Nour Aldeen Tofi",
     "ar": "نور الدين طفي"
   },
+  "nameParts": {
+    "given": {
+      "en": "Nour Aldeen",
+      "ar": "نور الدين"
+    },
+    "family": {
+      "en": "Tofi",
+      "ar": "طفي"
+    }
+  },
+  "shortName": {
+    "en": "Nour Tofi",
+    "ar": "نور طفي"
+  },
+  "_shortNameNote": "The short form people use for him. Feeds WebSite.alternateName, next to the Arabic name and the host, so Google has the alternatives it may show as the site name.",
   "headline": {
     "en": "AI Automation Engineer: n8n, LLM Agents, MCP · Frontend Developer",
     "ar": "مهندس أتمتة بالذكاء الاصطناعي: n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية"
@@ -11,16 +26,27 @@
     "Nour Aldeen Tofi",
     "Nouraldeen Tofi",
     "Nour Al-Deen Tofi",
+    "Nour Al Deen Tofi",
+    "Nour Aldin Tofi",
+    "Nour Eddin Tofi",
+    "Noureddine Tofi",
+    "Nour El Din Tofi",
+    "Noor Aldeen Tofi",
     "Nour Aldeen Toufi",
     "Nour Tofi",
     "nouraldeentofi",
     "nourtofi",
     "نور الدين طفي",
+    "نورالدين طفي",
+    "نور الدين الطفي",
+    "نور طفي"
+  ],
+  "_nameVariantsNote": "Real spellings only: the canonical names, the ways the name is transliterated into Latin letters, the short form, and both handles. Emitted as schema.org alternateName and listed in llms.txt, llms-full.txt and api/profile.json, so a search or a model that meets any of them resolves to the same person. Listing them does not endorse them: profile.name stays canonical.",
+  "nameMisspellings": [
     "نور الدين توفي",
-    "نور طفي",
     "نور توفي"
   ],
-  "_nameVariantsNote": "Every spelling people actually use — full names, the short form Nour Tofi / نور طفي, both handles, and the توفي misspelling. Emitted as schema.org alternateName and listed in llms.txt / llms-full.txt / api/profile.json, so a search or a model that meets any variant resolves to the same person. This does not endorse them — profile.name stays canonical.",
+  "_nameMisspellingsNote": "The family name written with the wrong first letter, which reads as a different Arabic word. People do type it, so it is listed for entity resolution, but it goes only into Person.alternateName in the JSON-LD, which no visitor reads. It must never reach visible text, llms.txt, llms-full.txt or the JSON API: the tests and validate enforce that.",
   "tagline": {
     "en": "I turn messy manual processes into self-running workflows, and build the interfaces people use on top of them.",
     "ar": "أُحوّل العمليات اليدوية المتعثّرة إلى مسارات عمل ذاتية التشغيل، وأبني الواجهات التي يستخدمها الناس فوقها."
@@ -83,13 +109,16 @@
     },
     {
       "platform": "Smart Scanner",
-      "url": "https://receipt.nexleadtech.com"
+      "url": "https://receipt.nexleadtech.com",
+      "identity": false,
+      "note": "A product he built, not a profile of him."
     },
     {
       "platform": "Google Play",
       "url": "https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag",
       "contactChannel": false,
-      "note": "A product link, not a way to reach Nour. Kept in sameAs so the identity graph still resolves it; shown on the Projects page as GoldenTag."
+      "note": "A product link, not a way to reach Nour and not a profile of him. Shown on the Projects page as GoldenTag.",
+      "identity": false
     },
     {
       "platform": "GitHub",

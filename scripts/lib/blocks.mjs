@@ -112,6 +112,9 @@ export function headMeta(db, page, lang, { noindex = false } = {}) {
     // It must agree with sitemap.mjs — the two used to contradict each other.
     `<link rel="alternate" hreflang="x-default" href="${base(db)}${href(page, 'ar')}">`,
     `<meta property="og:type" content="profile">`,
+    // One site name on every page in both languages, the same one the WebSite
+    // node gives: Google reads it from here and will not choose between two.
+    `<meta property="og:site_name" content="${e(db.profile.name.en)}">`,
     `<meta property="og:title" content="${e(title)}">`,
     `<meta property="og:description" content="${e(description)}">`,
     `<meta property="og:url" content="${url}">`,
@@ -132,10 +135,20 @@ export function headMeta(db, page, lang, { noindex = false } = {}) {
   ].join('\n');
 }
 
-export function headLd(db, page, lang) {
-  const common = [ld.personLd(db, lang), ld.websiteLd(db, lang), ld.breadcrumbLd(page, lang, db)];
+/**
+ * `pageLd: false` is for a page that borrows another page's head, which is
+ * the 404: it carries the site-wide nodes, but it is not the home page, so it
+ * must not announce itself as his ProfilePage.
+ *
+ * `db.build.modified` is the build's timestamp, set by scripts/build.mjs. It
+ * arrives on the data so nothing in here has to read the clock.
+ */
+export function headLd(db, page, lang, { pageLd = true } = {}) {
+  const site = [ld.personLd(db, lang), ld.websiteLd(db)];
+  if (!pageLd) return ld.toScriptTag(...site);
+
   const extra = {
-    '': [ld.profilePageLd(db, lang)],
+    '': [ld.profilePageLd(db, lang, db.build?.modified)],
     about: [ld.faqLd(db, lang)],
     work: [ld.experienceLd(db, lang), ...ld.recommendationsLd(db, lang)],
     projects: [ld.projectsLd(db, lang)],
@@ -145,7 +158,7 @@ export function headLd(db, page, lang) {
     chat: [],
   }[page] ?? [];
 
-  return ld.toScriptTag(...common, ...extra);
+  return ld.toScriptTag(...site, ld.breadcrumbLd(page, lang, db), ...extra);
 }
 
 /* ------------------------------------------------------------------ home */

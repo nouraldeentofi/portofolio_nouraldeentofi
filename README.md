@@ -121,6 +121,20 @@ It is a static site, so any host works. `nouraldeentofi.com` is served by **Clou
 Pages**, which deploys this repository on every push to `main` (it works with a private
 repository too). `_headers` and `_redirects` take effect there as written.
 
+Cloudflare Pages publishes the whole repository, not a build folder, so anything
+committed here is public unless a rule closes it. `_redirects` therefore opens with
+rules that send the internal files to the home page: `/CLAUDE.md`, `/README.md`,
+`/package.json`, the git dotfiles, and everything under `/docs/`, `/tests/`,
+`/scripts/` and `/data/`. `/mcp/` stays public, because `robots.txt` and `llms.txt`
+hand out `/mcp/README.md`. When you add a top-level file or folder that is not part of
+the site, add it to `PRIVATE_PATHS` in `scripts/lib/gates.mjs` and to `_redirects`:
+`npm run validate` fails if a listed rule is missing.
+
+`_headers` sends `X-Robots-Tag: noindex` on the `pages.dev` address only, which serves
+a full copy of the site, and a canonical `Link` header with the CV so its fingerprinted
+links all count as one document. `validate` fails if a noindex rule is ever written for
+anything but a `pages.dev` host, or if the canonical stops matching `data/profile.json`.
+
 There is no build step on the host, so **the generated files must be committed**. Run
 `npm run check` and commit the result — pushing the source alone deploys nothing.
 

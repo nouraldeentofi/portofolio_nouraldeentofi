@@ -1,3 +1,10 @@
+# The pages.dev address serves a full copy of the site. This keeps the copy
+# out of search results. The rule names that host, so it can never reach the
+# real domain: scripts/validate.mjs fails on any X-Robots-Tag rule that is not
+# scoped to a pages.dev host.
+https://nouraldeentofi.pages.dev/*
+  X-Robots-Tag: noindex
+
 /api/*
   Access-Control-Allow-Origin: *
   Content-Type: application/json; charset=utf-8
@@ -19,6 +26,12 @@
 
 /assets/cv/*
   Cache-Control: public, max-age=0, must-revalidate
+
+# The CV is linked with a ?v= fingerprint, so every new version looks like a
+# new address to a search engine. This names the one address it keeps.
+# scripts/validate.mjs checks it against profile.site and profile.cv in data/.
+/assets/cv/Nour_Aldeen_Tofi.pdf
+  Link: <https://nouraldeentofi.com/assets/cv/Nour_Aldeen_Tofi.pdf>; rel="canonical"
 
 /*
   X-Content-Type-Options: nosniff

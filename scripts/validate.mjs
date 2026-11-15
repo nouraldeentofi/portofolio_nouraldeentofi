@@ -11,6 +11,7 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { loadDb } from './lib/load.mjs';
 import { PAGES, LANGS } from './lib/sitemap.mjs';
+import { checkRedirects, checkHeaders, parseRedirects, misspellingLeaks, MISSPELLED_NAME } from './lib/gates.mjs';
 
 const errors = [];
 const warnings = [];
@@ -64,7 +65,22 @@ export function checkAll({ pages = pageFiles() } = {}) {
     fail(`${indexNowKey}.txt: missing or wrong — the IndexNow key file must hold the key; run npm run build`);
   }
 
+  // 1a: the two files the host reads. They are written by hand, so they are
+  // held to the data and to the list of addresses that must stay closed.
+  const redirects = existsSync('_redirects') ? readFileSync('_redirects', 'utf8') : '';
+  const headers = existsSync('_headers') ? readFileSync('_headers', 'utf8') : '';
+  for (const problem of [...checkRedirects(redirects), ...checkHeaders(headers, db.profile)]) fail(problem);
+  // A redirect to a file that is not there turns one dead address into another.
+  for (const r of parseRedirects(redirects)) {
+    // An address on another host, or one built from a placeholder, is not a file here.
+    if (r.to.includes(':')) continue;
+    const target = toFile(r.to, '');
+    if (target && !existsSync(target)) fail(`_redirects: ${r.from} points at ${r.to}, which does not exist`);
+  }
+
   const sectionCounts = {};
+  // The WebSite node of the first page read: every other page must match it.
+  let siteNode = null;
 
   for (const { lang, page, file } of pages) {
     if (!existsSync(file)) { fail(`${file}: missing — run npm run build`); continue; }
@@ -73,6 +89,7 @@ export function checkAll({ pages = pageFiles() } = {}) {
     // 2 — JSON-LD must parse and carry required fields.
     const blocks = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
     if (!blocks.length) fail(`${file}: no JSON-LD block`);
+    const graph = [];
     for (const [, json] of blocks) {
       let parsed;
       try {
@@ -82,6 +99,7 @@ export function checkAll({ pages = pageFiles() } = {}) {
         continue;
       }
       const nodes = parsed['@graph'] ?? [parsed];
+      graph.push(...nodes);
       const person = nodes.find((n) => n['@type'] === 'Person');
       if (person) {
         for (const key of ['name', 'jobTitle', 'sameAs', 'address']) {
@@ -89,6 +107,36 @@ export function checkAll({ pages = pageFiles() } = {}) {
         }
         if (person.sameAs.some((u) => typeof u !== 'string')) fail(`${file}: Person.sameAs contains a non-string`);
       }
+    }
+
+    // 2a: one site name. Google reads it from the WebSite node and og:site_name,
+    // and two answers under one @id leave the choice to Google.
+    const website = graph.find((n) => n['@type'] === 'WebSite' && String(n['@id']).endsWith('#website'));
+    if (!website) fail(`${file}: no WebSite node`);
+    else {
+      siteNode ??= JSON.stringify(website);
+      if (JSON.stringify(website) !== siteNode) fail(`${file}: its WebSite node differs from the one on other pages`);
+      if (!html.includes(`<meta property="og:site_name" content="${website.name}">`)) {
+        fail(`${file}: og:site_name is missing or does not match WebSite.name`);
+      }
+    }
+
+    // 2b: only the home page is his ProfilePage, and Google wants its date as
+    // a full timestamp. A 404 that borrows the home head must not claim it.
+    const profilePage = graph.find((n) => n['@type'] === 'ProfilePage');
+    if (page !== '' && profilePage) fail(`${file}: carries a ProfilePage, which belongs to the home page only`);
+    if (page === '' && !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$/.test(profilePage?.dateModified ?? '')) {
+      fail(`${file}: ProfilePage.dateModified is missing or not a full timestamp with an offset`);
+    }
+    // A breadcrumb with one item is not eligible for anything.
+    if (graph.some((n) => n['@type'] === 'BreadcrumbList' && n.itemListElement.length < 2)) {
+      fail(`${file}: a one-item breadcrumb`);
+    }
+
+    // 2c: the family name is طفي. The misspelling is a different word, and it
+    // may appear only where no reader looks: alternateName on the Person.
+    for (const place of misspellingLeaks(html)) {
+      fail(`${file}: the misspelled family name appears in ${place}; only Person.alternateName may carry it`);
     }
 
     // 3 — no dead or placeholder links.
@@ -201,6 +249,8 @@ export function checkAll({ pages = pageFiles() } = {}) {
   for (const f of ['llms.txt', 'llms-full.txt', 'sitemap.xml', 'api/profile.json', 'api/projects.json', 'api/resume.json', 'robots.txt']) {
     if (!existsSync(f)) fail(`${f}: missing`);
     else if (readFileSync(f, 'utf8').trim().length < 80) fail(`${f}: suspiciously small`);
+    // These are read by language models as his own words about himself.
+    else if (MISSPELLED_NAME.test(readFileSync(f, 'utf8'))) fail(`${f}: carries the misspelled family name`);
   }
 
   return { errors: [...errors], warnings: [...warnings] };

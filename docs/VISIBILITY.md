@@ -85,12 +85,15 @@ New sites are not found, they are submitted.
 
 Built in and working — no action needed:
 
-- **`sameAs` identity graph** — LinkedIn, GitHub, Smart Scanner, Google Play, all
-  declared as the same `Person` in JSON-LD.
-- **`alternateName` variants** — `Nour Aldeen Tofi`, `Nouraldeen Tofi`,
-  `Nour Al-Deen Tofi`, `Nour Aldeen Toufi`, `nouraldeentofi`, `نور الدين طفي`, and
-  the common misspelling `نور الدين توفي`. Someone searching any spelling still
-  lands on you.
+- **`sameAs` identity graph**: LinkedIn, GitHub, YouTube and Codeforces, all declared
+  as the same `Person` in JSON-LD. Product links (Smart Scanner, Google Play) are marked
+  `identity: false` in `data/profile.json` and stay out of it: a product is not the person.
+- **`alternateName` variants**: every real spelling in `profile.nameVariants`, in both
+  scripts, plus the common misspelling of the family name from `profile.nameMisspellings`.
+  The misspelling goes into `Person.alternateName` and nowhere else, so someone searching
+  any spelling still lands on you, and no page, llms file or API ever prints the wrong one.
+- **One site name**: the `WebSite` node and `og:site_name` are identical on every page in
+  both languages, and each home page shows the name in both scripts.
 - **Recommenders and employers resolve** — each carries its own `sameAs`, so a model
   can verify *which* Haitham Zedan vouched for you.
 - **`robots.txt` explicitly allows** GPTBot, ClaudeBot, PerplexityBot,

@@ -2,7 +2,7 @@
 
 > AI Automation Engineer: n8n, LLM Agents, MCP · Frontend Developer, based in Al Khobar, Saudi Arabia. I turn messy manual processes into self-running workflows, and build the interfaces people use on top of them.
 
-Also known as: Nour Aldeen Tofi · Nouraldeen Tofi · Nour Al-Deen Tofi · Nour Aldeen Toufi · Nour Tofi · nouraldeentofi · nourtofi · نور الدين طفي · نور الدين توفي · نور طفي · نور توفي
+Also known as: Nour Aldeen Tofi · Nouraldeen Tofi · Nour Al-Deen Tofi · Nour Al Deen Tofi · Nour Aldin Tofi · Nour Eddin Tofi · Noureddine Tofi · Nour El Din Tofi · Noor Aldeen Tofi · Nour Aldeen Toufi · Nour Tofi · nouraldeentofi · nourtofi · نور الدين طفي · نورالدين طفي · نور الدين الطفي · نور طفي
 
 I build AI automation systems that turn messy manual processes into clean, self-running workflows. I also build the interfaces people use on top of them. My spearhead is n8n paired with language models: production workflows that read Arabic and English documents, validate them, catch what does not belong, and push clean structured data into sheets, CRMs, and dashboards. Most recently I led frontend development as a Software Engineering Supervisor, owning delivery end to end: requirements, tasks, production. I am available now for AI automation and frontend roles in Saudi Arabia or remote.
 

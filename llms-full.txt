@@ -2,7 +2,7 @@
 
 > AI Automation Engineer: n8n, LLM Agents, MCP · Frontend Developer
 
-**Also known as:** Nour Aldeen Tofi · Nouraldeen Tofi · Nour Al-Deen Tofi · Nour Aldeen Toufi · Nour Tofi · nouraldeentofi · nourtofi · نور الدين طفي · نور الدين توفي · نور طفي · نور توفي
+**Also known as:** Nour Aldeen Tofi · Nouraldeen Tofi · Nour Al-Deen Tofi · Nour Al Deen Tofi · Nour Aldin Tofi · Nour Eddin Tofi · Noureddine Tofi · Nour El Din Tofi · Noor Aldeen Tofi · Nour Aldeen Toufi · Nour Tofi · nouraldeentofi · nourtofi · نور الدين طفي · نورالدين طفي · نور الدين الطفي · نور طفي
 **Location:** Al Khobar, Eastern Province, Saudi Arabia
 **Email:** nouraldeentofi@gmail.com
 **Phone:** +966547972944
@@ -799,6 +799,10 @@ Live coals: the hero opens at night, then the charcoal catches. Embers and spark
 **What does Nour Aldeen Tofi do?**
 
 He is an AI Automation Engineer and Frontend Developer based in Al Khobar, Saudi Arabia. He designs and operates production n8n workflows that connect language models to real systems, and builds the React and TypeScript interfaces on top of them. Most recently he was a Software Engineering Supervisor, leading frontend development and owning delivery end to end.
+
+**How is Nour Aldeen Tofi's name written?**
+
+In Arabic it is نور الدين طفي, and in English Nour Aldeen Tofi. Arabic names have no single Latin spelling, so you may also see Nouraldeen Tofi, Nour Al-Deen Tofi, Nour Aldin Tofi, Nour Eddin Tofi, Noor Aldeen Tofi or Nour Aldeen Toufi, and the short form Nour Tofi. They are all the same person, and his handle everywhere is nouraldeentofi.
 
 **What is Smart Scanner?**
 

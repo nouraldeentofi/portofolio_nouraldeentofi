@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { loadDb } from '../scripts/lib/load.mjs';
 import { byCompany } from '../scripts/lib/experience.mjs';
 import { existsSync } from 'node:fs';
+import { MISSPELLED_NAME } from '../scripts/lib/gates.mjs';
 
 test('loads profile with required identity fields', () => {
   const db = loadDb('data');
@@ -107,19 +108,33 @@ test('the site never claims Riyadh as his base', () => {
   }
 });
 
-test('the Arabic name is spelled طفي everywhere except the alias list', () => {
+test('the Arabic name is spelled طفي, and the misspelling is kept in a list of its own', () => {
   const db = loadDb('data');
-  const WRONG = 'نور الدين توفي';
 
   assert.equal(db.profile.name.ar, 'نور الدين طفي', 'canonical Arabic name');
+  assert.equal(db.profile.nameParts.family.ar, 'طفي');
+  assert.equal(db.profile.shortName.ar, 'نور طفي');
 
-  // The misspelling is allowed in exactly one place: nameVariants, where it
-  // exists so a search for it still resolves to him. Anywhere else it would
-  // be calling him a different word (توفي reads as "passed away").
-  const { nameVariants, ...rest } = db.profile;
-  const elsewhere = JSON.stringify({ ...db, profile: rest });
-  assert.ok(!elsewhere.includes(WRONG), 'توفي must appear only in profile.nameVariants');
-  assert.ok(nameVariants.includes(WRONG), 'the variant should be listed for entity resolution');
+  // The misspelling reads as a different word ("passed away"). People do type
+  // it, so it is kept for a search to resolve, but in exactly one place in the
+  // data: nameMisspellings, apart from the real spellings, so that nothing
+  // which prints his names can pick it up. What ships is tested in
+  // identity.test.mjs: there it may reach Person.alternateName and nothing else.
+  const { nameMisspellings, ...rest } = db.profile;
+  assert.ok(nameMisspellings.length > 0, 'the misspelling should be listed for entity resolution');
+  assert.ok(nameMisspellings.every((n) => MISSPELLED_NAME.test(n)), 'nameMisspellings holds something that is not one');
+  assert.ok(!MISSPELLED_NAME.test(JSON.stringify({ ...db, profile: rest })), 'the misspelling must appear only in profile.nameMisspellings');
+});
+
+/* "توفير" (saving) is a real word in the copy that starts with the same four
+   letters. The check has to tell the two apart or it is useless. */
+test('the misspelling check matches the name and not the word for saving', () => {
+  assert.ok(MISSPELLED_NAME.test('نور الدين توفي'));
+  assert.ok(MISSPELLED_NAME.test('نور توفي'));
+  assert.ok(MISSPELLED_NAME.test('"توفي"'));
+  assert.ok(!MISSPELLED_NAME.test('توفير لكل مستند'));
+  assert.ok(!MISSPELLED_NAME.test('تُصنّف محلياً توفيراً للكلفة'));
+  assert.ok(!MISSPELLED_NAME.test('نور الدين طفي'));
 });
 
 test('every entity named on the site has a links.json entry', () => {
