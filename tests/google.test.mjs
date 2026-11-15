@@ -28,6 +28,7 @@ import {
   PUBLIC_HAND_KEPT,
   relativeAddresses,
   searchHeadProblems,
+  onHost,
   sitemapEntries,
   sitemapProblems,
   lastmodProblems,
@@ -672,6 +673,10 @@ test('the gate for the head of a page passes the pages and catches each way of l
   // A canonical that hands the page's place to the list, a second one, none at all.
   assert.match(broken((d) => d.replace(`<link rel="canonical" href="${own}">`, `<link rel="canonical" href="${site}/en/projects">`))[0], /canonical must be exactly .*\/en\/projects\/khatm, found .*\/en\/projects$/);
   assert.equal(broken((d) => d.replace('<link rel="canonical"', `<link rel="canonical" href="${site}/en/">\n<link rel="canonical"`)).length, 1);
+  // A second one after the true one: the first is right, and there are still two.
+  const twice = (second) => broken((d) => d.replace(`<link rel="canonical" href="${own}">`, `<link rel="canonical" href="${own}">\n<link rel="canonical" href="${second}">`));
+  assert.deepEqual(twice(`${site}/en/projects`), [`canonical must be exactly ${own}, found ${own}, ${site}/en/projects`]);
+  assert.deepEqual(twice(own), [`canonical must be exactly ${own}, found ${own}, ${own}`]);
   assert.match(broken((d) => d.replace(`<link rel="canonical" href="${own}">`, ''))[0], /found none/);
   assert.match(broken((d) => d.replace(own, `${own}.html`))[0], /canonical must be exactly/);
   // A noindex, a second robots meta, a robots meta that drops the large preview, none.
@@ -713,6 +718,26 @@ test('the gate for the sitemap passes the build and catches a page missing, list
   for (const stray of [`${site}/en/about.html`, `${site}/en/projects/gone`, `${site}/data/profile.json`, `${site}/sites/aya-rady/about`, site]) {
     assert.deepEqual(check(add(stray)), [`sitemap.xml: lists ${stray}, which is neither a page the build writes nor the entry of a copy`], stray);
   }
+  // The same host written another way is still this host: with http, with www, in
+  // capitals, with a port, or with no host at all. None of these is the address of a page.
+  const name = new URL(site).host;
+  for (const stray of [`http://${name}/en/about`, `https://www.${name}/en/about`, `https://${name.toUpperCase()}/en/x`, `https://${name}:443/x`, `https://${name}:8443/en/about`, `//${name}/en/about`, '/en/about']) {
+    assert.deepEqual(check(add(stray)), [`sitemap.xml: lists ${stray}, which is neither a page the build writes nor the entry of a copy`], stray);
+  }
+  const hosts = [
+    [`${site}/en/about`, true],
+    [`  http://WWW.${name.toUpperCase()}/  `, true],
+    ['about', true],
+    [`https://${name}.example.com/`, false],
+    [`https://not${name}/`, false],
+    [`https://wwwx${name}/`, false],
+    ['https://example.com/', false],
+    ['http://', false],
+    [undefined, false],
+  ];
+  for (const [address, on] of hosts) assert.equal(onHost(address, site), on, String(address));
+  // An entry with no <loc> names nothing, so it is on no host.
+  assert.deepEqual(check(xml.replace('</urlset>', '  <url>\n  </url>\n</urlset>')), []);
   // A copy that is meant to be found and is not offered, and one kept out of search that is.
   if (hosted.length) assert.match(check(xml, { hosted: [...hosted, `${site}/sites/new-client/`] })[0], /sites\/new-client\/ must be listed exactly once \(data\/hosting\.json/);
   assert.deepEqual(check(add(`${site}/sites/kept-out/`)), [`sitemap.xml: lists ${site}/sites/kept-out/, but data/hosting.json keeps ${site}/sites/kept-out/ out of search`]);

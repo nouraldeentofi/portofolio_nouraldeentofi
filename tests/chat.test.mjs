@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { SCRIPT as EN } from '../assets/js/chat/script.en.js';
 import { SCRIPT as AR } from '../assets/js/chat/script.ar.js';
 import { buildTranscript, textOf } from '../scripts/lib/transcript.mjs';
@@ -85,6 +86,32 @@ test('an ampersand in a chat message is an ampersand in the transcript', () => {
   assert.ok(en.includes('Project Coordinator &amp; Automation Builder') && en.includes('Python for Data Science &amp; AI'));
   // Decoding must not let markup through: what was text is escaped again.
   assert.ok(!/<(?!\/?(?:div|table|thead|tbody|tr|th|td|p|button)\b)/.test(en), 'a tag the transcript did not write itself');
+});
+
+/* The Arabic data moved to Western digits, and the chat was the one place
+   left that wrote a figure in Arabic-Indic digits, beside "React 19" and
+   "1. d4" in the same answers and against "70" on the Smart Scanner page. */
+test('the Arabic chat writes its numbers in Western digits, as the pages do', () => {
+  // Arabic-Indic and Persian digits, and the percent, decimal and thousands signs that go with them.
+  const other = /.{0,25}[\u0660-\u0669\u066A-\u066C\u06F0-\u06F9].{0,25}/;
+  for (const file of ['assets/js/chat/script.ar.js', 'assets/js/chat/engine.js']) {
+    const hit = readFileSync(file, 'utf8').match(other);
+    assert.equal(hit, null, `${file}: "${hit?.[0]}"`);
+  }
+  const transcript = buildTranscript('ar');
+  assert.equal(transcript.match(other), null, 'the Arabic transcript');
+  for (const figure of ['من 1 إلى 10', 'أكثر من 70 حقلاً', '204 ملفات مصدرية', '494 اختباراً آلياً', 'نحو 3 أضعاف', 'بنحو 75%', '2019–2024', 'عام 2021']) {
+    assert.ok(transcript.includes(figure), `the Arabic transcript lost "${figure}"`);
+  }
+  // The time beside a message is written by the browser, which is asked for the same digits.
+  assert.ok(readFileSync('assets/js/chat/engine.js', 'utf8').includes("numberingSystem: 'latn'"), 'the time of a message follows the browser again');
+
+  // Every answer gives the same figures in both languages. A digit inside a
+  // word ("B2B") is part of a name and not a figure.
+  const said = (node) => [...(node.msgs ?? []), node.card ?? '', ...(node.msgs2 ?? []), ...(node.opts ?? []).map(([label]) => label)].map(textOf).join(' ');
+  const figures = (node) => (said(node).match(/(?<![A-Za-z\d])\d+(?![A-Za-z])/g) ?? []).sort();
+  for (const id of Object.keys(EN)) assert.deepEqual(figures(AR[id]), figures(EN[id]), `${id}: the two languages give different figures`);
+  assert.ok(figures(EN.smartscanner).includes('494') && figures(EN.history).length > 5, 'no figure was read, so this proves nothing');
 });
 
 test('transcript renders every reachable node as a table row', () => {

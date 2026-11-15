@@ -1346,3 +1346,26 @@ test('link text names the thing it leads to', () => {
   assert.ok(!('seeAll' in db.copy.en.ui) && !('seeAll' in db.copy.ar.ui), 'a link that only says "see all" is back');
   for (const [, doc] of files) if (typeof doc === 'string') assert.ok(!/>See all<|>عرض الكل</.test(doc));
 });
+
+/* The line under "Automation systems" on the home page said "not demos" of
+   a collection in which most systems are built and tested, not running. It
+   now speaks of what runs today, and the cards under it are held to that:
+   they are the first entries of data/workflows.json, so a system that is
+   only built must not be moved to the top without the sentence changing. */
+test('the home page says "in production" only above systems that are running', () => {
+  const running = ['live', 'client'];
+  for (const lang of LANGS) {
+    const c = db.copy[lang];
+    const section = unescape(html('', lang)).split('<section class="section" id="automation">')[1].split('</section>')[0];
+    assert.ok(section.includes(c.home.automationLead), `${lang}: the lead is not in the section`);
+    const shown = db.workflows.filter((w) => section.includes(`<h3 class="card__title"><a href="${systemHref(db, w, lang)}">${w.name[lang]}</a></h3>`));
+    assert.equal(shown.length, (section.match(/<article /g) ?? []).length, `${lang}: a card that is not a system of the data`);
+    assert.ok(shown.length > 0, `${lang}: no card under the lead`);
+    for (const w of shown) assert.ok(running.includes(w.status), `${lang}: ${w.id} is "${w.status}", and the line above it says it runs in production`);
+    assert.ok(!/not demos|replaced work|لا عروضاً|حلّ محلّ/.test(c.home.automationLead), `${lang}: the lead speaks of the whole collection again`);
+  }
+  assert.match(db.copy.en.home.automationLead, /run in production today/);
+  assert.match(db.copy.ar.home.automationLead, /تعمل في الإنتاج اليوم/);
+  // Why the old sentence could not stay: not everything "All systems" leads to is running.
+  assert.ok(db.workflows.some((w) => !running.includes(w.status)));
+});

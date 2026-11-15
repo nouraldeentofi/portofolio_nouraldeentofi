@@ -190,6 +190,24 @@ export function searchHeadProblems(html, { own, indexable, noindex }) {
   return problems;
 }
 
+/* A host name as it is compared: without "www". `URL` has already put it in lower case. */
+const bareHost = (url) => url.hostname.replace(/^www\./, '');
+
+/**
+ * Is this address on the host of `site`? The name decides, not the
+ * spelling: http, capitals, "www" and a port all still land on this host. An
+ * address with no host of its own is read from `site`, as a crawler would
+ * read it. Something that is no address at all is on no host.
+ */
+export function onHost(address, site) {
+  if (typeof address !== 'string') return false;
+  try {
+    return bareHost(new URL(address.trim(), site)) === bareHost(new URL(site));
+  } catch {
+    return false;
+  }
+}
+
 /** Every entry of a sitemap, as `{ loc, lastmod }` in file order. */
 export const sitemapEntries = (xml) =>
   [...xml.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(([, entry]) => ({
@@ -208,7 +226,10 @@ export const sitemapEntries = (xml) =>
  * with the client. Each page and each entry is listed exactly once, nothing
  * under a closed or a pending copy is offered, and nothing else on this
  * host is listed at all: an address that is neither a page nor a copy sends
- * a crawler to a 404, or to a page nobody decided should be found.
+ * a crawler to a 404, or to a page nobody decided should be found. The host
+ * is known by its name however the address is written (`onHost`), so a
+ * page listed with http, with www or with a port is not passed over as an
+ * address somewhere else.
  */
 export function sitemapProblems(xml, { site, pages = [], hosted = [], closed = [], pending = [] }) {
   const problems = [];
@@ -229,7 +250,7 @@ export function sitemapProblems(xml, { site, pages = [], hosted = [], closed = [
     const open = pending.find((prefix) => loc?.startsWith(prefix));
     if (copy) problems.push(`sitemap.xml: lists ${loc}, but data/hosting.json keeps ${copy} out of search`);
     else if (open) problems.push(`sitemap.xml: lists ${loc}, but the entry of ${open} in data/hosting.json still carries a todo: a copy is not submitted before its client has confirmed`);
-    else if (loc === site || loc?.startsWith(`${site}/`)) problems.push(`sitemap.xml: lists ${loc}, which is neither a page the build writes nor the entry of a copy`);
+    else if (onHost(loc, site)) problems.push(`sitemap.xml: lists ${loc}, which is neither a page the build writes nor the entry of a copy`);
   }
 
   if (/<priority>|<changefreq>/.test(xml)) problems.push('sitemap.xml: carries <priority> or <changefreq>, which Google ignores');

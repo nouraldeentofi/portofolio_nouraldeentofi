@@ -7,10 +7,12 @@
 
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* Timestamps follow the page language, not the browser locale — the Arabic
-   page shows "٠٦:١٧ م" even on a device set to English, and vice versa. */
+/* Timestamps follow the page language, not the browser locale: the Arabic
+   page shows "06:17 م" even on a device set to English, and vice versa. The
+   digits are Western in both, as every number on the site is, whatever the
+   browser would pick for the language by itself. */
 const locale = document.documentElement.lang || undefined;
-const now = () => new Date().toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
+const now = () => new Date().toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit', numberingSystem: 'latn' });
 
 export function createChat({ script, thread, typing, replies, fallbackNode = 'menu' }) {
   let busy = false;

@@ -20,16 +20,19 @@
  * A copy is replaced only once its successor is whole. The new copy is
  * written into a folder beside the old one (`<path>.sync`) and takes its
  * place at the end, so a wrong "dir", a file that cannot be read or any
- * other failure on the way leaves the copy as it was. A repository that
- * cannot be cloned is tried three times. Whatever fails, the other sites
- * are still synced, and the run ends with an error that names each one
- * that was not.
+ * other failure on the way leaves the copy as it was. The old copy steps
+ * aside (`<path>.old`) while the new one moves in and is put back if that
+ * fails (`replaceCopy` in lib/hosting.mjs); if it cannot be put back
+ * either, the run says where it is, and the next run puts it back before it
+ * does anything else (`restoreCopy`). A repository that cannot be cloned is
+ * tried three times. Whatever fails, the other sites are still synced, and
+ * the run ends with an error that names each one that was not.
  */
 import { execFileSync } from 'node:child_process';
 import { cpSync, existsSync, mkdtempSync, readFileSync, readdirSync, renameSync, rmSync, statSync, writeFileSync, mkdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, relative, dirname } from 'node:path';
-import { keepFile, isText, transformFile, siteUrl, hostingProblems, ENTRY } from './lib/hosting.mjs';
+import { keepFile, isText, transformFile, siteUrl, hostingProblems, restoreCopy, replaceCopy, ENTRY } from './lib/hosting.mjs';
 
 const hosting = JSON.parse(readFileSync('data/hosting.json', 'utf8'));
 const only = new Set(process.argv.slice(2));
@@ -96,30 +99,6 @@ function writeCopy(site, tmp, fresh) {
   return files.length;
 }
 
-/**
- * The new copy takes the place of the old one. The old one steps aside
- * first and is only deleted once the new one stands, so if the new one
- * cannot be moved in, the old one is put back.
- */
-function replaceCopy(dest, fresh) {
-  const old = `${dest}.old`;
-  rmSync(old, { recursive: true, force: true });
-  const had = existsSync(dest);
-  if (had) renameSync(dest, old);
-  try {
-    renameSync(fresh, dest);
-  } catch (error) {
-    if (had) renameSync(old, dest);
-    throw error;
-  }
-  // The new copy stands. An old one that cannot be removed is not a failed sync.
-  try {
-    rmSync(old, { recursive: true, force: true });
-  } catch (error) {
-    console.error(`sites: ${old}/ could not be removed (${error.message}); delete it by hand before committing`);
-  }
-}
-
 const failed = [];
 
 for (const site of hosting.sites) {
@@ -128,15 +107,20 @@ for (const site of hosting.sites) {
   const fresh = `${dest}.sync`;
   let tmp = null;
   try {
+    // Before anything else: a copy an earlier run could not put back.
+    if (restoreCopy(dest, { existsSync, renameSync })) console.log(`back  ${site.repo}: ${dest}/ was left in ${dest}.old/ by an earlier run and is in its place again`);
     tmp = clone(site);
     if (!tmp) throw new Error('could not be cloned');
     rmSync(fresh, { recursive: true, force: true });
     const files = writeCopy(site, tmp, fresh);
-    replaceCopy(dest, fresh);
+    const leftover = replaceCopy(dest, fresh, { existsSync, renameSync, rmSync });
+    if (leftover) console.error(`sites: ${leftover}`);
     console.log(`ok  ${site.repo} -> ${siteUrl(site, hosting)}  (${files} files, index: ${site.index})`);
   } catch (error) {
     failed.push(site.repo);
-    console.error(`FAIL  ${site.repo}: ${error.message}; ${dest}/ is left as it was`);
+    // One failure does not leave the copy as it was: it stepped aside and could not be put back.
+    const where = error.stranded ? `the copy of ${dest}/ is in ${error.stranded}/: the next run puts it back, or move it back by hand` : `${dest}/ is left as it was`;
+    console.error(`FAIL  ${site.repo}: ${error.message}; ${where}`);
   } finally {
     // Neither may stay behind: the first is half a copy, the second a whole clone.
     try {
@@ -149,6 +133,6 @@ for (const site of hosting.sites) {
 }
 
 if (failed.length) {
-  console.error(`sites: not synced, and left as they were: ${failed.join(', ')}`);
+  console.error(`sites: not synced: ${failed.join(', ')}`);
   process.exit(1);
 }

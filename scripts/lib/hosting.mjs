@@ -3,6 +3,8 @@
  * files of a site's deploy branch are the site, how its GitHub Pages
  * addresses become addresses on Nour's own domain, and what a copy says to a
  * search engine once it lives there. Data in, string, boolean or list out.
+ * The two functions that move folders, `restoreCopy` and `replaceCopy`, do it
+ * with the file functions they are handed and with nothing else.
  *
  * The copies belong to other repositories, so the transforms touch what a
  * crawler reads: the robots meta, the canonical, the addresses a page gives
@@ -528,6 +530,77 @@ export function transformFile(text, rel, site, hosting) {
   if (isXml(rel)) out = cleanAddresses(out, site, hosting);
   if (isPage(rel)) out = applyIndexing(stripRatings(cleanPage(absoluteHeadAddresses(out, site, rel, hosting), site, hosting)), site, rel, hosting);
   return out;
+}
+
+/* ------------------------------------------------------ one copy, replaced */
+
+/*
+ * Where a copy waits while its successor moves in. The folders are moved
+ * with the functions handed in (`existsSync`, `renameSync` and `rmSync` of
+ * node:fs, for the sync), so this file still reaches for no disk of its own
+ * and a test can make any step fail.
+ */
+const asideOf = (dest) => `${dest}.old`;
+const strandedIn = (old, error) => Object.assign(error, { stranded: old });
+
+/**
+ * A copy that an earlier run left aside goes back to its place.
+ *
+ * A run that was stopped between the two moves of `replaceCopy`, or whose
+ * put-back failed, left the only copy in `<path>.old` and nothing in
+ * `<path>`. Returns true when it put one back. With a copy in its place
+ * there is nothing to do, whatever is aside. Throws, naming the folder in
+ * `stranded`, when the copy cannot be moved back.
+ */
+export function restoreCopy(dest, { existsSync, renameSync }) {
+  const old = asideOf(dest);
+  if (existsSync(dest) || !existsSync(old)) return false;
+  try {
+    renameSync(old, dest);
+  } catch (error) {
+    throw strandedIn(old, error);
+  }
+  return true;
+}
+
+/**
+ * The new copy takes the place of the old one.
+ *
+ * The old one steps aside first and is deleted only once the new one
+ * stands, so if the new one cannot be moved in, the old one is put back. A
+ * copy an earlier run left aside goes back before anything is deleted
+ * (`restoreCopy`), or a second failure would leave no copy at all.
+ *
+ * Throws when the new copy does not stand. `dest` is then as it was, with
+ * one exception: the previous copy could not be put back either, and the
+ * error says where it is in `stranded`. Returns null, or one sentence when
+ * the new copy stands and the old one could not be deleted, which is not a
+ * failed sync.
+ */
+export function replaceCopy(dest, fresh, { existsSync, renameSync, rmSync }) {
+  const old = asideOf(dest);
+  restoreCopy(dest, { existsSync, renameSync });
+  rmSync(old, { recursive: true, force: true });
+  const had = existsSync(dest);
+  if (had) renameSync(dest, old);
+  try {
+    renameSync(fresh, dest);
+  } catch (error) {
+    if (had) {
+      try {
+        renameSync(old, dest);
+      } catch {
+        throw strandedIn(old, error);
+      }
+    }
+    throw error;
+  }
+  try {
+    rmSync(old, { recursive: true, force: true });
+    return null;
+  } catch (error) {
+    return `${old}/ could not be removed (${error.message}); delete it by hand before committing`;
+  }
 }
 
 /* ------------------------------------------------------ the gate */

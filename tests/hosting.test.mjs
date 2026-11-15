@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { cpSync, existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import {
@@ -23,6 +23,8 @@ import {
   stripRatings,
   ratingMarkup,
   transformFile,
+  restoreCopy,
+  replaceCopy,
   copyFileProblems,
 } from '../scripts/lib/hosting.mjs';
 import { loadDb } from '../scripts/lib/load.mjs';
@@ -680,6 +682,142 @@ test('a folder under sites/ that no entry stands behind is found', () => {
   // The repository holds none, and validate asks.
   assert.deepEqual(strayCopies(readdirSync('sites'), JSON.parse(readFileSync('data/hosting.json', 'utf8'))), []);
   assert.ok(readFileSync('scripts/validate.mjs', 'utf8').includes("strayCopies(readdirSync('sites'), db.hosting)"), 'validate.mjs no longer looks for folders with no entry');
+});
+
+/* ------------------------------------------------------ one copy, replaced */
+
+/*
+ * A disk that holds folders by name and can be told which step fails:
+ * `fail` is asked before every move and every removal. A move onto a folder
+ * that exists fails by itself, as it does on Windows.
+ */
+function disk(folders, fail = () => false) {
+  const held = new Map(Object.entries(folders));
+  const steps = [];
+  return {
+    held: () => Object.fromEntries(held),
+    steps,
+    existsSync: (path) => held.has(path),
+    renameSync: (from, to) => {
+      steps.push(`move ${from} ${to}`);
+      if (fail('move', from, to)) throw new Error(`EPERM: operation not permitted, rename '${from}' -> '${to}'`);
+      if (!held.has(from)) throw new Error(`ENOENT: no such file or directory, rename '${from}'`);
+      if (held.has(to)) throw new Error(`EPERM: '${to}' is in the way`);
+      held.set(to, held.get(from));
+      held.delete(from);
+    },
+    rmSync: (path) => {
+      steps.push(`remove ${path}`);
+      if (fail('remove', path, steps.filter((step) => step === `remove ${path}`).length)) throw new Error(`EBUSY: resource busy or locked, rmdir '${path}'`);
+      held.delete(path);
+    },
+  };
+}
+
+const [DEST, FRESH, OLD] = ['sites/karam', 'sites/karam.sync', 'sites/karam.old'];
+const moveIn = (kind, from, to) => kind === 'move' && from === FRESH && to === DEST;
+const putBack = (kind, from, to) => kind === 'move' && from === OLD && to === DEST;
+
+test('a new copy takes the place of the old one, and the old one comes back when it cannot', () => {
+  // The usual run, and the first sync of a site.
+  let d = disk({ [DEST]: 'previous', [FRESH]: 'new' });
+  assert.equal(replaceCopy(DEST, FRESH, d), null);
+  assert.deepEqual(d.held(), { [DEST]: 'new' });
+  d = disk({ [FRESH]: 'new' });
+  assert.equal(replaceCopy(DEST, FRESH, d), null);
+  assert.deepEqual(d.held(), { [DEST]: 'new' });
+  // What an earlier run could not delete is not a copy: it goes, and the copy in place is replaced.
+  d = disk({ [DEST]: 'previous', [OLD]: 'before that', [FRESH]: 'new' });
+  assert.equal(replaceCopy(DEST, FRESH, d), null);
+  assert.deepEqual(d.held(), { [DEST]: 'new' });
+
+  // The new copy cannot be moved in: the old one is back, and nothing is said to be stranded.
+  d = disk({ [DEST]: 'previous', [FRESH]: 'new' }, moveIn);
+  assert.throws(() => replaceCopy(DEST, FRESH, d), (error) => /EPERM/.test(error.message) && error.stranded === undefined);
+  assert.deepEqual(d.held(), { [DEST]: 'previous', [FRESH]: 'new' });
+  // The old copy cannot step aside: nothing has moved.
+  d = disk({ [DEST]: 'previous', [FRESH]: 'new' }, (kind, from, to) => kind === 'move' && to === OLD);
+  assert.throws(() => replaceCopy(DEST, FRESH, d), (error) => error.stranded === undefined);
+  assert.deepEqual(d.held(), { [DEST]: 'previous', [FRESH]: 'new' });
+
+  // The new copy stands and the old one cannot be deleted: a sentence, not a failure.
+  d = disk({ [DEST]: 'previous', [FRESH]: 'new' }, (kind, path, nth) => kind === 'remove' && path === OLD && nth === 2);
+  assert.equal(replaceCopy(DEST, FRESH, d), `${OLD}/ could not be removed (EBUSY: resource busy or locked, rmdir '${OLD}'); delete it by hand before committing`);
+  assert.deepEqual(d.held(), { [DEST]: 'new', [OLD]: 'previous' });
+});
+
+/* A run that was stopped between the two moves left the only copy aside.
+   The next run deleted it before its own copy stood, so when that one could
+   not be moved in either, no copy was left and the run said the folder was
+   "left as it was". */
+test('a copy an earlier run left aside is put back before anything is deleted', () => {
+  // The run after fails to move its copy in: the copy that was aside is in its place.
+  let d = disk({ [OLD]: 'previous', [FRESH]: 'new' }, moveIn);
+  assert.throws(() => replaceCopy(DEST, FRESH, d), (error) => error.stranded === undefined);
+  assert.deepEqual(d.held(), { [DEST]: 'previous', [FRESH]: 'new' });
+  assert.equal(d.steps[0], `move ${OLD} ${DEST}`, 'the put-back is the first thing that happens');
+  // The run after, when it succeeds.
+  d = disk({ [OLD]: 'previous', [FRESH]: 'new' });
+  assert.equal(replaceCopy(DEST, FRESH, d), null);
+  assert.deepEqual(d.held(), { [DEST]: 'new' });
+
+  // Neither the new copy nor the old one can be moved: the old one is named, and is still there.
+  d = disk({ [DEST]: 'previous', [FRESH]: 'new' }, (...step) => moveIn(...step) || putBack(...step));
+  assert.throws(() => replaceCopy(DEST, FRESH, d), (error) => error.stranded === OLD && error.message.includes(`rename '${FRESH}' -> '${DEST}'`));
+  assert.deepEqual(d.held(), { [OLD]: 'previous', [FRESH]: 'new' });
+  // A copy that is aside and cannot be moved back is named too, and nothing is deleted.
+  d = disk({ [OLD]: 'previous', [FRESH]: 'new' }, putBack);
+  assert.throws(() => replaceCopy(DEST, FRESH, d), (error) => error.stranded === OLD);
+  assert.deepEqual(d.held(), { [OLD]: 'previous', [FRESH]: 'new' });
+  assert.ok(!d.steps.some((step) => step.startsWith('remove')), 'something was deleted while the only copy was aside');
+
+  // By itself, before a clone: back when there is no copy in place, and only then.
+  d = disk({ [OLD]: 'previous' });
+  assert.equal(restoreCopy(DEST, d), true);
+  assert.deepEqual(d.held(), { [DEST]: 'previous' });
+  for (const folders of [{ [DEST]: 'copy' }, { [DEST]: 'copy', [OLD]: 'leftover' }, {}]) {
+    d = disk(folders);
+    assert.equal(restoreCopy(DEST, d), false);
+    assert.deepEqual(d.held(), folders);
+    assert.deepEqual(d.steps, []);
+  }
+  d = disk({ [OLD]: 'previous' }, putBack);
+  assert.throws(() => restoreCopy(DEST, d), (error) => error.stranded === OLD);
+});
+
+test('the sync replaces a copy on a real disk the same way, and does it through these two functions', () => {
+  const root = mkdtempSync(join(tmpdir(), 'swap-'));
+  const fs = { existsSync, renameSync, rmSync };
+  const [dest, fresh, old] = [join(root, 'karam'), join(root, 'karam.sync'), join(root, 'karam.old')];
+  const folder = (path, file) => {
+    mkdirSync(join(path, 'img'), { recursive: true });
+    writeFileSync(join(path, 'img', file), file);
+  };
+  try {
+    folder(dest, 'previous.txt');
+    folder(fresh, 'new.txt');
+    assert.equal(replaceCopy(dest, fresh, fs), null);
+    assert.deepEqual(readdirSync(root), ['karam']);
+    assert.deepEqual(readdirSync(join(dest, 'img')), ['new.txt']);
+
+    // What a stopped run leaves: the copy aside, nothing in its place.
+    renameSync(dest, old);
+    assert.equal(restoreCopy(dest, fs), true);
+    assert.deepEqual(readdirSync(root), ['karam']);
+    renameSync(dest, old);
+    folder(fresh, 'newer.txt');
+    assert.equal(replaceCopy(dest, fresh, fs), null);
+    assert.deepEqual(readdirSync(root), ['karam']);
+    assert.deepEqual(readdirSync(join(dest, 'img')), ['newer.txt']);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+
+  const sync = readFileSync('scripts/sync-sites.mjs', 'utf8');
+  assert.ok(sync.includes('restoreCopy(dest, { existsSync, renameSync })'), 'the sync no longer puts a stranded copy back first');
+  assert.ok(sync.includes('replaceCopy(dest, fresh, { existsSync, renameSync, rmSync })'), 'the sync no longer replaces a copy through replaceCopy');
+  assert.ok(sync.indexOf('restoreCopy(dest,') < sync.indexOf('tmp = clone(site)'), 'the put-back comes after the clone, which may fail');
+  assert.ok(!/function replaceCopy/.test(sync) && sync.includes('error.stranded'), 'the sync does not say where a stranded copy is');
 });
 
 /* ------------------------------------------------------ the repository */
