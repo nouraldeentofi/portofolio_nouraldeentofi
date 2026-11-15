@@ -22,6 +22,7 @@ import {
   DETAIL_FOLDERS,
   ENGINE_ANCHOR,
   TITLE_ROOM,
+  TITLE_LIMIT,
   DESCRIPTION_ROOM,
   detailPages,
   detailName,
@@ -29,6 +30,7 @@ import {
   detailTitle,
   detailDescription,
   detailImage,
+  isShareable,
   clip,
   engineOf,
   productOf,
@@ -37,6 +39,7 @@ import {
   systemHref,
   relatedProjects,
   relatedSystems,
+  engineNeighbours,
   staleDetailFiles,
 } from '../scripts/lib/details.mjs';
 import { imageSize } from '../scripts/lib/image-size.mjs';
@@ -45,7 +48,7 @@ import { flowOrder } from '../scripts/lib/diagram.mjs';
 import { checkRedirects } from '../scripts/lib/gates.mjs';
 import { buildLlmsTxt, buildLlmsFullTxt } from '../scripts/lib/llms.mjs';
 import { buildApiProjects } from '../scripts/lib/api.mjs';
-import { yearOf } from '../scripts/lib/blocks.mjs';
+import { yearOf, liveLabel } from '../scripts/lib/blocks.mjs';
 
 const loaded = loadDb('data');
 const db = { ...loaded, build: { modified: '2026-11-15T00:00:00+03:00' } };
@@ -167,6 +170,12 @@ test('the loader refuses a pairing or a headline it cannot use', () => {
     assert.throws(() => load((p, w) => { delete w[2].headline.en; }), /headline needs both "en" and "ar"/);
     assert.throws(() => load((p) => { p[0].id = 'Smart Scanner'; }), /an id is lowercase letters, digits and hyphens/);
     assert.throws(() => load((p, w) => { w[1].id = w[0].id; }), /is used twice/);
+    // The host gives these two file names a meaning of their own: projects/404.html
+    // would answer every missing address under /projects/, and projects/index.html
+    // would be a second address for the list page.
+    assert.throws(() => load((p) => { p[0].id = 'index'; }), /"index" is reserved by the host/);
+    assert.throws(() => load((p, w) => { w[2].id = '404'; }), /"404" is reserved by the host/);
+    assert.doesNotThrow(() => load((p) => { p[0].id = 'index-page'; }));
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
@@ -270,6 +279,28 @@ test('the title is "<name>: <headline>", signed with his name only while it all 
   }
 });
 
+/* A search result cuts the end of a long title, and the end is the headline:
+   the search phrase. So no title passes the limit, and only a name that is
+   long by itself may take one past seventy characters. */
+test('no detail title is longer than a search result shows, and a headline does not repeat its name', () => {
+  assert.equal(TITLE_LIMIT, 80);
+  const long = [];
+  for (const d of details) {
+    for (const lang of LANGS) {
+      const title = titleOf(html(d.page, lang));
+      const name = detailName(d, lang);
+      assert.ok(title.length <= TITLE_LIMIT, `${lang}/${d.page}: ${title.length} characters: ${title}`);
+      if (title.length > 70) {
+        long.push(`${lang}/${d.page}`);
+        assert.ok(name.length >= 30, `${lang}/${d.page}: ${title.length} characters, and the name is not what makes it long: ${title}`);
+      }
+      // The headline adds to the name; it does not open by saying it again.
+      assert.ok(!d.entry.headline[lang].startsWith(name), `${lang}/${d.page}: the headline opens with the name`);
+    }
+  }
+  assert.ok(long.length <= 4, `more titles than before run past seventy characters: ${long}`);
+});
+
 /* A product keeps its name in both languages: Smart Scanner is Smart Scanner
    on the Arabic page too, in the heading, the title and the markup. */
 test('a product name is never translated or changed', () => {
@@ -308,6 +339,14 @@ test('a description is cut at a sentence end, or at a word with an ellipsis, and
   assert.equal(clip('هل تعمل؟ نعم تعمل دائماً.', 12), 'هل تعمل؟');
   assert.equal(clip('كلمة أولى، كلمة ثانية وثالثة', 12), 'كلمة أولى…');
   assert.equal(clip('  spaced \n out  '), 'spaced out');
+  // In the middle of a sentence the cut is made at the last clause break,
+  // when there is one in the back half of the room: what is left is whole.
+  assert.equal(clip('alpha beta gamma delta epsilon, zeta eta theta iota kappa lambda', 50), 'alpha beta gamma delta epsilon…');
+  assert.equal(clip('alpha beta gamma delta; epsilon zeta: eta theta iota kappa lambda mu', 50), 'alpha beta gamma delta; epsilon zeta…');
+  // A break only in the front half would throw most of the room away: the last word it is.
+  assert.equal(clip('alpha, beta gamma delta epsilon zeta eta theta iota kappa lambda', 50), 'alpha, beta gamma delta epsilon zeta eta theta…');
+  // A comma inside a number or a word is not a clause break.
+  assert.equal(clip('alpha beta gamma delta epsilon 5,000 zeta eta theta iota kappa', 50), 'alpha beta gamma delta epsilon 5,000 zeta eta…');
 
   for (const d of details) {
     for (const lang of LANGS) {
@@ -319,6 +358,9 @@ test('a description is cut at a sentence end, or at a word with an ellipsis, and
       assert.equal(unescape(metaOf(html(d.page, lang), 'og:description')), description);
     }
   }
+  // Two that used to stop on a word that leads nowhere ("and a file for…", "written in the…").
+  assert.ok(descriptionOf(html('projects/braille-certificate', 'en')).endsWith('a blind trainee can read by touch…'));
+  assert.ok(descriptionOf(html('automation/unified-inbox', 'en')).endsWith('priority and a summary…'));
 });
 
 /* Several pages under one title is the boilerplate Google warns about: it
@@ -426,39 +468,56 @@ test('the language switch and the stored-language redirect work one level deeper
 /* --------------------------------------------------- the share picture */
 
 /* A page is shared with a picture of the thing it is about when one suits a
-   wide card, and the size announced beside it is the size of that file. */
-test('og:image is the screenshot, a canvas of the right shape, or the share card, with its real size', () => {
-  const expected = (d) => {
-    if (d.kind === 'project' && d.entry.images?.desktop) return d.entry.images.desktop;
-    const canvas = (d.kind === 'project' ? engineOf(db, d.entry) : d.entry)?.canvas;
-    if (canvas) {
-      const [w, h] = imageSize(readFileSync(canvas));
-      if (w >= 1.5 * h && w <= 2.25 * h) return canvas;
-    }
-    return db.profile.ogImage;
-  };
+   wide card and a link preview can show it. Some previews do not unfold a
+   WebP file, so only a PNG or a JPEG is ever named; without one the page is
+   shared with the site's own card. */
+test('og:image is a PNG or a JPEG: a screenshot or a wide canvas when there is one, otherwise the share card', () => {
+  for (const path of ['a/shot.png', 'a/shot.PNG', 'a/photo.jpg', 'a/photo.jpeg']) assert.ok(isShareable(path), path);
+  for (const path of ['a/shot.webp', 'a/shot.avif', 'a/shot.png.webp', 'a/png', '', undefined, null]) assert.ok(!isShareable(path), String(path));
 
-  const used = new Set();
+  // The rule, on pictures of every kind: the screenshot first, then a canvas
+  // of the right shape, and neither when it is a file a preview may not show.
+  const sizes = { 'shot.png': [1200, 750], 'shot.webp': [1200, 750], 'wide.jpg': [1600, 800], 'wide.webp': [1600, 800], 'long.png': [4000, 600], 'tall.png': [800, 800] };
+  const world = (canvas) => ({ imageSizes: sizes, workflows: [{ id: 'engine', canvas }] });
+  const project = (desktop, workflow) => ({ kind: 'project', entry: { images: desktop ? { desktop } : undefined, workflow } });
+  const system = (canvas) => ({ kind: 'system', entry: { canvas } });
+
+  assert.deepEqual(detailImage(world(), project('shot.png')), { path: 'shot.png', width: 1200, height: 750 });
+  assert.equal(detailImage(world(), project('shot.webp')), null, 'a WebP screenshot');
+  assert.deepEqual(detailImage(world('wide.jpg'), project('shot.webp', 'engine')), { path: 'wide.jpg', width: 1600, height: 800 }, 'the canvas of the engine stands in');
+  assert.deepEqual(detailImage(world('wide.jpg'), project('shot.png', 'engine')).path, 'shot.png', 'the screenshot comes first');
+  assert.deepEqual(detailImage(world(), system('wide.jpg')), { path: 'wide.jpg', width: 1600, height: 800 });
+  assert.equal(detailImage(world(), system('wide.webp')), null, 'a WebP canvas');
+  assert.equal(detailImage(world(), system('long.png')), null, 'a canvas too wide for a card');
+  assert.equal(detailImage(world(), system('tall.png')), null, 'a canvas too square for a card');
+  assert.equal(detailImage(world(), system(undefined)), null);
+  assert.equal(detailImage({ workflows: [] }, project('shot.png')), null, 'a file nobody measured');
+
+  // Today every screenshot and canvas is a WebP file, so every detail page is
+  // shared with the card. The CreativeWork node keeps the real picture
+  // (see 'the main node of a detail page ...').
   for (const d of details) {
-    const path = expected(d);
-    used.add(path === db.profile.ogImage ? 'card' : d.kind === 'project' && path === d.entry.images?.desktop ? 'screenshot' : 'canvas');
-    assert.equal(detailImage(db, d)?.path ?? db.profile.ogImage, path, d.page);
+    const candidates = [d.entry.images?.desktop, (d.kind === 'project' ? engineOf(db, d.entry) : d.entry)?.canvas].filter(Boolean);
+    const expected = detailImage(db, d)?.path ?? db.profile.ogImage;
+    if (candidates.every((path) => !isShareable(path))) assert.equal(expected, db.profile.ogImage, d.page);
     for (const lang of LANGS) {
       const doc = html(d.page, lang);
-      assert.equal(metaOf(doc, 'og:image'), `${site}/${path}`, `${lang}/${d.page}`);
-      assert.ok(doc.includes(`<meta name="twitter:image" content="${site}/${path}">`), `${lang}/${d.page}: twitter:image`);
+      assert.equal(metaOf(doc, 'og:image'), `${site}/${expected}`, `${lang}/${d.page}`);
       assert.ok(metaOf(doc, 'og:image:alt').length > 0);
     }
   }
-  // All three cases really occur, so each branch of the rule is exercised.
-  assert.deepEqual([...used].sort(), ['canvas', 'card', 'screenshot']);
-  assert.equal(detailImage(db, details.find((d) => d.id === 'google-review-reply')).path, 'assets/img/workflows/google-review-reply.webp');
+  assert.ok(details.some((d) => d.entry.images?.desktop?.endsWith('.webp')) && details.some((d) => d.entry.canvas?.endsWith('.webp')));
 
-  // Every page, old and new: the size in the head is the size of the file.
+  // Every page, old and new: a file a preview can show, named the same for
+  // both kinds of card, and the size in the head is the size of that file.
   for (const { lang, page, html: doc } of everyPage) {
-    const file = metaOf(doc, 'og:image').replace(`${site}/`, '');
-    assert.ok(existsSync(file), `${lang}/${page}: ${file} is missing`);
-    assert.deepEqual([Number(metaOf(doc, 'og:image:width')), Number(metaOf(doc, 'og:image:height'))], imageSize(readFileSync(file)), `${lang}/${page}: ${file}`);
+    const at = `${lang}/${page || 'index'}`;
+    const address = metaOf(doc, 'og:image');
+    const file = address.replace(`${site}/`, '');
+    assert.ok(!/\.webp(?:[?#]|$)/i.test(address) && isShareable(file), `${at}: og:image is ${address}`);
+    assert.deepEqual([...doc.matchAll(/<meta name="twitter:image" content="([^"]*)">/g)].map((m) => m[1]), [address], `${at}: twitter:image`);
+    assert.ok(existsSync(file), `${at}: ${file} is missing`);
+    assert.deepEqual([Number(metaOf(doc, 'og:image:width')), Number(metaOf(doc, 'og:image:height'))], imageSize(readFileSync(file)), `${at}: ${file}`);
   }
 });
 
@@ -679,11 +738,82 @@ test('a project page shows the problem, what he built, his role, the figures and
       }
       for (const tech of p.stack) assert.ok(main.includes(`<li class="badge">${tech}</li>`), `${at}: ${tech}`);
 
-      const button = `<a class="btn" href="${p.url}" target="_blank" rel="noopener noreferrer">${c.ui.visitLive}`;
+      // "In numbers" stands over figures only: a value such as "Live" keeps its place in the list, without that heading.
+      const numeric = (p.metrics ?? []).every((m) => /\d/.test(m.value));
+      assert.equal(main.includes(`<h2 class="detail__title">${c.detail.numbers}</h2>`), Boolean(p.metrics?.length) && numeric, `${at}: the heading over the figures`);
+
+      const button = `<a class="btn" href="${p.url}" target="_blank" rel="noopener noreferrer">${liveLabel(c, p.url ?? '')}<`;
       assert.equal(doc.match(/<section class="hero">[\s\S]*?<\/section>/)[0].includes(button), Boolean(p.url), `${at}: the button to the live product`);
       assert.ok(!main.includes('href="null"') && !text.includes('undefined'), at);
     }
   }
+  // Both cases occur: these two carry a fact that is not a number.
+  assert.deepEqual(db.projects.filter((p) => p.metrics?.some((m) => !/\d/.test(m.value))).map((p) => p.id), ['goldentag', 'mcp-search-server']);
+
+  // The button names what it opens: a listing on Google Play is not a site to visit.
+  const play = db.projects.find((p) => p.id === 'goldentag');
+  assert.match(play.url, /^https:\/\/play\.google\.com\//);
+  for (const lang of LANGS) {
+    const c = db.copy[lang];
+    assert.equal(liveLabel(c, play.url), c.ui.visitPlay);
+    assert.equal(liveLabel(c, 'https://khatm.nouraldeentofi.com/'), c.ui.visitLive);
+    assert.notEqual(c.ui.visitPlay, c.ui.visitLive);
+    for (const page of ['projects', 'projects/goldentag']) {
+      const doc = unescape(html(page, lang));
+      assert.ok(doc.includes(`href="${play.url}" target="_blank" rel="noopener noreferrer">${c.ui.visitPlay}<`), `${lang}/${page}: the Play listing is called a live site`);
+    }
+  }
+  assert.deepEqual([db.copy.en.ui.visitPlay, db.copy.ar.ui.visitPlay], ['View on Google Play', 'عرض على Google Play']);
+});
+
+/* The list page describes many things at once; a detail page is where one of
+   them is told in full. A card that carried the whole account made the page
+   behind its "Details" link a copy of what the visitor had just read, and
+   set the list against its own detail pages for the same sentences. */
+test('a card on the projects list is a summary: the problem and what he built are told on the project page only', () => {
+  for (const lang of LANGS) {
+    const c = db.copy[lang];
+    const list = html('projects', lang);
+    const listText = visibleText(list);
+    for (const p of db.projects) {
+      const at = `${lang}/${p.id}`;
+      const pageText = visibleText(html(`projects/${p.id}`, lang));
+      for (const part of [p.problem, p.built, ...(p.context ? [p.context] : [])]) {
+        const said = squash(part[lang]);
+        assert.ok(pageText.includes(said), `${at}: missing from its own page: ${said.slice(0, 60)}`);
+        assert.ok(!listText.includes(said), `${at}: told on the list page as well: ${said.slice(0, 60)}`);
+      }
+
+      // What a summary keeps: what it is, his role, the figures, the stack, both ways on.
+      const card = unescape(list.split(` id="${p.id}">`)[1].split('</article>')[0]);
+      assert.ok(card.includes(`<p class="card__body">${p.tagline[lang]}</p>`), `${at}: tagline`);
+      assert.ok(card.includes(`<dt>${c.ui.role}</dt><dd>`) && visibleText(`<body>${card}`).includes(squash(p.role[lang])), `${at}: role`);
+      assert.ok(!card.includes(`<dt>${c.ui.problem}</dt>`) && !card.includes(`<dt>${c.ui.built}</dt>`), `${at}: a heading for a part that moved`);
+      for (const m of p.metrics ?? []) assert.ok(card.includes(`<span class="proof__value" data-count>${m.value}</span><span class="proof__label">${m.label[lang]}</span>`), `${at}: ${m.value}`);
+      for (const tech of p.stack) assert.ok(card.includes(`<li class="badge">${tech}</li>`), `${at}: ${tech}`);
+      assert.equal(card.includes('class="card__media"'), Boolean(p.images), `${at}: screenshots`);
+      // Every id and data attribute the page's script and links rely on is as it was.
+      assert.match(list, new RegExp(`<article data-reveal data-filter-item data-group="${p.group}" class="card card--row card--summary[^"]*" id="${p.id}">`), `${at}: the card's own tag`);
+    }
+    assert.ok(db.projects.some((p) => p.context), 'no entry has a context, so that part of the rule is not exercised');
+
+    // Decided with it: the featured card on the home page and the cards of the
+    // automation page keep their full text. A system page adds the steps, the
+    // canvas and the outcome to what its card says, and the home card is a showcase.
+    const featured = db.projects.find((p) => p.featured);
+    assert.ok(visibleText(html('', lang)).includes(squash(featured.problem[lang])), `${lang}: the home card lost the problem`);
+    const system = db.workflows.find((w) => w.tier === 'system');
+    for (const h of system.highlights[lang]) assert.ok(visibleText(html('automation', lang)).includes(squash(h)), `${lang}: the automation card lost a highlight`);
+  }
+
+  // With so little text beside them, the figures, the stack and the buttons
+  // run across the foot of the card on a wide screen. Logical properties
+  // only, and nothing below the width at which every row card stacks.
+  const css = readFileSync('assets/css/components.css', 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+  const rules = css.slice(css.indexOf('@media (min-width: 861px) {\n  .card--summary'), css.indexOf('.proof--inline {'));
+  assert.ok(rules.includes('.card--summary .card__aside {') && rules.includes('grid-template-areas: "main media" "aside aside";'));
+  assert.ok(!/(^|[\s;{])(left|right|margin-left|margin-right|padding-left|padding-right|border-left|border-right)\s*:/m.test(rules), 'a physical property');
+  assert.equal(css.split('.card--summary').length - 1, rules.split('.card--summary').length - 1, 'a rule for the summary card outside the wide-screen block');
 });
 
 /* The picture is in the page, in a figure, beside words that say what it
@@ -721,14 +851,23 @@ test('screenshots and canvases are shown in the page, captioned, with their real
 
       const name = w.name[lang];
       const caption = `${name}: ${c.ui.canvasCaption}`;
+      // The alt says what the picture shows; the caption beside it names it.
+      const alt = c.ui.canvasAlt.replace('{name}', name);
+      assert.ok(alt.includes(name) && alt !== caption && !/[{}]/.test(alt), `${at}: ${alt}`);
       const figure = unescape(doc.match(/<figure class="canvas-shot[\s\S]*?<\/figure>/)[0]);
       const [width, height] = sizeOf(w.canvas);
       const tag = imgTag(figure, w.canvas);
       assert.equal(tag.length, 1, at);
-      assert.ok(tag[0].includes(` alt="${caption}" width="${width}" height="${height}"`), `${at}: ${tag[0]}`);
-      assert.ok(figure.includes(`<figcaption class="canvas-shot__caption"><span>${caption}</span>`), `${at}: the caption does not name the system`);
+      assert.ok(tag[0].includes(` alt="${alt}" width="${width}" height="${height}"`), `${at}: ${tag[0]}`);
+      assert.ok(figure.includes(`<figcaption class="canvas-shot__caption"><span id="canvas-caption-${w.id}">${caption}</span>`), `${at}: the caption does not name the system`);
       // The image sits in the frame that scrolls, which the keyboard can reach.
-      assert.match(figure, /<div class="canvas-shot__scroll" role="group" aria-label="[^"]+" tabindex="0" style="--canvas-h:\d+px">\s*<img /, at);
+      // The frame is named by that caption: the sentence is not said again as a label.
+      assert.match(figure, new RegExp(`<div class="canvas-shot__scroll" role="group" aria-labelledby="canvas-caption-${w.id}" tabindex="0" style="--canvas-h:\\d+px">\\s*<img `), at);
+      assert.ok(!figure.includes('aria-label='), `${at}: the frame repeats its caption as a label`);
+      assert.equal(doc.split(`id="canvas-caption-${w.id}"`).length - 1, 1, `${at}: the caption id is not unique`);
+      // The same picture in the full-size viewer carries the same description.
+      const viewer = unescape(doc.split(`<dialog class="lightbox" id="canvas-${w.id}"`)[1].split('</dialog>')[0]);
+      assert.ok(viewer.includes(` alt="${alt}"`), `${at}: the viewer describes the picture differently`);
 
       // The curated diagram is still there, and so is the full-size viewer.
       assert.ok(doc.includes(`<svg class="wf"`), `${at}: no diagram`);
@@ -797,6 +936,16 @@ test('a system page shows its status, who it is for, what it handles, how it wor
       assert.deepEqual(steps.map((m) => m[3]), ordered.map((n) => n.service), `${at}: step services`);
       assert.ok(main.indexOf('<ol class="steps') < main.indexOf('<svg class="wf"'), `${at}: the list comes before the diagram`);
 
+      // A list flattens a graph that branches, so a note above it says how to
+      // read it; the note on where the diagram comes from sits with the
+      // diagram, and speaks of one diagram, which is what this page has.
+      const how = main.slice(main.indexOf(`<h2>${c.detail.how}</h2>`), main.indexOf(`<h2>${c.ui.canvasCaption}</h2>`));
+      const lead = how.indexOf(`<p class="section__lead">${c.detail.howNote}</p>`);
+      const note = how.indexOf(`<p class="detail__note" data-reveal>${c.detail.diagramNote}</p>`);
+      assert.ok(lead > 0 && lead < how.indexOf('<ol class="steps'), `${at}: the note on reading the steps is not above them`);
+      assert.ok(note > how.indexOf('</ol>') && note < how.indexOf('<svg class="wf"'), `${at}: the note on the diagram is not with the diagram`);
+      assert.ok(!main.includes(c.automation.diagramNote), `${at}: "every diagram", on a page that has one`);
+
       // How big it is, with the units, from the data.
       const count = main.match(/<span class="system__count">([\s\S]*?)<\/span>/)[1].replace(/<[^>]+>/g, '');
       assert.ok(count.includes(String(w.workflowCount)) && count.includes(String(w.nodeCount)), `${at}: ${count}`);
@@ -804,6 +953,37 @@ test('a system page shows its status, who it is for, what it handles, how it wor
       assert.ok(!/\b1 workflows\b/.test(count), `${at}: "${count}"`);
     }
   }
+});
+
+/* The note above the steps says a step that ends in a question mark is a
+   fork. That has to be true of the data in both languages, and the list page,
+   which shows many diagrams, keeps the note that speaks of every one. */
+test('the notes about steps and diagrams are true of the pages they are on', () => {
+  const asks = (label) => /[?؟]$/.test(label.trim());
+  let forks = 0;
+  for (const w of db.workflows.filter((x) => x.flow)) {
+    for (const n of w.flow.nodes) {
+      assert.equal(asks(n.label.ar), asks(n.label.en), `${w.id}: "${n.label.en}" asks a question in one language only`);
+      if (asks(n.label.en)) {
+        forks += 1;
+        assert.ok(w.flow.edges.some(([from]) => from === n.id), `${w.id}: "${n.label.en}" leads nowhere, so it is not a fork`);
+        assert.equal(n.kind, 'logic', `${w.id}: "${n.label.en}" is a question that decides nothing`);
+      }
+    }
+  }
+  assert.ok(forks > 10);
+
+  for (const lang of LANGS) {
+    const c = db.copy[lang];
+    assert.notEqual(c.detail.diagramNote, c.automation.diagramNote);
+    for (const note of [c.detail.howNote, c.detail.diagramNote]) assert.ok(note.length > 40 && !/\d/.test(note) && !note.includes('—'), `${lang}: ${note}`);
+    const list = unescape(html('automation', lang));
+    assert.ok(list.includes(`<li>${c.automation.diagramNote}</li>`), `${lang}: the list page lost its note`);
+    assert.ok(!list.includes(c.detail.diagramNote) && !list.includes(c.detail.howNote), `${lang}: a detail-page note on the list page`);
+  }
+  assert.match(db.copy.en.detail.howNote, /question mark/);
+  assert.match(db.copy.ar.detail.howNote, /علامة استفهام/);
+  assert.match(db.copy.en.detail.diagramNote, /^The diagram is /);
 });
 
 test('the steps of a flow are listed after the steps that lead to them, otherwise as curated', () => {
@@ -851,6 +1031,10 @@ test('a product page shows the automation behind it, and only a product with an 
       for (const part of [c.detail.handles, c.detail.how, c.ui.canvasCaption, c.ui.outcome]) {
         assert.ok(block.includes(`<h3 class="detail__title detail__title--part" data-reveal>${part}</h3>`), `${at}: ${part}`);
       }
+      // The same two notes as on a system page: how to read the steps, and where the diagram comes from.
+      assert.ok(block.includes(`<p class="detail__lead">${c.detail.howNote}</p>`), `${at}: the note above the steps`);
+      assert.ok(block.includes(`<p class="detail__note" data-reveal>${c.detail.diagramNote}</p>`), `${at}: the note with the diagram`);
+      assert.ok(!block.includes(c.automation.diagramNote), `${at}: "every diagram"`);
       assert.ok(doc.indexOf('id="overview"') < doc.indexOf(`id="${ENGINE_ANCHOR}"`), `${at}: after the product itself`);
     }
   }
@@ -877,6 +1061,18 @@ test('a detail page ends with its neighbours and the call to action', () => {
         assert.ok(!links.some(([to]) => to === pagePath(d.page, lang)), `${at}: links to itself`);
       }
 
+      // A project that shows an engine also leads to the systems built for the
+      // audience of that engine, each of which has a page of its own.
+      const systems = d.kind === 'project' ? engineNeighbours(db, d.entry) : [];
+      assert.equal(doc.includes('<section class="section" id="more-systems">'), systems.length > 0, `${at}: the systems beside its engine`);
+      if (systems.length) {
+        const block = doc.split('<section class="section" id="more-systems">')[1].split('</section>')[0];
+        assert.ok(block.includes(`<h2>${c.detail.moreSystems}</h2>`), at);
+        const links = [...block.matchAll(/<h3 class="card__title"><a href="([^"]*)">([^<]*)<\/a><\/h3>/g)].map((m) => [m[1], m[2]]);
+        assert.deepEqual(links, systems.map((w) => [pagePath(`automation/${w.id}`, lang), w.name[lang]]), at);
+        assert.ok(doc.indexOf('id="more"') < doc.indexOf('id="more-systems"') && doc.indexOf('id="more-systems"') < doc.indexOf('<div class="cta">'), `${at}: order`);
+      }
+
       const last = doc.slice(doc.lastIndexOf('<section'), doc.indexOf('</main>'));
       assert.ok(last.includes('<div class="cta">') && last.includes(`<h2>${c.home.ctaTitle}</h2>`), `${at}: does not end with the call to action`);
       assert.ok(last.includes(`<a class="btn" href="${pagePath('contact', lang)}">${c.home.ctaButton}</a>`), at);
@@ -894,6 +1090,38 @@ test('a detail page ends with its neighbours and the call to action', () => {
     }
   }
   assert.ok(!relatedSystems(db, db.workflows.find((w) => w.id === 'smart-lead-finder')).some((w) => w.id === 'crm-lead-cleaner'));
+
+  // Beside an engine: same audience, a page of its own, never the engine of another product.
+  const byId = (id) => db.projects.find((p) => p.id === id);
+  assert.deepEqual(engineNeighbours(db, byId('universal-web-scraper')).map((w) => w.id), ['smart-lead-finder']);
+  assert.deepEqual(engineNeighbours(db, byId('cv-screener')).map((w) => w.id), ['ai-job-match', 'ai-email-campaign']);
+  assert.deepEqual(engineNeighbours(db, byId('khatm')), [], 'a project without an engine has none');
+  for (const p of db.projects) {
+    for (const w of engineNeighbours(db, p)) {
+      assert.ok(hasOwnPage(db, w) && !productOf(db, w), `${p.id}: offers ${w.id}, which has no page of its own`);
+      assert.ok(w.audience.some((a) => engineOf(db, p).audience.includes(a)), `${p.id}: ${w.id} is for another audience`);
+    }
+  }
+});
+
+/* A page that only its list page links to is one edit away from being an
+   orphan, and a crawler that meets it once has little reason to think it
+   matters. Smart Lead Finder was such a page in both languages. */
+test('every detail page is linked from a page other than its list page', () => {
+  for (const lang of LANGS) {
+    const others = everyPage.filter((p) => p.lang === lang);
+    for (const d of details) {
+      const address = pagePath(d.page, lang);
+      const link = new RegExp(`<a [^>]*href="${address}(?:#[^"]*)?"`);
+      const from = others.filter((p) => p.page !== d.page && p.page !== d.parent && link.test(p.html)).map((p) => p.page || 'index');
+      assert.ok(from.length > 0, `${lang}/${d.page}: only its list page links to it`);
+    }
+  }
+  // The one that had none: now reached from the products whose engines share its audience.
+  for (const lang of LANGS) {
+    const to = `href="${pagePath('automation/smart-lead-finder', lang)}"`;
+    assert.ok(html('projects/universal-web-scraper', lang).includes(to) && html('projects/smart-scanner', lang).includes(to), lang);
+  }
 });
 
 test('on a detail page the navigation marks the list page it belongs to, not a page it is not', () => {
@@ -998,12 +1226,24 @@ test('the sitemap, the llms files and the API all name every detail page', () =>
 test('no redirect, noindex or borrowed canonical stands between a detail page and a search', () => {
   const redirects = readFileSync('_redirects', 'utf8');
   assert.deepEqual(checkRedirects(redirects), []);
-  for (const rule of ['/projects/*  /projects  302', '/automation/*  /automation  301', '/en/projects/*  /en/projects  301', '/en/automation/unified-inbox  /en/automation  302']) {
+  const rules = [
+    '/projects/*  /projects  302',
+    '/automation/*  /automation  301',
+    '/en/projects/*  /en/projects  301',
+    '/en/automation/unified-inbox  /en/automation  302',
+    // The language written as a placeholder or as a splat answers for the same pages.
+    '/:lang/projects/*  /:lang/projects  301',
+    '/:lang/automation/:id  /:lang/automation  302',
+    '/*/automation/*  /automation  301',
+    '/*/projects/khatm  /projects  301',
+  ];
+  for (const rule of rules) {
     const problems = checkRedirects(`${rule}\n${redirects}`);
     assert.ok(problems.some((p) => p.includes(rule.split(/\s+/)[0])), `"${rule}" went unnoticed`);
   }
   // The list pages themselves, and the old /ar/ tree, are not under a generated folder.
   assert.deepEqual(checkRedirects(`${redirects}\n/projects  /en/projects  302\n`), []);
+  assert.deepEqual(checkRedirects(`${redirects}\n/:lang/projects  /projects  302\n/sites/x/projects/*  /sites/x  301\n`), []);
 
   for (const d of details) {
     for (const lang of LANGS) {
@@ -1034,7 +1274,7 @@ test('a detail page keeps the content rules of the whole site', () => {
   // The new labels are words, never figures: a number comes from the data.
   for (const lang of LANGS) {
     const c = db.copy[lang];
-    for (const s of [...Object.values(c.detail), c.ui.details, c.ui.breadcrumb, c.ui.canvasOf, c.ui.allProjects, c.ui.allSystems, c.ui.allSites, c.ui.workflowUnit]) {
+    for (const s of [...Object.values(c.detail), c.ui.details, c.ui.breadcrumb, c.ui.canvasOf, c.ui.canvasAlt, c.ui.visitPlay, c.ui.navMain, c.ui.navTabs, c.ui.allProjects, c.ui.allSystems, c.ui.allSites, c.ui.workflowUnit]) {
       assert.ok(!/\d/.test(s.replace(/n8n/g, '')) && !s.includes('—'), `${lang}: "${s}"`);
     }
   }
@@ -1078,7 +1318,30 @@ test('link text names the thing it leads to', () => {
     assert.deepEqual(more('projects'), [pagePath('projects', lang), c.ui.allProjects]);
     assert.deepEqual(more('automation'), [pagePath('automation', lang), c.ui.allSystems]);
     assert.deepEqual(more('showcase'), [pagePath('showcase', lang), c.ui.allSites]);
+
+    // A button on a home card says what it opens, and the name follows for
+    // anyone who hears it out of context: the project page, or the details
+    // of a system that has a page of its own.
+    const named = (label, to, name) => `<a class="btn btn--ghost" href="${to}">${label}<span class="visually-hidden">: ${name}</span></a>`;
+    const featured = db.projects.find((p) => p.featured);
+    assert.ok(home.includes(named(c.ui.viewProject, projectHref(featured, lang), featured.name)), `${lang}: the featured card`);
+    const kinds = new Set();
+    for (const w of db.workflows.slice(0, 3)) {
+      const product = productOf(db, w);
+      kinds.add(product ? 'project' : 'system');
+      const button = product ? named(c.ui.viewProject, systemHref(db, w, lang), product.name) : named(c.ui.details, systemHref(db, w, lang), w.name[lang]);
+      assert.ok(home.includes(button), `${lang}: the button of ${w.id} does not say what it opens`);
+    }
+    assert.deepEqual([...kinds].sort(), ['project', 'system'], 'both kinds of button are on the home page');
+    assert.ok(!home.includes(`>${c.ui.viewProject}</a>`) && !home.includes(`>${c.ui.details}</a>`), `${lang}: a button that names nothing`);
+
+    // The automation page is called by one name. The home section that leads
+    // to it names what is in it, beside the link "All systems".
+    const heading = home.split('<section class="section" id="automation">')[1].match(/<a class="section__titlelink" href="([^"]*)">([^<]*)</).slice(1);
+    assert.deepEqual(heading, [pagePath('automation', lang), c.home.automationLabel]);
   }
+  assert.deepEqual([db.copy.en.home.automationLabel, db.copy.ar.home.automationLabel], ['Automation systems', 'أنظمة الأتمتة']);
+  for (const [path, doc] of files) if (path.endsWith('.html')) assert.ok(!/Automation Lab|مختبر الأتمتة/.test(doc), `${path}: the old name of the automation page`);
   assert.deepEqual([db.copy.en.ui.allProjects, db.copy.en.ui.allSystems, db.copy.en.ui.allSites], ['All projects', 'All systems', 'All websites']);
   assert.ok(!('seeAll' in db.copy.en.ui) && !('seeAll' in db.copy.ar.ui), 'a link that only says "see all" is back');
   for (const [, doc] of files) if (typeof doc === 'string') assert.ok(!/>See all<|>عرض الكل</.test(doc));

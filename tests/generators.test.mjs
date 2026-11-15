@@ -6,7 +6,7 @@ import { buildLlmsTxt, buildLlmsFullTxt } from '../scripts/lib/llms.mjs';
 import { buildSitemap, PAGES, LANGS, pagePath } from '../scripts/lib/sitemap.mjs';
 import { buildApiProfile, buildApiProjects, buildResumeJson } from '../scripts/lib/api.mjs';
 import { TEMPLATES, notFound, buildRedirects } from '../scripts/lib/pages.mjs';
-import { contactCv, headMeta, periodWords, ROBOTS_INDEXABLE, ROBOTS_NOINDEX } from '../scripts/lib/blocks.mjs';
+import { contactCv, contactLinks, headMeta, periodWords, ROBOTS_INDEXABLE, ROBOTS_NOINDEX } from '../scripts/lib/blocks.mjs';
 import { byCompany } from '../scripts/lib/experience.mjs';
 import { personLd } from '../scripts/lib/jsonld.mjs';
 import { homeOffers, automationServices } from '../scripts/lib/offers.mjs';
@@ -241,6 +241,37 @@ test('a tab label is the navigation label or a shorter form of it, within the bu
   assert.deepEqual(db.copy.ar.navShort, db.copy.ar.nav, 'every Arabic label fits the bar as it is');
 });
 
+/* A page has two navigation landmarks, and a screen reader lists them by
+   their labels. Both used to be labelled with the word of the Home link,
+   which named neither and made them one and the same. */
+test('the two navigation landmarks say what they are, each in its own words', () => {
+  for (const lang of LANGS) {
+    const c = db.copy[lang];
+    for (const html of [TEMPLATES[''](db, lang), TEMPLATES.contact(db, lang), notFound(db, lang)]) {
+      const labels = [...html.matchAll(/<nav class="(site-nav|mobile-tabs)" aria-label="([^"]*)">/g)].map((m) => [m[1], m[2]]);
+      assert.deepEqual(labels, [['site-nav', c.ui.navMain], ['mobile-tabs', c.ui.navTabs]], lang);
+    }
+    assert.notEqual(c.ui.navMain, c.ui.navTabs);
+    for (const label of [c.ui.navMain, c.ui.navTabs]) assert.ok(label !== c.nav.home && label.trim().length > 0, `${lang}: "${label}"`);
+  }
+  assert.ok(!/[A-Za-z]/.test(db.copy.ar.ui.navMain + db.copy.ar.ui.navTabs), 'an Arabic landmark labelled in English');
+});
+
+/* "Email" and "Phone" were typed into the template, so the Arabic contact
+   page printed them in English above an Arabic value label. The other rows
+   are the names of the places his profiles are on, the same in both. */
+test('the contact rows that are words are in the language of the page', () => {
+  for (const lang of LANGS) {
+    const c = db.copy[lang];
+    const rows = [...contactLinks(db, lang).matchAll(/<a href="([^"]*)"[^>]*>[\s\S]*?<span class="platform">([^<]*)<\/span>/g)].map((m) => [m[1].split(':')[0], m[2]]);
+    assert.deepEqual(rows.slice(0, 2), [['mailto', c.contact.emailLabel], ['tel', c.contact.phoneLabel]], lang);
+    assert.ok(rows.length > 2 && rows.slice(2).every(([scheme]) => scheme === 'https'), `${lang}: the profile rows`);
+  }
+  assert.deepEqual([db.copy.en.contact.emailLabel, db.copy.en.contact.phoneLabel], ['Email', 'Phone']);
+  assert.ok(!/[A-Za-z]/.test(db.copy.ar.contact.emailLabel + db.copy.ar.contact.phoneLabel), 'an Arabic label in English');
+  assert.ok(!contactLinks(db, 'ar').includes('<span class="platform">Email</span>') && !contactLinks(db, 'ar').includes('<span class="platform">Phone</span>'));
+});
+
 /* The names a search result may show as sitelinks are the words of these
    links, so each says what its page offers. */
 test('the navigation names each page by what it offers, in both languages', () => {
@@ -351,6 +382,13 @@ test('the 404 page stays out of search and names no address as its own', () => {
     // What a lost visitor needs is still there: the way home and the other language.
     assert.ok(html.includes(`<a class="btn" href="${pagePath('', lang)}">`));
     assert.ok(html.includes(`<a class="lang-switch" href="${pagePath('', lang === 'ar' ? 'en' : 'ar')}"`));
+
+    // It is laid out as the home page is, but the visitor is not on the home
+    // page: no link in the header or in the tab bar is marked as where they are.
+    assert.ok(!html.includes('aria-current'), `${lang}: the 404 marks a page as the current one`);
+    for (const page of PAGES) assert.ok(html.includes(`<a href="${pagePath(page, lang)}">`), `${lang}: the link to ${page || 'home'} is gone from the header`);
+    // The home page itself still is.
+    assert.equal(TEMPLATES[''](db, lang).split('aria-current="page"').length - 1, 2, `${lang}: the home page marks itself in both navigations`);
   }
 });
 

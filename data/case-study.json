@@ -49,7 +49,7 @@
   },
 
   "scale": {
-    "basis": { "en": "1,000 receipts a month, half PDF, half photos", "ar": "١٠٠٠ إيصال شهرياً، نصفها PDF ونصفها صور" },
+    "basis": { "en": "1,000 receipts a month, half PDF, half photos", "ar": "1,000 إيصال شهرياً، نصفها PDF ونصفها صور" },
     "before": "$20",
     "after": "$12.50",
     "beforeLabel": { "en": "before", "ar": "قبل" },

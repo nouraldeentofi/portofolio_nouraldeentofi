@@ -50,10 +50,10 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <link rel="stylesheet" href="/assets/css/tokens.css?v=9e291487">
 <link rel="stylesheet" href="/assets/css/base.css?v=52040e91">
 <link rel="stylesheet" href="/assets/css/layout.css?v=f9c9bdc0">
-<link rel="stylesheet" href="/assets/css/components.css?v=cb1c85f9">
+<link rel="stylesheet" href="/assets/css/components.css?v=73c51bc3">
 <link rel="stylesheet" href="/assets/css/motion.css?v=0828308a">
 <link rel="stylesheet" href="/assets/css/gallery.css?v=54f99880">
-<link rel="stylesheet" href="/assets/css/detail.css?v=a91f1d6a">
+<link rel="stylesheet" href="/assets/css/detail.css?v=9862b87e">
 <link rel="stylesheet" href="/assets/css/responsive.css?v=a7c809d0">
 <script type="application/ld+json">
 {
@@ -157,7 +157,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
         </a>
         <a class="brand__name" href="/en/">Nour Aldeen Tofi</a>
       </div>
-      <nav class="site-nav" aria-label="Home">
+      <nav class="site-nav" aria-label="Main menu">
           <a href="/en/">Home</a>
           <a href="/en/about">About</a>
           <a href="/en/work">Experience</a>
@@ -241,7 +241,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
   </div>
   <div class="detail__part">
     <h3 class="detail__title detail__title--part" data-reveal>How it works</h3>
-    <p class="detail__lead">Every diagram is drawn from the real node graph, with names simplified and nothing sensitive in it.</p>
+    <p class="detail__lead">The steps are listed in the order the graph reaches them, so where the diagram splits, its branches follow one another in the list. A step that ends in a question mark is a fork: a run takes a single branch after it, as the diagram shows.</p>
     <ol class="steps steps--row detail__steps">
       <li class="steps__item" data-reveal>
         <span class="steps__num" aria-hidden="true">1</span>
@@ -276,6 +276,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
         <p>Return JSON <span class="steps__service">Webhook</span></p>
       </li>
     </ol>
+    <p class="detail__note" data-reveal>The diagram is drawn from the real node graph, with names simplified and nothing sensitive in it.</p>
     <figure class="system__diagram">
     <div class="wf-frame">
       <svg class="wf" viewBox="0 0 836 240" width="836" height="240" role="img" aria-labelledby="wf-cv-screener-en-t wf-cv-screener-en-d" style="--wf-w:836px">
@@ -350,10 +351,10 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
   <div class="detail__part">
     <h3 class="detail__title detail__title--part" data-reveal>The real canvas in n8n</h3>
     <figure class="canvas-shot" data-reveal>
-      <div class="canvas-shot__scroll" role="group" aria-label="CV Screener agents: The real canvas in n8n" tabindex="0" style="--canvas-h:566px">
-        <img src="/assets/img/workflows/cv-screener.webp" alt="CV Screener agents: The real canvas in n8n" width="1473" height="566" loading="lazy" decoding="async">
+      <div class="canvas-shot__scroll" role="group" aria-labelledby="canvas-caption-cv-screener" tabindex="0" style="--canvas-h:566px">
+        <img src="/assets/img/workflows/cv-screener.webp" alt="Screenshot of the n8n canvas showing the nodes of CV Screener agents and how they connect" width="1473" height="566" loading="lazy" decoding="async">
       </div>
-      <figcaption class="canvas-shot__caption"><span>CV Screener agents: The real canvas in n8n</span><span class="canvas-shot__hint">Scroll sideways to follow the whole flow</span></figcaption>
+      <figcaption class="canvas-shot__caption"><span id="canvas-caption-cv-screener">CV Screener agents: The real canvas in n8n</span><span class="canvas-shot__hint">Scroll sideways to follow the whole flow</span></figcaption>
     </figure>
   </div>
   <div class="detail__part">
@@ -365,7 +366,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
       <span>CV Screener agents · The real canvas in n8n <span class="lightbox__hint">Scroll sideways to follow the whole flow</span></span>
       <form method="dialog"><button class="lightbox__close" aria-label="Close">&times;</button></form>
     </div>
-    <div class="lightbox__body"><img src="/assets/img/workflows/cv-screener.webp" alt="CV Screener agents: The real canvas in n8n" width="1473" height="566" loading="lazy" decoding="async"></div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/cv-screener.webp" alt="Screenshot of the n8n canvas showing the nodes of CV Screener agents and how they connect" width="1473" height="566" loading="lazy" decoding="async"></div>
   </dialog>
 </div>
     </div>
@@ -390,17 +391,42 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <article data-reveal class="card">
   <p class="card__meta"><span>AI automation product</span><span>2026</span></p>
   <h3 class="card__title"><a href="/en/projects/universal-web-scraper">Universal Web Scraper</a></h3>
-  <p class="card__body">Website scraper that turns a whole site into an Excel file</p>
+  <p class="card__body">A whole website into one Excel file</p>
 </article>
 <article data-reveal class="card">
   <p class="card__meta"><span>AI web app</span><span>2026</span></p>
   <h3 class="card__title"><a href="/en/projects/business-card-extractor">Business Card Extractor</a></h3>
-  <p class="card__body">Business card scanner that saves straight to contacts</p>
+  <p class="card__body">Card scanner that saves to contacts</p>
 </article>
 <article data-reveal class="card">
   <p class="card__meta"><span>AI tooling</span><span>2026</span></p>
   <h3 class="card__title"><a href="/en/projects/mcp-search-server">MCP Search Server</a></h3>
-  <p class="card__body">MCP server that gives an AI model real data to query</p>
+  <p class="card__body">Gives an AI model real data to query</p>
+</article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="more-systems">
+    <div class="container">
+      <div class="section__head" data-reveal>
+        
+        <div class="section__titlebar">
+          <h2>More systems</h2>
+          
+        </div>
+        
+      </div>
+      <div class="grid grid--3">
+<article data-reveal class="card">
+  <p class="card__meta"><span class="status status--live">Live</span><span>2026</span></p>
+  <h3 class="card__title"><a href="/en/automation/ai-job-match">AI Job-Match Pipeline</a></h3>
+  <p class="card__body">Daily job search with approval on Telegram</p>
+</article>
+<article data-reveal class="card">
+  <p class="card__meta"><span class="status status--built">Built and tested</span><span>2026</span></p>
+  <h3 class="card__title"><a href="/en/automation/ai-email-campaign">AI Email Campaigns</a></h3>
+  <p class="card__body">Personal emails written by AI for every contact</p>
 </article>
       </div>
     </div>
@@ -429,7 +455,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
       </ul>
     </div>
   </footer>
-  <nav class="mobile-tabs" aria-label="Home">
+  <nav class="mobile-tabs" aria-label="Page tabs">
     <a href="/en/"><span>Home</span></a>
     <a href="/en/about"><span>About</span></a>
     <a href="/en/work"><span>Work</span></a>

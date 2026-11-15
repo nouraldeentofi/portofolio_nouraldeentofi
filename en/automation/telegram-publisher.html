@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<title>Telegram Publishing System: Social media publishing run from a Telegram chat</title>
+<title>Telegram Publishing System: Social media posts managed from one chat</title>
 <meta name="description" content="Plan, review, approve and publish posts to LinkedIn, Instagram and Reddit from a Telegram chat.">
 <meta name="robots" content="max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="canonical" href="https://nouraldeentofi.com/en/automation/telegram-publisher">
@@ -13,7 +13,7 @@
 <link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/telegram-publisher">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Nour Aldeen Tofi">
-<meta property="og:title" content="Telegram Publishing System: Social media publishing run from a Telegram chat">
+<meta property="og:title" content="Telegram Publishing System: Social media posts managed from one chat">
 <meta property="og:description" content="Plan, review, approve and publish posts to LinkedIn, Instagram and Reddit from a Telegram chat.">
 <meta property="og:url" content="https://nouraldeentofi.com/en/automation/telegram-publisher">
 <meta property="og:locale" content="en_US">
@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://nouraldeentofi.com/assets/img/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Telegram Publishing System: Social media publishing run from a Telegram chat">
+<meta property="og:image:alt" content="Telegram Publishing System: Social media posts managed from one chat">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://nouraldeentofi.com/assets/img/og.png">
 <meta name="author" content="Nour Aldeen Tofi">
@@ -50,10 +50,10 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <link rel="stylesheet" href="/assets/css/tokens.css?v=9e291487">
 <link rel="stylesheet" href="/assets/css/base.css?v=52040e91">
 <link rel="stylesheet" href="/assets/css/layout.css?v=f9c9bdc0">
-<link rel="stylesheet" href="/assets/css/components.css?v=cb1c85f9">
+<link rel="stylesheet" href="/assets/css/components.css?v=73c51bc3">
 <link rel="stylesheet" href="/assets/css/motion.css?v=0828308a">
 <link rel="stylesheet" href="/assets/css/gallery.css?v=54f99880">
-<link rel="stylesheet" href="/assets/css/detail.css?v=a91f1d6a">
+<link rel="stylesheet" href="/assets/css/detail.css?v=9862b87e">
 <link rel="stylesheet" href="/assets/css/responsive.css?v=a7c809d0">
 <script type="application/ld+json">
 {
@@ -158,7 +158,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
         </a>
         <a class="brand__name" href="/en/">Nour Aldeen Tofi</a>
       </div>
-      <nav class="site-nav" aria-label="Home">
+      <nav class="site-nav" aria-label="Main menu">
           <a href="/en/">Home</a>
           <a href="/en/about">About</a>
           <a href="/en/work">Experience</a>
@@ -186,7 +186,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
         </ol>
       </nav>
       <h1>Telegram Publishing System</h1>
-      <p class="hero__headline">Social media publishing run from a Telegram chat</p>
+      <p class="hero__headline">Social media posts managed from one chat</p>
       <p class="card__meta detail__meta"><span class="status status--built">Built and tested</span><span>Content &amp; messaging</span><span>Content system run from a chat</span><span>2026</span></p>
       <p class="hero__intro">Plan, review, approve and publish posts to LinkedIn, Instagram and Reddit from a Telegram chat. The AI only understands what you meant; every decision after that is made by a deterministic state machine.</p>
     </div>
@@ -214,7 +214,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
   <div class="detail__part">
     <div class="section__head" data-reveal>
       <div class="section__titlebar"><h2>How it works</h2></div>
-      <p class="section__lead">Every diagram is drawn from the real node graph, with names simplified and nothing sensitive in it.</p>
+      <p class="section__lead">The steps are listed in the order the graph reaches them, so where the diagram splits, its branches follow one another in the list. A step that ends in a question mark is a fork: a run takes a single branch after it, as the diagram shows.</p>
     </div>
     <ol class="steps steps--row detail__steps">
       <li class="steps__item" data-reveal>
@@ -258,6 +258,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
         <p>Multi-platform publisher</p>
       </li>
     </ol>
+    <p class="detail__note" data-reveal>The diagram is drawn from the real node graph, with names simplified and nothing sensitive in it.</p>
     <figure class="system__diagram">
     <div class="wf-frame">
       <svg class="wf" viewBox="0 0 956 226" width="956" height="226" role="img" aria-labelledby="wf-telegram-publisher-en-t wf-telegram-publisher-en-d" style="--wf-w:956px">
@@ -348,10 +349,10 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
       <div class="section__titlebar"><h2>The real canvas in n8n</h2></div>
     </div>
     <figure class="canvas-shot canvas-shot--wide" data-reveal>
-      <div class="canvas-shot__scroll" role="group" aria-label="Telegram Publishing System: The real canvas in n8n" tabindex="0" style="--canvas-h:729px">
-        <img src="/assets/img/workflows/telegram-publisher.webp" alt="Telegram Publishing System: The real canvas in n8n" width="2854" height="729" loading="lazy" decoding="async">
+      <div class="canvas-shot__scroll" role="group" aria-labelledby="canvas-caption-telegram-publisher" tabindex="0" style="--canvas-h:729px">
+        <img src="/assets/img/workflows/telegram-publisher.webp" alt="Screenshot of the n8n canvas showing the nodes of Telegram Publishing System and how they connect" width="2854" height="729" loading="lazy" decoding="async">
       </div>
-      <figcaption class="canvas-shot__caption"><span>Telegram Publishing System: The real canvas in n8n</span><span class="canvas-shot__hint">Scroll sideways to follow the whole flow</span></figcaption>
+      <figcaption class="canvas-shot__caption"><span id="canvas-caption-telegram-publisher">Telegram Publishing System: The real canvas in n8n</span><span class="canvas-shot__hint">Scroll sideways to follow the whole flow</span></figcaption>
     </figure>
   </div>
   <div class="detail__part">
@@ -365,7 +366,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
       <span>Telegram Publishing System · The real canvas in n8n <span class="lightbox__hint">Scroll sideways to follow the whole flow</span></span>
       <form method="dialog"><button class="lightbox__close" aria-label="Close">&times;</button></form>
     </div>
-    <div class="lightbox__body"><img src="/assets/img/workflows/telegram-publisher.webp" alt="Telegram Publishing System: The real canvas in n8n" width="2854" height="729" loading="lazy" decoding="async"></div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/telegram-publisher.webp" alt="Screenshot of the n8n canvas showing the nodes of Telegram Publishing System and how they connect" width="2854" height="729" loading="lazy" decoding="async"></div>
   </dialog>
 </div>
     </div>
@@ -385,17 +386,17 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <article data-reveal class="card">
   <p class="card__meta"><span class="status status--built">Built and tested</span><span>2026</span></p>
   <h3 class="card__title"><a href="/en/automation/unified-inbox">Unified Inbox</a></h3>
-  <p class="card__body">One inbox for every customer channel, with AI-drafted replies</p>
+  <p class="card__body">Every customer channel, with AI-drafted replies</p>
 </article>
 <article data-reveal class="card">
   <p class="card__meta"><span class="status status--built">Built and tested</span><span>2026</span></p>
   <h3 class="card__title"><a href="/en/automation/whatsapp-group">WhatsApp Group from a Spreadsheet</a></h3>
-  <p class="card__body">A contact list added to a WhatsApp group automatically</p>
+  <p class="card__body">Excel or CSV contacts added automatically</p>
 </article>
 <article data-reveal class="card">
   <p class="card__meta"><span class="status status--built">Built and tested</span><span>2026</span></p>
   <h3 class="card__title"><a href="/en/automation/social-auto-publisher">Social Auto-Publisher</a></h3>
-  <p class="card__body">Social media posts with AI captions and branded images</p>
+  <p class="card__body">Posts with AI captions and branded images</p>
 </article>
 <article data-reveal class="card">
   <p class="card__meta"><span class="status status--built">Built and tested</span><span>2026</span></p>
@@ -429,7 +430,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
       </ul>
     </div>
   </footer>
-  <nav class="mobile-tabs" aria-label="Home">
+  <nav class="mobile-tabs" aria-label="Page tabs">
     <a href="/en/"><span>Home</span></a>
     <a href="/en/about"><span>About</span></a>
     <a href="/en/work"><span>Work</span></a>

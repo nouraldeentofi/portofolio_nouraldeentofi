@@ -1,8 +1,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { loadDb } from '../scripts/lib/load.mjs';
+import { loadDb, isCalendarDay, RESERVED_IDS } from '../scripts/lib/load.mjs';
 import { byCompany } from '../scripts/lib/experience.mjs';
-import { existsSync } from 'node:fs';
+import { existsSync, cpSync, mkdtempSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { MISSPELLED_NAME } from '../scripts/lib/gates.mjs';
 
 test('loads profile with required identity fields', () => {
@@ -294,6 +296,43 @@ test('the profile carries the day it was last changed by hand', () => {
   const db = loadDb('data');
   assert.match(db.profile.updated, /^\d{4}-\d{2}-\d{2}$/);
   assert.ok(!Number.isNaN(Date.parse(db.profile.updated)));
+  assert.ok(isCalendarDay(db.profile.updated));
+});
+
+/* That day becomes the ProfilePage's dateModified. A day that does not exist
+   used to pass: parsing rolls 30 February forward into March instead of
+   refusing it, and the page would have shipped a date nobody can have meant. */
+test('a day that does not exist is refused, by the check and by the loader', () => {
+  for (const day of ['2026-11-15', '2024-02-29', '2026-12-31', '2000-01-01']) assert.ok(isCalendarDay(day), day);
+  for (const day of ['2026-02-30', '2025-02-29', '2026-04-31', '2026-13-01', '2026-00-10', '2026-11-00', '2026-11-32']) assert.ok(!isCalendarDay(day), day);
+  for (const day of ['2026-11-5', '15-11-2026', '2026/11/15', '2026-11-15T00:00:00Z', '', null, undefined, 20261115]) assert.ok(!isCalendarDay(day), String(day));
+
+  const dir = mkdtempSync(join(tmpdir(), 'portfolio-profile-'));
+  try {
+    const load = (updated) => {
+      cpSync('data', dir, { recursive: true });
+      const profile = JSON.parse(readFileSync('data/profile.json', 'utf8'));
+      if (updated === undefined) delete profile.updated;
+      else profile.updated = updated;
+      writeFileSync(join(dir, 'profile.json'), JSON.stringify(profile));
+      return loadDb(dir);
+    };
+    assert.doesNotThrow(() => load('2026-11-15'));
+    for (const bad of ['2026-02-30', '2026-13-01', 'yesterday', undefined]) {
+      assert.throws(() => load(bad), /"updated" must be a real day written as YYYY-MM-DD/, String(bad));
+    }
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+/* An id is a file name in a folder the host serves. Two names mean something
+   to the host by themselves, so no entry may take them (the refusal itself
+   is tested with the other loader refusals, in details.test.mjs). */
+test('no project or workflow is named by a file name the host reserves', () => {
+  assert.deepEqual(RESERVED_IDS, ['index', '404']);
+  const db = loadDb('data');
+  for (const row of [...db.projects, ...db.workflows]) assert.ok(!RESERVED_IDS.includes(row.id), row.id);
 });
 
 test('a workflow canvas, when set, is a real file', () => {

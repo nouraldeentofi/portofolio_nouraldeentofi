@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<title>Google Review Reply Manager: Automatic replies to Google reviews with n8n</title>
+<title>Google Review Reply Manager: Automatic Google review replies with n8n</title>
 <meta name="description" content="New Google reviews are picked up on a schedule and answered in the reviewer&#39;s own language.">
 <meta name="robots" content="max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="canonical" href="https://nouraldeentofi.com/en/automation/google-review-reply">
@@ -13,17 +13,17 @@
 <link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/google-review-reply">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Nour Aldeen Tofi">
-<meta property="og:title" content="Google Review Reply Manager: Automatic replies to Google reviews with n8n">
+<meta property="og:title" content="Google Review Reply Manager: Automatic Google review replies with n8n">
 <meta property="og:description" content="New Google reviews are picked up on a schedule and answered in the reviewer&#39;s own language.">
 <meta property="og:url" content="https://nouraldeentofi.com/en/automation/google-review-reply">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="ar_SA">
-<meta property="og:image" content="https://nouraldeentofi.com/assets/img/workflows/google-review-reply.webp">
-<meta property="og:image:width" content="1559">
-<meta property="og:image:height" content="741">
-<meta property="og:image:alt" content="Google Review Reply Manager: The real canvas in n8n">
+<meta property="og:image" content="https://nouraldeentofi.com/assets/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Google Review Reply Manager: Automatic Google review replies with n8n">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://nouraldeentofi.com/assets/img/workflows/google-review-reply.webp">
+<meta name="twitter:image" content="https://nouraldeentofi.com/assets/img/og.png">
 <meta name="author" content="Nour Aldeen Tofi">
 <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-5FG7CGJF"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());</script>
@@ -50,10 +50,10 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <link rel="stylesheet" href="/assets/css/tokens.css?v=9e291487">
 <link rel="stylesheet" href="/assets/css/base.css?v=52040e91">
 <link rel="stylesheet" href="/assets/css/layout.css?v=f9c9bdc0">
-<link rel="stylesheet" href="/assets/css/components.css?v=cb1c85f9">
+<link rel="stylesheet" href="/assets/css/components.css?v=73c51bc3">
 <link rel="stylesheet" href="/assets/css/motion.css?v=0828308a">
 <link rel="stylesheet" href="/assets/css/gallery.css?v=54f99880">
-<link rel="stylesheet" href="/assets/css/detail.css?v=a91f1d6a">
+<link rel="stylesheet" href="/assets/css/detail.css?v=9862b87e">
 <link rel="stylesheet" href="/assets/css/responsive.css?v=a7c809d0">
 <script type="application/ld+json">
 {
@@ -158,7 +158,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
         </a>
         <a class="brand__name" href="/en/">Nour Aldeen Tofi</a>
       </div>
-      <nav class="site-nav" aria-label="Home">
+      <nav class="site-nav" aria-label="Main menu">
           <a href="/en/">Home</a>
           <a href="/en/about">About</a>
           <a href="/en/work">Experience</a>
@@ -186,7 +186,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
         </ol>
       </nav>
       <h1>Google Review Reply Manager</h1>
-      <p class="hero__headline">Automatic replies to Google reviews with n8n</p>
+      <p class="hero__headline">Automatic Google review replies with n8n</p>
       <p class="card__meta detail__meta"><span class="status status--built">Built and tested</span><span>For shops</span><span>Review management for shops</span><span>2026</span></p>
       <p class="hero__intro">New Google reviews are picked up on a schedule and answered in the reviewer&#39;s own language. Happy reviews get a reply on their own; unhappy ones go to the owner on Telegram, who approves or skips with one tap.</p>
     </div>
@@ -214,7 +214,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
   <div class="detail__part">
     <div class="section__head" data-reveal>
       <div class="section__titlebar"><h2>How it works</h2></div>
-      <p class="section__lead">Every diagram is drawn from the real node graph, with names simplified and nothing sensitive in it.</p>
+      <p class="section__lead">The steps are listed in the order the graph reaches them, so where the diagram splits, its branches follow one another in the list. A step that ends in a question mark is a fork: a run takes a single branch after it, as the diagram shows.</p>
     </div>
     <ol class="steps steps--row detail__steps">
       <li class="steps__item" data-reveal>
@@ -258,6 +258,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
         <p>Mark as skipped</p>
       </li>
     </ol>
+    <p class="detail__note" data-reveal>The diagram is drawn from the real node graph, with names simplified and nothing sensitive in it.</p>
     <figure class="system__diagram">
     <div class="wf-frame">
       <svg class="wf" viewBox="0 0 1050 194" width="1050" height="194" role="img" aria-labelledby="wf-google-review-reply-en-t wf-google-review-reply-en-d" style="--wf-w:1050px">
@@ -346,10 +347,10 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
       <div class="section__titlebar"><h2>The real canvas in n8n</h2></div>
     </div>
     <figure class="canvas-shot" data-reveal>
-      <div class="canvas-shot__scroll" role="group" aria-label="Google Review Reply Manager: The real canvas in n8n" tabindex="0" style="--canvas-h:741px">
-        <img src="/assets/img/workflows/google-review-reply.webp" alt="Google Review Reply Manager: The real canvas in n8n" width="1559" height="741" loading="lazy" decoding="async">
+      <div class="canvas-shot__scroll" role="group" aria-labelledby="canvas-caption-google-review-reply" tabindex="0" style="--canvas-h:741px">
+        <img src="/assets/img/workflows/google-review-reply.webp" alt="Screenshot of the n8n canvas showing the nodes of Google Review Reply Manager and how they connect" width="1559" height="741" loading="lazy" decoding="async">
       </div>
-      <figcaption class="canvas-shot__caption"><span>Google Review Reply Manager: The real canvas in n8n</span><span class="canvas-shot__hint">Scroll sideways to follow the whole flow</span></figcaption>
+      <figcaption class="canvas-shot__caption"><span id="canvas-caption-google-review-reply">Google Review Reply Manager: The real canvas in n8n</span><span class="canvas-shot__hint">Scroll sideways to follow the whole flow</span></figcaption>
     </figure>
   </div>
   <div class="detail__part">
@@ -363,7 +364,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
       <span>Google Review Reply Manager · The real canvas in n8n <span class="lightbox__hint">Scroll sideways to follow the whole flow</span></span>
       <form method="dialog"><button class="lightbox__close" aria-label="Close">&times;</button></form>
     </div>
-    <div class="lightbox__body"><img src="/assets/img/workflows/google-review-reply.webp" alt="Google Review Reply Manager: The real canvas in n8n" width="1559" height="741" loading="lazy" decoding="async"></div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/google-review-reply.webp" alt="Screenshot of the n8n canvas showing the nodes of Google Review Reply Manager and how they connect" width="1559" height="741" loading="lazy" decoding="async"></div>
   </dialog>
 </div>
     </div>
@@ -383,17 +384,17 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <article data-reveal class="card">
   <p class="card__meta"><span class="status status--client">Running for a client</span><span>2026</span></p>
   <h3 class="card__title"><a href="/en/automation/receipt-verify">Transfer Receipt Check</a></h3>
-  <p class="card__body">Bank transfer receipts read and checked by AI vision</p>
+  <p class="card__body">Bank transfer receipts read by AI vision</p>
 </article>
 <article data-reveal class="card">
   <p class="card__meta"><span class="status status--built">Built and tested</span><span>2026</span></p>
   <h3 class="card__title"><a href="/en/automation/whatsapp-booking">WhatsApp Booking Bot</a></h3>
-  <p class="card__body">Shop bookings through WhatsApp buttons, built with n8n</p>
+  <p class="card__body">Shop bookings through buttons, built with n8n</p>
 </article>
 <article data-reveal class="card">
   <p class="card__meta"><span class="status status--built">Built and tested</span><span>2026</span></p>
   <h3 class="card__title"><a href="/en/automation/social-auto-publisher">Social Auto-Publisher</a></h3>
-  <p class="card__body">Social media posts with AI captions and branded images</p>
+  <p class="card__body">Posts with AI captions and branded images</p>
 </article>
       </div>
     </div>
@@ -422,7 +423,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
       </ul>
     </div>
   </footer>
-  <nav class="mobile-tabs" aria-label="Home">
+  <nav class="mobile-tabs" aria-label="Page tabs">
     <a href="/en/"><span>Home</span></a>
     <a href="/en/about"><span>About</span></a>
     <a href="/en/work"><span>Work</span></a>

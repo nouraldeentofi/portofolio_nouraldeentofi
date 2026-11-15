@@ -16,11 +16,22 @@ import { loadDb } from '../scripts/lib/load.mjs';
 import { PAGES, LANGS, pagePath } from '../scripts/lib/sitemap.mjs';
 import { buildSite, sitePages, pageFile } from '../scripts/lib/site.mjs';
 import { detailPages } from '../scripts/lib/details.mjs';
-import { shotAlt, tagsOf, aboutPortrait } from '../scripts/lib/blocks.mjs';
-import { LASTMOD_FILE, pageFingerprint, stampPages, pageDates, latestChange, serializeState } from '../scripts/lib/lastmod.mjs';
+import { shotAlt, tagsOf, aboutPortrait, ROBOTS_INDEXABLE, ROBOTS_NOINDEX } from '../scripts/lib/blocks.mjs';
+import { LASTMOD_FILE, pageFingerprint, parseState, stampPages, pageDates, latestChange, serializeState } from '../scripts/lib/lastmod.mjs';
 import { ogCardFields, renderOgCard } from '../scripts/lib/og.mjs';
 import { hostedEntries } from '../scripts/lib/hosting.mjs';
-import { parseHeaders, parseRedirects, emDashHits, fingerprintedImages, PUBLIC_HAND_KEPT } from '../scripts/lib/gates.mjs';
+import {
+  parseHeaders,
+  parseRedirects,
+  emDashHits,
+  fingerprintedImages,
+  PUBLIC_HAND_KEPT,
+  relativeAddresses,
+  searchHeadProblems,
+  sitemapEntries,
+  sitemapProblems,
+  lastmodProblems,
+} from '../scripts/lib/gates.mjs';
 
 const loaded = loadDb('data');
 const DAY = '2026-11-15';
@@ -215,6 +226,28 @@ test('the portrait is laid out with logical properties, so the Arabic page mirro
   // One column on a phone, two from a tablet up.
   assert.match(rules, /@media \(min-width: 900px\) \{\s*\.about-intro \{[^}]*grid-template-columns:/);
   assert.ok(!readFileSync('assets/css/rtl.css', 'utf8').includes('about-'), 'it needs no right-to-left override');
+
+  // Stacked above the story it stands in the middle of the column, in either
+  // direction; beside the story it goes back to the edge of its own column.
+  const [stacked, wide] = rules.split('@media (min-width: 900px)');
+  assert.match(stacked, /\.about-portrait \{[^}]*margin-inline: auto;/);
+  assert.match(stacked, /\.about-portrait figcaption \{[^}]*text-align: center;/);
+  assert.match(wide, /\.about-portrait \{[^}]*margin-inline: 0;/);
+  assert.match(wide, /\.about-portrait figcaption \{ text-align: start; \}/);
+});
+
+/* The contact page scrolled sideways on a phone: one badge, "Riyadh and
+   anywhere in Saudi Arabia (open to relocation)", was held to a single line
+   wider than the screen. A badge longer than its row breaks inside itself. */
+test('a badge may wrap, so a long one cannot push the page sideways', () => {
+  const css = readFileSync('assets/css/components.css', 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+  const badge = css.match(/\.badge \{[^}]*\}/)[0];
+  assert.ok(!/white-space:\s*nowrap/.test(badge), '.badge is held to one line again');
+  assert.match(badge, /max-inline-size: 100%;/);
+  assert.match(css.match(/\.badges \{[^}]*\}/)[0], /flex-wrap: wrap;/);
+  // The longest ones are on the contact page, where it showed.
+  const longest = Math.max(...Object.values(db.profile.availability.areas).flat().map((a) => a.length));
+  assert.ok(longest > 40, 'the badge that caused it is gone; the rule still stands');
 });
 
 /* ------------------------------------------------------- the share card */
@@ -320,12 +353,26 @@ test('what a page says about him in its markup is on that page', () => {
     assert.ok(lang);
   }
 
-  // On the contact page, what he is looking for is shown role by role and place by place.
-  for (const lang of LANGS) {
-    const doc = html('contact', lang);
+  // What he is looking for is read role by role and place by place, on every
+  // page whose node says it. That is the contact page, and no other: the
+  // about page speaks of the roles in its own words, which is not the same
+  // as showing them.
+  const seeking = [];
+  for (const { lang, page, at, doc } of everyPage) {
+    const p = person(doc);
+    if (!('seeks' in p)) continue;
+    seeking.push(page);
     const text = visibleText(doc);
-    for (const role of db.profile.availability.roles[lang]) assert.ok(text.includes(role), `${lang}: ${role}`);
-    for (const area of person(doc).seeks.areaServed) assert.ok(text.includes(area), `${lang}: ${area}`);
+    assert.equal(p.seeks.name, db.profile.availability.roles[lang].join(', '), at);
+    for (const role of db.profile.availability.roles[lang]) assert.ok(text.includes(role), `${at}: "${role}" is in the markup but not on the page`);
+    assert.deepEqual(p.seeks.areaServed, db.profile.availability.areas[lang], at);
+    for (const area of p.seeks.areaServed) assert.ok(text.includes(area), `${at}: "${area}" is in the markup but not on the page`);
+  }
+  assert.deepEqual(seeking, ['contact', 'contact']);
+  // The reason the about page does not carry it: not every role is printed there.
+  for (const lang of LANGS) {
+    const text = visibleText(html('about', lang));
+    assert.ok(db.profile.availability.roles[lang].some((role) => !text.includes(role)), `${lang}: the about page now shows every role, so its node may say so`);
   }
   // The slim node is what makes the difference in weight: the page of one
   // project no longer ships sixty skills and twelve certificates.
@@ -369,7 +416,10 @@ test('the larger icon is declared first, and the file names have not moved', () 
 /* ------------------------------------------------- hand-kept public files */
 
 test('the public files written by hand carry no em dash', () => {
-  assert.deepEqual(PUBLIC_HAND_KEPT, ['robots.txt', 'mcp/README.md']);
+  assert.deepEqual(PUBLIC_HAND_KEPT, ['robots.txt', 'humans.txt', 'mcp/README.md']);
+  for (const file of PUBLIC_HAND_KEPT) assert.ok(existsSync(file), `${file}: listed, but not there to be read`);
+  // The description in package.json is not served, and is held to the rule all the same.
+  assert.deepEqual(emDashHits(JSON.parse(readFileSync('package.json', 'utf8')).description), []);
   for (const file of PUBLIC_HAND_KEPT) assert.deepEqual(emDashHits(readFileSync(file, 'utf8')), [], file);
 
   assert.deepEqual(emDashHits('a comma, a colon: words'), []);
@@ -521,20 +571,183 @@ test('the pieces of the date mechanism are pure and say what they do', () => {
   assert.ok(!/new Date|Date\.now/.test(readFileSync('scripts/lib/lastmod.mjs', 'utf8')), 'lastmod.mjs reads the clock');
 });
 
-/* The state is committed with the pages. If it and the pages ever part, the
-   dates in the sitemap are no longer the days the pages changed. */
-test('the committed state matches the committed pages and sitemap', () => {
-  const state = JSON.parse(readFileSync(LASTMOD_FILE, 'utf8'));
+/* The state is committed with the pages. If it and the sitemap ever part,
+   the dates in the sitemap are no longer the days the pages changed.
+
+   This runs before the build (`npm run check` is test, build, validate), so
+   it holds the committed files to one another and to nothing else. Whether
+   there is an entry for every page of the data is checked after the build,
+   by `validate`: asked here, it failed the first run after an entry was
+   added to `data/`, before the build that would have written it. */
+test('the committed state and the committed sitemap give the same dates', () => {
+  const state = parseState(readFileSync(LASTMOD_FILE, 'utf8'));
   const sitemap = readFileSync('sitemap.xml', 'utf8');
   assert.ok(!/<priority>|<changefreq>/.test(sitemap));
-  for (const lang of LANGS) {
-    for (const page of sitePages(db)) {
-      const address = pagePath(page, lang);
-      assert.ok(state[address], `${LASTMOD_FILE}: no entry for ${address}; run npm run build`);
-      assert.match(state[address].date, /^\d{4}-\d{2}-\d{2}$/);
-      assert.match(sitemap, new RegExp(`<loc>${site}${address}</loc>(?:(?!</url>)[\\s\\S])*<lastmod>${state[address].date}</lastmod>`), address);
-    }
+  const dates = Object.fromEntries(sitemapEntries(sitemap).map((entry) => [entry.loc, entry.lastmod]));
+  assert.ok(Object.keys(state).length >= PAGES.length * LANGS.length);
+  for (const [address, kept] of Object.entries(state)) {
+    assert.match(kept.hash, /^[0-9a-f]{16}$/, address);
+    assert.match(kept.date, /^\d{4}-\d{2}-\d{2}$/, address);
+    assert.equal(dates[`${site}${address}`], kept.date, `sitemap.xml and ${LASTMOD_FILE} disagree about ${address}; run npm run build`);
   }
-  assert.equal(Object.keys(state).length, sitePages(db).length * LANGS.length);
-  assert.equal(PAGES.length > 0, true);
+  // Every dated entry of the sitemap is one the state vouches for.
+  for (const [loc, date] of Object.entries(dates)) {
+    if (date) assert.equal(state[loc.replace(site, '')]?.date, date, `${loc} is dated, but ${LASTMOD_FILE} does not know it`);
+  }
+});
+
+/* A data file that gains an entry must not stop the tests before the build
+   has had its turn: built in memory with one more project, everything this
+   file checks about dates still holds against the state the build writes. */
+test('an entry added to the data does not need the committed files to know it yet', () => {
+  const committed = parseState(readFileSync(LASTMOD_FILE, 'utf8'));
+  const more = { ...loaded, projects: [...loaded.projects, { ...loaded.projects.at(-1), id: 'one-more', name: 'One More', headline: { en: 'A page that is new today', ar: 'صفحة جديدة اليوم' } }] };
+  const built = build('2027-03-01', committed, more);
+  const state = stateOf(built);
+  assert.equal(state['/en/projects/one-more'].date, '2027-03-01');
+  assert.ok(!('/en/projects/one-more' in committed));
+  assert.deepEqual(lastmodProblems(built.get('sitemap.xml'), state, LANGS.map((lang) => ({ address: pagePath('projects/one-more', lang), html: built.get(pageFile('projects/one-more', lang)) })), site), []);
+});
+
+/* ------------------------------------------- the state file, read strictly */
+
+/* A state that cannot be read used to count as no state at all: every page
+   was dated today, the build wrote that down, and nothing ever reported it.
+   Only a file that is not there starts from nothing. */
+test('only a missing state file starts from nothing; one that cannot be read stops the build', () => {
+  assert.deepEqual(parseState(null), {});
+  assert.deepEqual(parseState(undefined), {});
+  assert.deepEqual(parseState('{}'), {});
+  const kept = { '/en/about': { hash: '0123456789abcdef', date: '2026-11-15' } };
+  assert.deepEqual(parseState(serializeState(kept)), kept);
+
+  for (const broken of ['', '<<<<<<< HEAD\n{}\n=======\n{}\n>>>>>>> other', '{ "/en/about": { "hash": "0123', '{"a":1},']) {
+    assert.throws(() => parseState(broken), /scripts\/lastmod\.json is not valid JSON[\s\S]*restore scripts\/lastmod\.json from git/, JSON.stringify(broken));
+  }
+  for (const wrong of ['null', '[]', '"2026-11-15"', '42', 'true']) {
+    assert.throws(() => parseState(wrong), /does not hold one entry per page/, wrong);
+  }
+
+  // What reading such a file as "no state" would have done: one date for every page.
+  const pages = [{ address: '/a', html: '<main id="main">a</main>' }, { address: '/b', html: '<main id="main">b</main>' }];
+  const before = stampPages(pages, {}, '2026-01-01');
+  for (const lost of [null, [], {}]) assert.deepEqual(pageDates(stampPages(pages, lost, '2026-09-09')), { '/a': '2026-09-09', '/b': '2026-09-09' });
+  assert.deepEqual(pageDates(stampPages(pages, before, '2026-09-09')), { '/a': '2026-01-01', '/b': '2026-01-01' });
+
+  // The build reads the file through it, and forgives nothing but a missing file.
+  const script = readFileSync('scripts/build.mjs', 'utf8');
+  const reader = script.slice(script.indexOf('function lastmodState()'), script.indexOf('function main()'));
+  assert.match(reader, /err\.code !== 'ENOENT'\) throw/);
+  assert.match(reader, /return parseState\(text\);/);
+  assert.ok(!/catch \{\s*return \{\};/.test(reader), 'any failure to read the state is swallowed again');
+});
+
+/* ------------------------------------------ gates on what the build writes */
+
+/* validate runs these on every page and on the sitemap. Each is fed the real
+   output, which must pass, and then a broken one, which must not. */
+
+test('the gate for relative addresses passes the pages and catches each kind', () => {
+  for (const { at, doc } of everyPage) assert.deepEqual(relativeAddresses(doc), [], at);
+
+  assert.deepEqual(relativeAddresses('<link rel="stylesheet" href="assets/css/base.css">'), ['href="assets/css/base.css"']);
+  assert.deepEqual(relativeAddresses('<img src="../assets/img/nour.jpg" alt="">'), ['src="../assets/img/nour.jpg"']);
+  assert.deepEqual(relativeAddresses('<a class="btn" href="about">About</a> <form action="send.php">'), ['href="about"', 'action="send.php"']);
+  assert.deepEqual(relativeAddresses('<video poster="shot.png"></video><img srcset="a.png 2x" src="/a.png">'), ['poster="shot.png"', 'srcset="a.png 2x"']);
+  // From the root, on another host, inside the page, or not an address to fetch.
+  const fine = '<a href="/en/about">a</a><a href="https://example.com/x">b</a><a href="#main">c</a><a href="mailto:a@b.c">d</a><a href="tel:+1">e</a><img src="data:image/png;base64,AA==" alt="">';
+  assert.deepEqual(relativeAddresses(fine), []);
+});
+
+test('the gate for the head of a page passes the pages and catches each way of leaving search', () => {
+  const rules = { indexable: ROBOTS_INDEXABLE, noindex: ROBOTS_NOINDEX };
+  for (const { lang, page, at, doc } of everyPage) {
+    const own = page === '404' ? null : `${site}${pagePath(page, lang)}`;
+    assert.deepEqual(searchHeadProblems(doc, { own, ...rules }), [], at);
+  }
+
+  const own = `${site}/en/projects/khatm`;
+  const good = html('projects/khatm', 'en');
+  const broken = (change) => searchHeadProblems(change(good), { own, ...rules });
+  // A canonical that hands the page's place to the list, a second one, none at all.
+  assert.match(broken((d) => d.replace(`<link rel="canonical" href="${own}">`, `<link rel="canonical" href="${site}/en/projects">`))[0], /canonical must be exactly .*\/en\/projects\/khatm, found .*\/en\/projects$/);
+  assert.equal(broken((d) => d.replace('<link rel="canonical"', `<link rel="canonical" href="${site}/en/">\n<link rel="canonical"`)).length, 1);
+  assert.match(broken((d) => d.replace(`<link rel="canonical" href="${own}">`, ''))[0], /found none/);
+  assert.match(broken((d) => d.replace(own, `${own}.html`))[0], /canonical must be exactly/);
+  // A noindex, a second robots meta, a robots meta that drops the large preview, none.
+  assert.ok(broken((d) => d.replace(`content="${ROBOTS_INDEXABLE}"`, 'content="noindex, follow"')).some((p) => p.includes('carries noindex')));
+  assert.match(broken((d) => d.replace('<meta name="robots"', '<meta name="robots" content="max-snippet:-1">\n<meta name="robots"'))[0], /expected one robots meta/);
+  assert.match(broken((d) => d.replace(`content="${ROBOTS_INDEXABLE}"`, 'content="max-snippet:-1"'))[0], /expected one robots meta with "max-image-preview:large/);
+  assert.match(broken((d) => d.replace(`<meta name="robots" content="${ROBOTS_INDEXABLE}">`, ''))[0], /found none/);
+
+  // The 404 page: exactly one noindex, and no address named as its own.
+  const lost = html('404', 'en');
+  const brokenLost = (change) => searchHeadProblems(change(lost), { own: null, ...rules });
+  assert.match(brokenLost((d) => d.replace(ROBOTS_NOINDEX, ROBOTS_INDEXABLE))[0], /must carry exactly one robots meta, "noindex, follow"/);
+  assert.match(brokenLost((d) => d.replace('<meta name="robots"', '<meta name="robots" content="noindex">\n<meta name="robots"'))[0], /exactly one robots meta/);
+  assert.match(brokenLost((d) => d.replace('</title>', `</title>\n<link rel="canonical" href="${site}/">`))[0], /carries a canonical/);
+  assert.match(brokenLost((d) => d.replace('</title>', `</title>\n<link rel="alternate" hreflang="ar" href="${site}/">`))[0], /carries hreflang links/);
+  assert.match(brokenLost((d) => d.replace('</title>', `</title>\n<meta property="og:url" content="${site}/">`))[0], /carries og:url/);
+  // A page held to the wrong rule fails it: the two kinds cannot be confused.
+  assert.ok(searchHeadProblems(lost, { own, ...rules }).length > 0 && searchHeadProblems(good, { own: null, ...rules }).length > 0);
+});
+
+test('the gate for the sitemap passes the build and catches a page missing, listed twice, or not a page', () => {
+  const xml = files.get('sitemap.xml');
+  const pages = LANGS.flatMap((lang) => sitePages(db).map((page) => `${site}${pagePath(page, lang)}`));
+  const hosted = hostedEntries(db.hosting);
+  const closed = [`${site}/sites/kept-out/`];
+  const check = (text, over = {}) => sitemapProblems(text, { site, pages, hosted, closed, ...over });
+  assert.deepEqual(check(xml), []);
+  assert.equal(sitemapEntries(xml).length, pages.length + hosted.length);
+
+  const url = (loc) => `  <url>\n    <loc>${loc}</loc>\n  </url>\n`;
+  const add = (loc) => xml.replace('</urlset>', `${url(loc)}</urlset>`);
+  const about = `${site}/en/about`;
+  // A page that is not listed, and one listed twice.
+  assert.deepEqual(check(xml.replace(new RegExp(`  <url>\\s*<loc>${about}</loc>[\\s\\S]*?</url>\\n`), '')), [`sitemap.xml: ${about} must be listed exactly once`]);
+  assert.deepEqual(check(add(about)), [`sitemap.xml: ${about} must be listed exactly once`]);
+  // A page the data has and the sitemap does not know yet.
+  assert.deepEqual(check(xml, { pages: [...pages, `${site}/en/projects/one-more`] }), [`sitemap.xml: ${site}/en/projects/one-more must be listed exactly once`]);
+  // An address on this host that is neither a page nor the entry of a copy.
+  for (const stray of [`${site}/en/about.html`, `${site}/en/projects/gone`, `${site}/data/profile.json`, `${site}/sites/aya-rady/about`, site]) {
+    assert.deepEqual(check(add(stray)), [`sitemap.xml: lists ${stray}, which is neither a page the build writes nor the entry of a copy`], stray);
+  }
+  // A copy that is meant to be found and is not offered, and one kept out of search that is.
+  if (hosted.length) assert.match(check(xml, { hosted: [...hosted, `${site}/sites/new-client/`] })[0], /sites\/new-client\/ must be listed exactly once \(data\/hosting\.json/);
+  assert.deepEqual(check(add(`${site}/sites/kept-out/`)), [`sitemap.xml: lists ${site}/sites/kept-out/, but data/hosting.json keeps ${site}/sites/kept-out/ out of search`]);
+  assert.match(check(add(`${site}/sites/kept-out/menu`))[0], /keeps .*\/sites\/kept-out\/ out of search/);
+  // Another host is not this gate's business; the two tags Google ignores are.
+  assert.deepEqual(check(add('https://example.com/')), []);
+  assert.deepEqual(check(xml.replace('</loc>', '</loc>\n    <priority>0.8</priority>')), ['sitemap.xml: carries <priority> or <changefreq>, which Google ignores']);
+  assert.equal(check(xml.replace('</loc>', '</loc>\n    <changefreq>daily</changefreq>')).length, 1);
+});
+
+test('the gate for the dates passes the build and catches a page, a state or a sitemap that moved alone', () => {
+  const first = build(DAY);
+  const xml = first.get('sitemap.xml');
+  const state = stateOf(first);
+  const pages = LANGS.flatMap((lang) => sitePages(db).map((page) => ({ address: pagePath(page, lang), html: first.get(pageFile(page, lang)) })));
+  assert.deepEqual(lastmodProblems(xml, state, pages, site), []);
+
+  const about = pages.find((p) => p.address === '/en/about');
+  const only = (change) => lastmodProblems(change.xml ?? xml, change.state ?? state, [change.page ?? about], site);
+  // The page was edited by hand after the build.
+  assert.deepEqual(only({ page: { ...about, html: about.html.replace('</main>', '<p>One more line.</p></main>') } }), [`${LASTMOD_FILE}: /en/about has changed since its date was recorded; run npm run build`]);
+  // The state lost the page, lost its date, or was given another one.
+  const { '/en/about': kept, ...rest } = state;
+  assert.deepEqual(only({ state: rest }), [`${LASTMOD_FILE}: no entry for /en/about; run npm run build`]);
+  assert.ok(only({ state: { ...rest, '/en/about': { hash: kept.hash } } }).some((p) => p === `${LASTMOD_FILE}: /en/about has no date`));
+  assert.deepEqual(only({ state: { ...rest, '/en/about': { ...kept, date: '2026-01-01' } } }), [`sitemap.xml: lastmod of /en/about is ${DAY}, but its content last changed on 2026-01-01`]);
+  assert.match(only({ state: { ...rest, '/en/about': { ...kept, hash: 'ffffffffffffffff' } } })[0], /has changed since its date was recorded/);
+  // The sitemap was edited: another day, or no day.
+  const entry = new RegExp(`(<loc>${site}/en/about</loc>\\s*)<lastmod>${DAY}</lastmod>`);
+  assert.deepEqual(only({ xml: xml.replace(entry, '$1<lastmod>2027-01-01</lastmod>') }), [`sitemap.xml: lastmod of /en/about is 2027-01-01, but its content last changed on ${DAY}`]);
+  assert.deepEqual(only({ xml: xml.replace(entry, '$1') }), [`sitemap.xml: lastmod of /en/about is missing, but its content last changed on ${DAY}`]);
+  // No state at all: every page is reported, not passed over.
+  assert.equal(lastmodProblems(xml, {}, pages, site).length, pages.length);
+
+  // validate hands each of these gates the real files.
+  const validate = readFileSync('scripts/validate.mjs', 'utf8');
+  for (const gate of ['relativeAddresses(html)', 'searchHeadProblems(html,', 'sitemapProblems(xml,', 'lastmodProblems(xml, state,']) assert.ok(validate.includes(gate), `validate.mjs no longer runs ${gate}`);
 });

@@ -24,12 +24,18 @@ https://nouraldeentofi.pages.dev/*
 # Scripts import one another by bare address (main.js imports ./motion.js),
 # so a fingerprint on the first one cannot refresh the rest. They are small:
 # the browser asks each time and is told "not modified".
+#
+# This rule and the one for pictures below reach a browser only while the
+# Cloudflare zone is set to Caching, Configuration, Browser Cache TTL:
+# Respect Existing Headers. With any other value Cloudflare replaces this
+# header with its own time. README.md (Deploying) has the two checks.
 /assets/js/*
   Cache-Control: public, max-age=0, must-revalidate
 
 # A picture has one address, with no fingerprint, so that the page, og:image
 # and the structured data all name the same one. A re-shot screenshot keeps
 # its name, so the browser checks for a newer one instead of trusting its copy.
+# Depends on the same Cloudflare setting as the rule for scripts above.
 /assets/img/*
   Cache-Control: public, max-age=0, must-revalidate
 

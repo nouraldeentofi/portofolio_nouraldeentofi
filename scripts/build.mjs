@@ -15,7 +15,7 @@ import { loadDb } from './lib/load.mjs';
 import { LANGS } from './lib/sitemap.mjs';
 import { DETAIL_FOLDERS, staleDetailFiles } from './lib/details.mjs';
 import { buildSite } from './lib/site.mjs';
-import { LASTMOD_FILE } from './lib/lastmod.mjs';
+import { LASTMOD_FILE, parseState } from './lib/lastmod.mjs';
 
 /**
  * Midnight today in Riyadh, as a full timestamp with its offset.
@@ -52,13 +52,19 @@ function generatedDetailFiles() {
  * What the last build recorded about each page: a hash of its content and
  * the day that content was first seen. Committed with the pages. Without the
  * file every page is new, and is dated today.
+ *
+ * Only a file that is not there counts as "without the file". One that
+ * cannot be opened, or that does not hold the state, stops the build
+ * (`parseState`): starting from nothing would re-date every page.
  */
 function lastmodState() {
+  let text = null;
   try {
-    return JSON.parse(readFileSync(LASTMOD_FILE, 'utf8'));
-  } catch {
-    return {};
+    text = readFileSync(LASTMOD_FILE, 'utf8');
+  } catch (err) {
+    if (err.code !== 'ENOENT') throw new Error(`${LASTMOD_FILE} cannot be read (${err.code ?? err.message})`);
   }
+  return parseState(text);
 }
 
 function main() {
@@ -81,7 +87,7 @@ function main() {
   console.log(`build: wrote ${pending.size} files`);
   if (stale.length) console.log(`build: removed ${stale.length} page(s) whose entry is gone: ${stale.join(', ')}`);
   if (pending_todos.length) {
-    console.log(`build: ${pending_todos.length} link(s) still pending — ${pending_todos.join(', ')}`);
+    console.log(`build: ${pending_todos.length} link(s) still pending: ${pending_todos.join(', ')}`);
   }
 }
 

@@ -136,10 +136,18 @@ Two optional fields shape the page:
 
 - `headline` (`{ "en", "ar" }`): one line that says what the thing is in the words
   people search for. It is the line under the heading and the second half of the page
-  title. It may say no more than the rest of the entry does.
+  title. It may say no more than the rest of the entry does, and it leaves out what the
+  name already says: the title `<name>: <headline>` is held to eighty characters, and to
+  seventy unless the name alone is long.
 - `workflow` on a project: the id of the n8n workflow that is its engine. That workflow
   is then shown in full on the project's page ("The automation behind it") and gets no
   page of its own; its card on the automation page leads to the project.
+
+The card of a project on `/projects` is a summary (what it is, his role, the figures, the
+stack). The problem, what he built and the context are told on its own page only, so the
+list does not repeat its detail pages. A detail page is shared with a picture only when
+there is a PNG or a JPEG to share: the screenshots and canvases are WebP, which some
+link previews do not show, so for now every detail page names the site's share card.
 
 ---
 
@@ -186,7 +194,9 @@ at the root that is neither listed there nor part of the site.
 Two modules under `scripts/lib/` are worth knowing before you touch a page:
 `offers.mjs` ties each thing he offers to the page or the systems it leads to, and
 `gates.mjs` holds the checks `validate` runs on the files written by hand (`_redirects`,
-`_headers`, `robots.txt`, `mcp/README.md`). The misspelling of his family name that
+`_headers`, `robots.txt`, `humans.txt`, `mcp/README.md`) and on what the build writes
+(relative addresses, the canonical and robots meta of each page, the sitemap and
+`scripts/lastmod.json`). The misspelling of his family name that
 people type lives only in `nameMisspellings` in `data/profile.json` and ships only as an
 `alternateName` in the structured data; `gates.mjs` fails the build if it shows anywhere
 a reader looks.
@@ -200,6 +210,33 @@ name no address as their own.
 a full copy of the site, and a canonical `Link` header with the CV so its fingerprinted
 links all count as one document. `validate` fails if a noindex rule is ever written for
 anything but a `pages.dev` host, or if the canonical stops matching `data/profile.json`.
+
+#### One setting in Cloudflare: Browser Cache TTL
+
+`_headers` also says how long a browser may keep each kind of file: a week for the
+stylesheets, which are fingerprinted, and no time at all for pictures, scripts and the CV
+(`Cache-Control: public, max-age=0, must-revalidate`), which keep their address when they
+change. Those rules reach a visitor only while the Cloudflare zone lets the site's own
+headers stand. This is set once, by the owner, in the Cloudflare dashboard for
+`nouraldeentofi.com`:
+
+**Caching, Configuration, Browser Cache TTL: Respect Existing Headers.**
+
+With any other value Cloudflare replaces `Cache-Control` with its own time (four hours by
+default). That mattered little while every picture carried a `?v=` fingerprint. It matters
+now: a re-shot screenshot keeps its address, so a returning visitor can be shown the old
+one for those four hours, and the modules `main.js` imports by bare address can lag a new
+`main.js` by as long.
+
+Two checks, after the setting is saved and after any change to the caching rules:
+
+```bash
+curl -sI https://nouraldeentofi.com/assets/img/nour.jpg | grep -i cache-control
+curl -sI https://nouraldeentofi.com/assets/js/main.js   | grep -i cache-control
+```
+
+Both must answer `cache-control: public, max-age=0, must-revalidate`. An answer of
+`max-age=14400` means the zone is still overriding the header.
 
 There is no build step on the host, so **the generated files must be committed**. Run
 `npm run check` and commit the result — pushing the source alone deploys nothing.

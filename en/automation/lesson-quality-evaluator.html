@@ -50,10 +50,10 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <link rel="stylesheet" href="/assets/css/tokens.css?v=9e291487">
 <link rel="stylesheet" href="/assets/css/base.css?v=52040e91">
 <link rel="stylesheet" href="/assets/css/layout.css?v=f9c9bdc0">
-<link rel="stylesheet" href="/assets/css/components.css?v=cb1c85f9">
+<link rel="stylesheet" href="/assets/css/components.css?v=73c51bc3">
 <link rel="stylesheet" href="/assets/css/motion.css?v=0828308a">
 <link rel="stylesheet" href="/assets/css/gallery.css?v=54f99880">
-<link rel="stylesheet" href="/assets/css/detail.css?v=a91f1d6a">
+<link rel="stylesheet" href="/assets/css/detail.css?v=9862b87e">
 <link rel="stylesheet" href="/assets/css/responsive.css?v=a7c809d0">
 <script type="application/ld+json">
 {
@@ -158,7 +158,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
         </a>
         <a class="brand__name" href="/en/">Nour Aldeen Tofi</a>
       </div>
-      <nav class="site-nav" aria-label="Home">
+      <nav class="site-nav" aria-label="Main menu">
           <a href="/en/">Home</a>
           <a href="/en/about">About</a>
           <a href="/en/work">Experience</a>
@@ -205,7 +205,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
       </div>
       <aside class="card__aside">
         <dl class="card__body">
-          <dt>Trigger</dt><dd>Webhook (video upload)</dd>
+          <dt>Trigger</dt><dd>Webhook (lesson video URL)</dd>
           <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">AssemblyAI Speaker Diarization</li><li class="badge">OpenAI GPT-4.1 Structured Outputs</li></ul></dd>
         </dl>
       </aside>
@@ -214,7 +214,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
   <div class="detail__part">
     <div class="section__head" data-reveal>
       <div class="section__titlebar"><h2>How it works</h2></div>
-      <p class="section__lead">Every diagram is drawn from the real node graph, with names simplified and nothing sensitive in it.</p>
+      <p class="section__lead">The steps are listed in the order the graph reaches them, so where the diagram splits, its branches follow one another in the list. A step that ends in a question mark is a fork: a run takes a single branch after it, as the diagram shows.</p>
     </div>
     <ol class="steps steps--row detail__steps">
       <li class="steps__item" data-reveal>
@@ -258,6 +258,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
         <p>Return the scorecard <span class="steps__service">Webhook</span></p>
       </li>
     </ol>
+    <p class="detail__note" data-reveal>The diagram is drawn from the real node graph, with names simplified and nothing sensitive in it.</p>
     <figure class="system__diagram">
     <div class="wf-frame">
       <svg class="wf" viewBox="0 0 1190 240" width="1190" height="240" role="img" aria-labelledby="wf-lesson-quality-evaluator-en-t wf-lesson-quality-evaluator-en-d" style="--wf-w:1190px">
@@ -348,10 +349,10 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
       <div class="section__titlebar"><h2>The real canvas in n8n</h2></div>
     </div>
     <figure class="canvas-shot canvas-shot--wide" data-reveal>
-      <div class="canvas-shot__scroll" role="group" aria-label="Lesson Quality Evaluator: The real canvas in n8n" tabindex="0" style="--canvas-h:389px">
-        <img src="/assets/img/workflows/lesson-quality-evaluator.webp" alt="Lesson Quality Evaluator: The real canvas in n8n" width="2158" height="389" loading="lazy" decoding="async">
+      <div class="canvas-shot__scroll" role="group" aria-labelledby="canvas-caption-lesson-quality-evaluator" tabindex="0" style="--canvas-h:389px">
+        <img src="/assets/img/workflows/lesson-quality-evaluator.webp" alt="Screenshot of the n8n canvas showing the nodes of Lesson Quality Evaluator and how they connect" width="2158" height="389" loading="lazy" decoding="async">
       </div>
-      <figcaption class="canvas-shot__caption"><span>Lesson Quality Evaluator: The real canvas in n8n</span><span class="canvas-shot__hint">Scroll sideways to follow the whole flow</span></figcaption>
+      <figcaption class="canvas-shot__caption"><span id="canvas-caption-lesson-quality-evaluator">Lesson Quality Evaluator: The real canvas in n8n</span><span class="canvas-shot__hint">Scroll sideways to follow the whole flow</span></figcaption>
     </figure>
   </div>
   <div class="detail__part">
@@ -365,7 +366,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
       <span>Lesson Quality Evaluator · The real canvas in n8n <span class="lightbox__hint">Scroll sideways to follow the whole flow</span></span>
       <form method="dialog"><button class="lightbox__close" aria-label="Close">&times;</button></form>
     </div>
-    <div class="lightbox__body"><img src="/assets/img/workflows/lesson-quality-evaluator.webp" alt="Lesson Quality Evaluator: The real canvas in n8n" width="2158" height="389" loading="lazy" decoding="async"></div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/lesson-quality-evaluator.webp" alt="Screenshot of the n8n canvas showing the nodes of Lesson Quality Evaluator and how they connect" width="2158" height="389" loading="lazy" decoding="async"></div>
   </dialog>
 </div>
     </div>
@@ -414,7 +415,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
       </ul>
     </div>
   </footer>
-  <nav class="mobile-tabs" aria-label="Home">
+  <nav class="mobile-tabs" aria-label="Page tabs">
     <a href="/en/"><span>Home</span></a>
     <a href="/en/about"><span>About</span></a>
     <a href="/en/work"><span>Work</span></a>

@@ -287,7 +287,7 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 **Flow.** Scrape job API → Crawl worker tick → Plan the job → Quick batch loop → Escalating fetch → Needs AI? → AI field extraction → Collect rows → Dedupe and merge → Excel and Sheets
 
-One link in, the whole site out. A shared engine fetches pages and escalates only as far as it must, reads structured data before it spends anything on AI, and writes the rows into a spreadsheet. Quick jobs and long crawls run as separate, controllable workers.
+A shared engine fetches pages and escalates only as far as it must, reads structured data before it spends anything on AI, and writes the rows into a spreadsheet. Quick jobs and long crawls run as separate, controllable workers.
 
 **Services.** n8n, OpenAI, Google Sheets, Excel, n8n Data Tables, Webhooks
 
@@ -343,7 +343,7 @@ A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia
 
 *Production document AI pipeline* · Live · 1 n8n workflow(s) · trigger: Webhook (image or PDF upload)
 
-**Flow.** Receipt upload → Secret header check → PDF or image? → Read the PDF → Read the image → Parse and validate → Valid receipt? → Reply to app → Reject and clean up → Post to backend
+**Flow.** Invoice upload → Secret header check → PDF or image? → Read the PDF → Read the image → Parse and validate → Valid invoice? → Reply to app → Reject and clean up → Post to backend
 
 The production pipeline behind Smart Scanner. Every invoice, whether a photo or a PDF, is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and Saudi e-invoice fields.
 
@@ -523,13 +523,13 @@ Automated B2B lead generation across the Saudi and Jordanian markets: multi-quer
 - Prioritisation scoring so the best prospects surface first
 - Duplicate-safe appends into segmented sheets
 
-**Outcome.** Manual prospect research became a hands-off scheduled pipeline producing scored, deduplicated lead lists.
+**Outcome.** Prospect research becomes one run that fills prioritised, deduplicated lead lists.
 
 **Page.** https://nouraldeentofi.com/en/automation/smart-lead-finder
 
 ### Lesson Quality Evaluator (2026)
 
-*Video-to-data webhook service* · Built and tested · 1 n8n workflow(s) · trigger: Webhook (video upload)
+*Video-to-data webhook service* · Built and tested · 1 n8n workflow(s) · trigger: Webhook (lesson video URL)
 
 **Flow.** Lesson video URL → Normalize the input → Request transcript → Wait and poll → Transcript finished? → Build evaluation prompt → Transcript OK? → Analyze the lesson → Return an error → Return the scorecard
 

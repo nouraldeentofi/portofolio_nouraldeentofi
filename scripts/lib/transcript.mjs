@@ -13,11 +13,22 @@ import { escapeHtml } from './render.mjs';
 
 const SCRIPTS = { en: EN, ar: AR };
 
-/** Strip presentational markup but keep the words. */
-function textOf(html) {
+/* The entities a chat message may carry, and what each one stands for. */
+const ENTITIES = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'" };
+
+/**
+ * Strip presentational markup but keep the words.
+ *
+ * A chat message is HTML, so an ampersand in it is written `&amp;`. The
+ * entities are read back as the characters they stand for once the tags are
+ * gone, because the transcript escapes its text again: left as they were,
+ * "Python for Data Science &amp; AI" was printed with the entity in it.
+ */
+export function textOf(html) {
   return String(html)
     .replace(/<br\s*\/?>/gi, ' ')
     .replace(/<[^>]+>/g, '')
+    .replace(/&(?:amp|lt|gt|quot|#39);/g, (entity) => ENTITIES[entity])
     .replace(/\s+/g, ' ')
     .trim();
 }

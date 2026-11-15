@@ -29,7 +29,7 @@
       { "value": "494", "label": { "en": "automated tests", "ar": "اختبار آلي" } },
       { "value": "70+", "label": { "en": "fields extracted", "ar": "حقل مُستخرَج" } },
       { "value": "13+", "label": { "en": "server-side filters", "ar": "فلتر على الخادم" } },
-      { "value": "4", "label": { "en": "subscription tiers", "ar": "باقة اشتراك" } },
+      { "value": "4", "label": { "en": "subscription tiers", "ar": "باقات اشتراك" } },
       { "value": "~10s", "label": { "en": "photo to structured data", "ar": "من الصورة إلى بيانات منظّمة" } }
     ],
     "stack": ["React 19", "TypeScript", "Tailwind CSS", "Vitest", "React Testing Library", "n8n", "OpenAI GPT-4.1 Vision", "GitHub Actions", "i18n", "RTL"],
@@ -80,7 +80,7 @@
     "group": "ai",
     "year": "2026",
     "category": { "en": "AI automation product", "ar": "منتج أتمتة بالذكاء الاصطناعي" },
-    "headline": { "en": "Website scraper that turns a whole site into an Excel file", "ar": "سحب بيانات موقع كامل إلى ملف Excel بالذكاء الاصطناعي" },
+    "headline": { "en": "A whole website into one Excel file", "ar": "سحب بيانات موقع كامل إلى ملف Excel" },
     "workflow": "universal-web-scraper",
     "tagline": {
       "en": "One link in, the whole site out: every page discovered, the data classified, and an Excel file with a tab for each kind of data.",
@@ -96,7 +96,7 @@
     },
     "role": { "en": "Full build: interface and automation", "ar": "البناء الكامل: الواجهة والأتمتة" },
     "metrics": [
-      { "value": "1 link", "label": { "en": "to scrape a whole site", "ar": "لسحب موقع كامل" } },
+      { "value": "1", "label": { "en": "link to scrape a whole site", "ar": "رابط يكفي لسحب موقع كامل" } },
       {
         "value": "7",
         "label": { "en": "data categories, one Excel tab each", "ar": "تصنيفات بيانات، لكل منها تبويب Excel" }
@@ -234,7 +234,7 @@
     "group": "tools",
     "year": "2026",
     "category": { "en": "Offline guide · PWA", "ar": "دليل يعمل دون إنترنت · PWA" },
-    "headline": { "en": "Step-by-step Umrah guide that works offline", "ar": "دليل مناسك العمرة خطوة بخطوة، يعمل دون إنترنت" },
+    "headline": { "en": "Step-by-step Umrah guide that works offline", "ar": "دليل مناسك العمرة خطوة بخطوة، دون إنترنت" },
     "tagline": {
       "en": "An interactive Umrah checklist in the order the rites are performed, in ten languages, and built to be used one-handed and offline inside the Haram.",
       "ar": "قائمة تفاعلية لمناسك العمرة بترتيب أدائها، بعشر لغات، ومصمّمة لتُستخدم بيد واحدة ودون إنترنت داخل الحرم."
@@ -286,7 +286,7 @@
     },
     "role": { "en": "Frontend lead", "ar": "قائد الواجهة الأمامية" },
     "metrics": [
-      { "value": "2", "label": { "en": "core modules owned", "ar": "وحدة أساسية" } },
+      { "value": "2", "label": { "en": "core modules owned", "ar": "وحدتان أساسيتان" } },
       { "value": "2", "label": { "en": "languages (AR/EN)", "ar": "لغتان (عربي/إنجليزي)" } }
     ],
     "stack": ["React 19", "Vite", "TypeScript", "Tailwind CSS v4", "Axios", "TanStack React Query", "React Hook Form", "React Router", "Laravel Echo", "@hello-pangea/dnd"],
@@ -328,7 +328,7 @@
     "group": "ai",
     "year": "2026",
     "category": { "en": "AI web app", "ar": "تطبيق ويب بالذكاء الاصطناعي" },
-    "headline": { "en": "Business card scanner that saves straight to contacts", "ar": "قارئ بطاقات العمل يحفظها في جهات الاتصال مباشرة" },
+    "headline": { "en": "Card scanner that saves to contacts", "ar": "قارئ بطاقات العمل يحفظها في جهات الاتصال" },
     "tagline": {
       "en": "Photograph a business card, and it lands in your phone's contacts in one tap.",
       "ar": "صوّر بطاقة العمل، فتصل إلى جهات الاتصال في هاتفك بضغطة واحدة."
@@ -344,7 +344,7 @@
     "role": { "en": "Full build: frontend and automation", "ar": "البناء الكامل: الواجهة والأتمتة" },
     "metrics": [
       { "value": "0", "label": { "en": "lines of custom backend", "ar": "سطر واجهة خلفية مخصّصة" } },
-      { "value": "1 tap", "label": { "en": "to save a contact", "ar": "لحفظ جهة الاتصال" } }
+      { "value": "1", "label": { "en": "tap to save a contact", "ar": "ضغطة لحفظ جهة الاتصال" } }
     ],
     "stack": ["React", "TypeScript", "Tailwind CSS", "n8n", "OpenAI GPT-4o Vision", "Google Sheets", "vCard"],
     "url": null,
@@ -357,7 +357,7 @@
     "group": "ai",
     "year": "2026",
     "category": { "en": "AI tooling", "ar": "أدوات ذكاء اصطناعي" },
-    "headline": { "en": "MCP server that gives an AI model real data to query", "ar": "خادم MCP يتيح للذكاء الاصطناعي الاستعلام من بيانات حقيقية" },
+    "headline": { "en": "Gives an AI model real data to query", "ar": "يتيح للذكاء الاصطناعي الاستعلام من بيانات حقيقية" },
     "tagline": {
       "en": "A Model Context Protocol server that lets an AI model query real data instead of only generating text.",
       "ar": "خادم Model Context Protocol يتيح لنموذج ذكاء اصطناعي أن يستعلم بيانات حقيقية بدل توليد النصوص فقط."
@@ -368,7 +368,7 @@
     },
     "built": {
       "en": "I built an MCP server with custom tools including a search tool, wired it to real data, and connected it to Claude, so a plain-language question like \"what are the details of user 2\" returns the correct record directly. The same pattern powers the MCP server that ships with this portfolio.",
-      "ar": "بنيت خادم MCP بأدوات مخصّصة من بينها أداة بحث، وربطته ببيانات حقيقية، ثم وصلته بـ Claude، بحيث يعيد سؤال بلغة طبيعية مثل «ما تفاصيل المستخدم رقم ٢» السجلّ الصحيح مباشرة. والنمط نفسه يشغّل خادم MCP المرفق مع هذا الموقع."
+      "ar": "بنيت خادم MCP بأدوات مخصّصة من بينها أداة بحث، وربطته ببيانات حقيقية، ثم وصلته بـ Claude، بحيث يعيد سؤال بلغة طبيعية مثل «ما تفاصيل المستخدم رقم 2» السجلّ الصحيح مباشرة. والنمط نفسه يشغّل خادم MCP المرفق مع هذا الموقع."
     },
     "role": { "en": "Full build", "ar": "البناء الكامل" },
     "metrics": [

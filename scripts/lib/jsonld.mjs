@@ -61,9 +61,15 @@ export function credentialsLd(db, lang) {
 
 /**
  * What every page says about him: who he is, what he does, where he is, the
- * portrait in the header and the profiles that are his. Each of these is on
- * every page, and `scripts/validate.mjs` requires name, jobTitle, sameAs and
- * address of any Person node.
+ * portrait in the header and the profiles that are his.
+ *
+ * His name and the portrait are on every page. His title and his address
+ * are not printed on every one of them (a project page shows neither), and
+ * they are kept all the same: they are what makes the node an identity, the
+ * same person on every page, and `scripts/validate.mjs` requires name,
+ * jobTitle, sameAs and address of any Person node. Everything beyond these
+ * is held to the page that shows it (`PERSON_ON_PAGE`), and a test reads
+ * the page for each value.
  */
 const PERSON_EVERYWHERE = ['@context', '@type', '@id', 'name', 'jobTitle', 'url', 'image', 'address', 'sameAs'];
 
@@ -77,14 +83,16 @@ const PERSON_EVERYWHERE = ['@context', '@type', '@id', 'name', 'jobTitle', 'url'
  * The home page is his ProfilePage, so its node is complete as an identity
  * on its own: both halves of the name, every spelling, the description and
  * the languages. The spellings ride on the about page as well, where the
- * answer to "how is his name written" lists them. What he is looking for is
- * said on the about page (in the questions) and on the contact page (role
- * by role). A page that is not listed here, such as the 404 or the page of
- * one project, carries the slim node.
+ * answer to "how is his name written" lists them. What he is looking for
+ * (`seeks`) is on the contact page only, which prints every role and every
+ * place; the about page speaks of them in its own words, in the questions,
+ * and words that paraphrase a value are not that value on the page. A page
+ * that is not listed here, such as the 404 or the page of one project,
+ * carries the slim node.
  */
 export const PERSON_ON_PAGE = {
   '': ['givenName', 'familyName', 'alternateName', 'description', 'knowsLanguage'],
-  about: ['alternateName', 'email', 'knowsAbout', 'hasOccupation', 'seeks'],
+  about: ['alternateName', 'email', 'knowsAbout', 'hasOccupation'],
   work: ['hasCredential', 'alumniOf', 'worksFor'],
   contact: ['email', 'telephone', 'seeks'],
 };

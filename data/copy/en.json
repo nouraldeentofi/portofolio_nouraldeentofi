@@ -17,8 +17,8 @@
         "description": "Experience of Nour Aldeen Tofi as a technical lead and React frontend developer in Saudi Arabia, with recommendations from his project manager and colleagues, certifications and education."
       },
       "projects": {
-        "title": "AI Products and Web Apps: Smart Scanner, CV Screener | Nour Aldeen Tofi",
-        "description": "Smart Scanner reads Arabic invoices with AI, CV Screener ranks CVs with quoted evidence, plus free browser tools and apps built with React, Next.js and n8n. By Nour Aldeen Tofi."
+        "title": "AI Products, Web Apps and Free Browser Tools | Nour Aldeen Tofi",
+        "description": "AI products, free browser tools and apps built by Nour Aldeen Tofi with React, Next.js and n8n: invoice reading, CV screening, web scraping and e-invoicing."
       },
       "showcase": {
         "title": "Website Design in Al Khobar and Dammam | Nour Aldeen Tofi",
@@ -65,6 +65,8 @@
   },
   "ui": {
     "skipToContent": "Skip to content",
+    "navMain": "Main menu",
+    "navTabs": "Page tabs",
     "toggleTheme": "Toggle colour theme",
     "viewProject": "View project",
     "allProjects": "All projects",
@@ -73,6 +75,7 @@
     "details": "Details",
     "breadcrumb": "Breadcrumb",
     "visitLive": "Visit live site",
+    "visitPlay": "View on Google Play",
     "downloadCv": "Download CV",
     "to": "to",
     "toPresent": "to present",
@@ -105,6 +108,7 @@
     "nodesUnit": "nodes",
     "canvasOf": "n8n canvas: {name}",
     "canvasCaption": "The real canvas in n8n",
+    "canvasAlt": "Screenshot of the n8n canvas showing the nodes of {name} and how they connect",
     "panHint": "Scroll sideways to follow the whole flow",
     "closeCanvas": "Close",
     "idea": "The idea",
@@ -141,7 +145,7 @@
     ],
     "proofLabel": "In numbers",
     "featuredLabel": "Featured work",
-    "automationLabel": "Automation Lab",
+    "automationLabel": "Automation systems",
     "automationLead": "Production workflows and agents, not demos. Each one replaced work someone used to do by hand.",
     "projectsLabel": "Products & platforms",
     "projectsLead": "Interfaces and applications I designed, built, or shipped end to end.",
@@ -344,6 +348,8 @@
     "engineTitle": "The automation behind it",
     "handles": "What it handles",
     "how": "How it works",
+    "howNote": "The steps are listed in the order the graph reaches them, so where the diagram splits, its branches follow one another in the list. A step that ends in a question mark is a fork: a run takes a single branch after it, as the diagram shows.",
+    "diagramNote": "The diagram is drawn from the real node graph, with names simplified and nothing sensitive in it.",
     "moreProjects": "More projects",
     "moreSystems": "More systems"
   },
@@ -367,6 +373,8 @@
     "cvTitle": "Curriculum vitae",
     "cvNote": "Everything in one file: automation, frontend, and delivery.",
     "linksTitle": "Elsewhere",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
     "mcpTitle": "For AI assistants",
     "mcpBody": "This site publishes a machine-readable profile and ships an MCP server, so an AI assistant can query my experience, projects, and workflows directly instead of scraping the page."
   },

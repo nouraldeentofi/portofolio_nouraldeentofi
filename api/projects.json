@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-15T00:00:00+03:00",
+  "generated": "2026-11-16T00:00:00+03:00",
   "projects": [
     {
       "id": "smart-scanner",
@@ -59,7 +59,7 @@
           "value": "4",
           "label": {
             "en": "subscription tiers",
-            "ar": "باقة اشتراك"
+            "ar": "باقات اشتراك"
           }
         },
         {
@@ -190,10 +190,10 @@
       },
       "metrics": [
         {
-          "value": "1 link",
+          "value": "1",
           "label": {
-            "en": "to scrape a whole site",
-            "ar": "لسحب موقع كامل"
+            "en": "link to scrape a whole site",
+            "ar": "رابط يكفي لسحب موقع كامل"
           }
         },
         {
@@ -549,7 +549,7 @@
           "value": "2",
           "label": {
             "en": "core modules owned",
-            "ar": "وحدة أساسية"
+            "ar": "وحدتان أساسيتان"
           }
         },
         {
@@ -665,10 +665,10 @@
           }
         },
         {
-          "value": "1 tap",
+          "value": "1",
           "label": {
-            "en": "to save a contact",
-            "ar": "لحفظ جهة الاتصال"
+            "en": "tap to save a contact",
+            "ar": "ضغطة لحفظ جهة الاتصال"
           }
         }
       ],
@@ -706,7 +706,7 @@
       },
       "built": {
         "en": "I built an MCP server with custom tools including a search tool, wired it to real data, and connected it to Claude, so a plain-language question like \"what are the details of user 2\" returns the correct record directly. The same pattern powers the MCP server that ships with this portfolio.",
-        "ar": "بنيت خادم MCP بأدوات مخصّصة من بينها أداة بحث، وربطته ببيانات حقيقية، ثم وصلته بـ Claude، بحيث يعيد سؤال بلغة طبيعية مثل «ما تفاصيل المستخدم رقم ٢» السجلّ الصحيح مباشرة. والنمط نفسه يشغّل خادم MCP المرفق مع هذا الموقع."
+        "ar": "بنيت خادم MCP بأدوات مخصّصة من بينها أداة بحث، وربطته ببيانات حقيقية، ثم وصلته بـ Claude، بحيث يعيد سؤال بلغة طبيعية مثل «ما تفاصيل المستخدم رقم 2» السجلّ الصحيح مباشرة. والنمط نفسه يشغّل خادم MCP المرفق مع هذا الموقع."
       },
       "role": {
         "en": "Full build",
@@ -747,8 +747,8 @@
         "ar": "محرّك سحب بيانات بالذكاء الاصطناعي"
       },
       "summary": {
-        "en": "One link in, the whole site out. A shared engine fetches pages and escalates only as far as it must, reads structured data before it spends anything on AI, and writes the rows into a spreadsheet. Quick jobs and long crawls run as separate, controllable workers.",
-        "ar": "رابط واحد يدخل، والموقع كله يخرج. محرّك مشترك يجلب الصفحات ويتصاعد بقدر الحاجة فقط، ويقرأ البيانات المنظّمة قبل أن ينفق شيئاً على الذكاء الاصطناعي، ثم يكتب الصفوف في جدول. والمهام السريعة والزحف الطويل يعملان كعمّال منفصلين يمكن التحكّم بهم."
+        "en": "A shared engine fetches pages and escalates only as far as it must, reads structured data before it spends anything on AI, and writes the rows into a spreadsheet. Quick jobs and long crawls run as separate, controllable workers.",
+        "ar": "محرّك مشترك يجلب الصفحات ويتصاعد بقدر الحاجة فقط، ويقرأ البيانات المنظّمة قبل أن ينفق شيئاً على الذكاء الاصطناعي، ثم يكتب الصفوف في جدول. والمهام السريعة والزحف الطويل يعملان كعمّال منفصلين يمكن التحكّم بهم."
       },
       "trigger": {
         "en": "Web app (webhook) and a crawl schedule",
@@ -778,7 +778,7 @@
       },
       "outcome": {
         "en": "Collecting a website into Excel stops being copy-and-paste or a new script per site.",
-        "ar": "لم يعد جمع موقع في ملف إكسل نسخاً ولصقاً ولا أداة جديدة لكل موقع."
+        "ar": "لم يعد جمع موقع في ملف Excel نسخاً ولصقاً ولا أداة جديدة لكل موقع."
       },
       "status": "live",
       "workflowCount": 7,
@@ -863,7 +863,7 @@
             "id": "save",
             "label": {
               "en": "Excel and Sheets",
-              "ar": "إكسل وجداول Google"
+              "ar": "Excel وجداول Google"
             },
             "kind": "output",
             "service": "Google Sheets"
@@ -1192,7 +1192,7 @@
             "id": "agent",
             "label": {
               "en": "Teacher AI agent",
-              "ar": "الوكيل الذكي للمعلّم"
+              "ar": "الوكيل الذكي للمدرّس"
             },
             "kind": "ai",
             "service": "OpenAI · Sheets tools"
@@ -1283,7 +1283,7 @@
         ],
         "ar": [
           "يرفض أي ملف ليس فاتورة حقيقية قبل حفظ أي شيء",
-          "يستخرج أكثر من ٧٠ حقلاً إضافة إلى بنود الفاتورة: البائع، والمشتري، والإجماليات، والضريبة، والتواريخ",
+          "يستخرج أكثر من 70 حقلاً إضافة إلى بنود الفاتورة: البائع، والمشتري، والإجماليات، والضريبة، والتواريخ",
           "يصنّف كل بند إلى فئة مصروف خاصة بالشركة لحظة الاستخراج",
           "يرفض بأدب ويشرح السبب عند نقص البيانات الأساسية، فالدقة قبل السرعة"
         ]
@@ -1299,8 +1299,8 @@
           {
             "id": "upload",
             "label": {
-              "en": "Receipt upload",
-              "ar": "رفع الإيصال"
+              "en": "Invoice upload",
+              "ar": "رفع الفاتورة"
             },
             "kind": "trigger",
             "service": "Webhook"
@@ -1350,8 +1350,8 @@
           {
             "id": "valid",
             "label": {
-              "en": "Valid receipt?",
-              "ar": "هل الإيصال صالح؟"
+              "en": "Valid invoice?",
+              "ar": "هل الفاتورة صالحة؟"
             },
             "kind": "logic"
           },
@@ -1492,7 +1492,7 @@
             "id": "auth",
             "label": {
               "en": "Allowed chat?",
-              "ar": "هل المحادثة مصرح بها؟"
+              "ar": "هل المحادثة مصرّح بها؟"
             },
             "kind": "logic"
           },
@@ -1550,7 +1550,7 @@
             "id": "generator",
             "label": {
               "en": "Content generator",
-              "ar": "مولد المحتوى"
+              "ar": "مولّد المحتوى"
             },
             "kind": "ai",
             "service": "OpenAI"
@@ -1559,7 +1559,7 @@
             "id": "publisher",
             "label": {
               "en": "Multi-platform publisher",
-              "ar": "الناشر الموحد"
+              "ar": "الناشر الموحّد"
             },
             "kind": "output"
           }
@@ -1874,7 +1874,7 @@
             "id": "autopost",
             "label": {
               "en": "Auto-post reply",
-              "ar": "نشر الرد تلقائيا"
+              "ar": "نشر الرد تلقائياً"
             },
             "kind": "output",
             "service": "Google Business Profile"
@@ -1918,7 +1918,7 @@
             "id": "skip",
             "label": {
               "en": "Mark as skipped",
-              "ar": "وسم كمتجاهل"
+              "ar": "تسجيله متجاهَلاً"
             },
             "kind": "data"
           }
@@ -2000,7 +2000,7 @@
           "A factory clones the search into a separate daily bot for each user, through the n8n API: automation that builds automation"
         ],
         "ar": [
-          "مُقيّم يُخرج JSON منظّماً ويمنح درجة ملاءمة من ١ إلى ١٠",
+          "مُقيّم يُخرج JSON منظّماً ويمنح درجة ملاءمة من 1 إلى 10",
           "إزالة التكرار مقابل جداول بيانات n8n فلا يتكرّر أي إعلان",
           "إرسال المطابقات عالية التقييم فقط عبر تيليجرام",
           "موافقة بشرية قبل إرسال أي طلب توظيف",
@@ -2045,7 +2045,7 @@
             "id": "score",
             "label": {
               "en": "AI fit scoring",
-              "ar": "تقييم الملاءمة آليا"
+              "ar": "تقييم الملاءمة آلياً"
             },
             "kind": "ai",
             "service": "OpenAI"
@@ -2441,7 +2441,7 @@
       },
       "summary": {
         "en": "Upload an Excel or CSV of contacts and a group name: the group is created, everyone is added in throttled batches, and anyone WhatsApp refuses to add receives the invite link instead.",
-        "ar": "ارفع ملف إكسل أو CSV بجهات الاتصال واسم المجموعة: تُنشأ المجموعة، ويُضاف الجميع على دفعات متمهّلة، ومن يرفض واتساب إضافته يصله رابط الدعوة بدلاً من ذلك."
+        "ar": "ارفع ملف Excel أو CSV بجهات الاتصال واسم المجموعة: تُنشأ المجموعة، ويُضاف الجميع على دفعات متمهّلة، ومن يرفض واتساب إضافته يصله رابط الدعوة بدلاً من ذلك."
       },
       "trigger": {
         "en": "Form (file upload)",
@@ -2797,8 +2797,8 @@
         ]
       },
       "outcome": {
-        "en": "Manual prospect research became a hands-off scheduled pipeline producing scored, deduplicated lead lists.",
-        "ar": "تحوّل البحث اليدوي عن العملاء إلى خط مجدول لا يحتاج تدخّلاً، يُنتج قوائم مقيّمة وخالية من التكرار."
+        "en": "Prospect research becomes one run that fills prioritised, deduplicated lead lists.",
+        "ar": "يتحوّل البحث عن العملاء المحتملين إلى تشغيل واحد يُنتج قوائم مرتّبة حسب الأولوية وخالية من التكرار."
       },
       "status": "built",
       "workflowCount": 3,
@@ -2956,8 +2956,8 @@
         "ar": "خدمة webhook تفرّغ فيديوهات الدروس نصياً مع فصل المتحدّثين، وتُعيد JSON منظّماً يقيّم جودة المعلّم وتفاعل الطالب."
       },
       "trigger": {
-        "en": "Webhook (video upload)",
-        "ar": "Webhook (رفع فيديو)"
+        "en": "Webhook (lesson video URL)",
+        "ar": "Webhook (رابط فيديو الدرس)"
       },
       "services": [
         "n8n",
@@ -3031,7 +3031,7 @@
             "id": "prompt",
             "label": {
               "en": "Build evaluation prompt",
-              "ar": "بناء موجه التقييم"
+              "ar": "بناء موجّه التقييم"
             },
             "kind": "logic"
           },
@@ -3173,7 +3173,7 @@
             "id": "source",
             "label": {
               "en": "Excel or sheet?",
-              "ar": "ملف إكسل أم جدول؟"
+              "ar": "ملف Excel أم جدول؟"
             },
             "kind": "logic"
           },
@@ -3214,7 +3214,7 @@
             "id": "write",
             "label": {
               "en": "Write personal email",
-              "ar": "كتابة بريد مخصص"
+              "ar": "كتابة بريد مخصّص"
             },
             "kind": "ai",
             "service": "OpenAI"

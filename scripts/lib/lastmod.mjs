@@ -26,6 +26,31 @@ import { createHash } from 'node:crypto';
 export const LASTMOD_FILE = 'scripts/lastmod.json';
 
 /**
+ * The state as the last build left it, from the text of the file.
+ *
+ * `text` is null when there is no file, and only then does a build start
+ * from nothing and date every page today. A file that is there but cannot
+ * be read as the state (merge markers, half a write, a hand edit) is
+ * refused: read as "no state" it would quietly give every page today's
+ * date, the next build would write that down, and nothing would ever
+ * report it.
+ */
+export function parseState(text) {
+  if (text === null || text === undefined) return {};
+  const help = `restore ${LASTMOD_FILE} from git, or delete it on purpose to date every page today`;
+  let state;
+  try {
+    state = JSON.parse(text);
+  } catch (err) {
+    throw new Error(`${LASTMOD_FILE} is not valid JSON (${err.message}): ${help}`);
+  }
+  if (state === null || typeof state !== 'object' || Array.isArray(state)) {
+    throw new Error(`${LASTMOD_FILE} does not hold one entry per page: ${help}`);
+  }
+  return state;
+}
+
+/**
  * A hash of what a page says: its title, its description, everything inside
  * `<main>` and its structured data.
  *

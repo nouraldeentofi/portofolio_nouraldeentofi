@@ -103,11 +103,16 @@ function portraitTrigger(db, lang, cls) {
 const currentMark = (item, page, section) =>
   item === page ? ' aria-current="page"' : item === section ? ' aria-current="true"' : '';
 
-function header(db, page, lang, section = page) {
+/**
+ * `here` is where the reader is, as `{ page, section }`, for the mark in the
+ * navigation. It is empty on the 404 page: that page is laid out as the home
+ * page is, but the reader is not on the home page, so no link says so.
+ */
+function header(db, page, lang, here = { page, section: page }) {
   const c = db.copy[lang];
 
   const nav = PAGES.map((p) => {
-    return `          <a href="${rel(p, lang)}"${currentMark(p, page, section)}>${e(c.nav[PAGE_KEY[p]])}</a>`;
+    return `          <a href="${rel(p, lang)}"${currentMark(p, here.page, here.section)}>${e(c.nav[PAGE_KEY[p]])}</a>`;
   }).join('\n');
 
   // The language switch points at the same page in the other tree.
@@ -119,7 +124,7 @@ function header(db, page, lang, section = page) {
         ${portraitTrigger(db, lang, 'brand__mark')}
         <a class="brand__name" href="${rel('', lang)}">${e(db.profile.name[lang])}</a>
       </div>
-      <nav class="site-nav" aria-label="${e(c.nav.home)}">
+      <nav class="site-nav" aria-label="${e(c.ui.navMain)}">
 ${nav}
       </nav>
       <div class="header__tools">
@@ -163,13 +168,17 @@ function footer(db, lang) {
  * unreachable on a phone: a second copy of the page list drifts the moment a
  * page is added. Labels come from `navShort`, which differs from `nav` only
  * where the full wording will not fit at 320px.
+ *
+ * The two navigation landmarks of a page are told apart by their labels
+ * (`ui.navMain` in the header, `ui.navTabs` here): both used to carry the
+ * word of the Home link, which named neither.
  */
-function mobileTabs(db, page, lang, section = page) {
+function mobileTabs(db, lang, here) {
   const c = db.copy[lang];
 
-  return `  <nav class="mobile-tabs" aria-label="${e(c.nav.home)}">
+  return `  <nav class="mobile-tabs" aria-label="${e(c.ui.navTabs)}">
 ${PAGES.map((t) => {
-    return `    <a href="${rel(t, lang)}"${currentMark(t, page, section)}><span>${e(c.navShort[PAGE_KEY[t]])}</span></a>`;
+    return `    <a href="${rel(t, lang)}"${currentMark(t, here.page, here.section)}><span>${e(c.navShort[PAGE_KEY[t]])}</span></a>`;
   }).join('\n')}
   </nav>`;
 }
@@ -206,6 +215,8 @@ function shell(db, page, lang, main, opts = {}) {
   const dir = lang === 'ar' ? 'rtl' : 'ltr';
   const section = opts.section ?? page;
   const detail = section !== page;
+  // The 404 is served wherever an address was not found: no link is "here".
+  const here = opts.noindex ? {} : { page, section };
   const fonts =
     lang === 'ar'
       ? 'family=Figtree:wght@300;400;600;800&family=IBM+Plex+Sans+Arabic:wght@300;400;600;700'
@@ -257,13 +268,13 @@ ${B.headLd(db, page, lang, opts)}
 <body>
 <canvas class="site-bg" data-workflow data-variant="${PAGE_VARIANT[section] ?? 'drift'}" aria-hidden="true"></canvas>
 <a class="skip-link" href="#main">${e(c.ui.skipToContent)}</a>
-${header(db, page, lang, section)}
+${header(db, page, lang, here)}
 <main id="main">
 <div class="page-spine" aria-hidden="true"><span class="page-spine__fill"></span></div>
 ${main}
 </main>
 ${footer(db, lang)}
-${mobileTabs(db, page, lang, section)}
+${mobileTabs(db, lang, here)}
 ${portraitDialog(db, lang)}
 <script src="${assetV(db, 'assets/js/main.js')}" type="module"></script>${
     page === 'chat' ? `\n<script src="${assetV(db, `assets/js/chat/boot.${lang}.js`)}" type="module"></script>` : ''
@@ -630,10 +641,7 @@ function detailPage(db, lang, d) {
     headline: detailHeadline(d, lang),
     facts: B.detailFacts(db, lang, d),
     intro: (project ? x.tagline : x.summary)[lang],
-    actions:
-      project && x.url
-        ? `        <a class="btn" href="${e(x.url)}"${extAttrs(x.url)}>${e(c.ui.visitLive)}${newTabHint(c.ui.opensInNewTab)}</a>`
-        : null,
+    actions: project && x.url ? `        ${B.liveLink(c, x.url)}` : null,
   });
 
   const body = `  <section class="section" id="overview">
@@ -653,12 +661,9 @@ ${B.projectEngine(db, lang, x)}
   </section>`
       : '';
 
-  const related = B.detailRelated(db, lang, d);
-  const more = related
-    ? `
-
-${section('more', null, project ? c.detail.moreProjects : c.detail.moreSystems, null, `      <div class="grid grid--3">\n${related}\n      </div>`)}`
-    : '';
+  const more = B.detailRelated(db, lang, d)
+    .map((g) => `\n\n${section(g.id, null, g.title, null, `      <div class="grid grid--3">\n${g.cards}\n      </div>`)}`)
+    .join('');
 
   const main = `${hero}
 

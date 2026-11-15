@@ -88,6 +88,14 @@ export const detailHeadline = (d, lang) =>
 export const TITLE_ROOM = 65;
 
 /**
+ * The longest a detail title may be. What a search result cuts is the end
+ * of a title, and the end is the headline, the part that says what the page
+ * is about. So a headline leaves out what the name already says, and a test
+ * holds every entry to this bound.
+ */
+export const TITLE_LIMIT = 80;
+
+/**
  * "<name>: <headline>", with his name appended only while the whole title
  * still fits. A title that is cut loses its end, and the end must not be the
  * part that says what the page is about.
@@ -103,7 +111,8 @@ export const DESCRIPTION_ROOM = 160;
 
 /**
  * Text cut to fit a description: whole sentences while they fit, and
- * otherwise whole words followed by an ellipsis.
+ * otherwise a whole clause, or failing that whole words, followed by an
+ * ellipsis.
  *
  * "Otherwise" is when the first sentence alone is too long, and also when
  * the sentences that fit fill less than half the room: a description that
@@ -112,6 +121,12 @@ export const DESCRIPTION_ROOM = 160;
  *
  * A sentence ends at a full stop or a question or exclamation mark that is
  * followed by a space or by nothing, so "GPT-4.1" is not an ending.
+ *
+ * A cut in the middle of a sentence is made at the last clause break (a
+ * comma, a semicolon or a colon, in either script, followed by a space)
+ * when there is one in the back half of the room: "...read by touch…" says
+ * something whole, "...and a file for…" stops on a word that leads nowhere.
+ * Only without such a break is the cut made at the last word.
  */
 export function clip(text, room = DESCRIPTION_ROOM) {
   const clean = String(text).replace(/\s+/g, ' ').trim();
@@ -125,6 +140,9 @@ export function clip(text, room = DESCRIPTION_ROOM) {
   if (end >= room / 2) return clean.slice(0, end);
 
   const words = clean.slice(0, room - 1);
+  const clause = [...words.matchAll(/[,;:،؛](?= )/g)].at(-1)?.index ?? -1;
+  if (clause >= room / 2) return `${words.slice(0, clause)}…`;
+
   const cut = words.lastIndexOf(' ');
   return `${(cut > 0 ? words.slice(0, cut) : words).replace(/[\s,;:،؛]+$/, '')}…`;
 }
@@ -139,17 +157,31 @@ export const detailDescription = (d, lang) => clip((d.kind === 'project' ? d.ent
 const SHARE_RATIO = { min: 1.5, max: 2.25 };
 
 /**
+ * A share image is a PNG or a JPEG. Some of the places a link is pasted into
+ * do not unfold a WebP file, and a link with no picture is a worse preview
+ * than one with the site's own card.
+ */
+export const isShareable = (path) => /\.(?:png|jpe?g)$/i.test(path ?? '');
+
+/**
  * The picture a detail page is shared with: the project's desktop
  * screenshot, or the workflow canvas when its shape suits a share card.
  * Returns the file with its real size, or null, and the page then falls back
  * to the site's own share card.
+ *
+ * Only a file a link preview can show is a candidate (`isShareable`). The
+ * screenshots and canvases are WebP today, so every detail page is shared
+ * with the site's card for now; the rule that prefers a screenshot or a wide
+ * canvas is kept for the day one of them exists as a PNG or a JPEG. The
+ * `image` of the page's CreativeWork node is not decided here: it stays the
+ * real screenshot or canvas, which the page shows.
  *
  * `db.imageSizes` is measured from the files by the loader, so the size
  * announced beside the image is the size of that image.
  */
 export function detailImage(db, d) {
   const sized = (path) => {
-    const size = path ? db.imageSizes?.[path] : null;
+    const size = isShareable(path) ? db.imageSizes?.[path] : null;
     return size ? { path, width: size[0], height: size[1] } : null;
   };
 
@@ -173,6 +205,19 @@ export const relatedProjects = (db, p) => db.projects.filter((x) => x.id !== p.i
  */
 export const relatedSystems = (db, w) =>
   db.workflows.filter((x) => x.id !== w.id && hasDetail(db, x) && (x.audience ?? []).some((a) => (w.audience ?? []).includes(a)));
+
+/**
+ * For the foot of a project page that shows an engine: the systems built for
+ * the same audience as that engine which have a page of their own. Without
+ * this a system page can be reached from its list page alone.
+ *
+ * A system shown on another product's page is left out: it has no address
+ * of its own, and a card for it here would only lead to that product's page.
+ */
+export function engineNeighbours(db, p) {
+  const engine = engineOf(db, p);
+  return engine ? relatedSystems(db, engine).filter((w) => hasOwnPage(db, w)) : [];
+}
 
 /* ------------------------------------------------------------ the files */
 

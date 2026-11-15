@@ -45,13 +45,24 @@ test('person renders in Arabic when asked', () => {
    shows. */
 test('the Person node is slim everywhere, and a page adds only what it shows', () => {
   const slim = ['@context', '@type', '@id', 'name', 'jobTitle', 'url', 'image', 'address', 'sameAs'];
+  // A current employer is named on the experience page only while a role is
+  // still running, so the expected keys follow the data: the day a job with
+  // no end date is added, `worksFor` appears and this test still holds.
+  const employed = db.experience.some((e) => e.end === null);
   const adds = {
     '': ['givenName', 'familyName', 'alternateName', 'description', 'knowsLanguage'],
-    about: ['alternateName', 'email', 'knowsAbout', 'hasOccupation', 'seeks'],
-    work: ['hasCredential', 'alumniOf'],
+    // What he is looking for is not here: the about page does not print every role.
+    about: ['alternateName', 'email', 'knowsAbout', 'hasOccupation'],
+    work: ['hasCredential', 'alumniOf', ...(employed ? ['worksFor'] : [])],
     contact: ['email', 'telephone', 'seeks'],
   };
   assert.deepEqual(Object.keys(PERSON_ON_PAGE).sort(), Object.keys(adds).sort());
+  assert.deepEqual(PERSON_ON_PAGE.work, ['hasCredential', 'alumniOf', 'worksFor']);
+  assert.ok(!PERSON_ON_PAGE.about.includes('seeks') && PERSON_ON_PAGE.contact.includes('seeks'));
+  // With a role that is still running, the experience page names the employer, and no other page does.
+  const running = { ...db, experience: [{ ...db.experience[0], end: null }, ...db.experience.slice(1)] };
+  assert.deepEqual(personLd(running, 'en', 'work').worksFor.map((o) => o.name), [db.experience[0].company]);
+  for (const page of ['', 'about', 'contact', 'projects', null]) assert.ok(!('worksFor' in personLd(running, 'en', page)), `${page}: names an employer`);
 
   for (const lang of ['en', 'ar']) {
     // No page, an unknown page and a page that shows nothing more: the slim node.

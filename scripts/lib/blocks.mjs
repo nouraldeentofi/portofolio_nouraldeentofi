@@ -14,11 +14,13 @@ import { homeOffers as offersOf, automationServices as servicesOf } from './offe
 import {
   detailName,
   engineOf,
+  productOf,
   hasDetail,
   projectHref,
   systemHref,
   relatedProjects,
   relatedSystems,
+  engineNeighbours,
 } from './details.mjs';
 
 const e = escapeHtml;
@@ -281,8 +283,21 @@ const named = (pattern, name) => pattern.replace('{name}', name);
  * word is the same on every card, so the name follows it for anyone who
  * hears the link read out on its own.
  */
-const detailsLink = (c, to, name) =>
-  `<a class="btn btn--ghost" href="${to}">${e(c.ui.details)}<span class="visually-hidden">: ${e(name)}</span></a>`;
+const namedLink = (label, to, name) =>
+  `<a class="btn btn--ghost" href="${to}">${e(label)}<span class="visually-hidden">: ${e(name)}</span></a>`;
+
+const detailsLink = (c, to, name) => namedLink(c.ui.details, to, name);
+
+/**
+ * What the button to a project's public address says. A listing on Google
+ * Play is not a site to visit, so it is named as what it is; every other
+ * address is the live product.
+ */
+export const liveLabel = (c, url) => (/^https?:\/\/play\.google\.com\//.test(url) ? c.ui.visitPlay : c.ui.visitLive);
+
+/** That button, in the weight the card asks for. */
+export const liveLink = (c, url, cls = 'btn') =>
+  `<a class="${cls}" href="${e(url)}"${extAttrs(url)}>${e(liveLabel(c, url))}${newTabHint(c.ui.opensInNewTab)}</a>`;
 
 /**
  * What he offers, right under the hero: one card per offer, each leading to
@@ -337,14 +352,24 @@ export function homeFeatured(db, lang) {
   </dl>
   ${badges(p.stack)}
   <div class="card__foot">
-    ${p.url ? `<a class="btn" href="${e(p.url)}"${extAttrs(p.url)}>${e(c.ui.visitLive)}${newTabHint(c.ui.opensInNewTab)}</a>` : ''}
-    <a class="btn btn--ghost" href="${projectHref(p, lang)}">${e(c.ui.viewProject)}</a>
+    ${p.url ? liveLink(c, p.url) : ''}
+    ${namedLink(c.ui.viewProject, projectHref(p, lang), p.name)}
   </div>
 </article>`;
 }
 
-export function homeAutomation(db, lang) {
+/**
+ * The button of a system card on the home page says what it opens: the
+ * details of a system that has a page of its own, or the project whose page
+ * shows it, named by that project.
+ */
+function systemButton(db, w, lang) {
   const c = db.copy[lang];
+  const product = productOf(db, w);
+  return product ? namedLink(c.ui.viewProject, systemHref(db, w, lang), product.name) : detailsLink(c, systemHref(db, w, lang), w.name[lang]);
+}
+
+export function homeAutomation(db, lang) {
   return db.workflows
     .slice(0, 3)
     .map(
@@ -353,7 +378,7 @@ export function homeAutomation(db, lang) {
   <h3 class="card__title"><a href="${systemHref(db, w, lang)}">${e(w.name[lang])}</a></h3>
   <p class="card__body">${prose(db, w.summary[lang], lang)}</p>
   ${badges(w.services.slice(0, 4))}
-  <div class="card__foot"><a class="btn btn--ghost" href="${systemHref(db, w, lang)}">${e(c.ui.viewProject)}</a></div>
+  <div class="card__foot">${systemButton(db, w, lang)}</div>
 </article>`,
     )
     .join('\n');
@@ -373,9 +398,7 @@ export function homeProjects(db, lang) {
   <h3 class="card__title"><a href="${projectHref(p, lang)}">${e(p.name)}</a></h3>
   <p class="card__body">${e(p.tagline[lang])}</p>
   ${badges(p.stack.slice(0, 4))}
-  <div class="card__foot">${
-    p.url ? `<a class="btn btn--ghost" href="${e(p.url)}"${extAttrs(p.url)}>${e(c.ui.visitLive)}${newTabHint(c.ui.opensInNewTab)}</a>` : ''
-  }</div>
+  <div class="card__foot">${p.url ? liveLink(c, p.url, 'btn btn--ghost') : ''}</div>
 </article>`,
     )
     .join('\n');
@@ -583,13 +606,19 @@ ${db.credentials
 
 /* -------------------------------------------------------------- projects */
 
+/**
+ * The list of projects. A card is a summary: what the thing is, his role,
+ * the figures, the stack and the way to its page. The problem, what he built
+ * and the context are told once, on `/projects/<id>` (`projectBody`), so the
+ * list does not compete with its own detail pages for the same sentences.
+ */
 export function projectsList(db, lang) {
   const c = db.copy[lang];
   const counts = {};
   for (const p of db.projects) counts[p.group] = (counts[p.group] ?? 0) + 1;
   const cards = db.projects
     .map(
-      (p) => `<article data-reveal data-filter-item data-group="${e(p.group)}" class="card card--row${p.featured ? ' card--featured' : ''}${
+      (p) => `<article data-reveal data-filter-item data-group="${e(p.group)}" class="card card--row card--summary${p.featured ? ' card--featured' : ''}${
         p.images ? ' has-media' : ''
       }" id="${e(p.id)}">${p.images ? `
   <div class="card__media">${deviceStage(db, p, lang)}</div>` : ''}
@@ -598,11 +627,8 @@ export function projectsList(db, lang) {
     <h3 class="card__title"><a href="${projectHref(p, lang)}">${e(p.name)}</a></h3>
     <p class="card__body">${e(p.tagline[lang])}</p>
     <dl class="card__body">
-      <dt>${e(c.ui.problem)}</dt><dd>${prose(db, p.problem[lang], lang)}</dd>
-      <dt>${e(c.ui.built)}</dt><dd>${prose(db, p.built[lang], lang)}</dd>
       <dt>${e(c.ui.role)}</dt><dd>${prose(db, p.role[lang], lang)}</dd>
     </dl>
-    ${p.context ? `<p class="card__body"><em>${prose(db, p.context[lang], lang)}</em></p>` : ''}
   </div>
   <aside class="card__aside">
     ${
@@ -616,9 +642,7 @@ export function projectsList(db, lang) {
         : ''
     }
     <dl class="card__body"><dt>${e(c.ui.stack)}</dt><dd>${badges(p.stack)}</dd></dl>
-    <div class="card__foot">${
-      p.url ? `<a class="btn" href="${e(p.url)}"${extAttrs(p.url)}>${e(c.ui.visitLive)}${newTabHint(c.ui.opensInNewTab)}</a>` : ''
-    }${detailsLink(c, projectHref(p, lang), p.name)}</div>
+    <div class="card__foot">${p.url ? liveLink(c, p.url) : ''}${detailsLink(c, projectHref(p, lang), p.name)}</div>
   </aside>
 </article>`,
     )
@@ -838,8 +862,12 @@ function systemCount(w, lang, c) {
 
 const canvasDialogId = (w) => `canvas-${w.id}`;
 
-/* "<name>: The real canvas in n8n", the caption and the alt text of the screenshot. */
+/* "<name>: The real canvas in n8n", the caption under the screenshot and the name of its viewer. */
 const canvasCaption = (w, lang, c) => `${w.name[lang]}: ${c.ui.canvasCaption}`;
+
+/* The alt text of that screenshot says what the picture shows: the nodes of
+   the system and how they connect. The caption beside it already names it. */
+const canvasAlt = (w, lang, c) => named(c.ui.canvasAlt, w.name[lang]);
 
 /* The link that opens the full-size canvas. It says which system the canvas
    belongs to: fifteen links that all read "see the canvas" tell a reader, or
@@ -864,7 +892,7 @@ function canvasDialog(db, w, lang) {
       }</span>
       <form method="dialog"><button class="lightbox__close" aria-label="${e(c.ui.closeCanvas)}">&times;</button></form>
     </div>
-    <div class="lightbox__body"><img src="${img(db, w.canvas)}" alt="${e(canvasCaption(w, lang, c))}"${
+    <div class="lightbox__body"><img src="${img(db, w.canvas)}" alt="${e(canvasAlt(w, lang, c))}"${
       w.canvasSize ? ` width="${w.canvasSize[0]}" height="${w.canvasSize[1]}"` : ''
     } loading="lazy" decoding="async"></div>
   </dialog>`;
@@ -912,8 +940,10 @@ function systemCard(db, w, lang, { compact = false } = {}) {
  * What he automates, in the words a business owner would use, before the
  * list of systems that only an engineer would search for by name.
  *
- * Each card ends with the systems that back it, linked to their place further
- * down the page: the sentence is the claim, the link is the proof.
+ * Each card ends with the systems that back it: the sentence is the claim,
+ * the link is the proof. A system is linked where it is read in full
+ * (`systemHref`): its own page, the page of the product it runs, or, for one
+ * that has neither, its card further down this page.
  */
 export function automationServices(db, lang) {
   return servicesOf(db, lang)
@@ -922,7 +952,7 @@ export function automationServices(db, lang) {
   <h3 class="card__title">${e(s.title)}</h3>
   <p class="card__body">${e(s.body)}</p>
   <ul class="card__links">
-${s.systems.map((w) => `    <li><a href="#${e(w.id)}">${e(w.name[lang])}</a></li>`).join('\n')}
+${s.systems.map((w) => `    <li><a href="${systemHref(db, w, lang)}">${e(w.name[lang])}</a></li>`).join('\n')}
   </ul>
 </article>`,
     )
@@ -1085,7 +1115,7 @@ export function detailHead(db, lang, d, { title, description, image }) {
   const alt =
     d.kind === 'project' && image.path === d.entry.images?.desktop
       ? shotAlt(db, d.entry, 'shotDesktop', lang)
-      : canvasCaption(d.kind === 'project' ? engineOf(db, d.entry) : d.entry, lang, db.copy[lang]);
+      : canvasAlt(d.kind === 'project' ? engineOf(db, d.entry) : d.entry, lang, db.copy[lang]);
   return { title, description, image: { ...image, alt } };
 }
 
@@ -1110,21 +1140,23 @@ const CANVAS_SHOWN = { height: 380, fits: 1000 };
  *
  * The curated diagram says how the system works; this is the evidence that
  * it exists. It is an `<img>` in a `<figure>` with a caption naming the
- * system, which is what an image search reads. A canvas is far wider than a
- * page, so it scrolls inside its own frame, starting from the trigger in
- * either language, and the page itself never scrolls sideways. The frame can
- * take focus, so the keyboard can scroll it too.
+ * system, which is what an image search reads, and an alt that describes
+ * the picture. A canvas is far wider than a page, so it scrolls inside its
+ * own frame, starting from the trigger in either language, and the page
+ * itself never scrolls sideways. The frame can take focus, so the keyboard
+ * can scroll it too; it is named by the caption, not by a sentence of its
+ * own that a screen reader would hear a second time.
  */
 function canvasFigure(db, w, lang) {
   const c = db.copy[lang];
   const [width, height] = db.imageSizes?.[w.canvas] ?? w.canvasSize ?? [];
-  const caption = canvasCaption(w, lang, c);
+  const captionId = `canvas-caption-${w.id}`;
   const shownWidth = width && height ? width * Math.min(1, CANVAS_SHOWN.height / height) : 0;
   return `<figure class="canvas-shot${shownWidth > CANVAS_SHOWN.fits ? ' canvas-shot--wide' : ''}" data-reveal>
-      <div class="canvas-shot__scroll" role="group" aria-label="${e(caption)}" tabindex="0"${height ? ` style="--canvas-h:${height}px"` : ''}>
-        <img src="${img(db, w.canvas)}" alt="${e(caption)}"${width && height ? ` width="${width}" height="${height}"` : ''} loading="lazy" decoding="async">
+      <div class="canvas-shot__scroll" role="group" aria-labelledby="${captionId}" tabindex="0"${height ? ` style="--canvas-h:${height}px"` : ''}>
+        <img src="${img(db, w.canvas)}" alt="${e(canvasAlt(w, lang, c))}"${width && height ? ` width="${width}" height="${height}"` : ''} loading="lazy" decoding="async">
       </div>
-      <figcaption class="canvas-shot__caption"><span>${e(caption)}</span><span class="canvas-shot__hint">${e(c.ui.panHint)}</span></figcaption>
+      <figcaption class="canvas-shot__caption"><span id="${captionId}">${e(canvasCaption(w, lang, c))}</span><span class="canvas-shot__hint">${e(c.ui.panHint)}</span></figcaption>
     </figure>`;
 }
 
@@ -1135,6 +1167,11 @@ function canvasFigure(db, w, lang) {
  * The steps are the curated flow in the order it runs (`flowOrder`), written
  * as text in the page: the diagram draws the same labels, but a list is what
  * a reader on a phone, a screen reader and a search engine can follow.
+ *
+ * A graph that branches is flattened by that list, so the alternatives after
+ * a fork read as one step after another. The note above the list says so
+ * (`detail.howNote`), and the note about where the diagram comes from sits
+ * with the diagram, in the singular: this page has one.
  */
 export function systemBody(db, lang, w, { level = 2 } = {}) {
   const c = db.copy[lang];
@@ -1157,7 +1194,7 @@ export function systemBody(db, lang, w, { level = 2 } = {}) {
   const how = w.flow
     ? `
   <div class="detail__part">
-    ${partHead(level, c.detail.how, c.automation.diagramNote)}
+    ${partHead(level, c.detail.how, c.detail.howNote)}
     <ol class="steps steps--row detail__steps">
 ${flowOrder(w.flow)
   .map(
@@ -1168,6 +1205,7 @@ ${flowOrder(w.flow)
   )
   .join('\n')}
     </ol>
+    <p class="detail__note" data-reveal>${e(c.detail.diagramNote)}</p>
     ${systemDiagram(db, w, lang)}
   </div>`
     : '';
@@ -1194,13 +1232,17 @@ ${flowOrder(w.flow)
  * problem, what he built and his role as headed text, with the figures and
  * the stack beside it. The context of an entry, when it has one, is why the
  * problem matters now, so it follows the problem.
+ *
+ * The heading over the figures says "In numbers", so it is printed only when
+ * every one of them is a number: "Live" and "MCP" are facts worth showing,
+ * but not under that heading.
  */
 export function projectBody(db, lang, p) {
   const c = db.copy[lang];
   const shots = p.images ? `${deviceStage(db, p, lang, { caption: named(c.detail.shots, p.name) })}\n  ` : '';
+  const numeric = (p.metrics ?? []).every((m) => /\d/.test(m.value));
   const metrics = p.metrics?.length
-    ? `<h2 class="detail__title">${e(c.detail.numbers)}</h2>
-      <ul class="proof proof--inline">${p.metrics
+    ? `${numeric ? `<h2 class="detail__title">${e(c.detail.numbers)}</h2>\n      ` : ''}<ul class="proof proof--inline">${p.metrics
         .map(
           (m) =>
             `<li class="proof__item"><span class="proof__value" data-count>${e(m.value)}</span><span class="proof__label">${e(m.label[lang])}</span></li>`,
@@ -1246,40 +1288,47 @@ ${systemBody(db, lang, w, { level: 3 })}`;
 }
 
 /**
- * The foot of a detail page: the other projects of the same group, or the
- * other systems built for the same audience. Empty when there are none.
+ * The foot of a detail page, as groups of cards, each `{ id, title, cards }`:
+ * the other projects of the same group, or the other systems built for the
+ * same audience. A project that shows an engine adds the systems built for
+ * the audience of that engine (`engineNeighbours`), so a system page is
+ * reached from more than its list page. A group with nothing in it is left
+ * out, and the list is empty when there are none.
  */
 export function detailRelated(db, lang, d) {
   const c = db.copy[lang];
-  if (d.kind === 'project') {
-    return relatedProjects(db, d.entry)
-      .map(
-        (p) => `<article data-reveal class="card">
+  const projectCard = (p) => `<article data-reveal class="card">
   <p class="card__meta"><span>${e(p.category[lang])}</span><span>${e(yearOf(p.year, lang))}</span></p>
   <h3 class="card__title"><a href="${projectHref(p, lang)}">${e(p.name)}</a></h3>
   <p class="card__body">${e(p.headline?.[lang] ?? p.tagline[lang])}</p>
-</article>`,
-      )
-      .join('\n');
-  }
-  return relatedSystems(db, d.entry)
-    .map(
-      (w) => `<article data-reveal class="card">
+</article>`;
+  const systemCardShort = (w) => `<article data-reveal class="card">
   <p class="card__meta"><span class="status status--${e(w.status)}">${e(c.ui.status[w.status])}</span><span>${e(yearOf(w.year, lang))}</span></p>
   <h3 class="card__title"><a href="${systemHref(db, w, lang)}">${e(w.name[lang])}</a></h3>
   <p class="card__body">${e(w.headline?.[lang] ?? w.kind[lang])}</p>
-</article>`,
-    )
-    .join('\n');
+</article>`;
+
+  const groups =
+    d.kind === 'project'
+      ? [
+          { id: 'more', title: c.detail.moreProjects, cards: relatedProjects(db, d.entry).map(projectCard) },
+          { id: 'more-systems', title: c.detail.moreSystems, cards: engineNeighbours(db, d.entry).map(systemCardShort) },
+        ]
+      : [{ id: 'more', title: c.detail.moreSystems, cards: relatedSystems(db, d.entry).map(systemCardShort) }];
+
+  return groups.filter((g) => g.cards.length).map((g) => ({ ...g, cards: g.cards.join('\n') }));
 }
 
 /* --------------------------------------------------------------- contact */
 
 export function contactLinks(db, lang) {
   const { profile } = db;
+  const c = db.copy[lang];
   const rows = [
-    { platform: 'Email', url: `mailto:${profile.email}`, value: profile.email },
-    { platform: 'Phone', url: `tel:${profile.phone}`, value: profile.phone },
+    // The two that are words, in the language of the page. The rest are the
+    // names of the places his profiles are on, the same in both languages.
+    { platform: c.contact.emailLabel, url: `mailto:${profile.email}`, value: profile.email },
+    { platform: c.contact.phoneLabel, url: `tel:${profile.phone}`, value: profile.phone },
     // Unresolved links are skipped entirely — never rendered as dead anchors.
     // `contactChannel: false` marks a link that belongs in the identity graph
     // but is not a way to reach him (a product page, say).
@@ -1296,7 +1345,7 @@ ${rows
     <span class="linklist__text">
       <span class="platform">${e(r.platform)}</span>
       <span class="value">${e(r.value)}</span>
-    </span>${extAttrs(r.url) ? newTabHint(db.copy[lang].ui.opensInNewTab) : ''}
+    </span>${extAttrs(r.url) ? newTabHint(c.ui.opensInNewTab) : ''}
   </a></li>`,
   )
   .join('\n')}

@@ -10,6 +10,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { loadDb } from '../scripts/lib/load.mjs';
 import { TEMPLATES, notFound } from '../scripts/lib/pages.mjs';
 import { headMeta, monthYear, periodWords, tagsOf } from '../scripts/lib/blocks.mjs';
@@ -62,7 +63,7 @@ test('titles and descriptions carry the words people search for', () => {
       '': ['n8n automation', 'WhatsApp and Telegram bots', 'Arabic invoice extraction', 'Al Khobar, Saudi Arabia'],
       about: ['AI Automation Engineer in Al Khobar'],
       work: ['Technical Lead', 'Frontend Developer', 'React', 'project manager and colleagues'],
-      projects: ['Smart Scanner', 'CV Screener', 'Arabic invoices'],
+      projects: ['AI Products', 'Web Apps', 'Free Browser Tools', 'invoice reading', 'CV screening'],
       showcase: ['Website Design in Al Khobar and Dammam', 'Independent web developer', 'restaurants', 'Dhahran'],
       automation: ['n8n Developer', 'AI Automation in Saudi Arabia', 'Google review replies', 'CV screening'],
       contact: ['Hire Nour Aldeen Tofi'],
@@ -71,7 +72,7 @@ test('titles and descriptions carry the words people search for', () => {
       '': ['أتمتة الأعمال', 'بوتات واتساب وتيليجرام', 'قراءة الفواتير العربية', 'في الخبر بالسعودية'],
       about: ['في الخبر بالسعودية'],
       work: ['قائد تقني', 'مطوّر واجهات أمامية', 'مدير مشروعه وزملائه'],
-      projects: ['برنامج لقراءة الفواتير', 'نظام لفرز السير الذاتية'],
+      projects: ['منتجات ذكاء اصطناعي', 'تطبيقات ويب', 'أدوات مجانية', 'قراءة الفواتير', 'فرز السير الذاتية'],
       showcase: ['تصميم مواقع في الخبر والدمام', 'مطوّر مواقع مستقل', 'المطاعم', 'المنطقة الشرقية'],
       automation: ['مطوّر n8n', 'أتمتة الأعمال بالذكاء الاصطناعي', 'الرد على تقييمات قوقل', 'فرز السير الذاتية'],
       contact: ['وظّفه'],
@@ -85,6 +86,29 @@ test('titles and descriptions carry the words people search for', () => {
       for (const phrase of phrases) assert.ok(both.includes(phrase), `${lang}/${name || 'index'}: "${phrase}" is missing from the title and description`);
     }
   }
+});
+
+/* Each product has a page of its own, whose title opens with its name. The
+   list page describes the collection and leaves the names to those pages:
+   named in its title too, it competed with them for the same search. */
+test('the projects list is titled as a collection, and names no product its own page is titled by', () => {
+  for (const lang of LANGS) {
+    const head = headMeta(db, 'projects', lang);
+    const title = titleOf(head);
+    const description = descriptionOf(head);
+    for (const p of db.projects) {
+      assert.ok(!title.includes(p.name) && !description.includes(p.name), `${lang}: the list page names ${p.name} in its title or description`);
+    }
+    assert.ok(title.length <= 65, `${lang}: "${title}" is ${title.length} characters`);
+    assert.ok(title.endsWith(`| ${db.profile.name[lang]}`), `${lang}: "${title}"`);
+    assert.ok(description.includes(db.profile.name[lang]), `${lang}: the description does not say whose they are`);
+    assert.ok(!/\d/.test(`${title} ${description}`.replace(/n8n/g, '')) && !`${title} ${description}`.includes('—'), `${lang}: a figure or an em dash`);
+  }
+  // The same kinds of thing, in the same order, in both languages.
+  const kinds = (text, words) => words.map((w) => text.indexOf(w));
+  const en = kinds(db.copy.en.meta.pages.projects.description, ['invoice reading', 'CV screening', 'web scraping', 'e-invoicing']);
+  const ar = kinds(db.copy.ar.meta.pages.projects.description, ['قراءة الفواتير', 'فرز السير الذاتية', 'سحب بيانات المواقع', 'الفوترة الإلكترونية']);
+  for (const order of [en, ar]) assert.ok(order.every((at, i) => at > 0 && (i === 0 || order[i - 1] < at)), `the kinds are not all there, in order: ${order}`);
 });
 
 /* A title is cut at about seventy characters, and on these two pages the
@@ -270,7 +294,9 @@ test('the automation page says what he automates before it lists the systems', (
 });
 
 /* A service card is a claim in plain words. Each one names the systems that
-   back it, and links to them on the same page. */
+   back it, and links each to where it is read in full: its own page, the
+   page of the product it runs, or, for one that has neither, its card
+   further down this page. */
 test('every automation service is backed by systems that exist, and links to them', () => {
   assert.deepEqual(db.copy.en.automation.services.map((s) => s.id), db.copy.ar.automation.services.map((s) => s.id));
   assert.deepEqual(db.copy.en.automation.services.map((s) => s.id).sort(), Object.keys(SERVICE_SYSTEMS).sort());
@@ -286,10 +312,16 @@ test('every automation service is backed by systems that exist, and links to the
     for (const s of automationServices(db, lang)) {
       const card = html.split(`id="service-${s.id}"`)[1].split('</article>')[0];
       for (const w of s.systems) {
-        assert.ok(unescape(card).includes(`<a href="#${w.id}">${w.name[lang]}</a>`), `${lang}: ${s.id} does not link to ${w.id}`);
-        assert.ok(html.includes(` id="${w.id}"`), `${lang}: #${w.id} is not on the page`);
+        assert.ok(unescape(card).includes(`<a href="${systemHref(db, w, lang)}">${w.name[lang]}</a>`), `${lang}: ${s.id} does not link to ${w.id}`);
+        assert.ok(html.includes(` id="${w.id}"`), `${lang}: the card of ${w.id} is not on the page`);
       }
     }
+    // All three kinds of address occur, so each is exercised.
+    const links = automationServices(db, lang).flatMap((s) => s.systems.map((w) => systemHref(db, w, lang)));
+    assert.ok(links.includes(pagePath('automation/whatsapp-booking', lang)), `${lang}: a system with a page of its own`);
+    assert.ok(links.includes(`${pagePath('projects/cv-screener', lang)}#automation`), `${lang}: an engine shown on its product's page`);
+    assert.ok(links.includes(`${pagePath('automation', lang)}#crm-lead-cleaner`), `${lang}: a system with only a card`);
+    assert.ok(!/<ul class="card__links">[\s\S]*?href="#/.test(html.split('id="services"')[1].split('</section>')[0]), `${lang}: a service still links to a bare fragment`);
   }
 });
 
@@ -632,6 +664,41 @@ test('the Arabic service cards say what the systems do', () => {
   assert.ok(!/سلبي من تيليجرام/.test(body.reviews));
   // The card and the system it links to name the product the same way.
   assert.match(body.reviews, /تقييمات Google/);
+});
+
+/* One thing, one spelling, and one set of digits. Excel was written two ways
+   in the Arabic data, and a page showed "70+" a few lines above "٧٠": the
+   dates, the figures and the captions are all in Western digits. */
+test('the Arabic data writes Excel in Latin letters and every number in Western digits', () => {
+  const names = ['projects', 'workflows', 'case-study', 'showcase', 'experience', 'credentials', 'testimonials', 'skills', 'profile', 'copy/ar'];
+  for (const name of names) {
+    const raw = readFileSync(`data/${name}.json`, 'utf8');
+    assert.ok(!/[إا]كسل/.test(raw), `data/${name}.json: Excel in Arabic letters`);
+    const digits = raw.match(/.{0,25}[\u0660-\u0669].{0,25}/);
+    assert.equal(digits, null, `data/${name}.json: Arabic-Indic digits in "${digits?.[0]}"`);
+  }
+  assert.ok(/ملف Excel/.test(readFileSync('data/workflows.json', 'utf8')));
+});
+
+/* The labels of a flow are printed as the numbered steps of a page, under
+   prose that already names the same things. They use the words of that
+   prose: Smart Scanner reads invoices, the tutor is a مدرّس, and the marks
+   the sentences carry are on the labels too. */
+test('the step labels of a flow use the words of the page they are printed on', () => {
+  const flow = (id) => db.workflows.find((w) => w.id === id).flow.nodes.map((n) => n.label);
+  for (const label of flow('smart-scanner-pipeline')) {
+    assert.ok(!/receipt/i.test(label.en) && !label.ar.includes('إيصال'), `Smart Scanner speaks of invoices, not "${label.en}" / "${label.ar}"`);
+  }
+  assert.ok(flow('smart-scanner-pipeline').some((l) => l.en === 'Invoice upload' && l.ar === 'رفع الفاتورة'));
+  assert.ok(flow('smart-scanner-pipeline').some((l) => l.en === 'Valid invoice?' && l.ar === 'هل الفاتورة صالحة؟'));
+  // The check for a chess club's registrations does read receipts.
+  assert.ok(flow('receipt-verify').some((l) => l.en === 'Receipt upload'));
+  assert.ok(flow('teacher-assistant-bot').some((l) => l.ar === 'الوكيل الذكي للمدرّس') && db.workflows.find((w) => w.id === 'teacher-assistant-bot').summary.ar.includes('المدرّس'));
+
+  const labels = db.workflows.filter((w) => w.flow).flatMap((w) => w.flow.nodes.map((n) => n.label.ar));
+  for (const bare of [/تلقائيا(?!ً)/, /آليا(?!ً)/, /مصرح/, /الموحد(?!ّ)/, /مولد(?!ّ)/, /مخصص/, /موجه/, /كمتجاهل/]) {
+    assert.deepEqual(labels.filter((l) => bare.test(l)), [], `a label without the marks the prose carries: ${bare}`);
+  }
 });
 
 test('Arabic sentences write واتساب and تيليجرام, one spelling each', () => {

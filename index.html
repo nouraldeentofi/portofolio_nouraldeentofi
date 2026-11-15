@@ -50,7 +50,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <link rel="stylesheet" href="/assets/css/tokens.css?v=9e291487">
 <link rel="stylesheet" href="/assets/css/base.css?v=52040e91">
 <link rel="stylesheet" href="/assets/css/layout.css?v=f9c9bdc0">
-<link rel="stylesheet" href="/assets/css/components.css?v=cb1c85f9">
+<link rel="stylesheet" href="/assets/css/components.css?v=73c51bc3">
 <link rel="stylesheet" href="/assets/css/motion.css?v=0828308a">
 <link rel="stylesheet" href="/assets/css/gallery.css?v=54f99880">
 <link rel="stylesheet" href="/assets/css/responsive.css?v=a7c809d0">
@@ -234,7 +234,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
         </a>
         <a class="brand__name" href="/">نور الدين طفي</a>
       </div>
-      <nav class="site-nav" aria-label="الرئيسية">
+      <nav class="site-nav" aria-label="القائمة الرئيسية">
           <a href="/" aria-current="page">الرئيسية</a>
           <a href="/about">نبذة</a>
           <a href="/work">الخبرة</a>
@@ -354,7 +354,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
   <ul class="badges"><li class="badge">React 19</li><li class="badge">TypeScript</li><li class="badge">Tailwind CSS</li><li class="badge">Vitest</li><li class="badge">React Testing Library</li><li class="badge">n8n</li><li class="badge">OpenAI GPT-4.1 Vision</li><li class="badge">GitHub Actions</li><li class="badge">i18n</li><li class="badge">RTL</li></ul>
   <div class="card__foot">
     <a class="btn" href="https://receipt.nexleadtech.com" target="_blank" rel="noopener noreferrer">زيارة الموقع<span class="visually-hidden"> (يفتح في تبويب جديد)</span></a>
-    <a class="btn btn--ghost" href="/projects/smart-scanner">عرض المشروع</a>
+    <a class="btn btn--ghost" href="/projects/smart-scanner">عرض المشروع<span class="visually-hidden">: Smart Scanner</span></a>
   </div>
 </article>
     </div>
@@ -363,9 +363,9 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
   <section class="section" id="automation">
     <div class="container">
       <div class="section__head" data-reveal>
-        <p class="section__eyebrow">مختبر الأتمتة</p>
+        <p class="section__eyebrow">أنظمة الأتمتة</p>
         <div class="section__titlebar">
-          <h2><a class="section__titlelink" href="/automation">مختبر الأتمتة</a></h2>
+          <h2><a class="section__titlelink" href="/automation">أنظمة الأتمتة</a></h2>
           <a class="section__more" href="/automation">كل الأنظمة<span class="section__more-arrow" aria-hidden="true">→</span></a>
         </div>
         <p class="section__lead">مسارات عمل ووكلاء في الإنتاج، لا عروضاً تجريبية. كلٌّ منها حلّ محلّ عمل كان يؤدّيه شخص بيده.</p>
@@ -374,23 +374,23 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <article data-reveal class="card">
   <p class="card__meta"><span>محرّك سحب بيانات بالذكاء الاصطناعي</span><span>2026</span></p>
   <h3 class="card__title"><a href="/projects/universal-web-scraper#automation">محرّك سحب البيانات الشامل</a></h3>
-  <p class="card__body">رابط واحد يدخل، والموقع كله يخرج. محرّك مشترك يجلب الصفحات ويتصاعد بقدر الحاجة فقط، ويقرأ البيانات المنظّمة قبل أن ينفق شيئاً على الذكاء الاصطناعي، ثم يكتب الصفوف في جدول. والمهام السريعة والزحف الطويل يعملان كعمّال منفصلين يمكن التحكّم بهم.</p>
+  <p class="card__body">محرّك مشترك يجلب الصفحات ويتصاعد بقدر الحاجة فقط، ويقرأ البيانات المنظّمة قبل أن ينفق شيئاً على الذكاء الاصطناعي، ثم يكتب الصفوف في جدول. والمهام السريعة والزحف الطويل يعملان كعمّال منفصلين يمكن التحكّم بهم.</p>
   <ul class="badges"><li class="badge">n8n</li><li class="badge">OpenAI</li><li class="badge">Google Sheets</li><li class="badge">Excel</li></ul>
-  <div class="card__foot"><a class="btn btn--ghost" href="/projects/universal-web-scraper#automation">عرض المشروع</a></div>
+  <div class="card__foot"><a class="btn btn--ghost" href="/projects/universal-web-scraper#automation">عرض المشروع<span class="visually-hidden">: Universal Web Scraper</span></a></div>
 </article>
 <article data-reveal class="card">
   <p class="card__meta"><span>وكلاء ذكاء اصطناعي خلف منتج</span><span>2026</span></p>
   <h3 class="card__title"><a href="/projects/cv-screener#automation">وكلاء فارز السير الذاتية</a></h3>
   <p class="card__body">محرّك الذكاء الاصطناعي في فارز السير الذاتية: وكلاء متشابهون، أحدهم يحلّل سيرة واحدة، والآخر يقيّمها مقابل وظيفة، والثالث يلخّص مجموعة كاملة. يستدعيهم خادم المنتج، وكلٌّ منهم يتحقّق من المفتاح السري أولاً، ويعزل نص السيرة كبيانات، ويُعيد JSON محدّد البنية أو خطأً محدّداً.</p>
   <ul class="badges"><li class="badge">n8n</li><li class="badge">OpenAI</li><li class="badge">Webhooks</li><li class="badge">Structured outputs</li></ul>
-  <div class="card__foot"><a class="btn btn--ghost" href="/projects/cv-screener#automation">عرض المشروع</a></div>
+  <div class="card__foot"><a class="btn btn--ghost" href="/projects/cv-screener#automation">عرض المشروع<span class="visually-hidden">: CV Screener</span></a></div>
 </article>
 <article data-reveal class="card">
   <p class="card__meta"><span>وكيل ذكاء اصطناعي على تيليجرام · مشروع عميل</span><span>2025 حتى الآن</span></p>
   <h3 class="card__title"><a href="/automation/teacher-assistant-bot">بوت المساعد التعليمي بالذكاء الاصطناعي</a></h3>
   <p class="card__body">مساعد عربي بلغة طبيعية سُلّم لمدرّس خصوصي في السعودية. يدير المدرّس الطلاب والجداول والإلغاءات والمستحقات عبر المحادثة بالكامل، والوكيل الذكي يستدعي أدوات CRUD مخصّصة وفق قواعد عمل صارمة بدل التخمين.</p>
   <ul class="badges"><li class="badge">n8n AI Agent</li><li class="badge">OpenAI</li><li class="badge">Google Sheets</li><li class="badge">MySQL</li></ul>
-  <div class="card__foot"><a class="btn btn--ghost" href="/automation/teacher-assistant-bot">عرض المشروع</a></div>
+  <div class="card__foot"><a class="btn btn--ghost" href="/automation/teacher-assistant-bot">التفاصيل<span class="visually-hidden">: بوت المساعد التعليمي بالذكاء الاصطناعي</span></a></div>
 </article>
       </div>
     </div>
@@ -556,7 +556,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
       </ul>
     </div>
   </footer>
-  <nav class="mobile-tabs" aria-label="الرئيسية">
+  <nav class="mobile-tabs" aria-label="تبويبات الصفحات">
     <a href="/" aria-current="page"><span>الرئيسية</span></a>
     <a href="/about"><span>نبذة</span></a>
     <a href="/work"><span>الخبرة</span></a>

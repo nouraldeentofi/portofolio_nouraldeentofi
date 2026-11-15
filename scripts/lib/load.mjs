@@ -100,6 +100,22 @@ function readJson(dir, name) {
   }
 }
 
+/**
+ * Whether a string is a day that exists, written as YYYY-MM-DD.
+ *
+ * Parsing alone is not enough: an impossible day such as 2026-02-30 is
+ * rolled forward into March instead of being refused. So the day is parsed
+ * and written back, and it must come out as it went in.
+ */
+export function isCalendarDay(value) {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const day = new Date(`${value}T00:00:00Z`);
+  return !Number.isNaN(day.getTime()) && day.toISOString().slice(0, 10) === value;
+}
+
+/** File names the host treats specially, so no page of an entry may take them. */
+export const RESERVED_IDS = ['index', '404'];
+
 function requireKeys(obj, keys, file) {
   for (const key of keys) {
     const value = key.split('.').reduce((acc, part) => acc?.[part], obj);
@@ -117,8 +133,8 @@ export function loadDb(dir = 'data') {
 
   // The day his identity facts last changed, set by hand. It becomes the
   // ProfilePage's dateModified, which has to be a real calendar day.
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(profile.updated ?? '') || Number.isNaN(Date.parse(profile.updated))) {
-    throw new Error('profile.json: "updated" must be a day written as YYYY-MM-DD');
+  if (!isCalendarDay(profile.updated)) {
+    throw new Error('profile.json: "updated" must be a real day written as YYYY-MM-DD');
   }
 
   // The Google tag ID is pasted straight into a script tag, so it has to be
@@ -151,6 +167,11 @@ export function loadDb(dir = 'data') {
   for (const [file, rows] of [['projects.json', projects], ['workflows.json', workflows]]) {
     for (const row of rows) {
       if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(row.id)) throw new Error(`${file} (${row.id}): an id is lowercase letters, digits and hyphens`);
+      // The host gives these two file names a meaning of their own: a
+      // `404.html` in a folder answers every missing address under it, and
+      // an `index.html` is served at the folder's address, a second one
+      // beside the list page.
+      if (RESERVED_IDS.includes(row.id)) throw new Error(`${file} (${row.id}): "${row.id}" is reserved by the host and cannot be an id`);
     }
     const ids = rows.map((r) => r.id);
     const twice = ids.find((id, i) => ids.indexOf(id) !== i);

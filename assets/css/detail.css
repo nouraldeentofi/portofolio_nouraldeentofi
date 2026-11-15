@@ -135,6 +135,14 @@
    label, small, in the face the diagram uses for the same word. */
 .detail__steps { margin-block-end: var(--space-6); }
 
+/* The line that says where the diagram comes from, directly above it. */
+.detail__note {
+  color: var(--faint);
+  font-size: 0.86rem;
+  max-inline-size: var(--measure);
+  margin-block-end: var(--space-3);
+}
+
 .detail__steps .steps__item p {
   font-weight: 600;
   color: var(--fg);

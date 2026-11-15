@@ -230,7 +230,9 @@
   border: 1px solid var(--line);
   border-radius: var(--radius-pill);
   padding: var(--space-1) var(--space-3);
-  white-space: nowrap;
+  /* A badge longer than its row breaks inside itself. Held to one line, the
+     longest one on the contact page pushed the whole page sideways on a phone. */
+  max-inline-size: 100%;
 }
 
 .badge--accent {
@@ -679,6 +681,56 @@
   .card--row.has-media .card__media { padding-inline-start: 0; border-inline-start: 0; }
 }
 
+/* A project card on the list page is a summary: a few lines of text, with
+   the full account on the project's own page. Beside so little text the
+   column of figures, stack and buttons stood three times as tall and left
+   half the card empty. On a wide screen it runs across the foot of the card
+   instead: the figures and the two buttons under the text, the stack under
+   the screenshots, on the same two columns. Below 861px nothing changes:
+   the card stacks as every row card does. */
+@media (min-width: 861px) {
+  .card--summary,
+  .card--summary.has-media {
+    grid-template-areas: "main main" "aside aside";
+    grid-template-rows: auto auto;
+    row-gap: var(--space-5);
+  }
+  .card--summary.has-media { grid-template-areas: "main media" "aside aside"; }
+  .card--summary .card__main { grid-area: main; }
+  .card--summary:not(.has-media) .card__main { max-inline-size: var(--measure); }
+  .card--summary.has-media .card__media { padding-block-end: 0; }
+
+  .card--summary .card__aside {
+    grid-area: aside;
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    gap: 0 var(--space-6);
+    padding-inline-start: 0;
+    border-inline-start: 0;
+    padding-block-start: var(--space-5);
+    border-block-start: 1px solid var(--line);
+  }
+  .card--summary .card__aside > .proof {
+    grid-column: 1;
+    grid-row: 1;
+    align-content: start;
+  }
+  .card--summary .card__aside > .card__foot {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: end;
+    margin-block-start: 0;
+  }
+  /* The stack takes the second column for the height of both, behind one rule. */
+  .card--summary .card__aside > .card__body {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    padding-inline-start: var(--space-6);
+    border-inline-start: 1px solid var(--line);
+  }
+}
+
 /* Metrics inside a card are a quiet fact row, not a wall of tiles. */
 .proof--inline {
   display: flex;
@@ -851,8 +903,11 @@
   gap: var(--space-6);
 }
 
+/* Stacked above the story, on a phone and a tablet, the picture stands in
+   the middle of the column with its caption centred under it. */
 .about-portrait {
   max-inline-size: 260px;
+  margin-inline: auto;
 }
 
 .about-portrait img {
@@ -871,6 +926,7 @@
   color: var(--faint);
   font-size: 0.9rem;
   line-height: 1.5;
+  text-align: center;
 }
 
 @media (min-width: 900px) {
@@ -890,7 +946,10 @@
     grid-column: 2;
     grid-row: 1;
     max-inline-size: none;
+    margin-inline: 0;
   }
+
+  .about-portrait figcaption { text-align: start; }
 }
 
 /* ---------- transcript table ---------- */

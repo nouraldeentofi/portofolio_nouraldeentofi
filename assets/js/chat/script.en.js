@@ -29,9 +29,9 @@ export const SCRIPT = {
   automation: {
     msgs: [
       'The short version: I take a process someone does by hand, and make it run itself.',
-      'Six of them are in production right now 👇',
+      'Some run for a client, some are live, some are built and tested. A few of them 👇',
     ],
-    card: `<div class="chat__card-head">🤖 Automation Lab</div>
+    card: `<div class="chat__card-head">🤖 Automation</div>
 <div class="chat__card-body">
   <b>Smart Scanner pipeline</b>: invoice photo → verified → parsed with GPT Vision → validated → stored.<br>
   <b>Teacher Assistant Bot</b>: an Arabic Telegram agent running a tutor's whole practice from chat.<br>
@@ -40,7 +40,7 @@ export const SCRIPT = {
   <b>Lesson Quality Evaluator</b>: video in, structured scoring JSON out.<br>
   <b>CRM Lead Cleaner</b>: dedupes and validates incoming leads, with a reason for every rejection.
 </div>`,
-    msgs2: ['None of these are demos. Each replaced work a person used to do.'],
+    msgs2: ['Each one carries its real status on the Automation page.'],
     opts: [
       ['🧾 Smart Scanner in detail', 'smartscanner'],
       ['💸 The cost trick', 'cost'],

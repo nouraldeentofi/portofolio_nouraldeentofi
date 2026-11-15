@@ -89,18 +89,32 @@ These are not style preferences — `npm test` and `npm run validate` fail on th
   `workflow`: that one is shown on the project's page instead. `scripts/lib/details.mjs`
   decides, and everything that lists or links asks it. No two pages may share a title or a
   description, and a product name is never translated.
+- **The card of a project on `/projects` is a summary**: what it is, his role, the figures,
+  the stack and the way to its page. The problem, what he built and the context are told
+  on `/projects/<id>` only, and a test fails when they are back on the list. The cards of
+  the automation page and the featured card on the home page keep their full text: a
+  system page already adds the steps, the canvas and the outcome.
+- **A detail title is at most eighty characters.** A `headline` does not repeat what the
+  name already says, so `<name>: <headline>` stays near seventy; a test holds the bound.
+- **A share image is a PNG or a JPEG.** Some link previews do not unfold WebP, so a
+  detail page whose screenshot or canvas is a WebP file is shared with the site's card
+  (`detailImage` in `scripts/lib/details.mjs`). The `image` of its `CreativeWork` node
+  stays the real screenshot or canvas.
 - A project or system page is a `CreativeWork` in the structured data, never a
   `SoftwareApplication`: Google wants a price and a rating for that, and neither is invented.
 - Prose contains **no figures** — every number comes from `data/` so it cannot drift.
 - **No em dashes** (`—`) anywhere a reader or a crawler looks: prose, titles, alt text,
   JSON-LD, llms files. Use a comma, colon, full stop or words ("2025 to 2026").
   `validate` fails on any it finds outside inline code comments.
-- The same goes for the two public files written by hand, `robots.txt` and
+- The same goes for the public files written by hand, `robots.txt`, `humans.txt` and
   `mcp/README.md`: `validate` reads them for em dashes as it reads the pages.
 - **Structured data says only what its page shows.** The Person node is slim on every page
   (name, title, address, portrait, profiles) and a page adds only what a visitor can read
   there: the phone number on contact, the certificates on experience, the skills on about
-  (`PERSON_ON_PAGE` in `scripts/lib/jsonld.mjs`). A test reads each page for every value.
+  (`PERSON_ON_PAGE` in `scripts/lib/jsonld.mjs`). His title and address stay in the slim
+  node on every page, printed there or not: they are what makes it one identity. A test
+  reads each page for every value a page adds, what he is looking for included, which is
+  on the contact page only.
 - **A picture has one address.** Nothing under `assets/img/` is ever linked with a `?v=`
   fingerprint, in an `<img>`, in `og:image` or in JSON-LD; `validate` fails on one.
   Stylesheets, scripts and the CV keep their fingerprints.
@@ -138,7 +152,9 @@ These are not style preferences — `npm test` and `npm run validate` fail on th
   page to its page, each service on the automation page to the systems behind it. Pages,
   JSON-LD and the llms files all ask it, so they cannot disagree.
 - `scripts/lib/gates.mjs` holds the checks `validate` runs on what is written by hand
-  (`_redirects`, `_headers`, the misspelled name, em dashes, a fingerprint on an image).
+  (`_redirects`, `_headers`, the misspelled name, em dashes, a fingerprint on an image)
+  and on what the build writes (an address relative to the page, the canonical and the
+  robots meta of a page, the sitemap against the pages and against `scripts/lastmod.json`).
   They are pure, so the tests feed them broken input to prove each one fails.
 - A new top-level file or folder that is **not part of the site** needs an entry in
   `PRIVATE_PATHS` in `scripts/lib/gates.mjs` and a rule in `_redirects`; one that is part
