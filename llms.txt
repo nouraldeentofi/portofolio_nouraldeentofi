@@ -4,7 +4,7 @@
 
 Also known as: Nour Aldeen Tofi · Nouraldeen Tofi · Nour Al-Deen Tofi · Nour Al Deen Tofi · Nour Aldin Tofi · Nour Eddin Tofi · Noureddine Tofi · Nour El Din Tofi · Noor Aldeen Tofi · Nour Aldeen Toufi · Nour Tofi · nouraldeentofi · nourtofi · نور الدين طفي · نورالدين طفي · نور الدين الطفي · نور طفي
 
-I build AI automation systems that turn messy manual processes into clean, self-running workflows. I also build the interfaces people use on top of them. My spearhead is n8n paired with language models: production workflows that read Arabic and English documents, validate them, catch what does not belong, and push clean structured data into sheets, CRMs, and dashboards. Most recently I led frontend development as a Software Engineering Supervisor, owning delivery end to end: requirements, tasks, production. I am available now for AI automation and frontend roles in Saudi Arabia or remote.
+I build AI automation in n8n that reads Arabic and English documents, runs WhatsApp and Telegram bots, and delivers clean data to the tools a business already uses. I also build the React interfaces and the websites on top.
 
 - **Roles I am looking for:** AI Automation Engineer, n8n Workflow Automation Engineer, Applied AI and LLM Engineer, Frontend Developer (React, TypeScript, Next.js), Frontend Lead and Technical Lead
 - **Locations:** Al Khobar, Dammam, Dhahran, Eastern Province, Riyadh and anywhere in Saudi Arabia (open to relocation), Remote

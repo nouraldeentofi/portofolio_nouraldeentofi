@@ -193,6 +193,7 @@ main { position: relative; }
 .js .hero__altname,
 .js .hero__headline,
 .js .hero__intro,
+.js .hero__note,
 .js .hero__actions,
 .js .hero__eyebrow {
   animation: nt-rise 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
@@ -203,6 +204,7 @@ main { position: relative; }
 .js .hero__altname { animation-delay: 0.12s; }
 .js .hero__headline { animation-delay: 0.16s; }
 .js .hero__intro { animation-delay: 0.24s; }
+.js .hero__note { animation-delay: 0.28s; }
 .js .hero__actions { animation-delay: 0.32s; }
 
 @keyframes nt-rise {
@@ -222,6 +224,7 @@ main { position: relative; }
   .js .hero__altname,
   .js .hero__headline,
   .js .hero__intro,
+  .js .hero__note,
   .js .hero__actions,
   .js .hero__eyebrow,
   .timeline__item--current::before,

@@ -347,11 +347,45 @@
   margin-block-end: var(--space-4);
 }
 
+/* A lead of a few sentences says what the page offers and where. It keeps
+   the headline's colour but takes the weight and the measure of running
+   text: three sentences set as a headline read as shouting. */
+.hero__headline--lead {
+  font-size: clamp(1.02rem, 0.96rem + 0.35vw, 1.2rem);
+  font-weight: 400;
+  max-inline-size: var(--measure);
+}
+
 .hero__intro {
   color: var(--dim);
   max-inline-size: var(--measure);
   margin-block-end: var(--space-6);
 }
+
+/* One line of status above the buttons: a live dot, then the words. */
+.hero__note {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  max-inline-size: var(--measure);
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--fg);
+  margin-block-end: var(--space-5);
+}
+
+.hero__note::before {
+  content: '';
+  flex: none;
+  inline-size: 9px;
+  block-size: 9px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+/* The note belongs to the paragraph above it, so the gap between them closes. */
+.hero__intro:has(+ .hero__note) { margin-block-end: var(--space-4); }
 
 .hero__actions {
   display: flex;

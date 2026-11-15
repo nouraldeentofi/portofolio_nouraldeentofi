@@ -94,6 +94,10 @@ test('copy arrays are the same length in both languages', () => {
     ['about.principles', db.copy.en.about.principles, db.copy.ar.about.principles],
     ['about.faq', db.copy.en.about.faq, db.copy.ar.about.faq],
     ['automation.caseBody', db.copy.en.automation.caseBody, db.copy.ar.automation.caseBody],
+    ['automation.services', db.copy.en.automation.services, db.copy.ar.automation.services],
+    ['automation.process', db.copy.en.automation.process, db.copy.ar.automation.process],
+    ['showcase.offer', db.copy.en.showcase.offer, db.copy.ar.showcase.offer],
+    ['home.offers', db.copy.en.home.offers, db.copy.ar.home.offers],
   ];
   for (const [name, en, ar] of pairs) {
     assert.equal(en.length, ar.length, `${name} length differs between languages`);

@@ -6,34 +6,34 @@
     "pages": {
       "home": {
         "title": "Nour Aldeen Tofi (نور الدين طفي) | AI Automation Engineer and Frontend Developer",
-        "description": "AI Automation Engineer and Frontend Developer in Al Khobar, Saudi Arabia, available now. I build n8n workflows with LLM agents, Arabic document AI, and the React interfaces on top of them."
+        "description": "Nour Aldeen Tofi, AI automation engineer and frontend developer in Al Khobar, Saudi Arabia. I build n8n automation with AI agents, WhatsApp and Telegram bots, Arabic invoice extraction, and websites for companies and shops."
       },
       "about": {
-        "title": "About Nour Aldeen Tofi | AI Automation and Frontend Engineer",
+        "title": "About Nour Aldeen Tofi | AI Automation Engineer in Al Khobar",
         "description": "How Nour Aldeen Tofi works: n8n automation with language models, Arabic document AI, React and TypeScript frontends, and delivery from requirements to production."
       },
       "work": {
-        "title": "Experience and Recommendations | Nour Aldeen Tofi",
-        "description": "Nour Aldeen Tofi's experience as a Technical Lead, frontend developer and automation engineer in Saudi Arabia, with certifications, education and recommendations."
+        "title": "Technical Lead and Frontend Developer (React, TypeScript) | Nour Aldeen Tofi",
+        "description": "Experience of Nour Aldeen Tofi as a technical lead and React frontend developer in Saudi Arabia, with recommendations from managers and colleagues, certifications and education. Available immediately."
       },
       "projects": {
-        "title": "AI Products and Projects | Nour Aldeen Tofi",
-        "description": "Smart Scanner, CV Screener and more by Nour Aldeen Tofi: Arabic-first AI SaaS, free browser tools, and apps built with React, TypeScript, Next.js and n8n."
+        "title": "AI Products and Web Apps: Smart Scanner, CV Screener | Nour Aldeen Tofi",
+        "description": "Smart Scanner reads Arabic invoices with AI, CV Screener ranks CVs with quoted evidence, plus free browser tools and apps built with React, Next.js and n8n. By Nour Aldeen Tofi."
       },
       "showcase": {
-        "title": "Websites I Built | Nour Aldeen Tofi, Web Developer in Saudi Arabia",
-        "description": "Websites designed and built by Nour Aldeen Tofi for professionals, companies and shops in Saudi Arabia and beyond, each one built around its own visual idea."
+        "title": "Website Design in Al Khobar and Dammam | Nour Aldeen Tofi, Independent Web Developer",
+        "description": "Independent web developer in Al Khobar. I design and build bilingual Arabic and English websites for professionals, companies, shops and restaurants in Dammam, Dhahran and across Saudi Arabia. See the sites I built."
       },
       "automation": {
-        "title": "n8n Automation Lab | AI Workflows by Nour Aldeen Tofi",
-        "description": "Production n8n workflows and AI agents by Nour Aldeen Tofi: Arabic invoice extraction, Telegram and WhatsApp bots, job matching, lead generation and more."
+        "title": "n8n Developer and AI Automation in Saudi Arabia | Nour Aldeen Tofi",
+        "description": "n8n developer in Al Khobar building AI automation for businesses in Saudi Arabia: Arabic invoice reading, WhatsApp and Telegram bots, Google review replies, CV screening and data pipelines. Real systems, each with its honest status."
       },
       "chat": {
         "title": "Chat with the Portfolio | Nour Aldeen Tofi",
         "description": "Ask about Nour Aldeen Tofi's AI automation work, projects and experience in a short guided conversation, with the full text transcript."
       },
       "contact": {
-        "title": "Contact and Hire Nour Aldeen Tofi | AI Automation Engineer",
+        "title": "Contact and Hire Nour Aldeen Tofi | AI Automation and Web Development",
         "description": "Hire Nour Aldeen Tofi, an AI Automation Engineer and Frontend Developer in Al Khobar, available immediately for roles in Saudi Arabia or remote. Email, LinkedIn and CV."
       }
     }
@@ -104,7 +104,29 @@
   },
   "home": {
     "eyebrow": "Al Khobar, Saudi Arabia · Arabic & English",
-    "intro": "I build AI automation systems that turn messy manual processes into clean, self-running workflows. I also build the interfaces people use on top of them. My spearhead is n8n paired with language models: production workflows that read Arabic and English documents, validate them, catch what does not belong, and push clean structured data into sheets, CRMs, and dashboards. Most recently I led frontend development as a Software Engineering Supervisor, owning delivery end to end: requirements, tasks, production. I am available now for AI automation and frontend roles in Saudi Arabia or remote.",
+    "intro": "I build AI automation in n8n that reads Arabic and English documents, runs WhatsApp and Telegram bots, and delivers clean data to the tools a business already uses. I also build the React interfaces and the websites on top.",
+    "availability": "Available now for AI automation and frontend roles and projects, in Saudi Arabia or remote.",
+    "offersTitle": "What I can do for you",
+    "offers": [
+      {
+        "id": "automation",
+        "title": "AI automation with n8n",
+        "body": "Workflows and AI agents that take over repetitive work: reading invoices, answering customers, screening CVs, moving data.",
+        "cta": "See the automation systems"
+      },
+      {
+        "id": "websites",
+        "title": "Websites for professionals and businesses",
+        "body": "Bilingual sites designed around the person or the business, fast on phones and readable by Google and AI assistants.",
+        "cta": "See the websites"
+      },
+      {
+        "id": "frontend",
+        "title": "Frontend development and technical leadership",
+        "body": "React, TypeScript and Next.js interfaces in Arabic and English with full right-to-left support, delivered from requirements to production.",
+        "cta": "See my experience"
+      }
+    ],
     "proofLabel": "In numbers",
     "featuredLabel": "Featured work",
     "automationLabel": "Automation Lab",
@@ -119,12 +141,12 @@
     "showcaseLead": "For people, companies and shops. Each one starts from who they are, not from a template."
   },
   "about": {
-    "title": "About",
+    "title": "About Nour Aldeen Tofi",
     "lead": "I care about automation that makes business sense, not automation that demos well.",
     "body": [
       "I started where most frontend developers start: turning designs into interfaces. What changed things was discovering that the interface is usually the smallest part of the problem. Behind almost every screen someone is retyping data that a machine could have read.",
-      "So I went looking for the layer underneath. n8n gave me a way to connect language models to real systems: documents in, validated structured data out, straight into the tools a business already uses. Arabic is where this gets interesting, because most global tools quietly do not handle it, and the region is moving fast toward mandatory digital invoicing.",
-      "I still write the frontend, and in my last role I led it: I set the standards, reviewed the code, and mentored the developers. The difference is that I now design the whole path, from the moment a document arrives to the moment someone approves it on screen.",
+      "So I went looking for the layer underneath. n8n gave me a way to connect language models to real systems: production workflows that read Arabic and English documents, validate them, catch what does not belong, and push clean structured data into the sheets, CRMs and dashboards a business already uses. Arabic is where this gets interesting, because most global tools quietly do not handle it, and the region is moving fast toward mandatory digital invoicing.",
+      "I still write the frontend, and in my last role, as a Software Engineering Supervisor, I led it: I set the standards, reviewed the code, and mentored the developers. The difference is that I now design the whole path, from the moment a document arrives to the moment someone approves it on screen.",
       "The other half of the job is coordination. I gather requirements directly from clients, define scope and acceptance criteria, break work into tasks, and keep delivery on schedule across frontend, backend, and design. It is less glamorous than the AI part and it is often what decides whether a project ships."
     ],
     "principlesTitle": "How I work",
@@ -201,8 +223,8 @@
     ]
   },
   "work": {
-    "title": "Work",
-    "lead": "Roles, delivery, and the people I have built things with.",
+    "title": "Experience and recommendations",
+    "lead": "Frontend developer and technical lead (React, TypeScript, Next.js) who owns delivery from requirements to production. Based in Al Khobar and available immediately for roles in Saudi Arabia or remote.",
     "timelineTitle": "Experience",
     "testimonialsTitle": "Recommendations",
     "credentialsTitle": "Certifications",
@@ -211,7 +233,7 @@
     "testimonialsSource": "All recommendations on LinkedIn"
   },
   "projects": {
-    "title": "Projects",
+    "title": "AI products and web apps I built",
     "lead": "Products, tools and platforms I designed, built, or shipped end to end, from an Arabic-first SaaS to free tools that run in the browser and an app on the Play Store.",
     "groups": {
       "ai": "AI products",
@@ -220,8 +242,18 @@
     }
   },
   "showcase": {
-    "title": "Showcase",
-    "lead": "Websites I designed and built for people, companies and shops. Each one starts from who they are, not from a template.",
+    "title": "Websites I design and build",
+    "lead": "I am an independent web developer in Al Khobar. I design and build bilingual websites, Arabic and English, for professionals, companies, shops and restaurants in Dammam, Dhahran and the rest of Saudi Arabia. Each one starts from who they are, not from a template.",
+    "offerTitle": "What you get",
+    "offer": [
+      "A site designed around you or your business, not a template with your name on it.",
+      "Arabic and English from the first day, each reading in its own direction.",
+      "Fast on phones, where most of your visitors are.",
+      "Readable by Google and by AI assistants, so people who ask about you find you.",
+      "For shops and restaurants: what you sell or serve shown in photos, the location on the map, and ordering or booking through WhatsApp."
+    ],
+    "whereTitle": "Where I work",
+    "where": "I am based in Al Khobar and meet clients in person in Al Khobar, Dammam and Dhahran. For clients elsewhere in Saudi Arabia and abroad, the whole project runs remotely.",
     "segments": {
       "people": "People",
       "companies": "Companies",
@@ -234,8 +266,43 @@
     "ctaBody": "Send me your LinkedIn profile or your shop's Google Maps listing, and I will tell you what I would build."
   },
   "automation": {
-    "title": "Automation Lab",
-    "lead": "Systems and workflows built in n8n with language models. Each one is marked honestly: running for a client, live, or built and tested.",
+    "title": "n8n and AI automation for businesses",
+    "lead": "I am an n8n developer based in Al Khobar. I build automation with language models for businesses across Saudi Arabia, on site in the Eastern Province and remotely everywhere else, in Arabic and English. Every system on this page is marked honestly: running for a client, live, or built and tested.",
+    "servicesTitle": "What I can automate for your business",
+    "services": [
+      {
+        "id": "invoices",
+        "title": "Arabic invoices and documents",
+        "body": "A photo or a PDF of an invoice goes in, and checked, structured data comes out: supplier, amounts, tax and line items, in Arabic and English, handwriting included. This is the engine inside Smart Scanner."
+      },
+      {
+        "id": "bots",
+        "title": "WhatsApp and Telegram bots",
+        "body": "Bots that take bookings through WhatsApp buttons, and Telegram assistants that run daily work from a chat, where the AI calls fixed tools under strict rules instead of guessing."
+      },
+      {
+        "id": "reviews",
+        "title": "Customer reviews and messages",
+        "body": "Replies to Google reviews written automatically, with the owner approving the answer to any negative review on Telegram first, and one inbox that gathers every channel and drafts a reply in the customer's own dialect."
+      },
+      {
+        "id": "hiring",
+        "title": "Hiring",
+        "body": "CV screening that reads Arabic and English CVs, scores each candidate against the role, and quotes the line of the CV behind every score."
+      },
+      {
+        "id": "data",
+        "title": "Data and leads",
+        "body": "A whole website pulled into a spreadsheet, business leads found and scored, and messy contact lists cleaned, with a reason recorded for every rejected row."
+      }
+    ],
+    "processTitle": "How a project runs",
+    "process": [
+      "We go through the manual work as it happens today, on real samples.",
+      "I build the workflow and test it on those samples until the results are right.",
+      "It goes live with a person approving anything sensitive.",
+      "I stay on to monitor it, fix it and extend it."
+    ],
     "caseTitle": "A case study in cost: one branch, three quarters saved",
     "caseBody": [
       "The mistake in my first workflow was sending every file that arrived at the webhook straight to a vision model. It worked. It also cost roughly three times more than it needed to.",
@@ -267,7 +334,7 @@
     "transcriptOpening": "Opening"
   },
   "contact": {
-    "title": "Contact",
+    "title": "Contact Nour Aldeen Tofi",
     "lead": "The fastest route is email. I read everything, and I reply.",
     "availabilityTitle": "Availability",
     "availableNow": "Available immediately",

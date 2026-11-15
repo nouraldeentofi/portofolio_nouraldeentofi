@@ -363,7 +363,7 @@
     },
     "kind": {
       "en": "Telegram AI agent · client project",
-      "ar": "وكيل ذكاء اصطناعي على Telegram · مشروع عميل"
+      "ar": "وكيل ذكاء اصطناعي على تيليجرام · مشروع عميل"
     },
     "year": {
       "en": "2025 to present",
@@ -375,7 +375,7 @@
     },
     "trigger": {
       "en": "Telegram message",
-      "ar": "رسالة على Telegram"
+      "ar": "رسالة على تيليجرام"
     },
     "services": [
       "n8n AI Agent",
@@ -418,7 +418,7 @@
           "id": "tg-in",
           "label": {
             "en": "Telegram message",
-            "ar": "رسالة تيليغرام"
+            "ar": "رسالة تيليجرام"
           },
           "kind": "trigger",
           "service": "Telegram"
@@ -727,7 +727,7 @@
     ],
     "name": {
       "en": "Telegram Publishing System",
-      "ar": "نظام النشر عبر تيليغرام"
+      "ar": "نظام النشر عبر تيليجرام"
     },
     "kind": {
       "en": "Content system run from a chat",
@@ -736,11 +736,11 @@
     "year": "2026",
     "summary": {
       "en": "Plan, review, approve and publish posts to LinkedIn, Instagram and Reddit from a Telegram chat. The AI only understands what you meant; every decision after that is made by a deterministic state machine.",
-      "ar": "خطّط لمنشوراتك وراجعها واعتمدها وانشرها على LinkedIn وInstagram وReddit من محادثة تيليغرام. الذكاء الاصطناعي يفهم ما تقصده فقط؛ وكل قرار بعد ذلك تتّخذه آلة حالة محدّدة النتائج."
+      "ar": "خطّط لمنشوراتك وراجعها واعتمدها وانشرها على LinkedIn وInstagram وReddit من محادثة تيليجرام. الذكاء الاصطناعي يفهم ما تقصده فقط؛ وكل قرار بعد ذلك تتّخذه آلة حالة محدّدة النتائج."
     },
     "trigger": {
       "en": "Telegram message and a scheduler",
-      "ar": "رسالة تيليغرام ومجدول"
+      "ar": "رسالة تيليجرام ومجدول"
     },
     "services": [
       "n8n",
@@ -1107,11 +1107,11 @@
     "year": "2026",
     "summary": {
       "en": "New Google reviews are picked up on a schedule and answered in the reviewer's own language. Happy reviews get a reply on their own; unhappy ones go to the owner on Telegram, who approves or skips with one tap.",
-      "ar": "تُلتقط تقييمات Google الجديدة دورياً ويُردّ عليها بلغة صاحب التقييم. التقييمات الراضية تحصل على ردّها تلقائياً؛ أما غير الراضية فتصل إلى المالك على تيليغرام ليعتمدها أو يتجاوزها بضغطة واحدة."
+      "ar": "تُلتقط تقييمات Google الجديدة دورياً ويُردّ عليها بلغة صاحب التقييم. التقييمات الراضية تحصل على ردّها تلقائياً؛ أما غير الراضية فتصل إلى المالك على تيليجرام ليعتمدها أو يتجاوزها بضغطة واحدة."
     },
     "trigger": {
       "en": "Schedule and a Telegram button",
-      "ar": "جدول زمني وزر في تيليغرام"
+      "ar": "جدول زمني وزر في تيليجرام"
     },
     "services": [
       "n8n",
@@ -1314,7 +1314,7 @@
       "ar": [
         "مُقيّم يُخرج JSON منظّماً ويمنح درجة ملاءمة من ١ إلى ١٠",
         "إزالة التكرار مقابل جداول بيانات n8n فلا يتكرّر أي إعلان",
-        "إرسال المطابقات عالية التقييم فقط عبر Telegram",
+        "إرسال المطابقات عالية التقييم فقط عبر تيليجرام",
         "موافقة بشرية قبل إرسال أي طلب توظيف",
         "طلبات شبه آلية مع رسائل تغطية مخصّصة يولّدها الذكاء الاصطناعي وتُرسل عبر Gmail",
         "مصنع ينسخ البحث إلى بوت يومي مستقل لكل مستخدم عبر واجهة n8n، أي أتمتة تبني أتمتة"
@@ -1928,11 +1928,11 @@
     "year": "2026",
     "summary": {
       "en": "Send a post idea to a Telegram bot and get back captions for each platform and a branded image in your own colours, fonts and logo. Nothing is scheduled until you approve the preview.",
-      "ar": "أرسل فكرة منشور إلى بوت تيليغرام، فتعود إليك نصوص لكل منصة وصورة بهويتك: ألوانك وخطوطك وشعارك. ولا يُجدول شيء قبل أن تعتمد المعاينة."
+      "ar": "أرسل فكرة منشور إلى بوت تيليجرام، فتعود إليك نصوص لكل منصة وصورة بهويتك: ألوانك وخطوطك وشعارك. ولا يُجدول شيء قبل أن تعتمد المعاينة."
     },
     "trigger": {
       "en": "Telegram message",
-      "ar": "رسالة تيليغرام"
+      "ar": "رسالة تيليجرام"
     },
     "services": [
       "n8n",

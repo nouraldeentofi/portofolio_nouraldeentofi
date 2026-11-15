@@ -233,6 +233,17 @@ export function checkAll({ pages = pageFiles() } = {}) {
       }
     }
 
+    // 8e: a link to one item on a page must have that item to land on.
+    //
+    // Cards link to `/projects#smart-scanner`. If the id is renamed, the link
+    // still resolves to a real file and quietly lands on the top of the page.
+    for (const [, target, fragment] of html.matchAll(/href="(?!https?:|mailto:|tel:)([^"#]*)#([^"]+)"/g)) {
+      const resolved = target ? toFile(target, dir) : file;
+      if (!resolved?.endsWith('.html') || !existsSync(resolved)) continue;
+      const there = resolved === file ? html : readFileSync(resolved, 'utf8');
+      if (!there.includes(` id="${fragment}"`)) fail(`${file}: link "${target}#${fragment}" has nothing to land on in ${resolved}`);
+    }
+
     sectionCounts[`${page}:${lang}`] = (html.match(/<section/g) ?? []).length;
   }
 

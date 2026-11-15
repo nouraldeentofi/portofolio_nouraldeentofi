@@ -13,6 +13,7 @@
  */
 
 import { pagePath } from './sitemap.mjs';
+import { homeOffers } from './offers.mjs';
 
 const CTX = 'https://schema.org';
 
@@ -190,6 +191,38 @@ export function profilePageLd(db, lang, modified = null) {
     mainEntity: { '@id': `${base(db)}/#nour` },
     ...(modified ? { dateModified: modified } : {}),
   };
+}
+
+/**
+ * What he offers, one Service per card on the home page.
+ *
+ * The name and the description are the card's own words, so the markup says
+ * nothing a visitor cannot read. He is the provider, as a person: this is not
+ * a LocalBusiness, and it carries no price and no rating, because the site
+ * states neither. The languages sit on the channel, which is where
+ * schema.org puts them: a Service has no availableLanguage of its own.
+ */
+export function servicesLd(db, lang) {
+  return homeOffers(db, lang).map((o) => {
+    const url = pageUrl(db, o.page, lang);
+    return {
+      '@context': CTX,
+      '@type': 'Service',
+      // The address of the card itself, so the node points at the words it repeats.
+      '@id': `${pageUrl(db, '', lang)}#offer-${o.id}`,
+      name: o.title,
+      description: o.body,
+      serviceType: o.serviceType,
+      provider: { '@id': `${base(db)}/#nour` },
+      areaServed: { '@type': 'Country', name: db.profile.location.country[lang] },
+      availableChannel: {
+        '@type': 'ServiceChannel',
+        serviceUrl: url,
+        availableLanguage: db.profile.languages.map((l) => l.code),
+      },
+      url,
+    };
+  });
 }
 
 export function projectsLd(db, lang) {

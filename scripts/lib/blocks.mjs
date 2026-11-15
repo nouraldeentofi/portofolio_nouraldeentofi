@@ -10,6 +10,7 @@ import * as ld from './jsonld.mjs';
 import { flowDiagram } from './diagram.mjs';
 import { pagePath } from './sitemap.mjs';
 import { byCompany } from './experience.mjs';
+import { homeOffers as offersOf, automationServices as servicesOf } from './offers.mjs';
 
 const e = escapeHtml;
 const base = (db) => db.profile.site.replace(/\/$/, '');
@@ -27,6 +28,36 @@ const PAGE_KEY = { '': 'home', about: 'about', work: 'work', projects: 'projects
 /* Words, not a dash: "2025-01 to 2026-11", and "حتى الآن" with no "إلى" in front of it. */
 export function period(start, end, c) {
   return end ? `${start} ${c.ui.to} ${end}` : `${start} ${c.ui.toPresent}`;
+}
+
+/* "November 2026" / "نوفمبر 2026", with Latin digits like every other date on the site.
+   Takes a day ("2026-11-03") or a month ("2026-11"); a bare year is already words. */
+export const monthYear = (iso, lang) =>
+  /^\d{4}$/.test(iso)
+    ? iso
+    : new Intl.DateTimeFormat(lang === 'ar' ? 'ar-u-nu-latn' : 'en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(
+        new Date(`${iso.length === 7 ? `${iso}-01` : iso}T00:00:00Z`),
+      );
+
+/**
+ * A period the way a visitor reads it: "January 2025 to November 2026",
+ * "يناير 2025 إلى نوفمبر 2026". A recruiter skimming the page should not have
+ * to decode "2025-01". `period` above stays as it is for the llms files,
+ * where the bare month is exactly what a model wants.
+ */
+export function periodWords(start, end, lang, c) {
+  return end ? `${monthYear(start, lang)} ${c.ui.to} ${monthYear(end, lang)}` : `${monthYear(start, lang)} ${c.ui.toPresent}`;
+}
+
+/* One date on a page: the words for the reader, the month itself kept in `datetime` for a machine. */
+const dateHtml = (iso, lang, cls = '') =>
+  `<time${cls ? ` class="${cls}"` : ''} datetime="${e(iso)}">${e(monthYear(iso, lang))}</time>`;
+
+/* `periodWords`, as markup. */
+function periodHtml(start, end, lang, c) {
+  return end
+    ? `${dateHtml(start, lang)} ${e(c.ui.to)} ${dateHtml(end, lang)}`
+    : `${dateHtml(start, lang)} ${e(c.ui.toPresent)}`;
 }
 
 const list = (items, cls = '') => `<ul class="${cls}">${items.map((i) => `<li>${i}</li>`).join('')}</ul>`;
@@ -148,7 +179,7 @@ export function headLd(db, page, lang, { pageLd = true } = {}) {
   if (!pageLd) return ld.toScriptTag(...site);
 
   const extra = {
-    '': [ld.profilePageLd(db, lang, db.build?.modified)],
+    '': [ld.profilePageLd(db, lang, db.build?.modified), ...ld.servicesLd(db, lang)],
     about: [ld.faqLd(db, lang)],
     work: [ld.experienceLd(db, lang), ...ld.recommendationsLd(db, lang)],
     projects: [ld.projectsLd(db, lang)],
@@ -162,6 +193,33 @@ export function headLd(db, page, lang, { pageLd = true } = {}) {
 }
 
 /* ------------------------------------------------------------------ home */
+
+/**
+ * The address of one item on its list page: the page plus the item's id.
+ *
+ * A card on the home page links its title here, so the words of the link are
+ * the name of the thing, and the reader lands on that thing, not on the top
+ * of a long list.
+ */
+const itemHref = (page, id, lang) => `${href(page, lang)}#${e(id)}`;
+
+/**
+ * What he offers, right under the hero: one card per offer, each leading to
+ * the page that covers it. The title is the link, so the page it points at
+ * is named in the words people search for; the button repeats it for a thumb.
+ */
+export function homeOffers(db, lang) {
+  return offersOf(db, lang)
+    .map((o) => {
+      const to = href(o.page, lang);
+      return `<article data-reveal class="card" id="offer-${e(o.id)}">
+  <h3 class="card__title"><a href="${to}">${e(o.title)}</a></h3>
+  <p class="card__body">${e(o.body)}</p>
+  <div class="card__foot"><a class="btn btn--ghost" href="${to}">${e(o.cta)}</a></div>
+</article>`;
+    })
+    .join('\n');
+}
 
 export function homeProof(db, lang) {
   const featured = db.projects.find((p) => p.featured);
@@ -189,7 +247,7 @@ export function homeFeatured(db, lang) {
 
   return `<article data-reveal class="card card--featured">
   <p class="card__meta"><span>${e(p.category[lang])}</span><span>${e(yearOf(p.year, lang))}</span></p>
-  <h3 class="card__title">${e(p.name)}</h3>
+  <h3 class="card__title"><a href="${itemHref('projects', p.id, lang)}">${e(p.name)}</a></h3>
   <p class="card__body">${e(p.tagline[lang])}</p>
   <dl class="card__body">
     <dt>${e(c.ui.problem)}</dt><dd>${prose(db, p.problem[lang], lang)}</dd>
@@ -199,7 +257,7 @@ export function homeFeatured(db, lang) {
   ${badges(p.stack)}
   <div class="card__foot">
     ${p.url ? `<a class="btn" href="${e(p.url)}"${extAttrs(p.url)}>${e(c.ui.visitLive)}${newTabHint(c.ui.opensInNewTab)}</a>` : ''}
-    <a class="btn btn--ghost" href="${href('projects', lang)}">${e(c.ui.viewProject)}</a>
+    <a class="btn btn--ghost" href="${itemHref('projects', p.id, lang)}">${e(c.ui.viewProject)}</a>
   </div>
 </article>`;
 }
@@ -211,10 +269,10 @@ export function homeAutomation(db, lang) {
     .map(
       (w) => `<article data-reveal class="card">
   <p class="card__meta"><span>${e(w.kind[lang])}</span><span>${e(yearOf(w.year, lang))}</span></p>
-  <h3 class="card__title">${e(w.name[lang])}</h3>
+  <h3 class="card__title"><a href="${itemHref('automation', w.id, lang)}">${e(w.name[lang])}</a></h3>
   <p class="card__body">${prose(db, w.summary[lang], lang)}</p>
   ${badges(w.services.slice(0, 4))}
-  <div class="card__foot"><a class="btn btn--ghost" href="${href('automation', lang)}">${e(c.ui.viewProject)}</a></div>
+  <div class="card__foot"><a class="btn btn--ghost" href="${itemHref('automation', w.id, lang)}">${e(c.ui.viewProject)}</a></div>
 </article>`,
     )
     .join('\n');
@@ -231,7 +289,7 @@ export function homeProjects(db, lang) {
     .map(
       (p) => `<article data-reveal class="card">
   <p class="card__meta"><span>${e(p.category[lang])}</span><span>${e(yearOf(p.year, lang))}</span></p>
-  <h3 class="card__title">${e(p.name)}</h3>
+  <h3 class="card__title"><a href="${itemHref('projects', p.id, lang)}">${e(p.name)}</a></h3>
   <p class="card__body">${e(p.tagline[lang])}</p>
   ${badges(p.stack.slice(0, 4))}
   <div class="card__foot">${
@@ -325,7 +383,7 @@ export function workTimeline(db, lang) {
   const current = (end) => (end === null ? ' timeline__item--current' : '');
 
   const single = (x) => `  <li data-reveal class="timeline__item${current(x.end)}">
-    <p class="timeline__period">${e(period(x.start, x.end, c))}</p>
+    <p class="timeline__period">${periodHtml(x.start, x.end, lang, c)}</p>
     <h3 class="timeline__role">${e(x.role[lang])}</h3>
     <p class="timeline__org">${org(db, x.company, lang)} · ${e(x.location[lang])} · ${e(x.type[lang])}</p>
     ${list(x.bullets[lang].map((b) => prose(db, b, lang)), 'timeline__bullets')}
@@ -337,7 +395,7 @@ export function workTimeline(db, lang) {
   const group = (g) => {
     const latest = g.roles[0];
     return `  <li data-reveal class="timeline__item timeline__item--group${current(g.end)}">
-    <p class="timeline__period">${e(period(g.start, g.end, c))}</p>
+    <p class="timeline__period">${periodHtml(g.start, g.end, lang, c)}</p>
     <h3 class="timeline__role">${org(db, g.company, lang)}</h3>
     <p class="timeline__org">${e(latest.location[lang])} · ${e(latest.type[lang])}</p>
     <ol class="timeline__steps">
@@ -345,7 +403,7 @@ ${g.roles
   .map(
     (x) => `      <li class="timeline__step">
         <h4 class="timeline__step-role">${e(x.role[lang])}</h4>
-        <p class="timeline__period">${e(period(x.start, x.end, c))}</p>
+        <p class="timeline__period">${periodHtml(x.start, x.end, lang, c)}</p>
         ${list(x.bullets[lang].map((b) => prose(db, b, lang)), 'timeline__bullets')}
         ${badges(x.stack)}
       </li>`,
@@ -362,12 +420,6 @@ ${byCompany(db.experience)
 </ol>`;
 }
 
-/* "November 2026" / "نوفمبر 2026", with Latin digits like every other date on the site. */
-const monthYear = (iso, lang) =>
-  new Intl.DateTimeFormat(lang === 'ar' ? 'ar-u-nu-latn' : 'en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(
-    new Date(`${iso}T00:00:00Z`),
-  );
-
 /*
  * Recommendations, newest first as they are in the data. Each one says who
  * wrote it, how they knew Nour and when, and whether this is a translation:
@@ -380,7 +432,7 @@ export function workTestimonials(db, lang) {
     .map(
       (t) => `<figure data-reveal class="quote" lang="${lang}">
   <blockquote class="quote__body">${e(t.quote[lang])}</blockquote>
-  <figcaption class="quote__author">${person(db, t.author, lang)}<span class="quote__role">${e(t.title[lang])}</span><span class="quote__meta">${e(t.relationship[lang])} · <time datetime="${e(t.date)}">${e(monthYear(t.date, lang))}</time>${
+  <figcaption class="quote__author">${person(db, t.author, lang)}<span class="quote__role">${e(t.title[lang])}</span><span class="quote__meta">${e(t.relationship[lang])} · ${dateHtml(t.date, lang)}${
     t.lang !== lang ? ` · ${e(c.work.quoteTranslated)}` : ''
   }</span></figcaption>
 </figure>`,
@@ -398,7 +450,7 @@ ${db.credentials
     <span class="cred__issuer">${org(db, x.issuer, lang)}</span>
     <span class="cred__name">${e(x.name[lang])}</span>
     <span class="cred__foot">
-      <time class="cred__date">${e(x.issued)}</time>
+      ${dateHtml(x.issued, lang, 'cred__date')}
       ${x.credentialId ? `<span class="cred__id" title="${e(c.ui.credentialId)}">${e(x.credentialId)}</span>` : ''}
     </span>
   </li>`,
@@ -417,7 +469,7 @@ ${db.credentials
     <span class="cred__kind">${e(x.kind === 'award' ? '★' : '✦')}</span>
     <span class="cred__body">
       <span class="cred__name">${e(x.name[lang])}</span>
-      <span class="cred__issuer">${org(db, x.issuer, lang)} · ${e(x.start ? period(x.start, x.issued, c) : x.issued)}</span>
+      <span class="cred__issuer">${org(db, x.issuer, lang)} · ${x.start ? periodHtml(x.start, x.issued, lang, c) : dateHtml(x.issued, lang)}</span>
       ${x.note ? `<span class="cred__note">${e(x.note[lang])}</span>` : ''}
     </span>
   </li>`,
@@ -574,6 +626,27 @@ export function showcaseLab(db, lang) {
 </article>`;
 }
 
+/**
+ * What a client gets and where he works, in plain words above the gallery.
+ *
+ * One card in two parts: the list on one side, the place on the other. Both
+ * headings are real headings, so the page says what is on offer before it
+ * shows a single screenshot.
+ */
+export function showcaseOffer(db, lang) {
+  const c = db.copy[lang].showcase;
+  return `<div class="card card--row" data-reveal>
+  <div class="card__main">
+    <h2 class="card__title">${e(c.offerTitle)}</h2>
+    ${list(c.offer.map(e), 'card__list')}
+  </div>
+  <div class="card__aside">
+    <h2 class="card__title">${e(c.whereTitle)}</h2>
+    <p class="card__body">${e(c.where)}</p>
+  </div>
+</div>`;
+}
+
 /** Three sites on the home page — one of each kind where possible. */
 export function homeShowcase(db, lang) {
   const c = db.copy[lang];
@@ -589,7 +662,7 @@ export function homeShowcase(db, lang) {
   ${deviceStage(db, s, lang)}
   <div class="show__body">
     <p class="card__meta"><span>${e(c.showcase.segments[s.segment])}</span><span>${e(yearOf(s.year, lang))}</span></p>
-    <h3 class="card__title"><a href="${href('showcase', lang)}#${e(s.id)}">${e(s.name[lang])}</a></h3>
+    <h3 class="card__title"><a href="${itemHref('showcase', s.id, lang)}">${e(s.name[lang])}</a></h3>
     <p class="show__role">${e(s.role[lang])}</p>
   </div>
 </article>`,
@@ -658,6 +731,41 @@ function systemCard(db, w, lang, { compact = false } = {}) {
       : ''
   }
 </article>`;
+}
+
+/**
+ * What he automates, in the words a business owner would use, before the
+ * list of systems that only an engineer would search for by name.
+ *
+ * Each card ends with the systems that back it, linked to their place further
+ * down the page: the sentence is the claim, the link is the proof.
+ */
+export function automationServices(db, lang) {
+  return servicesOf(db, lang)
+    .map(
+      (s) => `<article data-reveal class="card" id="service-${e(s.id)}">
+  <h3 class="card__title">${e(s.title)}</h3>
+  <p class="card__body">${e(s.body)}</p>
+  <ul class="card__links">
+${s.systems.map((w) => `    <li><a href="#${e(w.id)}">${e(w.name[lang])}</a></li>`).join('\n')}
+  </ul>
+</article>`,
+    )
+    .join('\n');
+}
+
+/** How a project runs, as numbered steps: the same component the cost case study uses. */
+export function automationProcess(db, lang) {
+  return `<ol class="steps steps--row">
+${db.copy[lang].automation.process
+  .map(
+    (step, i) => `  <li class="steps__item" data-reveal>
+    <span class="steps__num" aria-hidden="true">${i + 1}</span>
+    <p>${e(step)}</p>
+  </li>`,
+  )
+  .join('\n')}
+</ol>`;
 }
 
 export function automationSystems(db, lang, tier) {

@@ -256,12 +256,38 @@ ${body}
  * `altName` is the heading again in the other script (see `otherName`), as a
  * quiet line directly under it. Only the home page, whose heading is his
  * name, passes one.
+ *
+ * Under the heading a page has either a `headline`, one short line set like
+ * a headline, or a `lead`, a few sentences that say what the page offers and
+ * where, set as running text so a paragraph is not shouted. `note` is one
+ * short line above the buttons, marked with a live dot.
  */
-function heroBlock({ eyebrow = null, heading, headingClass = '', altName = null, headline = null, intro = null, actions = null }) {
+function heroBlock({ eyebrow = null, heading, headingClass = '', altName = null, headline = null, lead = null, intro = null, note = null, actions = null }) {
   return `  <section class="hero">
     <div class="container">
 ${eyebrow ? `      <p class="hero__eyebrow">${e(eyebrow)}</p>\n` : ''}      <h1${headingClass ? ` class="${headingClass}"` : ''}>${e(heading)}</h1>
-${altName ? `      <p class="hero__altname" lang="${altName.lang}" dir="${altName.dir}">${e(altName.text)}</p>\n` : ''}${headline ? `      <p class="hero__headline">${e(headline)}</p>\n` : ''}${intro ? `      <p class="hero__intro">${e(intro)}</p>\n` : ''}${actions ? `      <div class="hero__actions">\n${actions}\n      </div>\n` : ''}    </div>
+${altName ? `      <p class="hero__altname" lang="${altName.lang}" dir="${altName.dir}">${e(altName.text)}</p>\n` : ''}${headline ? `      <p class="hero__headline">${e(headline)}</p>\n` : ''}${lead ? `      <p class="hero__headline hero__headline--lead">${e(lead)}</p>\n` : ''}${intro ? `      <p class="hero__intro">${e(intro)}</p>\n` : ''}${note ? `      <p class="hero__note">${e(note)}</p>\n` : ''}${actions ? `      <div class="hero__actions">\n${actions}\n      </div>\n` : ''}    </div>
+  </section>`;
+}
+
+/**
+ * The closing call to action: a question, a sentence and one button to the
+ * contact page.
+ *
+ * It ends the home page and every page a reader may land on from a search,
+ * so nobody reaches the foot of a long page with nowhere to go next. The
+ * words default to the home page's; the showcase passes its own.
+ */
+function ctaBlock(db, lang, { title = db.copy[lang].home.ctaTitle, body = db.copy[lang].home.ctaBody } = {}) {
+  const c = db.copy[lang];
+  return `  <section class="section">
+    <div class="container">
+      <div class="cta">
+        <h2>${e(title)}</h2>
+        <p>${e(body)}</p>
+        <a class="btn" href="${rel('contact', lang)}">${e(c.home.ctaButton)}</a>
+      </div>
+    </div>
   </section>`;
 }
 
@@ -278,9 +304,13 @@ function home(db, lang) {
     altName: otherName(db, lang),
     headline: p.headline[lang],
     intro: c.home.intro,
+    // The line is a claim about today, so the data decides whether it shows.
+    note: p.availability.openToWork && p.availability.immediate ? c.home.availability : null,
     actions: `        <a class="btn" href="${rel('contact', lang)}">${e(c.home.ctaButton)}</a>
         <a class="btn btn--ghost" href="${rel('automation', lang)}">${e(c.nav.automation)}</a>`,
   })}
+
+${section('offers', null, c.home.offersTitle, null, `      <div class="grid grid--3">\n${B.homeOffers(db, lang)}\n      </div>`)}
 
 ${section('proof', c.home.proofLabel, c.home.proofLabel, null, B.homeProof(db, lang), { href: rel('about', lang), label: c.nav.about })}
 
@@ -294,15 +324,7 @@ ${section('showcase', c.home.showcaseLabel, c.home.showcaseLabel, c.home.showcas
 
 ${section('quotes', c.home.quoteLabel, c.home.quoteLabel, null, `      <div class="grid grid--2">\n${B.homeQuote(db, lang)}\n      </div>`, { href: rel('work', lang), label: c.nav.work })}
 
-  <section class="section">
-    <div class="container">
-      <div class="cta">
-        <h2>${e(c.home.ctaTitle)}</h2>
-        <p>${e(c.home.ctaBody)}</p>
-        <a class="btn" href="${rel('contact', lang)}">${e(c.home.ctaButton)}</a>
-      </div>
-    </div>
-  </section>`;
+${ctaBlock(db, lang)}`;
 
   return shell(db, '', lang, main);
 }
@@ -310,7 +332,8 @@ ${section('quotes', c.home.quoteLabel, c.home.quoteLabel, null, `      <div clas
 function about(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ eyebrow: c.nav.about, heading: c.about.title, headline: c.about.lead })}
+  // No eyebrow: the heading opens with the very word the nav label is.
+  const main = `${heroBlock({ heading: c.about.title, headline: c.about.lead })}
 
   <section class="section">
     <div class="container">
@@ -324,7 +347,9 @@ ${section('skills', null, c.about.skillsTitle, null, `      <div class="stack">\
 
 ${section('personal', null, c.about.personalTitle, null, `      <div class="stack">${B.aboutPersonal(db, lang)}</div>`)}
 
-${section('faq', null, c.about.faqTitle, null, `      <div class="stack">\n${B.aboutFaq(db, lang)}\n      </div>`)}`;
+${section('faq', null, c.about.faqTitle, null, `      <div class="stack">\n${B.aboutFaq(db, lang)}\n      </div>`)}
+
+${ctaBlock(db, lang)}`;
 
   return shell(db, 'about', lang, main);
 }
@@ -340,7 +365,7 @@ function recommendationsSource(db, lang) {
 function work(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ eyebrow: c.nav.work, heading: c.work.title, headline: c.work.lead })}
+  const main = `${heroBlock({ eyebrow: c.nav.work, heading: c.work.title, lead: c.work.lead })}
 
 ${section('timeline', null, c.work.timelineTitle, null, B.workTimeline(db, lang))}
 
@@ -348,7 +373,9 @@ ${section('testimonials', null, c.work.testimonialsTitle, null, `      <div clas
 
 ${section('credentials', null, c.work.credentialsTitle, null, B.workCredentials(db, lang))}
 
-${section('education', null, c.work.educationTitle, null, B.workEducation(db, lang))}`;
+${section('education', null, c.work.educationTitle, null, B.workEducation(db, lang))}
+
+${ctaBlock(db, lang)}`;
 
   return shell(db, 'work', lang, main);
 }
@@ -362,7 +389,9 @@ function projects(db, lang) {
     <div class="container">
 ${B.projectsList(db, lang)}
     </div>
-  </section>`;
+  </section>
+
+${ctaBlock(db, lang)}`;
 
   return shell(db, 'projects', lang, main);
 }
@@ -370,7 +399,13 @@ ${B.projectsList(db, lang)}
 function showcase(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ eyebrow: c.nav.showcase, heading: c.showcase.title, headline: c.showcase.lead })}
+  const main = `${heroBlock({ eyebrow: c.nav.showcase, heading: c.showcase.title, lead: c.showcase.lead })}
+
+  <section class="section" id="offer">
+    <div class="container">
+${B.showcaseOffer(db, lang)}
+    </div>
+  </section>
 
   <section class="section" id="sites">
     <div class="container">
@@ -380,15 +415,7 @@ ${B.showcaseList(db, lang)}
 
 ${section('lab', null, c.showcase.labTitle, c.showcase.labLead, B.showcaseLab(db, lang))}
 
-  <section class="section">
-    <div class="container">
-      <div class="cta">
-        <h2>${e(c.showcase.ctaTitle)}</h2>
-        <p>${e(c.showcase.ctaBody)}</p>
-        <a class="btn" href="${rel('contact', lang)}">${e(c.home.ctaButton)}</a>
-      </div>
-    </div>
-  </section>`;
+${ctaBlock(db, lang, { title: c.showcase.ctaTitle, body: c.showcase.ctaBody })}`;
 
   return shell(db, 'showcase', lang, main);
 }
@@ -399,7 +426,15 @@ ${section('lab', null, c.showcase.labTitle, c.showcase.labLead, B.showcaseLab(db
 function automation(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ eyebrow: c.nav.automation, heading: c.automation.title, headline: c.automation.lead })}
+  const main = `${heroBlock({ eyebrow: c.nav.automation, heading: c.automation.title, lead: c.automation.lead })}
+
+${section('services', null, c.automation.servicesTitle, null, `      <div class="grid grid--3">
+${B.automationServices(db, lang)}
+      </div>
+      <div class="process">
+        <h3 class="process__title" data-reveal>${e(c.automation.processTitle)}</h3>
+${B.automationProcess(db, lang)}
+      </div>`)}
 
   <section class="section" id="systems" data-filter-scope>
     <div class="container">
@@ -427,7 +462,9 @@ ${B.automationSystems(db, lang, 'build')}
     </div>
   </section>
 
-${section('cost-case', null, c.automation.caseTitle, null, `${B.automationCase(db, lang)}`)}`;
+${section('cost-case', null, c.automation.caseTitle, null, `${B.automationCase(db, lang)}`)}
+
+${ctaBlock(db, lang)}`;
 
   return shell(db, 'automation', lang, main);
 }
@@ -438,8 +475,8 @@ function contact(db, lang) {
   const linkedin = p.sameAs.find((x) => x.platform === 'LinkedIn')?.url;
   const github = p.sameAs.find((x) => x.platform === 'GitHub')?.url;
 
+  // No eyebrow, for the same reason as the about page.
   const main = `${heroBlock({
-    eyebrow: c.nav.contact,
     heading: c.contact.title,
     headline: c.contact.lead,
     actions: `        <a class="btn" href="mailto:${e(p.email)}">${e(c.ui.emailMe)}</a>${

@@ -6,7 +6,7 @@ import { buildLlmsTxt, buildLlmsFullTxt } from '../scripts/lib/llms.mjs';
 import { buildSitemap, PAGES, LANGS, pagePath } from '../scripts/lib/sitemap.mjs';
 import { buildApiProfile, buildApiProjects, buildResumeJson } from '../scripts/lib/api.mjs';
 import { TEMPLATES, notFound, buildRedirects } from '../scripts/lib/pages.mjs';
-import { contactCv, headMeta, period } from '../scripts/lib/blocks.mjs';
+import { contactCv, headMeta, periodWords } from '../scripts/lib/blocks.mjs';
 import { byCompany } from '../scripts/lib/experience.mjs';
 import { personLd } from '../scripts/lib/jsonld.mjs';
 
@@ -264,7 +264,9 @@ test('roles at one employer render as one entry spanning the whole tenure', () =
       const card = cards.find((li) => li.includes(g.roles[0].role[lang]));
       assert.ok(card.startsWith(' timeline__item--group'), `${lang}: ${g.company} is not grouped`);
       for (const r of g.roles) assert.ok(card.includes(r.role[lang]), `${lang}: ${r.id} missing from its company card`);
-      assert.ok(card.includes(period(g.start, g.end, db.copy[lang])), `${lang}: ${g.company} does not show its whole tenure`);
+      // The tenure is written in words, each end of it in a <time> of its own.
+      const tenure = card.replace(/<[^>]+>/g, '');
+      assert.ok(tenure.includes(periodWords(g.start, g.end, lang, db.copy[lang])), `${lang}: ${g.company} does not show its whole tenure`);
     }
   }
 });
