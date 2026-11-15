@@ -62,7 +62,11 @@
     "skipToContent": "تخطَّ إلى المحتوى",
     "toggleTheme": "تبديل نمط الألوان",
     "viewProject": "عرض المشروع",
-    "seeAll": "عرض الكل",
+    "allProjects": "كل المشاريع",
+    "allSystems": "كل الأنظمة",
+    "allSites": "كل المواقع",
+    "details": "التفاصيل",
+    "breadcrumb": "مسار الصفحة",
     "visitLive": "زيارة الموقع",
     "downloadCv": "تحميل السيرة الذاتية",
     "to": "إلى",
@@ -89,9 +93,10 @@
     "privateSite": "نسخة خاصة، معروضة بإذن صاحبها",
     "filterAll": "الكل",
     "filterLabel": "// تصفية",
+    "workflowUnit": "مسارات العمل",
     "workflowsUnit": "مسارات العمل",
     "nodesUnit": "العقد",
-    "openCanvas": "اعرض اللوحة الحقيقية في n8n",
+    "canvasOf": "لوحة n8n: {name}",
     "canvasCaption": "اللوحة الحقيقية في n8n",
     "panHint": "مرّر أفقياً لتتبّع المسار كاملاً",
     "closeCanvas": "إغلاق",
@@ -323,6 +328,15 @@
       "content": "المحتوى والتواصل"
     },
     "diagramNote": "كل رسمة مأخوذة من شبكة العقد الحقيقية، بأسماء مبسّطة ودون أي بيانات حساسة."
+  },
+  "detail": {
+    "shots": "{name} على الكمبيوتر والجوال",
+    "numbers": "بالأرقام",
+    "engineTitle": "الأتمتة التي تشغّله",
+    "handles": "ما الذي يتولّاه",
+    "how": "كيف يعمل",
+    "moreProjects": "مشاريع أخرى",
+    "moreSystems": "أنظمة أخرى"
   },
   "chat": {
     "title": "تحدّث إلى الموقع",

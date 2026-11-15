@@ -62,7 +62,11 @@
     "skipToContent": "Skip to content",
     "toggleTheme": "Toggle colour theme",
     "viewProject": "View project",
-    "seeAll": "See all",
+    "allProjects": "All projects",
+    "allSystems": "All systems",
+    "allSites": "All websites",
+    "details": "Details",
+    "breadcrumb": "Breadcrumb",
     "visitLive": "Visit live site",
     "downloadCv": "Download CV",
     "to": "to",
@@ -89,9 +93,10 @@
     "privateSite": "Private build, shown with the client's permission",
     "filterAll": "All",
     "filterLabel": "// filter",
+    "workflowUnit": "workflow",
     "workflowsUnit": "workflows",
     "nodesUnit": "nodes",
-    "openCanvas": "See the real n8n canvas",
+    "canvasOf": "n8n canvas: {name}",
     "canvasCaption": "The real canvas in n8n",
     "panHint": "Scroll sideways to follow the whole flow",
     "closeCanvas": "Close",
@@ -323,6 +328,15 @@
       "content": "Content & messaging"
     },
     "diagramNote": "Every diagram is drawn from the real node graph, with names simplified and nothing sensitive in it."
+  },
+  "detail": {
+    "shots": "{name} on desktop and phone",
+    "numbers": "In numbers",
+    "engineTitle": "The automation behind it",
+    "handles": "What it handles",
+    "how": "How it works",
+    "moreProjects": "More projects",
+    "moreSystems": "More systems"
   },
   "chat": {
     "title": "Talk to the portfolio",

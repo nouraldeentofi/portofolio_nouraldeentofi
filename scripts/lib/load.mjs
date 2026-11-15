@@ -1,6 +1,7 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join } from 'node:path';
+import { imageSize } from './image-size.mjs';
 
 /**
  * Every asset the pages link to by URL.
@@ -32,6 +33,7 @@ const VERSIONED_ASSETS = [
   'assets/css/motion.css',
   'assets/css/gallery.css',
   'assets/css/chat.css',
+  'assets/css/detail.css',
   'assets/css/responsive.css',
   'assets/css/rtl.css',
   'assets/js/main.js',
@@ -62,6 +64,25 @@ function fingerprintAssets() {
       // A missing asset is the build's business to notice, not the loader's.
       // Leaving it unversioned keeps the URL working rather than inventing one.
       out[file] = null;
+    }
+  }
+  return out;
+}
+
+/**
+ * The real pixel size of every picture a page announces a size for: the
+ * screenshots, the workflow canvases and the share card. Measured from the
+ * files, so `og:image:width` can never disagree with the image it names.
+ * A file that is missing or in an unknown format is simply left out.
+ */
+function measureImages(extra = []) {
+  const out = {};
+  for (const file of [...VERSIONED_DIRS.filter((d) => d.startsWith('assets/img/')).flatMap(listDir), ...extra]) {
+    try {
+      const size = imageSize(readFileSync(file));
+      if (size) out[file] = size;
+    } catch {
+      // A missing image is reported where it is used, not here.
     }
   }
   return out;
@@ -117,10 +138,41 @@ export function loadDb(dir = 'data') {
     rows.forEach((row, i) => requireKeys(row, keys, `${file}[${i}] (${row.id ?? 'no id'})`));
   }
 
+  // An id is an address (/projects/<id>) and a file name, in both languages.
+  for (const [file, rows] of [['projects.json', projects], ['workflows.json', workflows]]) {
+    for (const row of rows) {
+      if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(row.id)) throw new Error(`${file} (${row.id}): an id is lowercase letters, digits and hyphens`);
+    }
+    const ids = rows.map((r) => r.id);
+    const twice = ids.find((id, i) => ids.indexOf(id) !== i);
+    if (twice) throw new Error(`${file}: the id "${twice}" is used twice`);
+  }
+
   // A project's group is a filter on the projects page, so it must be one the
   // bar has a label for.
   for (const p of projects) {
     if (!['ai', 'tools', 'apps'].includes(p.group)) throw new Error(`projects.json (${p.id}): unknown group "${p.group}"`);
+  }
+
+  // A search headline is optional, but half of one would print "undefined"
+  // under a heading in the other language.
+  for (const [file, rows] of [['projects.json', projects], ['workflows.json', workflows]]) {
+    for (const row of rows) {
+      if (row.headline !== undefined && (typeof row.headline?.en !== 'string' || typeof row.headline?.ar !== 'string')) {
+        throw new Error(`${file} (${row.id}): headline needs both "en" and "ar"`);
+      }
+    }
+  }
+
+  // A project may name the workflow that is its engine. That workflow is then
+  // shown on the project's page and gets none of its own, so the name has to
+  // be a real one, and one workflow cannot be the engine of two products.
+  const engines = new Map();
+  for (const p of projects) {
+    if (p.workflow === undefined) continue;
+    if (!workflows.some((w) => w.id === p.workflow)) throw new Error(`projects.json (${p.id}): workflow "${p.workflow}" is not in workflows.json`);
+    if (engines.has(p.workflow)) throw new Error(`projects.json (${p.id}): workflow "${p.workflow}" already belongs to ${engines.get(p.workflow)}`);
+    engines.set(p.workflow, p.id);
   }
 
   // A status is a claim about a real system. Only the three the page can
@@ -186,5 +238,6 @@ export function loadDb(dir = 'data') {
     links,
     copy,
     assetVersions: fingerprintAssets(),
+    imageSizes: measureImages([profile.ogImage].filter(Boolean)),
   };
 }

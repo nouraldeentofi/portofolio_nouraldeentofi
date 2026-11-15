@@ -17,6 +17,8 @@ import { TEMPLATES, notFound, buildRedirects } from '../scripts/lib/pages.mjs';
 import { headMeta, aboutFaq, contactLinks } from '../scripts/lib/blocks.mjs';
 import { buildTranscript } from '../scripts/lib/transcript.mjs';
 import { PAGES, LANGS } from '../scripts/lib/sitemap.mjs';
+import { DETAIL_FOLDERS } from '../scripts/lib/details.mjs';
+import { buildDetailPages } from '../scripts/lib/pages.mjs';
 import { toScriptTag } from '../scripts/lib/jsonld.mjs';
 import {
   PRIVATE_PATHS,
@@ -51,10 +53,12 @@ function visibleText(html) {
     .replace(/<[^>]+>/g, ' ');
 }
 
+/* The navigation, the 404, and a page for each project and system (`detail`). */
 const everyPage = () =>
   LANGS.flatMap((lang) => [
     ...PAGES.map((page) => ({ lang, page, html: TEMPLATES[page](db, lang) })),
     { lang, page: '404', html: notFound(db, lang) },
+    ...buildDetailPages(db, lang).map(({ page, html }) => ({ lang, page, html, detail: true })),
   ]);
 
 /* ------------------------------------------------------------ the leak */
@@ -113,6 +117,8 @@ test('every file and folder at the root of the repository is either the site or 
     // The pages, in both languages, and what the build writes beside them.
     ...PAGES.map((p) => `${p === '' ? 'index' : p}.html`),
     '404.html', 'en', 'api', 'cv', 'resume', 'profile', 'llms.txt', 'llms-full.txt', 'sitemap.xml',
+    // One page for each project and each automation system.
+    ...DETAIL_FOLDERS,
     // Written by hand, and meant to be read.
     'assets', 'mcp', 'robots.txt', 'humans.txt', 'me.png',
     // Read by the host or by a search engine to prove the site is his.
@@ -375,11 +381,17 @@ test('the person is described in words a visitor can read on the home page', () 
 });
 
 test('only the home page is his ProfilePage, with the date the build gave it', () => {
-  for (const { lang, page, html } of everyPage()) {
+  for (const { lang, page, html, detail } of everyPage()) {
     const at = `${lang}/${page || 'index'}`;
     const nodes = ldNodes(html);
     const profilePage = nodes.find((n) => n['@type'] === 'ProfilePage');
     const crumbs = nodes.find((n) => n['@type'] === 'BreadcrumbList');
+    if (detail) {
+      // Home, the list page, the page itself.
+      assert.equal(profilePage, undefined, at);
+      assert.equal(crumbs.itemListElement.length, 3, at);
+      continue;
+    }
 
     if (page === '') {
       assert.equal(profilePage.dateModified, db.build.modified, at);

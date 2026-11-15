@@ -6,6 +6,8 @@
     "group": "ai",
     "year": "2026",
     "category": { "en": "AI SaaS product", "ar": "منتج SaaS بالذكاء الاصطناعي" },
+    "headline": { "en": "AI invoice scanner for Arabic and English invoices", "ar": "برنامج قراءة الفواتير العربية بالذكاء الاصطناعي" },
+    "workflow": "smart-scanner-pipeline",
     "tagline": {
       "en": "Arabic-first AI invoice management: from photo to approval, with zero manual data entry.",
       "ar": "إدارة فواتير بالذكاء الاصطناعي، عربية أولاً: من الصورة حتى الاعتماد، دون أي إدخال يدوي."
@@ -44,6 +46,8 @@
     "group": "ai",
     "year": "2026",
     "category": { "en": "AI SaaS product", "ar": "منتج SaaS بالذكاء الاصطناعي" },
+    "headline": { "en": "AI CV screening for Arabic and English CVs", "ar": "نظام فرز السير الذاتية بالذكاء الاصطناعي" },
+    "workflow": "cv-screener",
     "tagline": {
       "en": "Upload a folder of CVs and every one is read, classified, and scored by AI, with each point traced to a quote from the CV.",
       "ar": "ارفع مجلداً من السير الذاتية، فتُقرأ كلها وتُصنّف وتُقيّم بالذكاء الاصطناعي، وكل نقطة مربوطة باقتباس من السيرة نفسها."
@@ -76,6 +80,8 @@
     "group": "ai",
     "year": "2026",
     "category": { "en": "AI automation product", "ar": "منتج أتمتة بالذكاء الاصطناعي" },
+    "headline": { "en": "Website scraper that turns a whole site into an Excel file", "ar": "سحب بيانات موقع كامل إلى ملف Excel بالذكاء الاصطناعي" },
+    "workflow": "universal-web-scraper",
     "tagline": {
       "en": "One link in, the whole site out: every page discovered, the data classified, and an Excel file with a tab for each kind of data.",
       "ar": "رابط واحد يدخل، والموقع كله يخرج: تُكتشف كل صفحاته، وتُصنّف بياناته، ويُملأ ملف Excel بتبويب لكل نوع منها."
@@ -108,6 +114,7 @@
     "group": "tools",
     "year": "2026",
     "category": { "en": "Motion-graphics studio", "ar": "استوديو موشن جرافيك" },
+    "headline": { "en": "Free motion-graphics video maker in the browser", "ar": "صانع فيديو موشن جرافيك مجاني في المتصفح" },
     "tagline": {
       "en": "Pick a size and a style, add ready-made scenes, and export a motion video for free, in the browser, with no account and no server.",
       "ar": "اختر المقاس والنمط، وأضف مشاهد جاهزة، ثم صدّر فيديو موشن مجاناً وداخل المتصفح، دون حساب ولا خادم."
@@ -145,6 +152,7 @@
     "group": "tools",
     "year": "2026",
     "category": { "en": "Accessibility tool", "ar": "أداة إتاحة للمكفوفين" },
+    "headline": { "en": "Training certificates with Arabic Braille", "ar": "شهادات تدريب مع نسخة برايل عربية" },
     "tagline": {
       "en": "Fill in a training certificate and get a print-ready PDF. It comes with a full Arabic Braille version a blind trainee can read by touch, and a file for Braille embossers.",
       "ar": "املأ بيانات شهادة التدريب، فتحصل على ملف PDF جاهز للطباعة، ومعه نسخة برايل عربية كاملة يقرؤها المتدرب الكفيف باللمس، وملف لطابعات برايل."
@@ -181,6 +189,7 @@
     "group": "apps",
     "year": "2026",
     "category": { "en": "E-invoicing platform · open source", "ar": "منصة فوترة إلكترونية · مفتوحة المصدر" },
+    "headline": { "en": "Open-source e-invoicing for businesses in Saudi Arabia", "ar": "برنامج فوترة إلكترونية مفتوح المصدر للمنشآت في السعودية" },
     "tagline": {
       "en": "An open-source e-invoicing program for businesses in Saudi Arabia, with a public demo that issues and signs invoices entirely in the browser.",
       "ar": "برنامج فوترة إلكترونية مفتوح المصدر للمنشآت في المملكة، مع نسخة عرض عامة تُصدر الفواتير وتوقّعها كاملاً داخل المتصفح."
@@ -225,6 +234,7 @@
     "group": "tools",
     "year": "2026",
     "category": { "en": "Offline guide · PWA", "ar": "دليل يعمل دون إنترنت · PWA" },
+    "headline": { "en": "Step-by-step Umrah guide that works offline", "ar": "دليل مناسك العمرة خطوة بخطوة، يعمل دون إنترنت" },
     "tagline": {
       "en": "An interactive Umrah checklist in the order the rites are performed, in ten languages, and built to be used one-handed and offline inside the Haram.",
       "ar": "قائمة تفاعلية لمناسك العمرة بترتيب أدائها، بعشر لغات، ومصمّمة لتُستخدم بيد واحدة ودون إنترنت داخل الحرم."
@@ -261,6 +271,7 @@
     "group": "apps",
     "year": "2025–2026",
     "category": { "en": "Internal platform", "ar": "منصّة داخلية" },
+    "headline": { "en": "Internal CRM and quotation platform", "ar": "منصّة داخلية لإدارة العملاء وعروض الأسعار" },
     "tagline": {
       "en": "A unified CRM and quotation platform that replaced scattered manual processes across every department.",
       "ar": "منصّة موحّدة لإدارة العملاء وعروض الأسعار حلّت محل عمليات يدوية متفرّقة في كل الأقسام."
@@ -289,6 +300,7 @@
     "group": "apps",
     "year": "2025",
     "category": { "en": "Mobile app · Google Play", "ar": "تطبيق موبايل · Google Play" },
+    "headline": { "en": "Jewelry store management app on Google Play", "ar": "تطبيق إدارة محلات المجوهرات على Google Play" },
     "tagline": {
       "en": "A jewelry store management app shipped to the Google Play Store.",
       "ar": "تطبيق لإدارة محلات المجوهرات، منشور على متجر Google Play."
@@ -316,6 +328,7 @@
     "group": "ai",
     "year": "2026",
     "category": { "en": "AI web app", "ar": "تطبيق ويب بالذكاء الاصطناعي" },
+    "headline": { "en": "Business card scanner that saves straight to contacts", "ar": "قارئ بطاقات العمل يحفظها في جهات الاتصال مباشرة" },
     "tagline": {
       "en": "Photograph a business card, and it lands in your phone's contacts in one tap.",
       "ar": "صوّر بطاقة العمل، فتصل إلى جهات الاتصال في هاتفك بضغطة واحدة."
@@ -344,6 +357,7 @@
     "group": "ai",
     "year": "2026",
     "category": { "en": "AI tooling", "ar": "أدوات ذكاء اصطناعي" },
+    "headline": { "en": "MCP server that gives an AI model real data to query", "ar": "خادم MCP يتيح للذكاء الاصطناعي الاستعلام من بيانات حقيقية" },
     "tagline": {
       "en": "A Model Context Protocol server that lets an AI model query real data instead of only generating text.",
       "ar": "خادم Model Context Protocol يتيح لنموذج ذكاء اصطناعي أن يستعلم بيانات حقيقية بدل توليد النصوص فقط."

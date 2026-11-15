@@ -5,6 +5,7 @@ import { loadDb } from '../scripts/lib/load.mjs';
 import {
   personLd,
   projectsLd,
+  workflowsLd,
   credentialsLd,
   recommendationsLd,
   profilePageLd,
@@ -45,14 +46,34 @@ test('alternateName carries every spelling variant, without duplicates', () => {
   assert.ok(!p.alternateName.includes(p.name), 'the canonical name is not also an alias');
 });
 
-test('projects become SoftwareApplication entries in an ItemList', () => {
-  const list = projectsLd(db, 'en');
-  assert.equal(list['@type'], 'ItemList');
-  assert.equal(list.itemListElement.length, db.projects.length);
-  assert.equal(list.itemListElement[0].item['@type'], 'SoftwareApplication');
-  assert.equal(list.itemListElement[0].position, 1);
-  for (const el of list.itemListElement) {
-    assert.ok(!('url' in el.item) || typeof el.item.url === 'string');
+/* The list pages name each entry and where it is read in full, and nothing
+   more: what the thing is lives once, on its own page. Google requires a
+   price and a rating for a SoftwareApplication, and neither may be invented. */
+test('the projects and systems lists are a position, a name and an address on this site', () => {
+  for (const lang of ['en', 'ar']) {
+    const prefix = lang === 'ar' ? '' : '/en';
+    const projects = projectsLd(db, lang);
+    assert.equal(projects['@type'], 'ItemList');
+    assert.deepEqual(
+      projects.itemListElement,
+      db.projects.map((p, i) => ({ '@type': 'ListItem', position: i + 1, name: p.name, url: `${db.profile.site}${prefix}/projects/${p.id}` })),
+    );
+
+    const systems = workflowsLd(db, lang);
+    assert.equal(systems.itemListElement.length, db.workflows.length);
+    for (const [i, el] of systems.itemListElement.entries()) {
+      assert.deepEqual(Object.keys(el), ['@type', 'position', 'name', 'url']);
+      assert.equal(el.position, i + 1);
+      assert.equal(el.name, db.workflows[i].name[lang]);
+      assert.ok(el.url.startsWith(`${db.profile.site}${prefix}/`), `${lang}: ${el.url} is not on this site`);
+    }
+    // One with a page of its own, one shown on its product's page, one with neither.
+    const urlOf = (id) => systems.itemListElement[db.workflows.findIndex((w) => w.id === id)].url;
+    assert.equal(urlOf('google-review-reply'), `${db.profile.site}${prefix}/automation/google-review-reply`);
+    assert.equal(urlOf('smart-scanner-pipeline'), `${db.profile.site}${prefix}/projects/smart-scanner#automation`);
+    assert.equal(urlOf('crm-lead-cleaner'), `${db.profile.site}${prefix}/automation#crm-lead-cleaner`);
+
+    assert.ok(!/SoftwareApplication|WebApplication|MobileApplication|offers|aggregateRating/.test(JSON.stringify([projects, systems])));
   }
 });
 

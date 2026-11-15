@@ -63,6 +63,12 @@ export function parseHeaders(text) {
   return rules;
 }
 
+/**
+ * The folders the build writes one page per project and per system into.
+ * Kept here as addresses, because this module reads `_redirects`, not data.
+ */
+const DETAIL_ADDRESSES = /^\/(?:en\/|ar\/)?(?:projects|automation)\//;
+
 export function checkRedirects(text) {
   const problems = [];
   const rules = parseRedirects(text);
@@ -80,6 +86,12 @@ export function checkRedirects(text) {
   for (const r of rules) {
     if (r.from === '/mcp' || r.from.startsWith('/mcp/')) {
       problems.push(`_redirects: ${r.from} is redirected, but robots.txt and llms.txt hand out /mcp/README.md`);
+    }
+    // A rule under /projects/ or /automation/ is answered before the page
+    // itself. One that sends an unknown id to the list page would turn every
+    // mistyped address into a second copy of that list instead of a 404.
+    if (DETAIL_ADDRESSES.test(r.from)) {
+      problems.push(`_redirects: ${r.from} is redirected, but the pages under it are real files and an unknown id must stay a 404`);
     }
   }
   return problems;

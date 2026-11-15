@@ -82,7 +82,11 @@
         "i18n",
         "RTL"
       ],
-      "url": "https://receipt.nexleadtech.com"
+      "url": "https://receipt.nexleadtech.com",
+      "page": {
+        "en": "https://nouraldeentofi.com/en/projects/smart-scanner",
+        "ar": "https://nouraldeentofi.com/projects/smart-scanner"
+      }
     },
     {
       "id": "cv-screener",
@@ -153,7 +157,11 @@
         "i18n",
         "RTL"
       ],
-      "url": "https://cv-screener.nouraldeentofi.com"
+      "url": "https://cv-screener.nouraldeentofi.com",
+      "page": {
+        "en": "https://nouraldeentofi.com/en/projects/cv-screener",
+        "ar": "https://nouraldeentofi.com/projects/cv-screener"
+      }
     },
     {
       "id": "universal-web-scraper",
@@ -214,7 +222,11 @@
         "Webhooks",
         "JavaScript"
       ],
-      "url": null
+      "url": null,
+      "page": {
+        "en": "https://nouraldeentofi.com/en/projects/universal-web-scraper",
+        "ar": "https://nouraldeentofi.com/projects/universal-web-scraper"
+      }
     },
     {
       "id": "motion-studio",
@@ -289,7 +301,11 @@
         "WebM",
         "RTL"
       ],
-      "url": "https://nouraldeentofi.com/motion-studio/"
+      "url": "https://nouraldeentofi.com/motion-studio/",
+      "page": {
+        "en": "https://nouraldeentofi.com/en/projects/motion-studio",
+        "ar": "https://nouraldeentofi.com/projects/motion-studio"
+      }
     },
     {
       "id": "braille-certificate",
@@ -358,7 +374,11 @@
         "GitHub Actions",
         "RTL"
       ],
-      "url": "https://braille.nouraldeentofi.com/"
+      "url": "https://braille.nouraldeentofi.com/",
+      "page": {
+        "en": "https://nouraldeentofi.com/en/projects/braille-certificate",
+        "ar": "https://nouraldeentofi.com/projects/braille-certificate"
+      }
     },
     {
       "id": "khatm",
@@ -422,7 +442,11 @@
         "Playwright",
         "GitHub Actions"
       ],
-      "url": "https://khatm.nouraldeentofi.com/"
+      "url": "https://khatm.nouraldeentofi.com/",
+      "page": {
+        "en": "https://nouraldeentofi.com/en/projects/khatm",
+        "ar": "https://nouraldeentofi.com/projects/khatm"
+      }
     },
     {
       "id": "umrah-guide",
@@ -489,7 +513,11 @@
         "RTL",
         "JSON-LD"
       ],
-      "url": "https://nouraldeentofi.com/umrah-guide/"
+      "url": "https://nouraldeentofi.com/umrah-guide/",
+      "page": {
+        "en": "https://nouraldeentofi.com/en/projects/umrah-guide",
+        "ar": "https://nouraldeentofi.com/projects/umrah-guide"
+      }
     },
     {
       "id": "dfs-dashboard",
@@ -544,7 +572,11 @@
         "Laravel Echo",
         "@hello-pangea/dnd"
       ],
-      "url": null
+      "url": null,
+      "page": {
+        "en": "https://nouraldeentofi.com/en/projects/dfs-dashboard",
+        "ar": "https://nouraldeentofi.com/projects/dfs-dashboard"
+      }
     },
     {
       "id": "goldentag",
@@ -593,7 +625,11 @@
         "Requirements Gathering",
         "Release Management"
       ],
-      "url": "https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag"
+      "url": "https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag",
+      "page": {
+        "en": "https://nouraldeentofi.com/en/projects/goldentag",
+        "ar": "https://nouraldeentofi.com/projects/goldentag"
+      }
     },
     {
       "id": "business-card-extractor",
@@ -645,7 +681,11 @@
         "Google Sheets",
         "vCard"
       ],
-      "url": null
+      "url": null,
+      "page": {
+        "en": "https://nouraldeentofi.com/en/projects/business-card-extractor",
+        "ar": "https://nouraldeentofi.com/projects/business-card-extractor"
+      }
     },
     {
       "id": "mcp-search-server",
@@ -687,7 +727,11 @@
         "Claude",
         "JSON Schema"
       ],
-      "url": null
+      "url": null,
+      "page": {
+        "en": "https://nouraldeentofi.com/en/projects/mcp-search-server",
+        "ar": "https://nouraldeentofi.com/projects/mcp-search-server"
+      }
     }
   ],
   "workflows": [
@@ -867,6 +911,10 @@
             "save"
           ]
         ]
+      },
+      "page": {
+        "en": "https://nouraldeentofi.com/en/projects/universal-web-scraper#automation",
+        "ar": "https://nouraldeentofi.com/projects/universal-web-scraper#automation"
       }
     },
     {
@@ -1019,6 +1067,10 @@
             "respond"
           ]
         ]
+      },
+      "page": {
+        "en": "https://nouraldeentofi.com/en/projects/cv-screener#automation",
+        "ar": "https://nouraldeentofi.com/projects/cv-screener#automation"
       }
     },
     {
@@ -1189,6 +1241,10 @@
             "reply"
           ]
         ]
+      },
+      "page": {
+        "en": "https://nouraldeentofi.com/en/automation/teacher-assistant-bot",
+        "ar": "https://nouraldeentofi.com/automation/teacher-assistant-bot"
       }
     },
     {
@@ -1367,6 +1423,10 @@
             "backend"
           ]
         ]
+      },
+      "page": {
+        "en": "https://nouraldeentofi.com/en/projects/smart-scanner#automation",
+        "ar": "https://nouraldeentofi.com/projects/smart-scanner#automation"
       }
     },
     {
@@ -1546,6 +1606,10 @@
             "publisher"
           ]
         ]
+      },
+      "page": {
+        "en": "https://nouraldeentofi.com/en/automation/telegram-publisher",
+        "ar": "https://nouraldeentofi.com/automation/telegram-publisher"
       }
     },
     {
@@ -1718,6 +1782,10 @@
             "record"
           ]
         ]
+      },
+      "page": {
+        "en": "https://nouraldeentofi.com/en/automation/unified-inbox",
+        "ar": "https://nouraldeentofi.com/automation/unified-inbox"
       }
     },
     {
@@ -1889,6 +1957,10 @@
             "skip"
           ]
         ]
+      },
+      "page": {
+        "en": "https://nouraldeentofi.com/en/automation/google-review-reply",
+        "ar": "https://nouraldeentofi.com/automation/google-review-reply"
       }
     },
     {
@@ -2068,6 +2140,10 @@
             "apply"
           ]
         ]
+      },
+      "page": {
+        "en": "https://nouraldeentofi.com/en/automation/ai-job-match",
+        "ar": "https://nouraldeentofi.com/automation/ai-job-match"
       }
     },
     {
@@ -2208,6 +2284,10 @@
             "reply"
           ]
         ]
+      },
+      "page": {
+        "en": "https://nouraldeentofi.com/en/automation/receipt-verify",
+        "ar": "https://nouraldeentofi.com/automation/receipt-verify"
       }
     },
     {
@@ -2342,6 +2422,10 @@
             "confirm"
           ]
         ]
+      },
+      "page": {
+        "en": "https://nouraldeentofi.com/en/automation/whatsapp-booking",
+        "ar": "https://nouraldeentofi.com/automation/whatsapp-booking"
       }
     },
     {
@@ -2488,6 +2572,10 @@
             "invite"
           ]
         ]
+      },
+      "page": {
+        "en": "https://nouraldeentofi.com/en/automation/whatsapp-group",
+        "ar": "https://nouraldeentofi.com/automation/whatsapp-group"
       }
     },
     {
@@ -2663,6 +2751,10 @@
             "schedule"
           ]
         ]
+      },
+      "page": {
+        "en": "https://nouraldeentofi.com/en/automation/social-auto-publisher",
+        "ar": "https://nouraldeentofi.com/automation/social-auto-publisher"
       }
     },
     {
@@ -2842,6 +2934,10 @@
             "append"
           ]
         ]
+      },
+      "page": {
+        "en": "https://nouraldeentofi.com/en/automation/smart-lead-finder",
+        "ar": "https://nouraldeentofi.com/automation/smart-lead-finder"
       }
     },
     {
@@ -3013,6 +3109,10 @@
             "result"
           ]
         ]
+      },
+      "page": {
+        "en": "https://nouraldeentofi.com/en/automation/lesson-quality-evaluator",
+        "ar": "https://nouraldeentofi.com/automation/lesson-quality-evaluator"
       }
     },
     {
@@ -3176,6 +3276,10 @@
             "send"
           ]
         ]
+      },
+      "page": {
+        "en": "https://nouraldeentofi.com/en/automation/ai-email-campaign",
+        "ar": "https://nouraldeentofi.com/automation/ai-email-campaign"
       }
     },
     {
@@ -3222,7 +3326,11 @@
       },
       "status": "built",
       "workflowCount": null,
-      "flow": null
+      "flow": null,
+      "page": {
+        "en": "https://nouraldeentofi.com/en/automation#crm-lead-cleaner",
+        "ar": "https://nouraldeentofi.com/automation#crm-lead-cleaner"
+      }
     }
   ],
   "showcase": [

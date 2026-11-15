@@ -7,7 +7,18 @@
 
 import { escapeHtml, extAttrs, newTabHint } from './render.mjs';
 import * as B from './blocks.mjs';
+import * as ld from './jsonld.mjs';
 import { PAGES, pagePath } from './sitemap.mjs';
+import {
+  ENGINE_ANCHOR,
+  detailPages,
+  detailName,
+  detailHeadline,
+  detailTitle,
+  detailDescription,
+  detailImage,
+  engineOf,
+} from './details.mjs';
 
 const e = escapeHtml;
 const PAGE_KEY = { '': 'home', about: 'about', work: 'work', projects: 'projects', showcase: 'showcase', automation: 'automation', chat: 'chat', contact: 'contact' };
@@ -47,7 +58,14 @@ function otherName(db, lang) {
   return { text: db.profile.name[other], lang: other, dir: other === 'ar' ? 'rtl' : 'ltr' };
 }
 
-const asset = (path, lang) => `${lang === 'ar' ? '' : '../'}${path}`;
+/**
+ * The address of a file, from the site root.
+ *
+ * Never relative to the page: a page one level down (`/en/projects/<id>`),
+ * and the 404 page, which is served at whatever address was not found, would
+ * each resolve a relative address somewhere else.
+ */
+const asset = (path) => `/${path}`;
 
 /**
  * The same path, fingerprinted.
@@ -57,10 +75,7 @@ const asset = (path, lang) => `${lang === 'ar' ? '' : '../'}${path}`;
  * other people quote, and a hash in them would rot the moment we rebuild.
  * See `VERSIONED_ASSETS` in load.mjs for why the query string is there.
  */
-const assetV = (db, path, lang) => {
-  const v = db.assetVersions?.[path];
-  return v ? `${asset(path, lang)}?v=${v}` : asset(path, lang);
-};
+const assetV = B.assetUrl;
 
 /**
  * The portrait, as a plain link to the full-size file.
@@ -72,17 +87,25 @@ const assetV = (db, path, lang) => {
 function portraitTrigger(db, lang, cls) {
   const c = db.copy[lang];
   const name = e(db.profile.name[lang]);
-  return `<a class="${cls} portrait-open" href="${assetV(db, db.profile.image, lang)}" aria-label="${e(c.ui.viewPortrait)}">
-          <img src="${assetV(db, 'assets/img/nour-96.png', lang)}" alt="${name}" width="36" height="36" decoding="async">
+  return `<a class="${cls} portrait-open" href="${assetV(db, db.profile.image)}" aria-label="${e(c.ui.viewPortrait)}">
+          <img src="${assetV(db, 'assets/img/nour-96.png')}" alt="${name}" width="36" height="36" decoding="async">
         </a>`;
 }
 
-function header(db, page, lang) {
+/**
+ * Marks where the reader is in a navigation. On the page itself that is
+ * `aria-current="page"`. On a page one level down, the link to its list page
+ * is marked as the current section instead: it is where the reader is, but
+ * it is not the page they are on, and the link still leads somewhere.
+ */
+const currentMark = (item, page, section) =>
+  item === page ? ' aria-current="page"' : item === section ? ' aria-current="true"' : '';
+
+function header(db, page, lang, section = page) {
   const c = db.copy[lang];
 
   const nav = PAGES.map((p) => {
-    const current = p === page ? ' aria-current="page"' : '';
-    return `          <a href="${rel(p, lang)}"${current}>${e(c.nav[PAGE_KEY[p]])}</a>`;
+    return `          <a href="${rel(p, lang)}"${currentMark(p, page, section)}>${e(c.nav[PAGE_KEY[p]])}</a>`;
   }).join('\n');
 
   // The language switch points at the same page in the other tree.
@@ -122,8 +145,8 @@ function footer(db, lang) {
         <p>© ${year ? `${year} ` : ''}${e(db.profile.name[lang])} · <span lang="${alt.lang}" dir="${alt.dir}">${e(alt.text)}</span> · ${e(c.footer.builtWith)}</p>
       </div>
       <ul class="footer__links">
-        <li><a href="${asset('llms.txt', lang)}" target="_blank" rel="noopener">llms.txt${newTabHint(c.ui.opensInNewTab)}</a></li>
-        <li><a href="${asset('api/resume.json', lang)}" target="_blank" rel="noopener">resume.json${newTabHint(c.ui.opensInNewTab)}</a></li>
+        <li><a href="${asset('llms.txt')}" target="_blank" rel="noopener">llms.txt${newTabHint(c.ui.opensInNewTab)}</a></li>
+        <li><a href="${asset('api/resume.json')}" target="_blank" rel="noopener">resume.json${newTabHint(c.ui.opensInNewTab)}</a></li>
         <li><a href="mailto:${e(db.profile.email)}">${e(c.ui.emailMe)}</a></li>
       </ul>
     </div>
@@ -139,13 +162,12 @@ function footer(db, lang) {
  * page is added. Labels come from `navShort`, which differs from `nav` only
  * where the full wording will not fit at 320px.
  */
-function mobileTabs(db, page, lang) {
+function mobileTabs(db, page, lang, section = page) {
   const c = db.copy[lang];
 
   return `  <nav class="mobile-tabs" aria-label="${e(c.nav.home)}">
 ${PAGES.map((t) => {
-    const current = t === page ? ' aria-current="page"' : '';
-    return `    <a href="${rel(t, lang)}"${current}><span>${e(c.navShort[PAGE_KEY[t]])}</span></a>`;
+    return `    <a href="${rel(t, lang)}"${currentMark(t, page, section)}><span>${e(c.navShort[PAGE_KEY[t]])}</span></a>`;
   }).join('\n')}
   </nav>`;
 }
@@ -164,13 +186,24 @@ function portraitDialog(db, lang) {
     <form method="dialog">
       <button class="portrait__close" aria-label="${e(c.ui.closePortrait)}">&times;</button>
     </form>
-    <img src="${assetV(db, db.profile.image, lang)}" alt="${e(db.profile.name[lang])}" width="720" height="720" loading="lazy" decoding="async">
+    <img src="${assetV(db, db.profile.image)}" alt="${e(db.profile.name[lang])}" width="720" height="720" loading="lazy" decoding="async">
   </dialog>`;
 }
 
+/**
+ * The document around a page's content.
+ *
+ * `page` is the key of the page: one of `PAGES`, or `projects/<id>` and
+ * `automation/<id>` for a detail page. A detail page also passes `section`,
+ * the list page it belongs to, which decides the navigation mark, the
+ * background and the stylesheets, and hands its own head in through
+ * `opts.meta` and `opts.nodes` (see `headMeta` and `headLd` in blocks.mjs).
+ */
 function shell(db, page, lang, main, opts = {}) {
   const c = db.copy[lang];
   const dir = lang === 'ar' ? 'rtl' : 'ltr';
+  const section = opts.section ?? page;
+  const detail = section !== page;
   const fonts =
     lang === 'ar'
       ? 'family=Figtree:wght@300;400;600;800&family=IBM+Plex+Sans+Arabic:wght@300;400;600;700'
@@ -197,38 +230,40 @@ var en=p==='/en'||p.slice(0,4)==='/en/';
 if(L==='en'&&!en){location.replace((p==='/'?'/en/':'/en'+p)+q);}
 else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}catch(e){}})();
 </script>
-<link rel="icon" type="image/png" sizes="32x32" href="${assetV(db, 'assets/img/icon-32.png', lang)}">
-<link rel="apple-touch-icon" sizes="180x180" href="${assetV(db, 'assets/img/icon-180.png', lang)}">
+<link rel="icon" type="image/png" sizes="32x32" href="${assetV(db, 'assets/img/icon-32.png')}">
+<link rel="apple-touch-icon" sizes="180x180" href="${assetV(db, 'assets/img/icon-180.png')}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?${fonts}&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="${assetV(db, 'assets/css/tokens.css', lang)}">
-<link rel="stylesheet" href="${assetV(db, 'assets/css/base.css', lang)}">
-<link rel="stylesheet" href="${assetV(db, 'assets/css/layout.css', lang)}">
-<link rel="stylesheet" href="${assetV(db, 'assets/css/components.css', lang)}">
-<link rel="stylesheet" href="${assetV(db, 'assets/css/motion.css', lang)}">${
-    GALLERY_PAGES.has(page) ? `\n<link rel="stylesheet" href="${assetV(db, 'assets/css/gallery.css', lang)}">` : ''
+<link rel="stylesheet" href="${assetV(db, 'assets/css/tokens.css')}">
+<link rel="stylesheet" href="${assetV(db, 'assets/css/base.css')}">
+<link rel="stylesheet" href="${assetV(db, 'assets/css/layout.css')}">
+<link rel="stylesheet" href="${assetV(db, 'assets/css/components.css')}">
+<link rel="stylesheet" href="${assetV(db, 'assets/css/motion.css')}">${
+    GALLERY_PAGES.has(section) ? `\n<link rel="stylesheet" href="${assetV(db, 'assets/css/gallery.css')}">` : ''
   }${
-    page === 'chat' ? `\n<link rel="stylesheet" href="${assetV(db, 'assets/css/chat.css', lang)}">` : ''
+    detail ? `\n<link rel="stylesheet" href="${assetV(db, 'assets/css/detail.css')}">` : ''
+  }${
+    page === 'chat' ? `\n<link rel="stylesheet" href="${assetV(db, 'assets/css/chat.css')}">` : ''
   }
-<link rel="stylesheet" href="${assetV(db, 'assets/css/responsive.css', lang)}">${
-    lang === 'ar' ? `\n<link rel="stylesheet" href="${assetV(db, 'assets/css/rtl.css', lang)}">` : ''
+<link rel="stylesheet" href="${assetV(db, 'assets/css/responsive.css')}">${
+    lang === 'ar' ? `\n<link rel="stylesheet" href="${assetV(db, 'assets/css/rtl.css')}">` : ''
   }
 ${B.headLd(db, page, lang, opts)}
 </head>
 <body>
-<canvas class="site-bg" data-workflow data-variant="${PAGE_VARIANT[page] ?? 'drift'}" aria-hidden="true"></canvas>
+<canvas class="site-bg" data-workflow data-variant="${PAGE_VARIANT[section] ?? 'drift'}" aria-hidden="true"></canvas>
 <a class="skip-link" href="#main">${e(c.ui.skipToContent)}</a>
-${header(db, page, lang)}
+${header(db, page, lang, section)}
 <main id="main">
 <div class="page-spine" aria-hidden="true"><span class="page-spine__fill"></span></div>
 ${main}
 </main>
 ${footer(db, lang)}
-${mobileTabs(db, page, lang)}
+${mobileTabs(db, page, lang, section)}
 ${portraitDialog(db, lang)}
-<script src="${assetV(db, 'assets/js/main.js', lang)}" type="module"></script>${
-    page === 'chat' ? `\n<script src="${assetV(db, `assets/js/chat/boot.${lang}.js`, lang)}" type="module"></script>` : ''
+<script src="${assetV(db, 'assets/js/main.js')}" type="module"></script>${
+    page === 'chat' ? `\n<script src="${assetV(db, `assets/js/chat/boot.${lang}.js`)}" type="module"></script>` : ''
   }
 </body>
 </html>
@@ -238,8 +273,10 @@ ${portraitDialog(db, lang)}
 /**
  * A page section.
  *
- * `more` turns the heading into a link and adds a "see all" affordance, so a
- * summary block on the home page leads to the page that covers it in full.
+ * `more` turns the heading into a link and adds a second link beside it, so
+ * a summary block on the home page leads to the page that covers it in full.
+ * The label says where it goes ("All projects", "All systems"): a link that
+ * only says "see all" tells nobody what is behind it.
  */
 const section = (id, eyebrow, title, lead, body, more = null) => `  <section class="section" id="${id}">
     <div class="container">
@@ -268,12 +305,16 @@ ${body}
  * a headline, or a `lead`, a few sentences that say what the page offers and
  * where, set as running text so a paragraph is not shouted. `note` is one
  * short line above the buttons, marked with a live dot.
+ *
+ * A detail page adds two things, both already markup: `crumbs`, the trail
+ * back to its list page, above the heading, and `facts`, the quiet line of
+ * status, kind and year under the headline.
  */
-function heroBlock({ eyebrow = null, heading, headingClass = '', altName = null, headline = null, lead = null, intro = null, note = null, actions = null }) {
+function heroBlock({ crumbs = null, eyebrow = null, heading, headingClass = '', altName = null, headline = null, facts = null, lead = null, intro = null, note = null, actions = null }) {
   return `  <section class="hero">
     <div class="container">
-${eyebrow ? `      <p class="hero__eyebrow">${e(eyebrow)}</p>\n` : ''}      <h1${headingClass ? ` class="${headingClass}"` : ''}>${e(heading)}</h1>
-${altName ? `      <p class="hero__altname" lang="${altName.lang}" dir="${altName.dir}">${e(altName.text)}</p>\n` : ''}${headline ? `      <p class="hero__headline">${e(headline)}</p>\n` : ''}${lead ? `      <p class="hero__headline hero__headline--lead">${e(lead)}</p>\n` : ''}${intro ? `      <p class="hero__intro">${e(intro)}</p>\n` : ''}${note ? `      <p class="hero__note">${e(note)}</p>\n` : ''}${actions ? `      <div class="hero__actions">\n${actions}\n      </div>\n` : ''}    </div>
+${crumbs ? `      ${crumbs}\n` : ''}${eyebrow ? `      <p class="hero__eyebrow">${e(eyebrow)}</p>\n` : ''}      <h1${headingClass ? ` class="${headingClass}"` : ''}>${e(heading)}</h1>
+${altName ? `      <p class="hero__altname" lang="${altName.lang}" dir="${altName.dir}">${e(altName.text)}</p>\n` : ''}${headline ? `      <p class="hero__headline">${e(headline)}</p>\n` : ''}${facts ? `      ${facts}\n` : ''}${lead ? `      <p class="hero__headline hero__headline--lead">${e(lead)}</p>\n` : ''}${intro ? `      <p class="hero__intro">${e(intro)}</p>\n` : ''}${note ? `      <p class="hero__note">${e(note)}</p>\n` : ''}${actions ? `      <div class="hero__actions">\n${actions}\n      </div>\n` : ''}    </div>
   </section>`;
 }
 
@@ -329,13 +370,13 @@ ${section('offers', null, c.home.offersTitle, null, `      <div class="grid grid
 
 ${section('proof', c.home.proofLabel, c.home.proofLabel, null, B.homeProof(db, lang), { href: rel('about', lang), label: c.nav.about })}
 
-${section('featured', c.home.featuredLabel, c.home.featuredLabel, null, B.homeFeatured(db, lang), { href: rel('projects', lang), label: c.ui.seeAll })}
+${section('featured', c.home.featuredLabel, c.home.featuredLabel, null, B.homeFeatured(db, lang), { href: rel('projects', lang), label: c.ui.allProjects })}
 
-${section('automation', c.home.automationLabel, c.home.automationLabel, c.home.automationLead, `      <div class="grid grid--3">\n${B.homeAutomation(db, lang)}\n      </div>`, { href: rel('automation', lang), label: c.nav.automation })}
+${section('automation', c.home.automationLabel, c.home.automationLabel, c.home.automationLead, `      <div class="grid grid--3">\n${B.homeAutomation(db, lang)}\n      </div>`, { href: rel('automation', lang), label: c.ui.allSystems })}
 
-${section('projects', c.home.projectsLabel, c.home.projectsLabel, c.home.projectsLead, `      <div class="grid grid--3">\n${B.homeProjects(db, lang)}\n      </div>`, { href: rel('projects', lang), label: c.nav.projects })}
+${section('projects', c.home.projectsLabel, c.home.projectsLabel, c.home.projectsLead, `      <div class="grid grid--3">\n${B.homeProjects(db, lang)}\n      </div>`, { href: rel('projects', lang), label: c.ui.allProjects })}
 
-${section('showcase', c.home.showcaseLabel, c.home.showcaseLabel, c.home.showcaseLead, `      <div class="grid grid--3">\n${B.homeShowcase(db, lang)}\n      </div>`, { href: rel('showcase', lang), label: c.nav.showcase })}
+${section('showcase', c.home.showcaseLabel, c.home.showcaseLabel, c.home.showcaseLead, `      <div class="grid grid--3">\n${B.homeShowcase(db, lang)}\n      </div>`, { href: rel('showcase', lang), label: c.ui.allSites })}
 
 ${section('quotes', c.home.quoteLabel, c.home.quoteLabel, null, `      <div class="grid grid--2">\n${B.homeQuote(db, lang)}\n      </div>`, { href: rel('work', lang), label: c.nav.work })}
 
@@ -546,6 +587,82 @@ function chat(db, lang) {
 ${section('transcript', null, c.chat.transcriptTitle, c.chat.transcriptNote, `      <details class="transcript" id="chat-transcript">\n        <summary>${e(c.ui.readTranscript)}</summary>\n<!-- @gen:chat-transcript -->\n<!-- /@gen:chat-transcript -->\n      </details>`)}`;
 
   return shell(db, 'chat', lang, main);
+}
+
+/* ---------------------------------------------------------- detail pages */
+
+/**
+ * The page of one project or one automation system (see details.mjs for
+ * which entries get one).
+ *
+ * The heading is the name, the line under it says what the thing is in the
+ * words people search for, and the lead is the entry's own tagline or
+ * summary. Below that a project shows its screenshots, the problem, what he
+ * built and his role, and the workflow behind it when it names one; a system
+ * shows what it handles, how it works, the real canvas and the outcome. Both
+ * end with their neighbours and the same call to action as the list pages.
+ */
+function detailPage(db, lang, d) {
+  const c = db.copy[lang];
+  const x = d.entry;
+  const project = d.kind === 'project';
+
+  const hero = heroBlock({
+    crumbs: B.detailCrumbs(db, lang, d),
+    heading: detailName(d, lang),
+    headline: detailHeadline(d, lang),
+    facts: B.detailFacts(db, lang, d),
+    intro: (project ? x.tagline : x.summary)[lang],
+    actions:
+      project && x.url
+        ? `        <a class="btn" href="${e(x.url)}"${extAttrs(x.url)}>${e(c.ui.visitLive)}${newTabHint(c.ui.opensInNewTab)}</a>`
+        : null,
+  });
+
+  const body = `  <section class="section" id="overview">
+    <div class="container">
+${project ? B.projectBody(db, lang, x) : B.systemBody(db, lang, x)}
+    </div>
+  </section>`;
+
+  const engine =
+    project && engineOf(db, x)
+      ? `
+
+  <section class="section" id="${ENGINE_ANCHOR}">
+    <div class="container">
+${B.projectEngine(db, lang, x)}
+    </div>
+  </section>`
+      : '';
+
+  const related = B.detailRelated(db, lang, d);
+  const more = related
+    ? `
+
+${section('more', null, project ? c.detail.moreProjects : c.detail.moreSystems, null, `      <div class="grid grid--3">\n${related}\n      </div>`)}`
+    : '';
+
+  const main = `${hero}
+
+${body}${engine}${more}
+
+${ctaBlock(db, lang)}`;
+
+  return shell(db, d.page, lang, main, {
+    section: d.parent,
+    meta: B.detailHead(db, lang, d, {
+      title: detailTitle(db, d, lang),
+      description: detailDescription(d, lang),
+      image: detailImage(db, d),
+    }),
+    nodes: [ld.detailBreadcrumbLd(db, lang, d), ld.detailLd(db, lang, d)],
+  });
+}
+
+/** Every detail page in one language, as `{ page, html }`. */
+export function buildDetailPages(db, lang) {
+  return detailPages(db).map((d) => ({ page: d.page, html: detailPage(db, lang, d) }));
 }
 
 function notFound(db, lang) {

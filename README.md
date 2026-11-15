@@ -47,7 +47,8 @@ npm run check    # test → build → validate
 ## How it fits together
 
 ```
-data/*.json ──► scripts/build.mjs ──► *.html, ar/*.html
+data/*.json ──► scripts/build.mjs ──► *.html, en/*.html
+                                      projects/<id>.html, automation/<id>.html
                                       llms.txt, llms-full.txt
                                       sitemap.xml, api/*.json
                      │
@@ -72,7 +73,8 @@ the whole point of the architecture — there is no second place to remember.
 
 ## Editing content
 
-**Never edit the `.html` files.** They are generated and your changes will be
+**Never edit the `.html` files**, including everything in `projects/`, `automation/`,
+`en/projects/` and `en/automation/`. They are generated and your changes will be
 overwritten on the next build. Edit these instead:
 
 | To change… | Edit |
@@ -90,6 +92,24 @@ overwritten on the next build. Edit these instead:
 | Colours, spacing, fonts | `assets/css/tokens.css` |
 
 Then: `npm run build && npm run validate`.
+
+### A page for each project and system
+
+Every project gets a page of its own at `/projects/<id>`, and every automation system
+that has both a curated `flow` and a `canvas` screenshot gets one at `/automation/<id>`
+(Arabic at the root, English under `/en/`). To add one, add the entry to
+`data/projects.json` or `data/workflows.json` and build: the page, its links from the
+list page and the home page, the sitemap entry and the line in `llms.txt` all follow.
+Remove the entry and the next build deletes its page.
+
+Two optional fields shape the page:
+
+- `headline` (`{ "en", "ar" }`): one line that says what the thing is in the words
+  people search for. It is the line under the heading and the second half of the page
+  title. It may say no more than the rest of the entry does.
+- `workflow` on a project: the id of the n8n workflow that is its engine. That workflow
+  is then shown in full on the project's page ("The automation behind it") and gets no
+  page of its own; its card on the automation page leads to the project.
 
 ---
 

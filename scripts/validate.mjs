@@ -8,9 +8,11 @@
  * an unresolved link is a known gap, not a defect.
  */
 
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { loadDb } from './lib/load.mjs';
-import { PAGES, LANGS } from './lib/sitemap.mjs';
+import { PAGES, LANGS, pagePath } from './lib/sitemap.mjs';
+import { DETAIL_FOLDERS, detailPages, staleDetailFiles } from './lib/details.mjs';
+import { pageFile } from './lib/site.mjs';
 import { checkRedirects, checkHeaders, parseRedirects, misspellingLeaks, MISSPELLED_NAME } from './lib/gates.mjs';
 
 const errors = [];
@@ -22,35 +24,50 @@ const warn = (msg) => warnings.push(msg);
 /**
  * The file on disk behind a link.
  *
- * Pages are linked by their clean address (`/en/about`, `/en/`), and the host
- * serves `en/about.html` and `en/index.html` behind those.
+ * Pages are linked by their clean address (`/en/about`, `/en/`,
+ * `/en/projects/<id>`), and the host serves `en/about.html`, `en/index.html`
+ * and `en/projects/<id>.html` behind those.
+ *
+ * Every address a page names starts at the site root (check 8f holds them to
+ * it), so there is nothing to resolve against the page's own folder. A
+ * relative address returns null here and is reported there.
  */
-function toFile(target, dir) {
+function toFile(target) {
   // Neither the fragment nor the query is part of the path on disk.
   // Stylesheets carry a `?v=` fingerprint so a CDN cannot serve a stale
   // copy; without stripping it, every one of them reads as missing.
   const clean = target.split('#')[0].split('?')[0];
-  if (!clean) return null;
-  const path = clean.startsWith('/') ? clean.slice(1) : clean.startsWith('../') ? clean.slice(3) : `${dir}${clean}`;
+  if (!clean.startsWith('/')) return null;
+  const path = clean.slice(1);
   if (path === '' || path.endsWith('/')) return `${path}index.html`;
   return /\.[a-z0-9]+$/i.test(path) ? path : `${path}.html`;
 }
 
-function pageFiles() {
-  return LANGS.flatMap((lang) =>
-    [...PAGES, '404'].map((p) => ({
-      lang,
-      page: p,
-      file: `${lang === 'ar' ? '' : 'en/'}${p === '' ? 'index' : p}.html`,
-    })),
-  );
+/**
+ * Every page the build writes, in both languages: the navigation, the 404
+ * and one page for each project and system. `detail` is the entry from
+ * details.mjs for the last kind, and undefined for the rest.
+ */
+function pageFiles(db) {
+  const details = detailPages(db);
+  return LANGS.flatMap((lang) => [
+    ...[...PAGES, '404'].map((page) => ({ lang, page, file: pageFile(page, lang) })),
+    ...details.map((detail) => ({ lang, page: detail.page, file: pageFile(detail.page, lang), detail })),
+  ]);
 }
 
-export function checkAll({ pages = pageFiles() } = {}) {
+/** What is on disk in the folders the detail pages are generated into. */
+function generatedDetailFolders() {
+  return LANGS.flatMap((lang) => DETAIL_FOLDERS.map((folder) => `${lang === 'ar' ? '' : 'en/'}${folder}`)).filter((folder) => existsSync(folder));
+}
+
+export function checkAll({ pages } = {}) {
   errors.length = 0;
   warnings.length = 0;
 
   const db = loadDb('data');
+  pages ??= pageFiles(db);
+  const site = db.profile.site.replace(/\/$/, '');
 
   // 1 — unresolved identity links are warnings, and must never be rendered.
   for (const s of db.profile.sameAs) {
@@ -74,7 +91,7 @@ export function checkAll({ pages = pageFiles() } = {}) {
   for (const r of parseRedirects(redirects)) {
     // An address on another host, or one built from a placeholder, is not a file here.
     if (r.to.includes(':')) continue;
-    const target = toFile(r.to, '');
+    const target = toFile(r.to);
     if (target && !existsSync(target)) fail(`_redirects: ${r.from} points at ${r.to}, which does not exist`);
   }
 
@@ -82,7 +99,7 @@ export function checkAll({ pages = pageFiles() } = {}) {
   // The WebSite node of the first page read: every other page must match it.
   let siteNode = null;
 
-  for (const { lang, page, file } of pages) {
+  for (const { lang, page, file, detail } of pages) {
     if (!existsSync(file)) { fail(`${file}: missing — run npm run build`); continue; }
     const html = readFileSync(file, 'utf8');
 
@@ -170,15 +187,20 @@ export function checkAll({ pages = pageFiles() } = {}) {
     if (!/class="skip-link"/.test(html)) fail(`${file}: missing skip link`);
     if ((html.match(/<h1[ >]/g) ?? []).length !== 1) fail(`${file}: must have exactly one h1`);
 
-    // 8 — internal links resolve.
-    const dir = lang === 'ar' ? '' : 'en/';
-    for (const [, target] of html.matchAll(/href="(?!https?:|mailto:|tel:|#)([^"]+)"/g)) {
-      // Neither the fragment nor the query is part of the path on disk.
-      // Stylesheets carry a `?v=` fingerprint so a CDN cannot serve a stale
-      // copy; without stripping it, every one of them reads as missing.
-      const resolved = toFile(target, dir);
+    // 8 — internal links and assets resolve.
+    for (const [, target] of html.matchAll(/(?:href|src)="(?!https?:|mailto:|tel:|#|data:)([^"]+)"/g)) {
+      const resolved = toFile(target);
       if (!resolved) continue;
-      if (!existsSync(resolved)) fail(`${file}: link "${target}" resolves to missing ${resolved}`);
+      if (!existsSync(resolved)) fail(`${file}: "${target}" resolves to missing ${resolved}`);
+    }
+
+    // 8f: every address starts at the site root.
+    //
+    // A page one level down (/en/projects/<id>) resolves a relative address
+    // against its own folder, and the 404 page against whatever address was
+    // not found. "assets/css/base.css" works from / and breaks from both.
+    for (const [, attr, target] of html.matchAll(/\s(href|src|srcset|poster|action)="(?!https?:|mailto:|tel:|#|data:|\/)([^"]+)"/g)) {
+      fail(`${file}: ${attr}="${target}" is relative to the page: build it from the site root`);
     }
 
     // 8a — pages are named by their clean address, never the .html one.
@@ -200,7 +222,7 @@ export function checkAll({ pages = pageFiles() } = {}) {
     for (const [, attrs, href] of html.matchAll(/<a\s+([^>]*?)href="([^"]+)"/g)) {
       if (attrs.includes('lang-switch')) continue;
       if (/^(https?:|mailto:|tel:|#)/.test(href)) continue;
-      const resolved = toFile(href, dir);
+      const resolved = toFile(href);
       // Only a link to a page has a language; a PDF or an image does not.
       if (!resolved?.endsWith('.html')) continue;
       const targetIsEnglish = resolved.startsWith('en/');
@@ -238,21 +260,76 @@ export function checkAll({ pages = pageFiles() } = {}) {
     // Cards link to `/projects#smart-scanner`. If the id is renamed, the link
     // still resolves to a real file and quietly lands on the top of the page.
     for (const [, target, fragment] of html.matchAll(/href="(?!https?:|mailto:|tel:)([^"#]*)#([^"]+)"/g)) {
-      const resolved = target ? toFile(target, dir) : file;
+      const resolved = target ? toFile(target) : file;
       if (!resolved?.endsWith('.html') || !existsSync(resolved)) continue;
       const there = resolved === file ? html : readFileSync(resolved, 'utf8');
       if (!there.includes(` id="${fragment}"`)) fail(`${file}: link "${target}#${fragment}" has nothing to land on in ${resolved}`);
+    }
+
+    // 8g: a page meant for search says so plainly.
+    //
+    // One canonical, naming the page's own clean address in its own language,
+    // and no noindex. A detail page that pointed its canonical at the list
+    // page would hand its place in search to the list.
+    if (page !== '404') {
+      const own = `${site}${pagePath(page, lang)}`;
+      const canonicals = [...html.matchAll(/<link rel="canonical" href="([^"]*)">/g)].map((m) => m[1]);
+      if (canonicals.length !== 1 || canonicals[0] !== own) fail(`${file}: canonical must be exactly ${own}, found ${canonicals.join(', ') || 'none'}`);
+      if (/<meta name="robots" content="[^"]*noindex/.test(html)) fail(`${file}: carries noindex, but it is a page meant to be found`);
+    }
+
+    // 8h: a detail page is reachable and announced.
+    if (detail) {
+      const address = pagePath(page, lang);
+      const listFile = pageFile(detail.parent, lang);
+      if (existsSync(listFile) && !readFileSync(listFile, 'utf8').includes(`href="${address}"`)) {
+        fail(`${file}: ${listFile} has no link to ${address}`);
+      }
+      const crumbs = graph.find((n) => n['@type'] === 'BreadcrumbList');
+      if (crumbs?.itemListElement.length !== 3) fail(`${file}: a detail page carries a three-step breadcrumb`);
+      const main = graph.find((n) => n['@id'] === `${site}${address}#main`);
+      if (main?.['@type'] !== 'CreativeWork') fail(`${file}: no CreativeWork node for the thing the page is about`);
+      // Google requires a price and a rating for these types, and neither may be invented.
+      for (const n of graph) {
+        if (/^(SoftwareApplication|WebApplication|MobileApplication|FAQPage)$/.test(String(n['@type']))) fail(`${file}: carries a ${n['@type']} node`);
+        for (const key of ['offers', 'aggregateRating', 'review']) if (key in n) fail(`${file}: ${n['@type']} carries "${key}"`);
+      }
     }
 
     sectionCounts[`${page}:${lang}`] = (html.match(/<section/g) ?? []).length;
   }
 
   // 9 — AR/EN parity.
-  for (const page of [...PAGES, '404']) {
+  for (const page of new Set(pages.map((p) => p.page))) {
     const en = sectionCounts[`${page}:en`];
     const ar = sectionCounts[`${page}:ar`];
     if (en !== undefined && ar !== undefined && en !== ar) {
       fail(`parity: ${page || 'index'} has ${en} sections in English but ${ar} in Arabic`);
+    }
+  }
+
+  // 9a: the generated folders hold the detail pages and nothing else.
+  //
+  // A page whose entry left the data is deleted by the build; one that is
+  // still here was put there by hand or by an older build. And a page is
+  // always <id>.html: <id>/index.html would be served at a second address.
+  const wanted = pages.filter((p) => p.detail).map((p) => p.file);
+  for (const folder of generatedDetailFolders()) {
+    const entries = readdirSync(folder).map((name) => `${folder}/${name}`);
+    for (const stale of staleDetailFiles(entries, wanted)) fail(`${stale}: no project or system stands behind this page; run npm run build`);
+    for (const entry of entries) {
+      if (statSync(entry).isDirectory()) fail(`${entry}/: a folder inside a generated folder; a detail page is <id>.html, never <id>/index.html`);
+      else if (!entry.endsWith('.html')) fail(`${entry}: not a page, in a folder the build generates`);
+    }
+  }
+
+  // 9b: the sitemap lists every page once, by its clean address.
+  if (existsSync('sitemap.xml')) {
+    const locs = [...readFileSync('sitemap.xml', 'utf8').matchAll(/<loc>([^<]*)<\/loc>/g)].map((m) => m[1]);
+    for (const { lang, page, file } of pages) {
+      if (page === '404') continue;
+      const own = `${site}${pagePath(page, lang)}`;
+      if (locs.filter((l) => l === own).length !== 1) fail(`sitemap.xml: ${own} (${file}) must be listed exactly once`);
     }
   }
 

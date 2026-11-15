@@ -6,8 +6,14 @@
  * (https://jsonresume.org/schema/) so existing tooling can parse it directly.
  */
 
+import { LANGS } from './sitemap.mjs';
+import { projectHref, systemHref } from './details.mjs';
+
 const base = (db) => db.profile.site.replace(/\/$/, '');
 const iso = (ym) => (ym ? `${ym}-01` : undefined);
+
+/** An address on this site in each language, as `{ en, ar }`. */
+const inEachLanguage = (db, hrefIn) => Object.fromEntries(LANGS.map((lang) => [lang, `${base(db)}${hrefIn(lang)}`]));
 
 /**
  * When the files were generated: the build's own date (`db.build.modified`,
@@ -61,6 +67,8 @@ export function buildApiProjects(db) {
       metrics: p.metrics ?? [],
       stack: p.stack,
       url: p.url,
+      // Where the project is described in full on this site.
+      page: inEachLanguage(db, (lang) => projectHref(p, lang)),
     })),
     workflows: db.workflows.map((w) => ({
       id: w.id,
@@ -75,6 +83,8 @@ export function buildApiProjects(db) {
       status: w.status,
       workflowCount: w.workflowCount,
       flow: w.flow,
+      // Its own page, the section of its product's page, or its card on the list.
+      page: inEachLanguage(db, (lang) => systemHref(db, w, lang)),
     })),
     showcase: db.showcase.sites.map((x) => ({
       id: x.id,

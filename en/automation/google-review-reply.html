@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Google Review Reply Manager: Automatic replies to Google reviews with n8n</title>
+<meta name="description" content="New Google reviews are picked up on a schedule and answered in the reviewer&#39;s own language.">
+<link rel="canonical" href="https://nouraldeentofi.com/en/automation/google-review-reply">
+<link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/google-review-reply">
+<link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/google-review-reply">
+<link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/google-review-reply">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nour Aldeen Tofi">
+<meta property="og:title" content="Google Review Reply Manager: Automatic replies to Google reviews with n8n">
+<meta property="og:description" content="New Google reviews are picked up on a schedule and answered in the reviewer&#39;s own language.">
+<meta property="og:url" content="https://nouraldeentofi.com/en/automation/google-review-reply">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ar_SA">
+<meta property="og:image" content="https://nouraldeentofi.com/assets/img/workflows/google-review-reply.webp">
+<meta property="og:image:width" content="1559">
+<meta property="og:image:height" content="741">
+<meta property="og:image:alt" content="Google Review Reply Manager: The real canvas in n8n">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nouraldeentofi.com/assets/img/workflows/google-review-reply.webp">
+<meta name="author" content="Nour Aldeen Tofi">
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-5FG7CGJF"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());</script>
+<script>
+/* Set before first paint so reveals never flash, and the stored theme never
+   flickers. Also tells CSS that JavaScript is available: without this class
+   nothing is ever hidden. */
+(function(){var r=document.documentElement;r.classList.add('js');
+try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}
+/* honour the visitor's last language choice on every arrival. The query and
+   the fragment travel with it: ids are the same in both languages, so a link
+   to one item still lands on that item. */
+try{var L=localStorage.getItem('nt-lang');var p=location.pathname;var q=location.search+location.hash;
+var en=p==='/en'||p.slice(0,4)==='/en/';
+if(L==='en'&&!en){location.replace((p==='/'?'/en/':'/en'+p)+q);}
+else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}catch(e){}})();
+</script>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/icon-32.png?v=b64ecc6d">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/icon-180.png?v=5cafdc8a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/tokens.css?v=9e291487">
+<link rel="stylesheet" href="/assets/css/base.css?v=52040e91">
+<link rel="stylesheet" href="/assets/css/layout.css?v=8a0e4497">
+<link rel="stylesheet" href="/assets/css/components.css?v=4a69947c">
+<link rel="stylesheet" href="/assets/css/motion.css?v=0828308a">
+<link rel="stylesheet" href="/assets/css/gallery.css?v=54f99880">
+<link rel="stylesheet" href="/assets/css/detail.css?v=a91f1d6a">
+<link rel="stylesheet" href="/assets/css/responsive.css?v=a7c809d0">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://nouraldeentofi.com/#nour",
+      "name": "Nour Aldeen Tofi",
+      "givenName": "Nour Aldeen",
+      "familyName": "Tofi",
+      "alternateName": [
+        "نور الدين طفي",
+        "Nouraldeen Tofi",
+        "Nour Al-Deen Tofi",
+        "Nour Al Deen Tofi",
+        "Nour Aldin Tofi",
+        "Nour Eddin Tofi",
+        "Noureddine Tofi",
+        "Nour El Din Tofi",
+        "Noor Aldeen Tofi",
+        "Nour Aldeen Toufi",
+        "Nour Tofi",
+        "nouraldeentofi",
+        "nourtofi",
+        "نورالدين طفي",
+        "نور الدين الطفي",
+        "نور طفي",
+        "نور الدين توفي",
+        "نور توفي"
+      ],
+      "jobTitle": "AI Automation Engineer: n8n, LLM Agents, MCP · Frontend Developer",
+      "description": "I build AI automation in n8n that reads Arabic and English documents, runs WhatsApp and Telegram bots, and delivers clean data to the tools a business already uses. I also build the React interfaces on top of it, and websites for people, companies and shops.",
+      "email": "mailto:nouraldeentofi@gmail.com",
+      "telephone": "+966547972944",
+      "url": "https://nouraldeentofi.com",
+      "image": {
+        "@type": "ImageObject",
+        "contentUrl": "https://nouraldeentofi.com/assets/img/nour.jpg",
+        "caption": "Nour Aldeen Tofi, AI Automation Engineer: n8n, LLM Agents, MCP · Frontend Developer",
+        "creator": {
+          "@id": "https://nouraldeentofi.com/#nour"
+        },
+        "creditText": "Nour Aldeen Tofi",
+        "copyrightNotice": "© Nour Aldeen Tofi"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Al Khobar",
+        "addressRegion": "Eastern Province",
+        "addressCountry": "SA"
+      },
+      "knowsLanguage": [
+        {
+          "@type": "Language",
+          "name": "Arabic",
+          "alternateName": "ar"
+        },
+        {
+          "@type": "Language",
+          "name": "English",
+          "alternateName": "en"
+        }
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/in/nouraldeentofi/",
+        "https://github.com/nouraldeentofi",
+        "https://www.youtube.com/@nouraldeentofi",
+        "https://codeforces.com/profile/nour.tofi.it"
+      ],
+      "knowsAbout": [
+        "n8n",
+        "Workflow Automation",
+        "AI Agents",
+        "LLM Tool-Calling Design",
+        "Model Context Protocol (MCP)",
+        "OpenAI API",
+        "GPT-4o",
+        "GPT-4.1 Vision",
+        "Structured JSON Outputs",
+        "Prompt Engineering",
+        "Document AI",
+        "Arabic OCR & Extraction",
+        "Web Scraping",
+        "Telegram Bot API",
+        "Webhooks",
+        "Error Handling & Retries",
+        "React.js",
+        "React 19",
+        "TypeScript",
+        "JavaScript (ES6+)",
+        "Tailwind CSS",
+        "HTML5",
+        "CSS3",
+        "Material-UI",
+        "Vite",
+        "React Hooks",
+        "TanStack React Query",
+        "React Hook Form",
+        "React Router",
+        "i18n & RTL",
+        "Responsive Design",
+        "Web Accessibility",
+        "REST APIs",
+        "API Integration",
+        "JSON",
+        "OAuth 2.0",
+        "MySQL",
+        "Stored Procedures",
+        "Google Sheets API",
+        "Google Drive API",
+        "Node.js",
+        "Python",
+        "Git",
+        "GitHub",
+        "GitLab",
+        "CI/CD (GitHub Actions)",
+        "Vitest",
+        "React Testing Library",
+        "Jira",
+        "Trello",
+        "Figma",
+        "Agile",
+        "Scrum",
+        "Clean Code",
+        "Requirements Gathering",
+        "Scope Definition",
+        "API Contract Design",
+        "User Stories",
+        "Sprint Planning",
+        "Code Review",
+        "Mentoring",
+        "Cross-Functional Team Leadership",
+        "Project Coordination",
+        "Problem Solving"
+      ],
+      "hasCredential": [
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "How to use roadmaps in Jira",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Coursera Project Network",
+            "sameAs": "https://www.coursera.org/"
+          },
+          "dateCreated": "2025-05",
+          "identifier": "LK38V6C4Z8JI"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Create User Stories in Jira",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Coursera Project Network",
+            "sameAs": "https://www.coursera.org/"
+          },
+          "dateCreated": "2025-05",
+          "identifier": "TBR0Y7OAFNAY"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Get started with Jira",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Coursera Project Network",
+            "sameAs": "https://www.coursera.org/"
+          },
+          "dateCreated": "2025-05",
+          "identifier": "UJB8ZR6XQQIQ"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "TypeScript in React: Get started",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Coursera Project Network",
+            "sameAs": "https://www.coursera.org/"
+          },
+          "dateCreated": "2025-05",
+          "identifier": "O5Q2441FNT75"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Learn Markdown",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Scrimba",
+            "sameAs": "https://scrimba.com/"
+          },
+          "dateCreated": "2025-04",
+          "identifier": "2ZF1TPIS79DV"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Project Initiation: Starting a Successful Project",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Google",
+            "sameAs": "https://about.google/"
+          },
+          "dateCreated": "2025-04",
+          "identifier": "E2FQ4VK5Y8E1"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Foundations of Project Management",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Google",
+            "sameAs": "https://about.google/"
+          },
+          "dateCreated": "2025-03",
+          "identifier": "4Y8FUR9QHWM4"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Advanced React",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Meta",
+            "sameAs": "https://about.meta.com/"
+          },
+          "dateCreated": "2025-01",
+          "identifier": "1OMX1QZY5G5Q"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Clean Code Basics: How to Write Maintainable Code",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Scrimba",
+            "sameAs": "https://scrimba.com/"
+          },
+          "dateCreated": "2024-11",
+          "identifier": "F72A6F85NYPT"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Python for Data Science, AI & Development",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "IBM",
+            "sameAs": "https://www.ibm.com/"
+          },
+          "dateCreated": "2024-11",
+          "identifier": "UCC3I1P3TIIU"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Tailwind CSS From Scratch: Learn by Building Projects",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Packt",
+            "sameAs": "https://www.packtpub.com/"
+          },
+          "dateCreated": "2024-10",
+          "identifier": "VWW2LONJ33FO"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Generative AI: Prompt Engineering Basics",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "IBM",
+            "sameAs": "https://www.ibm.com/"
+          },
+          "dateCreated": "2024-10",
+          "identifier": "7RRDE0FY184F"
+        }
+      ],
+      "alumniOf": {
+        "@type": "CollegeOrUniversity",
+        "name": "University of Kalamoon",
+        "sameAs": "http://www.uok.edu.sy/?lang=en"
+      },
+      "hasOccupation": {
+        "@type": "Occupation",
+        "name": "AI Automation Engineer",
+        "occupationLocation": {
+          "@type": "City",
+          "name": "Al Khobar"
+        },
+        "skills": "n8n, Workflow Automation, AI Agents, LLM Tool-Calling Design, Model Context Protocol (MCP), OpenAI API, GPT-4o, GPT-4.1 Vision, Structured JSON Outputs, Prompt Engineering, Document AI, Arabic OCR & Extraction, Web Scraping, Telegram Bot API, Webhooks, Error Handling & Retries"
+      },
+      "seeks": {
+        "@type": "Demand",
+        "name": "AI Automation Engineer, n8n Workflow Automation Engineer, Applied AI and LLM Engineer, Frontend Developer (React, TypeScript, Next.js), Frontend Lead and Technical Lead",
+        "areaServed": [
+          "Al Khobar",
+          "Dammam",
+          "Dhahran",
+          "Eastern Province",
+          "Riyadh and anywhere in Saudi Arabia (open to relocation)",
+          "Remote"
+        ],
+        "availabilityStarts": "2026-11"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://nouraldeentofi.com/#website",
+      "url": "https://nouraldeentofi.com/",
+      "name": "Nour Aldeen Tofi",
+      "alternateName": [
+        "نور الدين طفي",
+        "Nour Tofi",
+        "nouraldeentofi.com"
+      ],
+      "inLanguage": [
+        "ar",
+        "en"
+      ],
+      "publisher": {
+        "@id": "https://nouraldeentofi.com/#nour"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://nouraldeentofi.com/en/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Automation Lab",
+          "item": "https://nouraldeentofi.com/en/automation"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Google Review Reply Manager",
+          "item": "https://nouraldeentofi.com/en/automation/google-review-reply"
+        }
+      ]
+    },
+    {
+      "@type": "CreativeWork",
+      "@id": "https://nouraldeentofi.com/en/automation/google-review-reply#main",
+      "name": "Google Review Reply Manager",
+      "description": "New Google reviews are picked up on a schedule and answered in the reviewer's own language. Happy reviews get a reply on their own; unhappy ones go to the owner on Telegram, who approves or skips with one tap.",
+      "url": "https://nouraldeentofi.com/en/automation/google-review-reply",
+      "image": "https://nouraldeentofi.com/assets/img/workflows/google-review-reply.webp",
+      "author": {
+        "@id": "https://nouraldeentofi.com/#nour"
+      },
+      "dateCreated": "2026",
+      "keywords": "n8n, OpenAI, Google Business Profile, Telegram, n8n Data Tables",
+      "inLanguage": "en"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<canvas class="site-bg" data-workflow data-variant="branch" aria-hidden="true"></canvas>
+<a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <div class="brand">
+        <a class="brand__mark portrait-open" href="/assets/img/nour.jpg?v=8858f5b0" aria-label="View the portrait full size">
+          <img src="/assets/img/nour-96.png?v=7af547be" alt="Nour Aldeen Tofi" width="36" height="36" decoding="async">
+        </a>
+        <a class="brand__name" href="/en/">Nour Aldeen Tofi</a>
+      </div>
+      <nav class="site-nav" aria-label="Home">
+          <a href="/en/">Home</a>
+          <a href="/en/about">About</a>
+          <a href="/en/work">Work</a>
+          <a href="/en/projects">Projects</a>
+          <a href="/en/showcase">Showcase</a>
+          <a href="/en/automation" aria-current="true">Automation Lab</a>
+          <a href="/en/chat">Chat</a>
+          <a href="/en/contact">Contact</a>
+      </nav>
+      <div class="header__tools">
+        <a class="lang-switch" href="/automation/google-review-reply" lang="ar" hreflang="ar">العربية</a>
+        <button class="theme-toggle" type="button" aria-label="Toggle colour theme" aria-pressed="false"><span class="theme-toggle__icon" aria-hidden="true">☀</span></button>
+      </div>
+    </div>
+  </header>
+<main id="main">
+<div class="page-spine" aria-hidden="true"><span class="page-spine__fill"></span></div>
+  <section class="hero">
+    <div class="container">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/en/">Home</a></li>
+          <li><a href="/en/automation">Automation Lab</a></li>
+          <li aria-current="page">Google Review Reply Manager</li>
+        </ol>
+      </nav>
+      <h1>Google Review Reply Manager</h1>
+      <p class="hero__headline">Automatic replies to Google reviews with n8n</p>
+      <p class="card__meta detail__meta"><span class="status status--built">Built and tested</span><span>For shops</span><span>Review management for shops</span><span>2026</span></p>
+      <p class="hero__intro">New Google reviews are picked up on a schedule and answered in the reviewer&#39;s own language. Happy reviews get a reply on their own; unhappy ones go to the owner on Telegram, who approves or skips with one tap.</p>
+    </div>
+  </section>
+
+  <section class="section" id="overview">
+    <div class="container">
+<div class="detail">
+  <div class="detail__part">
+    <div class="section__head" data-reveal>
+      <div class="section__titlebar"><h2>What it handles</h2></div>
+    </div>
+    <div class="card card--row" data-reveal>
+      <div class="card__main">
+        <ul class="card__list"><li>Reviews already answered or already tracked are skipped</li><li>High ratings are posted automatically; low ratings wait for the owner</li><li>The owner&#39;s tap posts the stored draft and edits the message to confirm</li><li>A one-off helper fetches each new client&#39;s account and location</li></ul>
+      </div>
+      <aside class="card__aside">
+        <dl class="card__body">
+          <dt>Trigger</dt><dd>Schedule and a Telegram button</dd>
+          <dt>Services</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">OpenAI</li><li class="badge">Google Business Profile</li><li class="badge">Telegram</li><li class="badge">n8n Data Tables</li></ul></dd>
+        </dl>
+      </aside>
+    </div>
+  </div>
+  <div class="detail__part">
+    <div class="section__head" data-reveal>
+      <div class="section__titlebar"><h2>How it works</h2></div>
+      <p class="section__lead">Every diagram is drawn from the real node graph, with names simplified and nothing sensitive in it.</p>
+    </div>
+    <ol class="steps steps--row detail__steps">
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">1</span>
+        <p>Review poll</p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">2</span>
+        <p>Fetch new reviews <span class="steps__service">Google Business Profile</span></p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">3</span>
+        <p>Draft reply <span class="steps__service">OpenAI</span></p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">4</span>
+        <p>Positive review?</p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">5</span>
+        <p>Auto-post reply <span class="steps__service">Google Business Profile</span></p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">6</span>
+        <p>Ask owner approval <span class="steps__service">Telegram</span></p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">7</span>
+        <p>Approval button tap <span class="steps__service">Telegram</span></p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">8</span>
+        <p>Approve or skip?</p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">9</span>
+        <p>Post approved reply <span class="steps__service">Google Business Profile</span></p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">10</span>
+        <p>Mark as skipped</p>
+      </li>
+    </ol>
+    <figure class="system__diagram">
+    <div class="wf-frame">
+      <svg class="wf" viewBox="0 0 1050 194" width="1050" height="194" role="img" aria-labelledby="wf-google-review-reply-en-t wf-google-review-reply-en-d" style="--wf-w:1050px">
+    <title id="wf-google-review-reply-en-t">Google Review Reply Manager</title>
+    <desc id="wf-google-review-reply-en-d">Review poll / Approval button tap → Fetch new reviews / Approve or skip? → Draft reply / Post approved reply / Mark as skipped → Positive review? → Auto-post reply / Ask owner approval</desc>
+    <defs><marker id="wf-a-google-review-reply-en" class="wf__arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0.8 L7 4 L0 7.2 Z"/></marker></defs>
+    <path class="wf__edge" d="M182 64 C204 64 204 71 226 71" marker-end="url(#wf-a-google-review-reply-en)"/>
+    <path class="wf__pulse" d="M182 64 C204 64 204 71 226 71" pathLength="100" style="animation-delay:0.00s"/>
+    <path class="wf__edge" d="M396 71 C418 71 418 38 440 38" marker-end="url(#wf-a-google-review-reply-en)"/>
+    <path class="wf__pulse" d="M396 71 C418 71 418 38 440 38" pathLength="100" style="animation-delay:0.52s"/>
+    <path class="wf__edge" d="M610 38 C632 38 632 97 654 97" marker-end="url(#wf-a-google-review-reply-en)"/>
+    <path class="wf__pulse" d="M610 38 C632 38 632 97 654 97" pathLength="100" style="animation-delay:1.04s"/>
+    <path class="wf__edge" d="M824 97 C846 97 846 64 868 64" marker-end="url(#wf-a-google-review-reply-en)"/>
+    <path class="wf__pulse" d="M824 97 C846 97 846 64 868 64" pathLength="100" style="animation-delay:1.20s"/>
+    <path class="wf__edge" d="M824 97 C846 97 846 130 868 130" marker-end="url(#wf-a-google-review-reply-en)"/>
+    <path class="wf__pulse" d="M824 97 C846 97 846 130 868 130" pathLength="100" style="animation-delay:1.32s"/>
+    <path class="wf__edge" d="M182 123 C204 123 204 130 226 130" marker-end="url(#wf-a-google-review-reply-en)"/>
+    <path class="wf__pulse" d="M182 123 C204 123 204 130 226 130" pathLength="100" style="animation-delay:0.24s"/>
+    <path class="wf__edge" d="M396 130 C418 130 418 104 440 104" marker-end="url(#wf-a-google-review-reply-en)"/>
+    <path class="wf__pulse" d="M396 130 C418 130 418 104 440 104" pathLength="100" style="animation-delay:0.40s"/>
+    <path class="wf__edge" d="M396 130 C418 130 418 163 440 163" marker-end="url(#wf-a-google-review-reply-en)"/>
+    <path class="wf__pulse" d="M396 130 C418 130 418 163 440 163" pathLength="100" style="animation-delay:0.52s"/>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="45" width="170" height="38" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="64" r="4.5"/>
+      <text class="wf__label" x="103" y="68.5" text-anchor="middle">Review poll</text>
+    </g>
+    <g class="wf__node wf__node--io">
+      <rect x="226" y="45" width="170" height="52" rx="11"/>
+      <circle class="wf__mark" cx="242" cy="71" r="4.5"/>
+      <text class="wf__label" x="317" y="67" text-anchor="middle">Fetch new reviews</text>
+      <text class="wf__service" x="317" y="84" text-anchor="middle">Google Business Profile</text>
+    </g>
+    <g class="wf__node wf__node--ai">
+      <rect x="440" y="12" width="170" height="52" rx="11"/>
+      <circle class="wf__mark" cx="456" cy="38" r="4.5"/>
+      <text class="wf__label" x="531" y="34" text-anchor="middle">Draft reply</text>
+      <text class="wf__service" x="531" y="51" text-anchor="middle">OpenAI</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="654" y="78" width="170" height="38" rx="11"/>
+      <circle class="wf__mark" cx="670" cy="97" r="4.5"/>
+      <text class="wf__label" x="745" y="101.5" text-anchor="middle">Positive review?</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="868" y="38" width="170" height="52" rx="11"/>
+      <circle class="wf__mark" cx="884" cy="64" r="4.5"/>
+      <text class="wf__label" x="959" y="60" text-anchor="middle">Auto-post reply</text>
+      <text class="wf__service" x="959" y="77" text-anchor="middle">Google Business Profile</text>
+    </g>
+    <g class="wf__node wf__node--human">
+      <rect x="868" y="104" width="170" height="52" rx="11"/>
+      <circle class="wf__mark" cx="884" cy="130" r="4.5"/>
+      <text class="wf__label" x="959" y="126" text-anchor="middle">Ask owner approval</text>
+      <text class="wf__service" x="959" y="143" text-anchor="middle">Telegram</text>
+    </g>
+    <g class="wf__node wf__node--trigger">
+      <rect x="12" y="97" width="170" height="52" rx="11"/>
+      <circle class="wf__mark" cx="28" cy="123" r="4.5"/>
+      <text class="wf__label" x="103" y="119" text-anchor="middle">Approval button tap</text>
+      <text class="wf__service" x="103" y="136" text-anchor="middle">Telegram</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="226" y="111" width="170" height="38" rx="11"/>
+      <circle class="wf__mark" cx="242" cy="130" r="4.5"/>
+      <text class="wf__label" x="317" y="134.5" text-anchor="middle">Approve or skip?</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="440" y="78" width="170" height="52" rx="11"/>
+      <circle class="wf__mark" cx="456" cy="104" r="4.5"/>
+      <text class="wf__label" x="531" y="100" text-anchor="middle">Post approved reply</text>
+      <text class="wf__service" x="531" y="117" text-anchor="middle">Google Business Profile</text>
+    </g>
+    <g class="wf__node wf__node--data">
+      <rect x="440" y="144" width="170" height="38" rx="11"/>
+      <circle class="wf__mark" cx="456" cy="163" r="4.5"/>
+      <text class="wf__label" x="531" y="167.5" text-anchor="middle">Mark as skipped</text>
+    </g>
+  </svg>
+    </div>
+    <figcaption class="system__caption"><span class="system__count"><b>2</b> workflows · <b>26</b> nodes</span><a class="canvas-open" href="/assets/img/workflows/google-review-reply.webp?v=af25b48f" data-dialog-open="canvas-google-review-reply" target="_blank" rel="noopener">n8n canvas: Google Review Reply Manager<span class="visually-hidden"> (opens in a new tab)</span></a></figcaption>
+  </figure>
+  </div>
+  <div class="detail__part">
+    <div class="section__head" data-reveal>
+      <div class="section__titlebar"><h2>The real canvas in n8n</h2></div>
+    </div>
+    <figure class="canvas-shot" data-reveal>
+      <div class="canvas-shot__scroll" role="group" aria-label="Google Review Reply Manager: The real canvas in n8n" tabindex="0" style="--canvas-h:741px">
+        <img src="/assets/img/workflows/google-review-reply.webp?v=af25b48f" alt="Google Review Reply Manager: The real canvas in n8n" width="1559" height="741" loading="lazy" decoding="async">
+      </div>
+      <figcaption class="canvas-shot__caption"><span>Google Review Reply Manager: The real canvas in n8n</span><span class="canvas-shot__hint">Scroll sideways to follow the whole flow</span></figcaption>
+    </figure>
+  </div>
+  <div class="detail__part">
+    <div class="section__head" data-reveal>
+      <div class="section__titlebar"><h2>Outcome</h2></div>
+    </div>
+    <p class="detail__outcome" data-reveal>Every review gets an answer, and the owner only spends time on the ones that need them.</p>
+  </div>
+  <dialog class="lightbox" id="canvas-google-review-reply" aria-label="Google Review Reply Manager: The real canvas in n8n">
+    <div class="lightbox__head">
+      <span>Google Review Reply Manager · The real canvas in n8n <span class="lightbox__hint">Scroll sideways to follow the whole flow</span></span>
+      <form method="dialog"><button class="lightbox__close" aria-label="Close">&times;</button></form>
+    </div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/google-review-reply.webp?v=af25b48f" alt="Google Review Reply Manager: The real canvas in n8n" width="1559" height="741" loading="lazy" decoding="async"></div>
+  </dialog>
+</div>
+    </div>
+  </section>
+
+  <section class="section" id="more">
+    <div class="container">
+      <div class="section__head" data-reveal>
+        
+        <div class="section__titlebar">
+          <h2>More systems</h2>
+          
+        </div>
+        
+      </div>
+      <div class="grid grid--3">
+<article data-reveal class="card">
+  <p class="card__meta"><span class="status status--client">Running for a client</span><span>2026</span></p>
+  <h3 class="card__title"><a href="/en/automation/receipt-verify">Transfer Receipt Check</a></h3>
+  <p class="card__body">Bank transfer receipts read and checked by AI vision</p>
+</article>
+<article data-reveal class="card">
+  <p class="card__meta"><span class="status status--built">Built and tested</span><span>2026</span></p>
+  <h3 class="card__title"><a href="/en/automation/whatsapp-booking">WhatsApp Booking Bot</a></h3>
+  <p class="card__body">Shop bookings through WhatsApp buttons, built with n8n</p>
+</article>
+<article data-reveal class="card">
+  <p class="card__meta"><span class="status status--built">Built and tested</span><span>2026</span></p>
+  <h3 class="card__title"><a href="/en/automation/social-auto-publisher">Social Auto-Publisher</a></h3>
+  <p class="card__body">Social media posts with AI captions and branded images</p>
+</article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="cta">
+        <h2>Have a process that should run itself?</h2>
+        <p>Whether it is Arabic document processing, an internal tool nobody enjoys using, or a workflow that quietly eats your team&#39;s week, tell me about it.</p>
+        <a class="btn" href="/en/contact">Start a conversation</a>
+      </div>
+    </div>
+  </section>
+</main>
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <div>
+        <p>Built as a static site with no framework, so every word is readable by people and machines alike.</p>
+        <p>© 2026 Nour Aldeen Tofi · <span lang="ar" dir="rtl">نور الدين طفي</span> · Hand-written HTML, CSS, and ES modules</p>
+      </div>
+      <ul class="footer__links">
+        <li><a href="/llms.txt" target="_blank" rel="noopener">llms.txt<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+        <li><a href="/api/resume.json" target="_blank" rel="noopener">resume.json<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+        <li><a href="mailto:nouraldeentofi@gmail.com">Email me</a></li>
+      </ul>
+    </div>
+  </footer>
+  <nav class="mobile-tabs" aria-label="Home">
+    <a href="/en/"><span>Home</span></a>
+    <a href="/en/about"><span>About</span></a>
+    <a href="/en/work"><span>Work</span></a>
+    <a href="/en/projects"><span>Projects</span></a>
+    <a href="/en/showcase"><span>Sites</span></a>
+    <a href="/en/automation" aria-current="true"><span>Lab</span></a>
+    <a href="/en/chat"><span>Chat</span></a>
+    <a href="/en/contact"><span>Contact</span></a>
+  </nav>
+  <dialog class="portrait" id="portrait" aria-label="Nour Aldeen Tofi">
+    <form method="dialog">
+      <button class="portrait__close" aria-label="Close">&times;</button>
+    </form>
+    <img src="/assets/img/nour.jpg?v=8858f5b0" alt="Nour Aldeen Tofi" width="720" height="720" loading="lazy" decoding="async">
+  </dialog>
+<script src="/assets/js/main.js?v=6af10bef" type="module"></script>
+</body>
+</html>

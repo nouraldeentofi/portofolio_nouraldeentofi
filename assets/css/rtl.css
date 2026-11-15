@@ -95,7 +95,7 @@
 /* Layout mirrors for free through logical properties. Only the tab-bar
    indicator is drawn with a physical offset and needs help. */
 @media (max-width: 767px) {
-  [dir='rtl'] .mobile-tabs a[aria-current='page']::after {
+  [dir='rtl'] .mobile-tabs a[aria-current]::after {
     inset-inline-start: 22%;
   }
 }

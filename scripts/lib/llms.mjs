@@ -10,6 +10,7 @@ import { PAGES, pagePath } from './sitemap.mjs';
 import { period } from './blocks.mjs';
 import { byCompany } from './experience.mjs';
 import { homeOffers, automationServices } from './offers.mjs';
+import { detailPages, detailName, detailHeadline, hasDetail, projectHref, systemHref } from './details.mjs';
 
 const base = (db) => db.profile.site.replace(/\/$/, '');
 
@@ -120,6 +121,15 @@ export function buildLlmsTxt(db, lang = 'en') {
     L.push(`- [${name}](${b}${pagePath(page, 'en')})`);
   }
   L.push(`- [النسخة العربية](${b}/): the same site, Arabic-first, served at the root`);
+  L.push('');
+
+  // Each project and each automation system has an address of its own, with
+  // its full description. One line each: the name, linked, and what it is.
+  L.push('## A page for each project and system');
+  L.push('');
+  for (const d of detailPages(db)) {
+    L.push(`- [${detailName(d, lang)}](${b}${pagePath(d.page, lang)}): ${detailHeadline(d, lang)}`);
+  }
   L.push('');
 
   L.push('## Projects');
@@ -237,6 +247,8 @@ export function buildLlmsFullTxt(db, lang = 'en') {
     L.push('');
     if (p.url) { L.push(`**Live.** ${p.url}`); L.push(''); }
     if (p.context) { L.push(`**Context.** ${p.context[lang]}`); L.push(''); }
+    L.push(`**Page.** ${base(db)}${projectHref(p, lang)}`);
+    L.push('');
   }
 
   L.push('## Automation systems');
@@ -258,6 +270,11 @@ export function buildLlmsFullTxt(db, lang = 'en') {
     L.push('');
     L.push(`**Outcome.** ${w.outcome[lang]}`);
     L.push('');
+    // Its own page, or the page of the product it is the engine of.
+    if (hasDetail(db, w)) {
+      L.push(`**Page.** ${base(db)}${systemHref(db, w, lang)}`);
+      L.push('');
+    }
   }
 
   L.push('## Websites built for clients');

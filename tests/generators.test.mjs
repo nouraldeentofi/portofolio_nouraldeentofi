@@ -10,6 +10,7 @@ import { contactCv, headMeta, periodWords } from '../scripts/lib/blocks.mjs';
 import { byCompany } from '../scripts/lib/experience.mjs';
 import { personLd } from '../scripts/lib/jsonld.mjs';
 import { homeOffers, automationServices } from '../scripts/lib/offers.mjs';
+import { buildSite } from '../scripts/lib/site.mjs';
 
 const db = loadDb('data');
 // What the build adds: the one date the output carries.
@@ -90,17 +91,9 @@ test('the llms files say what he offers, in the words of the pages', () => {
    one date the output carries. Rendered at two different moments from the
    same data, every artefact has to come out the same. */
 test('nothing the build writes depends on the clock', (t) => {
-  const everything = () =>
-    JSON.stringify([
-      ...LANGS.flatMap((lang) => [...PAGES.map((page) => TEMPLATES[page](built, lang)), notFound(built, lang)]),
-      buildLlmsTxt(built),
-      buildLlmsFullTxt(built),
-      buildSitemap(PAGES, built.profile.site, built.build.modified.slice(0, 10)),
-      buildApiProfile(built),
-      buildApiProjects(built),
-      buildResumeJson(built),
-      buildRedirects(built),
-    ]);
+  // Every file the build writes, the detail pages included.
+  const everything = () => JSON.stringify([...buildSite(built)]);
+  assert.ok(buildSite(built).has('en/projects/smart-scanner.html') && buildSite(built).has('sitemap.xml'));
 
   t.mock.timers.enable({ apis: ['Date'], now: new Date('2026-11-15T09:00:00Z') });
   const first = everything();
@@ -125,6 +118,10 @@ test('sitemap emits one url per page per language with hreflang alternates', () 
   assert.match(xml, /hreflang="ar"/);
   assert.match(xml, /hreflang="en"/);
   assert.match(xml, /hreflang="x-default"/);
+  // A browser set to neither language is offered English, on every page.
+  for (const page of PAGES) {
+    assert.equal(xml.split(`<xhtml:link rel="alternate" hreflang="x-default" href="${db.profile.site}${pagePath(page, 'en')}"/>`).length - 1, LANGS.length, `x-default of /${page}`);
+  }
   // The host redirects every .html address, so the sitemap must list none.
   assert.ok(!xml.includes('.html'), 'the sitemap lists an address the host redirects');
   assert.ok(xml.includes(`<loc>${db.profile.site}/</loc>`));

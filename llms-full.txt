@@ -105,6 +105,8 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 **Context.** Timed with the e-invoicing expansion in Saudi Arabia and mandatory JoFotara in Jordan. Every paper invoice in the region now has to become clean digital data.
 
+**Page.** https://nouraldeentofi.com/en/projects/smart-scanner
+
 ### CV Screener (2026)
 
 *AI SaaS product*: Upload a folder of CVs and every one is read, classified, and scored by AI, with each point traced to a quote from the CV.
@@ -121,6 +123,8 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 **Live.** https://cv-screener.nouraldeentofi.com
 
+**Page.** https://nouraldeentofi.com/en/projects/cv-screener
+
 ### Universal Web Scraper (2026)
 
 *AI automation product*: One link in, the whole site out: every page discovered, the data classified, and an Excel file with a tab for each kind of data.
@@ -134,6 +138,8 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 **Numbers.** 1 link to scrape a whole site · 7 data categories, one Excel tab each · 4 fetch tiers, escalated on demand
 
 **Stack.** n8n, OpenAI, Excel, Google Sheets, JSON-LD, Sitemap crawling, Proxy pool, Webhooks, JavaScript
+
+**Page.** https://nouraldeentofi.com/en/projects/universal-web-scraper
 
 ### Nour Motion Studio (2026)
 
@@ -151,6 +157,8 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 **Live.** https://nouraldeentofi.com/motion-studio/
 
+**Page.** https://nouraldeentofi.com/en/projects/motion-studio
+
 ### Braille Certificate Maker (2026)
 
 *Accessibility tool*: Fill in a training certificate and get a print-ready PDF. It comes with a full Arabic Braille version a blind trainee can read by touch, and a file for Braille embossers.
@@ -166,6 +174,8 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 **Stack.** HTML, JavaScript, Canvas, jsPDF, QR codes, Unified Arabic Braille, BRF, Hijri calendar, GitHub Actions, RTL
 
 **Live.** https://braille.nouraldeentofi.com/
+
+**Page.** https://nouraldeentofi.com/en/projects/braille-certificate
 
 ### Khatm · ختم (2026)
 
@@ -183,6 +193,8 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 **Live.** https://khatm.nouraldeentofi.com/
 
+**Page.** https://nouraldeentofi.com/en/projects/khatm
+
 ### The Complete Umrah Guide (2026)
 
 *Offline guide · PWA*: An interactive Umrah checklist in the order the rites are performed, in ten languages, and built to be used one-handed and offline inside the Haram.
@@ -199,6 +211,8 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 **Live.** https://nouraldeentofi.com/umrah-guide/
 
+**Page.** https://nouraldeentofi.com/en/projects/umrah-guide
+
 ### DFS Dashboard (2025–2026)
 
 *Internal platform*: A unified CRM and quotation platform that replaced scattered manual processes across every department.
@@ -212,6 +226,8 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 **Numbers.** 2 core modules owned · 2 languages (AR/EN)
 
 **Stack.** React 19, Vite, TypeScript, Tailwind CSS v4, Axios, TanStack React Query, React Hook Form, React Router, Laravel Echo, @hello-pangea/dnd
+
+**Page.** https://nouraldeentofi.com/en/projects/dfs-dashboard
 
 ### GoldenTag (2025)
 
@@ -229,6 +245,8 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 **Live.** https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag
 
+**Page.** https://nouraldeentofi.com/en/projects/goldentag
+
 ### Business Card Extractor (2026)
 
 *AI web app*: Photograph a business card, and it lands in your phone's contacts in one tap.
@@ -243,6 +261,8 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 **Stack.** React, TypeScript, Tailwind CSS, n8n, OpenAI GPT-4o Vision, Google Sheets, vCard
 
+**Page.** https://nouraldeentofi.com/en/projects/business-card-extractor
+
 ### MCP Search Server (2026)
 
 *AI tooling*: A Model Context Protocol server that lets an AI model query real data instead of only generating text.
@@ -256,6 +276,8 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 **Numbers.** MCP tools exposed to Claude
 
 **Stack.** Model Context Protocol, Node.js, Claude, JSON Schema
+
+**Page.** https://nouraldeentofi.com/en/projects/mcp-search-server
 
 ## Automation systems
 
@@ -276,6 +298,8 @@ One link in, the whole site out. A shared engine fetches pages and escalates onl
 
 **Outcome.** Collecting a website into Excel stops being copy-and-paste or a new script per site.
 
+**Page.** https://nouraldeentofi.com/en/projects/universal-web-scraper#automation
+
 ### CV Screener agents (2026)
 
 *AI agents behind a product* · Live · 4 n8n workflow(s) · trigger: Server-to-server webhook
@@ -292,6 +316,8 @@ The AI engine of CV Screener: sibling agents that profile one CV, screen one CV 
 - Set not to store executions, because CVs are personal data
 
 **Outcome.** Hundreds of CVs become a ranked, explainable pool that a recruiter can defend.
+
+**Page.** https://nouraldeentofi.com/en/projects/cv-screener#automation
 
 ### Teacher Assistant AI Bot (2025 to present)
 
@@ -311,6 +337,8 @@ A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia
 
 **Outcome.** A tutor runs an entire practice from a chat window, with no app to learn and no spreadsheet to maintain.
 
+**Page.** https://nouraldeentofi.com/en/automation/teacher-assistant-bot
+
 ### Smart Scanner Extraction Pipeline (2026)
 
 *Production document AI pipeline* · Live · 1 n8n workflow(s) · trigger: Webhook (image or PDF upload)
@@ -327,6 +355,8 @@ The production pipeline behind Smart Scanner. Every invoice, whether a photo or 
 - Refuses politely and explains why when required data is missing: accuracy before speed
 
 **Outcome.** Manual invoice entry disappears entirely; a photo becomes structured accounting data in about ten seconds.
+
+**Page.** https://nouraldeentofi.com/en/projects/smart-scanner#automation
 
 ### Telegram Publishing System (2026)
 
@@ -345,6 +375,8 @@ Plan, review, approve and publish posts to LinkedIn, Instagram and Reddit from a
 
 **Outcome.** A content calendar that lives in a chat, with a human approving every post.
 
+**Page.** https://nouraldeentofi.com/en/automation/telegram-publisher
+
 ### Unified Inbox (2026)
 
 *Inbox with AI triage* · Built and tested · 3 n8n workflow(s) · trigger: Incoming message, webhook and schedule
@@ -362,6 +394,8 @@ Messages from every channel land in one inbox. Each one is enriched with its dia
 
 **Outcome.** A team answers every customer from one place, starting from a draft that already sounds like them.
 
+**Page.** https://nouraldeentofi.com/en/automation/unified-inbox
+
 ### Google Review Reply Manager (2026)
 
 *Review management for shops* · Built and tested · 2 n8n workflow(s) · trigger: Schedule and a Telegram button
@@ -378,6 +412,8 @@ New Google reviews are picked up on a schedule and answered in the reviewer's ow
 - A one-off helper fetches each new client's account and location
 
 **Outcome.** Every review gets an answer, and the owner only spends time on the ones that need them.
+
+**Page.** https://nouraldeentofi.com/en/automation/google-review-reply
 
 ### AI Job-Match Pipeline (2026)
 
@@ -398,6 +434,8 @@ A scheduled pipeline that runs five daily search queries across LinkedIn, Indeed
 
 **Outcome.** Daily job hunting collapses into reviewing a short, pre-scored shortlist.
 
+**Page.** https://nouraldeentofi.com/en/automation/ai-job-match
+
 ### Transfer Receipt Check (2026)
 
 *Payment check for registrations* · Running for a client · 1 n8n workflow(s) · trigger: Webhook (receipt upload)
@@ -413,6 +451,8 @@ Behind a chess club's tournament registration: the uploaded bank-transfer receip
 - Successful runs are not stored, because receipts carry personal data
 
 **Outcome.** Registrations are confirmed without anyone opening a receipt by hand.
+
+**Page.** https://nouraldeentofi.com/en/automation/receipt-verify
 
 ### WhatsApp Booking Bot (2026)
 
@@ -430,6 +470,8 @@ A customer taps a service, then a time slot, in WhatsApp buttons. The confirmed 
 
 **Outcome.** A shop takes bookings around the clock without answering the phone.
 
+**Page.** https://nouraldeentofi.com/en/automation/whatsapp-booking
+
 ### WhatsApp Group from a Spreadsheet (2026)
 
 *Form-driven messaging tool* · Built and tested · 1 n8n workflow(s) · trigger: Form (file upload)
@@ -446,6 +488,8 @@ Upload an Excel or CSV of contacts and a group name: the group is created, every
 
 **Outcome.** A list in a spreadsheet becomes a working group in minutes.
 
+**Page.** https://nouraldeentofi.com/en/automation/whatsapp-group
+
 ### Social Auto-Publisher (2026)
 
 *AI social media studio* · Built and tested · 1 n8n workflow(s) · trigger: Telegram message
@@ -461,6 +505,8 @@ Send a post idea to a Telegram bot and get back captions for each platform and a
 - The final image is composed as HTML and rendered to PNG
 
 **Outcome.** A week of on-brand posts from a handful of chat messages.
+
+**Page.** https://nouraldeentofi.com/en/automation/social-auto-publisher
 
 ### Smart Lead Finder (2025)
 
@@ -479,6 +525,8 @@ Automated B2B lead generation across the Saudi and Jordanian markets: multi-quer
 
 **Outcome.** Manual prospect research became a hands-off scheduled pipeline producing scored, deduplicated lead lists.
 
+**Page.** https://nouraldeentofi.com/en/automation/smart-lead-finder
+
 ### Lesson Quality Evaluator (2026)
 
 *Video-to-data webhook service* · Built and tested · 1 n8n workflow(s) · trigger: Webhook (video upload)
@@ -495,6 +543,8 @@ A webhook service that transcribes lesson videos with speaker separation and ret
 
 **Outcome.** Lesson review becomes measurable instead of anecdotal.
 
+**Page.** https://nouraldeentofi.com/en/automation/lesson-quality-evaluator
+
 ### AI Email Campaigns (2026)
 
 *Personalised outreach* · Built and tested · 1 n8n workflow(s) · trigger: Form
@@ -510,6 +560,8 @@ Fill in a form with a contact list and, for a job search, your CV. Each contact 
 - Every send is recorded as sent or failed
 
 **Outcome.** Personal outreach at the scale of a mail merge.
+
+**Page.** https://nouraldeentofi.com/en/automation/ai-email-campaign
 
 ### CRM Lead Cleaner (2026)
 

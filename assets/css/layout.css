@@ -150,11 +150,11 @@
   transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.mobile-tabs a[aria-current='page'] {
+.mobile-tabs a[aria-current] {
   color: var(--lime);
 }
 
-.mobile-tabs a[aria-current='page']::before {
+.mobile-tabs a[aria-current]::before {
   background: var(--lime);
   border-color: var(--lime);
   box-shadow: 0 0 8px color-mix(in srgb, var(--lime) 55%, transparent);
@@ -173,7 +173,7 @@
 
 .site-nav a:hover { color: var(--fg); background: var(--raised); }
 
-.site-nav a[aria-current='page'] {
+.site-nav a[aria-current] {
   color: var(--accent-ink);
   background: linear-gradient(135deg, var(--lime), var(--mint));
 }

@@ -5,7 +5,7 @@
     <loc>https://nouraldeentofi.com/en/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/"/>
     <lastmod>2026-11-15</lastmod>
     <priority>1.0</priority>
   </url>
@@ -13,7 +13,7 @@
     <loc>https://nouraldeentofi.com/en/about</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/about"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/about"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/about"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/about"/>
     <lastmod>2026-11-15</lastmod>
     <priority>0.8</priority>
   </url>
@@ -21,7 +21,7 @@
     <loc>https://nouraldeentofi.com/en/work</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/work"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/work"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/work"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/work"/>
     <lastmod>2026-11-15</lastmod>
     <priority>0.8</priority>
   </url>
@@ -29,7 +29,7 @@
     <loc>https://nouraldeentofi.com/en/projects</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/projects"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects"/>
     <lastmod>2026-11-15</lastmod>
     <priority>0.8</priority>
   </url>
@@ -37,7 +37,7 @@
     <loc>https://nouraldeentofi.com/en/showcase</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/showcase"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/showcase"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/showcase"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/showcase"/>
     <lastmod>2026-11-15</lastmod>
     <priority>0.8</priority>
   </url>
@@ -45,7 +45,7 @@
     <loc>https://nouraldeentofi.com/en/automation</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/automation"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation"/>
     <lastmod>2026-11-15</lastmod>
     <priority>0.8</priority>
   </url>
@@ -53,7 +53,7 @@
     <loc>https://nouraldeentofi.com/en/chat</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/chat"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/chat"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/chat"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/chat"/>
     <lastmod>2026-11-15</lastmod>
     <priority>0.8</priority>
   </url>
@@ -61,15 +61,199 @@
     <loc>https://nouraldeentofi.com/en/contact</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/contact"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/contact"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/contact"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/contact"/>
     <lastmod>2026-11-15</lastmod>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/projects/smart-scanner</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/smart-scanner"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/smart-scanner"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/smart-scanner"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/projects/cv-screener</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/cv-screener"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/cv-screener"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/cv-screener"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/projects/universal-web-scraper</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/universal-web-scraper"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/universal-web-scraper"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/universal-web-scraper"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/projects/motion-studio</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/motion-studio"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/motion-studio"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/motion-studio"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/projects/braille-certificate</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/braille-certificate"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/braille-certificate"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/braille-certificate"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/projects/khatm</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/khatm"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/khatm"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/khatm"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/projects/umrah-guide</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/umrah-guide"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/umrah-guide"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/umrah-guide"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/projects/dfs-dashboard</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/dfs-dashboard"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/dfs-dashboard"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/dfs-dashboard"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/projects/goldentag</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/goldentag"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/goldentag"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/goldentag"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/projects/business-card-extractor</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/business-card-extractor"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/business-card-extractor"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/business-card-extractor"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/projects/mcp-search-server</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/mcp-search-server"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/mcp-search-server"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/mcp-search-server"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/automation/teacher-assistant-bot</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/teacher-assistant-bot"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/teacher-assistant-bot"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/teacher-assistant-bot"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/automation/telegram-publisher</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/telegram-publisher"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/telegram-publisher"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/telegram-publisher"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/automation/unified-inbox</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/unified-inbox"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/unified-inbox"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/unified-inbox"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/automation/google-review-reply</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/google-review-reply"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/google-review-reply"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/google-review-reply"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/automation/ai-job-match</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/ai-job-match"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/ai-job-match"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/ai-job-match"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/automation/receipt-verify</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/receipt-verify"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/receipt-verify"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/receipt-verify"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/automation/whatsapp-booking</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/whatsapp-booking"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/whatsapp-booking"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/whatsapp-booking"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/automation/whatsapp-group</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/whatsapp-group"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/whatsapp-group"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/whatsapp-group"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/automation/social-auto-publisher</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/social-auto-publisher"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/social-auto-publisher"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/social-auto-publisher"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/automation/smart-lead-finder</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/smart-lead-finder"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/smart-lead-finder"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/smart-lead-finder"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/automation/lesson-quality-evaluator</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/lesson-quality-evaluator"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/lesson-quality-evaluator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/lesson-quality-evaluator"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/en/automation/ai-email-campaign</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/ai-email-campaign"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/ai-email-campaign"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/ai-email-campaign"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://nouraldeentofi.com/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/"/>
     <lastmod>2026-11-15</lastmod>
     <priority>1.0</priority>
   </url>
@@ -77,7 +261,7 @@
     <loc>https://nouraldeentofi.com/about</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/about"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/about"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/about"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/about"/>
     <lastmod>2026-11-15</lastmod>
     <priority>0.8</priority>
   </url>
@@ -85,7 +269,7 @@
     <loc>https://nouraldeentofi.com/work</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/work"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/work"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/work"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/work"/>
     <lastmod>2026-11-15</lastmod>
     <priority>0.8</priority>
   </url>
@@ -93,7 +277,7 @@
     <loc>https://nouraldeentofi.com/projects</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/projects"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects"/>
     <lastmod>2026-11-15</lastmod>
     <priority>0.8</priority>
   </url>
@@ -101,7 +285,7 @@
     <loc>https://nouraldeentofi.com/showcase</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/showcase"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/showcase"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/showcase"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/showcase"/>
     <lastmod>2026-11-15</lastmod>
     <priority>0.8</priority>
   </url>
@@ -109,7 +293,7 @@
     <loc>https://nouraldeentofi.com/automation</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/automation"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation"/>
     <lastmod>2026-11-15</lastmod>
     <priority>0.8</priority>
   </url>
@@ -117,7 +301,7 @@
     <loc>https://nouraldeentofi.com/chat</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/chat"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/chat"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/chat"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/chat"/>
     <lastmod>2026-11-15</lastmod>
     <priority>0.8</priority>
   </url>
@@ -125,8 +309,192 @@
     <loc>https://nouraldeentofi.com/contact</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/contact"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/contact"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/contact"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/contact"/>
     <lastmod>2026-11-15</lastmod>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/projects/smart-scanner</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/smart-scanner"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/smart-scanner"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/smart-scanner"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/projects/cv-screener</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/cv-screener"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/cv-screener"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/cv-screener"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/projects/universal-web-scraper</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/universal-web-scraper"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/universal-web-scraper"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/universal-web-scraper"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/projects/motion-studio</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/motion-studio"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/motion-studio"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/motion-studio"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/projects/braille-certificate</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/braille-certificate"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/braille-certificate"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/braille-certificate"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/projects/khatm</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/khatm"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/khatm"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/khatm"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/projects/umrah-guide</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/umrah-guide"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/umrah-guide"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/umrah-guide"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/projects/dfs-dashboard</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/dfs-dashboard"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/dfs-dashboard"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/dfs-dashboard"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/projects/goldentag</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/goldentag"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/goldentag"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/goldentag"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/projects/business-card-extractor</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/business-card-extractor"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/business-card-extractor"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/business-card-extractor"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/projects/mcp-search-server</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/mcp-search-server"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/mcp-search-server"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/mcp-search-server"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/automation/teacher-assistant-bot</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/teacher-assistant-bot"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/teacher-assistant-bot"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/teacher-assistant-bot"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/automation/telegram-publisher</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/telegram-publisher"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/telegram-publisher"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/telegram-publisher"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/automation/unified-inbox</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/unified-inbox"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/unified-inbox"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/unified-inbox"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/automation/google-review-reply</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/google-review-reply"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/google-review-reply"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/google-review-reply"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/automation/ai-job-match</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/ai-job-match"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/ai-job-match"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/ai-job-match"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/automation/receipt-verify</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/receipt-verify"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/receipt-verify"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/receipt-verify"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/automation/whatsapp-booking</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/whatsapp-booking"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/whatsapp-booking"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/whatsapp-booking"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/automation/whatsapp-group</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/whatsapp-group"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/whatsapp-group"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/whatsapp-group"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/automation/social-auto-publisher</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/social-auto-publisher"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/social-auto-publisher"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/social-auto-publisher"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/automation/smart-lead-finder</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/smart-lead-finder"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/smart-lead-finder"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/smart-lead-finder"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/automation/lesson-quality-evaluator</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/lesson-quality-evaluator"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/lesson-quality-evaluator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/lesson-quality-evaluator"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouraldeentofi.com/automation/ai-email-campaign</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/automation/ai-email-campaign"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/automation/ai-email-campaign"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/automation/ai-email-campaign"/>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.6</priority>
   </url>
 </urlset>

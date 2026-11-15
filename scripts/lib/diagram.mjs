@@ -69,6 +69,30 @@ export function layer(nodes, edges) {
 }
 
 /**
+ * The steps of a flow as a list a reader can follow from top to bottom:
+ * every step comes after the steps that lead to it, and otherwise they keep
+ * the order they were curated in.
+ *
+ * The diagram is a picture; this is the same flow as words, for the numbered
+ * list on a detail page. `layer` runs first, so an unknown node or a cycle
+ * stops the build here too.
+ */
+export function flowOrder({ nodes, edges }) {
+  layer(nodes, edges);
+  const waiting = new Map(nodes.map((n) => [n.id, 0]));
+  for (const [, b] of edges) waiting.set(b, waiting.get(b) + 1);
+
+  const left = [...nodes];
+  const ordered = [];
+  while (left.length) {
+    const [next] = left.splice(left.findIndex((n) => waiting.get(n.id) === 0), 1);
+    ordered.push(next);
+    for (const [a, b] of edges) if (a === next.id) waiting.set(b, waiting.get(b) - 1);
+  }
+  return ordered;
+}
+
+/**
  * @param {{nodes: Array<{id: string, label: {en: string, ar: string}, kind: string, service?: string}>, edges: string[][]}} flow
  * @param {'en'|'ar'} lang
  * @param {{title: string, id: string}} meta

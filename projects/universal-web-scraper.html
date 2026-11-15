@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Universal Web Scraper: سحب بيانات موقع كامل إلى ملف Excel بالذكاء الاصطناعي</title>
+<meta name="description" content="رابط واحد يدخل، والموقع كله يخرج: تُكتشف كل صفحاته، وتُصنّف بياناته، ويُملأ ملف Excel بتبويب لكل نوع منها.">
+<link rel="canonical" href="https://nouraldeentofi.com/projects/universal-web-scraper">
+<link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/universal-web-scraper">
+<link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/universal-web-scraper">
+<link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/universal-web-scraper">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nour Aldeen Tofi">
+<meta property="og:title" content="Universal Web Scraper: سحب بيانات موقع كامل إلى ملف Excel بالذكاء الاصطناعي">
+<meta property="og:description" content="رابط واحد يدخل، والموقع كله يخرج: تُكتشف كل صفحاته، وتُصنّف بياناته، ويُملأ ملف Excel بتبويب لكل نوع منها.">
+<meta property="og:url" content="https://nouraldeentofi.com/projects/universal-web-scraper">
+<meta property="og:locale" content="ar_SA">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:image" content="https://nouraldeentofi.com/assets/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Universal Web Scraper: سحب بيانات موقع كامل إلى ملف Excel بالذكاء الاصطناعي">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nouraldeentofi.com/assets/img/og.png">
+<meta name="author" content="نور الدين طفي">
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-5FG7CGJF"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());</script>
+<script>
+/* Set before first paint so reveals never flash, and the stored theme never
+   flickers. Also tells CSS that JavaScript is available: without this class
+   nothing is ever hidden. */
+(function(){var r=document.documentElement;r.classList.add('js');
+try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}
+/* honour the visitor's last language choice on every arrival. The query and
+   the fragment travel with it: ids are the same in both languages, so a link
+   to one item still lands on that item. */
+try{var L=localStorage.getItem('nt-lang');var p=location.pathname;var q=location.search+location.hash;
+var en=p==='/en'||p.slice(0,4)==='/en/';
+if(L==='en'&&!en){location.replace((p==='/'?'/en/':'/en'+p)+q);}
+else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}catch(e){}})();
+</script>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/icon-32.png?v=b64ecc6d">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/icon-180.png?v=5cafdc8a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;600;800&family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/tokens.css?v=9e291487">
+<link rel="stylesheet" href="/assets/css/base.css?v=52040e91">
+<link rel="stylesheet" href="/assets/css/layout.css?v=8a0e4497">
+<link rel="stylesheet" href="/assets/css/components.css?v=4a69947c">
+<link rel="stylesheet" href="/assets/css/motion.css?v=0828308a">
+<link rel="stylesheet" href="/assets/css/gallery.css?v=54f99880">
+<link rel="stylesheet" href="/assets/css/detail.css?v=a91f1d6a">
+<link rel="stylesheet" href="/assets/css/responsive.css?v=a7c809d0">
+<link rel="stylesheet" href="/assets/css/rtl.css?v=9ebc03c9">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://nouraldeentofi.com/#nour",
+      "name": "نور الدين طفي",
+      "givenName": "نور الدين",
+      "familyName": "طفي",
+      "alternateName": [
+        "Nour Aldeen Tofi",
+        "Nouraldeen Tofi",
+        "Nour Al-Deen Tofi",
+        "Nour Al Deen Tofi",
+        "Nour Aldin Tofi",
+        "Nour Eddin Tofi",
+        "Noureddine Tofi",
+        "Nour El Din Tofi",
+        "Noor Aldeen Tofi",
+        "Nour Aldeen Toufi",
+        "Nour Tofi",
+        "nouraldeentofi",
+        "nourtofi",
+        "نورالدين طفي",
+        "نور الدين الطفي",
+        "نور طفي",
+        "نور الدين توفي",
+        "نور توفي"
+      ],
+      "jobTitle": "مهندس أتمتة بالذكاء الاصطناعي: n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية",
+      "description": "أبني أتمتة بالذكاء الاصطناعي على n8n تقرأ المستندات والفواتير بالعربية والإنجليزية، وتشغّل بوتات واتساب وتيليجرام، وتوصل البيانات نظيفة إلى الأنظمة التي تستخدمها الشركة أصلاً. وأبني فوقها واجهات React، ومواقع للأفراد والشركات والمحلات.",
+      "email": "mailto:nouraldeentofi@gmail.com",
+      "telephone": "+966547972944",
+      "url": "https://nouraldeentofi.com",
+      "image": {
+        "@type": "ImageObject",
+        "contentUrl": "https://nouraldeentofi.com/assets/img/nour.jpg",
+        "caption": "نور الدين طفي، مهندس أتمتة بالذكاء الاصطناعي: n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية",
+        "creator": {
+          "@id": "https://nouraldeentofi.com/#nour"
+        },
+        "creditText": "نور الدين طفي",
+        "copyrightNotice": "© نور الدين طفي"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "الخبر",
+        "addressRegion": "المنطقة الشرقية",
+        "addressCountry": "SA"
+      },
+      "knowsLanguage": [
+        {
+          "@type": "Language",
+          "name": "العربية",
+          "alternateName": "ar"
+        },
+        {
+          "@type": "Language",
+          "name": "الإنجليزية",
+          "alternateName": "en"
+        }
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/in/nouraldeentofi/",
+        "https://github.com/nouraldeentofi",
+        "https://www.youtube.com/@nouraldeentofi",
+        "https://codeforces.com/profile/nour.tofi.it"
+      ],
+      "knowsAbout": [
+        "n8n",
+        "Workflow Automation",
+        "AI Agents",
+        "LLM Tool-Calling Design",
+        "Model Context Protocol (MCP)",
+        "OpenAI API",
+        "GPT-4o",
+        "GPT-4.1 Vision",
+        "Structured JSON Outputs",
+        "Prompt Engineering",
+        "Document AI",
+        "Arabic OCR & Extraction",
+        "Web Scraping",
+        "Telegram Bot API",
+        "Webhooks",
+        "Error Handling & Retries",
+        "React.js",
+        "React 19",
+        "TypeScript",
+        "JavaScript (ES6+)",
+        "Tailwind CSS",
+        "HTML5",
+        "CSS3",
+        "Material-UI",
+        "Vite",
+        "React Hooks",
+        "TanStack React Query",
+        "React Hook Form",
+        "React Router",
+        "i18n & RTL",
+        "Responsive Design",
+        "Web Accessibility",
+        "REST APIs",
+        "API Integration",
+        "JSON",
+        "OAuth 2.0",
+        "MySQL",
+        "Stored Procedures",
+        "Google Sheets API",
+        "Google Drive API",
+        "Node.js",
+        "Python",
+        "Git",
+        "GitHub",
+        "GitLab",
+        "CI/CD (GitHub Actions)",
+        "Vitest",
+        "React Testing Library",
+        "Jira",
+        "Trello",
+        "Figma",
+        "Agile",
+        "Scrum",
+        "Clean Code",
+        "Requirements Gathering",
+        "Scope Definition",
+        "API Contract Design",
+        "User Stories",
+        "Sprint Planning",
+        "Code Review",
+        "Mentoring",
+        "Cross-Functional Team Leadership",
+        "Project Coordination",
+        "Problem Solving"
+      ],
+      "hasCredential": [
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "استخدام خرائط الطريق في Jira",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Coursera Project Network",
+            "sameAs": "https://www.coursera.org/"
+          },
+          "dateCreated": "2025-05",
+          "identifier": "LK38V6C4Z8JI"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "إنشاء قصص المستخدم في Jira",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Coursera Project Network",
+            "sameAs": "https://www.coursera.org/"
+          },
+          "dateCreated": "2025-05",
+          "identifier": "TBR0Y7OAFNAY"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "البدء مع Jira",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Coursera Project Network",
+            "sameAs": "https://www.coursera.org/"
+          },
+          "dateCreated": "2025-05",
+          "identifier": "UJB8ZR6XQQIQ"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "TypeScript في React: البداية",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Coursera Project Network",
+            "sameAs": "https://www.coursera.org/"
+          },
+          "dateCreated": "2025-05",
+          "identifier": "O5Q2441FNT75"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "تعلّم Markdown",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Scrimba",
+            "sameAs": "https://scrimba.com/"
+          },
+          "dateCreated": "2025-04",
+          "identifier": "2ZF1TPIS79DV"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "بدء المشروع: انطلاقة مشروع ناجح",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Google",
+            "sameAs": "https://about.google/"
+          },
+          "dateCreated": "2025-04",
+          "identifier": "E2FQ4VK5Y8E1"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "أساسيات إدارة المشاريع",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Google",
+            "sameAs": "https://about.google/"
+          },
+          "dateCreated": "2025-03",
+          "identifier": "4Y8FUR9QHWM4"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "React المتقدّم",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Meta",
+            "sameAs": "https://about.meta.com/"
+          },
+          "dateCreated": "2025-01",
+          "identifier": "1OMX1QZY5G5Q"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "أساسيات الكود النظيف: كتابة كود قابل للصيانة",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Scrimba",
+            "sameAs": "https://scrimba.com/"
+          },
+          "dateCreated": "2024-11",
+          "identifier": "F72A6F85NYPT"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Python لعلوم البيانات والذكاء الاصطناعي والتطوير",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "IBM",
+            "sameAs": "https://www.ibm.com/"
+          },
+          "dateCreated": "2024-11",
+          "identifier": "UCC3I1P3TIIU"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Tailwind CSS من الصفر: التعلّم ببناء المشاريع",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Packt",
+            "sameAs": "https://www.packtpub.com/"
+          },
+          "dateCreated": "2024-10",
+          "identifier": "VWW2LONJ33FO"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "الذكاء الاصطناعي التوليدي: أساسيات هندسة التوجيهات",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "IBM",
+            "sameAs": "https://www.ibm.com/"
+          },
+          "dateCreated": "2024-10",
+          "identifier": "7RRDE0FY184F"
+        }
+      ],
+      "alumniOf": {
+        "@type": "CollegeOrUniversity",
+        "name": "University of Kalamoon",
+        "sameAs": "http://www.uok.edu.sy/?lang=en"
+      },
+      "hasOccupation": {
+        "@type": "Occupation",
+        "name": "AI Automation Engineer",
+        "occupationLocation": {
+          "@type": "City",
+          "name": "الخبر"
+        },
+        "skills": "n8n, Workflow Automation, AI Agents, LLM Tool-Calling Design, Model Context Protocol (MCP), OpenAI API, GPT-4o, GPT-4.1 Vision, Structured JSON Outputs, Prompt Engineering, Document AI, Arabic OCR & Extraction, Web Scraping, Telegram Bot API, Webhooks, Error Handling & Retries"
+      },
+      "seeks": {
+        "@type": "Demand",
+        "name": "مهندس أتمتة بالذكاء الاصطناعي, مهندس أتمتة سير العمل بـ n8n, مهندس ذكاء اصطناعي تطبيقي ونماذج لغوية كبيرة, مطوّر واجهات أمامية (React وTypeScript وNext.js), قائد فريق الواجهات الأمامية وقائد تقني",
+        "areaServed": [
+          "الخبر",
+          "الدمام",
+          "الظهران",
+          "المنطقة الشرقية",
+          "الرياض وأي مدينة في السعودية (مستعد للانتقال)",
+          "عن بُعد"
+        ],
+        "availabilityStarts": "2026-11"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://nouraldeentofi.com/#website",
+      "url": "https://nouraldeentofi.com/",
+      "name": "Nour Aldeen Tofi",
+      "alternateName": [
+        "نور الدين طفي",
+        "Nour Tofi",
+        "nouraldeentofi.com"
+      ],
+      "inLanguage": [
+        "ar",
+        "en"
+      ],
+      "publisher": {
+        "@id": "https://nouraldeentofi.com/#nour"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "الرئيسية",
+          "item": "https://nouraldeentofi.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "المشاريع",
+          "item": "https://nouraldeentofi.com/projects"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Universal Web Scraper",
+          "item": "https://nouraldeentofi.com/projects/universal-web-scraper"
+        }
+      ]
+    },
+    {
+      "@type": "CreativeWork",
+      "@id": "https://nouraldeentofi.com/projects/universal-web-scraper#main",
+      "name": "Universal Web Scraper",
+      "description": "رابط واحد يدخل، والموقع كله يخرج: تُكتشف كل صفحاته، وتُصنّف بياناته، ويُملأ ملف Excel بتبويب لكل نوع منها.",
+      "url": "https://nouraldeentofi.com/projects/universal-web-scraper",
+      "author": {
+        "@id": "https://nouraldeentofi.com/#nour"
+      },
+      "dateCreated": "2026",
+      "keywords": "n8n, OpenAI, Excel, Google Sheets, JSON-LD, Sitemap crawling, Proxy pool, Webhooks, JavaScript",
+      "inLanguage": "ar"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<canvas class="site-bg" data-workflow data-variant="grid" aria-hidden="true"></canvas>
+<a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <div class="brand">
+        <a class="brand__mark portrait-open" href="/assets/img/nour.jpg?v=8858f5b0" aria-label="عرض الصورة بالحجم الكامل">
+          <img src="/assets/img/nour-96.png?v=7af547be" alt="نور الدين طفي" width="36" height="36" decoding="async">
+        </a>
+        <a class="brand__name" href="/">نور الدين طفي</a>
+      </div>
+      <nav class="site-nav" aria-label="الرئيسية">
+          <a href="/">الرئيسية</a>
+          <a href="/about">نبذة</a>
+          <a href="/work">المسيرة</a>
+          <a href="/projects" aria-current="true">المشاريع</a>
+          <a href="/showcase">معرض المواقع</a>
+          <a href="/automation">مختبر الأتمتة</a>
+          <a href="/chat">محادثة</a>
+          <a href="/contact">تواصل</a>
+      </nav>
+      <div class="header__tools">
+        <a class="lang-switch" href="/en/projects/universal-web-scraper" lang="en" hreflang="en">English</a>
+        <button class="theme-toggle" type="button" aria-label="تبديل نمط الألوان" aria-pressed="false"><span class="theme-toggle__icon" aria-hidden="true">☀</span></button>
+      </div>
+    </div>
+  </header>
+<main id="main">
+<div class="page-spine" aria-hidden="true"><span class="page-spine__fill"></span></div>
+  <section class="hero">
+    <div class="container">
+      <nav class="crumbs" aria-label="مسار الصفحة">
+        <ol>
+          <li><a href="/">الرئيسية</a></li>
+          <li><a href="/projects">المشاريع</a></li>
+          <li aria-current="page">Universal Web Scraper</li>
+        </ol>
+      </nav>
+      <h1>Universal Web Scraper</h1>
+      <p class="hero__headline">سحب بيانات موقع كامل إلى ملف Excel بالذكاء الاصطناعي</p>
+      <p class="card__meta detail__meta"><span>منتج أتمتة بالذكاء الاصطناعي</span><span>2026</span></p>
+      <p class="hero__intro">رابط واحد يدخل، والموقع كله يخرج: تُكتشف كل صفحاته، وتُصنّف بياناته، ويُملأ ملف Excel بتبويب لكل نوع منها.</p>
+    </div>
+  </section>
+
+  <section class="section" id="overview">
+    <div class="container">
+<div class="detail">
+  <div class="card card--row" data-reveal>
+    <div class="card__main">
+      <h2 class="detail__title">المشكلة</h2>
+      <p class="detail__text">جمع البيانات من المواقع يعني عادةً نسخها يدوياً إلى Excel، أو كتابة أداة سحب جديدة لكل موقع، ثم تتعطّل فور أن يحجب الموقع الروبوتات أو يعرض محتواه بـ JavaScript.</p>
+      <h2 class="detail__title">ما بنيته</h2>
+      <p class="detail__text">تضع رابطاً واحداً. يكتشف المحرّك كل صفحات الموقع عبر خريطة الموقع، ويصنّف ما يجده من شركات وأشخاص ومنتجات ومقالات ووظائف وأماكن، ويملأ ملف Excel بتبويب لكل تصنيف، مع نسخة على Google Sheets. يعمل في الخلفية على n8n، فيكمل حتى لو أُغلق اللابتوب، ويمكن تنزيل ما وصل من صفوف في أي لحظة، وتُقسَم المواقع الكبيرة إلى أجزاء. كل طلب صفحة يتصاعد بقدر الحاجة فقط: طلب مباشر، ثم بروكسيات، ثم واجهة سحب، ثم متصفّح عرض كامل. والاستخراج يقرأ JSON-LD والجداول أولاً، ثم يلجأ إلى استخراج بالذكاء الاصطناعي مقسّم ومتوازٍ. وواجهة ويب صغيرة تعرض التقدّم مباشرة، والوقت المتبقّي، ومعاينة للصفوف، وأزرار الإيقاف والاستئناف والإلغاء والبدء من جديد.</p>
+      <h2 class="detail__title">دوري</h2>
+      <p class="detail__text">البناء الكامل: الواجهة والأتمتة</p>
+    </div>
+    <aside class="card__aside">
+      <h2 class="detail__title">بالأرقام</h2>
+      <ul class="proof proof--inline"><li class="proof__item"><span class="proof__value" data-count>1 link</span><span class="proof__label">لسحب موقع كامل</span></li><li class="proof__item"><span class="proof__value" data-count>7</span><span class="proof__label">تصنيفات بيانات، لكل منها تبويب Excel</span></li><li class="proof__item"><span class="proof__value" data-count>4</span><span class="proof__label">مستويات جلب تتصاعد عند الحاجة</span></li></ul>
+      <h2 class="detail__title">التقنيات</h2>
+      <ul class="badges"><li class="badge">n8n</li><li class="badge">OpenAI</li><li class="badge">Excel</li><li class="badge">Google Sheets</li><li class="badge">JSON-LD</li><li class="badge">Sitemap crawling</li><li class="badge">Proxy pool</li><li class="badge">Webhooks</li><li class="badge">JavaScript</li></ul>
+    </aside>
+  </div>
+</div>
+    </div>
+  </section>
+
+  <section class="section" id="automation">
+    <div class="container">
+      <div class="section__head" data-reveal>
+        <div class="section__titlebar"><h2>الأتمتة التي تشغّله</h2></div>
+        <p class="card__meta detail__meta"><span class="status status--live">يعمل الآن</span><span>محرّك سحب البيانات الشامل</span><span>محرّك سحب بيانات بالذكاء الاصطناعي</span></p>
+        <p class="section__lead">رابط واحد يدخل، والموقع كله يخرج. محرّك مشترك يجلب الصفحات ويتصاعد بقدر الحاجة فقط، ويقرأ البيانات المنظّمة قبل أن ينفق شيئاً على الذكاء الاصطناعي، ثم يكتب الصفوف في جدول. والمهام السريعة والزحف الطويل يعملان كعمّال منفصلين يمكن التحكّم بهم.</p>
+      </div>
+<div class="detail">
+  <div class="detail__part">
+    <h3 class="detail__title detail__title--part" data-reveal>ما الذي يتولّاه</h3>
+    <div class="card card--row" data-reveal>
+      <div class="card__main">
+        <ul class="card__list"><li>محرّك واحد يستدعيه كلٌّ من المشغّل السريع وعامل الزحف كمسار فرعي</li><li>يُتجاوز استدعاء الذكاء الاصطناعي كلياً حين تكفي البيانات المنظّمة في الصفحة</li><li>عامل الزحف يقفل كل مهمة، ويفتح جدولاً جديداً حين يمتلئ الجزء، ويكتب تبويباً لكل تصنيف</li><li>الإيقاف والاستئناف والإلغاء وإعادة البدء والحذف، كلها عبر نقطة تحكّم واحدة</li></ul>
+      </div>
+      <aside class="card__aside">
+        <dl class="card__body">
+          <dt>المُشغّل</dt><dd>واجهة ويب (Webhook) وجدول زحف</dd>
+          <dt>الخدمات</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">OpenAI</li><li class="badge">Google Sheets</li><li class="badge">Excel</li><li class="badge">n8n Data Tables</li><li class="badge">Webhooks</li></ul></dd>
+        </dl>
+      </aside>
+    </div>
+  </div>
+  <div class="detail__part">
+    <h3 class="detail__title detail__title--part" data-reveal>كيف يعمل</h3>
+    <p class="detail__lead">كل رسمة مأخوذة من شبكة العقد الحقيقية، بأسماء مبسّطة ودون أي بيانات حساسة.</p>
+    <ol class="steps steps--row detail__steps">
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">1</span>
+        <p>واجهة مهام السحب <span class="steps__service">Webhook</span></p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">2</span>
+        <p>دورة الزاحف المجدولة</p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">3</span>
+        <p>تخطيط المهمة</p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">4</span>
+        <p>حلقة الدفعات السريعة</p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">5</span>
+        <p>جلب متدرّج <span class="steps__service">Engine</span></p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">6</span>
+        <p>هل يلزم الذكاء الاصطناعي؟</p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">7</span>
+        <p>استخراج ذكي للحقول <span class="steps__service">OpenAI</span></p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">8</span>
+        <p>تجميع السجلات</p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">9</span>
+        <p>إزالة التكرار والدمج</p>
+      </li>
+      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">10</span>
+        <p>إكسل وجداول Google <span class="steps__service">Google Sheets</span></p>
+      </li>
+    </ol>
+    <figure class="system__diagram">
+    <div class="wf-frame">
+      <svg class="wf" viewBox="0 0 1165 226" width="1165" height="226" role="img" aria-labelledby="wf-universal-web-scraper-ar-t wf-universal-web-scraper-ar-d" style="--wf-w:1165px">
+    <title id="wf-universal-web-scraper-ar-t">محرّك سحب البيانات الشامل</title>
+    <desc id="wf-universal-web-scraper-ar-d">واجهة مهام السحب / دورة الزاحف المجدولة ← تخطيط المهمة ← حلقة الدفعات السريعة ← جلب متدرّج ← هل يلزم الذكاء الاصطناعي؟ ← استخراج ذكي للحقول ← تجميع السجلات ← إزالة التكرار والدمج ← إكسل وجداول Google</desc>
+    <defs><marker id="wf-a-universal-web-scraper-ar" class="wf__arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0.8 L7 4 L0 7.2 Z"/></marker></defs>
+    <path class="wf__edge" d="M960 38 C938 38 938 64 916 64" marker-end="url(#wf-a-universal-web-scraper-ar)"/>
+    <path class="wf__pulse" d="M960 38 C938 38 938 64 916 64" pathLength="100" style="animation-delay:0.00s"/>
+    <path class="wf__edge" d="M723 64 C701 64 701 64 679 64" marker-end="url(#wf-a-universal-web-scraper-ar)"/>
+    <path class="wf__pulse" d="M723 64 C701 64 701 64 679 64" pathLength="100" style="animation-delay:0.52s"/>
+    <path class="wf__edge" d="M486 64 C464 64 464 64 442 64" marker-end="url(#wf-a-universal-web-scraper-ar)"/>
+    <path class="wf__pulse" d="M486 64 C464 64 464 64 442 64" pathLength="100" style="animation-delay:1.04s"/>
+    <path class="wf__edge" d="M960 97 C701 97 701 64 442 64" marker-end="url(#wf-a-universal-web-scraper-ar)"/>
+    <path class="wf__pulse" d="M960 97 C701 97 701 64 442 64" pathLength="100" style="animation-delay:0.00s"/>
+    <path class="wf__edge" d="M249 64 C227 64 227 64 205 64" marker-end="url(#wf-a-universal-web-scraper-ar)"/>
+    <path class="wf__pulse" d="M249 64 C227 64 227 64 205 64" pathLength="100" style="animation-delay:1.32s"/>
+    <path class="wf__edge" d="M108.5 83 C108.5 122.5 108.5 122.5 108.5 162" marker-end="url(#wf-a-universal-web-scraper-ar)"/>
+    <path class="wf__pulse" d="M108.5 83 C108.5 122.5 108.5 122.5 108.5 162" pathLength="100" style="animation-delay:1.84s"/>
+    <path class="wf__edge" d="M108.5 83 C108.5 126 345.5 126 345.5 169" marker-end="url(#wf-a-universal-web-scraper-ar)"/>
+    <path class="wf__pulse" d="M108.5 83 C108.5 126 345.5 126 345.5 169" pathLength="100" style="animation-delay:1.60s"/>
+    <path class="wf__edge" d="M205 188 C227 188 227 188 249 188" marker-end="url(#wf-a-universal-web-scraper-ar)"/>
+    <path class="wf__pulse" d="M205 188 C227 188 227 188 249 188" pathLength="100" style="animation-delay:2.12s"/>
+    <path class="wf__edge" d="M442 188 C464 188 464 188 486 188" marker-end="url(#wf-a-universal-web-scraper-ar)"/>
+    <path class="wf__pulse" d="M442 188 C464 188 464 188 486 188" pathLength="100" style="animation-delay:2.64s"/>
+    <path class="wf__edge" d="M679 188 C701 188 701 188 723 188" marker-end="url(#wf-a-universal-web-scraper-ar)"/>
+    <path class="wf__pulse" d="M679 188 C701 188 701 188 723 188" pathLength="100" style="animation-delay:2.80s"/>
+    <g class="wf__node wf__node--trigger">
+      <rect x="960" y="12" width="193" height="52" rx="11"/>
+      <circle class="wf__mark" cx="1137" cy="38" r="4.5"/>
+      <text class="wf__label" x="1050.5" y="34" text-anchor="middle">واجهة مهام السحب</text>
+      <text class="wf__service" x="1050.5" y="51" text-anchor="middle">Webhook</text>
+    </g>
+    <g class="wf__node wf__node--trigger">
+      <rect x="960" y="78" width="193" height="38" rx="11"/>
+      <circle class="wf__mark" cx="1137" cy="97" r="4.5"/>
+      <text class="wf__label" x="1050.5" y="101.5" text-anchor="middle">دورة الزاحف المجدولة</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="723" y="45" width="193" height="38" rx="11"/>
+      <circle class="wf__mark" cx="900" cy="64" r="4.5"/>
+      <text class="wf__label" x="813.5" y="68.5" text-anchor="middle">تخطيط المهمة</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="486" y="45" width="193" height="38" rx="11"/>
+      <circle class="wf__mark" cx="663" cy="64" r="4.5"/>
+      <text class="wf__label" x="576.5" y="68.5" text-anchor="middle">حلقة الدفعات السريعة</text>
+    </g>
+    <g class="wf__node wf__node--io">
+      <rect x="249" y="38" width="193" height="52" rx="11"/>
+      <circle class="wf__mark" cx="426" cy="64" r="4.5"/>
+      <text class="wf__label" x="339.5" y="60" text-anchor="middle">جلب متدرّج</text>
+      <text class="wf__service" x="339.5" y="77" text-anchor="middle">Engine</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="12" y="45" width="193" height="38" rx="11"/>
+      <circle class="wf__mark" cx="189" cy="64" r="4.5"/>
+      <text class="wf__label" x="102.5" y="68.5" text-anchor="middle">هل يلزم الذكاء الاصطناعي؟</text>
+    </g>
+    <g class="wf__node wf__node--ai">
+      <rect x="12" y="162" width="193" height="52" rx="11"/>
+      <circle class="wf__mark" cx="189" cy="188" r="4.5"/>
+      <text class="wf__label" x="102.5" y="184" text-anchor="middle">استخراج ذكي للحقول</text>
+      <text class="wf__service" x="102.5" y="201" text-anchor="middle">OpenAI</text>
+    </g>
+    <g class="wf__node wf__node--data">
+      <rect x="249" y="169" width="193" height="38" rx="11"/>
+      <circle class="wf__mark" cx="426" cy="188" r="4.5"/>
+      <text class="wf__label" x="339.5" y="192.5" text-anchor="middle">تجميع السجلات</text>
+    </g>
+    <g class="wf__node wf__node--logic">
+      <rect x="486" y="169" width="193" height="38" rx="11"/>
+      <circle class="wf__mark" cx="663" cy="188" r="4.5"/>
+      <text class="wf__label" x="576.5" y="192.5" text-anchor="middle">إزالة التكرار والدمج</text>
+    </g>
+    <g class="wf__node wf__node--output">
+      <rect x="723" y="162" width="193" height="52" rx="11"/>
+      <circle class="wf__mark" cx="900" cy="188" r="4.5"/>
+      <text class="wf__label" x="813.5" y="184" text-anchor="middle">إكسل وجداول Google</text>
+      <text class="wf__service" x="813.5" y="201" text-anchor="middle">Google Sheets</text>
+    </g>
+  </svg>
+    </div>
+    <figcaption class="system__caption"><span class="system__count">مسارات العمل: <b>7</b> · العقد: <b>136</b></span><a class="canvas-open" href="/assets/img/workflows/universal-web-scraper.webp?v=b42a88b5" data-dialog-open="canvas-universal-web-scraper" target="_blank" rel="noopener">لوحة n8n: محرّك سحب البيانات الشامل<span class="visually-hidden"> (يفتح في تبويب جديد)</span></a></figcaption>
+  </figure>
+  </div>
+  <div class="detail__part">
+    <h3 class="detail__title detail__title--part" data-reveal>اللوحة الحقيقية في n8n</h3>
+    <figure class="canvas-shot canvas-shot--wide" data-reveal>
+      <div class="canvas-shot__scroll" role="group" aria-label="محرّك سحب البيانات الشامل: اللوحة الحقيقية في n8n" tabindex="0" style="--canvas-h:257px">
+        <img src="/assets/img/workflows/universal-web-scraper.webp?v=b42a88b5" alt="محرّك سحب البيانات الشامل: اللوحة الحقيقية في n8n" width="1211" height="257" loading="lazy" decoding="async">
+      </div>
+      <figcaption class="canvas-shot__caption"><span>محرّك سحب البيانات الشامل: اللوحة الحقيقية في n8n</span><span class="canvas-shot__hint">مرّر أفقياً لتتبّع المسار كاملاً</span></figcaption>
+    </figure>
+  </div>
+  <div class="detail__part">
+    <h3 class="detail__title detail__title--part" data-reveal>النتيجة</h3>
+    <p class="detail__outcome" data-reveal>لم يعد جمع موقع في ملف إكسل نسخاً ولصقاً ولا أداة جديدة لكل موقع.</p>
+  </div>
+  <dialog class="lightbox" id="canvas-universal-web-scraper" aria-label="محرّك سحب البيانات الشامل: اللوحة الحقيقية في n8n">
+    <div class="lightbox__head">
+      <span>محرّك سحب البيانات الشامل · اللوحة الحقيقية في n8n</span>
+      <form method="dialog"><button class="lightbox__close" aria-label="إغلاق">&times;</button></form>
+    </div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/universal-web-scraper.webp?v=b42a88b5" alt="محرّك سحب البيانات الشامل: اللوحة الحقيقية في n8n" width="1211" height="257" loading="lazy" decoding="async"></div>
+  </dialog>
+</div>
+    </div>
+  </section>
+
+  <section class="section" id="more">
+    <div class="container">
+      <div class="section__head" data-reveal>
+        
+        <div class="section__titlebar">
+          <h2>مشاريع أخرى</h2>
+          
+        </div>
+        
+      </div>
+      <div class="grid grid--3">
+<article data-reveal class="card">
+  <p class="card__meta"><span>منتج SaaS بالذكاء الاصطناعي</span><span>2026</span></p>
+  <h3 class="card__title"><a href="/projects/smart-scanner">Smart Scanner</a></h3>
+  <p class="card__body">برنامج قراءة الفواتير العربية بالذكاء الاصطناعي</p>
+</article>
+<article data-reveal class="card">
+  <p class="card__meta"><span>منتج SaaS بالذكاء الاصطناعي</span><span>2026</span></p>
+  <h3 class="card__title"><a href="/projects/cv-screener">CV Screener</a></h3>
+  <p class="card__body">نظام فرز السير الذاتية بالذكاء الاصطناعي</p>
+</article>
+<article data-reveal class="card">
+  <p class="card__meta"><span>تطبيق ويب بالذكاء الاصطناعي</span><span>2026</span></p>
+  <h3 class="card__title"><a href="/projects/business-card-extractor">Business Card Extractor</a></h3>
+  <p class="card__body">قارئ بطاقات العمل يحفظها في جهات الاتصال مباشرة</p>
+</article>
+<article data-reveal class="card">
+  <p class="card__meta"><span>أدوات ذكاء اصطناعي</span><span>2026</span></p>
+  <h3 class="card__title"><a href="/projects/mcp-search-server">MCP Search Server</a></h3>
+  <p class="card__body">خادم MCP يتيح للذكاء الاصطناعي الاستعلام من بيانات حقيقية</p>
+</article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="cta">
+        <h2>لديك عملية يجب أن تُدير نفسها؟</h2>
+        <p>سواء كانت معالجة مستندات عربية، أو أداة داخلية لا يطيق أحد استخدامها، أو سير عمل يلتهم أسبوع فريقك بصمت، حدّثني عنها.</p>
+        <a class="btn" href="/contact">لنبدأ الحديث</a>
+      </div>
+    </div>
+  </section>
+</main>
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <div>
+        <p>بُني موقعاً ثابتاً بلا أي إطار عمل، حتى تكون كل كلمة فيه مقروءة للبشر والآلات على حدّ سواء.</p>
+        <p>© 2026 نور الدين طفي · <span lang="en" dir="ltr">Nour Aldeen Tofi</span> · ‏HTML وCSS ووحدات ES مكتوبة يدوياً</p>
+      </div>
+      <ul class="footer__links">
+        <li><a href="/llms.txt" target="_blank" rel="noopener">llms.txt<span class="visually-hidden"> (يفتح في تبويب جديد)</span></a></li>
+        <li><a href="/api/resume.json" target="_blank" rel="noopener">resume.json<span class="visually-hidden"> (يفتح في تبويب جديد)</span></a></li>
+        <li><a href="mailto:nouraldeentofi@gmail.com">راسلني</a></li>
+      </ul>
+    </div>
+  </footer>
+  <nav class="mobile-tabs" aria-label="الرئيسية">
+    <a href="/"><span>الرئيسية</span></a>
+    <a href="/about"><span>نبذة</span></a>
+    <a href="/work"><span>المسيرة</span></a>
+    <a href="/projects" aria-current="true"><span>المشاريع</span></a>
+    <a href="/showcase"><span>المواقع</span></a>
+    <a href="/automation"><span>أتمتة</span></a>
+    <a href="/chat"><span>محادثة</span></a>
+    <a href="/contact"><span>تواصل</span></a>
+  </nav>
+  <dialog class="portrait" id="portrait" aria-label="نور الدين طفي">
+    <form method="dialog">
+      <button class="portrait__close" aria-label="إغلاق">&times;</button>
+    </form>
+    <img src="/assets/img/nour.jpg?v=8858f5b0" alt="نور الدين طفي" width="720" height="720" loading="lazy" decoding="async">
+  </dialog>
+<script src="/assets/js/main.js?v=6af10bef" type="module"></script>
+</body>
+</html>

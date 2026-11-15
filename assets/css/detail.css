@@ -1,0 +1,249 @@
+/* ============================================================
+   Detail pages: one project or one automation system.
+
+   Loaded only on /projects/<id> and /automation/<id>, after gallery.css,
+   whose components (device stage, status, diagram, viewer) these pages
+   reuse. Logical properties only, so the Arabic mirror needs no overrides.
+   ============================================================ */
+
+/* ----------------------------------------------------------- breadcrumb */
+
+/* The way back to the list page, above the heading. It wraps: a long Arabic
+   name takes the next line instead of pushing the page sideways. */
+.crumbs { margin-block-end: var(--space-4); }
+
+.crumbs ol {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--faint);
+}
+
+.crumbs li {
+  display: inline-flex;
+  gap: var(--space-2);
+  min-inline-size: 0;
+}
+
+.crumbs li + li::before {
+  content: '/';
+  color: var(--line-strong);
+}
+
+.crumbs a {
+  color: var(--dim);
+  text-decoration: none;
+}
+
+.crumbs a:hover { color: var(--lime); text-decoration: underline; }
+
+.crumbs [aria-current] {
+  color: var(--fg);
+  overflow-wrap: anywhere;
+}
+
+/* ------------------------------------------------------------- the hero */
+
+/* A name can be long ("WhatsApp Group from a Spreadsheet"), and a product
+   name stays Latin on the Arabic page: it wraps rather than overflow. */
+.hero h1 { overflow-wrap: break-word; }
+
+/* The quiet line under the headline: status, audience, kind, year. */
+.detail__meta {
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  padding-inline-end: 0;
+  margin-block-end: var(--space-4);
+}
+
+.hero .detail__meta { margin-block-end: var(--space-5); }
+
+/* In a section head the line sits between the heading and its lead. */
+.section__head .detail__meta { margin-block: var(--space-4) 0; }
+
+/* ----------------------------------------------------------- the body */
+
+/* The parts of a page, one under the other, each with room around it. */
+.detail {
+  display: grid;
+  gap: var(--space-8);
+  min-inline-size: 0;
+}
+
+.detail__part { min-inline-size: 0; }
+
+/* A part of "the automation behind it" sits one level under that section's
+   heading, so its parts stand a little closer together. */
+.section__head + .detail { gap: var(--space-7); }
+
+/* A heading inside a part: the problem, what he built, the figures. */
+.detail__title {
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+}
+
+:lang(ar) .detail__title { letter-spacing: normal; }
+
+.detail__title:not(:first-child) { margin-block-start: var(--space-3); }
+
+/* The same heading when it opens a part of its own. */
+.detail__title--part {
+  font-size: clamp(1.2rem, 1.1rem + 0.5vw, 1.45rem);
+  margin-block-end: var(--space-4);
+}
+
+.detail__title--part:has(+ .detail__lead) { margin-block-end: var(--space-2); }
+
+.detail__lead {
+  color: var(--dim);
+  max-inline-size: var(--measure);
+  margin-block-end: var(--space-5);
+}
+
+.detail__text {
+  color: var(--dim);
+  max-inline-size: var(--measure);
+}
+
+/* What the system changed, as the sentence the page closes on. */
+.detail__outcome {
+  max-inline-size: var(--measure);
+  padding-inline-start: var(--space-5);
+  border-inline-start: 3px solid var(--mint);
+  font-size: clamp(1.08rem, 1rem + 0.4vw, 1.3rem);
+  font-weight: 600;
+  color: var(--fg);
+}
+
+/* A page is read, not browsed: its panels do not lift on hover the way the
+   cards of a list do. The related cards at the foot keep theirs. */
+.detail .card:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--line);
+}
+
+.detail .card::after { display: none; }
+
+/* ------------------------------------------------------------ the steps */
+
+/* The flow as a numbered list. The service a step runs on is set under its
+   label, small, in the face the diagram uses for the same word. */
+.detail__steps { margin-block-end: var(--space-6); }
+
+.detail__steps .steps__item p {
+  font-weight: 600;
+  color: var(--fg);
+  line-height: 1.4;
+}
+
+.steps__service {
+  display: block;
+  margin-block-start: 2px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 400;
+  color: var(--faint);
+}
+
+/* Service names are Latin on both pages; they keep their direction, and sit
+   on the side the Arabic label above them starts from. */
+[dir='rtl'] .steps__service {
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: end;
+}
+
+/* ----------------------------------------------------------- screenshots */
+
+/* The device stage as a figure of its own, with its caption underneath. */
+.shots {
+  margin: 0;
+  max-inline-size: 880px;
+}
+
+.shots .show__media {
+  padding: 0;
+  background: none;
+  border: 0;
+}
+
+.shots .browser {
+  border-block-end: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+}
+
+/* The phone hangs over the bottom edge of the stage: the caption starts
+   below it, and stops short of it. */
+.shots__caption,
+.canvas-shot__caption {
+  font-size: 0.86rem;
+  color: var(--faint);
+}
+
+.shots__caption {
+  margin-block-start: var(--space-5);
+  padding-inline-end: clamp(96px, 22%, 132px);
+}
+
+/* ----------------------------------------------------------- the canvas */
+
+.canvas-shot {
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+  min-inline-size: 0;
+}
+
+/* A canvas reads left to right in any language and is far wider than a
+   page, so it scrolls inside its own frame, starting from the trigger. The
+   page never scrolls sideways. */
+.canvas-shot__scroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  direction: ltr;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #1b1b1f;
+}
+
+/* Never taller than the frame allows and never enlarged: the height is the
+   smaller of the two, and the width follows from the image's own shape, which
+   the width and height attributes give before the file has loaded. */
+.canvas-shot__scroll img {
+  display: block;
+  max-inline-size: none;
+  inline-size: auto;
+  block-size: min(var(--canvas-h, 380px), 380px);
+}
+
+.canvas-shot__caption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-4);
+}
+
+/* The hint to scroll is true wherever the canvas is wider than its frame:
+   on a phone always, on a desktop only for the long ones. */
+.canvas-shot__hint { display: none; }
+.canvas-shot--wide .canvas-shot__hint { display: inline; }
+
+@media (max-width: 860px) {
+  .canvas-shot__hint { display: inline; }
+  .canvas-shot__scroll img { block-size: min(var(--canvas-h, 300px), 300px); }
+}
+
+/* --------------------------------------------------------------- phones */
+
+@media (max-width: 767px) {
+  .detail { gap: var(--space-7); }
+  .section__head + .detail { gap: var(--space-6); }
+  .detail__outcome { padding-inline-start: var(--space-4); }
+  .shots__caption { margin-block-start: var(--space-4); }
+}

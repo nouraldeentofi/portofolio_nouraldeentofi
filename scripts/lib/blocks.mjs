@@ -7,10 +7,19 @@
 
 import { escapeHtml, extAttrs, newTabHint, linkifyPeople } from './render.mjs';
 import * as ld from './jsonld.mjs';
-import { flowDiagram } from './diagram.mjs';
-import { pagePath } from './sitemap.mjs';
+import { flowDiagram, flowOrder } from './diagram.mjs';
+import { pagePath, X_DEFAULT } from './sitemap.mjs';
 import { byCompany } from './experience.mjs';
 import { homeOffers as offersOf, automationServices as servicesOf } from './offers.mjs';
+import {
+  detailName,
+  engineOf,
+  hasDetail,
+  projectHref,
+  systemHref,
+  relatedProjects,
+  relatedSystems,
+} from './details.mjs';
 
 const e = escapeHtml;
 const base = (db) => db.profile.site.replace(/\/$/, '');
@@ -114,12 +123,18 @@ const analyticsTags = (db) => {
     : [`<script async src="https://www.googletagmanager.com/gtag/js?id=${id}"></script>`, `<script>${boot}gtag('config','${id}');</script>`];
 };
 
-export function headMeta(db, page, lang, { noindex = false } = {}) {
+/**
+ * `meta` is for a page that is not in the navigation and so has no entry in
+ * the copy: a detail page hands in its own title and description, and the
+ * picture it is shared with (`{ path, width, height, alt }`), built from the
+ * data of the entry it is about.
+ */
+export function headMeta(db, page, lang, { noindex = false, meta = null } = {}) {
   const c = db.copy[lang];
   const other = lang === 'en' ? 'ar' : 'en';
   // Each page names what it is about and what people search for, rather than
   // one sitewide description that search engines treat as boilerplate.
-  const own = c.meta.pages?.[PAGE_KEY[page]];
+  const own = meta ?? c.meta.pages?.[PAGE_KEY[page]];
   const title =
     own?.title ??
     (page === ''
@@ -127,9 +142,16 @@ export function headMeta(db, page, lang, { noindex = false } = {}) {
       : `${c.nav[PAGE_KEY[page]]} | ${db.profile.name[lang]}`);
   const description = own?.description ?? c.meta.description;
   const url = `${base(db)}${href(page, lang)}`;
-  // A generated share card, not the pending portrait — profile.image stays
-  // reserved for a real photo and its own structured-data treatment.
-  const ogImage = db.profile.ogImage ? `${base(db)}/${db.profile.ogImage}` : null;
+  // The page's own picture when it has one; otherwise the generated share
+  // card, not the portrait: profile.image stays reserved for a real photo and
+  // its own structured-data treatment. Either way the size announced is the
+  // size of that file, measured by the loader.
+  const cardSize = db.imageSizes?.[db.profile.ogImage];
+  const card = db.profile.ogImage
+    ? { path: db.profile.ogImage, width: cardSize?.[0], height: cardSize?.[1], alt: title }
+    : null;
+  const picture = meta?.image ?? card;
+  const ogImage = picture ? `${base(db)}/${picture.path}` : null;
 
   return [
     `<title>${e(title)}</title>`,
@@ -139,10 +161,12 @@ export function headMeta(db, page, lang, { noindex = false } = {}) {
     `<link rel="canonical" href="${url}">`,
     `<link rel="alternate" hreflang="${lang}" href="${url}">`,
     `<link rel="alternate" hreflang="${other}" href="${base(db)}${href(page, other)}">`,
-    // x-default mirrors what the server actually serves at the root: Arabic.
-    // It must agree with sitemap.mjs — the two used to contradict each other.
-    `<link rel="alternate" hreflang="x-default" href="${base(db)}${href(page, 'ar')}">`,
-    `<meta property="og:type" content="profile">`,
+    // What a browser set to neither language is offered: see X_DEFAULT in
+    // sitemap.mjs, which the sitemap reads too, so the two cannot disagree.
+    `<link rel="alternate" hreflang="x-default" href="${base(db)}${href(page, X_DEFAULT)}">`,
+    // The pages of the navigation are about him. A detail page is about a
+    // thing he made.
+    `<meta property="og:type" content="${meta ? 'website' : 'profile'}">`,
     // One site name on every page in both languages, the same one the WebSite
     // node gives: Google reads it from here and will not choose between two.
     `<meta property="og:site_name" content="${e(db.profile.name.en)}">`,
@@ -154,9 +178,13 @@ export function headMeta(db, page, lang, { noindex = false } = {}) {
     ...(ogImage
       ? [
           `<meta property="og:image" content="${ogImage}">`,
-          `<meta property="og:image:width" content="1200">`,
-          `<meta property="og:image:height" content="630">`,
-          `<meta property="og:image:alt" content="${e(title)}">`,
+          ...(picture.width && picture.height
+            ? [
+                `<meta property="og:image:width" content="${picture.width}">`,
+                `<meta property="og:image:height" content="${picture.height}">`,
+              ]
+            : []),
+          `<meta property="og:image:alt" content="${e(picture.alt ?? title)}">`,
           `<meta name="twitter:card" content="summary_large_image">`,
           `<meta name="twitter:image" content="${ogImage}">`,
         ]
@@ -173,10 +201,14 @@ export function headMeta(db, page, lang, { noindex = false } = {}) {
  *
  * `db.build.modified` is the build's timestamp, set by scripts/build.mjs. It
  * arrives on the data so nothing in here has to read the clock.
+ *
+ * `nodes` is for a page outside the navigation: a detail page hands in its
+ * own breadcrumb and the node for the thing it is about.
  */
-export function headLd(db, page, lang, { pageLd = true } = {}) {
+export function headLd(db, page, lang, { pageLd = true, nodes = null } = {}) {
   const site = [ld.personLd(db, lang), ld.websiteLd(db)];
   if (!pageLd) return ld.toScriptTag(...site);
+  if (nodes) return ld.toScriptTag(...site, ...nodes);
 
   const extra = {
     '': [ld.profilePageLd(db, lang, db.build?.modified), ...ld.servicesLd(db, lang)],
@@ -197,11 +229,24 @@ export function headLd(db, page, lang, { pageLd = true } = {}) {
 /**
  * The address of one item on its list page: the page plus the item's id.
  *
- * A card on the home page links its title here, so the words of the link are
- * the name of the thing, and the reader lands on that thing, not on the top
- * of a long list.
+ * A card on the home page links its title to the item, so the words of the
+ * link are the name of the thing, and the reader lands on that thing, not on
+ * the top of a long list. Projects and automation systems have a page of
+ * their own to land on (`projectHref` and `systemHref` in details.mjs); a
+ * client site has none, so its card leads here.
  */
 const itemHref = (page, id, lang) => `${href(page, lang)}#${e(id)}`;
+
+/* A sentence with a name in it: "n8n canvas: {name}", "{name} on desktop and phone". */
+const named = (pattern, name) => pattern.replace('{name}', name);
+
+/**
+ * The short link from a card to the page of the thing it shows. The visible
+ * word is the same on every card, so the name follows it for anyone who
+ * hears the link read out on its own.
+ */
+const detailsLink = (c, to, name) =>
+  `<a class="btn btn--ghost" href="${to}">${e(c.ui.details)}<span class="visually-hidden">: ${e(name)}</span></a>`;
 
 /**
  * What he offers, right under the hero: one card per offer, each leading to
@@ -247,7 +292,7 @@ export function homeFeatured(db, lang) {
 
   return `<article data-reveal class="card card--featured">
   <p class="card__meta"><span>${e(p.category[lang])}</span><span>${e(yearOf(p.year, lang))}</span></p>
-  <h3 class="card__title"><a href="${itemHref('projects', p.id, lang)}">${e(p.name)}</a></h3>
+  <h3 class="card__title"><a href="${projectHref(p, lang)}">${e(p.name)}</a></h3>
   <p class="card__body">${e(p.tagline[lang])}</p>
   <dl class="card__body">
     <dt>${e(c.ui.problem)}</dt><dd>${prose(db, p.problem[lang], lang)}</dd>
@@ -257,7 +302,7 @@ export function homeFeatured(db, lang) {
   ${badges(p.stack)}
   <div class="card__foot">
     ${p.url ? `<a class="btn" href="${e(p.url)}"${extAttrs(p.url)}>${e(c.ui.visitLive)}${newTabHint(c.ui.opensInNewTab)}</a>` : ''}
-    <a class="btn btn--ghost" href="${itemHref('projects', p.id, lang)}">${e(c.ui.viewProject)}</a>
+    <a class="btn btn--ghost" href="${projectHref(p, lang)}">${e(c.ui.viewProject)}</a>
   </div>
 </article>`;
 }
@@ -269,10 +314,10 @@ export function homeAutomation(db, lang) {
     .map(
       (w) => `<article data-reveal class="card">
   <p class="card__meta"><span>${e(w.kind[lang])}</span><span>${e(yearOf(w.year, lang))}</span></p>
-  <h3 class="card__title"><a href="${itemHref('automation', w.id, lang)}">${e(w.name[lang])}</a></h3>
+  <h3 class="card__title"><a href="${systemHref(db, w, lang)}">${e(w.name[lang])}</a></h3>
   <p class="card__body">${prose(db, w.summary[lang], lang)}</p>
   ${badges(w.services.slice(0, 4))}
-  <div class="card__foot"><a class="btn btn--ghost" href="${itemHref('automation', w.id, lang)}">${e(c.ui.viewProject)}</a></div>
+  <div class="card__foot"><a class="btn btn--ghost" href="${systemHref(db, w, lang)}">${e(c.ui.viewProject)}</a></div>
 </article>`,
     )
     .join('\n');
@@ -289,7 +334,7 @@ export function homeProjects(db, lang) {
     .map(
       (p) => `<article data-reveal class="card">
   <p class="card__meta"><span>${e(p.category[lang])}</span><span>${e(yearOf(p.year, lang))}</span></p>
-  <h3 class="card__title"><a href="${itemHref('projects', p.id, lang)}">${e(p.name)}</a></h3>
+  <h3 class="card__title"><a href="${projectHref(p, lang)}">${e(p.name)}</a></h3>
   <p class="card__body">${e(p.tagline[lang])}</p>
   ${badges(p.stack.slice(0, 4))}
   <div class="card__foot">${
@@ -492,7 +537,7 @@ export function projectsList(db, lang) {
   <div class="card__media">${deviceStage(db, p, lang)}</div>` : ''}
   <div class="card__main">
     <p class="card__meta"><span>${e(p.category[lang])}</span><span>${e(yearOf(p.year, lang))}</span></p>
-    <h3 class="card__title">${e(p.name)}</h3>
+    <h3 class="card__title"><a href="${projectHref(p, lang)}">${e(p.name)}</a></h3>
     <p class="card__body">${e(p.tagline[lang])}</p>
     <dl class="card__body">
       <dt>${e(c.ui.problem)}</dt><dd>${prose(db, p.problem[lang], lang)}</dd>
@@ -513,7 +558,9 @@ export function projectsList(db, lang) {
         : ''
     }
     <dl class="card__body"><dt>${e(c.ui.stack)}</dt><dd>${badges(p.stack)}</dd></dl>
-    ${p.url ? `<div class="card__foot"><a class="btn" href="${e(p.url)}"${extAttrs(p.url)}>${e(c.ui.visitLive)}${newTabHint(c.ui.opensInNewTab)}</a></div>` : ''}
+    <div class="card__foot">${
+      p.url ? `<a class="btn" href="${e(p.url)}"${extAttrs(p.url)}>${e(c.ui.visitLive)}${newTabHint(c.ui.opensInNewTab)}</a>` : ''
+    }${detailsLink(c, projectHref(p, lang), p.name)}</div>
   </aside>
 </article>`,
     )
@@ -526,15 +573,21 @@ ${cards}
 
 /* -------------------------------------------------------------- showcase */
 
-/*
- * Root-relative, so the same markup works from `/` and from `/en/`, and
- * fingerprinted: a new screenshot keeps its file name, so without the hash a
- * browser that saw the old one keeps showing it for hours.
+/**
+ * The address of an asset, from the site root and fingerprinted.
+ *
+ * From the root, so the same markup works at any depth: `/`, `/en/`,
+ * `/en/projects/<id>`, and the 404 page, which is served at whatever address
+ * was not found. Fingerprinted, because a new screenshot or stylesheet keeps
+ * its file name, and without the hash a browser that saw the old one keeps
+ * showing it. An asset the loader does not fingerprint keeps its bare address.
  */
-const img = (db, path) => {
+export const assetUrl = (db, path) => {
   const v = db.assetVersions?.[path];
   return v ? `/${path}?v=${v}` : `/${path}`;
 };
+
+const img = assetUrl;
 
 /**
  * The filter bar for a gallery. Shipped `hidden`: without JavaScript it would
@@ -562,12 +615,20 @@ ${groups
 const shotAlt = (db, name, view, lang) =>
   `${name}${lang === 'ar' ? '،' : ','} ${db.copy[lang].ui[view]} ${db.profile.name[lang]}`;
 
-/** A browser window holding the desktop shot, with the phone leaning on it. */
-function deviceStage(db, s, lang, { phone = true } = {}) {
+/**
+ * A browser window holding the desktop shot, with the phone leaning on it.
+ *
+ * With a `caption` the stage sits inside a figure of its own, under which
+ * the caption names what is shown. That is how a detail page shows it: an
+ * image with words beside it that say what it is. The caption cannot go
+ * inside the stage itself, where the phone hangs over the bottom edge.
+ */
+function deviceStage(db, s, lang, { phone = true, caption = null } = {}) {
   // A project's name is one string; a site's is per language.
   const name = typeof s.name === 'string' ? s.name : s.name[lang];
   const host = s.url ? s.url.replace(/^https?:\/\//, '').replace(/\/$/, '') : name;
-  return `<figure class="show__media">
+  const tag = caption ? 'div' : 'figure';
+  const stage = `<${tag} class="show__media">
     <span class="browser">
       <span class="browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="browser__url">${e(host)}</span></span>
       <img src="${img(db, s.images.desktop)}" alt="${e(shotAlt(db, name, 'shotDesktop', lang))}" width="1200" height="750" loading="lazy" decoding="async">
@@ -577,8 +638,19 @@ function deviceStage(db, s, lang, { phone = true } = {}) {
     <span class="phone"><img src="${img(db, s.images.phone)}" alt="${e(shotAlt(db, name, 'shotPhone', lang))}" width="390" height="844" loading="lazy" decoding="async"></span>`
         : ''
     }
-  </figure>`;
+  </${tag}>`;
+  return caption
+    ? `<figure class="shots" data-reveal>
+  ${stage}
+  <figcaption class="shots__caption">${e(caption)}</figcaption>
+</figure>`
+    : stage;
 }
+
+/* The name of a site as a link to it, when it has a public address: the
+   words of the link are then the name of the site, not "visit the site". */
+const siteTitle = (c, name, url) =>
+  url ? `<a href="${e(url)}"${extAttrs(url)}>${e(name)}${newTabHint(c.ui.opensInNewTab)}</a>` : e(name);
 
 function siteCard(db, s, lang) {
   const c = db.copy[lang];
@@ -589,7 +661,7 @@ function siteCard(db, s, lang) {
   ${deviceStage(db, s, lang)}
   <div class="show__body">
     <p class="card__meta"><span>${e(c.showcase.segments[s.segment])}</span><span>${e(yearOf(s.year, lang))}</span></p>
-    <h3 class="card__title">${e(s.name[lang])}</h3>
+    <h3 class="card__title">${siteTitle(c, s.name[lang], s.url)}</h3>
     <p class="show__role">${e(s.role[lang])}</p>
     <dl class="card__body"><dt>${e(c.ui.idea)}</dt><dd>${e(s.concept[lang])}</dd></dl>
     ${list(s.highlights[lang].map(e), 'card__list')}
@@ -618,7 +690,7 @@ export function showcaseLab(db, lang) {
   ${deviceStage(db, l, lang, { phone: false })}
   <div class="show__body">
     <p class="lab__count"><b data-count>${e(l.count)}</b><span>${e(l.countLabel[lang])}</span></p>
-    <h3 class="card__title">${e(l.name[lang])}</h3>
+    <h3 class="card__title">${siteTitle(c, l.name[lang], l.url)}</h3>
     <p class="card__body">${e(l.tagline[lang])}</p>
     ${badges(l.tags ?? [])}
     <div class="card__foot"><a class="btn" href="${e(l.url)}"${extAttrs(l.url)}>${e(c.showcase.labButton)}${newTabHint(c.ui.opensInNewTab)}</a></div>
@@ -675,38 +747,78 @@ export function homeShowcase(db, lang) {
 /** Every workflow across every system — the honest count. */
 export const workflowTotal = (db) => db.workflows.reduce((s, w) => s + (w.workflowCount ?? 1), 0);
 
+/* "5 workflows · 74 nodes", or nothing for a system that states no count.
+   Arabic takes the label first ("العقد: 7"): a bare number before a noun
+   would need a different noun form for every number. English needs only the
+   singular, for a system that is a single workflow. */
+function systemCount(w, lang, c) {
+  if (!w.workflowCount) return '';
+  const unit = (n, label) => (lang === 'ar' ? `${e(label)}: <b>${e(n)}</b>` : `<b>${e(n)}</b> ${e(label)}`);
+  return `<span class="system__count">${unit(w.workflowCount, w.workflowCount === 1 ? c.ui.workflowUnit : c.ui.workflowsUnit)}${
+    w.nodeCount ? ` · ${unit(w.nodeCount, c.ui.nodesUnit)}` : ''
+  }</span>`;
+}
+
+const canvasDialogId = (w) => `canvas-${w.id}`;
+
+/* "<name>: The real canvas in n8n", the caption and the alt text of the screenshot. */
+const canvasCaption = (w, lang, c) => `${w.name[lang]}: ${c.ui.canvasCaption}`;
+
+/* The link that opens the full-size canvas. It says which system the canvas
+   belongs to: fifteen links that all read "see the canvas" tell a reader, or
+   a search engine, nothing about where each one goes. */
+function canvasLink(db, w, lang) {
+  if (!w.canvas) return '';
+  const c = db.copy[lang];
+  return `<a class="canvas-open" href="${img(db, w.canvas)}" data-dialog-open="${canvasDialogId(w)}" target="_blank" rel="noopener">${e(named(c.ui.canvasOf, w.name[lang]))}${newTabHint(c.ui.opensInNewTab)}</a>`;
+}
+
+/* The viewer: the canvas at its real size in a dialog, which main.js opens
+   from the link above. The image is in the HTML whether or not it opens. */
+function canvasDialog(db, w, lang) {
+  if (!w.canvas) return '';
+  const c = db.copy[lang];
+  const name = w.name[lang];
+  return `
+  <dialog class="lightbox" id="${canvasDialogId(w)}" aria-label="${e(canvasCaption(w, lang, c))}">
+    <div class="lightbox__head">
+      <span>${e(name)} · ${e(c.ui.canvasCaption)}${
+        (w.canvasSize?.[0] ?? 0) > 1280 ? ` <span class="lightbox__hint">${e(c.ui.panHint)}</span>` : ''
+      }</span>
+      <form method="dialog"><button class="lightbox__close" aria-label="${e(c.ui.closeCanvas)}">&times;</button></form>
+    </div>
+    <div class="lightbox__body"><img src="${img(db, w.canvas)}" alt="${e(canvasCaption(w, lang, c))}"${
+      w.canvasSize ? ` width="${w.canvasSize[0]}" height="${w.canvasSize[1]}"` : ''
+    } loading="lazy" decoding="async"></div>
+  </dialog>`;
+}
+
+/* The curated diagram, captioned with the size of the system and the way to
+   the real canvas. A system with no flow keeps only the caption. */
+function systemDiagram(db, w, lang) {
+  const count = systemCount(w, lang, db.copy[lang]);
+  const link = canvasLink(db, w, lang);
+  if (!w.flow) return count || link ? `<p class="system__caption">${count}${link}</p>` : '';
+  return `<figure class="system__diagram">
+    <div class="wf-frame">
+      ${flowDiagram(w.flow, lang, { id: w.id, title: w.name[lang] })}
+    </div>
+    <figcaption class="system__caption">${count}${link}</figcaption>
+  </figure>`;
+}
+
 function systemCard(db, w, lang, { compact = false } = {}) {
   const c = db.copy[lang];
   const name = w.name[lang];
-  const dialogId = `canvas-${w.id}`;
-  // Arabic counts take the label first ("العقد: 7"): a bare number before a
-  // noun would need a different noun form for every number.
-  const unit = (n, label) => (lang === 'ar' ? `${e(label)}: <b>${e(n)}</b>` : `<b>${e(n)}</b> ${e(label)}`);
-  const count = w.workflowCount
-    ? `<span class="system__count">${unit(w.workflowCount, c.ui.workflowsUnit)}${
-        w.nodeCount ? ` · ${unit(w.nodeCount, c.ui.nodesUnit)}` : ''
-      }</span>`
-    : '';
-  const canvasLink = w.canvas
-    ? `<a class="canvas-open" href="${img(db, w.canvas)}" data-dialog-open="${dialogId}" target="_blank" rel="noopener">${e(c.ui.openCanvas)}${newTabHint(c.ui.opensInNewTab)}</a>`
-    : '';
+  // The title leads to where the system is read in full. One with neither a
+  // page nor a product page has only this card, so its title stays plain.
+  const to = hasDetail(db, w) ? systemHref(db, w, lang) : null;
 
   return `<article data-reveal data-filter-item data-group="${e((w.audience ?? []).join(' '))}" class="card system${w.featured ? ' card--featured' : ''}" id="${e(w.id)}">
   <p class="card__meta"><span class="status status--${e(w.status)}">${e(c.ui.status[w.status])}</span><span>${e(w.kind[lang])}</span><span>${e(yearOf(w.year, lang))}</span></p>
-  <h3 class="card__title">${e(name)}</h3>
+  <h3 class="card__title">${to ? `<a href="${to}">${e(name)}</a>` : e(name)}</h3>
   <p class="card__body">${prose(db, w.summary[lang], lang)}</p>
-  ${
-    w.flow
-      ? `<figure class="system__diagram">
-    <div class="wf-frame">
-      ${flowDiagram(w.flow, lang, { id: w.id, title: name })}
-    </div>
-    <figcaption class="system__caption">${count}${canvasLink}</figcaption>
-  </figure>`
-      : count || canvasLink
-        ? `<p class="system__caption">${count}${canvasLink}</p>`
-        : ''
-  }
+  ${systemDiagram(db, w, lang)}
   <div class="system__detail">
     ${list(w.highlights[lang].slice(0, compact ? 3 : undefined).map((h) => prose(db, h, lang)), 'card__list')}
     <dl class="card__body">
@@ -714,22 +826,8 @@ function systemCard(db, w, lang, { compact = false } = {}) {
       <dt>${e(c.ui.services)}</dt><dd>${badges(w.services)}</dd>
       ${compact ? '' : `<dt>${e(c.ui.outcome)}</dt><dd>${prose(db, w.outcome[lang], lang)}</dd>`}
     </dl>
-  </div>${
-    w.canvas
-      ? `
-  <dialog class="lightbox" id="${dialogId}" aria-label="${e(`${name}: ${c.ui.canvasCaption}`)}">
-    <div class="lightbox__head">
-      <span>${e(name)} · ${e(c.ui.canvasCaption)}${
-        (w.canvasSize?.[0] ?? 0) > 1280 ? ` <span class="lightbox__hint">${e(c.ui.panHint)}</span>` : ''
-      }</span>
-      <form method="dialog"><button class="lightbox__close" aria-label="${e(c.ui.closeCanvas)}">&times;</button></form>
-    </div>
-    <div class="lightbox__body"><img src="${img(db, w.canvas)}" alt="${e(`${name}: ${c.ui.canvasCaption}`)}"${
-      w.canvasSize ? ` width="${w.canvasSize[0]}" height="${w.canvasSize[1]}"` : ''
-    } loading="lazy" decoding="async"></div>
-  </dialog>`
-      : ''
-  }
+  </div>${to ? `
+  <div class="card__foot">${detailsLink(c, to, name)}</div>` : ''}${canvasDialog(db, w, lang)}
 </article>`;
 }
 
@@ -855,6 +953,247 @@ ${branches}
 ${steps}
   </ol>
 </div>`;
+}
+
+/* ---------------------------------------------------------- detail pages */
+
+/*
+ * A page of its own for one project or one automation system. Everything on
+ * it comes from the entry in data/: these blocks only lay it out, with the
+ * same components the list pages use.
+ */
+
+/**
+ * The trail above the heading: home, the list page, this page. The names are
+ * the ones the BreadcrumbList in the head gives (`ld.pageTitle`).
+ */
+export function detailCrumbs(db, lang, d) {
+  const c = db.copy[lang];
+  return `<nav class="crumbs" aria-label="${e(c.ui.breadcrumb)}">
+        <ol>
+          <li><a href="${href('', lang)}">${e(ld.pageTitle('', lang))}</a></li>
+          <li><a href="${href(d.parent, lang)}">${e(ld.pageTitle(d.parent, lang))}</a></li>
+          <li aria-current="page">${e(detailName(d, lang))}</li>
+        </ol>
+      </nav>`;
+}
+
+/**
+ * The quiet line under the headline: for a system its honest status and who
+ * it is for, then what kind of thing this is and the year.
+ *
+ * The category or kind is left out when the entry has no search headline,
+ * because the line above it is then already the category.
+ */
+export function detailFacts(db, lang, d) {
+  const c = db.copy[lang];
+  const x = d.entry;
+  const parts = [];
+  if (d.kind === 'system') {
+    parts.push(`<span class="status status--${e(x.status)}">${e(c.ui.status[x.status])}</span>`);
+    for (const a of x.audience ?? []) parts.push(`<span>${e(c.automation.audiences[a])}</span>`);
+  }
+  if (x.headline) parts.push(`<span>${e((d.kind === 'project' ? x.category : x.kind)[lang])}</span>`);
+  parts.push(`<span>${e(yearOf(x.year, lang))}</span>`);
+  return `<p class="card__meta detail__meta">${parts.join('')}</p>`;
+}
+
+/**
+ * What the head of a detail page says: the title and description from
+ * details.mjs, and the picture the page is shared with, described by the
+ * same words as the image in the page.
+ */
+export function detailHead(db, lang, d, { title, description, image }) {
+  if (!image) return { title, description, image: null };
+  const alt =
+    d.kind === 'project' && image.path === d.entry.images?.desktop
+      ? shotAlt(db, d.entry.name, 'shotDesktop', lang)
+      : canvasCaption(d.kind === 'project' ? engineOf(db, d.entry) : d.entry, lang, db.copy[lang]);
+  return { title, description, image: { ...image, alt } };
+}
+
+/* A heading for one part of a detail page. On a system page the parts are
+   the page's own sections; inside "the automation behind it" on a project
+   page they sit one level down. */
+const partHead = (level, title, lead = null) =>
+  level === 2
+    ? `<div class="section__head" data-reveal>
+      <div class="section__titlebar"><h2>${e(title)}</h2></div>${lead ? `
+      <p class="section__lead">${e(lead)}</p>` : ''}
+    </div>`
+    : `<h3 class="detail__title detail__title--part" data-reveal>${e(title)}</h3>${lead ? `
+    <p class="detail__lead">${e(lead)}</p>` : ''}`;
+
+/* A canvas wider than this, at the height the page shows it, does not fit a
+   desktop column either, so the hint to scroll is shown at every width. */
+const CANVAS_SHOWN = { height: 380, fits: 1000 };
+
+/**
+ * The real n8n canvas, shown in the page.
+ *
+ * The curated diagram says how the system works; this is the evidence that
+ * it exists. It is an `<img>` in a `<figure>` with a caption naming the
+ * system, which is what an image search reads. A canvas is far wider than a
+ * page, so it scrolls inside its own frame, starting from the trigger in
+ * either language, and the page itself never scrolls sideways. The frame can
+ * take focus, so the keyboard can scroll it too.
+ */
+function canvasFigure(db, w, lang) {
+  const c = db.copy[lang];
+  const [width, height] = db.imageSizes?.[w.canvas] ?? w.canvasSize ?? [];
+  const caption = canvasCaption(w, lang, c);
+  const shownWidth = width && height ? width * Math.min(1, CANVAS_SHOWN.height / height) : 0;
+  return `<figure class="canvas-shot${shownWidth > CANVAS_SHOWN.fits ? ' canvas-shot--wide' : ''}" data-reveal>
+      <div class="canvas-shot__scroll" role="group" aria-label="${e(caption)}" tabindex="0"${height ? ` style="--canvas-h:${height}px"` : ''}>
+        <img src="${img(db, w.canvas)}" alt="${e(caption)}"${width && height ? ` width="${width}" height="${height}"` : ''} loading="lazy" decoding="async">
+      </div>
+      <figcaption class="canvas-shot__caption"><span>${e(caption)}</span><span class="canvas-shot__hint">${e(c.ui.panHint)}</span></figcaption>
+    </figure>`;
+}
+
+/**
+ * Everything a system has to say after its summary: what it handles, how it
+ * works as numbered steps and as a diagram, the real canvas, and the outcome.
+ *
+ * The steps are the curated flow in the order it runs (`flowOrder`), written
+ * as text in the page: the diagram draws the same labels, but a list is what
+ * a reader on a phone, a screen reader and a search engine can follow.
+ */
+export function systemBody(db, lang, w, { level = 2 } = {}) {
+  const c = db.copy[lang];
+
+  const handles = `<div class="detail__part">
+    ${partHead(level, c.detail.handles)}
+    <div class="card card--row" data-reveal>
+      <div class="card__main">
+        ${list(w.highlights[lang].map((h) => prose(db, h, lang)), 'card__list')}
+      </div>
+      <aside class="card__aside">
+        <dl class="card__body">
+          <dt>${e(c.ui.trigger)}</dt><dd>${e(w.trigger[lang])}</dd>
+          <dt>${e(c.ui.services)}</dt><dd>${badges(w.services)}</dd>
+        </dl>
+      </aside>
+    </div>
+  </div>`;
+
+  const how = w.flow
+    ? `
+  <div class="detail__part">
+    ${partHead(level, c.detail.how, c.automation.diagramNote)}
+    <ol class="steps steps--row detail__steps">
+${flowOrder(w.flow)
+  .map(
+    (n, i) => `      <li class="steps__item" data-reveal>
+        <span class="steps__num" aria-hidden="true">${i + 1}</span>
+        <p>${e(n.label[lang])}${n.service ? ` <span class="steps__service">${e(n.service)}</span>` : ''}</p>
+      </li>`,
+  )
+  .join('\n')}
+    </ol>
+    ${systemDiagram(db, w, lang)}
+  </div>`
+    : '';
+
+  const canvas = w.canvas
+    ? `
+  <div class="detail__part">
+    ${partHead(level, c.ui.canvasCaption)}
+    ${canvasFigure(db, w, lang)}
+  </div>`
+    : '';
+
+  return `<div class="detail">
+  ${handles}${how}${canvas}
+  <div class="detail__part">
+    ${partHead(level, c.ui.outcome)}
+    <p class="detail__outcome" data-reveal>${prose(db, w.outcome[lang], lang)}</p>
+  </div>${canvasDialog(db, w, lang)}
+</div>`;
+}
+
+/**
+ * The body of a project page: the screenshots when there are any, then the
+ * problem, what he built and his role as headed text, with the figures and
+ * the stack beside it. The context of an entry, when it has one, is why the
+ * problem matters now, so it follows the problem.
+ */
+export function projectBody(db, lang, p) {
+  const c = db.copy[lang];
+  const shots = p.images ? `${deviceStage(db, p, lang, { caption: named(c.detail.shots, p.name) })}\n  ` : '';
+  const metrics = p.metrics?.length
+    ? `<h2 class="detail__title">${e(c.detail.numbers)}</h2>
+      <ul class="proof proof--inline">${p.metrics
+        .map(
+          (m) =>
+            `<li class="proof__item"><span class="proof__value" data-count>${e(m.value)}</span><span class="proof__label">${e(m.label[lang])}</span></li>`,
+        )
+        .join('')}</ul>
+      `
+    : '';
+
+  return `<div class="detail">
+  ${shots}<div class="card card--row" data-reveal>
+    <div class="card__main">
+      <h2 class="detail__title">${e(c.ui.problem)}</h2>
+      <p class="detail__text">${prose(db, p.problem[lang], lang)}</p>${p.context ? `
+      <p class="detail__text"><em>${prose(db, p.context[lang], lang)}</em></p>` : ''}
+      <h2 class="detail__title">${e(c.ui.built)}</h2>
+      <p class="detail__text">${prose(db, p.built[lang], lang)}</p>
+      <h2 class="detail__title">${e(c.ui.role)}</h2>
+      <p class="detail__text">${prose(db, p.role[lang], lang)}</p>
+    </div>
+    <aside class="card__aside">
+      ${metrics}<h2 class="detail__title">${e(c.ui.stack)}</h2>
+      ${badges(p.stack)}
+    </aside>
+  </div>
+</div>`;
+}
+
+/**
+ * "The automation behind it": the workflow a product names as its engine,
+ * shown in full on the product's page. That workflow has no page of its own,
+ * so this is where its card on the automation page leads.
+ */
+export function projectEngine(db, lang, p) {
+  const w = engineOf(db, p);
+  if (!w) return '';
+  const c = db.copy[lang];
+  return `      <div class="section__head" data-reveal>
+        <div class="section__titlebar"><h2>${e(c.detail.engineTitle)}</h2></div>
+        <p class="card__meta detail__meta"><span class="status status--${e(w.status)}">${e(c.ui.status[w.status])}</span><span>${e(w.name[lang])}</span><span>${e(w.kind[lang])}</span></p>
+        <p class="section__lead">${prose(db, w.summary[lang], lang)}</p>
+      </div>
+${systemBody(db, lang, w, { level: 3 })}`;
+}
+
+/**
+ * The foot of a detail page: the other projects of the same group, or the
+ * other systems built for the same audience. Empty when there are none.
+ */
+export function detailRelated(db, lang, d) {
+  const c = db.copy[lang];
+  if (d.kind === 'project') {
+    return relatedProjects(db, d.entry)
+      .map(
+        (p) => `<article data-reveal class="card">
+  <p class="card__meta"><span>${e(p.category[lang])}</span><span>${e(yearOf(p.year, lang))}</span></p>
+  <h3 class="card__title"><a href="${projectHref(p, lang)}">${e(p.name)}</a></h3>
+  <p class="card__body">${e(p.headline?.[lang] ?? p.tagline[lang])}</p>
+</article>`,
+      )
+      .join('\n');
+  }
+  return relatedSystems(db, d.entry)
+    .map(
+      (w) => `<article data-reveal class="card">
+  <p class="card__meta"><span class="status status--${e(w.status)}">${e(c.ui.status[w.status])}</span><span>${e(yearOf(w.year, lang))}</span></p>
+  <h3 class="card__title"><a href="${systemHref(db, w, lang)}">${e(w.name[lang])}</a></h3>
+  <p class="card__body">${e(w.headline?.[lang] ?? w.kind[lang])}</p>
+</article>`,
+    )
+    .join('\n');
 }
 
 /* --------------------------------------------------------------- contact */

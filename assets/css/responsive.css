@@ -116,7 +116,7 @@
   }
 
   /* a real active indicator, not only a colour change */
-  .mobile-tabs a[aria-current='page']::after {
+  .mobile-tabs a[aria-current]::after {
     content: '';
     position: absolute;
     inset-block-start: 0;

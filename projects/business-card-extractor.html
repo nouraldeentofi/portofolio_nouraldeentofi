@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Business Card Extractor: قارئ بطاقات العمل يحفظها في جهات الاتصال مباشرة</title>
+<meta name="description" content="صوّر بطاقة العمل، فتصل إلى جهات الاتصال في هاتفك بضغطة واحدة.">
+<link rel="canonical" href="https://nouraldeentofi.com/projects/business-card-extractor">
+<link rel="alternate" hreflang="ar" href="https://nouraldeentofi.com/projects/business-card-extractor">
+<link rel="alternate" hreflang="en" href="https://nouraldeentofi.com/en/projects/business-card-extractor">
+<link rel="alternate" hreflang="x-default" href="https://nouraldeentofi.com/en/projects/business-card-extractor">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nour Aldeen Tofi">
+<meta property="og:title" content="Business Card Extractor: قارئ بطاقات العمل يحفظها في جهات الاتصال مباشرة">
+<meta property="og:description" content="صوّر بطاقة العمل، فتصل إلى جهات الاتصال في هاتفك بضغطة واحدة.">
+<meta property="og:url" content="https://nouraldeentofi.com/projects/business-card-extractor">
+<meta property="og:locale" content="ar_SA">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:image" content="https://nouraldeentofi.com/assets/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Business Card Extractor: قارئ بطاقات العمل يحفظها في جهات الاتصال مباشرة">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nouraldeentofi.com/assets/img/og.png">
+<meta name="author" content="نور الدين طفي">
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-5FG7CGJF"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());</script>
+<script>
+/* Set before first paint so reveals never flash, and the stored theme never
+   flickers. Also tells CSS that JavaScript is available: without this class
+   nothing is ever hidden. */
+(function(){var r=document.documentElement;r.classList.add('js');
+try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}
+/* honour the visitor's last language choice on every arrival. The query and
+   the fragment travel with it: ids are the same in both languages, so a link
+   to one item still lands on that item. */
+try{var L=localStorage.getItem('nt-lang');var p=location.pathname;var q=location.search+location.hash;
+var en=p==='/en'||p.slice(0,4)==='/en/';
+if(L==='en'&&!en){location.replace((p==='/'?'/en/':'/en'+p)+q);}
+else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}catch(e){}})();
+</script>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/icon-32.png?v=b64ecc6d">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/icon-180.png?v=5cafdc8a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;600;800&family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/tokens.css?v=9e291487">
+<link rel="stylesheet" href="/assets/css/base.css?v=52040e91">
+<link rel="stylesheet" href="/assets/css/layout.css?v=8a0e4497">
+<link rel="stylesheet" href="/assets/css/components.css?v=4a69947c">
+<link rel="stylesheet" href="/assets/css/motion.css?v=0828308a">
+<link rel="stylesheet" href="/assets/css/gallery.css?v=54f99880">
+<link rel="stylesheet" href="/assets/css/detail.css?v=a91f1d6a">
+<link rel="stylesheet" href="/assets/css/responsive.css?v=a7c809d0">
+<link rel="stylesheet" href="/assets/css/rtl.css?v=9ebc03c9">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://nouraldeentofi.com/#nour",
+      "name": "نور الدين طفي",
+      "givenName": "نور الدين",
+      "familyName": "طفي",
+      "alternateName": [
+        "Nour Aldeen Tofi",
+        "Nouraldeen Tofi",
+        "Nour Al-Deen Tofi",
+        "Nour Al Deen Tofi",
+        "Nour Aldin Tofi",
+        "Nour Eddin Tofi",
+        "Noureddine Tofi",
+        "Nour El Din Tofi",
+        "Noor Aldeen Tofi",
+        "Nour Aldeen Toufi",
+        "Nour Tofi",
+        "nouraldeentofi",
+        "nourtofi",
+        "نورالدين طفي",
+        "نور الدين الطفي",
+        "نور طفي",
+        "نور الدين توفي",
+        "نور توفي"
+      ],
+      "jobTitle": "مهندس أتمتة بالذكاء الاصطناعي: n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية",
+      "description": "أبني أتمتة بالذكاء الاصطناعي على n8n تقرأ المستندات والفواتير بالعربية والإنجليزية، وتشغّل بوتات واتساب وتيليجرام، وتوصل البيانات نظيفة إلى الأنظمة التي تستخدمها الشركة أصلاً. وأبني فوقها واجهات React، ومواقع للأفراد والشركات والمحلات.",
+      "email": "mailto:nouraldeentofi@gmail.com",
+      "telephone": "+966547972944",
+      "url": "https://nouraldeentofi.com",
+      "image": {
+        "@type": "ImageObject",
+        "contentUrl": "https://nouraldeentofi.com/assets/img/nour.jpg",
+        "caption": "نور الدين طفي، مهندس أتمتة بالذكاء الاصطناعي: n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية",
+        "creator": {
+          "@id": "https://nouraldeentofi.com/#nour"
+        },
+        "creditText": "نور الدين طفي",
+        "copyrightNotice": "© نور الدين طفي"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "الخبر",
+        "addressRegion": "المنطقة الشرقية",
+        "addressCountry": "SA"
+      },
+      "knowsLanguage": [
+        {
+          "@type": "Language",
+          "name": "العربية",
+          "alternateName": "ar"
+        },
+        {
+          "@type": "Language",
+          "name": "الإنجليزية",
+          "alternateName": "en"
+        }
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/in/nouraldeentofi/",
+        "https://github.com/nouraldeentofi",
+        "https://www.youtube.com/@nouraldeentofi",
+        "https://codeforces.com/profile/nour.tofi.it"
+      ],
+      "knowsAbout": [
+        "n8n",
+        "Workflow Automation",
+        "AI Agents",
+        "LLM Tool-Calling Design",
+        "Model Context Protocol (MCP)",
+        "OpenAI API",
+        "GPT-4o",
+        "GPT-4.1 Vision",
+        "Structured JSON Outputs",
+        "Prompt Engineering",
+        "Document AI",
+        "Arabic OCR & Extraction",
+        "Web Scraping",
+        "Telegram Bot API",
+        "Webhooks",
+        "Error Handling & Retries",
+        "React.js",
+        "React 19",
+        "TypeScript",
+        "JavaScript (ES6+)",
+        "Tailwind CSS",
+        "HTML5",
+        "CSS3",
+        "Material-UI",
+        "Vite",
+        "React Hooks",
+        "TanStack React Query",
+        "React Hook Form",
+        "React Router",
+        "i18n & RTL",
+        "Responsive Design",
+        "Web Accessibility",
+        "REST APIs",
+        "API Integration",
+        "JSON",
+        "OAuth 2.0",
+        "MySQL",
+        "Stored Procedures",
+        "Google Sheets API",
+        "Google Drive API",
+        "Node.js",
+        "Python",
+        "Git",
+        "GitHub",
+        "GitLab",
+        "CI/CD (GitHub Actions)",
+        "Vitest",
+        "React Testing Library",
+        "Jira",
+        "Trello",
+        "Figma",
+        "Agile",
+        "Scrum",
+        "Clean Code",
+        "Requirements Gathering",
+        "Scope Definition",
+        "API Contract Design",
+        "User Stories",
+        "Sprint Planning",
+        "Code Review",
+        "Mentoring",
+        "Cross-Functional Team Leadership",
+        "Project Coordination",
+        "Problem Solving"
+      ],
+      "hasCredential": [
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "استخدام خرائط الطريق في Jira",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Coursera Project Network",
+            "sameAs": "https://www.coursera.org/"
+          },
+          "dateCreated": "2025-05",
+          "identifier": "LK38V6C4Z8JI"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "إنشاء قصص المستخدم في Jira",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Coursera Project Network",
+            "sameAs": "https://www.coursera.org/"
+          },
+          "dateCreated": "2025-05",
+          "identifier": "TBR0Y7OAFNAY"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "البدء مع Jira",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Coursera Project Network",
+            "sameAs": "https://www.coursera.org/"
+          },
+          "dateCreated": "2025-05",
+          "identifier": "UJB8ZR6XQQIQ"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "TypeScript في React: البداية",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Coursera Project Network",
+            "sameAs": "https://www.coursera.org/"
+          },
+          "dateCreated": "2025-05",
+          "identifier": "O5Q2441FNT75"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "تعلّم Markdown",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Scrimba",
+            "sameAs": "https://scrimba.com/"
+          },
+          "dateCreated": "2025-04",
+          "identifier": "2ZF1TPIS79DV"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "بدء المشروع: انطلاقة مشروع ناجح",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Google",
+            "sameAs": "https://about.google/"
+          },
+          "dateCreated": "2025-04",
+          "identifier": "E2FQ4VK5Y8E1"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "أساسيات إدارة المشاريع",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Google",
+            "sameAs": "https://about.google/"
+          },
+          "dateCreated": "2025-03",
+          "identifier": "4Y8FUR9QHWM4"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "React المتقدّم",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Meta",
+            "sameAs": "https://about.meta.com/"
+          },
+          "dateCreated": "2025-01",
+          "identifier": "1OMX1QZY5G5Q"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "أساسيات الكود النظيف: كتابة كود قابل للصيانة",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Scrimba",
+            "sameAs": "https://scrimba.com/"
+          },
+          "dateCreated": "2024-11",
+          "identifier": "F72A6F85NYPT"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Python لعلوم البيانات والذكاء الاصطناعي والتطوير",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "IBM",
+            "sameAs": "https://www.ibm.com/"
+          },
+          "dateCreated": "2024-11",
+          "identifier": "UCC3I1P3TIIU"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Tailwind CSS من الصفر: التعلّم ببناء المشاريع",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Packt",
+            "sameAs": "https://www.packtpub.com/"
+          },
+          "dateCreated": "2024-10",
+          "identifier": "VWW2LONJ33FO"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "الذكاء الاصطناعي التوليدي: أساسيات هندسة التوجيهات",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "IBM",
+            "sameAs": "https://www.ibm.com/"
+          },
+          "dateCreated": "2024-10",
+          "identifier": "7RRDE0FY184F"
+        }
+      ],
+      "alumniOf": {
+        "@type": "CollegeOrUniversity",
+        "name": "University of Kalamoon",
+        "sameAs": "http://www.uok.edu.sy/?lang=en"
+      },
+      "hasOccupation": {
+        "@type": "Occupation",
+        "name": "AI Automation Engineer",
+        "occupationLocation": {
+          "@type": "City",
+          "name": "الخبر"
+        },
+        "skills": "n8n, Workflow Automation, AI Agents, LLM Tool-Calling Design, Model Context Protocol (MCP), OpenAI API, GPT-4o, GPT-4.1 Vision, Structured JSON Outputs, Prompt Engineering, Document AI, Arabic OCR & Extraction, Web Scraping, Telegram Bot API, Webhooks, Error Handling & Retries"
+      },
+      "seeks": {
+        "@type": "Demand",
+        "name": "مهندس أتمتة بالذكاء الاصطناعي, مهندس أتمتة سير العمل بـ n8n, مهندس ذكاء اصطناعي تطبيقي ونماذج لغوية كبيرة, مطوّر واجهات أمامية (React وTypeScript وNext.js), قائد فريق الواجهات الأمامية وقائد تقني",
+        "areaServed": [
+          "الخبر",
+          "الدمام",
+          "الظهران",
+          "المنطقة الشرقية",
+          "الرياض وأي مدينة في السعودية (مستعد للانتقال)",
+          "عن بُعد"
+        ],
+        "availabilityStarts": "2026-11"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://nouraldeentofi.com/#website",
+      "url": "https://nouraldeentofi.com/",
+      "name": "Nour Aldeen Tofi",
+      "alternateName": [
+        "نور الدين طفي",
+        "Nour Tofi",
+        "nouraldeentofi.com"
+      ],
+      "inLanguage": [
+        "ar",
+        "en"
+      ],
+      "publisher": {
+        "@id": "https://nouraldeentofi.com/#nour"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "الرئيسية",
+          "item": "https://nouraldeentofi.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "المشاريع",
+          "item": "https://nouraldeentofi.com/projects"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Business Card Extractor",
+          "item": "https://nouraldeentofi.com/projects/business-card-extractor"
+        }
+      ]
+    },
+    {
+      "@type": "CreativeWork",
+      "@id": "https://nouraldeentofi.com/projects/business-card-extractor#main",
+      "name": "Business Card Extractor",
+      "description": "صوّر بطاقة العمل، فتصل إلى جهات الاتصال في هاتفك بضغطة واحدة.",
+      "url": "https://nouraldeentofi.com/projects/business-card-extractor",
+      "author": {
+        "@id": "https://nouraldeentofi.com/#nour"
+      },
+      "dateCreated": "2026",
+      "keywords": "React, TypeScript, Tailwind CSS, n8n, OpenAI GPT-4o Vision, Google Sheets, vCard",
+      "inLanguage": "ar"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<canvas class="site-bg" data-workflow data-variant="grid" aria-hidden="true"></canvas>
+<a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <div class="brand">
+        <a class="brand__mark portrait-open" href="/assets/img/nour.jpg?v=8858f5b0" aria-label="عرض الصورة بالحجم الكامل">
+          <img src="/assets/img/nour-96.png?v=7af547be" alt="نور الدين طفي" width="36" height="36" decoding="async">
+        </a>
+        <a class="brand__name" href="/">نور الدين طفي</a>
+      </div>
+      <nav class="site-nav" aria-label="الرئيسية">
+          <a href="/">الرئيسية</a>
+          <a href="/about">نبذة</a>
+          <a href="/work">المسيرة</a>
+          <a href="/projects" aria-current="true">المشاريع</a>
+          <a href="/showcase">معرض المواقع</a>
+          <a href="/automation">مختبر الأتمتة</a>
+          <a href="/chat">محادثة</a>
+          <a href="/contact">تواصل</a>
+      </nav>
+      <div class="header__tools">
+        <a class="lang-switch" href="/en/projects/business-card-extractor" lang="en" hreflang="en">English</a>
+        <button class="theme-toggle" type="button" aria-label="تبديل نمط الألوان" aria-pressed="false"><span class="theme-toggle__icon" aria-hidden="true">☀</span></button>
+      </div>
+    </div>
+  </header>
+<main id="main">
+<div class="page-spine" aria-hidden="true"><span class="page-spine__fill"></span></div>
+  <section class="hero">
+    <div class="container">
+      <nav class="crumbs" aria-label="مسار الصفحة">
+        <ol>
+          <li><a href="/">الرئيسية</a></li>
+          <li><a href="/projects">المشاريع</a></li>
+          <li aria-current="page">Business Card Extractor</li>
+        </ol>
+      </nav>
+      <h1>Business Card Extractor</h1>
+      <p class="hero__headline">قارئ بطاقات العمل يحفظها في جهات الاتصال مباشرة</p>
+      <p class="card__meta detail__meta"><span>تطبيق ويب بالذكاء الاصطناعي</span><span>2026</span></p>
+      <p class="hero__intro">صوّر بطاقة العمل، فتصل إلى جهات الاتصال في هاتفك بضغطة واحدة.</p>
+    </div>
+  </section>
+
+  <section class="section" id="overview">
+    <div class="container">
+<div class="detail">
+  <div class="card card--row" data-reveal>
+    <div class="card__main">
+      <h2 class="detail__title">المشكلة</h2>
+      <p class="detail__text">تجمع كومة بطاقات عمل بعد فعالية ثم لا تفتحها أبداً. مشكلة صغيرة، لكنها تكلّف فرق المبيعات فرصاً حقيقية بصمت.</p>
+      <h2 class="detail__title">ما بنيته</h2>
+      <p class="detail__text">تطبيق ويب يحوّل صورة أي بطاقة عمل إلى بيانات منظّمة (الاسم، والشركة، والبريد، والهاتف، والموقع) خلال ثوانٍ، ويخزّنها في Google Sheets، ويولّد ملف vCard لتُحفظ جهة الاتصال مباشرة في الهاتف. دون أي واجهة خلفية مخصّصة: مسار عمل في n8n يستقبل الصورة، وGPT-4o Vision يقرأها، ثم تُتحقّق البيانات وتُخزّن وتعود إلى التطبيق. وميزة الحفظ بضغطة واحدة جاءت من اقتراح مستخدم بعد الإصدار الأول.</p>
+      <h2 class="detail__title">دوري</h2>
+      <p class="detail__text">البناء الكامل: الواجهة والأتمتة</p>
+    </div>
+    <aside class="card__aside">
+      <h2 class="detail__title">بالأرقام</h2>
+      <ul class="proof proof--inline"><li class="proof__item"><span class="proof__value" data-count>0</span><span class="proof__label">سطر واجهة خلفية مخصّصة</span></li><li class="proof__item"><span class="proof__value" data-count>1 tap</span><span class="proof__label">لحفظ جهة الاتصال</span></li></ul>
+      <h2 class="detail__title">التقنيات</h2>
+      <ul class="badges"><li class="badge">React</li><li class="badge">TypeScript</li><li class="badge">Tailwind CSS</li><li class="badge">n8n</li><li class="badge">OpenAI GPT-4o Vision</li><li class="badge">Google Sheets</li><li class="badge">vCard</li></ul>
+    </aside>
+  </div>
+</div>
+    </div>
+  </section>
+
+  <section class="section" id="more">
+    <div class="container">
+      <div class="section__head" data-reveal>
+        
+        <div class="section__titlebar">
+          <h2>مشاريع أخرى</h2>
+          
+        </div>
+        
+      </div>
+      <div class="grid grid--3">
+<article data-reveal class="card">
+  <p class="card__meta"><span>منتج SaaS بالذكاء الاصطناعي</span><span>2026</span></p>
+  <h3 class="card__title"><a href="/projects/smart-scanner">Smart Scanner</a></h3>
+  <p class="card__body">برنامج قراءة الفواتير العربية بالذكاء الاصطناعي</p>
+</article>
+<article data-reveal class="card">
+  <p class="card__meta"><span>منتج SaaS بالذكاء الاصطناعي</span><span>2026</span></p>
+  <h3 class="card__title"><a href="/projects/cv-screener">CV Screener</a></h3>
+  <p class="card__body">نظام فرز السير الذاتية بالذكاء الاصطناعي</p>
+</article>
+<article data-reveal class="card">
+  <p class="card__meta"><span>منتج أتمتة بالذكاء الاصطناعي</span><span>2026</span></p>
+  <h3 class="card__title"><a href="/projects/universal-web-scraper">Universal Web Scraper</a></h3>
+  <p class="card__body">سحب بيانات موقع كامل إلى ملف Excel بالذكاء الاصطناعي</p>
+</article>
+<article data-reveal class="card">
+  <p class="card__meta"><span>أدوات ذكاء اصطناعي</span><span>2026</span></p>
+  <h3 class="card__title"><a href="/projects/mcp-search-server">MCP Search Server</a></h3>
+  <p class="card__body">خادم MCP يتيح للذكاء الاصطناعي الاستعلام من بيانات حقيقية</p>
+</article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="cta">
+        <h2>لديك عملية يجب أن تُدير نفسها؟</h2>
+        <p>سواء كانت معالجة مستندات عربية، أو أداة داخلية لا يطيق أحد استخدامها، أو سير عمل يلتهم أسبوع فريقك بصمت، حدّثني عنها.</p>
+        <a class="btn" href="/contact">لنبدأ الحديث</a>
+      </div>
+    </div>
+  </section>
+</main>
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <div>
+        <p>بُني موقعاً ثابتاً بلا أي إطار عمل، حتى تكون كل كلمة فيه مقروءة للبشر والآلات على حدّ سواء.</p>
+        <p>© 2026 نور الدين طفي · <span lang="en" dir="ltr">Nour Aldeen Tofi</span> · ‏HTML وCSS ووحدات ES مكتوبة يدوياً</p>
+      </div>
+      <ul class="footer__links">
+        <li><a href="/llms.txt" target="_blank" rel="noopener">llms.txt<span class="visually-hidden"> (يفتح في تبويب جديد)</span></a></li>
+        <li><a href="/api/resume.json" target="_blank" rel="noopener">resume.json<span class="visually-hidden"> (يفتح في تبويب جديد)</span></a></li>
+        <li><a href="mailto:nouraldeentofi@gmail.com">راسلني</a></li>
+      </ul>
+    </div>
+  </footer>
+  <nav class="mobile-tabs" aria-label="الرئيسية">
+    <a href="/"><span>الرئيسية</span></a>
+    <a href="/about"><span>نبذة</span></a>
+    <a href="/work"><span>المسيرة</span></a>
+    <a href="/projects" aria-current="true"><span>المشاريع</span></a>
+    <a href="/showcase"><span>المواقع</span></a>
+    <a href="/automation"><span>أتمتة</span></a>
+    <a href="/chat"><span>محادثة</span></a>
+    <a href="/contact"><span>تواصل</span></a>
+  </nav>
+  <dialog class="portrait" id="portrait" aria-label="نور الدين طفي">
+    <form method="dialog">
+      <button class="portrait__close" aria-label="إغلاق">&times;</button>
+    </form>
+    <img src="/assets/img/nour.jpg?v=8858f5b0" alt="نور الدين طفي" width="720" height="720" loading="lazy" decoding="async">
+  </dialog>
+<script src="/assets/js/main.js?v=6af10bef" type="module"></script>
+</body>
+</html>

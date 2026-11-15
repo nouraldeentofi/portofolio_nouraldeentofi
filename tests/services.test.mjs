@@ -17,6 +17,8 @@ import { servicesLd } from '../scripts/lib/jsonld.mjs';
 import { OFFERS, SERVICE_SYSTEMS, homeOffers, automationServices } from '../scripts/lib/offers.mjs';
 import { PAGES, LANGS, pagePath } from '../scripts/lib/sitemap.mjs';
 import { byCompany } from '../scripts/lib/experience.mjs';
+import { buildSite, sitePages, pageFile } from '../scripts/lib/site.mjs';
+import { projectHref, systemHref } from '../scripts/lib/details.mjs';
 
 const loaded = loadDb('data');
 const db = { ...loaded, build: { modified: '2026-11-15T00:00:00+03:00' } };
@@ -506,7 +508,10 @@ test('the home intro says the same thing in both languages', () => {
 /* A link to "/projects#smart-scanner" that lands on the top of the page is
    a broken promise the plain "does the file exist" check never sees. */
 test('every link to an item on another page lands on that item', () => {
-  const html = Object.fromEntries(LANGS.flatMap((lang) => PAGES.map((name) => [pagePath(name, lang), page(name, lang)])));
+  // Every page with an address, the detail pages included: a card on the
+  // automation page leads to a section of a project page.
+  const files = buildSite(db);
+  const html = Object.fromEntries(LANGS.flatMap((lang) => sitePages(db).map((name) => [pagePath(name, lang), files.get(pageFile(name, lang))])));
 
   for (const [from, source] of Object.entries(html)) {
     for (const [, target, fragment] of source.matchAll(/href="(\/[^"#?]*)#([^"]+)"/g)) {
@@ -525,13 +530,16 @@ test('every card title on the home page is a link to that item, named by its nam
     const block = (id) => html.split(`<section class="section" id="${id}">`)[1].split('</section>')[0];
     const featured = db.projects.find((p) => p.featured);
 
-    assert.ok(block('featured').includes(`<h3 class="card__title"><a href="${pagePath('projects', lang)}#${featured.id}">${featured.name}</a></h3>`));
+    // A project and a system each have a page to land on (details.mjs); a
+    // client site has none, so its card still leads to its place on the list.
+    assert.ok(block('featured').includes(`<h3 class="card__title"><a href="${projectHref(featured, lang)}">${featured.name}</a></h3>`));
+    assert.equal(projectHref(featured, lang), pagePath(`projects/${featured.id}`, lang));
     for (const w of db.workflows.slice(0, 3)) {
-      assert.ok(block('automation').includes(`<h3 class="card__title"><a href="${pagePath('automation', lang)}#${w.id}">${w.name[lang]}</a></h3>`), `${lang}: ${w.id}`);
+      assert.ok(block('automation').includes(`<h3 class="card__title"><a href="${systemHref(db, w, lang)}">${w.name[lang]}</a></h3>`), `${lang}: ${w.id}`);
     }
     const projectTitles = [...block('projects').matchAll(/<h3 class="card__title">([\s\S]*?)<\/h3>/g)].map((m) => m[1]);
     assert.ok(projectTitles.length > 0);
-    for (const t of projectTitles) assert.match(t, new RegExp(`^<a href="${pagePath('projects', lang)}#[a-z0-9-]+">[^<]+</a>$`), `${lang}: ${t}`);
+    for (const t of projectTitles) assert.match(t, new RegExp(`^<a href="${pagePath('projects', lang)}/[a-z0-9-]+">[^<]+</a>$`), `${lang}: ${t}`);
     const siteTitles = [...block('showcase').matchAll(/<h3 class="card__title">([\s\S]*?)<\/h3>/g)].map((m) => m[1]);
     for (const t of siteTitles) assert.match(t, new RegExp(`^<a href="${pagePath('showcase', lang)}#[a-z0-9-]+">[^<]+</a>$`), `${lang}: ${t}`);
   }

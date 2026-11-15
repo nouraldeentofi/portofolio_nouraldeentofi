@@ -365,6 +365,10 @@
       "en": "Telegram AI agent · client project",
       "ar": "وكيل ذكاء اصطناعي على تيليجرام · مشروع عميل"
     },
+    "headline": {
+      "en": "Telegram AI assistant for a private tutor",
+      "ar": "مساعد ذكاء اصطناعي على تيليجرام لمدرّس خصوصي"
+    },
     "year": {
       "en": "2025 to present",
       "ar": "2025 حتى الآن"
@@ -733,6 +737,10 @@
       "en": "Content system run from a chat",
       "ar": "نظام محتوى يُدار من محادثة"
     },
+    "headline": {
+      "en": "Social media publishing run from a Telegram chat",
+      "ar": "نشر على وسائل التواصل يُدار من محادثة تيليجرام"
+    },
     "year": "2026",
     "summary": {
       "en": "Plan, review, approve and publish posts to LinkedIn, Instagram and Reddit from a Telegram chat. The AI only understands what you meant; every decision after that is made by a deterministic state machine.",
@@ -922,6 +930,10 @@
       "en": "Inbox with AI triage",
       "ar": "صندوق وارد بفرز ذكي"
     },
+    "headline": {
+      "en": "One inbox for every customer channel, with AI-drafted replies",
+      "ar": "صندوق وارد واحد لكل قنوات العملاء مع ردود يقترحها الذكاء الاصطناعي"
+    },
     "year": "2026",
     "summary": {
       "en": "Messages from every channel land in one inbox. Each one is enriched with its dialect, intent, priority and a summary, plus a draft reply written in the sender's own dialect. Replies leave through an outbox that records every result.",
@@ -1104,6 +1116,10 @@
       "en": "Review management for shops",
       "ar": "إدارة التقييمات للمحلات"
     },
+    "headline": {
+      "en": "Automatic replies to Google reviews with n8n",
+      "ar": "الرد على تقييمات قوقل تلقائياً بـ n8n"
+    },
     "year": "2026",
     "summary": {
       "en": "New Google reviews are picked up on a schedule and answered in the reviewer's own language. Happy reviews get a reply on their own; unhappy ones go to the owner on Telegram, who approves or skips with one tap.",
@@ -1284,6 +1300,10 @@
     "kind": {
       "en": "Scheduled agent with human-in-the-loop",
       "ar": "وكيل مجدول مع تدخّل بشري"
+    },
+    "headline": {
+      "en": "Daily job search agent with approval on Telegram",
+      "ar": "وكيل بحث يومي عن الوظائف مع موافقة عبر تيليجرام"
     },
     "year": "2026",
     "summary": {
@@ -1474,6 +1494,10 @@
       "en": "Payment check for registrations",
       "ar": "فحص الدفع للتسجيلات"
     },
+    "headline": {
+      "en": "Bank transfer receipts read and checked by AI vision",
+      "ar": "التحقق من إيصالات التحويل البنكي بالذكاء الاصطناعي"
+    },
     "year": "2026",
     "summary": {
       "en": "Behind a chess club's tournament registration: the uploaded bank-transfer receipt is read by a vision model, which also says whether it is a transfer at all. The site applies the rules; the workflow only reads.",
@@ -1624,6 +1648,10 @@
       "en": "Booking bot for shops",
       "ar": "بوت حجز للمحلات"
     },
+    "headline": {
+      "en": "Shop bookings through WhatsApp buttons, built with n8n",
+      "ar": "استقبال حجوزات المحلات عبر أزرار واتساب بـ n8n"
+    },
     "year": "2026",
     "summary": {
       "en": "A customer taps a service, then a time slot, in WhatsApp buttons. The confirmed slot is written to Google Calendar and confirmed back on WhatsApp.",
@@ -1767,6 +1795,10 @@
     "kind": {
       "en": "Form-driven messaging tool",
       "ar": "أداة مراسلة تعمل من نموذج"
+    },
+    "headline": {
+      "en": "A contact list added to a WhatsApp group automatically",
+      "ar": "إضافة قائمة جهات اتصال من ملف إكسل إلى مجموعة واتساب تلقائياً"
     },
     "year": "2026",
     "summary": {
@@ -1924,6 +1956,10 @@
     "kind": {
       "en": "AI social media studio",
       "ar": "استوديو محتوى بالذكاء الاصطناعي"
+    },
+    "headline": {
+      "en": "Social media posts with AI captions and branded images",
+      "ar": "منشورات وسائل التواصل بنصوص وصور يولّدها الذكاء الاصطناعي"
     },
     "year": "2026",
     "summary": {
@@ -2109,6 +2145,10 @@
     "kind": {
       "en": "Scraping and enrichment pipeline",
       "ar": "خط استخراج وإثراء بيانات"
+    },
+    "headline": {
+      "en": "B2B lead generation for Saudi Arabia and Jordan",
+      "ar": "جمع بيانات عملاء محتملين من الشركات في السعودية والأردن"
     },
     "year": "2025",
     "summary": {
@@ -2299,6 +2339,10 @@
       "en": "Video-to-data webhook service",
       "ar": "خدمة webhook تحوّل الفيديو إلى بيانات"
     },
+    "headline": {
+      "en": "Lesson videos scored for teaching quality",
+      "ar": "تقييم أداء المعلّم وتفاعل الطالب من فيديو الدرس"
+    },
     "year": "2026",
     "summary": {
       "en": "A webhook service that transcribes lesson videos with speaker separation and returns structured JSON scoring teacher quality and student engagement.",
@@ -2480,6 +2524,10 @@
     "kind": {
       "en": "Personalised outreach",
       "ar": "تواصل مخصّص"
+    },
+    "headline": {
+      "en": "Personal emails written by AI for every contact",
+      "ar": "رسائل بريد شخصية تُكتب لكل جهة اتصال وتُرسل عبر Gmail"
     },
     "year": "2026",
     "summary": {

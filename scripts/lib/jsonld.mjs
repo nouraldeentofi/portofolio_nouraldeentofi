@@ -14,6 +14,7 @@
 
 import { pagePath } from './sitemap.mjs';
 import { homeOffers } from './offers.mjs';
+import { detailName, projectHref, systemHref } from './details.mjs';
 
 const CTX = 'https://schema.org';
 
@@ -29,6 +30,13 @@ const PAGE_TITLES = {
 };
 
 const base = (db) => db.profile.site.replace(/\/$/, '');
+
+/**
+ * What a page is called in a breadcrumb. The trail a visitor sees on a
+ * detail page is built from the same names, so the markup and the page say
+ * one thing.
+ */
+export const pageTitle = (page, lang) => PAGE_TITLES[page][lang];
 
 /**
  * `sameAs` for a named person or organisation, when `data/links.json` knows
@@ -225,6 +233,13 @@ export function servicesLd(db, lang) {
   });
 }
 
+/**
+ * The projects page as a list of the pages it leads to.
+ *
+ * Each entry is a position, a name and the address of that project's own
+ * page on this site. What the project is, who made it and what it looks like
+ * is said once, on that page (`detailLd`), not repeated here in brief.
+ */
 export function projectsLd(db, lang) {
   return {
     '@context': CTX,
@@ -233,17 +248,8 @@ export function projectsLd(db, lang) {
     itemListElement: db.projects.map((p, i) => ({
       '@type': 'ListItem',
       position: i + 1,
-      item: {
-        '@type': 'SoftwareApplication',
-        name: p.name,
-        description: p.tagline[lang],
-        applicationCategory: p.category[lang],
-        datePublished: String(p.year).slice(0, 4),
-        author: { '@id': `${base(db)}/#nour` },
-        ...(p.url ? { url: p.url } : {}),
-        ...(p.images ? { image: `${base(db)}/${p.images.desktop}` } : {}),
-        ...(p.stack?.length ? { keywords: p.stack.join(', ') } : {}),
-      },
+      name: p.name,
+      url: `${base(db)}${projectHref(p, lang)}`,
     })),
   };
 }
@@ -274,6 +280,13 @@ export function showcaseLd(db, lang) {
   };
 }
 
+/**
+ * The automation page as a list, in the same shape as `projectsLd`.
+ *
+ * The address is where the system is read in full (`systemHref`): its own
+ * page, the section of its product's page, or, for one that has neither, its
+ * card on the list page itself.
+ */
 export function workflowsLd(db, lang) {
   return {
     '@context': CTX,
@@ -282,15 +295,59 @@ export function workflowsLd(db, lang) {
     itemListElement: db.workflows.map((w, i) => ({
       '@type': 'ListItem',
       position: i + 1,
-      item: {
-        '@type': 'CreativeWork',
-        name: w.name[lang],
-        description: w.summary[lang],
-        genre: w.kind[lang],
-        author: { '@id': `${base(db)}/#nour` },
-        keywords: w.services.join(', '),
-      },
+      name: w.name[lang],
+      url: `${base(db)}${systemHref(db, w, lang)}`,
     })),
+  };
+}
+
+/** The first four digits of a year, which the data may write as "2025 to present". */
+const yearCreated = (year) => String(typeof year === 'object' ? year.en : year).slice(0, 4);
+
+/**
+ * The thing a detail page is about: one project or one automation system.
+ *
+ * A CreativeWork in both cases, on purpose. Google requires a price and a
+ * rating before it accepts a SoftwareApplication, a WebApplication or a
+ * MobileApplication, and the site states neither, so neither is invented to
+ * make a type validate. Every value here is one the page shows: the name is
+ * its heading, the description its lead, the keywords its badges, the year
+ * the line under the heading, and the image the screenshot or the canvas in
+ * the page.
+ */
+export function detailLd(db, lang, d) {
+  const url = pageUrl(db, d.page, lang);
+  const e = d.entry;
+  const picture = d.kind === 'project' ? e.images?.desktop : e.canvas;
+  const keywords = d.kind === 'project' ? e.stack : e.services;
+
+  return {
+    '@context': CTX,
+    '@type': 'CreativeWork',
+    // The address of the page's own content, the way a Service names its card.
+    '@id': `${url}#main`,
+    name: detailName(d, lang),
+    description: (d.kind === 'project' ? e.tagline : e.summary)[lang],
+    url,
+    ...(picture ? { image: `${base(db)}/${picture}` } : {}),
+    author: { '@id': `${base(db)}/#nour` },
+    dateCreated: yearCreated(e.year),
+    ...(keywords?.length ? { keywords: keywords.join(', ') } : {}),
+    inLanguage: lang,
+  };
+}
+
+/** Home, the list page, then the item itself: the trail a detail page shows above its heading. */
+export function detailBreadcrumbLd(db, lang, d) {
+  const step = (position, name, page) => ({ '@type': 'ListItem', position, name, item: pageUrl(db, page, lang) });
+  return {
+    '@context': CTX,
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      step(1, pageTitle('', lang), ''),
+      step(2, pageTitle(d.parent, lang), d.parent),
+      step(3, detailName(d, lang), d.page),
+    ],
   };
 }
 

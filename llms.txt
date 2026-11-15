@@ -28,6 +28,32 @@ I build AI automation in n8n that reads Arabic and English documents, runs Whats
 - [Contact](https://nouraldeentofi.com/en/contact)
 - [النسخة العربية](https://nouraldeentofi.com/): the same site, Arabic-first, served at the root
 
+## A page for each project and system
+
+- [Smart Scanner](https://nouraldeentofi.com/en/projects/smart-scanner): AI invoice scanner for Arabic and English invoices
+- [CV Screener](https://nouraldeentofi.com/en/projects/cv-screener): AI CV screening for Arabic and English CVs
+- [Universal Web Scraper](https://nouraldeentofi.com/en/projects/universal-web-scraper): Website scraper that turns a whole site into an Excel file
+- [Nour Motion Studio](https://nouraldeentofi.com/en/projects/motion-studio): Free motion-graphics video maker in the browser
+- [Braille Certificate Maker](https://nouraldeentofi.com/en/projects/braille-certificate): Training certificates with Arabic Braille
+- [Khatm · ختم](https://nouraldeentofi.com/en/projects/khatm): Open-source e-invoicing for businesses in Saudi Arabia
+- [The Complete Umrah Guide](https://nouraldeentofi.com/en/projects/umrah-guide): Step-by-step Umrah guide that works offline
+- [DFS Dashboard](https://nouraldeentofi.com/en/projects/dfs-dashboard): Internal CRM and quotation platform
+- [GoldenTag](https://nouraldeentofi.com/en/projects/goldentag): Jewelry store management app on Google Play
+- [Business Card Extractor](https://nouraldeentofi.com/en/projects/business-card-extractor): Business card scanner that saves straight to contacts
+- [MCP Search Server](https://nouraldeentofi.com/en/projects/mcp-search-server): MCP server that gives an AI model real data to query
+- [Teacher Assistant AI Bot](https://nouraldeentofi.com/en/automation/teacher-assistant-bot): Telegram AI assistant for a private tutor
+- [Telegram Publishing System](https://nouraldeentofi.com/en/automation/telegram-publisher): Social media publishing run from a Telegram chat
+- [Unified Inbox](https://nouraldeentofi.com/en/automation/unified-inbox): One inbox for every customer channel, with AI-drafted replies
+- [Google Review Reply Manager](https://nouraldeentofi.com/en/automation/google-review-reply): Automatic replies to Google reviews with n8n
+- [AI Job-Match Pipeline](https://nouraldeentofi.com/en/automation/ai-job-match): Daily job search agent with approval on Telegram
+- [Transfer Receipt Check](https://nouraldeentofi.com/en/automation/receipt-verify): Bank transfer receipts read and checked by AI vision
+- [WhatsApp Booking Bot](https://nouraldeentofi.com/en/automation/whatsapp-booking): Shop bookings through WhatsApp buttons, built with n8n
+- [WhatsApp Group from a Spreadsheet](https://nouraldeentofi.com/en/automation/whatsapp-group): A contact list added to a WhatsApp group automatically
+- [Social Auto-Publisher](https://nouraldeentofi.com/en/automation/social-auto-publisher): Social media posts with AI captions and branded images
+- [Smart Lead Finder](https://nouraldeentofi.com/en/automation/smart-lead-finder): B2B lead generation for Saudi Arabia and Jordan
+- [Lesson Quality Evaluator](https://nouraldeentofi.com/en/automation/lesson-quality-evaluator): Lesson videos scored for teaching quality
+- [AI Email Campaigns](https://nouraldeentofi.com/en/automation/ai-email-campaign): Personal emails written by AI for every contact
+
 ## Projects
 
 - [Smart Scanner](https://receipt.nexleadtech.com) (2026): Arabic-first AI invoice management: from photo to approval, with zero manual data entry.

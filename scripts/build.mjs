@@ -2,21 +2,19 @@
 /**
  * Build every static artefact from `data/`.
  *
- * Everything is rendered into memory first and written only once every page
- * has succeeded, so a failure never leaves half-generated output on disk.
+ * Everything is rendered into memory first (`buildSite` in lib/site.mjs) and
+ * written only once every page has succeeded, so a failure never leaves
+ * half-generated output on disk.
  *
  *   node scripts/build.mjs
  */
 
-import { writeFileSync, mkdirSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { writeFileSync, mkdirSync, readdirSync, unlinkSync } from 'node:fs';
+import { dirname } from 'node:path';
 import { loadDb } from './lib/load.mjs';
-import { PAGES, LANGS, buildSitemap } from './lib/sitemap.mjs';
-import { buildLlmsTxt, buildLlmsFullTxt } from './lib/llms.mjs';
-import { buildApiProfile, buildApiProjects, buildResumeJson } from './lib/api.mjs';
-import { TEMPLATES, notFound, buildRedirects } from './lib/pages.mjs';
-import { injectBlock } from './lib/render.mjs';
-import { buildTranscript } from './lib/transcript.mjs';
+import { LANGS } from './lib/sitemap.mjs';
+import { DETAIL_FOLDERS, staleDetailFiles } from './lib/details.mjs';
+import { buildSite } from './lib/site.mjs';
 
 /**
  * Midnight today in Riyadh, as a full timestamp with its offset.
@@ -32,40 +30,24 @@ function buildStamp(now = new Date()) {
   return `${riyadh.toISOString().slice(0, 10)}T00:00:00+03:00`;
 }
 
+/**
+ * What is on disk in the folders the detail pages are generated into, in
+ * both languages. A folder that does not exist yet simply holds nothing.
+ */
+function generatedDetailFiles() {
+  const folders = LANGS.flatMap((lang) => DETAIL_FOLDERS.map((folder) => `${lang === 'ar' ? '' : 'en/'}${folder}`));
+  return folders.flatMap((folder) => {
+    try {
+      return readdirSync(folder).map((name) => `${folder}/${name}`);
+    } catch {
+      return [];
+    }
+  });
+}
+
 function main() {
   const db = { ...loadDb('data'), build: { modified: buildStamp() } };
-  const pending = new Map();
-  const stage = (path, content) => pending.set(path, content);
-
-  for (const lang of LANGS) {
-    const dir = lang === 'ar' ? '' : 'en/';
-
-    for (const page of PAGES) {
-      const file = `${dir}${page === '' ? 'index' : page}.html`;
-      let html = TEMPLATES[page](db, lang);
-
-      // The chat page carries a crawlable transcript of the conversation.
-      if (page === 'chat') {
-        html = injectBlock(html, 'chat-transcript', buildTranscript(lang, db.copy[lang]));
-      }
-
-      stage(file, html);
-    }
-
-    stage(`${dir}404.html`, notFound(db, lang));
-  }
-
-  // The shortcuts are real files, so they work on any host and /cv carries the CV's fingerprint.
-  for (const { path, html } of buildRedirects(db)) stage(path, html);
-
-  stage('llms.txt', buildLlmsTxt(db, 'en'));
-  stage('llms-full.txt', buildLlmsFullTxt(db, 'en'));
-  stage('sitemap.xml', buildSitemap(PAGES, db.profile.site, db.build.modified.slice(0, 10)));
-  // IndexNow asks for the key as a file at the site root, to prove the site owns it.
-  if (db.profile.indexNow?.key) stage(`${db.profile.indexNow.key}.txt`, db.profile.indexNow.key);
-  stage('api/profile.json', JSON.stringify(buildApiProfile(db), null, 2) + '\n');
-  stage('api/projects.json', JSON.stringify(buildApiProjects(db), null, 2) + '\n');
-  stage('api/resume.json', JSON.stringify(buildResumeJson(db), null, 2) + '\n');
+  const pending = buildSite(db);
 
   for (const [path, content] of pending) {
     const dir = dirname(path);
@@ -73,8 +55,15 @@ function main() {
     writeFileSync(path, content, 'utf8');
   }
 
+  // A project or a system that left the data leaves its page behind, still
+  // served and still indexed. `staleDetailFiles` only ever names an .html
+  // file directly inside a generated folder that this build did not write.
+  const stale = staleDetailFiles(generatedDetailFiles(), [...pending.keys()]);
+  for (const path of stale) unlinkSync(path);
+
   const pending_todos = db.profile.sameAs.filter((s) => !s.url).map((s) => s.platform);
   console.log(`build: wrote ${pending.size} files`);
+  if (stale.length) console.log(`build: removed ${stale.length} page(s) whose entry is gone: ${stale.join(', ')}`);
   if (pending_todos.length) {
     console.log(`build: ${pending_todos.length} link(s) still pending — ${pending_todos.join(', ')}`);
   }
