@@ -16,9 +16,10 @@ const iso = (ym) => (ym ? `${ym}-01` : undefined);
 const inEachLanguage = (db, hrefIn) => Object.fromEntries(LANGS.map((lang) => [lang, `${base(db)}${hrefIn(lang)}`]));
 
 /**
- * When the files were generated: the build's own date (`db.build.modified`,
- * set by scripts/build.mjs), not a reading of the clock. Two builds on the
- * same day write the same bytes, and with no build date the key is left out.
+ * When the files were generated: the date handed in on `db.build.modified`,
+ * not a reading of the clock. `buildSite` hands in the day the newest page
+ * changed, so two builds from the same data write the same bytes on any
+ * day, and with no date the key is left out.
  */
 const generated = (db) => db.build?.modified;
 

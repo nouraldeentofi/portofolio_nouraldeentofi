@@ -9,21 +9,24 @@
  *   node scripts/build.mjs
  */
 
-import { writeFileSync, mkdirSync, readdirSync, unlinkSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, unlinkSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { loadDb } from './lib/load.mjs';
 import { LANGS } from './lib/sitemap.mjs';
 import { DETAIL_FOLDERS, staleDetailFiles } from './lib/details.mjs';
 import { buildSite } from './lib/site.mjs';
+import { LASTMOD_FILE } from './lib/lastmod.mjs';
 
 /**
  * Midnight today in Riyadh, as a full timestamp with its offset.
  *
  * This is the one place the build reads the clock. Everything under
  * scripts/lib is a pure transform, so the date is handed to it on the data
- * instead: the ProfilePage date, the footer year, the sitemap's lastmod and
- * the API's `generated` all come from here. Midnight rather than the second,
- * so two builds on the same day write the same files.
+ * instead. It reaches the output in two places only: the year in the footer,
+ * and the sitemap date of a page whose content has changed since the last
+ * build (see lib/lastmod.mjs). A build that changes nothing writes the same
+ * files on any day. The ProfilePage date is not from here: it is `updated`
+ * in data/profile.json, set by hand.
  */
 function buildStamp(now = new Date()) {
   const riyadh = new Date(now.getTime() + 3 * 60 * 60 * 1000);
@@ -45,8 +48,21 @@ function generatedDetailFiles() {
   });
 }
 
+/**
+ * What the last build recorded about each page: a hash of its content and
+ * the day that content was first seen. Committed with the pages. Without the
+ * file every page is new, and is dated today.
+ */
+function lastmodState() {
+  try {
+    return JSON.parse(readFileSync(LASTMOD_FILE, 'utf8'));
+  } catch {
+    return {};
+  }
+}
+
 function main() {
-  const db = { ...loadDb('data'), build: { modified: buildStamp() } };
+  const db = { ...loadDb('data'), build: { modified: buildStamp(), lastmod: lastmodState() } };
   const pending = buildSite(db);
 
   for (const [path, content] of pending) {

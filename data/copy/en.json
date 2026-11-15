@@ -36,15 +36,20 @@
         "title": "Contact and Hire Nour Aldeen Tofi | AI Automation and Web Development",
         "description": "Hire Nour Aldeen Tofi, an AI Automation Engineer and Frontend Developer in Al Khobar, available immediately for roles in Saudi Arabia or remote. Email, LinkedIn and CV."
       }
+    },
+    "notFound": {
+      "title": "Page not found | Nour Aldeen Tofi",
+      "description": "There is no page at this address on the site of Nour Aldeen Tofi. The home page leads to his automation systems, projects, websites and contact details.",
+      "heading": "That page does not exist."
     }
   },
   "nav": {
     "home": "Home",
     "about": "About",
-    "work": "Work",
+    "work": "Experience",
     "projects": "Projects",
-    "showcase": "Showcase",
-    "automation": "Automation Lab",
+    "showcase": "Websites",
+    "automation": "Automation",
     "chat": "Chat",
     "contact": "Contact"
   },
@@ -54,7 +59,7 @@
     "work": "Work",
     "projects": "Projects",
     "showcase": "Sites",
-    "automation": "Lab",
+    "automation": "Auto",
     "chat": "Chat",
     "contact": "Contact"
   },
@@ -71,8 +76,10 @@
     "downloadCv": "Download CV",
     "to": "to",
     "toPresent": "to present",
-    "shotDesktop": "desktop view, designed and built by",
-    "shotPhone": "phone view, designed and built by",
+    "shotDesktop": "desktop view",
+    "shotPhone": "phone view",
+    "shotOf": "Screenshot of {name}, {view}",
+    "shotOfSite": "Screenshot of the website of {name}, {role}, {view}",
     "current": "Current",
     "stack": "Stack",
     "trigger": "Trigger",
@@ -148,6 +155,8 @@
   "about": {
     "title": "About Nour Aldeen Tofi",
     "lead": "I care about automation that makes business sense, not automation that demos well.",
+    "portraitAlt": "Nour Aldeen Tofi smiling, in glasses, a dark blazer and a white shirt",
+    "portraitCaption": "Nour Aldeen Tofi, AI automation engineer and frontend developer in Al Khobar, Saudi Arabia.",
     "body": [
       "I started where most frontend developers start: turning designs into interfaces. What changed things was discovering that the interface is usually the smallest part of the problem. Behind almost every screen someone is retyping data that a machine could have read.",
       "So I went looking for the layer underneath. n8n gave me a way to connect language models to real systems: production workflows that read Arabic and English documents, validate them, catch what does not belong, and push clean structured data into the sheets, CRMs and dashboards a business already uses. Arabic is where this gets interesting, because most global tools quietly do not handle it, and the region is moving fast toward mandatory digital invoicing.",
@@ -191,7 +200,7 @@
       },
       {
         "q": "How is Nour Aldeen Tofi's name written?",
-        "a": "In Arabic it is نور الدين طفي, and in English Nour Aldeen Tofi. Arabic names have no single Latin spelling, so you may also see Nouraldeen Tofi, Nour Al-Deen Tofi, Nour Aldin Tofi, Nour Eddin Tofi, Noor Aldeen Tofi or Nour Aldeen Toufi, and the short form Nour Tofi. They are all the same person. On LinkedIn, GitHub and YouTube his handle is nouraldeentofi."
+        "a": "In Arabic it is نور الدين طفي, and in English Nour Aldeen Tofi. Arabic names have no single Latin spelling, so you may also see Nouraldeen Tofi, Nour Al-Deen Tofi, Nour Al Deen Tofi, Nour Aldin Tofi, Nour Eddin Tofi, Noureddine Tofi, Nour El Din Tofi, Noor Aldeen Tofi or Nour Aldeen Toufi, and the short form Nour Tofi (نور طفي). In Arabic the first name is sometimes joined into one word, نورالدين طفي, and the family name sometimes takes the article, نور الدين الطفي. They are all the same person. On LinkedIn, GitHub and YouTube his handle is nouraldeentofi."
       },
       {
         "q": "What is Smart Scanner?",

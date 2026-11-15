@@ -12,7 +12,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { loadDb } from '../scripts/lib/load.mjs';
 import { TEMPLATES, notFound } from '../scripts/lib/pages.mjs';
-import { headMeta, monthYear, periodWords } from '../scripts/lib/blocks.mjs';
+import { headMeta, monthYear, periodWords, tagsOf } from '../scripts/lib/blocks.mjs';
 import { servicesLd } from '../scripts/lib/jsonld.mjs';
 import { OFFERS, SERVICE_SYSTEMS, homeOffers, automationServices } from '../scripts/lib/offers.mjs';
 import { PAGES, LANGS, pagePath } from '../scripts/lib/sitemap.mjs';
@@ -348,7 +348,8 @@ test('the showcase says what a client gets and where he works, above the gallery
    the languages its site speaks. While any of them speaks one language only,
    the page cannot promise two on every site. */
 test('the showcase does not promise two languages on every site while some have one', () => {
-  const speaks = (s) => s.tags.find((t) => /^(Arabic|English)( \+ (Arabic|English))?$/.test(t));
+  // A language tag is a pair, written in each language; the English form is the one read here.
+  const speaks = (s) => tagsOf(s.tags, 'en').find((t) => /^(Arabic|English)( \+ (Arabic|English))?$/.test(t));
   const single = db.showcase.sites.filter((s) => /^(Arabic|English)$/.test(speaks(s) ?? ''));
   const both = db.showcase.sites.filter((s) => /\+/.test(speaks(s) ?? ''));
   assert.ok(both.length > 0, 'no site in the gallery is in both languages, but the page offers both');

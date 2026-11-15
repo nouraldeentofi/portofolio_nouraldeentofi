@@ -6,11 +6,12 @@ import { buildLlmsTxt, buildLlmsFullTxt } from '../scripts/lib/llms.mjs';
 import { buildSitemap, PAGES, LANGS, pagePath } from '../scripts/lib/sitemap.mjs';
 import { buildApiProfile, buildApiProjects, buildResumeJson } from '../scripts/lib/api.mjs';
 import { TEMPLATES, notFound, buildRedirects } from '../scripts/lib/pages.mjs';
-import { contactCv, headMeta, periodWords } from '../scripts/lib/blocks.mjs';
+import { contactCv, headMeta, periodWords, ROBOTS_INDEXABLE, ROBOTS_NOINDEX } from '../scripts/lib/blocks.mjs';
 import { byCompany } from '../scripts/lib/experience.mjs';
 import { personLd } from '../scripts/lib/jsonld.mjs';
 import { homeOffers, automationServices } from '../scripts/lib/offers.mjs';
 import { buildSite } from '../scripts/lib/site.mjs';
+import { parseRedirects } from '../scripts/lib/gates.mjs';
 
 const db = loadDb('data');
 // What the build adds: the one date the output carries.
@@ -102,10 +103,21 @@ test('nothing the build writes depends on the clock', (t) => {
   assert.equal(everything(), first);
 });
 
-test('the sitemap and the API carry the date the build gave them, and no other', () => {
-  const xml = buildSitemap(PAGES, db.profile.site, '2026-11-15');
+test('the sitemap and the API carry the dates they are given, and no other', () => {
+  // A day for every address, and the sitemap repeats each one beside it.
+  const dates = Object.fromEntries(LANGS.flatMap((lang) => PAGES.map((page) => [pagePath(page, lang), '2026-11-15'])));
+  const xml = buildSitemap(PAGES, db.profile.site, dates);
   assert.equal((xml.match(/<lastmod>2026-11-15<\/lastmod>/g) || []).length, PAGES.length * LANGS.length);
-  assert.ok(!buildSitemap(PAGES, db.profile.site).includes('lastmod'), 'a date appeared that the build did not give');
+  assert.ok(!buildSitemap(PAGES, db.profile.site).includes('lastmod'), 'a date appeared that nobody gave');
+
+  // A day for one address dates that address only.
+  const one = buildSitemap(PAGES, db.profile.site, { '/en/about': '2026-03-02' });
+  assert.equal((one.match(/<lastmod>/g) || []).length, 1);
+  // Straight after the address: the sitemap schema fixes the order of its own
+  // elements (loc, then lastmod) and takes the hreflang links after them.
+  assert.match(one, /<loc>[^<]*\/en\/about<\/loc>\s*<lastmod>2026-03-02<\/lastmod>\s*<xhtml:link/);
+  // Google ignores both, so neither is written.
+  assert.ok(!/<priority>|<changefreq>/.test(xml));
 
   assert.equal(buildApiProfile(built).generated, built.build.modified);
   assert.equal(buildApiProjects(built).generated, built.build.modified);
@@ -206,6 +218,50 @@ test('tab labels come from navShort and are never blank', () => {
   }
 });
 
+/* Eight tabs share a phone's width, so a tab label has a budget: the longest
+   one the bar has always carried ("Projects", and its Arabic). A tab says
+   the same thing as the navigation, in the same word or a shorter form of
+   it, never a different idea: "Lab" did not say what the page offers. */
+test('a tab label is the navigation label or a shorter form of it, within the budget', () => {
+  const budget = { en: 'Projects'.length, ar: 'المشاريع'.length };
+  for (const lang of LANGS) {
+    const { nav, navShort } = db.copy[lang];
+    assert.deepEqual(Object.keys(navShort), Object.keys(nav));
+    for (const [key, label] of Object.entries(navShort)) {
+      assert.ok(label.length <= budget[lang], `${lang}: the tab "${label}" is longer than the bar has room for`);
+      assert.ok(label === nav[key] || label.length < nav[key].length, `${lang}: the tab "${label}" is not a short form of "${nav[key]}"`);
+    }
+    assert.ok(!Object.values({ ...nav, ...navShort }).some((l) => /\bLab\b|مختبر|Showcase|معرض/.test(l)), `${lang}: an old label is back`);
+  }
+  // Short forms of the same word, or the word the page has always gone by.
+  assert.deepEqual(
+    Object.fromEntries(Object.entries(db.copy.en.navShort).filter(([key, label]) => label !== db.copy.en.nav[key])),
+    { work: 'Work', showcase: 'Sites', automation: 'Auto' },
+  );
+  assert.deepEqual(db.copy.ar.navShort, db.copy.ar.nav, 'every Arabic label fits the bar as it is');
+});
+
+/* The names a search result may show as sitelinks are the words of these
+   links, so each says what its page offers. */
+test('the navigation names each page by what it offers, in both languages', () => {
+  assert.deepEqual(
+    [db.copy.en.nav.work, db.copy.en.nav.showcase, db.copy.en.nav.automation],
+    ['Experience', 'Websites', 'Automation'],
+  );
+  assert.deepEqual(
+    [db.copy.ar.nav.work, db.copy.ar.nav.showcase, db.copy.ar.nav.automation],
+    ['الخبرة', 'المواقع', 'الأتمتة'],
+  );
+  for (const lang of LANGS) {
+    const html = TEMPLATES[''](db, lang);
+    const nav = html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0];
+    for (const page of PAGES) {
+      const key = page === '' ? 'home' : page;
+      assert.ok(nav.includes(`<a href="${pagePath(page, lang)}"${page === '' ? ' aria-current="page"' : ''}>${db.copy[lang].nav[key]}</a>`), `${lang}: ${key}`);
+    }
+  }
+});
+
 /* Every shortcut is a real file, so it works on hosts that ignore _redirects.
    These four are the ones robots.txt and the README hand out. */
 test('every documented shortcut is a real file, not a redirect rule', () => {
@@ -220,7 +276,29 @@ test('every documented shortcut is a real file, not a redirect rule', () => {
     assert.match(s.html, /<meta name="robots" content="noindex/, `${s.path} is indexable`);
     assert.match(s.html, /<meta http-equiv="refresh" content="0;\s*url=/, `${s.path} never redirects`);
     assert.ok(s.html.includes(`href="${s.target}"`), `${s.path} has no fallback link`);
+    // One canonical, with the host: a relative one is resolved against
+    // wherever the stub happens to be served.
+    const canonicals = [...s.html.matchAll(/<link rel="canonical" href="([^"]*)">/g)].map((m) => m[1]);
+    assert.equal(canonicals.length, 1, `${s.path}: one canonical`);
+    assert.ok(canonicals[0].startsWith(`${db.profile.site}/`), `${s.path}: the canonical "${canonicals[0]}" is not absolute`);
+    assert.ok(!canonicals[0].includes('?'), `${s.path}: the canonical carries a fingerprint`);
   }
+  const canonical = Object.fromEntries(stubs.map((s) => [s.path, s.canonical]));
+  assert.equal(canonical['resume/index.html'], `${db.profile.site}/api/resume.json`);
+  assert.equal(canonical['profile/index.html'], `${db.profile.site}/api/profile.json`);
+});
+
+/* Where the host reads _redirects, the two JSON shortcuts are permanent
+   redirects in both forms. The folders exist as generated pages, so without
+   the rule for the form with the slash that one would be answered by the page. */
+test('the JSON shortcuts are permanent redirects, with and without the slash', () => {
+  const rules = parseRedirects(readFileSync('_redirects', 'utf8'));
+  for (const [from, to] of [['/resume', '/api/resume.json'], ['/resume/', '/api/resume.json'], ['/profile', '/api/profile.json'], ['/profile/', '/api/profile.json']]) {
+    assert.deepEqual(rules.find((r) => r.from === from), { from, to, status: 301 }, from);
+  }
+  // Every one of them comes before the catch-all, which answers first otherwise.
+  const catchAll = rules.findIndex((r) => r.from === '/*');
+  for (const from of ['/resume', '/resume/', '/profile', '/profile/']) assert.ok(rules.findIndex((r) => r.from === from) < catchAll, from);
 });
 
 test('the shortcuts resolve to the real files named in data', () => {
@@ -246,15 +324,52 @@ test('every way to the CV carries its fingerprint', () => {
   }
 });
 
-/* The 404 is a real 200-status file at /404.html and /en/404.html. Without this
-   it is a crawlable page carrying the home page's title and description. */
-test('the 404 page tells crawlers not to index it', () => {
+/* The 404 is a real 200-status file at /404 and /en/404, and the host serves
+   it at every address that does not exist. It used to carry the home page's
+   title, description, canonical and hreflang set beside its noindex: "do not
+   index me" and "my real address is the home page" in one head. */
+test('the 404 page stays out of search and names no address as its own', () => {
   for (const lang of LANGS) {
-    assert.match(
-      notFound(db, lang),
-      /<meta name="robots" content="noindex/,
-      `${lang}: 404 is indexable`,
-    );
+    const html = notFound(db, lang);
+    const robots = [...html.matchAll(/<meta name="robots" content="([^"]*)">/g)].map((m) => m[1]);
+    assert.deepEqual(robots, ['noindex, follow'], `${lang}: 404 is indexable`);
+
+    assert.ok(!html.includes('rel="canonical"'), `${lang}: a canonical beside noindex`);
+    assert.ok(!/<link rel="alternate" hreflang=/.test(html), `${lang}: the 404 is not one of a set of translations`);
+    assert.ok(!html.includes('property="og:url"'), `${lang}: og:url`);
+
+    // Its own words, from the copy, not the home page's.
+    const title = html.match(/<title>([^<]*)<\/title>/)[1];
+    const description = html.match(/<meta name="description" content="([^"]*)">/)[1];
+    const home = headMeta(db, '', lang);
+    assert.equal(title, db.copy[lang].meta.notFound.title);
+    assert.ok(title.endsWith(`| ${db.profile.name[lang]}`), `${lang}: "${title}" does not name him`);
+    assert.ok(!home.includes(`<title>${title}</title>`) && !home.includes(`content="${description}"`), `${lang}: the 404 repeats the home page`);
+    assert.ok(html.includes(`<p class="hero__headline">${db.copy[lang].meta.notFound.heading}</p>`));
+    for (const text of Object.values(db.copy[lang].meta.notFound)) assert.ok(!text.includes('—') && !/\d/.test(text), `${lang}: ${text}`);
+
+    // What a lost visitor needs is still there: the way home and the other language.
+    assert.ok(html.includes(`<a class="btn" href="${pagePath('', lang)}">`));
+    assert.ok(html.includes(`<a class="lang-switch" href="${pagePath('', lang === 'ar' ? 'en' : 'ar')}"`));
+  }
+});
+
+/* Without max-image-preview:large Google keeps to a default-sized thumbnail
+   of a page's picture. One robots meta on every page, so there is one place
+   that says what a page allows. */
+test('every page meant for search carries one robots meta that allows a large preview', () => {
+  const pages = [...buildSite(built)].filter(([path]) => path.endsWith('.html') && !/^(cv|resume|profile)\//.test(path));
+  assert.ok(pages.length > PAGES.length * LANGS.length, 'the detail pages are not in the walk');
+  for (const [path, html] of pages) {
+    const robots = [...html.matchAll(/<meta name="robots" content="([^"]*)">/g)].map((m) => m[1]);
+    assert.equal(robots.length, 1, `${path}: ${robots.length} robots metas`);
+    if (/(^|\/)404\.html$/.test(path)) {
+      assert.equal(robots[0], ROBOTS_NOINDEX, path);
+    } else {
+      assert.equal(robots[0], 'max-image-preview:large, max-snippet:-1, max-video-preview:-1', path);
+      assert.equal(robots[0], ROBOTS_INDEXABLE);
+      assert.ok(!robots[0].includes('noindex'), path);
+    }
   }
 });
 
@@ -314,13 +429,16 @@ test('every page carries the Google tag exactly once', () => {
 /* He left DFS: no current employer may be claimed, and what he seeks is stated. */
 test('the Person names no current employer between jobs, and says what he seeks', () => {
   for (const lang of LANGS) {
-    const p = personLd(db, lang);
+    // The employers are on the experience page, so that node would name one.
     const running = db.experience.filter((e) => e.end === null).length;
-    assert.equal('worksFor' in p, running > 0, `${lang}: worksFor disagrees with the experience data`);
+    assert.equal('worksFor' in personLd(db, lang, 'work'), running > 0, `${lang}: worksFor disagrees with the experience data`);
+    // What he is looking for is shown on the contact page, role by role.
+    const p = personLd(db, lang, 'contact');
     assert.equal(p.seeks.name, db.profile.availability.roles[lang].join(', '));
     assert.deepEqual(p.seeks.areaServed, db.profile.availability.areas[lang]);
-    assert.equal(p.image['@type'], 'ImageObject');
-    assert.equal(p.image.creditText, db.profile.name[lang]);
+    // The portrait is on every page, so every node carries it.
+    assert.equal(personLd(db, lang).image['@type'], 'ImageObject');
+    assert.equal(personLd(db, lang).image.creditText, db.profile.name[lang]);
   }
 });
 

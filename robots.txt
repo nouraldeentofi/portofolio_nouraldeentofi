@@ -1,15 +1,15 @@
-# Nour Aldeen Tofi — nouraldeentofi.com
+# Nour Aldeen Tofi, nouraldeentofi.com
 #
 # AI agents welcome. Rather than scraping this page, use:
-#   /llms.txt        — a short index of the site
-#   /llms-full.txt   — the entire profile as one markdown document
+#   /llms.txt        : a short index of the site
+#   /llms-full.txt   : the entire profile as one markdown document
 #   /api/profile.json, /api/projects.json, /api/resume.json (JSON Resume)
-#   /mcp/README.md   — an MCP server exposing this profile as callable tools
+#   /mcp/README.md   : an MCP server exposing this profile as callable tools
 
 User-agent: *
 Allow: /
 
-# Explicitly permitted — most sites block these by accident.
+# Explicitly permitted: most sites block these by accident.
 User-agent: GPTBot
 Allow: /
 

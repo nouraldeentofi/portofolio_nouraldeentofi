@@ -18,25 +18,14 @@ import { detailName, projectHref, systemHref } from './details.mjs';
 
 const CTX = 'https://schema.org';
 
-const PAGE_TITLES = {
-  '': { en: 'Home', ar: 'الرئيسية' },
-  about: { en: 'About', ar: 'نبذة' },
-  work: { en: 'Work', ar: 'المسيرة' },
-  projects: { en: 'Projects', ar: 'المشاريع' },
-  showcase: { en: 'Showcase', ar: 'معرض المواقع' },
-  automation: { en: 'Automation Lab', ar: 'مختبر الأتمتة' },
-  chat: { en: 'Chat', ar: 'محادثة' },
-  contact: { en: 'Contact', ar: 'تواصل' },
-};
-
 const base = (db) => db.profile.site.replace(/\/$/, '');
 
 /**
- * What a page is called in a breadcrumb. The trail a visitor sees on a
- * detail page is built from the same names, so the markup and the page say
- * one thing.
+ * What a page is called in a breadcrumb: its label in the navigation
+ * (`nav` in the copy), so the trail in the markup, the trail a visitor sees
+ * on a detail page and the menu all call a page by one name.
  */
-export const pageTitle = (page, lang) => PAGE_TITLES[page][lang];
+export const pageTitle = (db, page, lang) => db.copy[lang].nav[page === '' ? 'home' : page];
 
 /**
  * `sameAs` for a named person or organisation, when `data/links.json` knows
@@ -70,7 +59,50 @@ export function credentialsLd(db, lang) {
     }));
 }
 
-export function personLd(db, lang) {
+/**
+ * What every page says about him: who he is, what he does, where he is, the
+ * portrait in the header and the profiles that are his. Each of these is on
+ * every page, and `scripts/validate.mjs` requires name, jobTitle, sameAs and
+ * address of any Person node.
+ */
+const PERSON_EVERYWHERE = ['@context', '@type', '@id', 'name', 'jobTitle', 'url', 'image', 'address', 'sameAs'];
+
+/**
+ * What only one page shows, and so only that page's node carries. Google
+ * asks that structured data describe what a visitor can read on the page it
+ * sits on, "even if the information is accurate": the phone number is on
+ * the contact page, the certificates on the experience page, the skills on
+ * the about page.
+ *
+ * The home page is his ProfilePage, so its node is complete as an identity
+ * on its own: both halves of the name, every spelling, the description and
+ * the languages. The spellings ride on the about page as well, where the
+ * answer to "how is his name written" lists them. What he is looking for is
+ * said on the about page (in the questions) and on the contact page (role
+ * by role). A page that is not listed here, such as the 404 or the page of
+ * one project, carries the slim node.
+ */
+export const PERSON_ON_PAGE = {
+  '': ['givenName', 'familyName', 'alternateName', 'description', 'knowsLanguage'],
+  about: ['alternateName', 'email', 'knowsAbout', 'hasOccupation', 'seeks'],
+  work: ['hasCredential', 'alumniOf', 'worksFor'],
+  contact: ['email', 'telephone', 'seeks'],
+};
+
+/**
+ * `page` is the key of the page the node is for (`''`, `about`, `work`,
+ * `contact`, ...). The `@id` is the same everywhere, so every node is the
+ * same person; without a page, or for a page that shows nothing more about
+ * him, the node is the slim one.
+ */
+export function personLd(db, lang, page = null) {
+  const keep = new Set([...PERSON_EVERYWHERE, ...(PERSON_ON_PAGE[page] ?? [])]);
+  return Object.fromEntries(Object.entries(personFields(db, lang)).filter(([key, value]) => keep.has(key) && value !== undefined));
+}
+
+/* Everything the site could say about him as a Person, in one place.
+   `personLd` hands each page the part of it that page shows. */
+function personFields(db, lang) {
   const { profile } = db;
   const other = lang === 'en' ? 'ar' : 'en';
 
@@ -89,6 +121,7 @@ export function personLd(db, lang) {
     // This is the one place the misspellings are allowed. Nobody reads an
     // alternateName, but a search for the wrong spelling still has to find
     // him; everywhere a person or a language model reads, they stay out.
+    // The list rides on the home and the about node only (PERSON_ON_PAGE).
     alternateName: [
       ...new Set([profile.name[other], ...(profile.nameVariants ?? []), ...(profile.nameMisspellings ?? [])]),
     ].filter((n) => n !== profile.name[lang]),
@@ -97,7 +130,8 @@ export function personLd(db, lang) {
     // structured data to describe what is on the page, and the tagline is
     // not rendered anywhere a visitor can see it.
     description: db.copy[lang].home.intro,
-    email: `mailto:${profile.email}`,
+    // A plain address: schema.org's email is the address itself, not a link to it.
+    email: profile.email,
     telephone: profile.phone,
     url: base(db),
     // `image` is emitted only once a real portrait exists: a broken image
@@ -145,7 +179,8 @@ export function personLd(db, lang) {
     })(),
     hasOccupation: {
       '@type': 'Occupation',
-      name: 'AI Automation Engineer',
+      // The first role he names in the data, in the language of the page.
+      name: profile.availability.roles?.[lang]?.[0] ?? profile.headline[lang],
       occupationLocation: { '@type': 'City', name: profile.location.city[lang] },
       skills: db.skills.find((g) => g.id === 'automation-ai').items.join(', '),
     },
@@ -185,9 +220,22 @@ export function websiteLd(db) {
 }
 
 /**
+ * When the facts of his identity last changed, as a full timestamp:
+ * `updated` in data/profile.json at midnight in Riyadh.
+ *
+ * It is set by hand, when the name, the title, the links, the portrait or
+ * the location change, and not by the build. Google asks that a profile's
+ * dateModified reflect changes a person made to the profile; a date that
+ * moved with every build would say the profile changes daily. Null when the
+ * data gives none.
+ */
+export const profileModified = (db) => (db.profile.updated ? `${db.profile.updated}T00:00:00+03:00` : null);
+
+/**
  * `modified` is a full timestamp with an offset ("2026-11-15T00:00:00+03:00"):
- * Google rejects a bare date here. The build passes it in, because this module
- * must not read the clock; without one the key is left out rather than guessed.
+ * Google rejects a bare date here. It is handed in (see `profileModified`),
+ * because this module must not read the clock; without one the key is left
+ * out rather than guessed.
  */
 export function profilePageLd(db, lang, modified = null) {
   return {
@@ -344,8 +392,8 @@ export function detailBreadcrumbLd(db, lang, d) {
     '@context': CTX,
     '@type': 'BreadcrumbList',
     itemListElement: [
-      step(1, pageTitle('', lang), ''),
-      step(2, pageTitle(d.parent, lang), d.parent),
+      step(1, pageTitle(db, '', lang), ''),
+      step(2, pageTitle(db, d.parent, lang), d.parent),
       step(3, detailName(d, lang), d.page),
     ],
   };
@@ -428,14 +476,14 @@ export function contactPageLd(db, lang) {
  */
 export function breadcrumbLd(page, lang, db) {
   if (page === '') return null;
-  const home = { '@type': 'ListItem', position: 1, name: PAGE_TITLES[''][lang], item: pageUrl(db, '', lang) };
+  const home = { '@type': 'ListItem', position: 1, name: pageTitle(db, '', lang), item: pageUrl(db, '', lang) };
 
   return {
     '@context': CTX,
     '@type': 'BreadcrumbList',
     itemListElement: [
       home,
-      { '@type': 'ListItem', position: 2, name: PAGE_TITLES[page][lang], item: pageUrl(db, page, lang) },
+      { '@type': 'ListItem', position: 2, name: pageTitle(db, page, lang), item: pageUrl(db, page, lang) },
     ],
   };
 }

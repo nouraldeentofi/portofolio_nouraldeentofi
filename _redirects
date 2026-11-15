@@ -19,7 +19,13 @@
 /assets/cv/Nour_Aldeen_Tofi_Automation.pdf  /assets/cv/Nour_Aldeen_Tofi.pdf  301
 /favicon.ico                                /assets/img/icon-32.png          301
 
-/resume   /api/resume.json                            302
-/profile  /api/profile.json                           302
+# Shortcuts to the two JSON files. Permanent, and in both forms: the folders
+# resume/ and profile/ exist as generated pages, so the host would otherwise
+# answer the form with the slash from the page and the one without from here.
+# /cv and /cv/auto have no rule on purpose: see buildRedirects in pages.mjs.
+/resume    /api/resume.json                           301
+/resume/   /api/resume.json                           301
+/profile   /api/profile.json                          301
+/profile/  /api/profile.json                          301
 /ar/*     /:splat                                     301
 /*        /404.html                                   404

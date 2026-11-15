@@ -31,19 +31,19 @@ const path = pagePath;
  */
 export const X_DEFAULT = 'en';
 
-/* The home page first, then the pages of the navigation, then the pages one
-   level down. */
-const priority = (page) => (page === '' ? '1.0' : page.includes('/') ? '0.6' : '0.8');
-
 /**
  * `pages` is every page that has an address in both languages: the
  * navigation and the detail pages.
  *
- * `today` is the day of the build as `YYYY-MM-DD`, handed in by
- * scripts/build.mjs so nothing here reads the clock. Without it the entries
- * carry no `lastmod`, which is better than a date nobody gave.
+ * `dates` maps the address of a page (`/en/about`) to the day its content
+ * last changed, as `YYYY-MM-DD`. It comes from lastmod.mjs, which moves a
+ * page's day only when what the page says has moved; nothing here reads the
+ * clock. An address with no day carries no `lastmod`, which is better than
+ * a date nobody gave.
+ *
+ * There is no `<priority>` and no `<changefreq>`: Google ignores both.
  */
-export function buildSitemap(pages, baseUrl, today = null) {
+export function buildSitemap(pages, baseUrl, dates = {}) {
   const base = baseUrl.replace(/\/$/, '');
 
   const urls = LANGS.flatMap((lang) =>
@@ -55,10 +55,11 @@ export function buildSitemap(pages, baseUrl, today = null) {
       return [
         '  <url>',
         `    <loc>${base}${path(page, lang)}</loc>`,
+        // The sitemap schema fixes the order of its own elements, and takes
+        // elements of another namespace (the hreflang links) after them.
+        ...(dates?.[path(page, lang)] ? [`    <lastmod>${dates[path(page, lang)]}</lastmod>`] : []),
         alternates,
         `    <xhtml:link rel="alternate" hreflang="x-default" href="${base}${path(page, X_DEFAULT)}"/>`,
-        ...(today ? [`    <lastmod>${today}</lastmod>`] : []),
-        `    <priority>${priority(page)}</priority>`,
         '  </url>',
       ].join('\n');
     }),

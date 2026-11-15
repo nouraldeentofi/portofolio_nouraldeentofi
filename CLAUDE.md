@@ -24,6 +24,17 @@ The CV (`assets/cv/Nour_Aldeen_Tofi.pdf`) is printed from `scripts/cv/cv.html` b
 the new text out of reading order for applicant tracking systems. The CV is the one
 document that carries its own wording and figures instead of reading them from `data/`.
 
+The share card (`assets/img/og.png`) is photographed from `scripts/og/og.html` by
+`npm run og`. Its words are placeholders that `scripts/lib/og.mjs` fills from
+`data/profile.json`, so change the HTML or the data and run it again; never edit or
+re-export the PNG by hand, which is how the old card kept a title he had dropped. Keep the
+file name: every page names that address.
+
+`scripts/lastmod.json` is written by the build as well: a hash of what each page says and
+the day that hash was first seen, which is where the sitemap's `<lastmod>` comes from
+(`scripts/lib/lastmod.mjs`). Commit it with the pages and never edit it. `validate` fails
+when it and the pages disagree.
+
 ## Where facts live
 
 Every fact appears in `data/` exactly once:
@@ -40,6 +51,16 @@ Every fact appears in `data/` exactly once:
 | `data/testimonials.json` | Recommendations |
 | `data/skills.json` | Skills by category |
 | `data/copy/{en,ar}.json` | All prose, both languages, identical key sets |
+
+Three things in `data/profile.json` that are easy to get wrong:
+
+- `updated` is the day his identity facts last changed (name, title, links, portrait,
+  location). It is set **by hand** and is the `dateModified` of the ProfilePage on the
+  home page. Change it only when one of those facts changes, never because of a rebuild.
+- `nameVariants` holds real spellings only, and a handle only if a profile in `sameAs`
+  uses it. Every one of them is shown in the name question on the about page.
+- The misspelled family name lives in `nameMisspellings` and **nowhere else** in `data/`.
+  It ships in one place: `alternateName` of the Person node on the home and about pages.
 
 ## Content rules, enforced by tests
 
@@ -67,6 +88,25 @@ These are not style preferences — `npm test` and `npm run validate` fail on th
 - **No em dashes** (`—`) anywhere a reader or a crawler looks: prose, titles, alt text,
   JSON-LD, llms files. Use a comma, colon, full stop or words ("2025 to 2026").
   `validate` fails on any it finds outside inline code comments.
+- The same goes for the two public files written by hand, `robots.txt` and
+  `mcp/README.md`: `validate` reads them for em dashes as it reads the pages.
+- **Structured data says only what its page shows.** The Person node is slim on every page
+  (name, title, address, portrait, profiles) and a page adds only what a visitor can read
+  there: the phone number on contact, the certificates on experience, the skills on about
+  (`PERSON_ON_PAGE` in `scripts/lib/jsonld.mjs`). A test reads each page for every value.
+- **A picture has one address.** Nothing under `assets/img/` is ever linked with a `?v=`
+  fingerprint, in an `<img>`, in `og:image` or in JSON-LD; `validate` fails on one.
+  Stylesheets, scripts and the CV keep their fingerprints.
+- Alt text describes the picture. A screenshot of someone else's site does not carry
+  Nour's name (`shotAlt` in `scripts/lib/blocks.mjs`).
+- Every page meant for search carries exactly one robots meta, which allows a large image
+  preview. The 404 pages carry `noindex, follow` instead, and no canonical, no hreflang
+  and no `og:url`: they have no address of their own.
+- A page is called by **one name**: its label in `nav` in the copy. Breadcrumbs and the
+  line above a heading read it from there. `navShort` is the phone tab bar: the same word
+  or a shorter form of it, never longer than "Projects".
+- A showcase tag is one string when it names a technology, and an `{ en, ar }` pair when it
+  is plain language ("Dark mode"), so the Arabic page prints no English that is not a name.
 
 ## Code conventions
 
@@ -75,6 +115,16 @@ These are not style preferences — `npm test` and `npm run validate` fail on th
   RTL mirror needs almost no overrides. Never write `left:` or `right:`.
 - `scripts/lib/*.mjs` are pure transforms — data in, string or object out. Keep them
   side-effect free so they stay unit-testable.
+- `scripts/lib/offers.mjs` ties what he offers to where it leads: each offer on the home
+  page to its page, each service on the automation page to the systems behind it. Pages,
+  JSON-LD and the llms files all ask it, so they cannot disagree.
+- `scripts/lib/gates.mjs` holds the checks `validate` runs on what is written by hand
+  (`_redirects`, `_headers`, the misspelled name, em dashes, a fingerprint on an image).
+  They are pure, so the tests feed them broken input to prove each one fails.
+- A new top-level file or folder that is **not part of the site** needs an entry in
+  `PRIVATE_PATHS` in `scripts/lib/gates.mjs` and a rule in `_redirects`; one that is part
+  of the site is added to the list in the root allowlist test (`tests/identity.test.mjs`).
+  That test fails on anything tracked at the root that is neither.
 - `mcp/tools.js` is pure; `mcp/server.js` is protocol wiring only. Do not mix them.
 - `assets/js/chat/engine.js` knows nothing about Nour; `script.*.js` knows nothing about
   rendering.
@@ -86,6 +136,9 @@ These are not style preferences — `npm test` and `npm run validate` fail on th
   somewhere else. `validate` fails on a relative `href` or `src`.
 - `hreflang="x-default"` is the **English** version of every page, in the head and in the
   sitemap (`X_DEFAULT` in `scripts/lib/sitemap.mjs`). The root address still serves Arabic.
+- The build reads the clock in one place (`buildStamp` in `scripts/build.mjs`), and that
+  day reaches the output only as the year in the footer and as the date of a page whose
+  content changed. Built again on another day from the same data, every file is the same.
 - **No JavaScript may render user-facing content.** Everything must be in the HTML
   before scripts run — that is the entire premise of this rebuild.
 

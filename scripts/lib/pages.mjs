@@ -8,7 +8,7 @@
 import { escapeHtml, extAttrs, newTabHint } from './render.mjs';
 import * as B from './blocks.mjs';
 import * as ld from './jsonld.mjs';
-import { PAGES, pagePath } from './sitemap.mjs';
+import { PAGES, LANGS, pagePath } from './sitemap.mjs';
 import {
   ENGINE_ANCHOR,
   detailPages,
@@ -68,11 +68,13 @@ function otherName(db, lang) {
 const asset = (path) => `/${path}`;
 
 /**
- * The same path, fingerprinted.
+ * The same path, fingerprinted when the loader fingerprints it.
  *
- * Only for assets the browser caches hard — stylesheets, scripts, images.
- * `llms.txt` and the JSON API keep clean URLs on purpose: those are addresses
- * other people quote, and a hash in them would rot the moment we rebuild.
+ * Only stylesheets, scripts and the CV carry a hash: the browser caches them
+ * hard. A picture keeps its bare address, so it is the same one in the page,
+ * in `og:image` and in the structured data. `llms.txt` and the JSON API keep
+ * clean URLs on purpose too: those are addresses other people quote, and a
+ * hash in them would rot the moment we rebuild.
  * See `VERSIONED_ASSETS` in load.mjs for why the query string is there.
  */
 const assetV = B.assetUrl;
@@ -87,8 +89,8 @@ const assetV = B.assetUrl;
 function portraitTrigger(db, lang, cls) {
   const c = db.copy[lang];
   const name = e(db.profile.name[lang]);
-  return `<a class="${cls} portrait-open" href="${assetV(db, db.profile.image)}" aria-label="${e(c.ui.viewPortrait)}">
-          <img src="${assetV(db, 'assets/img/nour-96.png')}" alt="${name}" width="36" height="36" decoding="async">
+  return `<a class="${cls} portrait-open" href="${asset(db.profile.image)}" aria-label="${e(c.ui.viewPortrait)}">
+          <img src="${asset('assets/img/nour-96.png')}" alt="${name}" width="36" height="36" decoding="async">
         </a>`;
 }
 
@@ -186,7 +188,7 @@ function portraitDialog(db, lang) {
     <form method="dialog">
       <button class="portrait__close" aria-label="${e(c.ui.closePortrait)}">&times;</button>
     </form>
-    <img src="${assetV(db, db.profile.image)}" alt="${e(db.profile.name[lang])}" width="720" height="720" loading="lazy" decoding="async">
+    <img src="${asset(db.profile.image)}" alt="${e(db.profile.name[lang])}" width="720" height="720" loading="lazy" decoding="async">
   </dialog>`;
 }
 
@@ -230,8 +232,9 @@ var en=p==='/en'||p.slice(0,4)==='/en/';
 if(L==='en'&&!en){location.replace((p==='/'?'/en/':'/en'+p)+q);}
 else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}catch(e){}})();
 </script>
-<link rel="icon" type="image/png" sizes="32x32" href="${assetV(db, 'assets/img/icon-32.png')}">
-<link rel="apple-touch-icon" sizes="180x180" href="${assetV(db, 'assets/img/icon-180.png')}">
+<link rel="icon" type="image/png" sizes="180x180" href="${asset('assets/img/icon-180.png')}">
+<link rel="icon" type="image/png" sizes="32x32" href="${asset('assets/img/icon-32.png')}">
+<link rel="apple-touch-icon" sizes="180x180" href="${asset('assets/img/icon-180.png')}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?${fonts}&display=swap" rel="stylesheet">
@@ -319,6 +322,17 @@ ${altName ? `      <p class="hero__altname" lang="${altName.lang}" dir="${altNam
 }
 
 /**
+ * The small line above a page's heading: the page's label in the navigation.
+ *
+ * Left out when the heading itself opens with that word, in either language,
+ * so that both versions of a page are built alike: "Experience" above
+ * "Experience and recommendations" says one thing twice. `key` is the page's
+ * key in the copy, which holds both its `nav` label and its `title`.
+ */
+const eyebrowOf = (db, lang, key) =>
+  LANGS.some((l) => db.copy[l][key].title.startsWith(db.copy[l].nav[key])) ? null : db.copy[lang].nav[key];
+
+/**
  * Whether the pages may say he is available right now.
  *
  * It is a claim about today, so the data decides it, in one place: the home
@@ -387,13 +401,16 @@ ${ctaBlock(db, lang)}`;
 
 function about(db, lang) {
   const c = db.copy[lang];
+  // The portrait and the story share one row on a wide screen.
+  const portrait = B.aboutPortrait(db, lang);
+  const story = portrait ? `<div class="about-intro">\n${portrait}\n${B.aboutBody(db, lang)}\n</div>` : B.aboutBody(db, lang);
 
   // No eyebrow: the heading opens with the very word the nav label is.
   const main = `${heroBlock({ heading: c.about.title, headline: c.about.lead })}
 
   <section class="section">
     <div class="container">
-${B.aboutBody(db, lang)}
+${story}
     </div>
   </section>
 
@@ -422,7 +439,7 @@ function work(db, lang) {
   const c = db.copy[lang];
 
   const main = `${heroBlock({
-    eyebrow: c.nav.work,
+    eyebrow: eyebrowOf(db, lang, 'work'),
     heading: c.work.title,
     lead: c.work.lead,
     note: availableNow(db) ? c.work.availability : null,
@@ -444,7 +461,7 @@ ${ctaBlock(db, lang)}`;
 function projects(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ eyebrow: c.nav.projects, heading: c.projects.title, headline: c.projects.lead })}
+  const main = `${heroBlock({ eyebrow: eyebrowOf(db, lang, 'projects'), heading: c.projects.title, headline: c.projects.lead })}
 
   <section class="section">
     <div class="container">
@@ -460,7 +477,7 @@ ${ctaBlock(db, lang)}`;
 function showcase(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ eyebrow: c.nav.showcase, heading: c.showcase.title, lead: c.showcase.lead })}
+  const main = `${heroBlock({ eyebrow: eyebrowOf(db, lang, 'showcase'), heading: c.showcase.title, lead: c.showcase.lead })}
 
   <section class="section" id="offer">
     <div class="container">
@@ -487,7 +504,7 @@ ${ctaBlock(db, lang, { title: c.showcase.ctaTitle, body: c.showcase.ctaBody })}`
 function automation(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ eyebrow: c.nav.automation, heading: c.automation.title, lead: c.automation.lead })}
+  const main = `${heroBlock({ eyebrow: eyebrowOf(db, lang, 'automation'), heading: c.automation.title, lead: c.automation.lead })}
 
 ${section('services', null, c.automation.servicesTitle, null, `      <div class="grid grid--3">
 ${B.automationServices(db, lang)}
@@ -568,7 +585,7 @@ ${SHOW_MCP_SECTION ? section('mcp', null, c.contact.mcpTitle, c.contact.mcpBody,
 function chat(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ eyebrow: c.nav.chat, heading: c.chat.title, headline: c.chat.lead })}
+  const main = `${heroBlock({ eyebrow: eyebrowOf(db, lang, 'chat'), heading: c.chat.title, headline: c.chat.lead })}
 
   <section class="section">
     <div class="container">
@@ -669,12 +686,14 @@ function notFound(db, lang) {
   const c = db.copy[lang];
   const main = `${heroBlock({
     heading: '404',
-    headline: lang === 'en' ? 'That page does not exist.' : 'هذه الصفحة غير موجودة.',
+    headline: c.meta.notFound.heading,
     actions: `        <a class="btn" href="${rel('', lang)}">${e(c.nav.home)}</a>`,
   })}`;
-  // Borrows the home page's head, so it must say noindex: otherwise it is a
-  // crawlable duplicate of the home title and description. And it is not the
-  // home page, so it leaves out the structured data that describes one.
+  // The host serves this file, with status 404, at whatever address was not
+  // found, and with status 200 at /404 itself. So it says noindex, names no
+  // address as its own (see `headMeta`), and carries its own title. It is laid
+  // out as the home page is, but it is not the home page, so it leaves out the
+  // structured data that describes one.
   return shell(db, '', lang, main, { noindex: true, pageLd: false });
 }
 
@@ -687,12 +706,15 @@ function notFound(db, lang) {
  * thing worth indexing, not the doorway. They work on any host, with or
  * without `_redirects`.
  *
- * `canonical` differs from `target` only where the target carries a
- * fingerprint. The refresh and the link must name the fingerprinted address,
- * or a visitor gets the copy the CDN still holds; the canonical must name the
- * bare one, or every new version reads to a search engine as a new document.
+ * `canonical` is always the full address, host included: Google asks for an
+ * absolute one, and a relative canonical is resolved against wherever the
+ * stub happens to be served. It also differs from `target` where the target
+ * carries a fingerprint. The refresh and the link must name the fingerprinted
+ * address, or a visitor gets the copy the CDN still holds; the canonical must
+ * name the bare one, or every new version reads to a search engine as a new
+ * document.
  */
-function redirectStub(target, label, canonical = target) {
+function redirectStub(target, label, canonical) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -721,13 +743,17 @@ export function buildRedirects(db) {
   const cv = db.profile.cv[0];
   const v = db.assetVersions?.[cv.file];
   const cvUrl = v ? `/${cv.file}?v=${v}` : `/${cv.file}`;
-  const cvCanonical = `${db.profile.site.replace(/\/$/, '')}/${cv.file}`;
+  const site = db.profile.site.replace(/\/$/, '');
+  const cvCanonical = `${site}/${cv.file}`;
 
+  /* /resume and /profile are answered by `_redirects` with a 301 where the
+     host reads that file; their targets carry no fingerprint, so a rule can
+     name them. The pages stay for a host that does not. */
   return [
     { path: 'cv/index.html', target: cvUrl, label: 'CV', canonical: cvCanonical },
     { path: 'cv/auto/index.html', target: cvUrl, label: 'CV', canonical: cvCanonical },
-    { path: 'resume/index.html', target: '/api/resume.json', label: 'Résumé (JSON Resume)' },
-    { path: 'profile/index.html', target: '/api/profile.json', label: 'Profile JSON' },
+    { path: 'resume/index.html', target: '/api/resume.json', label: 'Résumé (JSON Resume)', canonical: `${site}/api/resume.json` },
+    { path: 'profile/index.html', target: '/api/profile.json', label: 'Profile JSON', canonical: `${site}/api/profile.json` },
   ].map((r) => ({ ...r, html: redirectStub(r.target, r.label, r.canonical) }));
 }
 

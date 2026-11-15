@@ -840,6 +840,59 @@
   .narrative__step--lead::before { inset-inline-start: calc(-1 * var(--space-5) - 8px); }
 }
 
+/* ---------- the portrait beside the story (About) ---------- */
+
+/* His photo stands where the text about him is. On a phone it comes first,
+   under the heading; on a wide screen it takes the far side of the row, so
+   the story keeps the line its paragraphs hang on. Columns follow the
+   direction of the page, so the Arabic page mirrors with no override. */
+.about-intro {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.about-portrait {
+  max-inline-size: 260px;
+}
+
+.about-portrait img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  border: 1px solid color-mix(in srgb, var(--mint) 35%, transparent);
+  box-shadow: var(--shadow);
+}
+
+.about-portrait figcaption {
+  margin-block-start: var(--space-3);
+  color: var(--faint);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+@media (min-width: 900px) {
+  .about-intro {
+    grid-template-columns: minmax(0, 74ch) minmax(0, 320px);
+    justify-content: space-between;
+    align-items: start;
+    column-gap: var(--space-7);
+  }
+
+  .about-intro .narrative {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .about-portrait {
+    grid-column: 2;
+    grid-row: 1;
+    max-inline-size: none;
+  }
+}
+
 /* ---------- transcript table ---------- */
 
 /* Wide content scrolls inside its own box; the page never scrolls sideways. */

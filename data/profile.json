@@ -35,13 +35,12 @@
     "Nour Aldeen Toufi",
     "Nour Tofi",
     "nouraldeentofi",
-    "nourtofi",
     "نور الدين طفي",
     "نورالدين طفي",
     "نور الدين الطفي",
     "نور طفي"
   ],
-  "_nameVariantsNote": "Real spellings only: the canonical names, the ways the name is transliterated into Latin letters, the short form, and both handles. Emitted as schema.org alternateName and listed in llms.txt, llms-full.txt and api/profile.json, so a search or a model that meets any of them resolves to the same person. Listing them does not endorse them: profile.name stays canonical.",
+  "_nameVariantsNote": "Real spellings only: the canonical names, the ways the name is transliterated into Latin letters, the short form, and the handle he uses on LinkedIn, GitHub and YouTube. Emitted as schema.org alternateName and listed in llms.txt, llms-full.txt and api/profile.json, so a search or a model that meets any of them resolves to the same person. Listing them does not endorse them: profile.name stays canonical.",
   "nameMisspellings": [
     "نور الدين توفي",
     "نور توفي"
@@ -74,7 +73,9 @@
     "measurementId": "G-KWLGX91PYK",
     "_note": "Google Analytics for nouraldeentofi.com, on the nourtofi42@gmail.com account. `tag` is the Google tag the pages load, exactly as Analytics gives it under Admin, Data streams, View tag instructions. `measurementId` is the web stream it reports to, kept for reference."
   },
-  "_ogImageNote": "Generated 1200×630 share card, emitted as og:image / twitter:image so links unfurl with a real preview. Wider than the portrait and captioned, so it stays the share image rather than the photo.",
+  "_ogImageNote": "The 1200×630 share card, emitted as og:image / twitter:image so links unfurl with a real preview. Wider than the portrait and captioned, so it stays the share image rather than the photo. Made by `npm run og` from scripts/og/og.html, with its words taken from this file: never edit the PNG, and keep its name.",
+  "updated": "2026-11-15",
+  "_updatedNote": "The day the facts of his identity last changed: name, title, links, portrait, location. Set by hand, and only when one of those changes. It is the dateModified of the ProfilePage on the home page, so it must not move just because the site was rebuilt.",
   "email": "nouraldeentofi@gmail.com",
   "phone": "+966547972944",
   "site": "https://nouraldeentofi.com",

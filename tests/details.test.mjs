@@ -230,10 +230,11 @@ test('no generated page names an asset or a page relative to itself', () => {
     assert.ok(!/url\((?!['"]?(?:#|\/|data:|https?:))/.test(doc), `${path}: a relative url() in a style`);
   }
   // The stylesheets, the script and the icons, from the root, at every depth.
+  // A stylesheet and a script carry a fingerprint; a picture has one address.
   for (const lang of LANGS) {
     for (const page of ['', 'projects', 'projects/smart-scanner', 'automation/unified-inbox', '404']) {
       const doc = files.get(pageFile(page, lang));
-      for (const asset of ['/assets/css/base.css?v=', '/assets/js/main.js?v=', '/assets/img/icon-32.png?v=', '/assets/img/nour-96.png?v=']) {
+      for (const asset of ['/assets/css/base.css?v=', '/assets/js/main.js?v=', '/assets/img/icon-32.png"', '/assets/img/icon-180.png"', '/assets/img/nour-96.png"']) {
         assert.ok(doc.includes(`="${asset}`), `${lang}/${page}: ${asset}`);
       }
     }
@@ -968,8 +969,9 @@ test('the sitemap, the llms files and the API all name every detail page', () =>
     const row = (d.kind === 'project' ? api.projects : api.workflows).find((x) => x.id === d.id);
     assert.deepEqual(row.page, { en, ar: `${site}${pagePath(d.page, 'ar')}` }, `api: ${d.page}`);
   }
-  // A detail page ranks below the page that lists it.
-  assert.match(sitemap, /<loc>[^<]*\/projects\/khatm<\/loc>[\s\S]*?<priority>0\.6<\/priority>/);
+  // No priority: Google ignores it. A detail page is dated like any other.
+  assert.ok(!sitemap.includes('<priority>'));
+  assert.match(sitemap, /<loc>[^<]*\/projects\/khatm<\/loc>(?:(?!<\/url>)[\s\S])*<lastmod>2026-11-15<\/lastmod>/);
 
   // A workflow shown on its product's page names that page; one with only a card, the card.
   const row = (id) => api.workflows.find((x) => x.id === id).page.en;

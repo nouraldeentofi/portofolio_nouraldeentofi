@@ -1,10 +1,10 @@
-# Nour Profile — MCP server
+# Nour Profile: MCP server
 
 An [MCP](https://modelcontextprotocol.io) server that exposes Nour Aldeen Tofi's
 professional profile as callable tools, so an AI assistant can **query** it rather than
 scrape a web page.
 
-It speaks JSON-RPC 2.0 over stdio directly — **no dependencies, no `npm install`.** It
+It speaks JSON-RPC 2.0 over stdio directly, with **no dependencies and no `npm install`.** It
 reads `../data/*.json`, the same source of truth the website is built from, so the two
 can never disagree.
 
@@ -63,7 +63,7 @@ You should get a JSON line listing all seven tools.
 
 ## Design notes
 
-- `tools.js` holds **pure functions** taking `(db, args)` — no I/O, no protocol. They are
+- `tools.js` holds **pure functions** taking `(db, args)`: no I/O, no protocol. They are
   unit-tested directly in `tests/mcp-tools.test.mjs` without starting a server.
 - `server.js` holds **only** protocol wiring.
 - A bad argument returns a tool error (`isError: true`), never a crash. Invalid

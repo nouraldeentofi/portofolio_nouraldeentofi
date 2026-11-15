@@ -106,6 +106,17 @@ const person = (db, name, lang) => entity(db, 'people', name, lang);
 const badges = (items) =>
   `<ul class="badges">${items.map((s) => `<li class="badge">${e(s)}</li>`).join('')}</ul>`;
 
+/**
+ * A showcase tag in the language of the page.
+ *
+ * A technology is one string, the same in both languages: "RTL", "JSON-LD",
+ * "Canvas" are what people in the field read and search for, in Arabic too.
+ * A plain-language label ("Dark mode", "Arabic + English") is an
+ * `{ en, ar }` pair, so the Arabic page does not print English words that
+ * are not names.
+ */
+export const tagsOf = (tags, lang) => (tags ?? []).map((t) => (typeof t === 'string' ? t : t[lang]));
+
 /* ------------------------------------------------------------------ head */
 
 /*
@@ -124,17 +135,34 @@ const analyticsTags = (db) => {
 };
 
 /**
+ * What a page that may be shown in search allows Google to show of it: a
+ * large image preview instead of a thumbnail, and a text or video snippet of
+ * any length. Without the first rule Google keeps to a default-sized image.
+ */
+export const ROBOTS_INDEXABLE = 'max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+
+/** A page that must stay out of search. `follow`, so the links out of it still count. */
+export const ROBOTS_NOINDEX = 'noindex, follow';
+
+/**
  * `meta` is for a page that is not in the navigation and so has no entry in
  * the copy: a detail page hands in its own title and description, and the
  * picture it is shared with (`{ path, width, height, alt }`), built from the
  * data of the entry it is about.
+ *
+ * `noindex` is the 404. It is served at whatever address was not found, so
+ * it has no address of its own to name: no canonical, no hreflang set and no
+ * og:url. A page that says "do not index me" and "my real address is the
+ * home page" in one breath asks two things of a search engine at once. Its
+ * title and description are its own (`meta.notFound` in the copy), not the
+ * home page's.
  */
 export function headMeta(db, page, lang, { noindex = false, meta = null } = {}) {
   const c = db.copy[lang];
   const other = lang === 'en' ? 'ar' : 'en';
   // Each page names what it is about and what people search for, rather than
   // one sitewide description that search engines treat as boilerplate.
-  const own = meta ?? c.meta.pages?.[PAGE_KEY[page]];
+  const own = meta ?? (noindex ? c.meta.notFound : c.meta.pages?.[PAGE_KEY[page]]);
   const title =
     own?.title ??
     (page === ''
@@ -156,14 +184,18 @@ export function headMeta(db, page, lang, { noindex = false, meta = null } = {}) 
   return [
     `<title>${e(title)}</title>`,
     `<meta name="description" content="${e(description)}">`,
-    // `follow` so the links out of the page still carry weight.
-    ...(noindex ? [`<meta name="robots" content="noindex, follow">`] : []),
-    `<link rel="canonical" href="${url}">`,
-    `<link rel="alternate" hreflang="${lang}" href="${url}">`,
-    `<link rel="alternate" hreflang="${other}" href="${base(db)}${href(page, other)}">`,
-    // What a browser set to neither language is offered: see X_DEFAULT in
-    // sitemap.mjs, which the sitemap reads too, so the two cannot disagree.
-    `<link rel="alternate" hreflang="x-default" href="${base(db)}${href(page, X_DEFAULT)}">`,
+    // Exactly one robots meta on every page, so there is one place to look.
+    `<meta name="robots" content="${noindex ? ROBOTS_NOINDEX : ROBOTS_INDEXABLE}">`,
+    ...(noindex
+      ? []
+      : [
+          `<link rel="canonical" href="${url}">`,
+          `<link rel="alternate" hreflang="${lang}" href="${url}">`,
+          `<link rel="alternate" hreflang="${other}" href="${base(db)}${href(page, other)}">`,
+          // What a browser set to neither language is offered: see X_DEFAULT in
+          // sitemap.mjs, which the sitemap reads too, so the two cannot disagree.
+          `<link rel="alternate" hreflang="x-default" href="${base(db)}${href(page, X_DEFAULT)}">`,
+        ]),
     // The pages of the navigation are about him. A detail page is about a
     // thing he made.
     `<meta property="og:type" content="${meta ? 'website' : 'profile'}">`,
@@ -172,7 +204,7 @@ export function headMeta(db, page, lang, { noindex = false, meta = null } = {}) 
     `<meta property="og:site_name" content="${e(db.profile.name.en)}">`,
     `<meta property="og:title" content="${e(title)}">`,
     `<meta property="og:description" content="${e(description)}">`,
-    `<meta property="og:url" content="${url}">`,
+    ...(noindex ? [] : [`<meta property="og:url" content="${url}">`]),
     `<meta property="og:locale" content="${lang === 'en' ? 'en_US' : 'ar_SA'}">`,
     `<meta property="og:locale:alternate" content="${lang === 'en' ? 'ar_SA' : 'en_US'}">`,
     ...(ogImage
@@ -195,23 +227,27 @@ export function headMeta(db, page, lang, { noindex = false, meta = null } = {}) 
 }
 
 /**
- * `pageLd: false` is for a page that borrows another page's head, which is
+ * `pageLd: false` is for a page that is laid out as another page is, which is
  * the 404: it carries the site-wide nodes, but it is not the home page, so it
- * must not announce itself as his ProfilePage.
+ * must not announce itself as his ProfilePage, and its Person node is the
+ * slim one, not the home page's.
  *
- * `db.build.modified` is the build's timestamp, set by scripts/build.mjs. It
- * arrives on the data so nothing in here has to read the clock.
+ * The ProfilePage date is `updated` in data/profile.json, set by hand when
+ * his identity facts change (`ld.profileModified`). It is not the day of the
+ * build: nothing in here reads the clock, and the profile does not change
+ * because the site was rebuilt.
  *
  * `nodes` is for a page outside the navigation: a detail page hands in its
  * own breadcrumb and the node for the thing it is about.
  */
 export function headLd(db, page, lang, { pageLd = true, nodes = null } = {}) {
-  const site = [ld.personLd(db, lang), ld.websiteLd(db)];
+  // The Person node carries what this page shows about him and no more.
+  const site = [ld.personLd(db, lang, pageLd && !nodes ? page : null), ld.websiteLd(db)];
   if (!pageLd) return ld.toScriptTag(...site);
   if (nodes) return ld.toScriptTag(...site, ...nodes);
 
   const extra = {
-    '': [ld.profilePageLd(db, lang, db.build?.modified), ...ld.servicesLd(db, lang)],
+    '': [ld.profilePageLd(db, lang, ld.profileModified(db)), ...ld.servicesLd(db, lang)],
     about: [ld.faqLd(db, lang)],
     work: [ld.experienceLd(db, lang), ...ld.recommendationsLd(db, lang)],
     projects: [ld.projectsLd(db, lang)],
@@ -359,6 +395,28 @@ export function homeQuote(db, lang) {
 }
 
 /* ----------------------------------------------------------------- about */
+
+/**
+ * His portrait, beside the story about him.
+ *
+ * Until now the photo was only the small avatar in the header and the
+ * full-size view behind it, which is closed until someone opens it. Google
+ * reads the words around an image to decide what it shows, and most searches
+ * that reach this site are for his name, so the picture stands where the
+ * text about him is, with an alt that describes it and a caption that names
+ * him. The address is the bare one, the same the Person node gives.
+ *
+ * Not lazy: on a phone it is the first thing under the heading. Nothing is
+ * rendered while the data has no portrait.
+ */
+export function aboutPortrait(db, lang) {
+  if (!db.profile.image) return '';
+  const c = db.copy[lang].about;
+  return `<figure class="about-portrait" data-reveal>
+  <img src="/${e(db.profile.image)}" alt="${e(c.portraitAlt)}" width="720" height="720" decoding="async">
+  <figcaption>${e(c.portraitCaption)}</figcaption>
+</figure>`;
+}
 
 export function aboutBody(db, lang) {
   // The story is told as a pipeline: each paragraph is a node on a line,
@@ -574,13 +632,15 @@ ${cards}
 /* -------------------------------------------------------------- showcase */
 
 /**
- * The address of an asset, from the site root and fingerprinted.
+ * The address of an asset, from the site root, fingerprinted when the loader
+ * fingerprints it.
  *
  * From the root, so the same markup works at any depth: `/`, `/en/`,
  * `/en/projects/<id>`, and the 404 page, which is served at whatever address
- * was not found. Fingerprinted, because a new screenshot or stylesheet keeps
- * its file name, and without the hash a browser that saw the old one keeps
- * showing it. An asset the loader does not fingerprint keeps its bare address.
+ * was not found. A stylesheet, a script and the CV carry a hash, because each
+ * keeps its file name and a browser that saw the old one would keep showing
+ * it. A picture never does: it has one address wherever it is named (see
+ * `VERSIONED_ASSETS` in load.mjs).
  */
 export const assetUrl = (db, path) => {
   const v = db.assetVersions?.[path];
@@ -607,13 +667,30 @@ ${groups
 </div>`;
 }
 
-/*
- * "Aya Rady, desktop view, designed and built by Nour Aldeen Tofi". The alt
- * text is what image search and models read, so it names both the site and
- * the person who made it.
+/**
+ * The alt text of a screenshot says what the picture shows, and whose it is:
+ * "Screenshot of the website of Aya Rady, Personal branding strategist for
+ * experts and consultants, desktop view".
+ *
+ * It does not name Nour. These are pictures of other people's sites, and an
+ * image search for his name should find his portrait, not thirty-nine
+ * screenshots that each repeat it.
+ *
+ * `s` is a client site, which belongs to a `segment` of the showcase and is
+ * called a website, with what its owner does; or a project or the design
+ * lab, which is named as it is: a project is an app, and its `role` is what
+ * Nour did on it, not what it is. `view` is `shotDesktop` or `shotPhone`.
  */
-const shotAlt = (db, name, view, lang) =>
-  `${name}${lang === 'ar' ? '،' : ','} ${db.copy[lang].ui[view]} ${db.profile.name[lang]}`;
+export function shotAlt(db, s, view, lang) {
+  const ui = db.copy[lang].ui;
+  // A project's name is one string; a site's is per language.
+  const name = typeof s.name === 'string' ? s.name : s.name[lang];
+  const site = Boolean(s.segment && s.role);
+  return (site ? ui.shotOfSite : ui.shotOf)
+    .replace('{name}', name)
+    .replace('{role}', site ? s.role[lang] : '')
+    .replace('{view}', ui[view]);
+}
 
 /**
  * A browser window holding the desktop shot, with the phone leaning on it.
@@ -631,11 +708,11 @@ function deviceStage(db, s, lang, { phone = true, caption = null } = {}) {
   const stage = `<${tag} class="show__media">
     <span class="browser">
       <span class="browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="browser__url">${e(host)}</span></span>
-      <img src="${img(db, s.images.desktop)}" alt="${e(shotAlt(db, name, 'shotDesktop', lang))}" width="1200" height="750" loading="lazy" decoding="async">
+      <img src="${img(db, s.images.desktop)}" alt="${e(shotAlt(db, s, 'shotDesktop', lang))}" width="1200" height="750" loading="lazy" decoding="async">
     </span>${
       phone && s.images.phone
         ? `
-    <span class="phone"><img src="${img(db, s.images.phone)}" alt="${e(shotAlt(db, name, 'shotPhone', lang))}" width="390" height="844" loading="lazy" decoding="async"></span>`
+    <span class="phone"><img src="${img(db, s.images.phone)}" alt="${e(shotAlt(db, s, 'shotPhone', lang))}" width="390" height="844" loading="lazy" decoding="async"></span>`
         : ''
     }
   </${tag}>`;
@@ -665,7 +742,7 @@ function siteCard(db, s, lang) {
     <p class="show__role">${e(s.role[lang])}</p>
     <dl class="card__body"><dt>${e(c.ui.idea)}</dt><dd>${e(s.concept[lang])}</dd></dl>
     ${list(s.highlights[lang].map(e), 'card__list')}
-    ${badges(s.tags ?? [])}
+    ${badges(tagsOf(s.tags, lang))}
     <div class="card__foot">${foot}</div>
   </div>
 </li>`;
@@ -692,7 +769,7 @@ export function showcaseLab(db, lang) {
     <p class="lab__count"><b data-count>${e(l.count)}</b><span>${e(l.countLabel[lang])}</span></p>
     <h3 class="card__title">${siteTitle(c, l.name[lang], l.url)}</h3>
     <p class="card__body">${e(l.tagline[lang])}</p>
-    ${badges(l.tags ?? [])}
+    ${badges(tagsOf(l.tags, lang))}
     <div class="card__foot"><a class="btn" href="${e(l.url)}"${extAttrs(l.url)}>${e(c.showcase.labButton)}${newTabHint(c.ui.opensInNewTab)}</a></div>
   </div>
 </article>`;
@@ -971,8 +1048,8 @@ export function detailCrumbs(db, lang, d) {
   const c = db.copy[lang];
   return `<nav class="crumbs" aria-label="${e(c.ui.breadcrumb)}">
         <ol>
-          <li><a href="${href('', lang)}">${e(ld.pageTitle('', lang))}</a></li>
-          <li><a href="${href(d.parent, lang)}">${e(ld.pageTitle(d.parent, lang))}</a></li>
+          <li><a href="${href('', lang)}">${e(ld.pageTitle(db, '', lang))}</a></li>
+          <li><a href="${href(d.parent, lang)}">${e(ld.pageTitle(db, d.parent, lang))}</a></li>
           <li aria-current="page">${e(detailName(d, lang))}</li>
         </ol>
       </nav>`;
@@ -1007,7 +1084,7 @@ export function detailHead(db, lang, d, { title, description, image }) {
   if (!image) return { title, description, image: null };
   const alt =
     d.kind === 'project' && image.path === d.entry.images?.desktop
-      ? shotAlt(db, d.entry.name, 'shotDesktop', lang)
+      ? shotAlt(db, d.entry, 'shotDesktop', lang)
       : canvasCaption(d.kind === 'project' ? engineOf(db, d.entry) : d.entry, lang, db.copy[lang]);
   return { title, description, image: { ...image, alt } };
 }

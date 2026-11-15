@@ -244,14 +244,56 @@ test('every showcase site ships both screenshots, and an unpublished one carries
   }
 });
 
-test('every gallery screenshot is fingerprinted, so a re-shot site shows at once', () => {
+/* A picture has one address: the bare one the structured data and og:image
+   name. A fingerprint would make a second, and a third the day the file is
+   re-shot. The stylesheets, the scripts and the CV keep theirs, because the
+   browser caches those hard. */
+test('no picture is fingerprinted, and the stylesheets, scripts and CV still are', () => {
   const db = loadDb('data');
-  const shots = [
+  const pictures = [
     ...db.showcase.sites.flatMap((s) => Object.values(s.images)),
     ...Object.values(db.showcase.lab.images),
     ...db.workflows.filter((w) => w.canvas).map((w) => w.canvas),
+    ...db.projects.flatMap((p) => Object.values(p.images ?? {})),
+    db.profile.image,
+    db.profile.ogImage,
+    'assets/img/nour-96.png',
+    'assets/img/icon-32.png',
+    'assets/img/icon-180.png',
   ];
-  for (const path of shots) assert.match(db.assetVersions[path] ?? '', /^[0-9a-f]{8}$/, `${path} has no fingerprint`);
+  for (const path of pictures) assert.ok(!(path in db.assetVersions), `${path} is fingerprinted`);
+  assert.ok(!Object.keys(db.assetVersions).some((path) => path.startsWith('assets/img/')));
+
+  for (const path of ['assets/css/tokens.css', 'assets/css/components.css', 'assets/js/main.js', 'assets/js/chat/boot.en.js', db.profile.cv[0].file]) {
+    assert.match(db.assetVersions[path] ?? '', /^[0-9a-f]{8}$/, `${path} has no fingerprint`);
+  }
+  // The sizes are still measured from the files, fingerprint or not.
+  for (const s of db.showcase.sites) assert.ok(Array.isArray(db.imageSizes[s.images.desktop]), `${s.id}: the screenshot was not measured`);
+  assert.deepEqual(db.imageSizes[db.profile.ogImage], [1200, 630]);
+});
+
+/* A showcase tag is the name of a technology, one string for both languages,
+   or a plain-language label written in each. */
+test('a showcase tag is a string or a pair with both languages', () => {
+  const db = loadDb('data');
+  const tags = [...db.showcase.sites, db.showcase.lab].flatMap((s) => s.tags ?? []);
+  assert.ok(tags.some((t) => typeof t === 'object'), 'no plain-language tag is translated');
+  for (const t of tags) {
+    if (typeof t === 'string') continue;
+    assert.deepEqual(Object.keys(t), ['en', 'ar']);
+    assert.ok(/[\u0600-\u06FF]/.test(t.ar) && !/[\u0600-\u06FF]/.test(t.en), JSON.stringify(t));
+  }
+  // The plain-language ones are pairs everywhere; a technology stays one Latin string.
+  for (const t of tags.filter((x) => typeof x === 'string')) {
+    assert.ok(!/^(Arabic|English)( \+ (Arabic|English))?$|^Dark mode$|^Mobile first$/.test(t), `"${t}" is plain language, and would print in English on the Arabic page`);
+    assert.ok(!/[\u0600-\u06FF]/.test(t), `"${t}": a technology keeps its Latin name`);
+  }
+});
+
+test('the profile carries the day it was last changed by hand', () => {
+  const db = loadDb('data');
+  assert.match(db.profile.updated, /^\d{4}-\d{2}-\d{2}$/);
+  assert.ok(!Number.isNaN(Date.parse(db.profile.updated)));
 });
 
 test('a workflow canvas, when set, is a real file', () => {

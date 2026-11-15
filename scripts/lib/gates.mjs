@@ -127,6 +127,30 @@ export function checkHeaders(text, profile) {
 }
 
 /**
+ * Every em dash in a text, each with a little of what surrounds it, so the
+ * report says where to look. Nour asked for none anywhere a reader or a
+ * crawler looks; an empty list means the text is clean.
+ */
+export const emDashHits = (text) => [...text.matchAll(/.{0,30}—.{0,30}/g)].map(([hit]) => hit.trim());
+
+/**
+ * The files written by hand that the site hands out, and so are read like a
+ * page: robots.txt opens with a note to AI agents, and robots.txt and
+ * llms.txt both point at the MCP server's README.
+ */
+export const PUBLIC_HAND_KEPT = ['robots.txt', 'mcp/README.md'];
+
+/**
+ * A picture under /assets/img/ named with a query string, anywhere in a
+ * page: an `<img>`, `og:image` or the structured data.
+ *
+ * An image has one address. Google ties what it knows about a picture to the
+ * address it was found at, so "nour.jpg" and "nour.jpg?v=1a2b3c4d" are two
+ * pictures to it, and the second becomes a third the day the file changes.
+ */
+export const fingerprintedImages = (html) => [...html.matchAll(/\/assets\/img\/[^"'\s<>)?]*\?[^"'\s<>)]*/g)].map(([hit]) => hit);
+
+/**
  * The family name misspelled, as a whole word.
  *
  * The lookarounds matter: "توفير" (saving) is an ordinary word in the copy

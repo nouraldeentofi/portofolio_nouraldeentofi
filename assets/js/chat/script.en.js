@@ -129,7 +129,7 @@ export const SCRIPT = {
   <b>Packt</b> Tailwind CSS · <b>Scrimba</b> Clean Code · Markdown<br>
   <b>Coursera</b> TypeScript in React · Jira roadmaps, user stories, and fundamentals
 </div>`,
-    msgs2: ['Twelve certificates, all with credential IDs on the Work page. Clean code is not on the list. That one is a personality trait 😌'],
+    msgs2: ['Twelve certificates, all with credential IDs on the Experience page. Clean code is not on the list. That one is a personality trait 😌'],
     opts: [
       ['🤝 What can I hire you for?', 'hire'],
       ['📬 Contact', 'contact'],

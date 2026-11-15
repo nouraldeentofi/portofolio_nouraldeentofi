@@ -51,6 +51,7 @@ data/*.json ──► scripts/build.mjs ──► *.html, en/*.html
                                       projects/<id>.html, automation/<id>.html
                                       llms.txt, llms-full.txt
                                       sitemap.xml, api/*.json
+                                      scripts/lastmod.json (page dates)
                      │
                      └─ scripts/validate.mjs  (the gate)
 
@@ -68,6 +69,8 @@ the whole point of the architecture — there is no second place to remember.
 | `npm test` | Run the unit tests |
 | `npm run check` | All three, in order |
 | `npm run sites` | Copy every hosted client site and app from its own repository (`data/hosting.json`) |
+| `npm run cv` | Print the CV from `scripts/cv/cv.html` to the PDF |
+| `npm run og` | Photograph the share card from `scripts/og/og.html` to `assets/img/og.png` |
 
 ---
 
@@ -92,6 +95,33 @@ overwritten on the next build. Edit these instead:
 | Colours, spacing, fonts | `assets/css/tokens.css` |
 
 Then: `npm run build && npm run validate`.
+
+### The share card
+
+The picture a link to the site unfolds into (`assets/img/og.png`, 1200 by 630) is built
+the way the CV is: `scripts/og/og.html` is the card as a page, in the site's own colours
+and fonts, and `npm run og` fills its words from `data/profile.json` and photographs it
+with headless Chrome or Edge. Change the layout in the HTML, the words in the data, and
+run it again, then `npm run check`. Never edit or re-export the PNG by hand, and keep its
+file name.
+
+### Dates
+
+- The sitemap gives every page a `<lastmod>`: the day what the page says last changed,
+  not the day of the build. The build hashes the title, description, main content and
+  structured data of each page, compares with `scripts/lastmod.json`, and gives today's
+  date only to a page whose hash is new. Commit that file with the pages; never edit it.
+- `updated` in `data/profile.json` is the date on the home page's ProfilePage. Set it by
+  hand when his name, title, links, portrait or location change.
+- A build on another day from unchanged data writes the same files, byte for byte.
+
+### Images
+
+A picture under `assets/img/` is linked by its bare address everywhere: in the page, in
+`og:image` and in the structured data. Images carry **no `?v=` fingerprint** (stylesheets,
+scripts and the CV still do), so a search engine sees one address per picture; `_headers`
+has browsers revalidate `/assets/img/*` instead, so a re-shot screenshot still shows at
+once. Alt text says what the picture shows.
 
 ### A page for each project and system
 
@@ -124,8 +154,10 @@ This version fixes that with four stacked layers:
 1. **Content is in the HTML.** Nothing user-facing is injected by JavaScript.
 2. **An identity graph.** A `Person` JSON-LD block whose `sameAs` array links every
    platform, which is how search engines and LLMs decide that scattered accounts are one
-   person. Plus `SoftwareApplication`, `EducationalOccupationalCredential` (with real
-   credential IDs), `Review`, `FAQPage`, and `BreadcrumbList`.
+   person. Plus `CreativeWork` for each project and system, `EducationalOccupationalCredential`
+   (with real credential IDs), `Quotation`, `FAQPage`, and `BreadcrumbList`. Each page's
+   markup says only what that page shows: the Person node is slim everywhere, and the
+   phone number, the certificates and the skills ride only on the page that prints them.
 3. **Agent-native files.** `llms.txt`, `llms-full.txt`, a CORS-open JSON API including a
    [JSON Resume](https://jsonresume.org)–standard `resume.json`, and a `robots.txt` that
    explicitly *allows* GPTBot, ClaudeBot, PerplexityBot, Google-Extended and friends —
@@ -148,7 +180,21 @@ rules that send the internal files to the home page: `/CLAUDE.md`, `/README.md`,
 `/scripts/` and `/data/`. `/mcp/` stays public, because `robots.txt` and `llms.txt`
 hand out `/mcp/README.md`. When you add a top-level file or folder that is not part of
 the site, add it to `PRIVATE_PATHS` in `scripts/lib/gates.mjs` and to `_redirects`:
-`npm run validate` fails if a listed rule is missing.
+`npm run validate` fails if a listed rule is missing, and a test fails on anything tracked
+at the root that is neither listed there nor part of the site.
+
+Two modules under `scripts/lib/` are worth knowing before you touch a page:
+`offers.mjs` ties each thing he offers to the page or the systems it leads to, and
+`gates.mjs` holds the checks `validate` runs on the files written by hand (`_redirects`,
+`_headers`, `robots.txt`, `mcp/README.md`). The misspelling of his family name that
+people type lives only in `nameMisspellings` in `data/profile.json` and ships only as an
+`alternateName` in the structured data; `gates.mjs` fails the build if it shows anywhere
+a reader looks.
+
+In every page's head, `hreflang="x-default"` names the **English** version, as it does in
+the sitemap; the root address still serves Arabic. A page meant for search carries one
+robots meta that allows a large image preview. The 404 pages carry `noindex, follow` and
+name no address as their own.
 
 `_headers` sends `X-Robots-Tag: noindex` on the `pages.dev` address only, which serves
 a full copy of the site, and a canonical `Link` header with the CV so its fingerprinted
@@ -176,7 +222,8 @@ and commit. `npm run validate` fails if any page still links to `github.io`.
 
 The shortcuts `/cv` (and the legacy `/cv/auto`, which now points to the same single CV), `/resume` and `/profile` are real generated files
 (`cv/index.html` and friends), each a noindex page that redirects to its target. On
-Cloudflare Pages the `_redirects` rules answer first, except for the CV: a rule could only
+Cloudflare Pages the `_redirects` rules answer first (`/resume` and `/profile` with a 301,
+with and without the closing slash), except for the CV: a rule could only
 name the bare PDF, which the CDN would keep serving for a day after a new one ships, so
 `_redirects` leaves `/cv` and `/cv/auto` to the generated pages, which link to the
 fingerprinted PDF. To replace the CV, overwrite `assets/cv/Nour_Aldeen_Tofi.pdf`, run

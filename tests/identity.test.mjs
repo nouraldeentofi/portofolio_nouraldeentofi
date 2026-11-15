@@ -19,7 +19,7 @@ import { buildTranscript } from '../scripts/lib/transcript.mjs';
 import { PAGES, LANGS } from '../scripts/lib/sitemap.mjs';
 import { DETAIL_FOLDERS } from '../scripts/lib/details.mjs';
 import { buildDetailPages } from '../scripts/lib/pages.mjs';
-import { toScriptTag } from '../scripts/lib/jsonld.mjs';
+import { toScriptTag, profileModified } from '../scripts/lib/jsonld.mjs';
 import {
   PRIVATE_PATHS,
   parseRedirects,
@@ -277,6 +277,10 @@ test('the FAQ says how his name is written, second in both languages', () => {
     for (const name of ['نور الدين طفي', 'Nour Aldeen Tofi', 'Nouraldeen Tofi', 'Nour Al-Deen Tofi', 'Nour Aldin Tofi', 'Nour Eddin Tofi', 'Noor Aldeen Tofi', 'Nour Aldeen Toufi', 'Nour Tofi', 'nouraldeentofi']) {
       assert.ok(f.a.includes(name), `"${name}" is missing from: ${f.q}`);
     }
+    // Every spelling the data lists is one the answer shows: the Person node
+    // on this page carries them all as alternateName, and structured data
+    // may only say what a visitor can read.
+    for (const name of db.profile.nameVariants) assert.ok(f.a.includes(name), `"${name}" is in nameVariants but not in: ${f.q}`);
     assert.ok(!MISSPELLED_NAME.test(f.a) && !f.a.includes('—') && !/\d/.test(f.a));
   }
   // The handle is his on the profiles the answer names, and it names no
@@ -288,8 +292,18 @@ test('the FAQ says how his name is written, second in both languages', () => {
     for (const s of named) assert.ok(s.url.includes('nouraldeentofi'), `${s.platform} does not use the handle the FAQ gives`);
   }
   // Every spelling the answer offers is one the data lists as real.
-  for (const name of ['Nouraldeen Tofi', 'Nour Al-Deen Tofi', 'Nour Aldin Tofi', 'Nour Eddin Tofi', 'Noor Aldeen Tofi', 'Nour Aldeen Toufi', 'Nour Tofi']) {
+  for (const name of ['Nouraldeen Tofi', 'Nour Al-Deen Tofi', 'Nour Al Deen Tofi', 'Nour Aldin Tofi', 'Nour Eddin Tofi', 'Noureddine Tofi', 'Nour El Din Tofi', 'Noor Aldeen Tofi', 'Nour Aldeen Toufi', 'Nour Tofi', 'نورالدين طفي', 'نور الدين الطفي', 'نور طفي']) {
     assert.ok(db.profile.nameVariants.includes(name), `${name} is in the FAQ but not in nameVariants`);
+  }
+  // And on the page itself, in both languages, every alternateName that is
+  // a real spelling can be read.
+  for (const lang of LANGS) {
+    const html = TEMPLATES.about(db, lang);
+    const person = ldNodes(html).find((n) => n['@type'] === 'Person');
+    const text = visibleText(html);
+    for (const name of person.alternateName.filter((n) => !db.profile.nameMisspellings.includes(n))) {
+      assert.ok(text.includes(name), `${lang}: "${name}" is in the markup of the about page but not on it`);
+    }
   }
 
   for (const lang of LANGS) {
@@ -308,6 +322,12 @@ test('the alias list holds real spellings only', () => {
     assert.ok(nameVariants.includes(name), `${name} is missing from nameVariants`);
   }
   assert.equal(new Set(nameVariants).size, nameVariants.length, 'a spelling is listed twice');
+  // A handle is listed only if a profile of his uses it. "nourtofi" is on none.
+  const profiles = db.profile.sameAs.filter((s) => s.url && s.identity !== false).map((s) => s.url.toLowerCase());
+  for (const handle of nameVariants.filter((n) => /^[a-z0-9._-]+$/.test(n))) {
+    assert.ok(profiles.some((url) => url.includes(handle)), `"${handle}" is listed as a handle, but no profile in sameAs uses it`);
+  }
+  assert.ok(!nameVariants.includes('nourtofi'));
   assert.ok(!nameVariants.some((n) => MISSPELLED_NAME.test(n)), 'a misspelling is listed as a real spelling');
   assert.deepEqual(nameMisspellings, ['نور الدين توفي', 'نور توفي']);
 });
@@ -335,11 +355,20 @@ test('the misspelled name ships nowhere except Person.alternateName', () => {
   assert.deepEqual(buildApiProfile(db).nameVariants, db.profile.nameVariants);
   assert.ok(buildLlmsTxt(db).includes(db.profile.nameVariants.join(' · ')));
 
+  // The spellings ride on the Person node of the home page, which is his
+  // ProfilePage, and of the about page, which lists the real ones in words.
+  // No other page carries an alternateName at all.
   for (const { lang, page, html } of everyPage()) {
-    assert.deepEqual(misspellingLeaks(html), [], `${lang}/${page || 'index'}`);
+    const at = `${lang}/${page || 'index'}`;
+    assert.deepEqual(misspellingLeaks(html), [], at);
     const person = ldNodes(html).find((n) => n['@type'] === 'Person');
-    for (const wrong of db.profile.nameMisspellings) {
-      assert.ok(person.alternateName.includes(wrong), `${lang}/${page || 'index'}: a search for the misspelling no longer resolves`);
+    if (page === '' || page === 'about') {
+      for (const wrong of db.profile.nameMisspellings) {
+        assert.ok(person.alternateName.includes(wrong), `${at}: a search for the misspelling no longer resolves`);
+      }
+    } else {
+      assert.ok(!('alternateName' in person), `${at}: carries spellings the page does not show`);
+      assert.ok(!MISSPELLED_NAME.test(html), `${at}: the misspelling is on a page that has no use for it`);
     }
   }
 });
@@ -380,7 +409,7 @@ test('the person is described in words a visitor can read on the home page', () 
   }
 });
 
-test('only the home page is his ProfilePage, with the date the build gave it', () => {
+test('only the home page is his ProfilePage, with the date his profile was last changed', () => {
   for (const { lang, page, html, detail } of everyPage()) {
     const at = `${lang}/${page || 'index'}`;
     const nodes = ldNodes(html);
@@ -394,7 +423,8 @@ test('only the home page is his ProfilePage, with the date the build gave it', (
     }
 
     if (page === '') {
-      assert.equal(profilePage.dateModified, db.build.modified, at);
+      assert.equal(profilePage.dateModified, `${db.profile.updated}T00:00:00+03:00`, at);
+      assert.equal(profilePage.dateModified, profileModified(db), at);
       assert.equal(crumbs, undefined, `${at}: a one-item breadcrumb`);
     } else if (page === '404') {
       // It borrows the home page's head, but it is not the home page.
@@ -408,10 +438,22 @@ test('only the home page is his ProfilePage, with the date the build gave it', (
   }
 });
 
-test('the home page carries the date the build gave it, and no other', () => {
+/* Google asks that a profile's dateModified reflect changes a person made to
+   the profile. It is `updated` in data/profile.json, set by hand; the day of
+   the build has no say in it. */
+test('the profile date is set by hand in the data, and a build on another day does not move it', () => {
   const stamp = (modified) => TEMPLATES['']({ ...loaded, build: { modified } }, 'en');
-  assert.ok(stamp('2020-01-01T00:00:00+03:00').includes('"dateModified": "2020-01-01T00:00:00+03:00"'));
-  assert.ok(!TEMPLATES[''](loaded, 'en').includes('dateModified'), 'a date appeared that the build did not give');
+  const date = `"dateModified": "${loaded.profile.updated}T00:00:00+03:00"`;
+  assert.match(loaded.profile.updated, /^\d{4}-\d{2}-\d{2}$/);
+  assert.equal(typeof loaded.profile._updatedNote, 'string', 'the note that says when to change it is gone');
+  for (const html of [stamp('2020-01-01T00:00:00+03:00'), stamp('2031-03-02T00:00:00+03:00'), TEMPLATES[''](loaded, 'en')]) {
+    assert.ok(html.includes(date), 'the build day moved the profile date');
+    assert.equal(html.split('dateModified').length - 1, 1);
+  }
+  // Changing it in the data is what changes it on the page.
+  const edited = TEMPLATES['']({ ...loaded, profile: { ...loaded.profile, updated: '2027-02-03' } }, 'en');
+  assert.ok(edited.includes('"dateModified": "2027-02-03T00:00:00+03:00"'));
+  assert.equal(profileModified({ profile: {} }), null, 'a date appeared that the data did not give');
 
   // The footer year is the build's year too, not the year of the clock.
   assert.ok(stamp('2020-01-01T00:00:00+03:00').includes(`© 2020 ${db.profile.name.en}`));

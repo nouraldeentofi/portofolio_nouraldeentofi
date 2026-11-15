@@ -4,6 +4,8 @@ import { readFileSync } from 'node:fs';
 import { loadDb } from '../scripts/lib/load.mjs';
 import {
   personLd,
+  PERSON_ON_PAGE,
+  pageTitle,
   projectsLd,
   workflowsLd,
   credentialsLd,
@@ -25,18 +27,74 @@ test('person carries the identity graph and drops unresolved links', () => {
   assert.equal(p.address.addressCountry, 'SA');
   assert.ok(p.sameAs.some((u) => u.includes('linkedin.com/in/nouraldeentofi')));
   assert.ok(p.sameAs.every((u) => typeof u === 'string'), 'null sameAs entries must be dropped');
-  assert.ok(p.knowsAbout.includes('n8n'));
+  // The skills are shown on the about page, so that node lists them.
+  assert.ok(personLd(db, 'en', 'about').knowsAbout.includes('n8n'));
 });
 
 test('person renders in Arabic when asked', () => {
-  const p = personLd(db, 'ar');
+  const p = personLd(db, 'ar', '');
   assert.equal(p.name, 'نور الدين طفي');
   assert.ok(Array.isArray(p.alternateName));
   assert.ok(p.alternateName.includes('Nour Aldeen Tofi'));
 });
 
+/* Google: "Don't mark up content that is not visible to readers of the
+   page", "even if the information is accurate". The same full node used to
+   sit on every page: the phone number on the 404, sixty skills on the
+   contact page. Now every page says who he is, and a page adds only what it
+   shows. */
+test('the Person node is slim everywhere, and a page adds only what it shows', () => {
+  const slim = ['@context', '@type', '@id', 'name', 'jobTitle', 'url', 'image', 'address', 'sameAs'];
+  const adds = {
+    '': ['givenName', 'familyName', 'alternateName', 'description', 'knowsLanguage'],
+    about: ['alternateName', 'email', 'knowsAbout', 'hasOccupation', 'seeks'],
+    work: ['hasCredential', 'alumniOf'],
+    contact: ['email', 'telephone', 'seeks'],
+  };
+  assert.deepEqual(Object.keys(PERSON_ON_PAGE).sort(), Object.keys(adds).sort());
+
+  for (const lang of ['en', 'ar']) {
+    // No page, an unknown page and a page that shows nothing more: the slim node.
+    for (const page of [undefined, null, 'projects', 'showcase', 'automation', 'chat', 'projects/smart-scanner', '404']) {
+      assert.deepEqual(Object.keys(personLd(db, lang, page)).sort(), [...slim].sort(), `${lang}/${page}`);
+    }
+    for (const [page, extra] of Object.entries(adds)) {
+      assert.deepEqual(Object.keys(personLd(db, lang, page)).sort(), [...slim, ...extra].sort(), `${lang}/${page || 'home'}`);
+    }
+    // One person: the same @id, name and profiles on every node.
+    const nodes = [undefined, '', 'about', 'work', 'contact'].map((page) => personLd(db, lang, page));
+    for (const n of nodes) {
+      assert.equal(n['@id'], `${db.profile.site}/#nour`);
+      assert.deepEqual(n.sameAs, nodes[0].sameAs);
+      assert.deepEqual(n.image, nodes[0].image);
+    }
+    // No key is ever emitted empty.
+    for (const n of nodes) for (const [key, value] of Object.entries(n)) assert.notEqual(value, undefined, key);
+  }
+});
+
+/* schema.org's email is the address itself. "mailto:" makes it a link. */
+test('the email in the markup is a plain address', () => {
+  for (const page of ['about', 'contact']) {
+    assert.equal(personLd(db, 'en', page).email, db.profile.email);
+    assert.ok(!JSON.stringify(personLd(db, 'en', page)).includes('mailto:'));
+  }
+  assert.equal(personLd(db, 'en', 'contact').telephone, db.profile.phone);
+});
+
+/* The Arabic page used to name his occupation in English. */
+test('the occupation is named in the language of the page', () => {
+  assert.equal(personLd(db, 'en', 'about').hasOccupation.name, 'AI Automation Engineer');
+  assert.equal(personLd(db, 'ar', 'about').hasOccupation.name, 'مهندس أتمتة بالذكاء الاصطناعي');
+  for (const lang of ['en', 'ar']) {
+    const job = personLd(db, lang, 'about').hasOccupation;
+    assert.equal(job.name, db.profile.availability.roles[lang][0]);
+    assert.equal(job.occupationLocation.name, db.profile.location.city[lang]);
+  }
+});
+
 test('alternateName carries every spelling variant, without duplicates', () => {
-  const p = personLd(db, 'en');
+  const p = personLd(db, 'en', '');
   // The misspellings are listed deliberately, so a search for one still
   // resolves. This is the only place in the whole output that carries them.
   for (const wrong of db.profile.nameMisspellings) assert.ok(p.alternateName.includes(wrong));
@@ -110,10 +168,10 @@ test('the profile page carries the timestamp it is given, and invents none', () 
 /* schema.org has separate fields for the two halves of a name, and a model
    that knows which half is the family name does not have to guess. */
 test('the person states given and family name in the language of the page', () => {
-  assert.equal(personLd(db, 'en').givenName, 'Nour Aldeen');
-  assert.equal(personLd(db, 'en').familyName, 'Tofi');
-  assert.equal(personLd(db, 'ar').givenName, 'نور الدين');
-  assert.equal(personLd(db, 'ar').familyName, 'طفي');
+  assert.equal(personLd(db, 'en', '').givenName, 'Nour Aldeen');
+  assert.equal(personLd(db, 'en', '').familyName, 'Tofi');
+  assert.equal(personLd(db, 'ar', '').givenName, 'نور الدين');
+  assert.equal(personLd(db, 'ar', '').familyName, 'طفي');
 });
 
 /* sameAs says "this address is the same thing as this person". A product he
@@ -127,7 +185,7 @@ test('sameAs lists his own profiles only, never a product', () => {
 });
 
 test('the person is described in words the home page shows', () => {
-  for (const lang of ['en', 'ar']) assert.equal(personLd(db, lang).description, db.copy[lang].home.intro);
+  for (const lang of ['en', 'ar']) assert.equal(personLd(db, lang, '').description, db.copy[lang].home.intro);
 });
 
 /* Google reads the site name from this node, and one @id must say one thing. */
@@ -160,6 +218,22 @@ test('breadcrumbs are absolute and language-aware', () => {
   const en = breadcrumbLd('projects', 'en', db);
   assert.equal(en.itemListElement.at(-1).item, `${db.profile.site}/en/projects`);
   assert.equal(en.itemListElement[0].item, `${db.profile.site}/en/`);
+});
+
+/* A breadcrumb names a page by its label in the navigation, so the trail in
+   a search result and the menu on the page call it the same thing. */
+test('a breadcrumb names each page by its navigation label', () => {
+  for (const lang of ['en', 'ar']) {
+    for (const page of ['about', 'work', 'projects', 'showcase', 'automation', 'chat', 'contact']) {
+      const [home, here] = breadcrumbLd(page, lang, db).itemListElement;
+      assert.equal(home.name, db.copy[lang].nav.home);
+      assert.equal(here.name, db.copy[lang].nav[page], `${lang}/${page}`);
+      assert.equal(pageTitle(db, page, lang), db.copy[lang].nav[page]);
+    }
+  }
+  assert.equal(breadcrumbLd('work', 'en', db).itemListElement[1].name, 'Experience');
+  assert.equal(breadcrumbLd('showcase', 'ar', db).itemListElement[1].name, 'المواقع');
+  assert.equal(breadcrumbLd('automation', 'en', db).itemListElement[1].name, 'Automation');
 });
 
 test('the home page has no breadcrumb: a trail of one is not eligible', () => {

@@ -29,7 +29,10 @@
         ]
       },
       "tags": [
-        "Arabic + English",
+        {
+          "en": "Arabic + English",
+          "ar": "عربي وإنجليزي"
+        },
         "RTL",
         "JSON-LD",
         "llms.txt"
@@ -69,9 +72,15 @@
         ]
       },
       "tags": [
-        "Arabic + English",
+        {
+          "en": "Arabic + English",
+          "ar": "عربي وإنجليزي"
+        },
         "RTL",
-        "Dark mode",
+        {
+          "en": "Dark mode",
+          "ar": "الوضع الداكن"
+        },
         "Playwright"
       ],
       "url": "https://nouraldeentofi.com/sites/mohammed-alhabbarah/",
@@ -109,7 +118,10 @@
         ]
       },
       "tags": [
-        "Arabic + English",
+        {
+          "en": "Arabic + English",
+          "ar": "عربي وإنجليزي"
+        },
         "WebGL",
         "RTL",
         "llms.txt"
@@ -149,9 +161,15 @@
         ]
       },
       "tags": [
-        "Arabic + English",
+        {
+          "en": "Arabic + English",
+          "ar": "عربي وإنجليزي"
+        },
         "RTL",
-        "Dark mode",
+        {
+          "en": "Dark mode",
+          "ar": "الوضع الداكن"
+        },
         "Canvas"
       ],
       "url": "https://nouraldeentofi.com/sites/salam-aksimi/",
@@ -189,10 +207,16 @@
         ]
       },
       "tags": [
-        "Arabic + English",
+        {
+          "en": "Arabic + English",
+          "ar": "عربي وإنجليزي"
+        },
         "3D",
         "RTL",
-        "Dark mode"
+        {
+          "en": "Dark mode",
+          "ar": "الوضع الداكن"
+        }
       ],
       "url": "https://nouraldeentofi.com/sites/tawheed-malkat/",
       "images": {
@@ -229,7 +253,10 @@
         ]
       },
       "tags": [
-        "English + Arabic",
+        {
+          "en": "English + Arabic",
+          "ar": "إنجليزي وعربي"
+        },
         "JSON-LD",
         "llms.txt"
       ],
@@ -268,9 +295,15 @@
         ]
       },
       "tags": [
-        "Arabic + English",
+        {
+          "en": "Arabic + English",
+          "ar": "عربي وإنجليزي"
+        },
         "RTL",
-        "Dark mode",
+        {
+          "en": "Dark mode",
+          "ar": "الوضع الداكن"
+        },
         "Canvas"
       ],
       "url": "https://nouraldeentofi.com/sites/othman-almashaqba/",
@@ -308,9 +341,15 @@
         ]
       },
       "tags": [
-        "Arabic + English",
+        {
+          "en": "Arabic + English",
+          "ar": "عربي وإنجليزي"
+        },
         "RTL",
-        "Dark mode",
+        {
+          "en": "Dark mode",
+          "ar": "الوضع الداكن"
+        },
         "JSON-LD"
       ],
       "url": "https://nouraldeentofi.com/sites/hamad-al-thiapi/",
@@ -348,9 +387,15 @@
         ]
       },
       "tags": [
-        "Arabic + English",
+        {
+          "en": "Arabic + English",
+          "ar": "عربي وإنجليزي"
+        },
         "RTL",
-        "Dark mode",
+        {
+          "en": "Dark mode",
+          "ar": "الوضع الداكن"
+        },
         "llms.txt"
       ],
       "url": "https://nouraldeentofi.com/sites/mazen-alobaidi/",
@@ -388,8 +433,14 @@
         ]
       },
       "tags": [
-        "English",
-        "Dark mode",
+        {
+          "en": "English",
+          "ar": "إنجليزي"
+        },
+        {
+          "en": "Dark mode",
+          "ar": "الوضع الداكن"
+        },
         "JSON-LD",
         "llms.txt"
       ],
@@ -428,7 +479,10 @@
         ]
       },
       "tags": [
-        "English",
+        {
+          "en": "English",
+          "ar": "إنجليزي"
+        },
         "HTML",
         "CSS",
         "JavaScript"
@@ -509,10 +563,16 @@
         ]
       },
       "tags": [
-        "Arabic",
+        {
+          "en": "Arabic",
+          "ar": "عربي"
+        },
         "WhatsApp",
         "Canvas",
-        "Mobile first"
+        {
+          "en": "Mobile first",
+          "ar": "للجوال أولاً"
+        }
       ],
       "url": "https://nouraldeentofi.com/sites/albader-transport/",
       "images": {
@@ -549,9 +609,15 @@
         ]
       },
       "tags": [
-        "Arabic + English",
+        {
+          "en": "Arabic + English",
+          "ar": "عربي وإنجليزي"
+        },
         "RTL",
-        "Dark mode",
+        {
+          "en": "Dark mode",
+          "ar": "الوضع الداكن"
+        },
         "WhatsApp"
       ],
       "url": "https://nouraldeentofi.com/sites/arabian-access/",
@@ -589,9 +655,15 @@
         ]
       },
       "tags": [
-        "Arabic",
+        {
+          "en": "Arabic",
+          "ar": "عربي"
+        },
         "WhatsApp",
-        "Mobile first",
+        {
+          "en": "Mobile first",
+          "ar": "للجوال أولاً"
+        },
         "JSON-LD"
       ],
       "url": "https://nouraldeentofi.com/sites/saudi-brothers-hajj/",
@@ -629,9 +701,15 @@
         ]
       },
       "tags": [
-        "Arabic",
+        {
+          "en": "Arabic",
+          "ar": "عربي"
+        },
         "WhatsApp",
-        "Dark mode",
+        {
+          "en": "Dark mode",
+          "ar": "الوضع الداكن"
+        },
         "llms.txt"
       ],
       "url": "https://nouraldeentofi.com/sites/alhemaya-alkamela/",
@@ -669,10 +747,16 @@
         ]
       },
       "tags": [
-        "Arabic + English",
+        {
+          "en": "Arabic + English",
+          "ar": "عربي وإنجليزي"
+        },
         "WhatsApp",
         "3D",
-        "Mobile first"
+        {
+          "en": "Mobile first",
+          "ar": "للجوال أولاً"
+        }
       ],
       "url": "https://nouraldeentofi.com/sites/prestige-vip-tailor/",
       "images": {
@@ -709,10 +793,16 @@
         ]
       },
       "tags": [
-        "Arabic",
+        {
+          "en": "Arabic",
+          "ar": "عربي"
+        },
         "WhatsApp",
         "Canvas",
-        "Mobile first"
+        {
+          "en": "Mobile first",
+          "ar": "للجوال أولاً"
+        }
       ],
       "url": "https://nouraldeentofi.com/sites/alreem-mashwi/",
       "images": {

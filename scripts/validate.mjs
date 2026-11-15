@@ -13,7 +13,18 @@ import { loadDb } from './lib/load.mjs';
 import { PAGES, LANGS, pagePath } from './lib/sitemap.mjs';
 import { DETAIL_FOLDERS, detailPages, staleDetailFiles } from './lib/details.mjs';
 import { pageFile } from './lib/site.mjs';
-import { checkRedirects, checkHeaders, parseRedirects, misspellingLeaks, MISSPELLED_NAME } from './lib/gates.mjs';
+import {
+  checkRedirects,
+  checkHeaders,
+  parseRedirects,
+  misspellingLeaks,
+  MISSPELLED_NAME,
+  emDashHits,
+  fingerprintedImages,
+  PUBLIC_HAND_KEPT,
+} from './lib/gates.mjs';
+import { ROBOTS_INDEXABLE, ROBOTS_NOINDEX } from './lib/blocks.mjs';
+import { LASTMOD_FILE, pageFingerprint } from './lib/lastmod.mjs';
 
 const errors = [];
 const warnings = [];
@@ -175,7 +186,7 @@ export function checkAll({ pages } = {}) {
       .replace(/<script(?![^>]*application\/ld\+json)[^>]*>[\s\S]*?<\/script>/g, '')
       .replace(/<style[^>]*>[\s\S]*?<\/style>/g, '')
       .replace(/<!--[\s\S]*?-->/g, '');
-    for (const [hit] of readable.matchAll(/.{0,30}—.{0,30}/g)) fail(`${file}: em dash in "${hit.trim()}"`);
+    for (const hit of emDashHits(readable)) fail(`${file}: em dash in "${hit}"`);
 
     // 6 — language attributes.
     const expectDir = lang === 'ar' ? 'rtl' : 'ltr';
@@ -202,6 +213,9 @@ export function checkAll({ pages } = {}) {
     for (const [, attr, target] of html.matchAll(/\s(href|src|srcset|poster|action)="(?!https?:|mailto:|tel:|#|data:|\/)([^"]+)"/g)) {
       fail(`${file}: ${attr}="${target}" is relative to the page: build it from the site root`);
     }
+
+    // 8i: a picture has one address, with no fingerprint (see load.mjs).
+    for (const hit of fingerprintedImages(html)) fail(`${file}: the image "${hit}" carries a query string: a picture has one address`);
 
     // 8a — pages are named by their clean address, never the .html one.
     //
@@ -271,11 +285,22 @@ export function checkAll({ pages } = {}) {
     // One canonical, naming the page's own clean address in its own language,
     // and no noindex. A detail page that pointed its canonical at the list
     // page would hand its place in search to the list.
+    const robots = [...html.matchAll(/<meta name="robots" content="([^"]*)">/g)].map((m) => m[1]);
     if (page !== '404') {
       const own = `${site}${pagePath(page, lang)}`;
       const canonicals = [...html.matchAll(/<link rel="canonical" href="([^"]*)">/g)].map((m) => m[1]);
       if (canonicals.length !== 1 || canonicals[0] !== own) fail(`${file}: canonical must be exactly ${own}, found ${canonicals.join(', ') || 'none'}`);
       if (/<meta name="robots" content="[^"]*noindex/.test(html)) fail(`${file}: carries noindex, but it is a page meant to be found`);
+      // One robots meta, and it allows the large image preview.
+      if (robots.length !== 1 || robots[0] !== ROBOTS_INDEXABLE) fail(`${file}: expected one robots meta with "${ROBOTS_INDEXABLE}", found ${robots.length ? robots.map((r) => `"${r}"`).join(', ') : 'none'}`);
+    } else {
+      // The 404 is served at whatever address was not found. It stays out of
+      // search and names no address as its own: noindex beside a canonical
+      // asks a search engine for two things at once.
+      if (robots.length !== 1 || robots[0] !== ROBOTS_NOINDEX) fail(`${file}: the 404 page must carry exactly one robots meta, "${ROBOTS_NOINDEX}"`);
+      for (const [name, pattern] of [['a canonical', /<link rel="canonical"/], ['hreflang links', /<link rel="alternate" hreflang=/], ['og:url', /<meta property="og:url"/]]) {
+        if (pattern.test(html)) fail(`${file}: the 404 page carries ${name}, but it has no address of its own`);
+      }
     }
 
     // 8h: a detail page is reachable and announced.
@@ -325,11 +350,40 @@ export function checkAll({ pages } = {}) {
 
   // 9b: the sitemap lists every page once, by its clean address.
   if (existsSync('sitemap.xml')) {
-    const locs = [...readFileSync('sitemap.xml', 'utf8').matchAll(/<loc>([^<]*)<\/loc>/g)].map((m) => m[1]);
+    const xml = readFileSync('sitemap.xml', 'utf8');
+    const locs = [...xml.matchAll(/<loc>([^<]*)<\/loc>/g)].map((m) => m[1]);
     for (const { lang, page, file } of pages) {
       if (page === '404') continue;
       const own = `${site}${pagePath(page, lang)}`;
       if (locs.filter((l) => l === own).length !== 1) fail(`sitemap.xml: ${own} (${file}) must be listed exactly once`);
+    }
+
+    // 9c: a page's lastmod is the day its content last changed.
+    //
+    // The state file holds a hash of each page and the day that hash was
+    // first seen (lib/lastmod.mjs). The sitemap must repeat those days, and
+    // each hash must be the hash of the page on disk: otherwise a page was
+    // changed, or the state was, without a build in between.
+    if (/<priority>|<changefreq>/.test(xml)) fail('sitemap.xml: carries <priority> or <changefreq>, which Google ignores');
+    let state = null;
+    try {
+      state = JSON.parse(readFileSync(LASTMOD_FILE, 'utf8'));
+    } catch {
+      fail(`${LASTMOD_FILE}: missing or unreadable; run npm run build and commit it with the pages`);
+    }
+    if (state) {
+      const dates = Object.fromEntries(
+        [...xml.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(([, entry]) => [entry.match(/<loc>([^<]*)<\/loc>/)?.[1], entry.match(/<lastmod>([^<]*)<\/lastmod>/)?.[1]]),
+      );
+      for (const { lang, page, file } of pages) {
+        if (page === '404' || !existsSync(file)) continue;
+        const address = pagePath(page, lang);
+        const kept = state[address];
+        if (!kept) { fail(`${LASTMOD_FILE}: no entry for ${address}; run npm run build`); continue; }
+        if (kept.hash !== pageFingerprint(readFileSync(file, 'utf8'))) fail(`${LASTMOD_FILE}: ${address} has changed since its date was recorded; run npm run build`);
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(kept.date ?? '')) fail(`${LASTMOD_FILE}: ${address} has no date`);
+        if (dates[`${site}${address}`] !== kept.date) fail(`sitemap.xml: lastmod of ${address} is ${dates[`${site}${address}`] ?? 'missing'}, but its content last changed on ${kept.date}`);
+      }
     }
   }
 
@@ -339,6 +393,12 @@ export function checkAll({ pages } = {}) {
     else if (readFileSync(f, 'utf8').trim().length < 80) fail(`${f}: suspiciously small`);
     // These are read by language models as his own words about himself.
     else if (MISSPELLED_NAME.test(readFileSync(f, 'utf8'))) fail(`${f}: carries the misspelled family name`);
+  }
+
+  // 11: the public files that are written by hand keep the rule the pages keep.
+  for (const f of PUBLIC_HAND_KEPT) {
+    if (!existsSync(f)) continue;
+    for (const hit of emDashHits(readFileSync(f, 'utf8'))) fail(`${f}: em dash in "${hit}"`);
   }
 
   return { errors: [...errors], warnings: [...warnings] };

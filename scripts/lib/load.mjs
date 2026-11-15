@@ -18,12 +18,15 @@ import { imageSize } from './image-size.mjs';
  * CSS is covered completely — no stylesheet `@import`s another, so every file
  * is linked from the HTML and every file gets its own fingerprint.
  *
- * The gallery screenshots are listed by folder rather than by hand: they are
- * re-shot under the same names whenever a client site changes, and a new shot
- * behind an old URL is exactly the stale-cache problem described above.
+ * The CV is listed by folder: a new CV replaces the old one under the same
+ * name, and the CDN keeps a PDF for a day.
  *
- * The CV is listed by folder for the same reason: a new CV replaces the old
- * one under the same name, and the CDN keeps a PDF for a day.
+ * Images are not here, on purpose. A picture under `assets/img/` has one
+ * address everywhere it is named: in an `<img>`, in `og:image` and in the
+ * structured data. Google ties what it knows about an image to that address,
+ * and a fingerprint would give a re-shot screenshot a new one, and a second
+ * one beside the bare address the JSON-LD names. They stay fresh another
+ * way: `_headers` has browsers revalidate `/assets/img/*` on every visit.
  */
 const VERSIONED_ASSETS = [
   'assets/css/tokens.css',
@@ -39,13 +42,12 @@ const VERSIONED_ASSETS = [
   'assets/js/main.js',
   'assets/js/chat/boot.en.js',
   'assets/js/chat/boot.ar.js',
-  'assets/img/nour.jpg',
-  'assets/img/nour-96.png',
-  'assets/img/icon-32.png',
-  'assets/img/icon-180.png',
 ];
 
-const VERSIONED_DIRS = ['assets/img/showcase', 'assets/img/workflows', 'assets/img/projects', 'assets/cv'];
+const VERSIONED_DIRS = ['assets/cv'];
+
+/** The folders of pictures a page announces a size for: screenshots and canvases. */
+const IMAGE_DIRS = ['assets/img/showcase', 'assets/img/workflows', 'assets/img/projects'];
 
 function listDir(dir) {
   try {
@@ -77,7 +79,7 @@ function fingerprintAssets() {
  */
 function measureImages(extra = []) {
   const out = {};
-  for (const file of [...VERSIONED_DIRS.filter((d) => d.startsWith('assets/img/')).flatMap(listDir), ...extra]) {
+  for (const file of [...IMAGE_DIRS.flatMap(listDir), ...extra]) {
     try {
       const size = imageSize(readFileSync(file));
       if (size) out[file] = size;
@@ -111,6 +113,12 @@ export function loadDb(dir = 'data') {
     ['name.en', 'headline.en', 'email', 'phone', 'site', 'location.countryCode', 'location.city.en', 'sameAs'],
     'profile.json',
   );
+
+  // The day his identity facts last changed, set by hand. It becomes the
+  // ProfilePage's dateModified, which has to be a real calendar day.
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(profile.updated ?? '') || Number.isNaN(Date.parse(profile.updated))) {
+    throw new Error('profile.json: "updated" must be a day written as YYYY-MM-DD');
+  }
 
   // The Google tag ID is pasted straight into a script tag, so it has to be
   // exactly an ID and nothing else.
@@ -206,6 +214,16 @@ export function loadDb(dir = 'data') {
     if (row.url === null && typeof row.todo !== 'string') throw new Error(`${at}: a null url needs a todo`);
   });
   requireKeys(showcase.lab ?? {}, ['id', 'name.en', 'name.ar', 'count', 'tagline.en', 'tagline.ar', 'url', 'images.desktop'], 'showcase.json lab');
+
+  // A tag is the name of a technology, one string for both languages, or a
+  // plain-language label written in each. Half a pair would print
+  // "undefined" on a badge in the other language.
+  for (const row of [...showcase.sites, showcase.lab]) {
+    for (const tag of row.tags ?? []) {
+      const pair = tag && typeof tag === 'object' && typeof tag.en === 'string' && typeof tag.ar === 'string';
+      if (typeof tag !== 'string' && !pair) throw new Error(`showcase.json (${row.id}): a tag is a string or needs both "en" and "ar"`);
+    }
+  }
 
   const caseStudy = readJson(dir, 'case-study.json');
   requireKeys(caseStudy, ['figures', 'flow.trigger', 'flow.decision', 'flow.branches', 'scale'], 'case-study.json');

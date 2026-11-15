@@ -21,8 +21,17 @@ https://nouraldeentofi.pages.dev/*
 /assets/css/*
   Cache-Control: public, max-age=604800
 
+# Scripts import one another by bare address (main.js imports ./motion.js),
+# so a fingerprint on the first one cannot refresh the rest. They are small:
+# the browser asks each time and is told "not modified".
 /assets/js/*
-  Cache-Control: public, max-age=604800
+  Cache-Control: public, max-age=0, must-revalidate
+
+# A picture has one address, with no fingerprint, so that the page, og:image
+# and the structured data all name the same one. A re-shot screenshot keeps
+# its name, so the browser checks for a newer one instead of trusting its copy.
+/assets/img/*
+  Cache-Control: public, max-age=0, must-revalidate
 
 /assets/cv/*
   Cache-Control: public, max-age=0, must-revalidate
