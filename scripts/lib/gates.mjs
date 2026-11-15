@@ -203,13 +203,14 @@ export const sitemapEntries = (xml) =>
  * `site` is the address of the site without a closing slash. `pages` is the
  * clean address, in full, of every page the build writes; `hosted` the
  * entry address of every copy of another site that is meant to be found;
- * `closed` the address every copy kept out of search lives under. Each page
- * and each entry is listed exactly once, nothing under a closed copy is
- * offered, and nothing else on this host is listed at all: an address that
- * is neither a page nor a copy sends a crawler to a 404, or to a page nobody
- * decided should be found.
+ * `closed` the address every copy kept out of search lives under; `pending`
+ * the address of every copy whose decision the owner has still to confirm
+ * with the client. Each page and each entry is listed exactly once, nothing
+ * under a closed or a pending copy is offered, and nothing else on this
+ * host is listed at all: an address that is neither a page nor a copy sends
+ * a crawler to a 404, or to a page nobody decided should be found.
  */
-export function sitemapProblems(xml, { site, pages = [], hosted = [], closed = [] }) {
+export function sitemapProblems(xml, { site, pages = [], hosted = [], closed = [], pending = [] }) {
   const problems = [];
   const locs = sitemapEntries(xml).map((entry) => entry.loc);
   const times = (address) => locs.filter((l) => l === address).length;
@@ -225,7 +226,9 @@ export function sitemapProblems(xml, { site, pages = [], hosted = [], closed = [
   for (const loc of new Set(locs)) {
     if (known.has(loc)) continue;
     const copy = closed.find((prefix) => loc?.startsWith(prefix));
+    const open = pending.find((prefix) => loc?.startsWith(prefix));
     if (copy) problems.push(`sitemap.xml: lists ${loc}, but data/hosting.json keeps ${copy} out of search`);
+    else if (open) problems.push(`sitemap.xml: lists ${loc}, but the entry of ${open} in data/hosting.json still carries a todo: a copy is not submitted before its client has confirmed`);
     else if (loc === site || loc?.startsWith(`${site}/`)) problems.push(`sitemap.xml: lists ${loc}, which is neither a page the build writes nor the entry of a copy`);
   }
 

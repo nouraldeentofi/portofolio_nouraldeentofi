@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { cpSync, existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import {
@@ -11,9 +11,13 @@ import {
   hostingProblems,
   wantsIndex,
   hostedEntries,
+  isPending,
+  strayCopies,
   pageSignals,
+  NOINDEX_NOFOLLOW,
   applyIndexing,
   cleanAddresses,
+  cleanPage,
   absoluteHeadAddresses,
   moveFormerHosts,
   stripRatings,
@@ -30,6 +34,7 @@ const hidden = { repo: 'karam', branch: 'main', path: 'sites/karam', index: fals
 const gallery = { repo: 'portfolio-gallery', branch: 'main', path: 'gallery', index: 'root-only' };
 
 const NOINDEX = '<meta name="robots" content="noindex, follow">';
+const CLOSED = '<meta name="robots" content="noindex, nofollow">';
 
 test('GitHub Pages addresses move to the domain, absolute and root-relative', () => {
   assert.equal(
@@ -72,6 +77,16 @@ test('a top-level test folder and a robots.txt at any depth are not the site; a 
   }
 });
 
+test('a working file is the same working file in any case', () => {
+  for (const rel of ['Test/engine.html', 'TESTS/qa.js', 'Robots.TXT', 'v2/ROBOTS.txt', 'README.MD', 'cname', 'Package.json', 'Source/build.PY']) {
+    assert.ok(!keepFile(rel), rel);
+  }
+  // A page or a picture is not a working file because its name is written large.
+  for (const rel of ['Index.html', 'Assets/Logo.PNG', 'js/Test/fixture.js']) {
+    assert.ok(keepFile(rel), rel);
+  }
+});
+
 /* ------------------------------------------------- the indexing decision */
 
 test('every copy needs a decision: true, false or "root-only", with no default', () => {
@@ -87,6 +102,35 @@ test('every copy needs a decision: true, false or "root-only", with no default',
   assert.match(hostingProblems({ ...hosting, sites: undefined })[0], /sites/);
 });
 
+/* The sync replaces the whole folder a path names. With only "a non-empty
+   string" asked of it, the path could be ".", "assets" or "../outside". */
+test('a copy lives in a folder of its own: a path the sync must not replace is refused', () => {
+  const check = (over, others = []) => hostingProblems({ ...hosting, sites: [{ ...site, ...over }, ...others] });
+  for (const path of ['sites/aya-rady', 'gallery', 'motion-studio', 'umrah-guide', 'sites/assets', 'sites/2nd-site']) {
+    assert.deepEqual(check({ path }), [], path);
+  }
+  for (const path of ['.', '..', '../outside', 'sites/', 'sites/a/b', 'sites/../data', 'sites/..', 'C:/Users', 'C:\\Users', '/gallery', 'gallery/', 'Gallery', 'sites/Aya', 'my_site', 'a b', '-x', '.git', 'node_modules']) {
+    assert.match(check({ path })[0] ?? '', /"path" must be sites\/<name> or one plain folder name/, path);
+  }
+  // A folder the main site owns is not a copy's to take.
+  for (const path of ['sites', 'assets', 'api', 'en', 'projects', 'automation', 'cv', 'resume', 'profile', 'data', 'scripts', 'tests', 'mcp', 'docs']) {
+    assert.match(check({ path })[0] ?? '', new RegExp(`"path" names ${path}/, a folder the main site owns`), path);
+  }
+  // Two entries with one path: the second sync would delete the first copy.
+  assert.deepEqual(check({}, [{ ...hidden, path: site.path }]), ['hosting.json (karam): "path" sites/aya-rady is the path of another entry too']);
+  // One entry inside another: syncing the outer one deletes the inner one.
+  assert.match(check({ path: 'gallery' }, [{ ...hidden, path: 'gallery/v2' }]).join('\n'), /\(karam\): "path" gallery\/v2 lies inside the path of another entry/);
+  assert.match(check({ path: 'sites' }, [hidden]).join('\n'), /\(karam\): "path" sites\/karam lies inside the path of another entry/);
+});
+
+test('"dir" is empty or a folder inside the repository, never a way out of it', () => {
+  const check = (dir) => hostingProblems({ ...hosting, sites: [{ ...site, dir }] });
+  for (const dir of [undefined, '', 'docs', 'build/site', 'v2.1', 'dist_web']) assert.deepEqual(check(dir), [], String(dir));
+  for (const dir of ['..', '../other', 'docs/..', 'docs/../..', '/docs', 'docs/', './docs', '.', 'C:\\Users', 'C:/Users', 'my docs', 7, null]) {
+    assert.match(check(dir)[0] ?? '', /"dir" must be empty or a folder inside the repository/, String(dir));
+  }
+});
+
 test('the loader refuses a hosting file with an undecided copy', () => {
   const dir = mkdtempSync(join(tmpdir(), 'portfolio-hosting-'));
   try {
@@ -96,6 +140,11 @@ test('the loader refuses a hosting file with an undecided copy', () => {
     delete map.sites[0].index;
     writeFileSync(join(dir, 'hosting.json'), JSON.stringify(map));
     assert.throws(() => loadDb(dir), /hosting\.json \(aya-rady\): "index" must be true, false or "root-only"/);
+    // A path the sync must not replace stops the same three.
+    const owned = JSON.parse(readFileSync('data/hosting.json', 'utf8'));
+    owned.sites[0].path = 'assets';
+    writeFileSync(join(dir, 'hosting.json'), JSON.stringify(owned));
+    assert.throws(() => loadDb(dir), /hosting\.json \(aya-rady\): "path" names assets\/, a folder the main site owns/);
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
@@ -111,17 +160,21 @@ test('which pages a decision wants in search', () => {
 
 const page = (head) => `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n${head}</head>\n<body><p>Hello</p></body>\n</html>\n`;
 
-test('a copy kept out of search: every page ends up with one "noindex, follow"', () => {
+test('a copy kept out of search: every page ends up with one robots meta that says noindex', () => {
   // No robots meta: one is added, on its own line, after the charset.
   const bare = applyIndexing(page('  <title>My page</title>\n'), hidden, 'index.html', hosting);
   assert.equal(bare, page(`  ${NOINDEX}\n  <title>My page</title>\n`));
 
-  // An existing one is replaced where it stands, whatever it said and however it was written.
+  // An existing one is replaced where it stands, however it was written. A
+  // page that did not ask for its links to be left alone has them followed.
   for (const old of [
     '<meta name="robots" content="index, follow, max-image-preview:large">',
-    '<meta name="robots" content="noindex, nofollow">',
+    '<meta name="robots" content="noindex">',
     "<meta content='index' name='robots' />",
     '<META NAME=robots CONTENT="all">',
+    // "none" as the value of another rule is not the directive.
+    '<meta name="robots" content="index, max-image-preview:none">',
+    '<meta name="robots" content="max-snippet: -1, max-image-preview: none">',
   ]) {
     assert.equal(applyIndexing(page(`  <title>T</title>\n  ${old}\n`), hidden, 'about.html', hosting), page(`  <title>T</title>\n  ${NOINDEX}\n`), old);
   }
@@ -133,6 +186,42 @@ test('a copy kept out of search: every page ends up with one "noindex, follow"',
   // Done twice, it changes nothing the second time.
   assert.equal(applyIndexing(bare, hidden, 'index.html', hosting), bare);
   assert.deepEqual(pageSignals(bare).robots, ['noindex, follow']);
+});
+
+/* The data decides about the index and nothing else. Eighty one pages of
+   nine copies said "noindex, nofollow" in their own repositories, and the
+   sync wrote "noindex, follow" over it: the one place where a copy was left
+   more open than its owner had asked. */
+test('the owner\'s nofollow stays: a page that said it ends with "noindex, nofollow"', () => {
+  assert.equal(CLOSED, `<meta name="robots" content="${NOINDEX_NOFOLLOW}">`);
+  for (const old of [
+    '<meta name="robots" content="noindex, nofollow">',
+    '<meta name="robots" content="noindex,nofollow">',
+    '<meta name="robots" content="none">',
+    '<meta name="robots" content="nofollow">',
+    '<meta name="robots" content="index, nofollow, max-image-preview:large">',
+    '<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">',
+    "<meta content='None' name='robots' />",
+  ]) {
+    assert.equal(applyIndexing(page(`  <title>T</title>\n  ${old}\n`), hidden, 'about.html', hosting), page(`  <title>T</title>\n  ${CLOSED}\n`), old);
+  }
+
+  // Of two robots metas, the stricter word is the one that is kept.
+  const twice = page('  <meta name="robots" content="index">\n  <title>T</title>\n  <meta name="robots" content="nofollow">\n');
+  assert.equal(applyIndexing(twice, hidden, 'index.html', hosting), page(`  ${CLOSED}\n  <title>T</title>\n`));
+
+  // A page behind the entry page of a "root-only" copy is held the same way.
+  assert.deepEqual(pageSignals(applyIndexing(page(`  ${CLOSED}\n`), gallery, 'atm.html', hosting)).robots, ['noindex, nofollow']);
+  // Another crawler's own meta is not the page's robots meta.
+  assert.deepEqual(pageSignals(applyIndexing(page('  <meta name="googlebot" content="nofollow">\n'), hidden, 'a.html', hosting)).robots, ['noindex, follow']);
+
+  // Through the whole sync, done twice, and past the gate.
+  const once = transformFile(page(`  ${CLOSED}\n`), 'about.html', hidden, hosting);
+  assert.equal(once, page(`  ${CLOSED}\n`));
+  assert.equal(transformFile(once, 'about.html', hidden, hosting), once);
+  assert.deepEqual(copyFileProblems(once, 'about.html', hidden, hosting), []);
+  // A copy meant to be found keeps whatever its owner wrote.
+  assert.equal(applyIndexing(page(`  ${CLOSED}\n`), site, 'about.html', hosting), page(`  ${CLOSED}\n`));
 });
 
 test('a robots meta in a comment or a script is not one, and other meta tags are left alone', () => {
@@ -151,6 +240,54 @@ test('a page written without a head still gets its noindex, as early as the mark
   assert.equal(applyIndexing('<html><header>x</header></html>', hidden, 'a.html', hosting), `<html>${NOINDEX}<header>x</header></html>`);
   // A file with Windows line ends keeps them.
   assert.equal(applyIndexing('<html>\r\n<head>\r\n  <title>T</title>\r\n</head>\r\n</html>', hidden, 'a.html', hosting), `<html>\r\n<head>\r\n${NOINDEX}\r\n  <title>T</title>\r\n</head>\r\n</html>`);
+});
+
+/* A tag is the page's own word only in its head. Further down it may sit in
+   a template or in the srcdoc of a frame, where writing beside it breaks
+   what the visitor sees and leaves the page with no real noindex. */
+test('a tag is written into the head, wherever else a charset line stands', () => {
+  // The only charset line is in a template in the body.
+  const inTemplate = '<html>\n<head>\n  <title>T</title>\n</head>\n<body>\n  <template><meta charset="utf-8"><p>x</p></template>\n</body>\n</html>\n';
+  assert.equal(applyIndexing(inTemplate, hidden, 'a.html', hosting), inTemplate.replace('<head>\n', `<head>\n${NOINDEX}\n`));
+
+  // The only one is in the srcdoc of a frame: a tag written there would end the attribute.
+  const inFrame = '<html><head><title>T</title></head><body><iframe srcdoc="<meta charset=\'utf-8\'><p>x</p>"></iframe></body></html>';
+  assert.equal(applyIndexing(inFrame, hidden, 'a.html', hosting), inFrame.replace('<head>', `<head>${NOINDEX}`));
+  assert.equal(applyIndexing(inFrame, site, 'index.html', hosting), inFrame.replace('<head>', '<head><link rel="canonical" href="https://nouraldeentofi.com/sites/aya-rady/">'));
+
+  // A head that is never closed ends where the body begins.
+  const open = '<html><head><title>T</title><body><meta charset="utf-8"><p>x</p></body></html>';
+  assert.equal(applyIndexing(open, hidden, 'a.html', hosting), open.replace('<head>', `<head>${NOINDEX}`));
+});
+
+test('a robots meta or a canonical below the head is not one: the gate does not count it', () => {
+  const below = '<template><meta name="robots" content="noindex, nofollow"><link rel="canonical" href="https://nouraldeentofi.com/sites/aya-rady/"></template>';
+  const inBody = page('  <title>T</title>\n').replace('<p>Hello</p>', below);
+  assert.deepEqual(pageSignals(inBody), { robots: [], canonicals: [], alternates: [], ogUrls: [] });
+  assert.match(copyFileProblems(inBody, 'index.html', hidden, hosting)[0], /carries no noindex in its head/);
+  assert.match(copyFileProblems(inBody, 'index.html', site, hosting)[0], /has no canonical/);
+
+  // The sync gives the page a real one, and leaves the body as its owner wrote it.
+  const closed = applyIndexing(inBody, hidden, 'index.html', hosting);
+  assert.deepEqual(pageSignals(closed).robots, ['noindex, follow']);
+  const found = applyIndexing(inBody, site, 'index.html', hosting);
+  assert.deepEqual(pageSignals(found).canonicals, ['https://nouraldeentofi.com/sites/aya-rady/']);
+  for (const out of [closed, found]) assert.ok(out.includes(`<body>${below}</body>`), 'the body was rewritten');
+});
+
+test('a script that holds the opening of a comment is still a script: the tags after it are read', () => {
+  const tricky = page('  <script>var open = "<!--";</script>\n  <meta name="robots" content="index, follow">\n  <link rel="canonical" href="https://nouraldeentofi.com/sites/aya-rady/">\n  <!-- the end -->\n');
+  assert.deepEqual(pageSignals(tricky), { robots: ['index, follow'], canonicals: ['https://nouraldeentofi.com/sites/aya-rady/'], alternates: [], ogUrls: [] });
+  // One robots meta is replaced, no second one is written beside it, and no second canonical.
+  assert.equal(applyIndexing(tricky, hidden, 'a.html', hosting), tricky.replace('<meta name="robots" content="index, follow">', NOINDEX));
+  assert.equal(applyIndexing(tricky, site, 'index.html', hosting), tricky);
+
+  // The other way round, a comment that holds a script tag is still a comment.
+  const commented = page('  <!-- <script> -->\n  <meta name="robots" content="index">\n  <!-- </script> -->\n');
+  assert.deepEqual(pageSignals(commented).robots, ['index']);
+  // And a style that holds either is still a style.
+  const styled = page('  <style>a::after { content: "<!-- <script>"; }</style>\n  <meta name="robots" content="index">\n  <!-- x -->\n');
+  assert.deepEqual(pageSignals(styled).robots, ['index']);
 });
 
 test('"root-only": the entry page stays in search with a canonical, every page behind it is noindex', () => {
@@ -212,6 +349,44 @@ test('other addresses are not touched: external ones, other copies, images and l
   ]) {
     assert.equal(cleanAddresses(text, site, hosting), text, text);
   }
+});
+
+/* On a page the cleaning ran over the whole file, so an address the visitor
+   reads, copies from a field or runs in a script lost its .html as well.
+   Nothing in the copies had one, which is the only reason nothing moved. */
+test('on a page, only the tags a crawler reads and the structured data are cleaned', () => {
+  const body = [
+    `<p>Copy this: ${BASE}/guide.html</p>`,
+    `<input value="${BASE}/guide.html">`,
+    `<a href="${BASE}/about.html">About</a>`,
+    `<script>const self = "${BASE}/index.html";</script>`,
+  ].join('');
+  const head = [
+    `  <link rel="canonical" href="${BASE}/about.html">`,
+    `  <link rel="alternate" hreflang="en" href="${BASE}/en/about.html#top">`,
+    `  <meta property="og:url" content="${BASE}/about.html">`,
+    `  <meta property="og:image" content="${BASE}/og.jpg">`,
+    `  <script type="application/ld+json">{"@id":"${BASE}/about.html#person","url":"${BASE}/index.html"}</script>`,
+    '',
+  ].join('\n');
+  const source = page(head).replace('<p>Hello</p>', `${body}<script type="application/ld+json">{"url":"${BASE}/en/index.html"}</script>`);
+
+  const out = cleanPage(source, site, hosting);
+  assert.deepEqual(pageSignals(out), { robots: [], canonicals: [`${BASE}/about`], alternates: [`${BASE}/en/about#top`], ogUrls: [`${BASE}/about`] });
+  assert.ok(out.includes(`{"@id":"${BASE}/about#person","url":"${BASE}/"}`), 'structured data in the head was not cleaned');
+  assert.ok(out.includes(`{"url":"${BASE}/en/"}`), 'structured data in the body was not cleaned');
+  assert.ok(out.includes(body), 'something a visitor reads or uses was rewritten');
+  assert.equal(cleanPage(out, site, hosting), out);
+
+  // The whole sync does the same, and a page with nothing to clean comes back as it went in.
+  assert.ok(transformFile(source, 'about.html', site, hosting).includes(body));
+  assert.equal(cleanPage(page(`  <title>T</title>\n`).replace('<p>Hello</p>', body), site, hosting), page(`  <title>T</title>\n`).replace('<p>Hello</p>', body));
+
+  // A sitemap is nothing but addresses for a crawler: it is cleaned throughout, inside CDATA too.
+  assert.equal(
+    transformFile(`<loc><![CDATA[${BASE}/about.html]]></loc><xhtml:link rel="alternate" hreflang="en" href="${BASE}/en/index.html"/>`, 'sitemap.xml', site, hosting),
+    `<loc><![CDATA[${BASE}/about]]></loc><xhtml:link rel="alternate" hreflang="en" href="${BASE}/en/"/>`,
+  );
 });
 
 /* A page that has moved leaves a stub whose canonical is "journey.html" or
@@ -310,7 +485,28 @@ test('a block with no rating is returned byte for byte, and so is one that does 
 
 test('a rewritten block keeps its layout and cannot close its own script tag', () => {
   const out = stripRatings(ld('{\n  "@type": "Restaurant",\n  "description": "a </script> b",\n  "aggregateRating": { "ratingValue": 4.8 }\n}'.replace('</script>', '<\\/script>')));
-  assert.equal(out, ld('{\n  "@type": "Restaurant",\n  "description": "a <\\/script> b"\n}'));
+  assert.equal(out, ld('{\n  "@type": "Restaurant",\n  "description": "a \\u003c/script> b"\n}'));
+
+  // A comment opening followed by a script opening would keep the block's
+  // own closing tag from closing it, and the rest of the page would be
+  // swallowed. No "<" is left bare, and the text reads back the same.
+  const text = 'x <!-- <script> y </script> z <b>';
+  const trap = stripRatings(ld(JSON.stringify({ '@type': 'Restaurant', description: text, aggregateRating: { ratingValue: 5 } }).replaceAll('</', '<\\/')));
+  const inner = trap.match(/^<script[^>]*>([\s\S]*)<\/script>$/)[1];
+  assert.ok(!inner.includes('<'), inner);
+  assert.deepEqual(JSON.parse(inner), { '@type': 'Restaurant', description: text });
+});
+
+test('a rating typed with the schema prefix is a rating', () => {
+  assert.deepEqual(ratingMarkup(ld('{"@type":"schema:Review","reviewBody":"x"}')), ['JSON-LD: a Review node']);
+  assert.deepEqual(ratingMarkup(ld('{"@type":["Thing","schema:AggregateRating"],"ratingValue":5}')), ['JSON-LD: a Thing AggregateRating node']);
+  assert.equal(stripRatings(`<head>${ld('{"@type":"schema:AggregateRating","ratingValue":5}')}</head>`), '<head></head>');
+  const graph = ld(JSON.stringify({ '@graph': [{ '@type': 'schema:Review', reviewBody: 'Good' }, { '@type': 'https://schema.org/Review' }, { '@type': 'schema:WebSite', name: 'W' }] }));
+  assert.deepEqual(JSON.parse(stripRatings(graph).match(/<script[^>]*>([\s\S]*)<\/script>/)[1]), { '@graph': [{ '@type': 'schema:WebSite', name: 'W' }] });
+  // In a block that does not parse, the gate still sees it, in a list as well.
+  for (const body of ['{"@type":"schema:Review",}', '{"@type":["Review"],}', '{"@type": [ "https://schema.org/AggregateRating" ],}']) {
+    assert.deepEqual(ratingMarkup(ld(body)), ['JSON-LD that does not parse, and names a rating'], body);
+  }
 });
 
 test('the gate sees rating markup in every form it takes', () => {
@@ -385,6 +581,107 @@ test('the gate fails a copy that does not keep its decision or its clean address
   assert.match(problems('', 'robots.txt')[0], /not part of the site/);
 });
 
+/* The entry address is what the showcase links and what the sitemap may
+   list. A canonical that names the client's own domain, or another page,
+   tells Google the page at that address is not the one to keep. */
+test('the gate: the entry page of a copy meant to be found names its own clean address as its canonical', () => {
+  const entry = (canonical, s = site) => copyFileProblems(page(`  <link rel="canonical" href="${canonical}">\n`), 'index.html', s, hosting);
+  assert.deepEqual(entry(`${BASE}/`), []);
+  assert.deepEqual(entry('https://nouraldeentofi.com/gallery/', gallery), []);
+  for (const other of ['https://client.example/', `${BASE}/about`, BASE, `${BASE}/?ref=x`, 'https://nouraldeentofi.com/', 'https://nouraldeentofi.com/sites/karam/']) {
+    assert.deepEqual(entry(other), [`is the entry page of a copy meant to be found, and its canonical is ${other}, not ${BASE}/`], other);
+  }
+  assert.deepEqual(entry(''), [`is the entry page of a copy meant to be found, and its canonical is empty, not ${BASE}/`]);
+  assert.match(entry(`${BASE}/`, gallery)[0], /its canonical is .*\/sites\/aya-rady\/, not https:\/\/nouraldeentofi\.com\/gallery\/$/);
+  // Two canonicals, one of them wrong, is one problem.
+  assert.equal(copyFileProblems(page(`  <link rel="canonical" href="${BASE}/">\n  <link rel="canonical" href="https://client.example/">\n`), 'index.html', site, hosting).length, 1);
+
+  // Only the entry page is held to it: an inner page, a page its owner keeps
+  // out of search and a copy kept out of search answer for themselves.
+  assert.deepEqual(copyFileProblems(page('  <link rel="canonical" href="https://client.example/about">\n'), 'about.html', site, hosting), []);
+  assert.deepEqual(copyFileProblems(page('  <meta name="robots" content="noindex">\n  <link rel="canonical" href="https://client.example/">\n'), 'index.html', site, hosting), []);
+  assert.deepEqual(copyFileProblems(page(`  ${NOINDEX}\n  <link rel="canonical" href="https://client.example/">\n`), 'index.html', hidden, hosting), []);
+});
+
+test('the gate knows an address of its own domain however it is written', () => {
+  const canonical = (address) => copyFileProblems(page(`  <link rel="canonical" href="${address}">\n`), 'about.html', site, hosting);
+  for (const address of [
+    `${BASE}/about.html`,
+    'http://nouraldeentofi.com/sites/aya-rady/about.html',
+    'https://NourAldeenTofi.COM/sites/aya-rady/about.html',
+    'https://nouraldeentofi.com:443/sites/aya-rady/about.html',
+    'http://nouraldeentofi.com:80/sites/aya-rady/about.html',
+    'https://www.nouraldeentofi.com/sites/aya-rady/about.html',
+    '//nouraldeentofi.com/sites/aya-rady/about.html',
+    '/sites/aya-rady/about.html',
+    'about.html?x=1#y',
+    `${BASE}/About.HTML`,
+  ]) {
+    assert.deepEqual(canonical(address), [`its canonical is ${address}, an address the host redirects`], address);
+  }
+  // Another site's address is its owner's business, and so is anything that is not a page.
+  for (const address of [
+    'https://example.com/about.html',
+    '//example.com/about.html',
+    'https://nouraldeentofi.com.example.org/about.html',
+    'https://my-nouraldeentofi.com/about.html',
+    'mailto:someone@example.html',
+    `${BASE}/about`,
+    `${BASE}/about?file=x.html`,
+    `${BASE}/about#x.html`,
+    'http://[broken/about.html',
+  ]) {
+    assert.deepEqual(canonical(address), [], address);
+  }
+});
+
+test('the gate reads every address a nested sitemap names', () => {
+  const sitemap = (xml) => copyFileProblems(xml, 'sitemap.xml', site, hosting);
+  const redirected = (address) => [`lists ${address}, an address the host redirects`];
+  assert.deepEqual(sitemap(`<url><loc>${BASE}/about.html</loc></url>`), redirected(`${BASE}/about.html`));
+  // Inside CDATA, under a prefix, and as the address of another language.
+  assert.deepEqual(sitemap(`<url><loc><![CDATA[${BASE}/about.html]]></loc></url>`), redirected(`${BASE}/about.html`));
+  assert.deepEqual(sitemap(`<sm:url><sm:loc>\n  ${BASE}/en/index.html\n</sm:loc></sm:url>`), redirected(`${BASE}/en/index.html`));
+  assert.deepEqual(sitemap(`<url><loc>${BASE}/</loc><xhtml:link rel="alternate" hreflang="en" href="${BASE}/en/about.html"/></url>`), redirected(`${BASE}/en/about.html`));
+  assert.deepEqual(sitemap(`<url><loc>${BASE}/</loc><xhtml:link rel='alternate' hreflang='en' href='http://NOURALDEENTOFI.com/sites/aya-rady/en/about.html'/></url>`), redirected('http://NOURALDEENTOFI.com/sites/aya-rady/en/about.html'));
+  // Clean addresses, pictures and other sites pass.
+  assert.deepEqual(
+    sitemap(`<url><loc>${BASE}/</loc><loc><![CDATA[${BASE}/about]]></loc><image:image><image:loc>${BASE}/img/a.html.jpg</image:loc></image:image><xhtml:link rel="alternate" hreflang="en" href="${BASE}/en/"/><loc>https://example.com/a.html</loc></url>`),
+    [],
+  );
+});
+
+test('to the gate, "none" keeps a page out of search as "noindex" does, in any case', () => {
+  const robots = (content, rel = 'index.html', s = hidden) => copyFileProblems(page(`  <meta name="robots" content="${content}">\n`), rel, s, hosting);
+  for (const content of ['none', 'None', 'NOINDEX, FOLLOW', 'noindex,nofollow', 'max-image-preview:large, none']) assert.deepEqual(robots(content), [], content);
+  // "none" as the value of another rule keeps nothing out.
+  for (const content of ['index, follow', 'max-image-preview:none', 'max-image-preview: none', 'nofollow', 'nonexistent']) {
+    assert.match(robots(content)[0] ?? '', /carries no noindex in its head/, content);
+  }
+  // An entry page its owner closed with "none" is not asked for a canonical.
+  assert.deepEqual(robots('none', 'index.html', site), []);
+  assert.equal(applyIndexing(page('  <meta name="robots" content="none">\n'), site, 'index.html', hosting), page('  <meta name="robots" content="none">\n'));
+});
+
+test('the gate knows a working file in any case', () => {
+  for (const rel of ['Test/engine.html', 'Robots.TXT', 'v2/ROBOTS.txt', 'README.MD']) {
+    assert.match(copyFileProblems('', rel, site, hosting)[0], /not part of the site/, rel);
+  }
+});
+
+/* A copy taken out of the data was read by nothing and served all the same. */
+test('a folder under sites/ that no entry stands behind is found', () => {
+  const map = { ...hosting, sites: [site, hidden, gallery] };
+  assert.deepEqual(strayCopies(['aya-rady', 'karam'], map), []);
+  // A former client, what a sync that was cut short leaves behind, and a copy that lives at the root.
+  assert.deepEqual(strayCopies(['aya-rady', 'old-client', 'karam.sync', 'karam.old', 'gallery', 'Karam'], map), ['old-client', 'karam.sync', 'karam.old', 'gallery', 'Karam']);
+  assert.deepEqual(strayCopies(['x'], undefined), ['x']);
+
+  // The repository holds none, and validate asks.
+  assert.deepEqual(strayCopies(readdirSync('sites'), JSON.parse(readFileSync('data/hosting.json', 'utf8'))), []);
+  assert.ok(readFileSync('scripts/validate.mjs', 'utf8').includes("strayCopies(readdirSync('sites'), db.hosting)"), 'validate.mjs no longer looks for folders with no entry');
+});
+
 /* ------------------------------------------------------ the repository */
 
 test('every hosted site is in the repository, and nothing on the site points at github.io', () => {
@@ -409,11 +706,27 @@ test('a copy left open with the client still to be asked says so in the data', (
 /* The sitemap is the list of addresses meant for search. A copy that is kept
    out of search must never be on it, and a copy that is on it is someone
    else's page: it has no other language here and no date the build knows. */
-test('the main sitemap lists the entry address of every copy meant to be found, and of no other', () => {
+test('a copy whose decision is still open is not submitted, and is not closed either', () => {
+  const asked = { ...site, repo: 'asked', path: 'sites/asked', todo: 'The owner still has to confirm with the client.' };
+  const waiting = { ...hidden, repo: 'waiting', path: 'sites/waiting', todo: 'Kept out until it has a real title.' };
+  assert.ok(isPending(asked) && isPending(waiting));
+  assert.ok(!isPending(site) && !isPending({ ...site, todo: '' }) && !isPending({ ...site, todo: null }));
+  assert.deepEqual(hostedEntries({ ...hosting, sites: [site, asked, hidden, waiting, gallery, { ...gallery, repo: 'lab', path: 'lab', todo: 'To be confirmed.' }] }), [
+    'https://nouraldeentofi.com/sites/aya-rady/',
+    'https://nouraldeentofi.com/gallery/',
+  ]);
+
+  // Its pages stay exactly as indexable as its repository left them.
+  const html = page('  <meta name="robots" content="index, follow">\n  <link rel="canonical" href="https://nouraldeentofi.com/sites/asked/">\n');
+  assert.equal(transformFile(html, 'index.html', asked, hosting), html);
+  assert.deepEqual(copyFileProblems(html, 'index.html', asked, hosting), []);
+});
+
+test('the main sitemap lists the entry address of every copy meant to be found and confirmed, and of no other', () => {
   const db = loadDb('data');
   const map = db.hosting;
   const entries = hostedEntries(map);
-  assert.deepEqual(entries, map.sites.filter((s) => s.index === true || s.index === 'root-only').map((s) => siteUrl(s, map)));
+  assert.deepEqual(entries, map.sites.filter((s) => (s.index === true || s.index === 'root-only') && !s.todo).map((s) => siteUrl(s, map)));
   assert.ok(entries.length > 0 && entries.length < map.sites.length);
   assert.deepEqual(hostedEntries(undefined), []);
 
@@ -423,6 +736,8 @@ test('the main sitemap lists the entry address of every copy meant to be found, 
     const address = siteUrl(s, map);
     if (s.index === false) {
       assert.ok(!sitemap.includes(`/${s.path}/`), `${s.path} is kept out of search, and is in the sitemap`);
+    } else if (s.todo) {
+      assert.ok(!sitemap.includes(`/${s.path}/`), `${s.path} still carries a todo, and is in the sitemap`);
     } else {
       assert.equal(sitemap.split(`<loc>${address}</loc>`).length - 1, 1, address);
       assert.equal(blocks.get(address), `<loc>${address}</loc>`, `${address}: carries more than its address`);

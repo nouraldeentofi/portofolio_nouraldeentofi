@@ -717,6 +717,16 @@ test('the gate for the sitemap passes the build and catches a page missing, list
   if (hosted.length) assert.match(check(xml, { hosted: [...hosted, `${site}/sites/new-client/`] })[0], /sites\/new-client\/ must be listed exactly once \(data\/hosting\.json/);
   assert.deepEqual(check(add(`${site}/sites/kept-out/`)), [`sitemap.xml: lists ${site}/sites/kept-out/, but data/hosting.json keeps ${site}/sites/kept-out/ out of search`]);
   assert.match(check(add(`${site}/sites/kept-out/menu`))[0], /keeps .*\/sites\/kept-out\/ out of search/);
+  // A copy whose client has still to confirm is not submitted either, by its entry or by a page behind it.
+  const asked = `${site}/sites/asked/`;
+  assert.deepEqual(check(add(asked), { pending: [asked] }), [
+    `sitemap.xml: lists ${asked}, but the entry of ${asked} in data/hosting.json still carries a todo: a copy is not submitted before its client has confirmed`,
+  ]);
+  assert.match(check(add(`${asked}menu`), { pending: [asked] })[0], /still carries a todo/);
+  // The data has such copies today, and none of them is in the sitemap the build writes.
+  const open = db.hosting.sites.filter((s) => s.index !== false && s.todo).map((s) => `${site}/${s.path}/`);
+  assert.deepEqual(check(xml, { pending: open }), []);
+  for (const address of open) assert.match(check(add(address), { pending: open })[0], /still carries a todo/);
   // Another host is not this gate's business; the two tags Google ignores are.
   assert.deepEqual(check(add('https://example.com/')), []);
   assert.deepEqual(check(xml.replace('</loc>', '</loc>\n    <priority>0.8</priority>')), ['sitemap.xml: carries <priority> or <changefreq>, which Google ignores']);

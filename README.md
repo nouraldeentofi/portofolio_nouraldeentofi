@@ -263,30 +263,51 @@ Every entry in `data/hosting.json` also says whether search engines may list the
 | `index` | Meaning | What the sync writes |
 |---|---|---|
 | `true` | The copy is meant to be found at this address | Nothing over the client's own robots tags; a self canonical on the entry page if it has none |
-| `false` | A sample, linked from the showcase only | One `noindex, follow` robots meta on every page |
-| `"root-only"` | Only the entry page is meant to be found (the gallery) | `noindex, follow` on every page except the entry page |
+| `false` | A sample, linked from the showcase only | One robots meta that says noindex on every page: `noindex, follow`, or `noindex, nofollow` where the owner's page already said `nofollow` or `none` |
+| `"root-only"` | Only the entry page is meant to be found (the gallery) | The same noindex on every page except the entry page |
+
+The data decides about the index and nothing else: a page whose own repository asked for
+its links not to be followed keeps that word, so a copy is never left more open than its
+owner asked.
 
 Set `true` only when the client wants to be found on Google at this address; a `todo`
 beside the value records a confirmation that is still open. The main `sitemap.xml` lists
-the entry address of every copy that is not `false`.
+the entry address of every copy that is not `false` and carries no `todo`. A copy with a
+`todo` stays exactly as indexable as its repository left it; it is only not submitted.
+Once the client has confirmed, delete the `todo` and build.
 
-The sync changes what a crawler reads and nothing a visitor reads. Besides the decision
-above, for every copy it:
+The sync changes what a crawler reads. Besides the decision above, for every copy it:
 
 - gives canonicals, hreflang links, `og:url`, JSON-LD addresses and nested sitemaps the
-  clean address the host serves (`/about`, never `/about.html`); links in the body are
-  left as their owner wrote them;
-- moves links to a former host of the portfolio (`formerHosts` in `data/hosting.json`)
-  to the domain;
+  clean address the host serves (`/about`, never `/about.html`). On a page only those
+  head tags and the JSON-LD blocks are touched: an address in the text, in a form field,
+  in a script or in a link of the body is left as its owner wrote it;
+- moves a former host of the portfolio (`formerHosts` in `data/hosting.json`) to the
+  domain wherever a text file names it. This is the one change a visitor does see: a
+  link to the old host now leads to the domain, and a link text that spelled the old
+  host out now spells the domain;
 - removes rating markup (`aggregateRating`, `review`) from JSON-LD, because a rating
   copied from another site must not be marked up here; the words on the page stay;
 - leaves behind a top-level `test` folder and every nested `robots.txt` (only the one at
-  the root of the domain is read). A copy keeps its own `404.html`: the host serves the
-  nearest one.
+  the root of the domain is read), whatever the case of the name. A copy keeps its own
+  `404.html`: the host serves the nearest one.
 
-A repository that cannot be cloned is tried three times; its copy then stays as it was,
-the others are still synced, and the run ends with an error naming it. `npm run validate`
-holds every copy to all of the above, so a hand edit or a stale copy fails there.
+A robots meta or a canonical is written into the head of a page and read there only: one
+that sits further down, in a template or in the `srcdoc` of a frame, is neither counted
+nor written beside.
+
+The sync replaces the whole folder a `path` names, so the data is refused when a `path`
+is not `sites/<name>` or one plain folder name, is a folder the main site owns, or is
+shared with or nested in another entry, and when a `dir` leaves the repository. The new
+copy is written beside the old one and takes its place only when it is whole. A site
+that fails, because its repository cannot be cloned (it is tried three times), its `dir`
+does not exist or a file cannot be written, keeps the copy it had; the others are still
+synced, and the run ends with an error naming each one that was not.
+
+`npm run validate` holds every copy to all of the above, so a hand edit or a stale copy
+fails there: noindex in the head where the data says so, the copy's own clean address as
+the canonical of an entry page meant to be found, clean addresses in every tag and
+nested sitemap, and nothing under `sites/` that has no entry in `data/hosting.json`.
 
 The shortcuts `/cv` (and the legacy `/cv/auto`, which now points to the same single CV), `/resume` and `/profile` are real generated files
 (`cv/index.html` and friends), each a noindex page that redirects to its target. On

@@ -88,7 +88,8 @@ export function buildSite(db) {
   stage('llms.txt', buildLlmsTxt(db, 'en'));
   stage('llms-full.txt', buildLlmsFullTxt(db, 'en'));
   // After the site's own pages, the entry address of each copy of another
-  // site that data/hosting.json says is meant to be found.
+  // site that data/hosting.json says is meant to be found, unless a todo
+  // beside the decision says the client has still to confirm it.
   stage('sitemap.xml', buildSitemap(sitePages(db), db.profile.site, pageDates(stamps), hostedEntries(db.hosting)));
   // Not part of the site: what the next build compares against. It is
   // written with the rest so that it is committed with the rest.

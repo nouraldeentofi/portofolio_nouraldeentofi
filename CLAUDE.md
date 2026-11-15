@@ -20,10 +20,12 @@ copies of other repositories made by `npm run sites` (`data/hosting.json`). Chan
 client site in its own repository, then re-run the sync.
 
 A copy is not a byte-for-byte copy. The sync (`transformFile` in `scripts/lib/hosting.mjs`)
-changes what a crawler reads and nothing a visitor reads: it writes the copy's indexing
-decision into every page, gives canonicals, hreflang, `og:url` and nested sitemaps the
-clean addresses the host serves, moves links from former hosts to the domain, removes
-rating markup from JSON-LD, and leaves behind test pages and nested `robots.txt` files.
+changes what a crawler reads: it writes the copy's indexing decision into the head of
+every page, gives canonicals, hreflang, `og:url`, JSON-LD and nested sitemaps the clean
+addresses the host serves, removes rating markup from JSON-LD, and leaves behind test
+pages and nested `robots.txt` files. One change a visitor does see: a link, or a link
+text, that names a former host is moved to the domain. Nothing else a visitor reads or
+uses is touched, in the text, in a form field or in a script.
 A rule about the copies therefore belongs in that file, never in a hand edit of a copy.
 
 The CV (`assets/cv/Nour_Aldeen_Tofi.pdf`) is printed from `scripts/cv/cv.html` by
@@ -130,15 +132,24 @@ These are not style preferences — `npm test` and `npm run validate` fail on th
   is plain language ("Dark mode"), so the Arabic page prints no English that is not a name.
 - **Every copy of another site has an indexing decision.** `index` in `data/hosting.json`
   is required: `true` (meant to be found here, the client's own robots tags stand), `false`
-  (every page carries `noindex, follow`) or `"root-only"` (only the entry page is listed,
-  as for the gallery). Loading the data fails on an entry without one. Set `true` only when
-  the client wants to be found on Google at this address; a `todo` beside it says when
-  that is still to be confirmed. The main sitemap lists the entry address of each copy
-  that is not `false`, with no hreflang and no date.
-- `validate` holds every copy to its decision and to the sync: noindex where the data says
-  so, a canonical on an entry page meant to be found, no canonical, hreflang, `og:url` or
-  sitemap entry ending in `.html`, no link to a former host, and **no rating markup**
-  (`aggregateRating`, `review`): a rating on this domain must come from its own visitors.
+  (every page carries noindex: `noindex, follow`, or `noindex, nofollow` where the owner's
+  page already said nofollow or none, so a copy is never left more open than its
+  repository asked) or `"root-only"` (only the entry page is listed, as for the gallery).
+  Loading the data fails on an entry without one. Set `true` only when the client wants to
+  be found on Google at this address; a `todo` beside it says when that is still to be
+  confirmed. The main sitemap lists the entry address of each copy that is not `false`
+  and carries no `todo`, with no hreflang and no date: a copy still to be confirmed stays
+  as indexable as its repository left it, and is not submitted.
+- **A copy lives in a folder of its own.** The sync replaces the whole folder a `path`
+  names, so loading the data fails on a `path` that is not `sites/<name>` or one plain
+  folder name, that the main site owns, or that another entry has or contains, and on a
+  `dir` that leaves the repository. Nothing may stand under `sites/` without an entry.
+- `validate` holds every copy to its decision and to the sync: noindex in the head where
+  the data says so, the copy's own clean address as the canonical of an entry page meant
+  to be found, no canonical, hreflang, `og:url` or sitemap entry ending in `.html`, no
+  link to a former host, no folder under `sites/` without an entry, and **no rating
+  markup** (`aggregateRating`, `review`): a rating on this domain must come from its own
+  visitors. A robots meta or a canonical counts only in the head of a page.
   A failure there means run `npm run sites`, or fix the page in its own repository.
 
 ## Code conventions

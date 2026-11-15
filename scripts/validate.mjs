@@ -29,7 +29,7 @@ import {
 } from './lib/gates.mjs';
 import { ROBOTS_INDEXABLE, ROBOTS_NOINDEX } from './lib/blocks.mjs';
 import { LASTMOD_FILE, parseState } from './lib/lastmod.mjs';
-import { isText, siteUrl, hostedEntries, copyFileProblems } from './lib/hosting.mjs';
+import { isText, siteUrl, hostedEntries, isPending, strayCopies, copyFileProblems } from './lib/hosting.mjs';
 
 const errors = [];
 const warnings = [];
@@ -339,8 +339,9 @@ export function checkAll({ pages } = {}) {
 
   // 9b and 9d: the sitemap lists every page once, by its clean address, then
   // the entry address of each copy of another site that is meant to be found.
-  // A copy kept out of search is never offered here, and nothing else on this
-  // host is listed at all (`sitemapProblems`).
+  // A copy kept out of search is never offered here, nor is one whose entry
+  // still carries a todo (the client has not confirmed yet), and nothing else
+  // on this host is listed at all (`sitemapProblems`).
   if (existsSync('sitemap.xml')) {
     const xml = readFileSync('sitemap.xml', 'utf8');
     const listed = pages.filter((p) => p.page !== '404');
@@ -349,6 +350,7 @@ export function checkAll({ pages } = {}) {
       pages: listed.map((p) => `${site}${pagePath(p.page, p.lang)}`),
       hosted: hostedEntries(db.hosting),
       closed: db.hosting.sites.filter((s) => s.index === false).map((s) => siteUrl(s, db.hosting)),
+      pending: db.hosting.sites.filter((s) => s.index !== false && isPending(s)).map((s) => siteUrl(s, db.hosting)),
     })) fail(problem);
 
     // 9c: a page's lastmod is the day its content last changed.
@@ -389,11 +391,20 @@ export function checkAll({ pages } = {}) {
   // They are written by `npm run sites`, not by the build, so nothing above
   // has read them. Each file is held to the decision in the data and to what
   // the sync promises (lib/hosting.mjs): a page of a copy kept out of search
-  // carries noindex, the entry page of a copy meant to be found has a
-  // canonical, no canonical, hreflang, og:url or sitemap entry names a page
-  // by its .html address, no page carries rating markup, and nothing is here
-  // that is not the site. A failure means the copy is older than the rule:
-  // run `npm run sites`, or fix the page in its own repository.
+  // carries noindex in its head, the entry page of a copy meant to be found
+  // names its own clean address as its canonical, no canonical, hreflang,
+  // og:url or sitemap entry names a page by its .html address, no page
+  // carries rating markup, and nothing is here that is not the site. A
+  // failure means the copy is older than the rule: run `npm run sites`, or
+  // fix the page in its own repository.
+  //
+  // A folder under sites/ that no entry stands behind is read by none of
+  // this and is served all the same, so it fails by being there.
+  if (existsSync('sites')) {
+    for (const name of strayCopies(readdirSync('sites'), db.hosting)) {
+      fail(`sites/${name}: no entry in data/hosting.json stands behind it, so it is served with no indexing decision; add the entry and run npm run sites, or delete it`);
+    }
+  }
   for (const copy of db.hosting.sites) {
     if (!existsSync(`${copy.path}/index.html`)) { fail(`${copy.path}/: missing; run npm run sites`); continue; }
     for (const rel of filesUnder(copy.path)) {

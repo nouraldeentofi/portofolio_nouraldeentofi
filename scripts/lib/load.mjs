@@ -262,10 +262,11 @@ export function loadDb(dir = 'data') {
 
   // Every copy of another site on the domain says whether search engines
   // may list it. There is no default: an entry without a decision stops the
-  // build, the tests and the sync alike.
+  // build, the tests and the sync alike, and so does one whose path is not
+  // a folder of its own, which the sync would replace all the same.
   const hosting = readJson(dir, 'hosting.json');
-  const [undecided] = hostingProblems(hosting);
-  if (undecided) throw new Error(undecided);
+  const [unsound] = hostingProblems(hosting);
+  if (unsound) throw new Error(unsound);
 
   const copy = {
     en: readJson(join(dir, 'copy'), 'en.json'),

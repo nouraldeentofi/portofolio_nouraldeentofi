@@ -17,21 +17,26 @@
  * behind (`keepFile`). `npm run validate` then holds every copy to the same
  * rules, so a copy that was synced before a decision changed fails there.
  *
- * A repository that cannot be cloned keeps the copy it has: it is tried
- * three times, the others are still synced, and the run ends with an error
- * that names it.
+ * A copy is replaced only once its successor is whole. The new copy is
+ * written into a folder beside the old one (`<path>.sync`) and takes its
+ * place at the end, so a wrong "dir", a file that cannot be read or any
+ * other failure on the way leaves the copy as it was. A repository that
+ * cannot be cloned is tried three times. Whatever fails, the other sites
+ * are still synced, and the run ends with an error that names each one
+ * that was not.
  */
 import { execFileSync } from 'node:child_process';
-import { cpSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync, mkdirSync } from 'node:fs';
+import { cpSync, existsSync, mkdtempSync, readFileSync, readdirSync, renameSync, rmSync, statSync, writeFileSync, mkdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, relative, dirname } from 'node:path';
-import { keepFile, isText, transformFile, siteUrl, hostingProblems } from './lib/hosting.mjs';
+import { keepFile, isText, transformFile, siteUrl, hostingProblems, ENTRY } from './lib/hosting.mjs';
 
 const hosting = JSON.parse(readFileSync('data/hosting.json', 'utf8'));
 const only = new Set(process.argv.slice(2));
 const ATTEMPTS = 3;
 
-// A copy with no indexing decision would be synced as if it had one.
+// A copy with no indexing decision would be synced as if it had one, and a
+// path that is not a copy's own folder would be deleted as if it were.
 const undecided = hostingProblems(hosting);
 if (undecided.length) {
   for (const problem of undecided) console.error(`sites: ${problem}`);
@@ -70,32 +75,76 @@ function clone(site) {
   return null;
 }
 
+/**
+ * The site as it will be served, written into `fresh` from the clone in
+ * `tmp`. Nothing of the copy in the repository is touched here. Returns the
+ * number of files written.
+ */
+function writeCopy(site, tmp, fresh) {
+  const src = join(tmp, site.dir || '');
+  if (!existsSync(src) || !statSync(src).isDirectory()) {
+    throw new Error(`the repository has no folder "${site.dir}" on ${site.branch}: check "dir" in data/hosting.json`);
+  }
+  const files = walk(src).filter(keepFile);
+  if (!files.includes(ENTRY)) throw new Error(`no ${ENTRY} in ${site.dir ? `"${site.dir}"` : 'the root'} of the repository on ${site.branch}`);
+  for (const rel of files) {
+    const to = join(fresh, rel);
+    mkdirSync(dirname(to), { recursive: true });
+    if (isText(rel)) writeFileSync(to, transformFile(readFileSync(join(src, rel), 'utf8'), rel, site, hosting));
+    else cpSync(join(src, rel), to);
+  }
+  return files.length;
+}
+
+/**
+ * The new copy takes the place of the old one. The old one steps aside
+ * first and is only deleted once the new one stands, so if the new one
+ * cannot be moved in, the old one is put back.
+ */
+function replaceCopy(dest, fresh) {
+  const old = `${dest}.old`;
+  rmSync(old, { recursive: true, force: true });
+  const had = existsSync(dest);
+  if (had) renameSync(dest, old);
+  try {
+    renameSync(fresh, dest);
+  } catch (error) {
+    if (had) renameSync(old, dest);
+    throw error;
+  }
+  // The new copy stands. An old one that cannot be removed is not a failed sync.
+  try {
+    rmSync(old, { recursive: true, force: true });
+  } catch (error) {
+    console.error(`sites: ${old}/ could not be removed (${error.message}); delete it by hand before committing`);
+  }
+}
+
 const failed = [];
 
 for (const site of hosting.sites) {
   if (only.size && !only.has(site.repo)) continue;
-  const tmp = clone(site);
-  if (!tmp) {
-    failed.push(site.repo);
-    console.error(`FAIL  ${site.repo}: could not be cloned, ${site.path}/ is left as it was`);
-    continue;
-  }
+  const dest = site.path;
+  const fresh = `${dest}.sync`;
+  let tmp = null;
   try {
-    const src = join(tmp, site.dir || '');
-    const dest = site.path;
-    rmSync(dest, { recursive: true, force: true });
-    let files = 0;
-    for (const rel of walk(src)) {
-      if (!keepFile(rel)) continue;
-      const to = join(dest, rel);
-      mkdirSync(dirname(to), { recursive: true });
-      if (isText(rel)) writeFileSync(to, transformFile(readFileSync(join(src, rel), 'utf8'), rel, site, hosting));
-      else cpSync(join(src, rel), to);
-      files += 1;
-    }
+    tmp = clone(site);
+    if (!tmp) throw new Error('could not be cloned');
+    rmSync(fresh, { recursive: true, force: true });
+    const files = writeCopy(site, tmp, fresh);
+    replaceCopy(dest, fresh);
     console.log(`ok  ${site.repo} -> ${siteUrl(site, hosting)}  (${files} files, index: ${site.index})`);
+  } catch (error) {
+    failed.push(site.repo);
+    console.error(`FAIL  ${site.repo}: ${error.message}; ${dest}/ is left as it was`);
   } finally {
-    rmSync(tmp, { recursive: true, force: true });
+    // Neither may stay behind: the first is half a copy, the second a whole clone.
+    try {
+      rmSync(fresh, { recursive: true, force: true });
+      if (tmp) rmSync(tmp, { recursive: true, force: true });
+    } catch (error) {
+      console.error(`sites: could not clean up after ${site.repo}: ${error.message}`);
+    }
   }
 }
 
