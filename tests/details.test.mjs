@@ -463,6 +463,46 @@ test('the language switch and the stored-language redirect work one level deeper
   assert.equal(land('ar', '/en/'), '/');
   assert.equal(land('ar', '/en'), '/');
   assert.equal(land('en', '/about', '', '#faq'), '/en/about#faq');
+
+  // The class that lets CSS hide content for a reveal is set only where module
+  // scripts run, and taken back when main.js cannot load or one of the site's
+  // own scripts fails as it is read or run.
+  const page = (scope = {}) => {
+    const held = new Set();
+    const listeners = [];
+    vm.runInNewContext(script, {
+      document: { documentElement: { classList: { add: (name) => held.add(name), remove: (name) => held.delete(name) }, dataset: {} } },
+      localStorage: { getItem: () => null },
+      location: { pathname: '/en/', search: '', hash: '', replace() {} },
+      addEventListener: (type, fn) => listeners.push([type, fn]),
+      ...scope,
+    });
+    return { classes: () => [...held], fail: (filename) => listeners.filter(([type]) => type === 'error').forEach(([, fn]) => fn({ filename })) };
+  };
+  class Modern {}
+  Modern.prototype.noModule = false;
+  assert.deepEqual(page({ HTMLScriptElement: Modern }).classes(), ['js']);
+  assert.deepEqual(page({ HTMLScriptElement: class Old {} }).classes(), [], 'a browser without module scripts would hide content for good');
+  assert.deepEqual(page().classes(), []);
+  // A failure in one of the site's scripts shows the content; one anywhere else changes nothing.
+  for (const [filename, kept] of [
+    ['https://nouraldeentofi.com/assets/js/motion.js?v=1a2b3c4d', []],
+    ['https://nouraldeentofi.com/assets/js/chat/boot.en.js', []],
+    ['https://www.googletagmanager.com/gtag/js?id=G-X', ['js']],
+    ['https://nouraldeentofi.com/en/', ['js']],
+    [undefined, ['js']],
+  ]) {
+    const loaded = page({ HTMLScriptElement: Modern });
+    loaded.fail(filename);
+    assert.deepEqual(loaded.classes(), kept, String(filename));
+  }
+  // Without addEventListener the script still runs to its end.
+  assert.deepEqual(page({ HTMLScriptElement: Modern, addEventListener: undefined }).classes(), ['js']);
+  for (const lang of LANGS) {
+    for (const page of ['', 'projects', 'projects/smart-scanner', 'chat']) {
+      assert.match(html(page, lang), /<script src="\/assets\/js\/main\.js\?v=[0-9a-f]{8}" type="module" onerror="document\.documentElement\.classList\.remove\('js'\)"><\/script>/, `${lang}/${page}: main.js does not take the class back when it fails`);
+    }
+  }
 });
 
 /* --------------------------------------------------- the share picture */
@@ -1163,7 +1203,8 @@ test('every card on the list pages leads to its detail page, by its name and by 
       const card = projects.split(` id="${p.id}">`)[1]?.split('</article>')[0];
       assert.ok(card, `${lang}: the card of ${p.id} lost its id`);
       const to = pagePath(`projects/${p.id}`, lang);
-      assert.ok(card.includes(`<h3 class="card__title"><a href="${to}">${p.name}</a></h3>`), `${lang}: ${p.id} title`);
+      // An h2: the list has no other heading between the page's h1 and its cards.
+      assert.ok(card.includes(`<h2 class="card__title"><a href="${to}">${p.name}</a></h2>`), `${lang}: ${p.id} title`);
       assert.ok(card.includes(`<a class="btn btn--ghost" href="${to}">${c.ui.details}<span class="visually-hidden">: ${p.name}</span></a>`), `${lang}: ${p.id} details link`);
     }
 
@@ -1386,4 +1427,41 @@ test('only a product he coordinated names him as a contributor', () => {
   assert.deepEqual(db.projects.filter((p) => p.credit).map((p) => [p.id, p.credit]), [['goldentag', 'contributor']]);
   assert.equal(db.projects.find((p) => p.id === 'goldentag').role.en, 'Project coordinator');
   assert.ok(db.workflows.every((w) => !w.credit), 'a system is his own build');
+});
+
+/* The rule reaches the copy, not only the headings. The engines of CV
+   Screener and Universal Web Scraper carried Arabic names of their own, so
+   the Arabic page of a product called it by a second name. Wherever the
+   English of a pair names a product, the Arabic names it by the same letters. */
+test('wherever the English names a product, the Arabic keeps the same name', () => {
+  const names = db.projects.map((p) => p.name);
+  const pairs = [];
+  const pair = (at, en, ar) => {
+    if (Array.isArray(en) && Array.isArray(ar) && en.length === ar.length) en.forEach((x, i) => pair(`${at}[${i}]`, x, ar[i]));
+    else if (typeof en === 'string' && typeof ar === 'string') pairs.push({ at, en, ar });
+  };
+  // The data: every { en, ar } object, wherever it sits.
+  const walk = (node, at) => {
+    if (Array.isArray(node)) node.forEach((x, i) => walk(x, `${at}[${x?.id ?? i}]`));
+    else if (node && typeof node === 'object') {
+      if ('en' in node && 'ar' in node) pair(at, node.en, node.ar);
+      else for (const [key, value] of Object.entries(node)) walk(value, `${at}.${key}`);
+    }
+  };
+  for (const part of ['profile', 'experience', 'projects', 'workflows', 'showcase', 'credentials', 'testimonials', 'skills', 'caseStudy']) walk(db[part], part);
+  // The copy: two trees with the same keys.
+  const twin = (en, ar, at) => {
+    if (en && typeof en === 'object' && !Array.isArray(en)) for (const key of Object.keys(en)) twin(en[key], ar?.[key], `${at}.${key}`);
+    else pair(at, en, ar);
+  };
+  twin(db.copy.en, db.copy.ar, 'copy');
+
+  assert.ok(pairs.length > 500, `only ${pairs.length} pairs were read, so this proves little`);
+  const dropped = pairs.flatMap(({ at, en, ar }) => names.filter((name) => en.includes(name) && !ar.includes(name)).map((name) => `${at}: "${name}"`));
+  assert.deepEqual(dropped, []);
+  // The three engines a product names are among the pairs read.
+  for (const p of db.projects.filter((x) => x.workflow)) {
+    const engine = db.workflows.find((w) => w.id === p.workflow);
+    assert.ok(engine.name.en.includes(p.name) && engine.name.ar.includes(p.name), `${engine.id}: the engine of ${p.name} does not carry its name in both languages`);
+  }
 });

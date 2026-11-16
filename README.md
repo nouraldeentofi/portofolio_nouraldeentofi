@@ -276,6 +276,19 @@ the entry address of every copy that is not `false` and carries no `todo`. A cop
 `todo` stays exactly as indexable as its repository left it; it is only not submitted.
 Once the client has confirmed, delete the `todo` and build.
 
+A copy whose own repository asked crawlers of AI companies to stay out (in its
+`robots.txt`, which has no force inside a folder and is left behind) carries
+`"aiCrawlers": false` beside `index: false`. `robots.txt` at the root then closes that
+folder in every group that names such a crawler, and `npm run validate` fails when the
+file and the data disagree. The group for every crawler closes nothing, on purpose: a
+search engine has to fetch a page to read the noindex that keeps it out of search. Add
+the `Disallow` lines by hand when an entry gains the flag, above `Allow: /` in each group
+(some parsers obey the first line that matches), and take them out when the client
+approves and the flag goes. It is a request, and the crawlers that fetch a page on a
+user's behalf (ChatGPT-User, Perplexity-User, Meta-ExternalFetcher, Amzn-User) say they
+may not honour it: a preview that must stay unread needs a password, or must stay off
+the domain until it is approved.
+
 The sync changes what a crawler reads. Besides the decision above, for every copy it:
 
 - gives canonicals, hreflang links, `og:url`, JSON-LD addresses and nested sitemaps the

@@ -30,8 +30,12 @@
 <script>
 /* Set before first paint so reveals never flash, and the stored theme never
    flickers. Also tells CSS that JavaScript is available: without this class
-   nothing is ever hidden. */
-(function(){var r=document.documentElement;r.classList.add('js');
+   nothing is ever hidden. It is set only where module scripts can run, and
+   taken back when main.js cannot load (its onerror) or when one of the
+   site's own scripts fails as it is read or run (the listener below), so a
+   reveal that will never come leaves the content shown. */
+(function(){var r=document.documentElement;if(typeof HTMLScriptElement!=='undefined'&&'noModule' in HTMLScriptElement.prototype)r.classList.add('js');
+if(typeof addEventListener==='function')addEventListener('error',function(e){if(((e&&e.filename)||'').indexOf('/assets/js/')!==-1)r.classList.remove('js');});
 try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}
 /* honour the visitor's last language choice on every arrival. The query and
    the fragment travel with it: ids are the same in both languages, so a link
@@ -50,11 +54,11 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <link rel="stylesheet" href="/assets/css/tokens.css?v=9e291487">
 <link rel="stylesheet" href="/assets/css/base.css?v=52040e91">
 <link rel="stylesheet" href="/assets/css/layout.css?v=f9c9bdc0">
-<link rel="stylesheet" href="/assets/css/components.css?v=73c51bc3">
+<link rel="stylesheet" href="/assets/css/components.css?v=d351834f">
 <link rel="stylesheet" href="/assets/css/motion.css?v=0828308a">
 <link rel="stylesheet" href="/assets/css/chat.css?v=b2a5454f">
 <link rel="stylesheet" href="/assets/css/responsive.css?v=a7c809d0">
-<link rel="stylesheet" href="/assets/css/rtl.css?v=d3c0e9aa">
+<link rel="stylesheet" href="/assets/css/rtl.css?v=1d207351">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -200,59 +204,59 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
     </thead>
     <tbody>
     <tr class="transcript__row" id="say-start">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-start">الافتتاحية</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-start">الافتتاحية</button></th>
       <td id="answer-start"><p>السلام عليكم 👋 أنا نور (النسخة المحادِثة منه على أي حال).</p><p>أنا مهندس أتمتة بالذكاء الاصطناعي في الخبر بالسعودية. أبني مسارات عمل في n8n تقرأ المستندات بنماذج اللغة، وأبني واجهات React التي يستخدمها الناس فوقها.</p><p>كل ما هنا موجود أيضاً في بقية الموقع كنصّ صريح. اسأل ما شئت 👇</p></td>
     </tr>
     <tr class="transcript__row" id="say-automation">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-automation">🤖 ماذا تبني فعلياً؟</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-automation">🤖 ماذا تبني فعلياً؟</button></th>
       <td id="answer-automation"><p>باختصار: آخذ عملية يؤدّيها شخص بيده، وأجعلها تُدير نفسها.</p><p>بعضها يعمل لدى عميل، وبعضها يعمل الآن، وبعضها مبني ومُختبر. هذه بعضها 👇</p><p>🤖 الأتمتة خط Smart Scanner: صورة فاتورة ← تحقّق ← تحليل بـ GPT Vision ← تدقيق ← حفظ. بوت المساعد التعليمي: وكيل عربي على تيليجرام يدير عمل مدرّس كاملاً من المحادثة. مطابقة الوظائف: يقيّم الوظائف يومياً من 1 إلى 10، ولا يسلّم إلا الجيّد، ويكتب رسالة التغطية. الباحث عن العملاء: يستخرج ويقيّم العملاء المحتملين في السعودية والأردن. مُقيّم جودة الدروس: فيديو يدخل، وJSON تقييم منظّم يخرج. منقّي بيانات العملاء: يزيل التكرار ويتحقّق، مع سبب لكل رفض.</p><p>وكلٌّ منها موسوم بحالته الفعلية في صفحة الأتمتة.</p></td>
     </tr>
     <tr class="transcript__row" id="say-smartscanner">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-smartscanner">🧾 حدّثني عن Smart Scanner</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-smartscanner">🧾 حدّثني عن Smart Scanner</button></th>
       <td id="answer-smartscanner"><p>مشروعي المفضّل 🧾</p><p>🧾 Smart Scanner: ذكاء اصطناعي للفواتير، عربي أولاً يصوّر الموظف الفاتورة. فيتحقّق الذكاء الاصطناعي من كونها فاتورة حقيقية، ويجري فحوص الاحتيال، ويستخرج أكثر من 70 حقلاً إضافة إلى بنود الفاتورة بالعربية والإنجليزية، ويصنّف كل مصروف. ثم يراجع المحاسبون ويعتمدون ويعلّقون ويصدّرون، كل ذلك عبر لوحات تحكّم حسب الدور. بنيت طبقتين من أصل ثلاث: محرّك الذكاء الاصطناعي في n8n كاملاً، والواجهة الأمامية بالكامل بـ React 19 وTypeScript، وفيها 204 ملفات مصدرية و494 اختباراً آلياً.</p><p>والتوقيت ليس صدفة، فالفوترة الإلكترونية تتوسّع في السعودية، وJoFotara صارت إلزامية في الأردن. كل فاتورة ورقية في المنطقة عليها أن تتحوّل إلى بيانات نظيفة.</p><p>الواجهة الخلفية بـ Laravel من إعداد هيثم زيدان. المنتجات الجيّدة تأتي من فرق جيّدة.</p></td>
     </tr>
     <tr class="transcript__row" id="say-who">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-who">👤 من أنت؟</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-who">👤 من أنت؟</button></th>
       <td id="answer-who"><p>أنا نور الدين طفي، مهندس أتمتة بالذكاء الاصطناعي ومطوّر واجهات أمامية، مقيم في الخبر.</p><p>والجزء غير المعتاد أنني أعمل على الطرفين: أصمّم الخط وأبني الواجهة. وأدير التسليم أيضاً: المتطلبات والنطاق والمهام والمواعيد.</p><p>بكالوريوس هندسة تقنية المعلومات من جامعة القلمون، 2019–2024. العربية لغتي الأم، والإنجليزية بمستوى مهني. 🇸🇦</p></td>
     </tr>
     <tr class="transcript__row" id="say-history">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-history">📜 المسيرة المهنية</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-history">📜 المسيرة المهنية</button></th>
       <td id="answer-history"><p>عودة سريعة ⏪</p><p>📜 الخط الزمني 2026 مشرف هندسة برمجيات · Distinctive Frontier 2025–26 مطوّر واجهات / منسّق · Distinctive Frontier 2025–26 منسّق مشاريع ومطوّر أتمتة · NexLead 2024–25 مطوّر واجهات · Khwarizm Technologies 2023–24 مطوّر واجهات · Minicodeleader 2021 البرمجة التنافسية · ICPC / ACPC 2019–24 بكالوريوس هندسة تقنية المعلومات · جامعة القلمون</p><p>من مطوّر واجهات إلى مشرف خلال اثني عشر شهراً، كبيدق يبلغ الصفّ الثامن. ♟→♛</p></td>
     </tr>
     <tr class="transcript__row" id="say-skills">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-skills">🛠 التقنيات والشهادات</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-skills">🛠 التقنيات والشهادات</button></th>
       <td id="answer-skills"><p>الأتمتة: n8n، وOpenAI (‏GPT-4o وGPT-4.1 Vision)، ووكلاء ذكاء اصطناعي باستدعاء أدوات مخصّص، وMCP، وWebhooks، وREST.</p><p>الواجهات: React وTypeScript وTailwind، وi18n ودعم RTL، وVitest. والتشغيل: Git، وGitHub Actions، وJira، وMySQL، وPython.</p><p>🛠 شهادات Meta ‏React المتقدّم · IBM ‏Python لعلوم البيانات · أساسيات هندسة التوجيهات Google أساسيات إدارة المشاريع · بدء المشروع Packt ‏Tailwind CSS · Scrimba الكود النظيف · Markdown Coursera ‏TypeScript في React · خرائط طريق Jira وقصص المستخدم</p><p>اثنتا عشرة شهادة، جميعها بأرقام تحقّق في صفحة الخبرة. أما الكود النظيف فليس في القائمة. تلك سمة شخصية 😌</p></td>
     </tr>
     <tr class="transcript__row" id="say-hire">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-hire">🤝 لأي شيء أوظّفك؟</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-hire">🤝 لأي شيء أوظّفك؟</button></th>
       <td id="answer-hire"><p>هذا ما يأتيني الناس من أجله 👇</p><p>🤝 متاح لـ ذكاء اصطناعي للمستندات العربية: فواتير وإيصالات وبطاقات ونماذج ← بيانات منظّمة أتمتة سير العمل: خطوط n8n ووكلاء ذكاء اصطناعي تُدير نفسها الأدوات الداخلية: إدارة علاقات ولوحات تحكّم يستمتع الناس باستخدامها فعلاً واجهات SaaS: بـ React وTypeScript، ثنائية اللغة وبدعم RTL من اليوم الأول إدارة التسليم: قيادة فريق عن بُعد من البداية إلى النهاية</p><p>نطاق صغير أو منتج كامل، كلاهما مرحّب به.</p></td>
     </tr>
     <tr class="transcript__row" id="say-chess">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-chess">♞ العب شطرنج</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-chess">♞ العب شطرنج</button></th>
       <td id="answer-chess"><p>تجرؤ؟ جريء. أفتتح بـ ‎1. d4، ونظام لندن قادم ☕</p></td>
     </tr>
     <tr class="transcript__row" id="say-contact">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-contact">📬 لنتحدّث</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-contact">📬 لنتحدّث</button></th>
       <td id="answer-contact"><p>أفضل نقلة في المباراة 🤝</p><p>📬 تواصل مع نور الأسرع: البريد الإلكتروني. الرسمي: LinkedIn. ولمساعد ذكاء اصطناعي: يأتي مع هذا الموقع خادم MCP وملف تعريفي قابل للقراءة آلياً، فيستطيع ببساطة أن يستعلم عني.</p><p>مقيم في الخبر 🇸🇦 · أردّ بسرعة · وأسرع إذا ذكرت الأنمي.</p></td>
     </tr>
     <tr class="transcript__row" id="say-cost">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-cost">💸 حيلة خفض التكلفة</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-cost">💸 حيلة خفض التكلفة</button></th>
       <td id="answer-cost"><p>كان أول مسار عمل عندي يرسل كل ملف وارد مباشرة إلى نموذج رؤية. كان يعمل، لكنه كان يكلّف أكثر مما يلزم بنحو 3 أضعاف.</p><p>ملف PDF يحتوي عادةً نصاً قابلاً للقراءة أصلاً. ولا يحتاج نموذج الرؤية أن ينظر إلى صفحة يستطيع نموذج نصّي ببساطة أن يقرأها.</p><p>عقدة IF واحدة بعد الـ webhook: ملف PDF بنصّ قابل للاستخراج ← نموذج نصّي، وإلا ← نموذج رؤية. أرخص بنحو 75% لكل مستند.</p><p>💡 والجزء الذي ينساه الناس: احتفظ بمسار احتياطي. فإن عاد الاستخراج فارغاً لأن ملف PDF في حقيقته صورة ممسوحة، أعده إلى فرع الرؤية، وإلا فالمسار الرخيص لا ينتج شيئاً، بصمت.</p></td>
     </tr>
     <tr class="transcript__row" id="say-menu">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-menu">⌂ القائمة</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-menu">⌂ القائمة</button></th>
       <td id="answer-menu"><p>ما الذي تودّ معرفته أيضاً؟</p></td>
     </tr>
     <tr class="transcript__row" id="say-chess2">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-chess2">‎1… d5</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-chess2">‎1… d5</button></th>
       <td id="answer-chess2"><p>متين. ‎2. Bf4. لعبت هذا التركيب ألف مرة.</p><p>بعد ثلاثين نقلة: أنا متقدّم ببيدق في نهاية اللعبة وأنت في ضيق وقت 😄</p><p>علّمتني ICPC عام 2021 أن أحسب بسرعة، وأبقى هادئاً، وأحوّل الأفضلية إلى نتيجة. والمواعيد النهائية تطلب الشيء نفسه تماماً.</p></td>
     </tr>
     <tr class="transcript__row" id="say-chessrun">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-chessrun">اقلب الرقعة واهرب</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-chessrun">اقلب الرقعة واهرب</button></th>
       <td id="answer-chessrun"><p>حكمة. نظام لندن لا يرحم 😌</p></td>
     </tr>
     <tr class="transcript__row" id="say-bye">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-bye">👋 هذا كل شيء، شكراً</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-bye">👋 هذا كل شيء، شكراً</button></th>
       <td id="answer-bye"><p>شكراً لأنك حدّثت موقعي بدل أن تتصفّحه فقط 😄</p><p>يلّا، نلتقي في البريد 👋</p></td>
     </tr>
     </tbody>
@@ -292,7 +296,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
     </form>
     <img src="/assets/img/nour.jpg" alt="نور الدين طفي" width="720" height="720" loading="lazy" decoding="async">
   </dialog>
-<script src="/assets/js/main.js?v=6af10bef" type="module"></script>
+<script src="/assets/js/main.js?v=b9907de3" type="module" onerror="document.documentElement.classList.remove('js')"></script>
 <script src="/assets/js/chat/boot.ar.js?v=27679f5e" type="module"></script>
 </body>
 </html>

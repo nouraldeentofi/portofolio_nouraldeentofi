@@ -90,7 +90,9 @@ These are not style preferences — `npm test` and `npm run validate` fail on th
   to every workflow that has both a `flow` and a `canvas`, unless a project names it as its
   `workflow`: that one is shown on the project's page instead. `scripts/lib/details.mjs`
   decides, and everything that lists or links asks it. No two pages may share a title or a
-  description, and a product name is never translated.
+  description, and a product name is never translated: not in a heading, and not in the
+  copy either. Wherever the English of a pair names a product, the Arabic names it by the
+  same Latin letters, the engine of a product included ("وكلاء CV Screener").
 - **The card of a project on `/projects` is a summary**: what it is, his role, the figures,
   the stack and the way to its page. The problem, what he built and the context are told
   on `/projects/<id>` only, and a test fails when they are back on the list. The cards of
@@ -144,10 +146,22 @@ These are not style preferences — `npm test` and `npm run validate` fail on th
   confirmed. The main sitemap lists the entry address of each copy that is not `false`
   and carries no `todo`, with no hreflang and no date: a copy still to be confirmed stays
   as indexable as its repository left it, and is not submitted.
+- **A copy that asked AI crawlers to stay out is closed to them at the root.** A
+  `robots.txt` inside a folder has no force and the sync leaves it behind, so the wish of
+  such a repository is written as `"aiCrawlers": false` on its entry (only beside
+  `index: false`), and `robots.txt` at the root then closes that folder in every group
+  that names a crawler of an AI company, with its `Disallow` lines above `Allow: /` for
+  the parsers that obey the first line that matches. The group for every crawler, and any group for
+  a search engine, closes nothing: a page a search engine may not fetch cannot show it
+  the noindex that keeps the page out of search. `validate` holds `robots.txt` to the
+  data in both directions (`robotsProblems` in `scripts/lib/gates.mjs`).
 - **A copy lives in a folder of its own.** The sync replaces the whole folder a `path`
   names, so loading the data fails on a `path` that is not `sites/<name>` or one plain
   folder name, that the main site owns, or that another entry has or contains, and on a
   `dir` that leaves the repository. Nothing may stand under `sites/` without an entry.
+  A sync that is stopped half way can leave `<path>.sync` or `<path>.old` beside a copy:
+  git ignores both, `validate` fails while one is there, and the next `npm run sites`
+  for that copy that gets past the clone clears it.
 - `validate` holds every copy to its decision and to the sync: noindex in the head where
   the data says so, the copy's own clean address as the canonical of an entry page meant
   to be found, no canonical, hreflang, `og:url` or sitemap entry ending in `.html`, no

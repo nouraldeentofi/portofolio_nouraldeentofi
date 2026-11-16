@@ -190,8 +190,18 @@ export function searchHeadProblems(html, { own, indexable, noindex }) {
   return problems;
 }
 
-/* A host name as it is compared: without "www". `URL` has already put it in lower case. */
-const bareHost = (url) => url.hostname.replace(/^www\./, '');
+/* A host name as it is compared: without "www" and without the closing dot of a
+   fully qualified name. `URL` has already put it in lower case. */
+const bareHost = (url) => url.hostname.replace(/\.$/, '').replace(/^www\./, '');
+
+/* Can a crawler read this as an address: http or https, and one `URL` can parse? */
+const readable = (address) => {
+  try {
+    return /^https?:$/.test(new URL(address).protocol);
+  } catch {
+    return false;
+  }
+};
 
 /**
  * Is this address on the host of `site`? The name decides, not the
@@ -229,12 +239,17 @@ export const sitemapEntries = (xml) =>
  * a crawler to a 404, or to a page nobody decided should be found. The host
  * is known by its name however the address is written (`onHost`), so a
  * page listed with http, with www or with a port is not passed over as an
- * address somewhere else.
+ * address somewhere else. An entry a crawler cannot read at all, one with
+ * no `<loc>` or with something that is no address, is a problem too: it
+ * would otherwise pass in silence as "somewhere else".
  */
 export function sitemapProblems(xml, { site, pages = [], hosted = [], closed = [], pending = [] }) {
   const problems = [];
-  const locs = sitemapEntries(xml).map((entry) => entry.loc);
+  const entries = sitemapEntries(xml);
+  const locs = entries.map((entry) => entry.loc).filter((loc) => loc !== undefined);
   const times = (address) => locs.filter((l) => l === address).length;
+  const empty = entries.length - locs.length;
+  if (empty) problems.push(`sitemap.xml: ${empty} ${empty === 1 ? 'entry has' : 'entries have'} no <loc>`);
 
   for (const address of pages) {
     if (times(address) !== 1) problems.push(`sitemap.xml: ${address} must be listed exactly once`);
@@ -251,6 +266,7 @@ export function sitemapProblems(xml, { site, pages = [], hosted = [], closed = [
     if (copy) problems.push(`sitemap.xml: lists ${loc}, but data/hosting.json keeps ${copy} out of search`);
     else if (open) problems.push(`sitemap.xml: lists ${loc}, but the entry of ${open} in data/hosting.json still carries a todo: a copy is not submitted before its client has confirmed`);
     else if (onHost(loc, site)) problems.push(`sitemap.xml: lists ${loc}, which is neither a page the build writes nor the entry of a copy`);
+    else if (!readable(loc)) problems.push(`sitemap.xml: lists "${loc}", which is not an address a crawler can read`);
   }
 
   if (/<priority>|<changefreq>/.test(xml)) problems.push('sitemap.xml: carries <priority> or <changefreq>, which Google ignores');
@@ -326,4 +342,88 @@ export function misspellingLeaks(html) {
     }
   }
   return places;
+}
+
+/* ------------------------------------------------------------ robots.txt */
+
+/** The groups of a robots.txt: the crawlers each one names and its rules, in file order. */
+export function robotsGroups(text) {
+  const groups = [];
+  let group = null;
+  let naming = false; // "User-agent" lines that follow one another share one group
+  for (const raw of text.split(/\r?\n/)) {
+    const field = raw.replace(/#.*$/, '').trim().match(/^([A-Za-z-]+)\s*:\s*(.*)$/);
+    if (!field) continue;
+    const key = field[1].toLowerCase();
+    const value = field[2].trim();
+    if (key === 'user-agent') {
+      if (!naming) groups.push((group = { agents: [], rules: [] }));
+      group.agents.push(value);
+      naming = true;
+    } else {
+      naming = false;
+      if (key === 'allow' || key === 'disallow') group?.rules.push({ rule: key, path: value });
+    }
+  }
+  return groups;
+}
+
+/* Crawlers of search engines. They must be able to fetch a page to read its noindex. */
+const SEARCH_CRAWLER = /^(?:googlebot(?:-[a-z]+)?|bingbot|msnbot|slurp|duckduckbot|yandex(?:bot)?|baiduspider|applebot)$/i;
+
+/**
+ * robots.txt against the copies of other sites.
+ *
+ * `aiClosed` are the folders ("/sites/name/") of the copies whose own
+ * repository asked the crawlers of AI companies to stay out
+ * (`aiClosedPaths` in hosting.mjs). Every group that names such a crawler
+ * closes each of those folders and nothing else. The group for every crawler
+ * ("*") and a group for a search engine close nothing at all: a search engine
+ * that may not fetch a page cannot read its noindex, and an address it may
+ * not fetch can still be listed by its link alone.
+ */
+export function robotsProblems(text, { aiClosed = [] } = {}) {
+  const problems = [];
+  const groups = robotsGroups(text);
+  const closedBy = (group) => group.rules.filter((r) => r.rule === 'disallow' && r.path).map((r) => r.path);
+  const open = (group) => group.agents.some((agent) => agent === '*' || SEARCH_CRAWLER.test(agent));
+
+  const everyone = groups.filter((group) => group.agents.includes('*')).length;
+  if (everyone !== 1) problems.push(`robots.txt: expected one group for every crawler ("User-agent: *"), found ${everyone}`);
+
+  for (const group of groups) {
+    const who = group.agents.join(', ');
+    // A search engine and another crawler in one group share its rules, and
+    // the two need different ones.
+    const engines = group.agents.filter((agent) => agent === '*' || SEARCH_CRAWLER.test(agent));
+    if (engines.length && engines.length < group.agents.length) {
+      problems.push(`robots.txt: ${who} share one group, but a search engine and the crawler of an AI company need different rules`);
+    }
+    if (open(group)) {
+      for (const path of closedBy(group)) {
+        problems.push(`robots.txt: ${who} is kept out of ${path}: a search engine that may not fetch a page cannot read its noindex`);
+      }
+      continue;
+    }
+    const closed = closedBy(group);
+    // RFC 9309 takes the longest match, but some parsers stop at the first
+    // line that matches: for them an "Allow: /" above a Disallow opens it again.
+    const order = group.rules.filter((r) => r.path).map((r) => r.rule);
+    if (order.includes('allow') && order.lastIndexOf('disallow') > order.indexOf('allow')) {
+      problems.push(`robots.txt: ${who} has an Allow line above a Disallow line: a crawler that obeys the first line that matches reads the folders below it as open`);
+    }
+    // Under RFC 9309 the longest match wins and an Allow wins a tie, so any
+    // Allow longer than "/" can open a closed folder again.
+    for (const rule of group.rules.filter((r) => r.rule === 'allow' && r.path && r.path !== '/')) {
+      problems.push(`robots.txt: ${who} carries "Allow: ${rule.path}": the only Allow a group of AI crawlers keeps is "Allow: /", which cannot open a closed folder`);
+    }
+    for (const path of aiClosed) {
+      if (!closed.includes(path)) problems.push(`robots.txt: ${who} is not kept out of ${path}, which data/hosting.json closes to the crawlers of AI companies`);
+    }
+    for (const path of closed) {
+      if (!aiClosed.includes(path)) problems.push(`robots.txt: ${who} is kept out of ${path}, which no entry of data/hosting.json asks for`);
+    }
+  }
+  if (aiClosed.length && groups.every(open)) problems.push('robots.txt: names no crawler of an AI company, so nothing keeps them out of the copies that asked for it');
+  return problems;
 }

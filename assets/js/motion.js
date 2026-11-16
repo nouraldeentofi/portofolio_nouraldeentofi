@@ -103,6 +103,10 @@ export function initTranscript() {
   const table = document.querySelector('.transcript__table');
   if (!table) return;
 
+  // Without scripts every row is shown whole and a toggle does nothing, so
+  // the HTML claims no state. Here the rows are clamped: each one is closed.
+  table.querySelectorAll('.transcript__toggle').forEach((toggle) => toggle.setAttribute('aria-expanded', 'false'));
+
   table.addEventListener('click', (event) => {
     const toggle = event.target.closest('.transcript__toggle');
     if (!toggle) return;

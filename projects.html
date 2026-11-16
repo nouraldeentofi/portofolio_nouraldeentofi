@@ -30,8 +30,12 @@
 <script>
 /* Set before first paint so reveals never flash, and the stored theme never
    flickers. Also tells CSS that JavaScript is available: without this class
-   nothing is ever hidden. */
-(function(){var r=document.documentElement;r.classList.add('js');
+   nothing is ever hidden. It is set only where module scripts can run, and
+   taken back when main.js cannot load (its onerror) or when one of the
+   site's own scripts fails as it is read or run (the listener below), so a
+   reveal that will never come leaves the content shown. */
+(function(){var r=document.documentElement;if(typeof HTMLScriptElement!=='undefined'&&'noModule' in HTMLScriptElement.prototype)r.classList.add('js');
+if(typeof addEventListener==='function')addEventListener('error',function(e){if(((e&&e.filename)||'').indexOf('/assets/js/')!==-1)r.classList.remove('js');});
 try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}
 /* honour the visitor's last language choice on every arrival. The query and
    the fragment travel with it: ids are the same in both languages, so a link
@@ -50,11 +54,11 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <link rel="stylesheet" href="/assets/css/tokens.css?v=9e291487">
 <link rel="stylesheet" href="/assets/css/base.css?v=52040e91">
 <link rel="stylesheet" href="/assets/css/layout.css?v=f9c9bdc0">
-<link rel="stylesheet" href="/assets/css/components.css?v=73c51bc3">
+<link rel="stylesheet" href="/assets/css/components.css?v=d351834f">
 <link rel="stylesheet" href="/assets/css/motion.css?v=0828308a">
 <link rel="stylesheet" href="/assets/css/gallery.css?v=54f99880">
 <link rel="stylesheet" href="/assets/css/responsive.css?v=a7c809d0">
-<link rel="stylesheet" href="/assets/css/rtl.css?v=d3c0e9aa">
+<link rel="stylesheet" href="/assets/css/rtl.css?v=1d207351">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -249,7 +253,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <article data-reveal data-filter-item data-group="ai" class="card card--row card--summary card--featured" id="smart-scanner">
   <div class="card__main">
     <p class="card__meta"><span>منتج SaaS بالذكاء الاصطناعي</span><span>2026</span></p>
-    <h3 class="card__title"><a href="/projects/smart-scanner">Smart Scanner</a></h3>
+    <h2 class="card__title"><a href="/projects/smart-scanner">Smart Scanner</a></h2>
     <p class="card__body">إدارة فواتير بالذكاء الاصطناعي، عربية أولاً: من الصورة حتى الاعتماد، دون أي إدخال يدوي.</p>
     <dl class="card__body">
       <dt>دوري</dt><dd>محرّك الذكاء الاصطناعي والأتمتة، والواجهة الأمامية كاملة. الواجهة الخلفية بـ Laravel من إعداد <a class="entity" href="https://www.linkedin.com/in/haitham-zedan-391668221/" target="_blank" rel="noopener noreferrer">هيثم زيدان<span class="visually-hidden"> (يفتح في تبويب جديد)</span></a>.</dd>
@@ -264,7 +268,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <article data-reveal data-filter-item data-group="ai" class="card card--row card--summary" id="cv-screener">
   <div class="card__main">
     <p class="card__meta"><span>منتج SaaS بالذكاء الاصطناعي</span><span>2026</span></p>
-    <h3 class="card__title"><a href="/projects/cv-screener">CV Screener</a></h3>
+    <h2 class="card__title"><a href="/projects/cv-screener">CV Screener</a></h2>
     <p class="card__body">ارفع مجلداً من السير الذاتية، فتُقرأ كلها وتُصنّف وتُقيّم بالذكاء الاصطناعي، وكل نقطة مربوطة باقتباس من السيرة نفسها.</p>
     <dl class="card__body">
       <dt>دوري</dt><dd>البناء الكامل: المنتج والواجهة والخادم ومسارات الذكاء الاصطناعي</dd>
@@ -279,7 +283,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <article data-reveal data-filter-item data-group="ai" class="card card--row card--summary" id="universal-web-scraper">
   <div class="card__main">
     <p class="card__meta"><span>منتج أتمتة بالذكاء الاصطناعي</span><span>2026</span></p>
-    <h3 class="card__title"><a href="/projects/universal-web-scraper">Universal Web Scraper</a></h3>
+    <h2 class="card__title"><a href="/projects/universal-web-scraper">Universal Web Scraper</a></h2>
     <p class="card__body">رابط واحد يدخل، والموقع كله يخرج: تُكتشف كل صفحاته، وتُصنّف بياناته، ويُملأ ملف Excel بتبويب لكل نوع منها.</p>
     <dl class="card__body">
       <dt>دوري</dt><dd>البناء الكامل: الواجهة والأتمتة</dd>
@@ -301,7 +305,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
   </figure></div>
   <div class="card__main">
     <p class="card__meta"><span>استوديو موشن جرافيك</span><span>2026</span></p>
-    <h3 class="card__title"><a href="/projects/motion-studio">Nour Motion Studio</a></h3>
+    <h2 class="card__title"><a href="/projects/motion-studio">Nour Motion Studio</a></h2>
     <p class="card__body">اختر المقاس والنمط، وأضف مشاهد جاهزة، ثم صدّر فيديو موشن مجاناً وداخل المتصفح، دون حساب ولا خادم.</p>
     <dl class="card__body">
       <dt>دوري</dt><dd>البناء الكامل: التصميم والمحرّر ومحرّك الرسم</dd>
@@ -323,7 +327,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
   </figure></div>
   <div class="card__main">
     <p class="card__meta"><span>أداة إتاحة للمكفوفين</span><span>2026</span></p>
-    <h3 class="card__title"><a href="/projects/braille-certificate">Braille Certificate Maker</a></h3>
+    <h2 class="card__title"><a href="/projects/braille-certificate">Braille Certificate Maker</a></h2>
     <p class="card__body">املأ بيانات شهادة التدريب، فتحصل على ملف PDF جاهز للطباعة، ومعه نسخة برايل عربية كاملة يقرؤها المتدرب الكفيف باللمس، وملف لطابعات برايل.</p>
     <dl class="card__body">
       <dt>دوري</dt><dd>البناء الكامل: التصميم وترجمة برايل وإخراج ملف PDF</dd>
@@ -345,7 +349,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
   </figure></div>
   <div class="card__main">
     <p class="card__meta"><span>منصّة فوترة إلكترونية · مفتوحة المصدر</span><span>2026</span></p>
-    <h3 class="card__title"><a href="/projects/khatm">Khatm · ختم</a></h3>
+    <h2 class="card__title"><a href="/projects/khatm">Khatm · ختم</a></h2>
     <p class="card__body">برنامج فوترة إلكترونية مفتوح المصدر للمنشآت في المملكة، مع نسخة عرض عامة تُصدر الفواتير وتوقّعها كاملاً داخل المتصفح.</p>
     <dl class="card__body">
       <dt>دوري</dt><dd>البناء الكامل: مكتبة الفوترة وقاعدة البيانات ونسخة العرض</dd>
@@ -367,7 +371,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
   </figure></div>
   <div class="card__main">
     <p class="card__meta"><span>دليل يعمل دون إنترنت · PWA</span><span>2026</span></p>
-    <h3 class="card__title"><a href="/projects/umrah-guide">The Complete Umrah Guide</a></h3>
+    <h2 class="card__title"><a href="/projects/umrah-guide">The Complete Umrah Guide</a></h2>
     <p class="card__body">قائمة تفاعلية لمناسك العمرة بترتيب أدائها، بعشر لغات، ومصمّمة لتُستخدم بيد واحدة ودون إنترنت داخل الحرم.</p>
     <dl class="card__body">
       <dt>دوري</dt><dd>البناء الكامل: المحتوى والتصميم والتطبيق دون اتصال</dd>
@@ -382,7 +386,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <article data-reveal data-filter-item data-group="apps" class="card card--row card--summary" id="dfs-dashboard">
   <div class="card__main">
     <p class="card__meta"><span>منصّة داخلية</span><span>2025 إلى 2026</span></p>
-    <h3 class="card__title"><a href="/projects/dfs-dashboard">DFS Dashboard</a></h3>
+    <h2 class="card__title"><a href="/projects/dfs-dashboard">DFS Dashboard</a></h2>
     <p class="card__body">منصّة موحّدة لإدارة العملاء وعروض الأسعار حلّت محل عمليات يدوية متفرّقة في كل الأقسام.</p>
     <dl class="card__body">
       <dt>دوري</dt><dd>قائد الواجهة الأمامية</dd>
@@ -397,7 +401,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <article data-reveal data-filter-item data-group="apps" class="card card--row card--summary" id="goldentag">
   <div class="card__main">
     <p class="card__meta"><span>تطبيق موبايل · Google Play</span><span>2025</span></p>
-    <h3 class="card__title"><a href="/projects/goldentag">GoldenTag</a></h3>
+    <h2 class="card__title"><a href="/projects/goldentag">GoldenTag</a></h2>
     <p class="card__body">تطبيق لإدارة محلات المجوهرات، منشور على متجر Google Play.</p>
     <dl class="card__body">
       <dt>دوري</dt><dd>منسّق المشروع</dd>
@@ -412,7 +416,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <article data-reveal data-filter-item data-group="ai" class="card card--row card--summary" id="business-card-extractor">
   <div class="card__main">
     <p class="card__meta"><span>تطبيق ويب بالذكاء الاصطناعي</span><span>2026</span></p>
-    <h3 class="card__title"><a href="/projects/business-card-extractor">Business Card Extractor</a></h3>
+    <h2 class="card__title"><a href="/projects/business-card-extractor">Business Card Extractor</a></h2>
     <p class="card__body">صوّر بطاقة العمل، فتصل إلى جهات الاتصال في هاتفك بضغطة واحدة.</p>
     <dl class="card__body">
       <dt>دوري</dt><dd>البناء الكامل: الواجهة والأتمتة</dd>
@@ -427,7 +431,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <article data-reveal data-filter-item data-group="ai" class="card card--row card--summary" id="mcp-search-server">
   <div class="card__main">
     <p class="card__meta"><span>أدوات ذكاء اصطناعي</span><span>2026</span></p>
-    <h3 class="card__title"><a href="/projects/mcp-search-server">MCP Search Server</a></h3>
+    <h2 class="card__title"><a href="/projects/mcp-search-server">MCP Search Server</a></h2>
     <p class="card__body">خادم Model Context Protocol يتيح لنموذج ذكاء اصطناعي أن يستعلم بيانات حقيقية بدل توليد النصوص فقط.</p>
     <dl class="card__body">
       <dt>دوري</dt><dd>البناء الكامل</dd>
@@ -482,6 +486,6 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
     </form>
     <img src="/assets/img/nour.jpg" alt="نور الدين طفي" width="720" height="720" loading="lazy" decoding="async">
   </dialog>
-<script src="/assets/js/main.js?v=6af10bef" type="module"></script>
+<script src="/assets/js/main.js?v=b9907de3" type="module" onerror="document.documentElement.classList.remove('js')"></script>
 </body>
 </html>

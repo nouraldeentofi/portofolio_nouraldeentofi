@@ -232,8 +232,12 @@ ${B.headMeta(db, page, lang, opts)}
 <script>
 /* Set before first paint so reveals never flash, and the stored theme never
    flickers. Also tells CSS that JavaScript is available: without this class
-   nothing is ever hidden. */
-(function(){var r=document.documentElement;r.classList.add('js');
+   nothing is ever hidden. It is set only where module scripts can run, and
+   taken back when main.js cannot load (its onerror) or when one of the
+   site's own scripts fails as it is read or run (the listener below), so a
+   reveal that will never come leaves the content shown. */
+(function(){var r=document.documentElement;if(typeof HTMLScriptElement!=='undefined'&&'noModule' in HTMLScriptElement.prototype)r.classList.add('js');
+if(typeof addEventListener==='function')addEventListener('error',function(e){if(((e&&e.filename)||'').indexOf('/assets/js/')!==-1)r.classList.remove('js');});
 try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}
 /* honour the visitor's last language choice on every arrival. The query and
    the fragment travel with it: ids are the same in both languages, so a link
@@ -276,7 +280,7 @@ ${main}
 ${footer(db, lang)}
 ${mobileTabs(db, lang, here)}
 ${portraitDialog(db, lang)}
-<script src="${assetV(db, 'assets/js/main.js')}" type="module"></script>${
+<script src="${assetV(db, 'assets/js/main.js')}" type="module" onerror="document.documentElement.classList.remove('js')"></script>${
     page === 'chat' ? `\n<script src="${assetV(db, `assets/js/chat/boot.${lang}.js`)}" type="module"></script>` : ''
   }
 </body>

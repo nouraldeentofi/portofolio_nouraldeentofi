@@ -101,3 +101,13 @@
     inset-inline-start: 22%;
   }
 }
+
+/* ---------- canvas pictures ---------- */
+
+/* A canvas frame stays left to right, so a workflow starts from its trigger,
+   but the picture inside keeps the direction of the page: if it fails to
+   load, its Arabic alt text reads right to left and not in pieces. */
+[dir='rtl'] .canvas-shot__scroll img,
+[dir='rtl'] .lightbox__body img {
+  direction: rtl;
+}

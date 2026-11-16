@@ -632,7 +632,7 @@ export function projectsList(db, lang) {
   <div class="card__media">${deviceStage(db, p, lang)}</div>` : ''}
   <div class="card__main">
     <p class="card__meta"><span>${e(p.category[lang])}</span><span>${e(yearOf(p.year, lang))}</span></p>
-    <h3 class="card__title"><a href="${projectHref(p, lang)}">${e(p.name)}</a></h3>
+    <h2 class="card__title"><a href="${projectHref(p, lang)}">${e(p.name)}</a></h2>
     <p class="card__body">${e(p.tagline[lang])}</p>
     <dl class="card__body">
       <dt>${e(c.ui.role)}</dt><dd>${prose(db, p.role[lang], lang)}</dd>

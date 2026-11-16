@@ -30,8 +30,12 @@
 <script>
 /* Set before first paint so reveals never flash, and the stored theme never
    flickers. Also tells CSS that JavaScript is available: without this class
-   nothing is ever hidden. */
-(function(){var r=document.documentElement;r.classList.add('js');
+   nothing is ever hidden. It is set only where module scripts can run, and
+   taken back when main.js cannot load (its onerror) or when one of the
+   site's own scripts fails as it is read or run (the listener below), so a
+   reveal that will never come leaves the content shown. */
+(function(){var r=document.documentElement;if(typeof HTMLScriptElement!=='undefined'&&'noModule' in HTMLScriptElement.prototype)r.classList.add('js');
+if(typeof addEventListener==='function')addEventListener('error',function(e){if(((e&&e.filename)||'').indexOf('/assets/js/')!==-1)r.classList.remove('js');});
 try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}
 /* honour the visitor's last language choice on every arrival. The query and
    the fragment travel with it: ids are the same in both languages, so a link
@@ -50,10 +54,10 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <link rel="stylesheet" href="/assets/css/tokens.css?v=9e291487">
 <link rel="stylesheet" href="/assets/css/base.css?v=52040e91">
 <link rel="stylesheet" href="/assets/css/layout.css?v=f9c9bdc0">
-<link rel="stylesheet" href="/assets/css/components.css?v=73c51bc3">
+<link rel="stylesheet" href="/assets/css/components.css?v=d351834f">
 <link rel="stylesheet" href="/assets/css/motion.css?v=0828308a">
 <link rel="stylesheet" href="/assets/css/responsive.css?v=a7c809d0">
-<link rel="stylesheet" href="/assets/css/rtl.css?v=d3c0e9aa">
+<link rel="stylesheet" href="/assets/css/rtl.css?v=1d207351">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -616,6 +620,6 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
     </form>
     <img src="/assets/img/nour.jpg" alt="نور الدين طفي" width="720" height="720" loading="lazy" decoding="async">
   </dialog>
-<script src="/assets/js/main.js?v=6af10bef" type="module"></script>
+<script src="/assets/js/main.js?v=b9907de3" type="module" onerror="document.documentElement.classList.remove('js')"></script>
 </body>
 </html>

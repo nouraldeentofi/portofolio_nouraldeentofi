@@ -30,8 +30,12 @@
 <script>
 /* Set before first paint so reveals never flash, and the stored theme never
    flickers. Also tells CSS that JavaScript is available: without this class
-   nothing is ever hidden. */
-(function(){var r=document.documentElement;r.classList.add('js');
+   nothing is ever hidden. It is set only where module scripts can run, and
+   taken back when main.js cannot load (its onerror) or when one of the
+   site's own scripts fails as it is read or run (the listener below), so a
+   reveal that will never come leaves the content shown. */
+(function(){var r=document.documentElement;if(typeof HTMLScriptElement!=='undefined'&&'noModule' in HTMLScriptElement.prototype)r.classList.add('js');
+if(typeof addEventListener==='function')addEventListener('error',function(e){if(((e&&e.filename)||'').indexOf('/assets/js/')!==-1)r.classList.remove('js');});
 try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}
 /* honour the visitor's last language choice on every arrival. The query and
    the fragment travel with it: ids are the same in both languages, so a link
@@ -50,7 +54,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <link rel="stylesheet" href="/assets/css/tokens.css?v=9e291487">
 <link rel="stylesheet" href="/assets/css/base.css?v=52040e91">
 <link rel="stylesheet" href="/assets/css/layout.css?v=f9c9bdc0">
-<link rel="stylesheet" href="/assets/css/components.css?v=73c51bc3">
+<link rel="stylesheet" href="/assets/css/components.css?v=d351834f">
 <link rel="stylesheet" href="/assets/css/motion.css?v=0828308a">
 <link rel="stylesheet" href="/assets/css/chat.css?v=b2a5454f">
 <link rel="stylesheet" href="/assets/css/responsive.css?v=a7c809d0">
@@ -199,59 +203,59 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
     </thead>
     <tbody>
     <tr class="transcript__row" id="say-start">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-start">Opening</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-start">Opening</button></th>
       <td id="answer-start"><p>Salam 👋 I am Nour (the chat version, anyway).</p><p>I am an AI automation engineer in Al Khobar, Saudi Arabia. I build n8n workflows that read documents with language models, and the React interfaces people use on top of them.</p><p>Everything here is also on the rest of the site as plain text. Ask away 👇</p></td>
     </tr>
     <tr class="transcript__row" id="say-automation">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-automation">🤖 What do you actually build?</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-automation">🤖 What do you actually build?</button></th>
       <td id="answer-automation"><p>The short version: I take a process someone does by hand, and make it run itself.</p><p>Some run for a client, some are live, some are built and tested. A few of them 👇</p><p>🤖 Automation Smart Scanner pipeline: invoice photo → verified → parsed with GPT Vision → validated → stored. Teacher Assistant Bot: an Arabic Telegram agent running a tutor&#39;s whole practice from chat. AI Job-Match: scores jobs 1–10 daily, delivers only the good ones, writes the cover letter. Smart Lead Finder: scrapes and scores B2B leads across Saudi and Jordan. Lesson Quality Evaluator: video in, structured scoring JSON out. CRM Lead Cleaner: dedupes and validates incoming leads, with a reason for every rejection.</p><p>Each one carries its real status on the Automation page.</p></td>
     </tr>
     <tr class="transcript__row" id="say-smartscanner">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-smartscanner">🧾 Tell me about Smart Scanner</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-smartscanner">🧾 Tell me about Smart Scanner</button></th>
       <td id="answer-smartscanner"><p>My favourite build 🧾</p><p>🧾 Smart Scanner: Arabic-first invoice AI An employee photographs a receipt. The AI verifies it is a real invoice, runs fraud checks, extracts 70+ fields plus line items in Arabic and English, and classifies every expense. Accountants review, approve, comment, and export, all through role-based dashboards. I built two of the three layers: the entire n8n AI engine, and the complete frontend in React 19 and TypeScript, with 204 source files and 494 automated tests.</p><p>Timing was not an accident: e-invoicing is expanding in Saudi Arabia and JoFotara is mandatory in Jordan. Every paper invoice in the region has to become clean data.</p><p>The Laravel backend is by Haitham Zedan. Good products come from good teams.</p></td>
     </tr>
     <tr class="transcript__row" id="say-who">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-who">👤 Who are you?</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-who">👤 Who are you?</button></th>
       <td id="answer-who"><p>I am Nour Aldeen Tofi, an AI automation engineer and frontend developer based in Al Khobar.</p><p>The unusual part is that I do both ends: I design the pipeline and I build the interface. I also run delivery: requirements, scope, tasks, deadlines.</p><p>B.Eng in Information Technology from University of Kalamoon, 2019–2024. Arabic native, English professional. 🇸🇦</p></td>
     </tr>
     <tr class="transcript__row" id="say-history">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-history">📜 Work history</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-history">📜 Work history</button></th>
       <td id="answer-history"><p>Quick rewind ⏪</p><p>📜 The timeline 2026 Software Engineering Supervisor · Distinctive Frontier 2025–26 Frontend Developer / Coordinator · Distinctive Frontier 2025–26 Project Coordinator &amp; Automation Builder · NexLead 2024–25 Frontend Developer · Khwarizm Technologies 2023–24 Frontend Developer · Minicodeleader 2021 Competitive programming · ICPC / ACPC 2019–24 B.Eng Information Technology · University of Kalamoon</p><p>Frontend developer to supervisor in twelve months, like a pawn reaching the eighth rank. ♟→♛</p></td>
     </tr>
     <tr class="transcript__row" id="say-skills">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-skills">🛠 Stack &amp; certifications</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-skills">🛠 Stack &amp; certifications</button></th>
       <td id="answer-skills"><p>Automation: n8n, OpenAI (GPT-4o and GPT-4.1 Vision), AI agents with custom tool-calling, MCP, webhooks, REST.</p><p>Frontend: React, TypeScript, Tailwind, i18n and RTL, Vitest. Ops: Git, GitHub Actions, Jira, MySQL, Python.</p><p>🛠 Certified Meta Advanced React · IBM Python for Data Science &amp; AI · GenAI Prompt Engineering Google Foundations of PM · Project Initiation Packt Tailwind CSS · Scrimba Clean Code · Markdown Coursera TypeScript in React · Jira roadmaps, user stories, and fundamentals</p><p>Twelve certificates, all with credential IDs on the Experience page. Clean code is not on the list. That one is a personality trait 😌</p></td>
     </tr>
     <tr class="transcript__row" id="say-hire">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-hire">🤝 What can I hire you for?</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-hire">🤝 What can I hire you for?</button></th>
       <td id="answer-hire"><p>Here is what people come to me for 👇</p><p>🤝 Open for Arabic document AI: invoices, receipts, cards, forms → structured data Workflow automation: n8n pipelines and AI agents that run themselves Internal tools: CRM, ERP, dashboards people actually enjoy using SaaS frontends: React and TypeScript, bilingual and RTL from day one Delivery: running a remote team end to end</p><p>Small scope or full product, both are welcome.</p></td>
     </tr>
     <tr class="transcript__row" id="say-chess">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-chess">♞ Chess me</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-chess">♞ Chess me</button></th>
       <td id="answer-chess"><p>You dare? Bold. I open 1. d4, London System incoming ☕</p></td>
     </tr>
     <tr class="transcript__row" id="say-contact">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-contact">📬 Let us talk</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-contact">📬 Let us talk</button></th>
       <td id="answer-contact"><p>Best move of the game 🤝</p><p>📬 Reach Nour Fastest: email. Formal: LinkedIn. For an AI assistant: this site ships an MCP server and a machine-readable profile, so it can just look me up.</p><p>Based in Al Khobar 🇸🇦 · replies fast · faster if you mention anime.</p></td>
     </tr>
     <tr class="transcript__row" id="say-cost">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-cost">💸 The cost trick</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-cost">💸 The cost trick</button></th>
       <td id="answer-cost"><p>My first workflow sent every incoming file straight to a vision model. It worked, but it cost about 3× more than it needed to.</p><p>A PDF usually already contains readable text. A vision model does not need to look at a page a text model can simply read.</p><p>One IF node after the webhook: PDF with extractable text → text model, otherwise → vision. About 75% cheaper per document.</p><p>💡 The part people forget: keep a fallback. If extraction returns empty because the PDF is really a scan, send it back to the vision branch. Otherwise the cheap path silently produces nothing.</p></td>
     </tr>
     <tr class="transcript__row" id="say-menu">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-menu">⌂ Menu</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-menu">⌂ Menu</button></th>
       <td id="answer-menu"><p>What else can I tell you?</p></td>
     </tr>
     <tr class="transcript__row" id="say-chess2">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-chess2">1… d5</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-chess2">1… d5</button></th>
       <td id="answer-chess2"><p>Solid. 2. Bf4. I have played this structure a thousand times.</p><p>Fast-forward thirty moves: I am a pawn up in the endgame and you are in time trouble 😄</p><p>ICPC 2021 taught me to calculate fast, stay calm, and convert the advantage. Deadlines ask for exactly the same thing.</p></td>
     </tr>
     <tr class="transcript__row" id="say-chessrun">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-chessrun">Flip the board and run</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-chessrun">Flip the board and run</button></th>
       <td id="answer-chessrun"><p>Wise. The London System shows no mercy 😌</p></td>
     </tr>
     <tr class="transcript__row" id="say-bye">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-bye">👋 That is all, thanks</button></th>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-bye">👋 That is all, thanks</button></th>
       <td id="answer-bye"><p>Thanks for talking to my portfolio instead of only scrolling one 😄</p><p>Yalla, see you in the inbox 👋</p></td>
     </tr>
     </tbody>
@@ -291,7 +295,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
     </form>
     <img src="/assets/img/nour.jpg" alt="Nour Aldeen Tofi" width="720" height="720" loading="lazy" decoding="async">
   </dialog>
-<script src="/assets/js/main.js?v=6af10bef" type="module"></script>
+<script src="/assets/js/main.js?v=b9907de3" type="module" onerror="document.documentElement.classList.remove('js')"></script>
 <script src="/assets/js/chat/boot.en.js?v=21c69865" type="module"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 {
   "domain": "https://nouraldeentofi.com",
   "owner": "nouraldeentofi",
-  "note": "index says whether search engines may list a copy: true (its own robots tags stand), false (the sync writes noindex into every page: noindex, follow, or noindex, nofollow where the owner's page already said nofollow) or \"root-only\" (only the entry page is listed). It is required, and `npm run sites` writes it into the copy. A todo beside it says the decision is still to be confirmed: until it is gone, the copy is left out of the main sitemap. path is the folder the sync replaces: sites/<name> or one plain folder of its own. formerHosts are hosts the portfolio used to live on: links to them in any copy are moved to the domain.",
+  "note": "index says whether search engines may list a copy: true (its own robots tags stand), false (the sync writes noindex into every page: noindex, follow, or noindex, nofollow where the owner's page already said nofollow) or \"root-only\" (only the entry page is listed). It is required, and `npm run sites` writes it into the copy. A todo beside it says the decision is still to be confirmed: until it is gone, the copy is left out of the main sitemap. aiCrawlers: false is for a copy whose own repository asked crawlers of AI companies to stay out (its robots.txt, which has no force in a folder of this domain): robots.txt at the root then closes that folder to every crawler it names, and to those only, so a search engine can still read the noindex. path is the folder the sync replaces: sites/<name> or one plain folder of its own. formerHosts are hosts the portfolio used to live on: links to them in any copy are moved to the domain.",
   "formerHosts": ["nouraldeentofi.netlify.app"],
   "sites": [
     { "repo": "aya-rady", "branch": "main", "dir": "", "path": "sites/aya-rady", "index": true },
@@ -11,9 +11,9 @@
     { "repo": "tawheed-malkat", "branch": "main", "dir": "", "path": "sites/tawheed-malkat", "index": false },
     { "repo": "monther-al-ashqar", "branch": "main", "dir": "", "path": "sites/monther-al-ashqar", "index": true },
     { "repo": "othman-almashaqba", "branch": "main", "dir": "", "path": "sites/othman-almashaqba", "index": false },
-    { "repo": "hamad-al-thiapi", "branch": "main", "dir": "docs", "path": "sites/hamad-al-thiapi", "index": false },
+    { "repo": "hamad-al-thiapi", "branch": "main", "dir": "docs", "path": "sites/hamad-al-thiapi", "index": false, "aiCrawlers": false },
     { "repo": "mazen-alobaidi", "branch": "main", "dir": "", "path": "sites/mazen-alobaidi", "index": false },
-    { "repo": "ayman-alawwad", "branch": "main", "dir": "docs", "path": "sites/ayman-alawwad", "index": false },
+    { "repo": "ayman-alawwad", "branch": "main", "dir": "docs", "path": "sites/ayman-alawwad", "index": false, "aiCrawlers": false },
     { "repo": "karam", "branch": "main", "dir": "", "path": "sites/karam", "index": false, "todo": "Kept out of search while its title is a placeholder and it has no canonical. Give it a real title in the karam repository before setting index to true." },
     { "repo": "albader-transport", "branch": "gh-pages", "dir": "", "path": "sites/albader-transport", "index": true },
     { "repo": "arabian-access", "branch": "main", "dir": "", "path": "sites/arabian-access", "index": false },

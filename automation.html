@@ -30,8 +30,12 @@
 <script>
 /* Set before first paint so reveals never flash, and the stored theme never
    flickers. Also tells CSS that JavaScript is available: without this class
-   nothing is ever hidden. */
-(function(){var r=document.documentElement;r.classList.add('js');
+   nothing is ever hidden. It is set only where module scripts can run, and
+   taken back when main.js cannot load (its onerror) or when one of the
+   site's own scripts fails as it is read or run (the listener below), so a
+   reveal that will never come leaves the content shown. */
+(function(){var r=document.documentElement;if(typeof HTMLScriptElement!=='undefined'&&'noModule' in HTMLScriptElement.prototype)r.classList.add('js');
+if(typeof addEventListener==='function')addEventListener('error',function(e){if(((e&&e.filename)||'').indexOf('/assets/js/')!==-1)r.classList.remove('js');});
 try{var t=localStorage.getItem('nt-theme');if(t==='light'||t==='dark')r.dataset.theme=t;}catch(e){}
 /* honour the visitor's last language choice on every arrival. The query and
    the fragment travel with it: ids are the same in both languages, so a link
@@ -50,11 +54,11 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <link rel="stylesheet" href="/assets/css/tokens.css?v=9e291487">
 <link rel="stylesheet" href="/assets/css/base.css?v=52040e91">
 <link rel="stylesheet" href="/assets/css/layout.css?v=f9c9bdc0">
-<link rel="stylesheet" href="/assets/css/components.css?v=73c51bc3">
+<link rel="stylesheet" href="/assets/css/components.css?v=d351834f">
 <link rel="stylesheet" href="/assets/css/motion.css?v=0828308a">
 <link rel="stylesheet" href="/assets/css/gallery.css?v=54f99880">
 <link rel="stylesheet" href="/assets/css/responsive.css?v=a7c809d0">
-<link rel="stylesheet" href="/assets/css/rtl.css?v=d3c0e9aa">
+<link rel="stylesheet" href="/assets/css/rtl.css?v=1d207351">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -130,7 +134,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
         {
           "@type": "ListItem",
           "position": 1,
-          "name": "محرّك سحب البيانات الشامل",
+          "name": "محرّك Universal Web Scraper",
           "url": "https://nouraldeentofi.com/projects/universal-web-scraper#automation"
         },
         {
@@ -311,7 +315,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
   <h3 class="card__title">البيانات والعملاء المحتملون</h3>
   <p class="card__body">سحب بيانات موقع كامل إلى جدول، والبحث عن عملاء محتملين من الشركات وتقييمهم، وتنظيف قوائم جهات الاتصال مع تسجيل سبب الرفض لكل صف مرفوض.</p>
   <ul class="card__links">
-    <li><a href="/projects/universal-web-scraper#automation">محرّك سحب البيانات الشامل</a></li>
+    <li><a href="/projects/universal-web-scraper#automation">محرّك Universal Web Scraper</a></li>
     <li><a href="/automation/smart-lead-finder">الباحث الذكي عن العملاء المحتملين</a></li>
     <li><a href="/automation#crm-lead-cleaner">منقّي بيانات العملاء المحتملين</a></li>
   </ul>
@@ -365,12 +369,12 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
       <div class="systems">
 <article data-reveal data-filter-item data-group="data" class="card system" id="universal-web-scraper">
   <p class="card__meta"><span class="status status--live">يعمل الآن</span><span>محرّك سحب بيانات بالذكاء الاصطناعي</span><span>2026</span></p>
-  <h3 class="card__title"><a href="/projects/universal-web-scraper#automation">محرّك سحب البيانات الشامل</a></h3>
+  <h3 class="card__title"><a href="/projects/universal-web-scraper#automation">محرّك Universal Web Scraper</a></h3>
   <p class="card__body">محرّك مشترك يجلب الصفحات ويتصاعد بقدر الحاجة فقط، ويقرأ البيانات المنظّمة قبل أن ينفق شيئاً على الذكاء الاصطناعي، ثم يكتب الصفوف في جدول. والمهام السريعة والزحف الطويل يعملان كعمّال منفصلين يمكن التحكّم بهم.</p>
   <figure class="system__diagram">
     <div class="wf-frame">
       <svg class="wf" viewBox="0 0 1165 226" width="1165" height="226" role="img" aria-labelledby="wf-universal-web-scraper-ar-t wf-universal-web-scraper-ar-d" style="--wf-w:1165px">
-    <title id="wf-universal-web-scraper-ar-t">محرّك سحب البيانات الشامل</title>
+    <title id="wf-universal-web-scraper-ar-t">محرّك Universal Web Scraper</title>
     <desc id="wf-universal-web-scraper-ar-d">واجهة مهام السحب / دورة الزاحف المجدولة ← تخطيط المهمة ← حلقة الدفعات السريعة ← جلب متدرّج ← هل يلزم الذكاء الاصطناعي؟ ← استخراج ذكي للحقول ← تجميع السجلات ← إزالة التكرار والدمج ← Excel وجداول Google</desc>
     <defs><marker id="wf-a-universal-web-scraper-ar" class="wf__arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0.8 L7 4 L0 7.2 Z"/></marker></defs>
     <path class="wf__edge" d="M960 38 C938 38 938 64 916 64" marker-end="url(#wf-a-universal-web-scraper-ar)"/>
@@ -449,7 +453,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
     </g>
   </svg>
     </div>
-    <figcaption class="system__caption"><span class="system__count">مسارات العمل: <b>7</b> · العُقد: <b>136</b></span><a class="canvas-open" href="/assets/img/workflows/universal-web-scraper.webp" data-dialog-open="canvas-universal-web-scraper" target="_blank" rel="noopener">لوحة n8n: محرّك سحب البيانات الشامل<span class="visually-hidden"> (يفتح في تبويب جديد)</span></a></figcaption>
+    <figcaption class="system__caption"><span class="system__count">مسارات العمل: <b>7</b> · العُقد: <b>136</b></span><a class="canvas-open" href="/assets/img/workflows/universal-web-scraper.webp" data-dialog-open="canvas-universal-web-scraper" target="_blank" rel="noopener">لوحة n8n: محرّك Universal Web Scraper<span class="visually-hidden"> (يفتح في تبويب جديد)</span></a></figcaption>
   </figure>
   <div class="system__detail">
     <ul class="card__list"><li>محرّك واحد يستدعيه كلٌّ من المشغّل السريع وعامل الزحف كمسار فرعي</li><li>يُتجاوز استدعاء الذكاء الاصطناعي كلياً حين تكفي البيانات المنظّمة في الصفحة</li><li>عامل الزحف يقفل كل مهمة، ويفتح جدولاً جديداً حين يمتلئ الجزء، ويكتب تبويباً لكل تصنيف</li><li>الإيقاف والاستئناف والإلغاء وإعادة البدء والحذف، كلها عبر نقطة تحكّم واحدة</li></ul>
@@ -459,13 +463,13 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
       <dt>النتيجة</dt><dd>لم يعد جمع موقع في ملف Excel نسخاً ولصقاً ولا أداة جديدة لكل موقع.</dd>
     </dl>
   </div>
-  <div class="card__foot"><a class="btn btn--ghost" href="/projects/universal-web-scraper#automation">التفاصيل<span class="visually-hidden">: محرّك سحب البيانات الشامل</span></a></div>
-  <dialog class="lightbox" id="canvas-universal-web-scraper" aria-label="محرّك سحب البيانات الشامل: اللوحة الحقيقية في n8n">
+  <div class="card__foot"><a class="btn btn--ghost" href="/projects/universal-web-scraper#automation">التفاصيل<span class="visually-hidden">: محرّك Universal Web Scraper</span></a></div>
+  <dialog class="lightbox" id="canvas-universal-web-scraper" aria-label="محرّك Universal Web Scraper: اللوحة الحقيقية في n8n">
     <div class="lightbox__head">
-      <span>محرّك سحب البيانات الشامل · اللوحة الحقيقية في n8n</span>
+      <span>محرّك Universal Web Scraper · اللوحة الحقيقية في n8n</span>
       <form method="dialog"><button class="lightbox__close" aria-label="إغلاق">&times;</button></form>
     </div>
-    <div class="lightbox__body"><img src="/assets/img/workflows/universal-web-scraper.webp" alt="لقطة شاشة من لوحة n8n تُظهر عُقد محرّك سحب البيانات الشامل والروابط بينها" width="1211" height="257" loading="lazy" decoding="async"></div>
+    <div class="lightbox__body"><img src="/assets/img/workflows/universal-web-scraper.webp" alt="لقطة شاشة من لوحة n8n تُظهر عُقد محرّك Universal Web Scraper والروابط بينها" width="1211" height="257" loading="lazy" decoding="async"></div>
   </dialog>
 </article>
 <article data-reveal data-filter-item data-group="hr" class="card system" id="cv-screener">
@@ -1999,6 +2003,6 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
     </form>
     <img src="/assets/img/nour.jpg" alt="نور الدين طفي" width="720" height="720" loading="lazy" decoding="async">
   </dialog>
-<script src="/assets/js/main.js?v=6af10bef" type="module"></script>
+<script src="/assets/js/main.js?v=b9907de3" type="module" onerror="document.documentElement.classList.remove('js')"></script>
 </body>
 </html>

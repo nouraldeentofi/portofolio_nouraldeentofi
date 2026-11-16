@@ -134,8 +134,12 @@ test('transcript renders every reachable node as a table row', () => {
 test('transcript rows carry a readable topic taken from the chat buttons', () => {
   const t = buildTranscript('en', { chat: { transcriptTopic: 'Topic', transcriptAnswer: 'Answer', transcriptOpening: 'Opening' } });
   assert.match(t, /<th scope="col">Topic<\/th>/);
-  // each topic is a real button, so rows open by click and by keyboard
-  assert.match(t, /<button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-start">Opening<\/button>/);
+  // each topic is a real button, so rows open by click and by keyboard. It
+  // claims no state in the HTML: without scripts every row is shown whole and
+  // the button does nothing, so the script that clamps the rows says "closed".
+  assert.match(t, /<button type="button" class="transcript__toggle" aria-controls="answer-start">Opening<\/button>/);
+  assert.ok(!t.includes('aria-expanded'), 'the HTML says a row is collapsed while it is shown whole');
+  assert.match(readFileSync('assets/js/motion.js', 'utf8'), /querySelectorAll\('\.transcript__toggle'\)\.forEach\(\(toggle\) => toggle\.setAttribute\('aria-expanded', 'false'\)\)/);
   // a node reached by a button borrows that button's wording
   assert.match(t, /class="transcript__toggle"[^>]*>[^<]*Smart Scanner[^<]*<\/button>/);
 });
@@ -171,4 +175,55 @@ test('the transcript strips chat markup but keeps collaborator names', () => {
   const t = buildTranscript('en');
   assert.ok(t.includes('Haitham Zedan'));
   assert.ok(!t.includes('<a '), 'anchors must not survive into the transcript');
+});
+
+/* The chat is written by hand. Its figures were held to each other and to
+   literals in this file, so a number that moved in data/ left the chat and
+   its transcript saying the old one with every test green. The figures a
+   page prints from the data are read from the data here. */
+test('the figures the chat gives are the ones in the data', () => {
+  const db = loadDb('data');
+  const scanner = db.projects.find((p) => p.id === 'smart-scanner');
+  const metric = (label) => scanner.metrics.find((m) => m.label.en === label)?.value;
+  const card = EN.smartscanner.card;
+  for (const [value, words] of [[metric('fields extracted'), 'fields'], [metric('source files'), 'source files'], [metric('automated tests'), 'automated tests']]) {
+    assert.ok(value && card.includes(`<b>${value} ${words}</b>`), `the chat does not say "${value} ${words}" as the Smart Scanner page does`);
+  }
+
+  // The timeline: one line for each role in the data, newest first, with its years.
+  const years = (role) => {
+    const [from, to] = [role.start.slice(0, 4), (role.end ?? role.start).slice(0, 4)];
+    return from === to ? from : `${from}–${to.slice(2)}`;
+  };
+  const dated = (script) => [...script.history.card.matchAll(/<b>([^<]+)<\/b>/g)].map((m) => m[1]);
+  assert.deepEqual(dated(EN).slice(0, db.experience.length), db.experience.map(years));
+  // The Arabic card gives the same years in the same order.
+  assert.deepEqual(dated(AR), dated(EN));
+});
+
+/* The transcript is the one place a reader without scripts can read the
+   answers. Its clamp, its openers and the signs of a working toggle live
+   under .js, and the openers must outrank the clamp, or no row opens. */
+test('without scripts every transcript row is whole, and with them a row opens', () => {
+  const css = readFileSync('assets/css/components.css', 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+  const rules = [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)].map(([, selector, body]) => ({ selectors: selector.split(',').map((s) => s.trim()), body }));
+  const touching = (part) => rules.filter((r) => r.selectors.some((s) => s.includes(part)));
+  // Specificity of a simple selector: ids, classes with attributes and pseudo-classes, elements with pseudo-elements.
+  const weight = (s) => {
+    const ids = (s.match(/#[\w-]+/g) ?? []).length;
+    const classes = (s.match(/\.[\w-]+|\[[^\]]*\]|:(?!:)[\w-]+/g) ?? []).length;
+    const elements = (s.replace(/\[[^\]]*\]/g, '').match(/(?:^|[\s>+~])[a-z][\w-]*|::[\w-]+/g) ?? []).length;
+    return ids * 10000 + classes * 100 + elements;
+  };
+
+  const clamp = rules.filter((r) => /line-clamp/.test(r.body) && r.selectors.some((s) => s.includes('transcript')));
+  assert.deepEqual(clamp.map((r) => r.selectors), [['.js .transcript__table tbody td']], 'the clamp reaches a reader without scripts');
+  const openers = touching('transcript__row').filter((r) => /--lines:\s*99/.test(r.body));
+  assert.deepEqual(openers.map((r) => r.selectors), [['.js .transcript__row.is-open td', '.js .transcript__row:target td']]);
+  for (const s of openers[0].selectors) assert.ok(weight(s) > weight(clamp[0].selectors[0]), `${s} no longer outranks the clamp, so no row opens`);
+  // Whatever makes a toggle look like it works.
+  for (const r of touching('transcript__toggle').filter((r) => /content:|cursor:\s*pointer|color:\s*var\(--lime\)/.test(r.body))) {
+    for (const s of r.selectors) assert.ok(s.startsWith('.js '), `${s} makes a toggle look alive without scripts`);
+  }
+  assert.ok(touching('transcript__toggle').some((r) => r.selectors.includes(".js .transcript__toggle[aria-expanded='true']::after")));
 });

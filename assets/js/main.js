@@ -196,20 +196,18 @@ function initDiagrams() {
 
 /* ------------------------------------------------------------------ boot */
 
-initTheme();
-initLang();
-initPortrait();
-initFilters();
-initDialogs();
-initDiagrams();
-initHeader();
-initReveal();
-initCounters();
-initSpine();
-initTranscript();
+// One part that fails must not stop the others: the reveal among them is
+// what shows the content that .js hides until it runs.
+const run = (part) => {
+  try {
+    part();
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-// Every hero carries a variant of the workflow animation — the page's own
+[initTheme, initLang, initPortrait, initFilters, initDialogs, initDiagrams, initHeader, initReveal, initCounters, initSpine, initTranscript].forEach(run);
+
+// Every hero carries a variant of the workflow animation, the page's own
 // metaphor in the shared visual language. One instance per canvas.
-document.querySelectorAll('canvas[data-workflow]').forEach((canvas) => {
-  createWorkflowBackground(canvas);
-});
+document.querySelectorAll('canvas[data-workflow]').forEach((canvas) => run(() => createWorkflowBackground(canvas)));

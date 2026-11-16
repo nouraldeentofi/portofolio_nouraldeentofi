@@ -10,46 +10,135 @@ User-agent: *
 Allow: /
 
 # Explicitly permitted: most sites block these by accident.
+# Each is asked to stay out of two folders: previews of client sites whose
+# own repositories asked the crawlers of AI companies to stay out until the
+# clients approve (data/hosting.json, aiCrawlers: false). The Disallow lines
+# come first, for crawlers that obey the first line that matches. The group
+# above, for every other crawler, closes nothing, so a search engine can
+# still read the noindex those pages carry.
 User-agent: GPTBot
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
 Allow: /
 
 User-agent: OAI-SearchBot
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
 Allow: /
 
 User-agent: ChatGPT-User
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
 Allow: /
 
 User-agent: ClaudeBot
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
 Allow: /
 
 User-agent: Claude-Web
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
 Allow: /
 
 User-agent: anthropic-ai
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
 Allow: /
 
 User-agent: PerplexityBot
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
 Allow: /
 
 User-agent: Perplexity-User
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
 Allow: /
 
 User-agent: Google-Extended
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
 Allow: /
 
 User-agent: Applebot-Extended
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
 Allow: /
 
 User-agent: CCBot
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
 Allow: /
 
 User-agent: meta-externalagent
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
 Allow: /
 
 User-agent: Amazonbot
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
 Allow: /
 
 User-agent: cohere-ai
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
+Allow: /
+
+User-agent: Claude-User
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
+Allow: /
+
+User-agent: Claude-SearchBot
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
+Allow: /
+
+User-agent: Meta-ExternalFetcher
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
+Allow: /
+
+User-agent: Bytespider
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
+Allow: /
+
+User-agent: MistralAI-User
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
+Allow: /
+
+User-agent: DuckAssistBot
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
+Allow: /
+
+User-agent: MistralAI-Index
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
+Allow: /
+
+User-agent: MistralAI-Training
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
+Allow: /
+
+User-agent: meta-webindexer
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
+Allow: /
+
+User-agent: Amzn-SearchBot
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
+Allow: /
+
+User-agent: Amzn-User
+Disallow: /sites/hamad-al-thiapi/
+Disallow: /sites/ayman-alawwad/
 Allow: /
 
 Sitemap: https://nouraldeentofi.com/sitemap.xml

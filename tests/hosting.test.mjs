@@ -25,6 +25,8 @@ import {
   transformFile,
   restoreCopy,
   replaceCopy,
+  leftoverFolders,
+  aiClosedPaths,
   copyFileProblems,
 } from '../scripts/lib/hosting.mjs';
 import { loadDb } from '../scripts/lib/load.mjs';
@@ -689,15 +691,21 @@ test('a folder under sites/ that no entry stands behind is found', () => {
 /*
  * A disk that holds folders by name and can be told which step fails:
  * `fail` is asked before every move and every removal. A move onto a folder
- * that exists fails by itself, as it does on Windows.
+ * that exists fails by itself, as it does on Windows. A folder holds its
+ * entry page unless it is `HOLLOW`: an empty or half-made folder, which is
+ * there and is not a copy.
  */
+const HOLLOW = 'no entry page';
 function disk(folders, fail = () => false) {
   const held = new Map(Object.entries(folders));
   const steps = [];
   return {
     held: () => Object.fromEntries(held),
     steps,
-    existsSync: (path) => held.has(path),
+    existsSync: (path) => {
+      const entry = path.match(/^(.*)\/index\.html$/);
+      return entry ? held.has(entry[1]) && held.get(entry[1]) !== HOLLOW : held.has(path);
+    },
     renameSync: (from, to) => {
       steps.push(`move ${from} ${to}`);
       if (fail('move', from, to)) throw new Error(`EPERM: operation not permitted, rename '${from}' -> '${to}'`);
@@ -785,12 +793,70 @@ test('a copy an earlier run left aside is put back before anything is deleted', 
   assert.throws(() => restoreCopy(DEST, d), (error) => error.stranded === OLD);
 });
 
+/* A folder of the right name is not a copy. With an empty or half-made
+   folder in the place and the real copy aside, the copy aside was deleted
+   first, and a failed move then left no copy on disk at all. Now a copy is in
+   its place when its entry page is, and in the one doubtful state nothing is
+   moved or deleted. */
+test('a folder with no entry page is not a copy: the one aside is never deleted for it', () => {
+  const doubtful = (error) => error.stranded === OLD && error.inTheWay === DEST && /holds no index\.html/.test(error.message);
+  // Whether the new copy could move in or not, nothing happens: the person decides.
+  for (const fail of [() => false, moveIn]) {
+    const d = disk({ [DEST]: HOLLOW, [OLD]: 'previous', [FRESH]: 'new' }, fail);
+    assert.throws(() => replaceCopy(DEST, FRESH, d), doubtful);
+    assert.deepEqual(d.held(), { [DEST]: HOLLOW, [OLD]: 'previous', [FRESH]: 'new' });
+    assert.deepEqual(d.steps, [], 'something was moved or deleted while the only copy was aside');
+  }
+  let d = disk({ [DEST]: HOLLOW, [OLD]: 'previous' });
+  assert.throws(() => restoreCopy(DEST, d), doubtful);
+  assert.deepEqual(d.steps, []);
+  // With nothing aside, what is in the place is simply replaced, and comes back if the new copy cannot move in.
+  d = disk({ [DEST]: HOLLOW, [FRESH]: 'new' });
+  assert.equal(restoreCopy(DEST, d), false);
+  assert.equal(replaceCopy(DEST, FRESH, d), null);
+  assert.deepEqual(d.held(), { [DEST]: 'new' });
+  d = disk({ [DEST]: HOLLOW, [FRESH]: 'new' }, moveIn);
+  assert.throws(() => replaceCopy(DEST, FRESH, d), (error) => error.stranded === undefined);
+  assert.deepEqual(d.held(), { [DEST]: HOLLOW, [FRESH]: 'new' });
+  // A copy in its place, with whatever aside, is still the usual run.
+  d = disk({ [DEST]: 'previous', [OLD]: HOLLOW, [FRESH]: 'new' });
+  assert.equal(replaceCopy(DEST, FRESH, d), null);
+  assert.deepEqual(d.held(), { [DEST]: 'new' });
+
+  // A folder aside with no entry page is a leftover, not a copy: it is never
+  // put back (no "back" from the sync), and it goes when the new copy comes.
+  for (const place of [{}, { [DEST]: HOLLOW }]) {
+    d = disk({ ...place, [OLD]: HOLLOW });
+    assert.equal(restoreCopy(DEST, d), false, JSON.stringify(place));
+    assert.deepEqual(d.steps, []);
+    d = disk({ ...place, [OLD]: HOLLOW, [FRESH]: 'new' });
+    assert.equal(replaceCopy(DEST, FRESH, d), null);
+    assert.deepEqual(d.held(), { [DEST]: 'new' }, JSON.stringify(place));
+  }
+  // With the place empty and the leftover gone, a failed move-in leaves the place as it was: empty.
+  d = disk({ [OLD]: HOLLOW, [FRESH]: 'new' }, moveIn);
+  assert.throws(() => replaceCopy(DEST, FRESH, d), (error) => error.stranded === undefined);
+  assert.deepEqual(d.held(), { [FRESH]: 'new' });
+
+  // The sync says what to do in that state, and git and validate both know the two names.
+  const sync = readFileSync('scripts/sync-sites.mjs', 'utf8');
+  assert.ok(sync.includes('const where = error.inTheWay\n      ? `the copy is in ${error.stranded}/ and what stands in ${error.inTheWay}/ is not one'), 'the sync no longer says what is in the way');
+  assert.deepEqual(leftoverFolders({ sites: [hidden, gallery] }), ['sites/karam.sync', 'sites/karam.old', 'gallery.sync', 'gallery.old']);
+  const ignored = readFileSync('.gitignore', 'utf8').split(/\r?\n/);
+  // Beside a copy only, at the root or under sites/: a folder of a client's
+  // own that happens to end in .old, deeper down, must still be committed.
+  for (const pattern of ['/*.sync/', '/*.old/', '/sites/*.sync/', '/sites/*.old/']) assert.ok(ignored.includes(pattern), `.gitignore lacks ${pattern}`);
+  assert.ok(!ignored.includes('*.sync/') && !ignored.includes('*.old/'), '.gitignore hides a folder of that name at any depth');
+  assert.ok(readFileSync('scripts/validate.mjs', 'utf8').includes('leftoverFolders(db.hosting)'), 'validate no longer looks for what a stopped sync leaves');
+});
+
 test('the sync replaces a copy on a real disk the same way, and does it through these two functions', () => {
   const root = mkdtempSync(join(tmpdir(), 'swap-'));
   const fs = { existsSync, renameSync, rmSync };
   const [dest, fresh, old] = [join(root, 'karam'), join(root, 'karam.sync'), join(root, 'karam.old')];
   const folder = (path, file) => {
     mkdirSync(join(path, 'img'), { recursive: true });
+    writeFileSync(join(path, 'index.html'), '<!doctype html>');
     writeFileSync(join(path, 'img', file), file);
   };
   try {
@@ -809,6 +875,15 @@ test('the sync replaces a copy on a real disk the same way, and does it through 
     assert.equal(replaceCopy(dest, fresh, fs), null);
     assert.deepEqual(readdirSync(root), ['karam']);
     assert.deepEqual(readdirSync(join(dest, 'img')), ['newer.txt']);
+
+    // An empty folder in the place and the copy aside: nothing is touched, and the error says where the copy is.
+    renameSync(dest, old);
+    mkdirSync(dest);
+    folder(fresh, 'newest.txt');
+    assert.throws(() => replaceCopy(dest, fresh, fs), (error) => error.stranded === old && error.inTheWay === dest);
+    assert.deepEqual(readdirSync(root), ['karam', 'karam.old', 'karam.sync']);
+    assert.deepEqual(readdirSync(join(old, 'img')), ['newer.txt']);
+    assert.deepEqual(readdirSync(dest), []);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
@@ -881,4 +956,26 @@ test('the main sitemap lists the entry address of every copy meant to be found a
       assert.equal(blocks.get(address), `<loc>${address}</loc>`, `${address}: carries more than its address`);
     }
   }
+});
+
+/* Two client previews asked, in the robots.txt of their own repositories,
+   that crawlers of AI companies stay out until the client approves. A
+   robots.txt inside a folder has no force, and the sync leaves it behind, so
+   the wish is carried by the data and kept at the root (the gate is
+   robotsProblems, tested with the other gates). */
+test('a copy can ask crawlers of AI companies to stay out, and only a copy that is already out of search', () => {
+  const quiet = { ...hidden, aiCrawlers: false };
+  assert.deepEqual(hostingProblems({ ...hosting, sites: [site, quiet, gallery] }), []);
+  assert.deepEqual(aiClosedPaths({ ...hosting, sites: [site, quiet, gallery] }), ['/sites/karam/']);
+  assert.deepEqual(aiClosedPaths({ ...hosting, sites: [site, hidden] }), []);
+  assert.deepEqual(aiClosedPaths(undefined), []);
+  // It is a wish to be closed further. It cannot open anything, and it has no meaning on a copy meant to be found.
+  for (const bad of [{ ...hidden, aiCrawlers: true }, { ...hidden, aiCrawlers: 'no' }, { ...site, aiCrawlers: false }, { ...gallery, aiCrawlers: false }]) {
+    assert.match(hostingProblems({ ...hosting, sites: [bad] })[0], /"aiCrawlers" may only be false, and only on a copy whose "index" is false/, JSON.stringify(bad));
+  }
+
+  // The data today: the two previews, and both are closed to search as well.
+  const map = loadDb('data').hosting;
+  assert.deepEqual(aiClosedPaths(map), ['/sites/hamad-al-thiapi/', '/sites/ayman-alawwad/']);
+  for (const s of map.sites.filter((x) => x.aiCrawlers === false)) assert.equal(s.index, false, s.path);
 });

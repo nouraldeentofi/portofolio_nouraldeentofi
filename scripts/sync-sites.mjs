@@ -119,7 +119,11 @@ for (const site of hosting.sites) {
   } catch (error) {
     failed.push(site.repo);
     // One failure does not leave the copy as it was: it stepped aside and could not be put back.
-    const where = error.stranded ? `the copy of ${dest}/ is in ${error.stranded}/: the next run puts it back, or move it back by hand` : `${dest}/ is left as it was`;
+    const where = error.inTheWay
+      ? `the copy is in ${error.stranded}/ and what stands in ${error.inTheWay}/ is not one: remove ${error.inTheWay}/ and run this again, nothing was moved or deleted`
+      : error.stranded
+        ? `the copy of ${dest}/ is in ${error.stranded}/: the next run puts it back, or move it back by hand`
+        : `${dest}/ is left as it was`;
     console.error(`FAIL  ${site.repo}: ${error.message}; ${where}`);
   } finally {
     // Neither may stay behind: the first is half a copy, the second a whole clone.

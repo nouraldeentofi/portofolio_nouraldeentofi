@@ -1019,9 +1019,13 @@
   color: var(--dim);
 }
 
-/* Every word stays in the DOM for crawlers, but a row shows two lines until
-   you hover or focus it — so the transcript never dominates the page. */
-.transcript__table tbody td {
+/* Every word stays in the DOM for crawlers. With scripts a row shows two
+   lines until it is opened, so the transcript never dominates the page.
+   Without them every row is shown whole: the toggles are buttons that only a
+   script can work, and the chat above is empty, so this table is the one
+   place a reader can read the answers. The clamp, the openers and the plus
+   sign are all under .js, so the openers still outrank the clamp. */
+.js .transcript__table tbody td {
   --lines: 2;
   display: -webkit-box;
   -webkit-line-clamp: var(--lines);
@@ -1030,10 +1034,10 @@
   overflow: hidden;
 }
 
-/* Opened by click or keyboard — not by hover, which made rows jump under
+/* Opened by click or keyboard, not by hover, which made rows jump under
    the pointer as you swept down the table. */
-.transcript__row.is-open td,
-.transcript__row:target td {
+.js .transcript__row.is-open td,
+.js .transcript__row:target td {
   --lines: 99;
 }
 
@@ -1044,21 +1048,22 @@
   background: none;
   border: 0;
   padding: 0;
-  cursor: pointer;
   text-align: start;
   display: inline-flex;
   align-items: baseline;
   gap: var(--space-2);
 }
 
-.transcript__toggle::after {
+.js .transcript__toggle { cursor: pointer; }
+
+.js .transcript__toggle::after {
   content: '+';
   color: var(--mint);
   font-weight: 800;
 }
 
-.transcript__toggle[aria-expanded='true']::after { content: '−'; }
-.transcript__toggle:hover { color: var(--lime); }
+.js .transcript__toggle[aria-expanded='true']::after { content: '−'; }
+.js .transcript__toggle:hover { color: var(--lime); }
 
 .transcript__table tbody td p { display: inline; }
 .transcript__table tbody td p + p::before { content: ' · '; color: var(--mint); }

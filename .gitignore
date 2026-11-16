@@ -7,3 +7,9 @@ node_modules/
 
 # machine-local preview server configuration for the Claude desktop app
 .claude/launch.json
+
+# what a sync that was stopped half way leaves beside a copy (scripts/sync-sites.mjs)
+/*.sync/
+/*.old/
+/sites/*.sync/
+/sites/*.old/

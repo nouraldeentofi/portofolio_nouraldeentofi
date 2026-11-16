@@ -132,6 +132,9 @@ export function hostingProblems(hosting) {
     if (site.dir !== undefined && site.dir !== '' && (typeof site.dir !== 'string' || !plainDir(site.dir))) {
       problems.push(`${at}: "dir" must be empty or a folder inside the repository, such as "docs", with no ".."`);
     }
+    if (site.aiCrawlers !== undefined && (site.aiCrawlers !== false || site.index !== false)) {
+      problems.push(`${at}: "aiCrawlers" may only be false, and only on a copy whose "index" is false: it closes a copy that is already out of search to the crawlers of AI companies as well`);
+    }
   }
   const former = hosting.formerHosts ?? [];
   if (!Array.isArray(former) || former.some((h) => typeof h !== 'string' || !/^[a-z0-9.-]+\.[a-z]+$/i.test(h))) {
@@ -148,6 +151,16 @@ export const wantsIndex = (site, rel) => site.index === true || (site.index === 
  * owner has yet to confirm it with the client.
  */
 export const isPending = (site) => Boolean(site.todo);
+
+/**
+ * The folders robots.txt closes to the crawlers of AI companies: the copies
+ * whose own repository asked for that (`aiCrawlers: false`). A robots.txt
+ * inside a folder has no force, so the wish is kept at the root, and only
+ * for the crawlers named there: a rule for every crawler would hide the
+ * noindex of these pages from the search engines that must read it. Each
+ * folder is written the way a robots rule names one, "/sites/name/".
+ */
+export const aiClosedPaths = (hosting) => (hosting?.sites ?? []).filter((site) => site.aiCrawlers === false).map((site) => `/${site.path}/`);
 
 /**
  * The addresses the main sitemap lists for the copies: the entry address of
@@ -544,6 +557,14 @@ const asideOf = (dest) => `${dest}.old`;
 const strandedIn = (old, error) => Object.assign(error, { stranded: old });
 
 /**
+ * The folders a sync that was stopped half way can leave beside the copies:
+ * the half-written `<path>.sync` and the copy that stepped aside,
+ * `<path>.old`. Git ignores both, and `validate` fails while one is there:
+ * committed, it would be served with no entry and no decision behind it.
+ */
+export const leftoverFolders = (hosting) => (hosting?.sites ?? []).flatMap((site) => [`${site.path}.sync`, asideOf(site.path)]);
+
+/**
  * A copy that an earlier run left aside goes back to its place.
  *
  * A run that was stopped between the two moves of `replaceCopy`, or whose
@@ -551,10 +572,24 @@ const strandedIn = (old, error) => Object.assign(error, { stranded: old });
  * `<path>`. Returns true when it put one back. With a copy in its place
  * there is nothing to do, whatever is aside. Throws, naming the folder in
  * `stranded`, when the copy cannot be moved back.
+ *
+ * A folder is a copy when its entry page is there, not when a folder of that
+ * name is, in its place and aside alike. A folder aside that holds no entry
+ * page is not put back: it is a leftover, and `replaceCopy` deletes it. An
+ * empty or half-made `<path>` beside a real copy in `<path>.old` is the one
+ * state in which the only copy is the one aside, and `replaceCopy` would go
+ * on to delete it. Nothing is moved or deleted by guesswork then: the error
+ * names the folder aside in `stranded` and says so in `inTheWay`, and a
+ * person removes what is in the way.
  */
 export function restoreCopy(dest, { existsSync, renameSync }) {
   const old = asideOf(dest);
-  if (existsSync(dest) || !existsSync(old)) return false;
+  const isCopy = (path) => existsSync(`${path}/${ENTRY}`);
+  if (isCopy(dest) || !isCopy(old)) return false;
+  if (existsSync(dest)) {
+    const error = new Error(`${dest}/ holds no ${ENTRY} while ${old}/ waits beside it`);
+    throw Object.assign(strandedIn(old, error), { inTheWay: dest });
+  }
   try {
     renameSync(old, dest);
   } catch (error) {

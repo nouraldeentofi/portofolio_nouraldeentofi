@@ -26,10 +26,11 @@ import {
   searchHeadProblems,
   sitemapProblems,
   lastmodProblems,
+  robotsProblems,
 } from './lib/gates.mjs';
 import { ROBOTS_INDEXABLE, ROBOTS_NOINDEX } from './lib/blocks.mjs';
 import { LASTMOD_FILE, parseState } from './lib/lastmod.mjs';
-import { isText, siteUrl, hostedEntries, isPending, strayCopies, copyFileProblems } from './lib/hosting.mjs';
+import { isText, siteUrl, hostedEntries, isPending, strayCopies, copyFileProblems, leftoverFolders, aiClosedPaths } from './lib/hosting.mjs';
 
 const errors = [];
 const warnings = [];
@@ -386,6 +387,13 @@ export function checkAll({ pages } = {}) {
     for (const hit of emDashHits(readFileSync(f, 'utf8'))) fail(`${f}: em dash in "${hit}"`);
   }
 
+  // 11b: robots.txt keeps the crawlers of AI companies out of the copies
+  // whose own repository asked for that, and keeps no search engine out of
+  // anything: a page a search engine may not fetch cannot show its noindex.
+  if (existsSync('robots.txt')) {
+    for (const problem of robotsProblems(readFileSync('robots.txt', 'utf8'), { aiClosed: aiClosedPaths(db.hosting) })) fail(problem);
+  }
+
   // 12: the copies of other sites keep what data/hosting.json decided.
   //
   // They are written by `npm run sites`, not by the build, so nothing above
@@ -403,6 +411,15 @@ export function checkAll({ pages } = {}) {
   if (existsSync('sites')) {
     for (const name of strayCopies(readdirSync('sites'), db.hosting)) {
       fail(`sites/${name}: no entry in data/hosting.json stands behind it, so it is served with no indexing decision; add the entry and run npm run sites, or delete it`);
+    }
+  }
+  // A sync that was stopped half way leaves <path>.sync or <path>.old. Under
+  // sites/ the check above already fails on it; beside gallery/ and the other
+  // copies at the root only this one sees it. Git ignores both names, and a
+  // folder forced past that would be served with no decision behind it.
+  for (const folder of leftoverFolders(db.hosting)) {
+    if (!folder.startsWith('sites/') && existsSync(folder)) {
+      fail(`${folder}/: left behind by a sync that was stopped; run npm run sites for that copy, or delete the folder`);
     }
   }
   for (const copy of db.hosting.sites) {

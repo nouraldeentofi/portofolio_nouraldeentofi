@@ -77,7 +77,7 @@ export function buildTranscript(lang = 'en', copy = null) {
 
     rows.push(
       `    <tr class="transcript__row" id="say-${escapeHtml(id)}">\n` +
-        `      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-${escapeHtml(id)}">${escapeHtml(label)}</button></th>\n` +
+        `      <th scope="row"><button type="button" class="transcript__toggle" aria-controls="answer-${escapeHtml(id)}">${escapeHtml(label)}</button></th>\n` +
         `      <td id="answer-${escapeHtml(id)}">${lines.map((l) => `<p>${escapeHtml(l)}</p>`).join('')}</td>\n` +
         `    </tr>`,
     );

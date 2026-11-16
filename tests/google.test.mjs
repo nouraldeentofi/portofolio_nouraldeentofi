@@ -11,7 +11,8 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 import { loadDb } from '../scripts/lib/load.mjs';
 import { PAGES, LANGS, pagePath } from '../scripts/lib/sitemap.mjs';
 import { buildSite, sitePages, pageFile } from '../scripts/lib/site.mjs';
@@ -19,7 +20,7 @@ import { detailPages } from '../scripts/lib/details.mjs';
 import { shotAlt, tagsOf, aboutPortrait, ROBOTS_INDEXABLE, ROBOTS_NOINDEX } from '../scripts/lib/blocks.mjs';
 import { LASTMOD_FILE, pageFingerprint, parseState, stampPages, pageDates, latestChange, serializeState } from '../scripts/lib/lastmod.mjs';
 import { ogCardFields, renderOgCard } from '../scripts/lib/og.mjs';
-import { hostedEntries } from '../scripts/lib/hosting.mjs';
+import { hostedEntries, aiClosedPaths } from '../scripts/lib/hosting.mjs';
 import {
   parseHeaders,
   parseRedirects,
@@ -32,6 +33,8 @@ import {
   sitemapEntries,
   sitemapProblems,
   lastmodProblems,
+  robotsGroups,
+  robotsProblems,
 } from '../scripts/lib/gates.mjs';
 
 const loaded = loadDb('data');
@@ -750,8 +753,16 @@ test('the gate for the sitemap passes the build and catches a page missing, list
     [undefined, false],
   ];
   for (const [address, on] of hosts) assert.equal(onHost(address, site), on, String(address));
-  // An entry with no <loc> names nothing, so it is on no host.
-  assert.deepEqual(check(xml.replace('</urlset>', '  <url>\n  </url>\n</urlset>')), []);
+  // The same name with the closing dot of a fully qualified name is this host too.
+  assert.equal(onHost(`https://${name}./en/about`, site), true);
+  assert.deepEqual(check(add(`https://${name}./en/about`)), [`sitemap.xml: lists https://${name}./en/about, which is neither a page the build writes nor the entry of a copy`]);
+  // An entry a crawler cannot read is not passed over as an address somewhere else:
+  // one with no <loc>, and one whose <loc> is no address (a broken port, a bare scheme, a word).
+  assert.deepEqual(check(xml.replace('</urlset>', '  <url>\n  </url>\n</urlset>')), ['sitemap.xml: 1 entry has no <loc>']);
+  assert.deepEqual(check(xml.replace('</urlset>', '  <url>\n  </url>\n  <url><lastmod>2026-11-15</lastmod></url>\n</urlset>')), ['sitemap.xml: 2 entries have no <loc>']);
+  for (const broken of [`https://${name}:abc/en/about`, `https://${name}:99999/en/about`, 'http://', 'ftp://example.com/file', 'mailto:someone@example.com']) {
+    assert.deepEqual(check(add(broken)), [`sitemap.xml: lists "${broken}", which is not an address a crawler can read`], broken);
+  }
   // A copy that is meant to be found and is not offered, and one kept out of search that is.
   if (hosted.length) assert.match(check(xml, { hosted: [...hosted, `${site}/sites/new-client/`] })[0], /sites\/new-client\/ must be listed exactly once \(data\/hosting\.json/);
   assert.deepEqual(check(add(`${site}/sites/kept-out/`)), [`sitemap.xml: lists ${site}/sites/kept-out/, but data/hosting.json keeps ${site}/sites/kept-out/ out of search`]);
@@ -798,5 +809,109 @@ test('the gate for the dates passes the build and catches a page, a state or a s
 
   // validate hands each of these gates the real files.
   const validate = readFileSync('scripts/validate.mjs', 'utf8');
-  for (const gate of ['relativeAddresses(html)', 'searchHeadProblems(html,', 'sitemapProblems(xml,', 'lastmodProblems(xml, state,']) assert.ok(validate.includes(gate), `validate.mjs no longer runs ${gate}`);
+  for (const gate of ['relativeAddresses(html)', 'searchHeadProblems(html,', 'sitemapProblems(xml,', 'lastmodProblems(xml, state,', "robotsProblems(readFileSync('robots.txt', 'utf8'),"]) assert.ok(validate.includes(gate), `validate.mjs no longer runs ${gate}`);
+});
+
+/* A robots.txt inside a folder has no force, so a client copy that asked
+   crawlers of AI companies to stay out is closed at the root, in every group
+   that names one. A search engine is never closed out of anything: a page it
+   may not fetch cannot show it the noindex that keeps the page out of search. */
+test('robots.txt keeps AI crawlers out of the copies that asked, and no search engine out of anything', () => {
+  const robots = readFileSync('robots.txt', 'utf8').replace(/\r\n/g, '\n');
+  const aiClosed = aiClosedPaths(db.hosting);
+  const check = (text, closed = aiClosed) => robotsProblems(text, { aiClosed: closed });
+  assert.deepEqual(check(robots), []);
+
+  // The file as it is read: one group for everyone that closes nothing, and named groups that each close the same folders.
+  const groups = robotsGroups(robots);
+  const named = groups.filter((g) => !g.agents.includes('*'));
+  assert.ok(aiClosed.length >= 2 && named.length >= 10, 'nothing is closed or nobody is named, so this proves nothing');
+  // The crawlers asked to stay out, each in a group of its own. The gate cannot
+  // know who should be named, so dropping one has to be a decision made here.
+  assert.deepEqual(named.map((g) => g.agents.join(' + ')), [
+    'GPTBot', 'OAI-SearchBot', 'ChatGPT-User', 'ClaudeBot', 'Claude-Web', 'anthropic-ai', 'PerplexityBot', 'Perplexity-User',
+    'Google-Extended', 'Applebot-Extended', 'CCBot', 'meta-externalagent', 'Amazonbot', 'cohere-ai', 'Claude-User',
+    'Claude-SearchBot', 'Meta-ExternalFetcher', 'Bytespider', 'MistralAI-User', 'DuckAssistBot', 'MistralAI-Index',
+    'MistralAI-Training', 'meta-webindexer', 'Amzn-SearchBot', 'Amzn-User',
+  ]);
+  assert.deepEqual(groups.filter((g) => g.agents.includes('*')).map((g) => g.rules), [[{ rule: 'allow', path: '/' }]]);
+  // The Disallow lines come first: a parser that stops at the first line that matches must not meet "Allow: /" before them.
+  for (const g of named) assert.deepEqual(g.rules, [...aiClosed.map((path) => ({ rule: 'disallow', path })), { rule: 'allow', path: '/' }], g.agents.join(', '));
+  // The pages behind those folders exist, and every one of them is out of search by its own tag.
+  for (const path of aiClosed) assert.ok(existsSync(`${path.slice(1)}index.html`), path);
+
+  // One crawler forgotten, in one folder.
+  const one = `Disallow: ${aiClosed[0]}`;
+  const forgotten = robots.replace(one, '# gone');
+  assert.deepEqual(check(forgotten), [`robots.txt: ${named[0].agents[0]} is not kept out of ${aiClosed[0]}, which data/hosting.json closes to the crawlers of AI companies`]);
+  // "Allow: /" above the Disallow lines of one group.
+  const first = named[0].agents[0];
+  const disallows = aiClosed.map((path) => `Disallow: ${path}`).join('\n');
+  const flipped = robots.replace(`User-agent: ${first}\n${disallows}\nAllow: /`, `User-agent: ${first}\nAllow: /\n${disallows}`);
+  assert.notEqual(flipped, robots, 'the group to flip was not found, so this proves nothing');
+  assert.deepEqual(check(flipped), [`robots.txt: ${first} has an Allow line above a Disallow line: a crawler that obeys the first line that matches reads the folders below it as open`]);
+  // An Allow longer than "/" can open a closed folder again (the longest match wins, and Allow wins a tie).
+  for (const opener of [`${aiClosed[0]}`, `${aiClosed[0]}index.html`, `${aiClosed[0]}*`, '/sites/']) {
+    const reopened = robots.replace(`User-agent: ${first}\n${disallows}\nAllow: /`, `User-agent: ${first}\n${disallows}\nAllow: /\nAllow: ${opener}`);
+    assert.deepEqual(check(reopened), [`robots.txt: ${first} carries "Allow: ${opener}": the only Allow a group of AI crawlers keeps is "Allow: /", which cannot open a closed folder`], opener);
+  }
+  // A search engine and an AI crawler in one group would share rules that must differ.
+  assert.match(check(`${robots}\nUser-agent: Googlebot\nUser-agent: GPTBot\nAllow: /\n`)[0], /^robots\.txt: Googlebot, GPTBot share one group, but a search engine and the crawler of an AI company need different rules$/);
+  // A copy that newly asks: every named group is told.
+  assert.equal(check(robots, [...aiClosed, '/sites/new-preview/']).length, named.length);
+  // A folder closed that no entry asks for.
+  assert.deepEqual(check(robots.replace(one, `${one}\nDisallow: /sites/aya-rady/`)), [`robots.txt: ${named[0].agents[0]} is kept out of /sites/aya-rady/, which no entry of data/hosting.json asks for`]);
+  // The group for everyone closes a folder: search engines could no longer read its noindex.
+  assert.match(check(robots.replace('User-agent: *\nAllow: /', `User-agent: *\nAllow: /\nDisallow: ${aiClosed[0]}`))[0], /^robots\.txt: \* is kept out of .* cannot read its noindex$/);
+  // A search engine named on its own is held to the same.
+  assert.deepEqual(check(`${robots}\nUser-agent: Googlebot\nDisallow: ${aiClosed[0]}\n`), [`robots.txt: Googlebot is kept out of ${aiClosed[0]}: a search engine that may not fetch a page cannot read its noindex`]);
+  assert.deepEqual(check(`${robots}\nUser-agent: Googlebot\nUser-agent: bingbot\nAllow: /\n`), []);
+  // Names that share a group share its rules; a comment and an empty Disallow close nothing.
+  const shared = `User-agent: *\nAllow: /\n\nUser-agent: GPTBot # one\nUser-agent: ClaudeBot\nDisallow:\n${aiClosed.map((path) => `Disallow: ${path} # asked`).join('\n')}\n`;
+  assert.deepEqual(robotsGroups(shared).map((g) => g.agents), [['*'], ['GPTBot', 'ClaudeBot']]);
+  assert.deepEqual(check(shared), []);
+  // No group for everyone, or two; and a file that names no AI crawler while a copy asks.
+  assert.match(check(robots.replace('User-agent: *\nAllow: /\n', ''))[0], /expected one group for every crawler .* found 0/);
+  assert.deepEqual(check('User-agent: *\nAllow: /\n'), ['robots.txt: names no crawler of an AI company, so nothing keeps them out of the copies that asked for it']);
+  assert.deepEqual(check('User-agent: *\nAllow: /\n', []), []);
+});
+
+/* Each browser script, read as the module it is. A syntax error in one of
+   them leaves no part of main.js running and, before the guards in the head,
+   left every [data-reveal] block hidden, with every other test green. */
+test('every script under assets/js parses as a module, and main.js runs each part on its own', () => {
+  const files = [];
+  const walk = (dir) => {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const path = `${dir}/${entry.name}`;
+      if (entry.isDirectory()) walk(path);
+      else if (entry.name.endsWith('.js')) files.push(path);
+    }
+  };
+  walk('assets/js');
+  assert.ok(files.includes('assets/js/main.js') && files.includes('assets/js/motion.js') && files.length >= 5, files.join(', '));
+  assert.equal(JSON.parse(readFileSync('package.json', 'utf8')).type, 'module', 'node --check would read the scripts as CommonJS');
+  for (const file of files) {
+    const run = spawnSync(process.execPath, ['--check', file], { encoding: 'utf8' });
+    assert.equal(run.status, 0, `${file}: ${run.stderr}`);
+  }
+
+  // Every part main.js imports is started through run(), which catches what it throws.
+  const main = readFileSync('assets/js/main.js', 'utf8');
+  assert.match(main, /const run = \(part\) => \{\n {2}try \{\n {4}part\(\);\n {2}\} catch \(error\) \{\n {4}console\.error\(error\);\n {2}\}\n\};/);
+  const imported = [...main.matchAll(/^\s+(init\w+),?$/gm)].map((m) => m[1]);
+  const started = main.match(/\[([^\]]+)\]\.forEach\(run\);/)[1].split(',').map((s) => s.trim());
+  const own = [...main.matchAll(/^function (init\w+)\(/gm)].map((m) => m[1]);
+  assert.deepEqual([...started].sort(), [...imported, ...own].sort(), 'a part is started outside run(), or not at all');
+  assert.ok(!/^init\w+\(\);$/m.test(main), 'a part is called bare, so its error stops the ones after it');
+  assert.match(main, /forEach\(\(canvas\) => run\(\(\) => createWorkflowBackground\(canvas\)\)\)/);
+
+  // The Arabic alt text of a canvas keeps its direction inside the frame that does not.
+  const rtl = readFileSync('assets/css/rtl.css', 'utf8');
+  assert.match(rtl, /\[dir='rtl'\] \.canvas-shot__scroll img,\n\[dir='rtl'\] \.lightbox__body img \{\n {2}direction: rtl;\n\}/);
+
+  // validate fails, not warns, on robots.txt and on what a stopped sync leaves.
+  const validate = readFileSync('scripts/validate.mjs', 'utf8');
+  assert.ok(validate.includes("for (const problem of robotsProblems(readFileSync('robots.txt', 'utf8'), { aiClosed: aiClosedPaths(db.hosting) })) fail(problem);"));
+  assert.match(validate, /for \(const folder of leftoverFolders\(db\.hosting\)\) \{\n {4}if \(!folder\.startsWith\('sites\/'\) && existsSync\(folder\)\) \{\n {6}fail\(/);
 });
