@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://nouraldeentofi.com/assets/img/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="محادثة مع الموقع | نور الدين طفي">
+<meta property="og:image:alt" content="نور الدين طفي | مهندس أتمتة بالذكاء الاصطناعي: n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://nouraldeentofi.com/assets/img/og.png">
 <meta name="author" content="نور الدين طفي">
@@ -54,7 +54,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <link rel="stylesheet" href="/assets/css/motion.css?v=0828308a">
 <link rel="stylesheet" href="/assets/css/chat.css?v=b2a5454f">
 <link rel="stylesheet" href="/assets/css/responsive.css?v=a7c809d0">
-<link rel="stylesheet" href="/assets/css/rtl.css?v=9ebc03c9">
+<link rel="stylesheet" href="/assets/css/rtl.css?v=d3c0e9aa">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -229,7 +229,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
     </tr>
     <tr class="transcript__row" id="say-chess">
       <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-chess">♞ العب شطرنج</button></th>
-      <td id="answer-chess"><p>تجرؤ؟ جريء. أفتتح بـ 1. d4، ونظام لندن قادم ☕</p></td>
+      <td id="answer-chess"><p>تجرؤ؟ جريء. أفتتح بـ ‎1. d4، ونظام لندن قادم ☕</p></td>
     </tr>
     <tr class="transcript__row" id="say-contact">
       <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-contact">📬 لنتحدّث</button></th>
@@ -237,15 +237,15 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
     </tr>
     <tr class="transcript__row" id="say-cost">
       <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-cost">💸 حيلة خفض التكلفة</button></th>
-      <td id="answer-cost"><p>كان أول مسار عمل عندي يرسل كل ملف وارد مباشرة إلى نموذج رؤية. كان يعمل، لكنه كان يكلّف نحو 3 أضعاف ما يلزم.</p><p>ملف PDF يحتوي عادةً نصاً قابلاً للقراءة أصلاً. ولا يحتاج نموذج الرؤية أن ينظر إلى صفحة يستطيع نموذج نصّي ببساطة أن يقرأها.</p><p>عقدة IF واحدة بعد الـ webhook: ملف PDF بنصّ قابل للاستخراج ← نموذج نصّي، وإلا ← نموذج رؤية. أرخص بنحو 75% لكل مستند.</p><p>💡 والجزء الذي ينساه الناس: احتفظ بمسار احتياطي. فإن عاد الاستخراج فارغاً لأن ملف PDF في حقيقته صورة ممسوحة، أعده إلى فرع الرؤية، وإلا فالمسار الرخيص لا ينتج شيئاً، بصمت.</p></td>
+      <td id="answer-cost"><p>كان أول مسار عمل عندي يرسل كل ملف وارد مباشرة إلى نموذج رؤية. كان يعمل، لكنه كان يكلّف أكثر مما يلزم بنحو 3 أضعاف.</p><p>ملف PDF يحتوي عادةً نصاً قابلاً للقراءة أصلاً. ولا يحتاج نموذج الرؤية أن ينظر إلى صفحة يستطيع نموذج نصّي ببساطة أن يقرأها.</p><p>عقدة IF واحدة بعد الـ webhook: ملف PDF بنصّ قابل للاستخراج ← نموذج نصّي، وإلا ← نموذج رؤية. أرخص بنحو 75% لكل مستند.</p><p>💡 والجزء الذي ينساه الناس: احتفظ بمسار احتياطي. فإن عاد الاستخراج فارغاً لأن ملف PDF في حقيقته صورة ممسوحة، أعده إلى فرع الرؤية، وإلا فالمسار الرخيص لا ينتج شيئاً، بصمت.</p></td>
     </tr>
     <tr class="transcript__row" id="say-menu">
       <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-menu">⌂ القائمة</button></th>
       <td id="answer-menu"><p>ما الذي تودّ معرفته أيضاً؟</p></td>
     </tr>
     <tr class="transcript__row" id="say-chess2">
-      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-chess2">1… d5</button></th>
-      <td id="answer-chess2"><p>متين. 2. Bf4. لعبت هذا التركيب ألف مرة.</p><p>بعد ثلاثين نقلة: أنا متقدّم ببيدق في نهاية اللعبة وأنت في ضيق وقت 😄</p><p>علّمتني ICPC عام 2021 أن أحسب بسرعة، وأبقى هادئاً، وأحوّل الأفضلية إلى نتيجة. والمواعيد النهائية تطلب الشيء نفسه تماماً.</p></td>
+      <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-chess2">‎1… d5</button></th>
+      <td id="answer-chess2"><p>متين. ‎2. Bf4. لعبت هذا التركيب ألف مرة.</p><p>بعد ثلاثين نقلة: أنا متقدّم ببيدق في نهاية اللعبة وأنت في ضيق وقت 😄</p><p>علّمتني ICPC عام 2021 أن أحسب بسرعة، وأبقى هادئاً، وأحوّل الأفضلية إلى نتيجة. والمواعيد النهائية تطلب الشيء نفسه تماماً.</p></td>
     </tr>
     <tr class="transcript__row" id="say-chessrun">
       <th scope="row"><button type="button" class="transcript__toggle" aria-expanded="false" aria-controls="answer-chessrun">اقلب الرقعة واهرب</button></th>

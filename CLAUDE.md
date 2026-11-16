@@ -104,6 +104,10 @@ These are not style preferences — `npm test` and `npm run validate` fail on th
   stays the real screenshot or canvas.
 - A project or system page is a `CreativeWork` in the structured data, never a
   `SoftwareApplication`: Google wants a price and a rating for that, and neither is invented.
+- He is the `author` of what he built. A product he coordinated while others wrote the
+  code carries `"credit": "contributor"` in `data/projects.json` (GoldenTag today), and
+  its node then names him as `contributor`: the markup claims no more than the role the
+  page prints. A test lists the entries that carry it.
 - Prose contains **no figures** — every number comes from `data/` so it cannot drift.
 - **No em dashes** (`—`) anywhere a reader or a crawler looks: prose, titles, alt text,
   JSON-LD, llms files. Use a comma, colon, full stop or words ("2025 to 2026").

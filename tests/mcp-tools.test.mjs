@@ -88,3 +88,17 @@ test('every registered tool has a description and a working handler', () => {
     assert.doesNotThrow(() => t.handler(db, t.name === 'answer_faq' ? { question: 'who' } : {}));
   }
 });
+
+/* A year is a pair in the data when its wording differs by language
+   ("2025 to 2026", "2025 حتى الآن"). A tool answers in one language, so it
+   hands out the words of that language, never the pair. */
+test('a year is given in the language asked for, as text', () => {
+  for (const lang of ['en', 'ar']) {
+    const years = [...searchProjects(db, { lang, limit: 100 }), ...getWorkflows(db, { lang })].map((x) => x.year);
+    assert.ok(years.length >= db.projects.length, 'every project and system is asked');
+    for (const year of years) assert.equal(typeof year, 'string', `${lang}: ${JSON.stringify(year)}`);
+  }
+  const dfs = (lang) => searchProjects(db, { query: 'DFS', lang }).find((p) => p.id === 'dfs-dashboard').year;
+  assert.equal(dfs('en'), '2025 to 2026');
+  assert.equal(dfs('ar'), '2025 إلى 2026');
+});

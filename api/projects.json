@@ -63,10 +63,10 @@
           }
         },
         {
-          "value": "~10s",
+          "value": "~10",
           "label": {
-            "en": "photo to structured data",
-            "ar": "من الصورة إلى بيانات منظّمة"
+            "en": "seconds from photo to structured data",
+            "ar": "ثوانٍ من الصورة إلى بيانات منظّمة"
           }
         }
       ],
@@ -243,7 +243,7 @@
       },
       "problem": {
         "en": "Making a short motion video for LinkedIn, Reels, or YouTube usually means a paid subscription, a professional editor that takes weeks to learn, or an online service that keeps your project and your files.",
-        "ar": "صناعة فيديو موشن قصير للينكدإن أو الريلز أو يوتيوب تعني عادةً اشتراكاً مدفوعاً، أو برنامج مونتاج احترافياً يحتاج أسابيع لتعلّمه، أو خدمة على الإنترنت تحتفظ بمشروعك وملفاتك."
+        "ar": "صناعة فيديو موشن قصير لـ LinkedIn أو الريلز أو يوتيوب تعني عادةً اشتراكاً مدفوعاً، أو برنامج مونتاج احترافياً يحتاج أسابيع لتعلّمه، أو خدمة على الإنترنت تحتفظ بمشروعك وملفاتك."
       },
       "built": {
         "en": "An Arabic, right-to-left studio that runs entirely in the browser, with no API key, no server, and no subscription. A short wizard asks for the size and the style, then for a ready video idea or hand-picked scenes. Every template previews large and playing before it is added, and can be added as a new scene, merged into the current one, or swapped in for it. All of a scene's text sits in one place, a double tap writes straight onto the video, and a quick toolbar over any element enlarges, shrinks, recolours, animates, copies, or deletes it. Around that: a searchable library of animated backgrounds, including the living node mesh from this site; transitions previewed between your own scenes; camera moves with parallax depth; sound effects generated in the browser, plus your own voice-over; any moment saved as a PNG or JPG poster; and video themes, with day and night modes for the studio itself. The video is encoded on the visitor's own device with WebCodecs, falling back to real-time WebM recording where encoding is not supported. Projects autosave in the browser, and every frame carries a soft diagonal watermark that only the owner's password removes.",
@@ -326,7 +326,7 @@
       },
       "built": {
         "en": "A free, single-page tool in Arabic. The form covers what Saudi certificates carry: the four-part name, ID or residency number, nationality, programme, training hours, period, grade, and licence number. It issues completion, pass, and attendance certificates, with wording that switches between masculine and feminine. Hijri dates on the Umm al-Qura calendar are computed alongside the Gregorian, and the logo, signatures, stamp, and a verification QR code can be added, with a live preview of every page. The PDF opens with the certificate for sighted readers, followed by Braille pages holding the full text in Unified Arabic Braille: issuer, title, name, ID, programme, hours, period, grade, date, and signatures. The dots are standard-size and drawn as separate shapes so they can be printed in raised UV ink, with a light printed transcription between the lines that can be switched off. A second button downloads the text as a BRF file that Braille embossers read directly, and an in-page guide explains three ways to make the dots raised: an embosser, swell paper, or a raised-ink print shop. Nothing is stored or sent anywhere; automated checks hold the page to that promise, and tests match the Braille output against the unified table.",
-        "ar": "أداة مجانية بالعربية في صفحة واحدة. تغطي حقولها ما تحمله الشهادات على العرف السعودي: الاسم الرباعي، ورقم الهوية أو الإقامة، والجنسية، والبرنامج، وعدد الساعات، والفترة، والتقدير، ورقم الترخيص. وتُصدر شهادات إتمام واجتياز وحضور، بصياغة تتغيّر تلقائياً بين المذكر والمؤنث. يُحسب التاريخ الهجري بتقويم أم القرى مع الميلادي، ويمكن إضافة الشعار والتوقيعات والختم ورمز QR للتحقق، مع معاينة مباشرة لكل صفحة. يبدأ ملف PDF بالشهادة للمبصرين، تليها صفحات برايل فيها نص الشهادة كاملاً بطريقة برايل العربية الموحدة: الجهة والعنوان والاسم والهوية والبرنامج والساعات والفترة والتقدير والتاريخ والتوقيعات. النقاط بالمقاس القياسي ومرسومة أشكالاً منفصلة لتسهل طباعتها بحبر UV بارز، وبين الأسطر ترجمة مطبوعة فاتحة يمكن إطفاؤها. وزر ثانٍ ينزّل النص بصيغة BRF التي تقرؤها طابعات برايل مباشرة، ودليل داخل الصفحة يشرح ثلاث طرق لجعل النقاط بارزة: طابعة برايل، والورق الانتفاخي، والمطبعة بحبر بارز. لا يُحفظ شيء ولا يُرسل إلى أي جهة؛ وفحوص آلية تُلزم الصفحة بهذا الوعد، واختبارات تطابق ترجمة برايل مع الجدول الموحد."
+        "ar": "أداة مجانية بالعربية في صفحة واحدة. تغطي حقولها ما تحمله الشهادات على العرف السعودي: الاسم الرباعي، ورقم الهوية أو الإقامة، والجنسية، والبرنامج، وعدد الساعات، والفترة، والتقدير، ورقم الترخيص. وتُصدر شهادات إتمام واجتياز وحضور، بصياغة تتغيّر تلقائياً بين المذكر والمؤنث. يُحسب التاريخ الهجري بتقويم أم القرى مع الميلادي، ويمكن إضافة الشعار والتوقيعات والختم ورمز QR للتحقق، مع معاينة مباشرة لكل صفحة. يبدأ ملف PDF بالشهادة للمبصرين، تليها صفحات برايل فيها نص الشهادة كاملاً بطريقة برايل العربية الموحّدة: الجهة والعنوان والاسم والهوية والبرنامج والساعات والفترة والتقدير والتاريخ والتوقيعات. النقاط بالمقاس القياسي ومرسومة أشكالاً منفصلة لتسهل طباعتها بحبر UV بارز، وبين الأسطر ترجمة مطبوعة فاتحة يمكن إطفاؤها. وزر ثانٍ ينزّل النص بصيغة BRF التي تقرؤها طابعات برايل مباشرة، ودليل داخل الصفحة يشرح ثلاث طرق لجعل النقاط بارزة: طابعة برايل، والورق الانتفاخي، والمطبعة بحبر بارز. لا يُحفظ شيء ولا يُرسل إلى أي جهة؛ وفحوص آلية تُلزم الصفحة بهذا الوعد، واختبارات تطابق ترجمة برايل مع الجدول الموحّد."
       },
       "role": {
         "en": "Full build: design, Braille translation, and PDF output",
@@ -387,7 +387,7 @@
       "featured": false,
       "category": {
         "en": "E-invoicing platform · open source",
-        "ar": "منصة فوترة إلكترونية · مفتوحة المصدر"
+        "ar": "منصّة فوترة إلكترونية · مفتوحة المصدر"
       },
       "tagline": {
         "en": "An open-source e-invoicing program for businesses in Saudi Arabia, with a public demo that issues and signs invoices entirely in the browser.",
@@ -522,7 +522,10 @@
     {
       "id": "dfs-dashboard",
       "name": "DFS Dashboard",
-      "year": "2025–2026",
+      "year": {
+        "en": "2025 to 2026",
+        "ar": "2025 إلى 2026"
+      },
       "featured": false,
       "category": {
         "en": "Internal platform",
@@ -921,7 +924,7 @@
       "id": "cv-screener",
       "name": {
         "en": "CV Screener agents",
-        "ar": "وكلاء فارز السير الذاتية"
+        "ar": "وكلاء CV Screener"
       },
       "year": "2026",
       "kind": {
@@ -930,7 +933,7 @@
       },
       "summary": {
         "en": "The AI engine of CV Screener: sibling agents that profile one CV, screen one CV against a job, and summarise a whole pool. The product server calls them; every one checks a secret first, fences the CV as data, and returns typed JSON or a typed error.",
-        "ar": "محرّك الذكاء الاصطناعي في فارز السير الذاتية: وكلاء متشابهون، أحدهم يحلّل سيرة واحدة، والآخر يقيّمها مقابل وظيفة، والثالث يلخّص مجموعة كاملة. يستدعيهم خادم المنتج، وكلٌّ منهم يتحقّق من المفتاح السري أولاً، ويعزل نص السيرة كبيانات، ويُعيد JSON محدّد البنية أو خطأً محدّداً."
+        "ar": "محرّك الذكاء الاصطناعي في CV Screener: وكلاء متشابهون، أحدهم يحلّل سيرة واحدة، والآخر يقيّمها مقابل وظيفة، والثالث يلخّص مجموعة كاملة. يستدعيهم خادم المنتج، وكلٌّ منهم يتحقّق من المفتاح السري أولاً، ويعزل نص السيرة كبيانات، ويُعيد JSON محدّد البنية أو خطأً محدّداً."
       },
       "trigger": {
         "en": "Server-to-server webhook",
@@ -1690,7 +1693,7 @@
             "id": "ingest",
             "label": {
               "en": "Atomic ingest",
-              "ar": "إدخال ذري للرسالة"
+              "ar": "إدخال ذرّي للرسالة"
             },
             "kind": "data",
             "service": "Supabase"
@@ -2346,7 +2349,7 @@
           {
             "id": "norm",
             "label": {
-              "en": "Normalize the message",
+              "en": "Normalise the message",
               "ar": "توحيد الرسالة"
             },
             "kind": "logic"
@@ -2455,7 +2458,7 @@
       ],
       "highlights": {
         "en": [
-          "Phone columns are detected automatically, normalised and de-duplicated",
+          "Phone columns are detected automatically, normalised and deduplicated",
           "Members are added in batches with a pause between them, to stay under spam limits",
           "Whoever could not be added gets the invite link, one message at a time"
         ],
@@ -2492,7 +2495,7 @@
           {
             "id": "prepare",
             "label": {
-              "en": "Normalize phone numbers",
+              "en": "Normalise phone numbers",
               "ar": "توحيد أرقام الهواتف"
             },
             "kind": "logic"
@@ -2591,7 +2594,7 @@
       },
       "summary": {
         "en": "Send a post idea to a Telegram bot and get back captions for each platform and a branded image in your own colours, fonts and logo. Nothing is scheduled until you approve the preview.",
-        "ar": "أرسل فكرة منشور إلى بوت تيليجرام، فتعود إليك نصوص لكل منصة وصورة بهويتك: ألوانك وخطوطك وشعارك. ولا يُجدول شيء قبل أن تعتمد المعاينة."
+        "ar": "أرسل فكرة منشور إلى بوت تيليجرام، فتعود إليك نصوص لكل منصّة وصورة بهويتك: ألوانك وخطوطك وشعارك. ولا يُجدول شيء قبل أن تعتمد المعاينة."
       },
       "trigger": {
         "en": "Telegram message",
@@ -2996,7 +2999,7 @@
           {
             "id": "normalize",
             "label": {
-              "en": "Normalize the input",
+              "en": "Normalise the input",
               "ar": "توحيد المدخلات"
             },
             "kind": "logic"
@@ -3046,7 +3049,7 @@
           {
             "id": "analyze",
             "label": {
-              "en": "Analyze the lesson",
+              "en": "Analyse the lesson",
               "ar": "تحليل الدرس"
             },
             "kind": "ai",
@@ -3514,7 +3517,7 @@
         "ar": [
           "صفحة لكل مشروع كبير",
           "الإنجليزية والعربية، لكل منهما مسارها",
-          "بيانات منظّمة وllms.txt لمحركات البحث ومساعدات الذكاء الاصطناعي"
+          "بيانات منظّمة وllms.txt لمحرّكات البحث ومساعدات الذكاء الاصطناعي"
         ]
       },
       "url": "https://nouraldeentofi.com/sites/monther-al-ashqar/",
@@ -3720,7 +3723,7 @@
       },
       "concept": {
         "en": "Al-Bader is the full moon, so the site opens at night: the logo's three road lines sweep in and climb into a moon, then the night folds into the hero's moon over Madinah, with Uhud on the horizon, city lights, and long-exposure trails on the highway. Further down, lights travel along route lanes and a truck drives from step to step.",
-        "ar": "البدر هو القمر في تمامه، لذلك يبدأ الموقع ليلًا: خطوط الطريق الثلاثة في الشعار تنساب وتصعد إلى القمر، ثم ينطوي الليل في قمر الواجهة فوق المدينة المنورة، وأُحد في الأفق، وأضواء المدينة، وآثار أضواء السيارات ممتدة على الطريق السريع. وفي الأسفل أضواء تسري على مسارات الطرق، وشاحنة تنتقل من خطوة إلى خطوة."
+        "ar": "البدر هو القمر في تمامه، لذلك يبدأ الموقع ليلاً: خطوط الطريق الثلاثة في الشعار تنساب وتصعد إلى القمر، ثم ينطوي الليل في قمر الواجهة فوق المدينة المنورة، وأُحد في الأفق، وأضواء المدينة، وآثار أضواء السيارات ممتدة على الطريق السريع. وفي الأسفل أضواء تسري على مسارات الطرق، وشاحنة تنتقل من خطوة إلى خطوة."
       },
       "highlights": {
         "en": [
@@ -3730,7 +3733,7 @@
         ],
         "ar": [
           "طلب عرض سعر تُملأ فيه رسالة واتساب أثناء الكتابة",
-          "كل خدمة مرسومة رسمًا هندسيًا على شبكة تخطيط",
+          "كل خدمة مرسومة رسماً هندسياً على شبكة تخطيط",
           "وعلى الجوال يعمل كتطبيق: شريط سفلي وطلب عرض سعر على ثلاث خطوات"
         ]
       },
@@ -3751,7 +3754,7 @@
       },
       "concept": {
         "en": "Built on their logo: two waves in two colours, the firm and its client, moving together. They flow through the hero and draw themselves across the stages of the work, over the star lattice etched on the glass of their Al Malaz reception, with points of light travelling along its lines. The real reception photo drifts in a slow zoom beside a glass card that steps through the setup journey.",
-        "ar": "مبنيّ على شعارهم: موجتان بلونين، الشركة وعميلها، تمضيان معًا. تنسابان في الواجهة وترسمان نفسيهما عبر مراحل العمل، فوق نقشة النجوم المحفورة على زجاج استقبال مكتبهم في الملز، ونقاط ضوء تسري على خطوطها. وصورة الاستقبال الحقيقية تقترب ببطء بجانب بطاقة زجاجية تتنقّل بين مراحل التأسيس."
+        "ar": "مبنيّ على شعارهم: موجتان بلونين، الشركة وعميلها، تمضيان معاً. تنسابان في الواجهة وترسمان نفسيهما عبر مراحل العمل، فوق نقشة النجوم المحفورة على زجاج استقبال مكتبهم في الملز، ونقاط ضوء تسري على خطوطها. وصورة الاستقبال الحقيقية تقترب ببطء بجانب بطاقة زجاجية تتنقّل بين مراحل التأسيس."
       },
       "highlights": {
         "en": [
@@ -3762,7 +3765,7 @@
         "ar": [
           "مفتاح للمستثمر الأجنبي ورائد الأعمال المحلي والشركة القائمة، لكلٍّ منها خدماته",
           "طلب استشارة على ثلاث خطوات يفتح واتساب والرسالة جاهزة",
-          "شارة حيّة بتوقيت الرياض تبيّن إن كان المكتب مفتوحًا أو مغلقًا"
+          "شارة حيّة بتوقيت الرياض تبيّن إن كان المكتب مفتوحاً أو مغلقاً"
         ]
       },
       "url": "https://nouraldeentofi.com/sites/arabian-access/",
@@ -3813,7 +3816,7 @@
       },
       "concept": {
         "en": "The site is a fire alarm control panel. Each section is a zone with its own lamp, which blinks amber while it is checked and settles green as you reach it, and an LCD readout in the header names the zone. Behind the hero, flow runs through a sprinkler network past pressure gauges; the inspection request is a hanging tag, and the company's history is an engraved equipment data plate.",
-        "ar": "الموقع لوحة تحكم لإنذار الحريق. كل قسم منطقة لها مصباحها، يومض بلون كهرماني أثناء الفحص ثم يستقر أخضر حين تصل إليه، وشاشة LCD في الترويسة تعرض اسم المنطقة. وخلف الواجهة شبكة رشاشات يجري فيها التدفق مرورًا بمقاييس الضغط، وطلب الفحص بطاقة معلّقة، وتاريخ الشركة لوحة بيانات معدّات محفورة."
+        "ar": "الموقع لوحة تحكّم لإنذار الحريق. كل قسم منطقة لها مصباحها، يومض بلون كهرماني أثناء الفحص ثم يستقر أخضر حين تصل إليه، وشاشة LCD في الترويسة تعرض اسم المنطقة. وخلف الواجهة شبكة رشاشات يجري فيها التدفق مروراً بمقاييس الضغط، وطلب الفحص بطاقة معلّقة، وتاريخ الشركة لوحة بيانات معدّات محفورة."
       },
       "highlights": {
         "en": [
@@ -3823,7 +3826,7 @@
         ],
         "ar": [
           "طلب زيارة فحص على بطاقة من ثلاث خطوات تفتح واتساب والرسالة جاهزة",
-          "مصباح حيّ يبيّن إن كان المعرض مفتوحًا الآن",
+          "مصباح حيّ يبيّن إن كان المعرض مفتوحاً الآن",
           "صور رفوف المعرض الحقيقية، تُفتح كل منها بملء الشاشة"
         ]
       },

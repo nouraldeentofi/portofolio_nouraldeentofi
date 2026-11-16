@@ -176,9 +176,17 @@ export function headMeta(db, page, lang, { noindex = false, meta = null } = {}) 
   // card, not the portrait: profile.image stays reserved for a real photo and
   // its own structured-data treatment. Either way the size announced is the
   // size of that file, measured by the loader.
+  // The alt text of the card says what is on the card, his name and what he
+  // does, on whichever page it is shared from: a product page shared with the
+  // card must not describe a product the picture does not show.
   const cardSize = db.imageSizes?.[db.profile.ogImage];
   const card = db.profile.ogImage
-    ? { path: db.profile.ogImage, width: cardSize?.[0], height: cardSize?.[1], alt: title }
+    ? {
+        path: db.profile.ogImage,
+        width: cardSize?.[0],
+        height: cardSize?.[1],
+        alt: `${db.profile.name[lang]} | ${db.profile.headline[lang]}`,
+      }
     : null;
   const picture = meta?.image ?? card;
   const ogImage = picture ? `${base(db)}/${picture.path}` : null;

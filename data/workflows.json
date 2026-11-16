@@ -196,7 +196,7 @@
     ],
     "name": {
       "en": "CV Screener agents",
-      "ar": "وكلاء فارز السير الذاتية"
+      "ar": "وكلاء CV Screener"
     },
     "kind": {
       "en": "AI agents behind a product",
@@ -205,7 +205,7 @@
     "year": "2026",
     "summary": {
       "en": "The AI engine of CV Screener: sibling agents that profile one CV, screen one CV against a job, and summarise a whole pool. The product server calls them; every one checks a secret first, fences the CV as data, and returns typed JSON or a typed error.",
-      "ar": "محرّك الذكاء الاصطناعي في فارز السير الذاتية: وكلاء متشابهون، أحدهم يحلّل سيرة واحدة، والآخر يقيّمها مقابل وظيفة، والثالث يلخّص مجموعة كاملة. يستدعيهم خادم المنتج، وكلٌّ منهم يتحقّق من المفتاح السري أولاً، ويعزل نص السيرة كبيانات، ويُعيد JSON محدّد البنية أو خطأً محدّداً."
+      "ar": "محرّك الذكاء الاصطناعي في CV Screener: وكلاء متشابهون، أحدهم يحلّل سيرة واحدة، والآخر يقيّمها مقابل وظيفة، والثالث يلخّص مجموعة كاملة. يستدعيهم خادم المنتج، وكلٌّ منهم يتحقّق من المفتاح السري أولاً، ويعزل نص السيرة كبيانات، ويُعيد JSON محدّد البنية أو خطأً محدّداً."
     },
     "trigger": {
       "en": "Server-to-server webhook",
@@ -931,8 +931,8 @@
       "ar": "صندوق وارد بفرز ذكي"
     },
     "headline": {
-      "en": "Every customer channel, with AI-drafted replies",
-      "ar": "كل قنوات العملاء، بردود يقترحها الذكاء الاصطناعي"
+      "en": "Customer messages, with AI-drafted replies",
+      "ar": "رسائل العملاء بردود يقترحها الذكاء الاصطناعي"
     },
     "year": "2026",
     "summary": {
@@ -1007,7 +1007,7 @@
           "id": "ingest",
           "label": {
             "en": "Atomic ingest",
-            "ar": "إدخال ذري للرسالة"
+            "ar": "إدخال ذرّي للرسالة"
           },
           "kind": "data",
           "service": "Supabase"
@@ -1650,7 +1650,7 @@
     },
     "headline": {
       "en": "Shop bookings through buttons, built with n8n",
-      "ar": "استقبال حجوزات المحلات عبر أزرار واتساب بـ n8n"
+      "ar": "حجز مواعيد المحلات عبر أزرار واتساب بـ n8n"
     },
     "year": "2026",
     "summary": {
@@ -1703,7 +1703,7 @@
         {
           "id": "norm",
           "label": {
-            "en": "Normalize the message",
+            "en": "Normalise the message",
             "ar": "توحيد الرسالة"
           },
           "kind": "logic"
@@ -1817,7 +1817,7 @@
     ],
     "highlights": {
       "en": [
-        "Phone columns are detected automatically, normalised and de-duplicated",
+        "Phone columns are detected automatically, normalised and deduplicated",
         "Members are added in batches with a pause between them, to stay under spam limits",
         "Whoever could not be added gets the invite link, one message at a time"
       ],
@@ -1859,7 +1859,7 @@
         {
           "id": "prepare",
           "label": {
-            "en": "Normalize phone numbers",
+            "en": "Normalise phone numbers",
             "ar": "توحيد أرقام الهواتف"
           },
           "kind": "logic"
@@ -1964,7 +1964,7 @@
     "year": "2026",
     "summary": {
       "en": "Send a post idea to a Telegram bot and get back captions for each platform and a branded image in your own colours, fonts and logo. Nothing is scheduled until you approve the preview.",
-      "ar": "أرسل فكرة منشور إلى بوت تيليجرام، فتعود إليك نصوص لكل منصة وصورة بهويتك: ألوانك وخطوطك وشعارك. ولا يُجدول شيء قبل أن تعتمد المعاينة."
+      "ar": "أرسل فكرة منشور إلى بوت تيليجرام، فتعود إليك نصوص لكل منصّة وصورة بهويتك: ألوانك وخطوطك وشعارك. ولا يُجدول شيء قبل أن تعتمد المعاينة."
     },
     "trigger": {
       "en": "Telegram message",
@@ -2394,7 +2394,7 @@
         {
           "id": "normalize",
           "label": {
-            "en": "Normalize the input",
+            "en": "Normalise the input",
             "ar": "توحيد المدخلات"
           },
           "kind": "logic"
@@ -2444,7 +2444,7 @@
         {
           "id": "analyze",
           "label": {
-            "en": "Analyze the lesson",
+            "en": "Analyse the lesson",
             "ar": "تحليل الدرس"
           },
           "kind": "ai",

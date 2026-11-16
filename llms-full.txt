@@ -97,7 +97,7 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 **Role.** AI/automation engine and complete frontend. Laravel backend by Haitham Zedan.
 
-**Numbers.** 204 source files · 494 automated tests · 70+ fields extracted · 13+ server-side filters · 4 subscription tiers · ~10s photo to structured data
+**Numbers.** 204 source files · 494 automated tests · 70+ fields extracted · 13+ server-side filters · 4 subscription tiers · ~10 seconds from photo to structured data
 
 **Stack.** React 19, TypeScript, Tailwind CSS, Vitest, React Testing Library, n8n, OpenAI GPT-4.1 Vision, GitHub Actions, i18n, RTL
 
@@ -213,7 +213,7 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 **Page.** https://nouraldeentofi.com/en/projects/umrah-guide
 
-### DFS Dashboard (2025–2026)
+### DFS Dashboard (2025 to 2026)
 
 *Internal platform*: A unified CRM and quotation platform that replaced scattered manual processes across every department.
 
@@ -458,7 +458,7 @@ Behind a chess club's tournament registration: the uploaded bank-transfer receip
 
 *Booking bot for shops* · Built and tested · 1 n8n workflow(s) · trigger: WhatsApp message
 
-**Flow.** WhatsApp message → Normalize the message → Which step? → Service buttons → Time-slot buttons → Create the booking → Send confirmation
+**Flow.** WhatsApp message → Normalise the message → Which step? → Service buttons → Time-slot buttons → Create the booking → Send confirmation
 
 A customer taps a service, then a time slot, in WhatsApp buttons. The confirmed slot is written to Google Calendar and confirmed back on WhatsApp.
 
@@ -476,13 +476,13 @@ A customer taps a service, then a time slot, in WhatsApp buttons. The confirmed 
 
 *Form-driven messaging tool* · Built and tested · 1 n8n workflow(s) · trigger: Form (file upload)
 
-**Flow.** Contacts upload form → Read the spreadsheet → Normalize phone numbers → Create WhatsApp group → Batch the contacts → Add participants → Find members not added → Send invite link
+**Flow.** Contacts upload form → Read the spreadsheet → Normalise phone numbers → Create WhatsApp group → Batch the contacts → Add participants → Find members not added → Send invite link
 
 Upload an Excel or CSV of contacts and a group name: the group is created, everyone is added in throttled batches, and anyone WhatsApp refuses to add receives the invite link instead.
 
 **Services.** n8n, Whapi.Cloud, Excel, CSV
 
-- Phone columns are detected automatically, normalised and de-duplicated
+- Phone columns are detected automatically, normalised and deduplicated
 - Members are added in batches with a pause between them, to stay under spam limits
 - Whoever could not be added gets the invite link, one message at a time
 
@@ -531,7 +531,7 @@ Automated B2B lead generation across the Saudi and Jordanian markets: multi-quer
 
 *Video-to-data webhook service* · Built and tested · 1 n8n workflow(s) · trigger: Webhook (lesson video URL)
 
-**Flow.** Lesson video URL → Normalize the input → Request transcript → Wait and poll → Transcript finished? → Build evaluation prompt → Transcript OK? → Analyze the lesson → Return an error → Return the scorecard
+**Flow.** Lesson video URL → Normalise the input → Request transcript → Wait and poll → Transcript finished? → Build evaluation prompt → Transcript OK? → Analyse the lesson → Return an error → Return the scorecard
 
 A webhook service that transcribes lesson videos with speaker separation and returns structured JSON scoring teacher quality and student engagement.
 
@@ -803,14 +803,14 @@ Live coals: the hero opens at night, then the charcoal catches. Embers and spark
 
 - Developed a modern, responsive web application dashboard with React and Tailwind CSS as part of a full product team.
 - Converted detailed Figma designs into accessible, pixel-accurate interfaces with reusable components and efficient state management.
-- Conducted code reviews and upheld coding standards to deliver a clean, optimized codebase.
+- Conducted code reviews and upheld coding standards to deliver a clean, optimised codebase.
 
 ### Frontend Developer (Freelance), Minicodeleader
 
 2023-06 to 2024-02 · Remote · Freelance
 
 - Designed responsive user interfaces for a kids education platform using React and Material-UI, where users browse courses, open lessons, and save courses for later.
-- Transformed Figma designs into functional interfaces with reusable components and optimized state management.
+- Transformed Figma designs into functional interfaces with reusable components and optimised state management.
 - First professional React role, and the foundation for everything that followed.
 
 ## Education and awards

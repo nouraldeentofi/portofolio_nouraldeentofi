@@ -59,10 +59,12 @@
   text-align: end;
 }
 
-/* Latin technology names inside Arabic text should not flip punctuation. */
+/* A badge takes its direction from its own first letter: a technology name
+   ("Next.js 16") reads left to right and keeps its punctuation in place, and
+   an Arabic phrase that ends in a Latin name reads right to left, with the
+   name where the sentence puts it. */
 [dir='rtl'] .badge {
-  direction: ltr;
-  unicode-bidi: isolate;
+  unicode-bidi: plaintext;
 }
 
 [dir='rtl'] .chat__card-body,

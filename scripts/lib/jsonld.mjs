@@ -197,7 +197,6 @@ function personFields(db, lang) {
           '@type': 'Demand',
           name: profile.availability.roles?.[lang].join(', ') ?? 'Automation and frontend engineering opportunities',
           ...(profile.availability.areas ? { areaServed: profile.availability.areas[lang] } : {}),
-          ...(profile.availability.since ? { availabilityStarts: profile.availability.since } : {}),
         }
       : undefined,
   };
@@ -370,6 +369,11 @@ const yearCreated = (year) => String(typeof year === 'object' ? year.en : year).
  * its heading, the description its lead, the keywords its badges, the year
  * the line under the heading, and the image the screenshot or the canvas in
  * the page.
+ *
+ * He is the `author` of what he built. A product he coordinated, with others
+ * writing the code, carries `credit: "contributor"` in the data, and the node
+ * then names him as `contributor`: the page prints his role, and the markup
+ * must not claim more than that role.
  */
 export function detailLd(db, lang, d) {
   const url = pageUrl(db, d.page, lang);
@@ -386,7 +390,7 @@ export function detailLd(db, lang, d) {
     description: (d.kind === 'project' ? e.tagline : e.summary)[lang],
     url,
     ...(picture ? { image: `${base(db)}/${picture}` } : {}),
-    author: { '@id': `${base(db)}/#nour` },
+    [e.credit === 'contributor' ? 'contributor' : 'author']: { '@id': `${base(db)}/#nour` },
     dateCreated: yearCreated(e.year),
     ...(keywords?.length ? { keywords: keywords.join(', ') } : {}),
     inLanguage: lang,

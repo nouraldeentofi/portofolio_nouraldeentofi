@@ -504,6 +504,11 @@ test('og:image is a PNG or a JPEG: a screenshot or a wide canvas when there is o
       const doc = html(d.page, lang);
       assert.equal(metaOf(doc, 'og:image'), `${site}/${expected}`, `${lang}/${d.page}`);
       assert.ok(metaOf(doc, 'og:image:alt').length > 0);
+      // The card shows his name and what he does, so its alt text says that,
+      // not the title of a product the picture does not show.
+      if (expected === db.profile.ogImage) {
+        assert.equal(metaOf(doc, 'og:image:alt'), `${db.profile.name[lang]} | ${db.profile.headline[lang]}`, `${lang}/${d.page}: the alt text of the card`);
+      }
     }
   }
   assert.ok(details.some((d) => d.entry.images?.desktop?.endsWith('.webp')) && details.some((d) => d.entry.canvas?.endsWith('.webp')));
@@ -607,7 +612,11 @@ test('the main node of a detail page is a CreativeWork made of what the page sho
       assert.equal(node.url, url);
       assert.equal(node.name, detailName(d, lang));
       assert.equal(node.description, (d.kind === 'project' ? x.tagline : x.summary)[lang]);
-      assert.deepEqual(node.author, { '@id': `${site}/#nour` });
+      // He is the author of what he built, and a contributor to a product he
+      // coordinated: the key follows the role the page prints, never both.
+      const credit = x.credit === 'contributor' ? 'contributor' : 'author';
+      assert.deepEqual(node[credit], { '@id': `${site}/#nour` }, `${at}: ${credit}`);
+      assert.ok(!((credit === 'author' ? 'contributor' : 'author') in node), `${at}: the node names him twice`);
       assert.equal(node.inLanguage, lang);
       assert.match(node.dateCreated, /^\d{4}$/);
       assert.equal(node.keywords, (d.kind === 'project' ? x.stack : x.services).join(', '));
@@ -1368,4 +1377,13 @@ test('the home page says "in production" only above systems that are running', (
   assert.match(db.copy.ar.home.automationLead, /تعمل في الإنتاج اليوم/);
   // Why the old sentence could not stay: not everything "All systems" leads to is running.
   assert.ok(db.workflows.some((w) => !running.includes(w.status)));
+});
+
+/* GoldenTag is the one product he coordinated while others wrote the code. Its
+   page prints that role, so its node says "contributor"; every other entry is
+   his own build. A second entry of the kind is a decision, made here. */
+test('only a product he coordinated names him as a contributor', () => {
+  assert.deepEqual(db.projects.filter((p) => p.credit).map((p) => [p.id, p.credit]), [['goldentag', 'contributor']]);
+  assert.equal(db.projects.find((p) => p.id === 'goldentag').role.en, 'Project coordinator');
+  assert.ok(db.workflows.every((w) => !w.credit), 'a system is his own build');
 });

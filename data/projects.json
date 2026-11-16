@@ -30,7 +30,7 @@
       { "value": "70+", "label": { "en": "fields extracted", "ar": "حقل مُستخرَج" } },
       { "value": "13+", "label": { "en": "server-side filters", "ar": "فلتر على الخادم" } },
       { "value": "4", "label": { "en": "subscription tiers", "ar": "باقات اشتراك" } },
-      { "value": "~10s", "label": { "en": "photo to structured data", "ar": "من الصورة إلى بيانات منظّمة" } }
+      { "value": "~10", "label": { "en": "seconds from photo to structured data", "ar": "ثوانٍ من الصورة إلى بيانات منظّمة" } }
     ],
     "stack": ["React 19", "TypeScript", "Tailwind CSS", "Vitest", "React Testing Library", "n8n", "OpenAI GPT-4.1 Vision", "GitHub Actions", "i18n", "RTL"],
     "url": "https://receipt.nexleadtech.com",
@@ -80,7 +80,7 @@
     "group": "ai",
     "year": "2026",
     "category": { "en": "AI automation product", "ar": "منتج أتمتة بالذكاء الاصطناعي" },
-    "headline": { "en": "A whole website into one Excel file", "ar": "سحب بيانات موقع كامل إلى ملف Excel" },
+    "headline": { "en": "A whole website into an Excel file", "ar": "سحب بيانات موقع كامل إلى ملف Excel" },
     "workflow": "universal-web-scraper",
     "tagline": {
       "en": "One link in, the whole site out: every page discovered, the data classified, and an Excel file with a tab for each kind of data.",
@@ -121,7 +121,7 @@
     },
     "problem": {
       "en": "Making a short motion video for LinkedIn, Reels, or YouTube usually means a paid subscription, a professional editor that takes weeks to learn, or an online service that keeps your project and your files.",
-      "ar": "صناعة فيديو موشن قصير للينكدإن أو الريلز أو يوتيوب تعني عادةً اشتراكاً مدفوعاً، أو برنامج مونتاج احترافياً يحتاج أسابيع لتعلّمه، أو خدمة على الإنترنت تحتفظ بمشروعك وملفاتك."
+      "ar": "صناعة فيديو موشن قصير لـ LinkedIn أو الريلز أو يوتيوب تعني عادةً اشتراكاً مدفوعاً، أو برنامج مونتاج احترافياً يحتاج أسابيع لتعلّمه، أو خدمة على الإنترنت تحتفظ بمشروعك وملفاتك."
     },
     "built": {
       "en": "An Arabic, right-to-left studio that runs entirely in the browser, with no API key, no server, and no subscription. A short wizard asks for the size and the style, then for a ready video idea or hand-picked scenes. Every template previews large and playing before it is added, and can be added as a new scene, merged into the current one, or swapped in for it. All of a scene's text sits in one place, a double tap writes straight onto the video, and a quick toolbar over any element enlarges, shrinks, recolours, animates, copies, or deletes it. Around that: a searchable library of animated backgrounds, including the living node mesh from this site; transitions previewed between your own scenes; camera moves with parallax depth; sound effects generated in the browser, plus your own voice-over; any moment saved as a PNG or JPG poster; and video themes, with day and night modes for the studio itself. The video is encoded on the visitor's own device with WebCodecs, falling back to real-time WebM recording where encoding is not supported. Projects autosave in the browser, and every frame carries a soft diagonal watermark that only the owner's password removes.",
@@ -163,7 +163,7 @@
     },
     "built": {
       "en": "A free, single-page tool in Arabic. The form covers what Saudi certificates carry: the four-part name, ID or residency number, nationality, programme, training hours, period, grade, and licence number. It issues completion, pass, and attendance certificates, with wording that switches between masculine and feminine. Hijri dates on the Umm al-Qura calendar are computed alongside the Gregorian, and the logo, signatures, stamp, and a verification QR code can be added, with a live preview of every page. The PDF opens with the certificate for sighted readers, followed by Braille pages holding the full text in Unified Arabic Braille: issuer, title, name, ID, programme, hours, period, grade, date, and signatures. The dots are standard-size and drawn as separate shapes so they can be printed in raised UV ink, with a light printed transcription between the lines that can be switched off. A second button downloads the text as a BRF file that Braille embossers read directly, and an in-page guide explains three ways to make the dots raised: an embosser, swell paper, or a raised-ink print shop. Nothing is stored or sent anywhere; automated checks hold the page to that promise, and tests match the Braille output against the unified table.",
-      "ar": "أداة مجانية بالعربية في صفحة واحدة. تغطي حقولها ما تحمله الشهادات على العرف السعودي: الاسم الرباعي، ورقم الهوية أو الإقامة، والجنسية، والبرنامج، وعدد الساعات، والفترة، والتقدير، ورقم الترخيص. وتُصدر شهادات إتمام واجتياز وحضور، بصياغة تتغيّر تلقائياً بين المذكر والمؤنث. يُحسب التاريخ الهجري بتقويم أم القرى مع الميلادي، ويمكن إضافة الشعار والتوقيعات والختم ورمز QR للتحقق، مع معاينة مباشرة لكل صفحة. يبدأ ملف PDF بالشهادة للمبصرين، تليها صفحات برايل فيها نص الشهادة كاملاً بطريقة برايل العربية الموحدة: الجهة والعنوان والاسم والهوية والبرنامج والساعات والفترة والتقدير والتاريخ والتوقيعات. النقاط بالمقاس القياسي ومرسومة أشكالاً منفصلة لتسهل طباعتها بحبر UV بارز، وبين الأسطر ترجمة مطبوعة فاتحة يمكن إطفاؤها. وزر ثانٍ ينزّل النص بصيغة BRF التي تقرؤها طابعات برايل مباشرة، ودليل داخل الصفحة يشرح ثلاث طرق لجعل النقاط بارزة: طابعة برايل، والورق الانتفاخي، والمطبعة بحبر بارز. لا يُحفظ شيء ولا يُرسل إلى أي جهة؛ وفحوص آلية تُلزم الصفحة بهذا الوعد، واختبارات تطابق ترجمة برايل مع الجدول الموحد."
+      "ar": "أداة مجانية بالعربية في صفحة واحدة. تغطي حقولها ما تحمله الشهادات على العرف السعودي: الاسم الرباعي، ورقم الهوية أو الإقامة، والجنسية، والبرنامج، وعدد الساعات، والفترة، والتقدير، ورقم الترخيص. وتُصدر شهادات إتمام واجتياز وحضور، بصياغة تتغيّر تلقائياً بين المذكر والمؤنث. يُحسب التاريخ الهجري بتقويم أم القرى مع الميلادي، ويمكن إضافة الشعار والتوقيعات والختم ورمز QR للتحقق، مع معاينة مباشرة لكل صفحة. يبدأ ملف PDF بالشهادة للمبصرين، تليها صفحات برايل فيها نص الشهادة كاملاً بطريقة برايل العربية الموحّدة: الجهة والعنوان والاسم والهوية والبرنامج والساعات والفترة والتقدير والتاريخ والتوقيعات. النقاط بالمقاس القياسي ومرسومة أشكالاً منفصلة لتسهل طباعتها بحبر UV بارز، وبين الأسطر ترجمة مطبوعة فاتحة يمكن إطفاؤها. وزر ثانٍ ينزّل النص بصيغة BRF التي تقرؤها طابعات برايل مباشرة، ودليل داخل الصفحة يشرح ثلاث طرق لجعل النقاط بارزة: طابعة برايل، والورق الانتفاخي، والمطبعة بحبر بارز. لا يُحفظ شيء ولا يُرسل إلى أي جهة؛ وفحوص آلية تُلزم الصفحة بهذا الوعد، واختبارات تطابق ترجمة برايل مع الجدول الموحّد."
     },
     "role": {
       "en": "Full build: design, Braille translation, and PDF output",
@@ -188,7 +188,7 @@
     "featured": false,
     "group": "apps",
     "year": "2026",
-    "category": { "en": "E-invoicing platform · open source", "ar": "منصة فوترة إلكترونية · مفتوحة المصدر" },
+    "category": { "en": "E-invoicing platform · open source", "ar": "منصّة فوترة إلكترونية · مفتوحة المصدر" },
     "headline": { "en": "Open-source e-invoicing for businesses in Saudi Arabia", "ar": "برنامج فوترة إلكترونية مفتوح المصدر للمنشآت في السعودية" },
     "tagline": {
       "en": "An open-source e-invoicing program for businesses in Saudi Arabia, with a public demo that issues and signs invoices entirely in the browser.",
@@ -269,7 +269,7 @@
     "name": "DFS Dashboard",
     "featured": false,
     "group": "apps",
-    "year": "2025–2026",
+    "year": { "en": "2025 to 2026", "ar": "2025 إلى 2026" },
     "category": { "en": "Internal platform", "ar": "منصّة داخلية" },
     "headline": { "en": "Internal CRM and quotation platform", "ar": "منصّة داخلية لإدارة العملاء وعروض الأسعار" },
     "tagline": {
@@ -314,6 +314,7 @@
       "ar": "نسّقت التسليم من البداية إلى النهاية: المتطلبات مع العميل، والنطاق ومعايير القبول، وقصص المستخدم على Trello، والإشراف على الواجهة الأمامية والخلفية وتجربة المستخدم حتى النشر. وتشمل المزايا: المخزون، وإدارة الموظفين، ومسح الباركود، وأسعار صرف الدولار/الليرة، وتسجيل المبيعات، والتصدير النصي."
     },
     "role": { "en": "Project coordinator", "ar": "منسّق المشروع" },
+    "credit": "contributor",
     "metrics": [
       { "value": "4", "label": { "en": "core features", "ar": "مزايا أساسية" } },
       { "value": "Live", "label": { "en": "on Google Play", "ar": "على Google Play" } }

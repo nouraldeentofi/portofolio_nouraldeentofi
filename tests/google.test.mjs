@@ -251,6 +251,18 @@ test('a badge may wrap, so a long one cannot push the page sideways', () => {
   assert.ok(longest > 40, 'the badge that caused it is gone; the rule still stands');
 });
 
+/* Two of the roles on the Arabic contact page read in the wrong order: the
+   rule that kept technology names left to right also turned an Arabic phrase
+   that ends in a Latin name, so "n8n" stood before the words it closes. A
+   badge now takes its direction from its own first letter. */
+test('a badge reads in the direction of its own first letter', () => {
+  const rule = readFileSync('assets/css/rtl.css', 'utf8').match(/\[dir='rtl'\] \.badge \{[^}]*\}/)[0];
+  assert.match(rule, /unicode-bidi: plaintext;/);
+  assert.ok(!/direction:\s*ltr/.test(rule), 'every badge is forced left to right again');
+  // The case that showed it is still in the data: Arabic words first, a Latin name last.
+  assert.ok(db.profile.availability.roles.ar.some((r) => /^[\u0600-\u06FF]/.test(r) && /[A-Za-z0-9.)]$/.test(r)));
+});
+
 /* ------------------------------------------------------- the share card */
 
 /* The old card was exported by hand. It kept an em dash and the word
@@ -367,6 +379,8 @@ test('what a page says about him in its markup is on that page', () => {
     assert.equal(p.seeks.name, db.profile.availability.roles[lang].join(', '), at);
     for (const role of db.profile.availability.roles[lang]) assert.ok(text.includes(role), `${at}: "${role}" is in the markup but not on the page`);
     assert.deepEqual(p.seeks.areaServed, db.profile.availability.areas[lang], at);
+    // The month he became available is printed nowhere, so the markup does not say it either.
+    assert.deepEqual(Object.keys(p.seeks).sort(), ['@type', 'areaServed', 'name'], `${at}: a value in seeks that the page does not print`);
     for (const area of p.seeks.areaServed) assert.ok(text.includes(area), `${at}: "${area}" is in the markup but not on the page`);
   }
   assert.deepEqual(seeking, ['contact', 'contact']);

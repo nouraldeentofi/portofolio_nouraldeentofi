@@ -11,6 +11,9 @@ function assertLang(lang) {
   if (!LANGS.has(lang)) throw new Error(`lang: expected "en" or "ar", got "${lang}"`);
 }
 
+/** A year is one string, or a pair when its wording differs by language ("2025 to 2026"). */
+const yearIn = (year, lang) => (year && typeof year === 'object' ? year[lang] : year);
+
 export function getProfile(db, { lang = 'en' } = {}) {
   assertLang(lang);
   const p = db.profile;
@@ -45,7 +48,7 @@ export function searchProjects(db, { query = '', tech = null, limit = 10, lang =
     .map((p) => ({
       id: p.id,
       name: p.name,
-      year: p.year,
+      year: yearIn(p.year, lang),
       category: p.category[lang],
       tagline: p.tagline[lang],
       problem: p.problem[lang],
@@ -65,7 +68,7 @@ export function getWorkflows(db, { query = '', lang = 'en' } = {}) {
     .map((w) => ({
       id: w.id,
       name: w.name[lang],
-      year: w.year,
+      year: yearIn(w.year, lang),
       kind: w.kind[lang],
       summary: w.summary[lang],
       trigger: w.trigger[lang],

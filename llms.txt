@@ -32,7 +32,7 @@ I build AI automation in n8n that reads Arabic and English documents, runs Whats
 
 - [Smart Scanner](https://nouraldeentofi.com/en/projects/smart-scanner): AI invoice scanner for Arabic and English invoices
 - [CV Screener](https://nouraldeentofi.com/en/projects/cv-screener): AI CV screening for Arabic and English CVs
-- [Universal Web Scraper](https://nouraldeentofi.com/en/projects/universal-web-scraper): A whole website into one Excel file
+- [Universal Web Scraper](https://nouraldeentofi.com/en/projects/universal-web-scraper): A whole website into an Excel file
 - [Nour Motion Studio](https://nouraldeentofi.com/en/projects/motion-studio): Free motion-graphics video maker in the browser
 - [Braille Certificate Maker](https://nouraldeentofi.com/en/projects/braille-certificate): Training certificates with Arabic Braille
 - [Khatm · ختم](https://nouraldeentofi.com/en/projects/khatm): Open-source e-invoicing for businesses in Saudi Arabia
@@ -43,7 +43,7 @@ I build AI automation in n8n that reads Arabic and English documents, runs Whats
 - [MCP Search Server](https://nouraldeentofi.com/en/projects/mcp-search-server): Gives an AI model real data to query
 - [Teacher Assistant AI Bot](https://nouraldeentofi.com/en/automation/teacher-assistant-bot): Telegram AI assistant for a private tutor
 - [Telegram Publishing System](https://nouraldeentofi.com/en/automation/telegram-publisher): Social media posts managed from one chat
-- [Unified Inbox](https://nouraldeentofi.com/en/automation/unified-inbox): Every customer channel, with AI-drafted replies
+- [Unified Inbox](https://nouraldeentofi.com/en/automation/unified-inbox): Customer messages, with AI-drafted replies
 - [Google Review Reply Manager](https://nouraldeentofi.com/en/automation/google-review-reply): Automatic Google review replies with n8n
 - [AI Job-Match Pipeline](https://nouraldeentofi.com/en/automation/ai-job-match): Daily job search with approval on Telegram
 - [Transfer Receipt Check](https://nouraldeentofi.com/en/automation/receipt-verify): Bank transfer receipts read by AI vision
@@ -63,7 +63,7 @@ I build AI automation in n8n that reads Arabic and English documents, runs Whats
 - [Braille Certificate Maker](https://braille.nouraldeentofi.com/) (2026): Fill in a training certificate and get a print-ready PDF. It comes with a full Arabic Braille version a blind trainee can read by touch, and a file for Braille embossers.
 - [Khatm · ختم](https://khatm.nouraldeentofi.com/) (2026): An open-source e-invoicing program for businesses in Saudi Arabia, with a public demo that issues and signs invoices entirely in the browser.
 - [The Complete Umrah Guide](https://nouraldeentofi.com/umrah-guide/) (2026): An interactive Umrah checklist in the order the rites are performed, in ten languages, and built to be used one-handed and offline inside the Haram.
-- DFS Dashboard (2025–2026): A unified CRM and quotation platform that replaced scattered manual processes across every department.
+- DFS Dashboard (2025 to 2026): A unified CRM and quotation platform that replaced scattered manual processes across every department.
 - [GoldenTag](https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag) (2025): A jewelry store management app shipped to the Google Play Store.
 - Business Card Extractor (2026): Photograph a business card, and it lands in your phone's contacts in one tap.
 - MCP Search Server (2026): A Model Context Protocol server that lets an AI model query real data instead of only generating text.
