@@ -319,7 +319,7 @@ The AI engine of CV Screener: sibling agents that profile one CV, screen one CV 
 
 **Page.** https://nouraldeentofi.com/en/projects/cv-screener#automation
 
-### Teacher Assistant AI Bot (2025 to present)
+### Teacher Assistant AI Bot (2026 to present)
 
 *Telegram AI agent · client project* · Running for a client · 5 n8n workflow(s) · trigger: Telegram message
 
@@ -768,7 +768,7 @@ Live coals: the hero opens at night, then the charcoal catches. Embers and spark
 
 ### AI Engineer (Freelance), Self-employed
 
-2025 to present · Al Khobar, Saudi Arabia · Freelance · Remote
+2026-06 to present · Al Khobar, Saudi Arabia · Freelance · Remote
 
 - Built an Arabic Telegram agent, in production for a private tutor, that runs students, schedules, recurring lessons, cancellations and dues from a chat. It acts only through custom tools under strict business rules, with MySQL stored procedures as its tools, usage metering and session memory.
 - Built the payment check behind a chess club's tournament registration: a vision model reads each uploaded bank-transfer receipt and first says whether it is a transfer at all, the site applies the rules, and successful runs are not stored because receipts carry personal data.

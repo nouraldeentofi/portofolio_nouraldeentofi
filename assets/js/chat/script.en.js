@@ -101,7 +101,7 @@ export const SCRIPT = {
     msgs: ['Quick rewind ⏪'],
     card: `<div class="chat__card-head">📜 The timeline</div>
 <div class="chat__card-body">
-  <b>2025</b> AI Engineer · freelance, ongoing<br>
+  <b>2026</b> AI Engineer · freelance, ongoing<br>
   <b>2025–26</b> Frontend Developer &amp; Project Coordinator · Distinctive Frontier<br>
   <b>2025–26</b> Freelance Project Coordinator · NexLead<br>
   <b>2024–25</b> Frontend Developer · Khwarizm Technologies<br>

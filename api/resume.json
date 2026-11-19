@@ -50,7 +50,7 @@
       "name": "Self-employed",
       "position": "AI Engineer (Freelance)",
       "location": "Al Khobar, Saudi Arabia",
-      "startDate": "2025",
+      "startDate": "2026-06-01",
       "highlights": [
         "Built an Arabic Telegram agent, in production for a private tutor, that runs students, schedules, recurring lessons, cancellations and dues from a chat. It acts only through custom tools under strict business rules, with MySQL stored procedures as its tools, usage metering and session memory.",
         "Built the payment check behind a chess club's tournament registration: a vision model reads each uploaded bank-transfer receipt and first says whether it is a transfer at all, the site applies the rules, and successful runs are not stored because receipts carry personal data."

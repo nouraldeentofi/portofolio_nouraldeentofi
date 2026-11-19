@@ -370,8 +370,8 @@
       "ar": "مدرّس خصوصي يدير عمله من تيليجرام"
     },
     "year": {
-      "en": "2025 to present",
-      "ar": "2025 حتى الآن"
+      "en": "2026 to present",
+      "ar": "2026 حتى الآن"
     },
     "summary": {
       "en": "A natural-language Arabic assistant delivered to a private tutor in Saudi Arabia. The tutor manages students, schedules, cancellations, and dues entirely through chat. The AI agent calls custom CRUD tools under strict business rules rather than guessing.",

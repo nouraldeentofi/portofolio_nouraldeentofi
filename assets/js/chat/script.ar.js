@@ -99,7 +99,7 @@ export const SCRIPT = {
     msgs: ['عودة سريعة ⏪'],
     card: `<div class="chat__card-head">📜 الخط الزمني</div>
 <div class="chat__card-body">
-  <b>2025</b> مطوّر تطبيقات ذكاء اصطناعي · عمل حر مستمر<br>
+  <b>2026</b> مطوّر تطبيقات ذكاء اصطناعي · عمل حر مستمر<br>
   <b>2025–26</b> مطوّر واجهات أمامية ومنسّق مشاريع · Distinctive Frontier<br>
   <b>2025–26</b> منسّق مشاريع (عمل حر) · NexLead<br>
   <b>2024–25</b> مطوّر واجهات · Khwarizm Technologies<br>
