@@ -79,7 +79,7 @@
   },
   {
     "id": "coordination",
-    "category": { "en": "Coordination & Leadership", "ar": "التنسيق والقيادة" },
+    "category": { "en": "Project Coordination", "ar": "تنسيق المشاريع" },
     "items": [
       "Requirements Gathering",
       "Scope Definition",
@@ -87,8 +87,8 @@
       "User Stories",
       "Sprint Planning",
       "Code Review",
-      "Mentoring",
-      "Cross-Functional Team Leadership",
+      "Cost Estimation",
+      "Cross-Functional Coordination",
       "Project Coordination",
       "Problem Solving"
     ]

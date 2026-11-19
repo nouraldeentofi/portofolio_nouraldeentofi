@@ -24,15 +24,17 @@ export function ogCardFields(db) {
   // The dot between the roles is written with a non-breaking space before it.
   const [first, ...rest] = profile.headline.en.split(/\s+·\s+/);
   const colon = first.indexOf(': ');
-  const place = `${profile.location.city.en}, ${profile.location.country.en}`;
+  // The place never splits across two lines: when the line is too long it
+  // moves down whole, and a dot never starts the second line.
+  const place = `${profile.location.city.en}, ${profile.location.country.en}`.replace(/ /g, ' ');
 
   return {
     nameEn: profile.name.en,
     nameAr: profile.name.ar,
     role: colon === -1 ? first : first.slice(0, colon),
     focus: colon === -1 ? '' : first.slice(colon + 2),
-    // The second role and where he is, on one quiet line.
-    more: [...rest, place].join(' · '),
+    // The second role and where he is, on one quiet line, or two when it is long.
+    more: [...rest, place].join(' · '),
     host: new URL(profile.site).host,
     image: profile.image ?? '',
   };

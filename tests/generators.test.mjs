@@ -161,7 +161,8 @@ test('resume.json matches the JSON Resume shape', () => {
   assert.equal(r.basics.name, 'Nour Aldeen Tofi');
   assert.equal(r.basics.location.countryCode, 'SA');
   assert.ok(Array.isArray(r.work) && r.work.length === 5);
-  assert.ok(r.work.every((w) => /^\d{4}-\d{2}-\d{2}$/.test(w.startDate)));
+  // A day, or a bare year when only the year is known: the schema accepts both.
+  assert.ok(r.work.every((w) => /^\d{4}(-\d{2}-\d{2})?$/.test(w.startDate)));
   assert.equal(r.certificates.length, 12);
   assert.ok(r.basics.profiles.every((p) => typeof p.url === 'string'));
   assert.equal(r.education[0].institution, 'University of Kalamoon');
@@ -468,7 +469,7 @@ test('every page carries the Google tag exactly once', () => {
 test('the Person names no current employer between jobs, and says what he seeks', () => {
   for (const lang of LANGS) {
     // The employers are on the experience page, so that node would name one.
-    const running = db.experience.filter((e) => e.end === null).length;
+    const running = db.experience.filter((e) => e.end === null && !e.selfEmployed).length;
     assert.equal('worksFor' in personLd(db, lang, 'work'), running > 0, `${lang}: worksFor disagrees with the experience data`);
     // What he is looking for is shown on the contact page, role by role.
     const p = personLd(db, lang, 'contact');

@@ -348,13 +348,13 @@ const eyebrowOf = (db, lang, key) =>
   LANGS.some((l) => db.copy[l][key].title.startsWith(db.copy[l].nav[key])) ? null : db.copy[lang].nav[key];
 
 /**
- * Whether the pages may say he is available right now.
+ * Whether the pages may say he is open to work.
  *
  * It is a claim about today, so the data decides it, in one place: the home
  * hero and the work hero both ask here, and neither keeps the claim in a
  * sentence that would stay behind when the data changes.
  */
-const availableNow = (db) => Boolean(db.profile.availability.openToWork && db.profile.availability.immediate);
+const availableNow = (db) => Boolean(db.profile.availability.openToWork);
 
 /**
  * The closing call to action: a question, a sentence and one button to the

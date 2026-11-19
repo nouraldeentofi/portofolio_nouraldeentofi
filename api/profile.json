@@ -1,6 +1,6 @@
 {
   "$schema": "https://nouraldeentofi.com/api/profile.json",
-  "generated": "2026-11-16T00:00:00+03:00",
+  "generated": "2026-11-19T00:00:00+03:00",
   "name": {
     "en": "Nour Aldeen Tofi",
     "ar": "نور الدين طفي"
@@ -24,12 +24,12 @@
     "نور طفي"
   ],
   "headline": {
-    "en": "AI Automation Engineer: n8n, LLM Agents, MCP · Frontend Developer",
-    "ar": "مهندس أتمتة بالذكاء الاصطناعي: n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية"
+    "en": "AI Engineer: LLM Agents, Arabic Document AI, MCP · n8n Automation · Frontend Developer",
+    "ar": "مطوّر تطبيقات ذكاء اصطناعي: وكلاء LLM وقراءة المستندات العربية وMCP · أتمتة بـ n8n · مطوّر واجهات أمامية"
   },
   "tagline": {
-    "en": "I turn messy manual processes into self-running workflows, and build the interfaces people use on top of them.",
-    "ar": "أُحوّل العمليات اليدوية المتعثّرة إلى مسارات عمل ذاتية التشغيل، وأبني الواجهات التي يستخدمها الناس فوقها."
+    "en": "I build applications on large language models that take over manual work in Arabic and English, and the interfaces people use on top of them.",
+    "ar": "أبني تطبيقات قائمة على النماذج اللغوية الكبيرة تتولّى العمل اليدوي بالعربية والإنجليزية، وأطوّر فوقها الواجهات التي يستخدمها الناس."
   },
   "location": {
     "city": {
@@ -107,22 +107,16 @@
   ],
   "availability": {
     "openToWork": true,
-    "immediate": true,
-    "since": "2026-11",
     "roles": {
       "en": [
-        "AI Automation Engineer",
-        "n8n Workflow Automation Engineer",
-        "Applied AI and LLM Engineer",
-        "Frontend Developer (React, TypeScript, Next.js)",
-        "Frontend Lead and Technical Lead"
+        "AI Engineer",
+        "AI Automation Engineer (n8n)",
+        "Frontend Developer (React, TypeScript, Next.js)"
       ],
       "ar": [
-        "مهندس أتمتة بالذكاء الاصطناعي",
-        "مهندس أتمتة سير العمل بـ n8n",
-        "مهندس ذكاء اصطناعي تطبيقي ونماذج لغوية كبيرة",
-        "مطوّر واجهات أمامية (React وTypeScript وNext.js)",
-        "قائد فريق الواجهات الأمامية وقائد تقني"
+        "مطوّر تطبيقات ذكاء اصطناعي",
+        "مطوّر أتمتة بالذكاء الاصطناعي (n8n)",
+        "مطوّر واجهات أمامية (React وTypeScript وNext.js)"
       ]
     },
     "areas": {
@@ -250,8 +244,8 @@
     {
       "id": "coordination",
       "category": {
-        "en": "Coordination & Leadership",
-        "ar": "التنسيق والقيادة"
+        "en": "Project Coordination",
+        "ar": "تنسيق المشاريع"
       },
       "items": [
         "Requirements Gathering",
@@ -260,8 +254,8 @@
         "User Stories",
         "Sprint Planning",
         "Code Review",
-        "Mentoring",
-        "Cross-Functional Team Leadership",
+        "Cost Estimation",
+        "Cross-Functional Coordination",
         "Project Coordination",
         "Problem Solving"
       ]

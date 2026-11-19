@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { loadDb } from '../scripts/lib/load.mjs';
+import { experienceLd } from '../scripts/lib/jsonld.mjs';
 import {
   personLd,
   PERSON_ON_PAGE,
@@ -48,7 +49,7 @@ test('the Person node is slim everywhere, and a page adds only what it shows', (
   // A current employer is named on the experience page only while a role is
   // still running, so the expected keys follow the data: the day a job with
   // no end date is added, `worksFor` appears and this test still holds.
-  const employed = db.experience.some((e) => e.end === null);
+  const employed = db.experience.some((e) => e.end === null && !e.selfEmployed);
   const adds = {
     '': ['givenName', 'familyName', 'alternateName', 'description', 'knowsLanguage'],
     // What he is looking for is not here: the about page does not print every role.
@@ -60,8 +61,9 @@ test('the Person node is slim everywhere, and a page adds only what it shows', (
   assert.deepEqual(PERSON_ON_PAGE.work, ['hasCredential', 'alumniOf', 'worksFor']);
   assert.ok(!PERSON_ON_PAGE.about.includes('seeks') && PERSON_ON_PAGE.contact.includes('seeks'));
   // With a role that is still running, the experience page names the employer, and no other page does.
-  const running = { ...db, experience: [{ ...db.experience[0], end: null }, ...db.experience.slice(1)] };
-  assert.deepEqual(personLd(running, 'en', 'work').worksFor.map((o) => o.name), [db.experience[0].company]);
+  const first = db.experience.findIndex((e) => !e.selfEmployed);
+  const running = { ...db, experience: db.experience.map((e, i) => (i === first ? { ...e, end: null } : e)) };
+  assert.deepEqual(personLd(running, 'en', 'work').worksFor.map((o) => o.name), [db.experience[first].company]);
   for (const page of ['', 'about', 'contact', 'projects', null]) assert.ok(!('worksFor' in personLd(running, 'en', page)), `${page}: names an employer`);
 
   for (const lang of ['en', 'ar']) {
@@ -95,8 +97,8 @@ test('the email in the markup is a plain address', () => {
 
 /* The Arabic page used to name his occupation in English. */
 test('the occupation is named in the language of the page', () => {
-  assert.equal(personLd(db, 'en', 'about').hasOccupation.name, 'AI Automation Engineer');
-  assert.equal(personLd(db, 'ar', 'about').hasOccupation.name, 'مهندس أتمتة بالذكاء الاصطناعي');
+  assert.equal(personLd(db, 'en', 'about').hasOccupation.name, 'AI Engineer');
+  assert.equal(personLd(db, 'ar', 'about').hasOccupation.name, 'مطوّر تطبيقات ذكاء اصطناعي');
   for (const lang of ['en', 'ar']) {
     const job = personLd(db, lang, 'about').hasOccupation;
     assert.equal(job.name, db.profile.availability.roles[lang][0]);
@@ -270,4 +272,22 @@ test('multiple objects are combined into a single @graph', () => {
   assert.equal(parsed['@context'], 'https://schema.org');
   assert.equal(parsed['@graph'].length, 2);
   assert.ok(!('@context' in parsed['@graph'][0]), 'inner objects must not repeat @context');
+});
+
+/* Freelance work is real experience, but "Self-employed" is not a company:
+   it is never a current employer and never an organisation he belongs to. */
+test('self-employment names no employer in the structured data', () => {
+  const self = db.experience.filter((e) => e.selfEmployed);
+  assert.ok(self.length > 0, 'no self-employed role in the data to check');
+  for (const lang of ['en', 'ar']) {
+    const running = { ...db, experience: db.experience.map((e) => (e.selfEmployed ? { ...e, end: null } : e)) };
+    const employers = (personLd(running, lang, 'work').worksFor ?? []).map((o) => o.name);
+    for (const e of self) assert.ok(!employers.includes(e.company[lang]) && !employers.includes(e.company.en), `${lang}: ${e.id} became an employer`);
+    const items = experienceLd(db, lang).itemListElement.map((i) => i.item);
+    for (const e of self) {
+      const item = items.find((i) => i.roleName === e.role[lang]);
+      assert.ok(item, `${lang}: ${e.id} is missing from the list`);
+      assert.ok(!('memberOf' in item), `${lang}: ${e.id} is a member of an organisation`);
+    }
+  }
 });

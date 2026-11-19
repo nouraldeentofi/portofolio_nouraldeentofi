@@ -19,8 +19,8 @@
   },
   "_shortNameNote": "The short form people use for him. Feeds WebSite.alternateName, next to the Arabic name and the host, so Google has the alternatives it may show as the site name.",
   "headline": {
-    "en": "AI Automation Engineer: n8n, LLM Agents, MCP · Frontend Developer",
-    "ar": "مهندس أتمتة بالذكاء الاصطناعي: n8n ووكلاء LLM وMCP · مطوّر واجهات أمامية"
+    "en": "AI Engineer: LLM Agents, Arabic Document AI, MCP · n8n Automation · Frontend Developer",
+    "ar": "مطوّر تطبيقات ذكاء اصطناعي: وكلاء LLM وقراءة المستندات العربية وMCP · أتمتة بـ n8n · مطوّر واجهات أمامية"
   },
   "nameVariants": [
     "Nour Aldeen Tofi",
@@ -47,8 +47,8 @@
   ],
   "_nameMisspellingsNote": "The family name written with the wrong first letter, which reads as a different Arabic word. People do type it, so it is listed for entity resolution, but it goes only into Person.alternateName in the JSON-LD, which no visitor reads. It must never reach visible text, llms.txt, llms-full.txt or the JSON API: the tests and validate enforce that.",
   "tagline": {
-    "en": "I turn messy manual processes into self-running workflows, and build the interfaces people use on top of them.",
-    "ar": "أُحوّل العمليات اليدوية المتعثّرة إلى مسارات عمل ذاتية التشغيل، وأبني الواجهات التي يستخدمها الناس فوقها."
+    "en": "I build applications on large language models that take over manual work in Arabic and English, and the interfaces people use on top of them.",
+    "ar": "أبني تطبيقات قائمة على النماذج اللغوية الكبيرة تتولّى العمل اليدوي بالعربية والإنجليزية، وأطوّر فوقها الواجهات التي يستخدمها الناس."
   },
   "location": {
     "city": {
@@ -74,7 +74,7 @@
     "_note": "Google Analytics for nouraldeentofi.com, on the nourtofi42@gmail.com account. `tag` is the Google tag the pages load, exactly as Analytics gives it under Admin, Data streams, View tag instructions. `measurementId` is the web stream it reports to, kept for reference."
   },
   "_ogImageNote": "The 1200×630 share card, emitted as og:image / twitter:image so links unfurl with a real preview. Wider than the portrait and captioned, so it stays the share image rather than the photo. Made by `npm run og` from scripts/og/og.html, with its words taken from this file: never edit the PNG, and keep its name.",
-  "updated": "2026-11-15",
+  "updated": "2026-11-19",
   "_updatedNote": "The day the facts of his identity last changed: name, title, links, portrait, location. Set by hand, and only when one of those changes. It is the dateModified of the ProfilePage on the home page, so it must not move just because the site was rebuilt.",
   "email": "nouraldeentofi@gmail.com",
   "phone": "+966547972944",
@@ -142,22 +142,16 @@
   ],
   "availability": {
     "openToWork": true,
-    "immediate": true,
-    "since": "2026-11",
     "roles": {
       "en": [
-        "AI Automation Engineer",
-        "n8n Workflow Automation Engineer",
-        "Applied AI and LLM Engineer",
-        "Frontend Developer (React, TypeScript, Next.js)",
-        "Frontend Lead and Technical Lead"
+        "AI Engineer",
+        "AI Automation Engineer (n8n)",
+        "Frontend Developer (React, TypeScript, Next.js)"
       ],
       "ar": [
-        "مهندس أتمتة بالذكاء الاصطناعي",
-        "مهندس أتمتة سير العمل بـ n8n",
-        "مهندس ذكاء اصطناعي تطبيقي ونماذج لغوية كبيرة",
-        "مطوّر واجهات أمامية (React وTypeScript وNext.js)",
-        "قائد فريق الواجهات الأمامية وقائد تقني"
+        "مطوّر تطبيقات ذكاء اصطناعي",
+        "مطوّر أتمتة بالذكاء الاصطناعي (n8n)",
+        "مطوّر واجهات أمامية (React وTypeScript وNext.js)"
       ]
     },
     "areas": {

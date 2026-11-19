@@ -9,7 +9,7 @@ import { escapeHtml, extAttrs, newTabHint, linkifyPeople } from './render.mjs';
 import * as ld from './jsonld.mjs';
 import { flowDiagram, flowOrder } from './diagram.mjs';
 import { pagePath, X_DEFAULT } from './sitemap.mjs';
-import { byCompany } from './experience.mjs';
+import { byCompany, companyName } from './experience.mjs';
 import { homeOffers as offersOf, automationServices as servicesOf } from './offers.mjs';
 import {
   detailName,
@@ -519,7 +519,7 @@ export function workTimeline(db, lang) {
   const single = (x) => `  <li data-reveal class="timeline__item${current(x.end)}">
     <p class="timeline__period">${periodHtml(x.start, x.end, lang, c)}</p>
     <h3 class="timeline__role">${e(x.role[lang])}</h3>
-    <p class="timeline__org">${org(db, x.company, lang)} · ${e(x.location[lang])} · ${e(x.type[lang])}</p>
+    <p class="timeline__org">${org(db, companyName(x.company, lang), lang)} · ${e(x.location[lang])} · ${e(x.type[lang])}</p>
     ${list(x.bullets[lang].map((b) => prose(db, b, lang)), 'timeline__bullets')}
     ${badges(x.stack)}
   </li>`;
@@ -530,7 +530,7 @@ export function workTimeline(db, lang) {
     const latest = g.roles[0];
     return `  <li data-reveal class="timeline__item timeline__item--group${current(g.end)}">
     <p class="timeline__period">${periodHtml(g.start, g.end, lang, c)}</p>
-    <h3 class="timeline__role">${org(db, g.company, lang)}</h3>
+    <h3 class="timeline__role">${org(db, companyName(g.company, lang), lang)}</h3>
     <p class="timeline__org">${e(latest.location[lang])} · ${e(latest.type[lang])}</p>
     <ol class="timeline__steps">
 ${g.roles
@@ -1381,7 +1381,7 @@ export function contactAvailability(db, lang) {
   const a = db.profile.availability;
   const c = db.copy[lang];
   return `<h3 class="card__title">${e(c.contact.availabilityTitle)}</h3>
-<p class="card__body">${e(db.profile.location.city[lang])}${lang === 'ar' ? '،' : ','} ${e(db.profile.location.country[lang])}${a.immediate ? ` · ${e(c.contact.availableNow)}` : ''}</p>
+<p class="card__body">${e(db.profile.location.city[lang])}${lang === 'ar' ? '،' : ','} ${e(db.profile.location.country[lang])}${a.openToWork ? ` · ${e(c.contact.availableNow)}` : ''}</p>
 ${badges(a.arrangements[lang])}${
     a.roles
       ? `

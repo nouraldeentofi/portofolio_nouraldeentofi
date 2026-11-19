@@ -1,20 +1,20 @@
 # Nour Aldeen Tofi
 
-> AI Automation Engineer: n8n, LLM Agents, MCP · Frontend Developer, based in Al Khobar, Saudi Arabia. I turn messy manual processes into self-running workflows, and build the interfaces people use on top of them.
+> AI Engineer: LLM Agents, Arabic Document AI, MCP · n8n Automation · Frontend Developer, based in Al Khobar, Saudi Arabia. I build applications on large language models that take over manual work in Arabic and English, and the interfaces people use on top of them.
 
 Also known as: Nour Aldeen Tofi · Nouraldeen Tofi · Nour Al-Deen Tofi · Nour Al Deen Tofi · Nour Aldin Tofi · Nour Eddin Tofi · Noureddine Tofi · Nour El Din Tofi · Noor Aldeen Tofi · Nour Aldeen Toufi · Nour Tofi · nouraldeentofi · نور الدين طفي · نورالدين طفي · نور الدين الطفي · نور طفي
 
-I build AI automation in n8n that reads Arabic and English documents, runs WhatsApp and Telegram bots, and delivers clean data to the tools a business already uses. I also build the React interfaces on top of it, and websites for people, companies and shops.
+I build LLM applications and n8n automation that read Arabic and English documents, run WhatsApp and Telegram bots, and deliver clean data to the tools a business uses. I also build the React interfaces on top, and websites for people, companies and shops.
 
-- **Roles I am looking for:** AI Automation Engineer, n8n Workflow Automation Engineer, Applied AI and LLM Engineer, Frontend Developer (React, TypeScript, Next.js), Frontend Lead and Technical Lead
+- **Roles I am looking for:** AI Engineer, AI Automation Engineer (n8n), Frontend Developer (React, TypeScript, Next.js)
 - **Locations:** Al Khobar, Dammam, Dhahran, Eastern Province, Riyadh and anywhere in Saudi Arabia (open to relocation), Remote
-- **Availability:** Available immediately
+- **Work preferences:** Open to new roles
 
 ## What he offers
 
 - [AI automation with n8n](https://nouraldeentofi.com/en/automation): Workflows and AI agents that take over repetitive work: reading invoices, answering customers, screening CVs, moving data.
 - [Websites for professionals and businesses](https://nouraldeentofi.com/en/showcase): Arabic and English sites designed around the person or the business, fast on phones and readable by Google and AI assistants.
-- [Frontend development and technical leadership](https://nouraldeentofi.com/en/work): React, TypeScript and Next.js interfaces in Arabic and English with full right-to-left support, delivered from requirements to production.
+- [Frontend development and project coordination](https://nouraldeentofi.com/en/work): React, TypeScript and Next.js interfaces in Arabic and English with full right-to-left support, delivered from requirements to production.
 
 ## Start here
 
@@ -111,7 +111,8 @@ I build AI automation in n8n that reads Arabic and English documents, runs Whats
 
 ## Experience
 
-- Distinctive Frontier Co. for Safety Equipment L.L.C (2025-01 to 2026-11): Software Engineering Supervisor (2026-01 to 2026-11); Frontend Developer / Project Coordinator (2025-01 to 2026-01)
+- AI Engineer (Freelance), Self-employed (2025 to present)
+- Frontend Developer & Project Coordinator, Distinctive Frontier Co. for Safety Equipment L.L.C (2025-01 to 2026-11)
 - Freelance Project Coordinator, NexLead (2025-03 to 2026-05)
 - Frontend Developer (Part-Time), Khwarizm Technologies (2024-09 to 2025-04)
 - Frontend Developer (Freelance), Minicodeleader (2023-06 to 2024-02)

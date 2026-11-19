@@ -51,7 +51,7 @@ Every fact appears in `data/` exactly once:
 | File | Holds |
 |---|---|
 | `data/profile.json` | Identity, contact, the `sameAs` link graph, availability |
-| `data/experience.json` | Employment, newest first; roles at one employer stay adjacent |
+| `data/experience.json` | Employment, newest first; roles at one employer stay adjacent. Freelance work under his own name carries `selfEmployed: true` and a `{ en, ar }` label as its `company`: it names no employer in the structured data (`companyName` in `scripts/lib/experience.mjs`) |
 | `data/projects.json` | Products and applications; `headline` is the search line of its page, `workflow` names the n8n workflow that is its engine |
 | `data/workflows.json` | n8n automation systems: status, audience, curated flow, canvas screenshot, `headline` |
 | `data/showcase.json` | Client websites (with the owner's permission) and the design lab |

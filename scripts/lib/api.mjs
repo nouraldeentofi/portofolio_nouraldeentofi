@@ -7,10 +7,12 @@
  */
 
 import { LANGS } from './sitemap.mjs';
+import { companyName } from './experience.mjs';
 import { projectHref, systemHref } from './details.mjs';
 
 const base = (db) => db.profile.site.replace(/\/$/, '');
-const iso = (ym) => (ym ? `${ym}-01` : undefined);
+// A month becomes its first day; a bare year stays a year, since its month is not known.
+const iso = (ym) => (ym ? (/^\d{4}$/.test(ym) ? ym : `${ym}-01`) : undefined);
 
 /** An address on this site in each language, as `{ en, ar }`. */
 const inEachLanguage = (db, hrefIn) => Object.fromEntries(LANGS.map((lang) => [lang, `${base(db)}${hrefIn(lang)}`]));
@@ -130,7 +132,7 @@ export function buildResumeJson(db, lang = 'en') {
         .map((s) => ({ network: s.platform, username: profile.name[lang], url: s.url })),
     },
     work: db.experience.map((e) => ({
-      name: e.company,
+      name: companyName(e.company, lang),
       position: e.role[lang],
       location: e.location[lang],
       startDate: iso(e.start),

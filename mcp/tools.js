@@ -7,6 +7,9 @@
 
 const LANGS = new Set(['en', 'ar']);
 
+// An employer is one name; self-employment is a label in each language.
+const companyOf = (company, lang) => (typeof company === 'string' ? company : company[lang]);
+
 function assertLang(lang) {
   if (!LANGS.has(lang)) throw new Error(`lang: expected "en" or "ar", got "${lang}"`);
 }
@@ -84,13 +87,13 @@ export function getWorkflows(db, { query = '', lang = 'en' } = {}) {
 export function getExperience(db, { company = null, lang = 'en' } = {}) {
   assertLang(lang);
   const rows = company
-    ? db.experience.filter((e) => e.company.toLowerCase().includes(String(company).toLowerCase()))
+    ? db.experience.filter((e) => companyOf(e.company, lang).toLowerCase().includes(String(company).toLowerCase()))
     : db.experience;
 
   return rows.map((e) => ({
     id: e.id,
     role: e.role[lang],
-    company: e.company,
+    company: companyOf(e.company, lang),
     location: e.location[lang],
     type: e.type[lang],
     start: e.start,

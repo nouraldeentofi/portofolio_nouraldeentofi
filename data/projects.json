@@ -284,7 +284,7 @@
       "en": "I owned the two core frontend modules, CRM and Quotation, and connected them into one workflow: creating and updating quotations, tracking statuses, managing customers and leads, and an internal module for projects and tasks with assignment and progress tracking. I worked closely with the backend team on API definitions and payload reviews so UI behaviour matched the business workflow.",
       "ar": "تولّيت وحدتَي الواجهة الأمامية الأساسيتين، وهما إدارة العملاء وعروض الأسعار، وربطتهما في سير عمل واحد: إنشاء عروض الأسعار وتحديثها، وتتبّع الحالات، وإدارة العملاء والفرص، إضافة إلى وحدة داخلية للمشاريع والمهام مع الإسناد وتتبّع التقدّم. وعملت عن قرب مع فريق الواجهة الخلفية على تعريفات الـ API ومراجعة الحمولات ليطابق سلوك الواجهة سير العمل الفعلي."
     },
-    "role": { "en": "Frontend lead", "ar": "قائد الواجهة الأمامية" },
+    "role": { "en": "Frontend developer", "ar": "مطوّر الواجهة الأمامية" },
     "metrics": [
       { "value": "2", "label": { "en": "core modules owned", "ar": "وحدتان أساسيتان" } },
       { "value": "2", "label": { "en": "languages (AR/EN)", "ar": "لغتان (عربي/إنجليزي)" } }
@@ -310,8 +310,8 @@
       "ar": "يتابع تجّار المجوهرات المخزون والموظفين والمبيعات على الورق، في سوق يتغيّر فيه سعر الصرف يومياً."
     },
     "built": {
-      "en": "I coordinated delivery end to end: requirements with the client, scope and acceptance criteria, user stories on Trello, and oversight across frontend, backend, and UI/UX through to publication. Features include inventory, employee management, barcode scanning, USD/SYP exchange rates, sales logging, and TXT export.",
-      "ar": "نسّقت التسليم من البداية إلى النهاية: المتطلبات مع العميل، والنطاق ومعايير القبول، وقصص المستخدم على Trello، والإشراف على الواجهة الأمامية والخلفية وتجربة المستخدم حتى النشر. وتشمل المزايا: المخزون، وإدارة الموظفين، ومسح الباركود، وأسعار صرف الدولار/الليرة، وتسجيل المبيعات، والتصدير النصي."
+      "en": "I coordinated delivery end to end: requirements with the client, scope and acceptance criteria, user stories on Trello, and follow-up across frontend, backend, and UI/UX through to publication. Features include inventory, employee management, barcode scanning, USD/SYP exchange rates, sales logging, and TXT export.",
+      "ar": "نسّقت التسليم من البداية إلى النهاية: المتطلبات مع العميل، والنطاق ومعايير القبول، وقصص المستخدم على Trello، والمتابعة مع فرق الواجهة الأمامية والخلفية وتجربة المستخدم حتى النشر. وتشمل المزايا: المخزون، وإدارة الموظفين، ومسح الباركود، وأسعار صرف الدولار/الليرة، وتسجيل المبيعات، والتصدير النصي."
     },
     "role": { "en": "Project coordinator", "ar": "منسّق المشروع" },
     "credit": "contributor",

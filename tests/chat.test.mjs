@@ -83,7 +83,7 @@ test('an ampersand in a chat message is an ampersand in the transcript', () => {
     assert.ok(!t.includes('&amp;amp;') && !t.includes('&amp;lt;'), `${lang}: an entity escaped twice`);
   }
   const en = buildTranscript('en');
-  assert.ok(en.includes('Project Coordinator &amp; Automation Builder') && en.includes('Python for Data Science &amp; AI'));
+  assert.ok(en.includes('Frontend Developer &amp; Project Coordinator') && en.includes('Python for Data Science &amp; AI'));
   // Decoding must not let markup through: what was text is escaped again.
   assert.ok(!/<(?!\/?(?:div|table|thead|tbody|tr|th|td|p|button)\b)/.test(en), 'a tag the transcript did not write itself');
 });

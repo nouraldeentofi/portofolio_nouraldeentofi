@@ -284,7 +284,7 @@ test('the share card takes its words from the data', () => {
 
   // A headline in another shape still comes out whole.
   const plain = ogCardFields({ ...db, profile: { ...db.profile, headline: { en: 'Engineer' } } });
-  assert.deepEqual([plain.role, plain.focus, plain.more], ['Engineer', '', 'Al Khobar, Saudi Arabia']);
+  assert.deepEqual([plain.role, plain.focus, plain.more.replace(/\s/g, ' ')], ['Engineer', '', 'Al Khobar, Saudi Arabia']);
 });
 
 test('the filled card has every word in place, no em dash and no title he dropped', () => {

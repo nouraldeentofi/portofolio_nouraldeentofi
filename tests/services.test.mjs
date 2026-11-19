@@ -61,8 +61,8 @@ test('titles and descriptions carry the words people search for', () => {
   const expected = {
     en: {
       '': ['n8n automation', 'WhatsApp and Telegram bots', 'Arabic invoice extraction', 'Al Khobar, Saudi Arabia'],
-      about: ['AI Automation Engineer in Al Khobar'],
-      work: ['Technical Lead', 'Frontend Developer', 'React', 'project manager and colleagues'],
+      about: ['AI Engineer in Al Khobar'],
+      work: ['Frontend Developer', 'React', 'project manager and colleagues'],
       projects: ['AI Products', 'Web Apps', 'Free Browser Tools', 'invoice reading', 'CV screening'],
       showcase: ['Website Design in Al Khobar and Dammam', 'Independent web developer', 'restaurants', 'Dhahran'],
       automation: ['n8n Developer', 'AI Automation in Saudi Arabia', 'Google review replies', 'CV screening'],
@@ -71,7 +71,7 @@ test('titles and descriptions carry the words people search for', () => {
     ar: {
       '': ['أتمتة الأعمال', 'بوتات واتساب وتيليجرام', 'قراءة الفواتير العربية', 'في الخبر بالسعودية'],
       about: ['في الخبر بالسعودية'],
-      work: ['قائد تقني', 'مطوّر واجهات أمامية', 'مدير مشروعه وزملائه'],
+      work: ['مطوّر واجهات أمامية', 'مدير مشروعه وزملائه'],
       projects: ['منتجات ذكاء اصطناعي', 'تطبيقات ويب', 'أدوات مجانية', 'قراءة الفواتير', 'فرز السير الذاتية'],
       showcase: ['تصميم مواقع في الخبر والدمام', 'مطوّر مواقع مستقل', 'المطاعم', 'المنطقة الشرقية'],
       automation: ['مطوّر n8n', 'أتمتة الأعمال بالذكاء الاصطناعي', 'الرد على تقييمات قوقل', 'فرز السير الذاتية'],
@@ -230,7 +230,7 @@ test('the work hero says he is available, only while the data says so', () => {
     assert.ok(hero.includes(note), `${lang}: no availability line`);
     assert.ok(hero.indexOf('hero__headline--lead') < hero.indexOf(note), `${lang}: the line is above the lead`);
 
-    for (const availability of [{ ...db.profile.availability, openToWork: false }, { ...db.profile.availability, immediate: false }]) {
+    for (const availability of [{ ...db.profile.availability, openToWork: false }]) {
       const busy = page('work', lang, { ...db, profile: { ...db.profile, availability } });
       assert.ok(!busy.includes('hero__note'), `${lang}: says available when the data does not`);
     }
@@ -256,13 +256,13 @@ function ungatedAvailabilityClaims(copy) {
 }
 
 test('no fixed sentence says he is available once the data says he is not', () => {
-  const { openToWork, immediate } = db.profile.availability;
+  const { openToWork } = db.profile.availability;
   for (const lang of LANGS) {
     const claims = ungatedAvailabilityClaims(db.copy[lang]);
     // The work lead and its search snippet are read by recruiters first, so
     // they never carry the claim, whatever the data says.
     assert.ok(!claims.some((p) => p === 'work.lead' || p.startsWith('meta.pages.work.')), `${lang}: ${claims}`);
-    if (!(openToWork && immediate)) assert.deepEqual(claims, [], `${lang}: the data says he is not available, and these still say he is`);
+    if (!openToWork) assert.deepEqual(claims, [], `${lang}: the data says he is not available, and these still say he is`);
   }
   // The detector does find a sentence that says it.
   assert.deepEqual(ungatedAvailabilityClaims({ a: { b: ['He is available immediately.'] }, home: { availability: 'Available now.' } }), ['a.b[0]']);
@@ -433,7 +433,7 @@ test('the home hero says he is available, only while the data says so', () => {
     assert.ok(hero.includes(note), `${lang}: no availability line`);
     assert.ok(hero.indexOf('hero__intro') < hero.indexOf(note) && hero.indexOf(note) < hero.indexOf('hero__actions'), `${lang}: the line is out of place`);
 
-    for (const availability of [{ ...db.profile.availability, openToWork: false }, { ...db.profile.availability, immediate: false }]) {
+    for (const availability of [{ ...db.profile.availability, openToWork: false }]) {
       const busy = page('', lang, { ...db, profile: { ...db.profile, availability } });
       assert.ok(!busy.includes('hero__note'), `${lang}: says available when the data does not`);
     }
@@ -510,12 +510,12 @@ test('nothing true was lost when the home intro was shortened', () => {
   const en = db.copy.en.about.body.join(' ');
   assert.match(en, /read Arabic and English documents, validate them, catch what does not belong/);
   assert.match(en, /sheets, CRMs and dashboards/);
-  assert.match(en, /Software Engineering Supervisor/);
+  assert.match(en, /At DFS I built the React and TypeScript frontend/);
   assert.match(en, /gather requirements[\s\S]*break work into tasks[\s\S]*keep delivery on schedule/);
 
   const ar = db.copy.ar.about.body.join(' ');
   assert.match(ar, /تقرأ المستندات بالعربية والإنجليزية، وتتحقّق منها، وتلتقط ما لا ينتمي إليها/);
-  assert.match(ar, /مشرف هندسة برمجيات/);
+  assert.match(ar, /في DFS بنيت واجهة منصّة CRM/);
 
   for (const lang of LANGS) {
     assert.ok(db.copy[lang].home.intro.length < 260, `${lang}: the intro grew back`);
@@ -532,7 +532,7 @@ test('the home intro says the same thing in both languages', () => {
   assert.match(ar, /بالعربية والإنجليزية/);
   // The client websites are a separate thing he builds, not a layer on the automation.
   assert.ok(!/websites on top/.test(en));
-  assert.match(en, /interfaces on top of it, and websites for people, companies and shops/);
+  assert.match(en, /interfaces on top, and websites for people, companies and shops/);
   assert.match(ar, /واجهات React، ومواقع للأفراد والشركات والمحلات/);
 });
 

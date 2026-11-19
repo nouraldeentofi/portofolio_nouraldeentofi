@@ -1,50 +1,50 @@
 [
   {
-    "id": "dfs-supervisor",
+    "id": "freelance-ai",
     "role": {
-      "en": "Software Engineering Supervisor",
-      "ar": "مشرف هندسة برمجيات"
+      "en": "AI Engineer (Freelance)",
+      "ar": "مطوّر تطبيقات ذكاء اصطناعي (عمل حر)"
     },
-    "company": "Distinctive Frontier Co. for Safety Equipment L.L.C",
+    "company": {
+      "en": "Self-employed",
+      "ar": "عمل مستقل"
+    },
+    "selfEmployed": true,
     "location": {
       "en": "Al Khobar, Saudi Arabia",
       "ar": "الخبر، المملكة العربية السعودية"
     },
     "type": {
-      "en": "Full-time · On-site",
-      "ar": "دوام كامل · في الموقع"
+      "en": "Freelance · Remote",
+      "ar": "عمل حر · عن بُعد"
     },
-    "start": "2026-01",
-    "end": "2026-11",
+    "start": "2025",
+    "end": null,
     "bullets": {
       "en": [
-        "Led frontend development across internal business platforms, delivering scalable UI features in Arabic and English with React and TypeScript.",
-        "Defined coding standards, reviewed every frontend change before merge, and mentored developers, which cut rework and kept the codebase maintainable.",
-        "Translated product ideas into shipped features in collaboration with backend (Laravel) and UI/UX teams, aligning technical delivery with business objectives.",
-        "Introduced internal workflow automation with n8n and OpenAI integrations to streamline repetitive team operations."
+        "Built an Arabic Telegram agent, in production for a private tutor, that runs students, schedules, recurring lessons, cancellations and dues from a chat. It acts only through custom tools under strict business rules, with MySQL stored procedures as its tools, usage metering and session memory.",
+        "Built the payment check behind a chess club's tournament registration: a vision model reads each uploaded bank-transfer receipt and first says whether it is a transfer at all, the site applies the rules, and successful runs are not stored because receipts carry personal data."
       ],
       "ar": [
-        "قدت تطوير الواجهات الأمامية عبر المنصات الداخلية للشركة، وسلّمت واجهات قابلة للتوسّع بالعربية والإنجليزية باستخدام React وTypeScript.",
-        "وضعت معايير كتابة الكود، وراجعت كل تغيير في الواجهة الأمامية قبل الدمج، ووجّهت المطوّرين، ما قلّل إعادة العمل وحافظ على قابلية صيانة الكود.",
-        "حوّلت أفكار المنتج إلى مزايا تصل للإنتاج بالتعاون مع فريقي الواجهة الخلفية (Laravel) وتصميم تجربة المستخدم، بما يوائم التسليم التقني مع أهداف العمل.",
-        "أدخلت الأتمتة الداخلية عبر n8n وتكاملات OpenAI لتبسيط العمليات المتكرّرة داخل الفريق."
+        "بنيت وكيلاً عربياً على تيليجرام يعمل في بيئة الإنتاج لدى مدرّس خصوصي، يدير الطلاب والمواعيد والدروس المتكرّرة والإلغاءات والمستحقات من المحادثة. ولا يتصرّف إلا عبر أدوات مخصّصة وضمن قواعد عمل صارمة، أدواته إجراءات MySQL المخزّنة، مع قياس للاستخدام وذاكرة للجلسات.",
+        "بنيت فحص الدفع خلف التسجيل في بطولات نادٍ للشطرنج: يقرأ نموذج رؤية كل إيصال تحويل بنكي يُرفع، ويحدّد أولاً هل هو تحويل أصلاً، ثم يطبّق الموقع القواعد، ولا تُحفظ عمليات التشغيل الناجحة لأن الإيصالات تحمل بيانات شخصية."
       ]
     },
     "stack": [
-      "React",
-      "TypeScript",
-      "Tailwind CSS",
       "n8n",
       "OpenAI API",
-      "Jira",
-      "Git"
+      "GPT-4.1 Vision",
+      "Telegram Bot API",
+      "MySQL",
+      "Google Sheets",
+      "Webhooks"
     ]
   },
   {
     "id": "dfs-frontend",
     "role": {
-      "en": "Frontend Developer / Project Coordinator",
-      "ar": "مطوّر واجهات أمامية / منسّق مشاريع"
+      "en": "Frontend Developer & Project Coordinator",
+      "ar": "مطوّر واجهات أمامية ومنسّق مشاريع"
     },
     "company": "Distinctive Frontier Co. for Safety Equipment L.L.C",
     "location": {
@@ -56,19 +56,21 @@
       "ar": "دوام كامل · في الموقع"
     },
     "start": "2025-01",
-    "end": "2026-01",
+    "end": "2026-11",
     "bullets": {
       "en": [
-        "Built a dashboard-based internal platform combining Jira-style task tracking with a quotation management system in React, used daily across all departments.",
-        "Implemented three core modules (task tracking, quotation generation, and workflow management), replacing manual spreadsheet processes.",
-        "Coordinated between frontend and backend teams to clarify requirements and keep delivery on schedule.",
-        "Promoted to Software Engineering Supervisor within twelve months."
+        "Built the frontend of the company's custom CRM and quotation platform in React and TypeScript, in Arabic and English with full right-to-left support, replacing spreadsheets and hand-made quotes in every department.",
+        "Cut quotation preparation to under two minutes once the data is entered, and all fifteen employees adopted the platform.",
+        "Built sales follow-up, purchase order drafts, sales analytics, real-time notifications and permission-based roles with route guards covered by Playwright tests, and developed the frontend of a second CRM for WAIS, the parent company.",
+        "Introduced workflow automation with n8n and the OpenAI API for the team's repetitive work, and used Claude Code daily to plan, build, test and review.",
+        "Coordinated requirements, user stories and API contracts between frontend, backend (Laravel) and UI/UX, so frontend and backend could build in parallel and delivery stayed on schedule."
       ],
       "ar": [
-        "بنيت منصّة داخلية قائمة على لوحات التحكّم تجمع تتبّع المهام بأسلوب Jira مع نظام لإدارة عروض الأسعار باستخدام React، وتُستخدم يومياً في كل الأقسام.",
-        "نفّذت ثلاث وحدات أساسية (تتبّع المهام، وإصدار عروض الأسعار، وإدارة سير العمل) لتحلّ محل العمليات اليدوية على جداول البيانات.",
-        "نسّقت بين فريقي الواجهة الأمامية والخلفية لتوضيح المتطلبات والحفاظ على الجدول الزمني للتسليم.",
-        "تمّت ترقيتي إلى مشرف هندسة برمجيات خلال اثني عشر شهراً."
+        "بنيت الواجهة الأمامية لمنصّة CRM وعروض الأسعار المخصّصة للشركة بـ React وTypeScript، بالعربية والإنجليزية مع دعم كامل للاتجاه من اليمين إلى اليسار، فحلّت محل جداول البيانات وعروض الأسعار اليدوية في كل الأقسام.",
+        "اختصرت وقت إعداد عرض السعر إلى أقل من دقيقتين بعد إدخال البيانات، وأصبحت المنصّة معتمدة لدى موظفي الشركة الخمسة عشر جميعاً.",
+        "بنيت وحدات متابعة المبيعات ومسودات أوامر الشراء وتحليلات المبيعات والإشعارات الفورية، ونظام أدوار وصلاحيات مع حماية للمسارات تغطيها اختبارات Playwright، وطوّرت الواجهة الأمامية لنظام CRM ثانٍ لشركة WAIS، الشركة الأم.",
+        "أدخلت أتمتة سير العمل بـ n8n وواجهة OpenAI البرمجية لتتولّى العمل المتكرّر في الفريق، واستخدمت Claude Code يومياً في التخطيط والبناء والاختبار والمراجعة.",
+        "نسّقت المتطلبات وقصص المستخدم وعقود الـ API بين فرق الواجهة الأمامية والخلفية (Laravel) وتصميم تجربة المستخدم، ليعمل فريقا الواجهتين الأمامية والخلفية بالتوازي ويبقى التسليم في موعده."
       ]
     },
     "stack": [
@@ -78,7 +80,11 @@
       "TanStack Query",
       "React Hook Form",
       "Axios",
-      "Laravel Echo"
+      "Laravel Echo",
+      "n8n",
+      "OpenAI API",
+      "Jira",
+      "Git"
     ]
   },
   {
@@ -100,16 +106,16 @@
     "end": "2026-05",
     "bullets": {
       "en": [
-        "Ran client automation and software projects end to end: requirements, scope, workflow design, and release.",
+        "Coordinated client automation and software projects from requirements to release: scope, workflow design and acceptance.",
         "Gathered requirements directly with clients, defined acceptance criteria, and broke work into tasks and user stories on Trello.",
-        "Managed timelines and cost estimation while overseeing frontend, backend, and UI/UX quality.",
-        "Delivered GoldenTag, a jewelry store management app, to the Google Play Store."
+        "Tracked timelines and prepared cost estimates, and followed up on frontend, backend and UI/UX work until each release.",
+        "Coordinated the delivery of GoldenTag, a jewelry store management app the team built in Flutter, through to the Google Play Store."
       ],
       "ar": [
-        "قدت مشاريع الأتمتة والبرمجيات للعملاء من البداية إلى النهاية: المتطلبات، النطاق، تصميم سير العمل، والإصدار.",
+        "نسّقت مشاريع الأتمتة والبرمجيات للعملاء من المتطلبات حتى الإصدار، مروراً بالنطاق وتصميم سير العمل.",
         "جمعت المتطلبات مباشرة من العملاء، وحدّدت معايير القبول، وقسّمت العمل إلى مهام وقصص مستخدم على Trello.",
-        "أدرت الجداول الزمنية وتقدير التكلفة، وأشرفت على جودة الواجهة الأمامية والخلفية وتجربة المستخدم.",
-        "سلّمت تطبيق GoldenTag لإدارة محلات المجوهرات ونشرته على متجر Google Play."
+        "أعددت تقديرات التكلفة، وتابعت الجداول الزمنية وسير العمل في الواجهة الأمامية والخلفية وتجربة المستخدم حتى إطلاق كل إصدار.",
+        "نسّقت تسليم تطبيق GoldenTag لإدارة محلات المجوهرات، الذي بناه الفريق بـ Flutter، حتى نشره على متجر Google Play."
       ]
     },
     "stack": [

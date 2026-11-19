@@ -148,7 +148,7 @@ test('every entity named on the site has a links.json entry', () => {
   const known = { ...db.links.people, ...db.links.organizations };
 
   const named = new Set([
-    ...db.experience.map((e) => e.company),
+    ...db.experience.filter((e) => !e.selfEmployed).map((e) => e.company),
     ...db.testimonials.map((t) => t.author),
     ...db.credentials.map((c) => c.issuer),
   ]);

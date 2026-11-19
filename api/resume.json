@@ -2,11 +2,11 @@
   "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
   "basics": {
     "name": "Nour Aldeen Tofi",
-    "label": "AI Automation Engineer: n8n, LLM Agents, MCP · Frontend Developer",
+    "label": "AI Engineer: LLM Agents, Arabic Document AI, MCP · n8n Automation · Frontend Developer",
     "email": "nouraldeentofi@gmail.com",
     "phone": "+966547972944",
     "url": "https://nouraldeentofi.com",
-    "summary": "I turn messy manual processes into self-running workflows, and build the interfaces people use on top of them.",
+    "summary": "I build applications on large language models that take over manual work in Arabic and English, and the interfaces people use on top of them.",
     "location": {
       "city": "Al Khobar",
       "region": "Eastern Province",
@@ -47,29 +47,27 @@
   },
   "work": [
     {
-      "name": "Distinctive Frontier Co. for Safety Equipment L.L.C",
-      "position": "Software Engineering Supervisor",
+      "name": "Self-employed",
+      "position": "AI Engineer (Freelance)",
       "location": "Al Khobar, Saudi Arabia",
-      "startDate": "2026-01-01",
-      "endDate": "2026-11-01",
+      "startDate": "2025",
       "highlights": [
-        "Led frontend development across internal business platforms, delivering scalable UI features in Arabic and English with React and TypeScript.",
-        "Defined coding standards, reviewed every frontend change before merge, and mentored developers, which cut rework and kept the codebase maintainable.",
-        "Translated product ideas into shipped features in collaboration with backend (Laravel) and UI/UX teams, aligning technical delivery with business objectives.",
-        "Introduced internal workflow automation with n8n and OpenAI integrations to streamline repetitive team operations."
+        "Built an Arabic Telegram agent, in production for a private tutor, that runs students, schedules, recurring lessons, cancellations and dues from a chat. It acts only through custom tools under strict business rules, with MySQL stored procedures as its tools, usage metering and session memory.",
+        "Built the payment check behind a chess club's tournament registration: a vision model reads each uploaded bank-transfer receipt and first says whether it is a transfer at all, the site applies the rules, and successful runs are not stored because receipts carry personal data."
       ]
     },
     {
       "name": "Distinctive Frontier Co. for Safety Equipment L.L.C",
-      "position": "Frontend Developer / Project Coordinator",
+      "position": "Frontend Developer & Project Coordinator",
       "location": "Al Khobar, Saudi Arabia",
       "startDate": "2025-01-01",
-      "endDate": "2026-01-01",
+      "endDate": "2026-11-01",
       "highlights": [
-        "Built a dashboard-based internal platform combining Jira-style task tracking with a quotation management system in React, used daily across all departments.",
-        "Implemented three core modules (task tracking, quotation generation, and workflow management), replacing manual spreadsheet processes.",
-        "Coordinated between frontend and backend teams to clarify requirements and keep delivery on schedule.",
-        "Promoted to Software Engineering Supervisor within twelve months."
+        "Built the frontend of the company's custom CRM and quotation platform in React and TypeScript, in Arabic and English with full right-to-left support, replacing spreadsheets and hand-made quotes in every department.",
+        "Cut quotation preparation to under two minutes once the data is entered, and all fifteen employees adopted the platform.",
+        "Built sales follow-up, purchase order drafts, sales analytics, real-time notifications and permission-based roles with route guards covered by Playwright tests, and developed the frontend of a second CRM for WAIS, the parent company.",
+        "Introduced workflow automation with n8n and the OpenAI API for the team's repetitive work, and used Claude Code daily to plan, build, test and review.",
+        "Coordinated requirements, user stories and API contracts between frontend, backend (Laravel) and UI/UX, so frontend and backend could build in parallel and delivery stayed on schedule."
       ]
     },
     {
@@ -79,10 +77,10 @@
       "startDate": "2025-03-01",
       "endDate": "2026-05-01",
       "highlights": [
-        "Ran client automation and software projects end to end: requirements, scope, workflow design, and release.",
+        "Coordinated client automation and software projects from requirements to release: scope, workflow design and acceptance.",
         "Gathered requirements directly with clients, defined acceptance criteria, and broke work into tasks and user stories on Trello.",
-        "Managed timelines and cost estimation while overseeing frontend, backend, and UI/UX quality.",
-        "Delivered GoldenTag, a jewelry store management app, to the Google Play Store."
+        "Tracked timelines and prepared cost estimates, and followed up on frontend, backend and UI/UX work until each release.",
+        "Coordinated the delivery of GoldenTag, a jewelry store management app the team built in Flutter, through to the Google Play Store."
       ]
     },
     {
@@ -265,7 +263,7 @@
       ]
     },
     {
-      "name": "Coordination & Leadership",
+      "name": "Project Coordination",
       "keywords": [
         "Requirements Gathering",
         "Scope Definition",
@@ -273,8 +271,8 @@
         "User Stories",
         "Sprint Planning",
         "Code Review",
-        "Mentoring",
-        "Cross-Functional Team Leadership",
+        "Cost Estimation",
+        "Cross-Functional Coordination",
         "Project Coordination",
         "Problem Solving"
       ]
@@ -493,7 +491,7 @@
         "@hello-pangea/dnd"
       ],
       "roles": [
-        "Frontend lead"
+        "Frontend developer"
       ]
     },
     {

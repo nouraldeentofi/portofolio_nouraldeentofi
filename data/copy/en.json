@@ -1,20 +1,20 @@
 {
   "meta": {
-    "description": "AI Automation Engineer and Frontend Developer in Al Khobar, Saudi Arabia. I build production n8n workflows with LLM agents, Arabic document AI, and the React interfaces on top of them.",
+    "description": "AI Engineer and Frontend Developer in Al Khobar, Saudi Arabia. I build on large language models: AI agents, Arabic document AI and n8n automation, with the React interfaces on top of them.",
     "langLabel": "العربية",
     "langHref": "/ar/",
     "pages": {
       "home": {
-        "title": "Nour Aldeen Tofi (نور الدين طفي) | AI Automation Engineer and Frontend Developer",
-        "description": "Nour Aldeen Tofi, AI automation engineer and frontend developer in Al Khobar, Saudi Arabia. I build n8n automation with AI agents, WhatsApp and Telegram bots, Arabic invoice extraction, and websites for companies and shops."
+        "title": "Nour Aldeen Tofi (نور الدين طفي) | AI Engineer and Frontend Developer",
+        "description": "Nour Aldeen Tofi, AI engineer and frontend developer in Al Khobar, Saudi Arabia. I build n8n automation with AI agents, WhatsApp and Telegram bots, Arabic invoice extraction, and websites for companies and shops."
       },
       "about": {
-        "title": "About Nour Aldeen Tofi | AI Automation Engineer in Al Khobar",
-        "description": "How Nour Aldeen Tofi works: n8n automation with language models, Arabic document AI, React and TypeScript frontends, and delivery from requirements to production."
+        "title": "About Nour Aldeen Tofi | AI Engineer in Al Khobar",
+        "description": "How Nour Aldeen Tofi works: applications on large language models, Arabic document AI, n8n automation, React and TypeScript frontends, and delivery from requirements to production."
       },
       "work": {
-        "title": "Technical Lead and React Frontend Developer | Nour Aldeen Tofi",
-        "description": "Experience of Nour Aldeen Tofi as a technical lead and React frontend developer in Saudi Arabia, with recommendations from his project manager and colleagues, certifications and education."
+        "title": "AI Engineer and React Frontend Developer | Nour Aldeen Tofi",
+        "description": "Experience of Nour Aldeen Tofi as a React frontend developer and project coordinator in Saudi Arabia, with recommendations from his project manager and colleagues, certifications and education."
       },
       "projects": {
         "title": "AI Products, Web Apps and Free Browser Tools | Nour Aldeen Tofi",
@@ -33,8 +33,8 @@
         "description": "Ask about Nour Aldeen Tofi's AI automation work, projects and experience in a short guided conversation, with the full text transcript."
       },
       "contact": {
-        "title": "Contact and Hire Nour Aldeen Tofi | AI Automation and Web Development",
-        "description": "Hire Nour Aldeen Tofi, an AI Automation Engineer and Frontend Developer in Al Khobar, available immediately for roles in Saudi Arabia or remote. Email, LinkedIn and CV."
+        "title": "Contact and Hire Nour Aldeen Tofi | AI Engineering and Web Development",
+        "description": "Hire Nour Aldeen Tofi, an AI Engineer and Frontend Developer in Al Khobar, open to roles in Saudi Arabia or remote. Email, LinkedIn and CV."
       }
     },
     "notFound": {
@@ -120,8 +120,8 @@
   },
   "home": {
     "eyebrow": "Al Khobar, Saudi Arabia · Arabic & English",
-    "intro": "I build AI automation in n8n that reads Arabic and English documents, runs WhatsApp and Telegram bots, and delivers clean data to the tools a business already uses. I also build the React interfaces on top of it, and websites for people, companies and shops.",
-    "availability": "Available now for AI automation and frontend roles and projects, in Saudi Arabia or remote.",
+    "intro": "I build LLM applications and n8n automation that read Arabic and English documents, run WhatsApp and Telegram bots, and deliver clean data to the tools a business uses. I also build the React interfaces on top, and websites for people, companies and shops.",
+    "availability": "Open to AI engineering, AI automation and frontend roles and projects, in Saudi Arabia or remote.",
     "offersTitle": "What I can do for you",
     "offers": [
       {
@@ -138,7 +138,7 @@
       },
       {
         "id": "frontend",
-        "title": "Frontend development and technical leadership",
+        "title": "Frontend development and project coordination",
         "body": "React, TypeScript and Next.js interfaces in Arabic and English with full right-to-left support, delivered from requirements to production.",
         "cta": "See my experience"
       }
@@ -158,14 +158,14 @@
   },
   "about": {
     "title": "About Nour Aldeen Tofi",
-    "lead": "I care about automation that makes business sense, not automation that demos well.",
+    "lead": "I care about AI that makes business sense, not AI that demos well.",
     "portraitAlt": "Nour Aldeen Tofi smiling, in glasses, a dark blazer and a white shirt",
-    "portraitCaption": "Nour Aldeen Tofi, AI automation engineer and frontend developer in Al Khobar, Saudi Arabia.",
+    "portraitCaption": "Nour Aldeen Tofi, AI engineer and frontend developer in Al Khobar, Saudi Arabia.",
     "body": [
       "I started where most frontend developers start: turning designs into interfaces. What changed things was discovering that the interface is usually the smallest part of the problem. Behind almost every screen someone is retyping data that a machine could have read.",
-      "So I went looking for the layer underneath. n8n gave me a way to connect language models to real systems: production workflows that read Arabic and English documents, validate them, catch what does not belong, and push clean structured data into the sheets, CRMs and dashboards a business already uses. Arabic is where this gets interesting, because most global tools quietly do not handle it, and the region is moving fast toward mandatory digital invoicing.",
-      "I still write the frontend, and in my last role, as a Software Engineering Supervisor, I led it: I set the standards, reviewed the code, and mentored the developers. The difference is that I now design the whole path, from the moment a document arrives to the moment someone approves it on screen.",
-      "The other half of the job is coordination. I gather requirements directly from clients, define scope and acceptance criteria, break work into tasks, and keep delivery on schedule across frontend, backend, and design. It is less glamorous than the AI part and it is often what decides whether a project ships."
+      "So I went looking for the layer underneath, and found it in language models. I build applications on them, mostly with n8n and TypeScript: production workflows that read Arabic and English documents, validate them, catch what does not belong, and push clean structured data into the sheets, CRMs and dashboards a business already uses. Arabic is where this gets interesting, because most global tools quietly do not handle it, and the region is moving fast toward mandatory digital invoicing.",
+      "I still write the frontend. At DFS I built the React and TypeScript frontend of the company's CRM and quotation platform, in Arabic and English. It replaced spreadsheets and hand-made quotes in every department. In the products I build, I design the whole path, from the moment a document arrives to the moment someone approves it on screen. Most of that engineering sits around the model. CV Screener counts a score only after the server finds its quote in the CV, and Smart Scanner rejects a file that is not a genuine invoice before anything is saved.",
+      "Part of the job is coordination. I gather requirements directly from clients, define scope and acceptance criteria, break work into tasks, and keep delivery on schedule across frontend, backend, and design. It is less glamorous than the AI part and it is often what decides whether a project ships."
     ],
     "principlesTitle": "How I work",
     "principles": [
@@ -200,7 +200,7 @@
     "faq": [
       {
         "q": "What does Nour Aldeen Tofi do?",
-        "a": "He is an AI Automation Engineer and Frontend Developer based in Al Khobar, Saudi Arabia. He designs and operates production n8n workflows that connect language models to real systems, and builds the React and TypeScript interfaces on top of them. Most recently he was a Software Engineering Supervisor, leading frontend development and owning delivery end to end."
+        "a": "He is an AI Engineer based in Al Khobar, Saudi Arabia. He builds applications on large language models: AI agents that act through tools under strict rules, document extraction in Arabic and English, and the code that checks a model's output before it is saved. Most of it runs on n8n and TypeScript, and he builds the React interfaces people use on top of it. His last role, at DFS, combined frontend development with coordinating delivery between frontend, backend and design."
       },
       {
         "q": "How is Nour Aldeen Tofi's name written?",
@@ -216,11 +216,11 @@
       },
       {
         "q": "Is he open to work?",
-        "a": "Yes, and he is available immediately. He takes on-site, hybrid or remote roles anywhere in Saudi Arabia (he is based in Al Khobar and open to relocation) and fully remote roles, as well as freelance automation and frontend projects. The fastest way to reach him is email."
+        "a": "Yes. He is open to on-site, hybrid or remote roles anywhere in Saudi Arabia (he is based in Al Khobar and open to relocation) and to fully remote roles, as well as freelance AI, automation and frontend projects. The fastest way to reach him is email."
       },
       {
         "q": "What roles is he looking for?",
-        "a": "Full-time roles as an AI Automation Engineer, an n8n workflow automation engineer, an applied AI or LLM engineer, a frontend developer working in React, TypeScript and Next.js, or a frontend lead and technical lead. He is available immediately."
+        "a": "Full-time roles as an AI Engineer building applications on large language models, AI automation roles built on n8n, or frontend developer roles in React, TypeScript and Next.js. In any of them he can also coordinate the work between frontend, backend and design."
       },
       {
         "q": "Where is he based, and can he relocate?",
@@ -242,8 +242,8 @@
   },
   "work": {
     "title": "Experience and recommendations",
-    "lead": "Frontend developer and technical lead (React, TypeScript, Next.js), based in Al Khobar, Saudi Arabia, who owns delivery from requirements to production.",
-    "availability": "Available immediately for roles in Saudi Arabia or remote.",
+    "lead": "AI engineer and frontend developer (React, TypeScript, Next.js), based in Al Khobar, Saudi Arabia, who also coordinates delivery from requirements to production.",
+    "availability": "Open to roles in Saudi Arabia or remote.",
     "timelineTitle": "Experience",
     "testimonialsTitle": "Recommendations",
     "credentialsTitle": "Certifications",
@@ -366,12 +366,12 @@
   "contact": {
     "title": "Contact Nour Aldeen Tofi",
     "lead": "The fastest route is email. I read everything, and I reply.",
-    "availabilityTitle": "Availability",
-    "availableNow": "Available immediately",
+    "availabilityTitle": "Work preferences",
+    "availableNow": "Open to new roles",
     "rolesTitle": "Roles I am looking for",
     "areasTitle": "Locations",
     "cvTitle": "Curriculum vitae",
-    "cvNote": "Everything in one file: automation, frontend, and delivery.",
+    "cvNote": "Everything in one file: AI engineering, automation, frontend and delivery.",
     "linksTitle": "Elsewhere",
     "emailLabel": "Email",
     "phoneLabel": "Phone",

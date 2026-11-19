@@ -177,11 +177,12 @@ function personFields(db, lang) {
       name: 'University of Kalamoon',
       ...entitySameAs(db, 'organizations', 'University of Kalamoon'),
     },
-    // Only a role that is still running is a current employer. Between jobs
-    // the key is left out rather than emitted empty.
+    // Only a role that is still running is a current employer, and
+    // self-employment names none. Between jobs the key is left out rather
+    // than emitted empty.
     ...(() => {
       const current = db.experience
-        .filter((e) => e.end === null)
+        .filter((e) => e.end === null && !e.selfEmployed)
         .map((e) => ({ '@type': 'Organization', name: e.company, ...entitySameAs(db, 'organizations', e.company) }));
       return current.length ? { worksFor: current } : {};
     })(),
@@ -424,11 +425,16 @@ export function experienceLd(db, lang) {
         roleName: e.role[lang],
         startDate: e.start,
         ...(e.end ? { endDate: e.end } : {}),
-        memberOf: {
-          '@type': 'Organization',
-          name: e.company,
-          ...entitySameAs(db, 'organizations', e.company),
-        },
+        // Self-employment is a way of working, not an organisation.
+        ...(e.selfEmployed
+          ? {}
+          : {
+              memberOf: {
+                '@type': 'Organization',
+                name: e.company,
+                ...entitySameAs(db, 'organizations', e.company),
+              },
+            }),
       },
     })),
   };

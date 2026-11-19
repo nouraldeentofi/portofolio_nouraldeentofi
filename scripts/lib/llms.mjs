@@ -8,7 +8,7 @@
 
 import { PAGES, pagePath } from './sitemap.mjs';
 import { period } from './blocks.mjs';
-import { byCompany } from './experience.mjs';
+import { byCompany, companyName } from './experience.mjs';
 import { homeOffers, automationServices } from './offers.mjs';
 import { detailPages, detailName, detailHeadline, hasDetail, projectHref, systemHref } from './details.mjs';
 
@@ -24,7 +24,7 @@ function lookingFor(profile, c, lang) {
   return [
     `**${c.contact.rolesTitle}:** ${a.roles[lang].join(', ')}`,
     `**${c.contact.areasTitle}:** ${a.areas[lang].join(', ')}`,
-    ...(a.immediate ? [`**${c.contact.availabilityTitle}:** ${c.contact.availableNow}`] : []),
+    `**${c.contact.availabilityTitle}:** ${c.contact.availableNow}`,
   ];
 }
 
@@ -162,8 +162,8 @@ export function buildLlmsTxt(db, lang = 'en') {
     const roles = g.roles.map((e) => `${e.role[lang]} (${period(e.start, e.end, c)})`);
     L.push(
       g.roles.length === 1
-        ? `- ${g.roles[0].role[lang]}, ${g.company} (${period(g.start, g.end, c)})`
-        : `- ${g.company} (${period(g.start, g.end, c)}): ${roles.join('; ')}`,
+        ? `- ${g.roles[0].role[lang]}, ${companyName(g.company, lang)} (${period(g.start, g.end, c)})`
+        : `- ${companyName(g.company, lang)} (${period(g.start, g.end, c)}): ${roles.join('; ')}`,
     );
   }
   L.push('');
@@ -299,13 +299,13 @@ export function buildLlmsFullTxt(db, lang = 'en') {
     // Several roles at one employer: one tenure, each role inside it.
     const nested = g.roles.length > 1;
     if (nested) {
-      L.push(`### ${g.company}`);
+      L.push(`### ${companyName(g.company, lang)}`);
       L.push('');
       L.push(`${period(g.start, g.end, c)} · ${g.roles[0].location[lang]}`);
       L.push('');
     }
     for (const e of g.roles) {
-      L.push(nested ? `#### ${e.role[lang]}` : `### ${e.role[lang]}, ${e.company}`);
+      L.push(nested ? `#### ${e.role[lang]}` : `### ${e.role[lang]}, ${companyName(e.company, lang)}`);
       L.push('');
       L.push(nested ? `${period(e.start, e.end, c)} · ${e.type[lang]}` : `${period(e.start, e.end, c)} · ${e.location[lang]} · ${e.type[lang]}`);
       L.push('');
