@@ -1,12 +1,12 @@
 # Nour Aldeen Tofi
 
-> AI Engineer: LLM Agents, Arabic Document AI, MCP · n8n Automation · Frontend Developer, based in Al Khobar, Saudi Arabia. I build applications on large language models that take over manual work in Arabic and English, and the interfaces people use on top of them.
+> Frontend & AI Engineer: React and TypeScript Interfaces, LLM Agents, Arabic Document AI, MCP · n8n Automation, based in Al Khobar, Saudi Arabia. I build React and TypeScript interfaces and the AI behind them: applications on large language models that take over manual work in Arabic and English.
 
 Also known as: Nour Aldeen Tofi · Nouraldeen Tofi · Nour Al-Deen Tofi · Nour Al Deen Tofi · Nour Aldin Tofi · Nour Eddin Tofi · Noureddine Tofi · Nour El Din Tofi · Noor Aldeen Tofi · Nour Aldeen Toufi · Nour Tofi · nouraldeentofi · نور الدين طفي · نورالدين طفي · نور الدين الطفي · نور طفي
 
-I build LLM applications and n8n automation that read Arabic and English documents, run WhatsApp and Telegram bots, and deliver clean data to the tools a business uses. I also build the React interfaces on top, and websites for people, companies and shops.
+I build React and TypeScript interfaces and the AI behind them: LLM apps and n8n automation that read Arabic and English documents, run WhatsApp and Telegram bots and deliver clean data. And websites for people, companies and shops.
 
-- **Roles I am looking for:** AI Engineer, AI Automation Engineer (n8n), Frontend Developer (React, TypeScript, Next.js)
+- **Roles I am looking for:** Frontend & AI Engineer, AI Engineer, Frontend Developer (React, TypeScript, Next.js), AI Automation Engineer (n8n)
 - **Locations:** Al Khobar, Dammam, Dhahran, Eastern Province, Riyadh and anywhere in Saudi Arabia (open to relocation), Remote
 - **Work preferences:** Open to new roles
 
@@ -111,7 +111,7 @@ I build LLM applications and n8n automation that read Arabic and English documen
 
 ## Experience
 
-- AI Engineer (Freelance), Self-employed (2026-06 to present)
+- Frontend & AI Engineer (Freelance), Self-employed (2026-06 to present)
 - Frontend Developer & Project Coordinator, Distinctive Frontier Co. for Safety Equipment L.L.C (2025-01 to 2026-11)
 - Freelance Project Coordinator, NexLead (2025-03 to 2026-05)
 - Frontend Developer (Part-Time), Khwarizm Technologies (2024-09 to 2025-04)

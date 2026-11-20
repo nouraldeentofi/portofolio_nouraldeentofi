@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nour Aldeen Tofi, AI Engineer (CV)</title>
+<title>Nour Aldeen Tofi, Frontend &amp; AI Engineer (CV)</title>
 <meta name="author" content="Nour Aldeen Tofi">
 <!-- The source of the PDF, not a page of the site: keep it out of search results. -->
 <meta name="robots" content="noindex">
@@ -14,10 +14,11 @@
 /*
   Source of Nour Aldeen Tofi's CV. Print to PDF with headless Chrome:
     chrome --headless=new --no-pdf-header-footer --virtual-time-budget=15000 --print-to-pdf=Nour_Aldeen_Tofi_CV.pdf cv.html
-  Single column, text in reading order. Nothing is positioned or floated, so the
-  PDF text stream follows the DOM and ATS parsers read it top to bottom.
+  One A4 page, one column, text in reading order. Nothing is positioned or
+  floated, so the PDF text stream follows the DOM and ATS parsers read it top
+  to bottom. Body text 10pt, side margins of half an inch.
 */
-@page { size: A4; margin: 37.9pt 45pt 40pt 45pt; }
+@page { size: A4; margin: 25pt 36pt 22pt 36pt; }
 
 :root {
   --ink: #1C2629;
@@ -28,8 +29,8 @@
 
 * {
   box-sizing: border-box;
-  /* Lato's space is narrow; a slightly wider one matches the original CV's
-     rhythm and keeps word gaps unmistakable for PDF text extraction */
+  /* Lato's space is narrow; a slightly wider one keeps word gaps
+     unmistakable for PDF text extraction */
   word-spacing: 0.058em;
 }
 
@@ -38,8 +39,8 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body {
   margin: 0;
   font-family: "Lato", "Segoe UI", Arial, sans-serif;
-  font-size: 9.2pt;
-  line-height: 13.15pt;
+  font-size: 10pt;
+  line-height: 11.85pt;
   font-weight: 400;
   color: var(--ink);
   /* no ligatures: every letter stays its own character for text extraction */
@@ -55,59 +56,47 @@ a { color: var(--teal); text-decoration: none; }
 /* ---------- header ---------- */
 h1 {
   font-size: 20pt;
-  line-height: 28.6pt;
+  line-height: 23pt;
   font-weight: 700;
+  letter-spacing: 0.01em;
 }
-.subtitle {
-  margin-block-start: 1.5pt;
-  font-size: 10.58pt;
-  line-height: 14pt;
+.title {
+  font-size: 13pt;
+  line-height: 16pt;
   font-weight: 700;
   color: var(--teal);
 }
-.subtitle--title { font-size: 12.5pt; line-height: 16pt; }
-.subtitle .bar, .subline .bar { margin-inline: 2.5pt; }
-/* The two strengths that come with the title, on a quieter line under it. */
-.subline {
-  margin-block-start: 1pt;
-  font-size: 9.66pt;
-  line-height: 13pt;
-  font-weight: 700;
-  color: var(--ink);
-}
 .contact {
-  font-size: 8.74pt;
-  line-height: 11.6pt;
+  font-size: 9.2pt;
+  line-height: 11.4pt;
   color: var(--grey);
 }
-.subtitle + .contact, .subline + .contact { margin-block-start: 3.05pt; }
+.title + .contact { margin-block-start: 2.5pt; }
 .contact a.plain { color: inherit; white-space: nowrap; }
 .dot { margin-inline: 2.2pt; }
 
 /* ---------- sections ---------- */
 h2 {
-  margin-block: 8.35pt 4.44pt;
-  padding-block-end: 1pt;
+  margin-block: 5pt 1.8pt;
+  padding-block-end: 0.6pt;
   border-block-end: 0.75pt solid var(--rule);
-  font-size: 9.66pt;
-  line-height: 13pt;
+  font-size: 10pt;
+  line-height: 12.4pt;
   font-weight: 700;
   color: var(--teal);
+  letter-spacing: 0.02em;
   break-after: avoid;
   break-inside: avoid;
 }
-header + section h2 { margin-block-start: 7.9pt; }
-
-.skills p + p { margin-block-start: 3pt; }
-.skills strong { margin-inline-end: 2.2pt; color: var(--teal); }
-
-.note {
-  font-size: 8.28pt;
-  line-height: 12pt;
-  font-style: italic;
+/* The link to everything the page leaves out, beside the heading it belongs to. */
+h2 .more {
+  font-weight: 400;
+  letter-spacing: 0;
   color: var(--grey);
-  break-after: avoid;
 }
+
+.lines p + p { margin-block-start: 1pt; }
+.lines strong, .also strong { color: var(--teal); }
 
 /* ---------- entries: jobs, projects, degree ---------- */
 .head {
@@ -115,52 +104,46 @@ header + section h2 { margin-block-start: 7.9pt; }
   justify-content: space-between;
   align-items: baseline;
   column-gap: 10pt;
-  margin-block-start: 6.45pt;
+  margin-block-start: 3.4pt;
   break-after: avoid;
   break-inside: avoid;
 }
-h2 + .head { margin-block-start: 5.89pt; }
-.projects .head { margin-block-start: 4.45pt; }
+h2 + .head { margin-block-start: 1.6pt; }
 .who { min-inline-size: 0; }
 h3 {
   display: inline;
-  font-size: 9.66pt;
+  font-size: 10pt;
   line-height: 1;
   font-weight: 700;
   color: var(--ink);
 }
 .org { color: var(--grey); }
-
-.projects h3 { margin-inline-end: 1.5pt; }
-.plink { margin-inline-start: 6.5pt; font-size: 8.74pt; }
-.date {
+/* The right-hand column: a date for a job, the address for a product. */
+.date, .where {
   flex: none;
-  font-size: 8.74pt;
-  line-height: 12pt;
-  font-weight: 700;
-  color: var(--teal);
+  font-size: 9.4pt;
   white-space: nowrap;
 }
+.date { font-weight: 700; color: var(--teal); }
 
 /* ---------- bullets ---------- */
-ul { list-style: none; margin-block-start: 0.65pt; }
+ul { list-style: none; margin-block-start: 0.4pt; }
 li {
-  padding-inline-start: 15pt;
-  text-indent: -10pt;
+  padding-inline-start: 11pt;
+  text-indent: -8pt;
   break-inside: avoid;
 }
-li + li { margin-block-start: 2.45pt; }
+li + li { margin-block-start: 0.6pt; }
 li::before {
   content: "\2022";
   display: inline-block;
-  inline-size: 10pt;
+  inline-size: 8pt;
   text-indent: 0;
-  font-size: 9.66pt;
   line-height: 1;
   color: var(--teal);
 }
-.certs ul { margin-block-start: 4.89pt; }
-.certs li + li { margin-block-start: 2.65pt; }
+
+.also { margin-block-start: 3.4pt; }
 
 strong { font-weight: 700; }
 
@@ -175,7 +158,7 @@ strong { font-weight: 700; }
     inline-size: 595pt;
     max-inline-size: 100%;
     margin: 18pt auto;
-    padding: 37.9pt 45pt 40pt;
+    padding: 25pt 36pt 22pt;
     background: #FFFFFF;
     box-shadow: 0 1pt 6pt rgba(28, 38, 41, 0.18);
   }
@@ -186,56 +169,52 @@ strong { font-weight: 700; }
 
 <header>
   <h1>NOUR ALDEEN TOFI</h1>
-  <p class="subtitle subtitle--title">AI Engineer</p>
-  <p class="subline">LLM agents and Arabic document AI <span class="bar">|</span> Workflow automation with n8n <span class="bar">|</span> Frontend: React, TypeScript</p>
-  <p class="contact">Al Khobar, Saudi Arabia <span class="dot">·</span> Open to relocation within KSA and to remote work <span class="dot">·</span> <a class="plain" href="tel:+966547972944">+966 54 797 2944</a> <span class="dot">·</span> <a href="mailto:nouraldeentofi@gmail.com">nouraldeentofi@gmail.com</a></p>
-  <p class="contact"><a href="https://nouraldeentofi.com">nouraldeentofi.com</a> <span class="dot">·</span> <a href="https://linkedin.com/in/nouraldeentofi">linkedin.com/in/nouraldeentofi</a> <span class="dot">·</span> <a href="https://github.com/nouraldeentofi">github.com/nouraldeentofi</a></p>
+  <p class="title">Frontend &amp; AI Engineer</p>
+  <p class="contact">Al Khobar, Saudi Arabia (open to relocation within KSA and to remote work) <span class="dot">·</span> <a class="plain" href="tel:+966547972944">+966 54 797 2944</a> <span class="dot">·</span> <a href="mailto:nouraldeentofi@gmail.com">nouraldeentofi@gmail.com</a></p>
+  <p class="contact"><a href="https://nouraldeentofi.com/en">nouraldeentofi.com/en</a> <span class="dot">·</span> <a href="https://github.com/nouraldeentofi">github.com/nouraldeentofi</a> <span class="dot">·</span> <a href="https://www.linkedin.com/in/nouraldeentofi">linkedin.com/in/nouraldeentofi</a></p>
 </header>
 
-<section class="profile">
+<section class="summary">
   <h2>SUMMARY</h2>
-  <p>AI engineer who builds applications on large language models: agents with strict tool calling, document extraction in Arabic and English, and code that verifies model output before it counts. Ships them with n8n and TypeScript and builds the React interfaces on top. 3 years of professional experience: freelance AI engineering for clients since June 2026, and nearly two years as Frontend Developer &amp; Project Coordinator at DFS, Al Khobar.</p>
+  <p>Frontend developer and AI engineer who builds React and TypeScript interfaces and the LLM workflows behind them, in Arabic and English. Built the AI engine and complete frontend of Smart Scanner, an <span class="nb">Arabic-first</span> invoice product, and shipped CV Screener alone. At DFS, built the frontend of the CRM and quotation platform all 15 employees adopted.</p>
 </section>
 
 <section class="projects">
-  <h2>AI ENGINEERING PROJECTS</h2>
+  <h2>SELECTED PROJECTS <span class="more"><span class="dot">·</span> full list at <a href="https://nouraldeentofi.com/en/projects">nouraldeentofi.com/en/projects</a></span></h2>
 
   <div class="head">
-    <div class="who"><h3>Smart Scanner:</h3> <span class="org">AI invoice management SaaS, Arabic first · private beta · 2026</span> <a class="plink" href="https://receipt.nexleadtech.com">receipt.nexleadtech.com</a></div>
+    <div class="who"><h3>Smart Scanner</h3> <span class="org"><span class="dot">·</span> <span class="nb">Arabic-first</span> AI invoice product <span class="dot">·</span> private beta <span class="dot">·</span> 2026</span></div>
+    <a class="where" href="https://nouraldeentofi.com/en/projects/smart-scanner">nouraldeentofi.com/en/projects/smart-scanner</a>
   </div>
   <ul>
-    <li>Built the AI extraction engine (n8n, GPT-4.1 Vision): it turns a photo or PDF into 70+ fields in about 10 s, line items, handwritten Arabic and Saudi <span class="nb">e-invoice</span> fields included, rejects any file that is not a genuine invoice before anything is saved, and runs duplicate and fraud checks (SHA-256, perceptual hashing, EXIF).</li>
-    <li>Cut AI cost per document by about 75% by sending PDFs with extractable text to a text model first, with vision as the fallback.</li>
+    <li>Built the AI extraction engine (n8n, GPT-4.1 Vision): 70+ fields from a photo or PDF in about 10 s, handwritten Arabic included, with <span class="nb">genuine-invoice</span>, duplicate and fraud checks before anything is saved.</li>
+    <li>Cut AI cost per document by about 75% by reading text PDFs with a text model first, with vision as the fallback.</li>
     <li>Built the complete frontend: 3 <span class="nb">role-based</span> apps (admin, accountant, employee) in one React 19 and TypeScript codebase, Arabic by default with full RTL, 494 automated tests; a teammate built the Laravel backend.</li>
   </ul>
 
   <div class="head">
-    <div class="who"><h3>CV Screener:</h3> <span class="org">full-stack AI screening product, built alone · live · 2026</span> <a class="plink" href="https://cv-screener.nouraldeentofi.com">cv-screener.nouraldeentofi.com</a></div>
+    <div class="who"><h3>CV Screener</h3> <span class="org"><span class="dot">·</span> AI CV screening, built alone <span class="dot">·</span> live <span class="dot">·</span> 2026</span></div>
+    <a class="where" href="https://cv-screener.nouraldeentofi.com/en">cv-screener.nouraldeentofi.com/en</a>
   </div>
   <ul>
-    <li>Built <span class="nb">evidence-checked</span> scoring: every AI score must quote the CV, the server verifies the quote before the score counts, and weighted totals and <span class="nb">must-have</span> caps are computed in code, not by the model.</li>
-    <li>Hardened the 3 n8n AI workflows: CV text is fenced so instructions hidden in a CV are read as data (<span class="nb">prompt-injection</span> defense), and only <span class="nb">server-to-server</span> calls with a secret header reach a model. Next.js 16, Prisma, MySQL 8, Docker; 1,189 automated tests; <span class="nb">performance-tested</span> on 5,000 CVs.</li>
+    <li>Built <span class="nb">evidence-checked</span> scoring: every AI score must quote the CV, and the server verifies the quote before the score counts; totals and <span class="nb">must-have</span> caps are computed in code, not by the model.</li>
+    <li>Built the Next.js 16 app and its 3 n8n AI workflows: CV text is fenced against prompt injection, and only server calls carrying a secret reach a model; 1,189 automated tests; <span class="nb">performance-tested</span> on 5,000 CVs.</li>
   </ul>
 
-  <div class="head">
-    <div class="who"><h3>More AI Work:</h3> <span class="org">MCP and live n8n systems · 2026</span></div>
-  </div>
-  <ul>
-    <li><strong>MCP Search Server:</strong> custom tools over real data for Claude (Node.js, JSON Schema); the same pattern powers the MCP server that ships with nouraldeentofi.com.</li>
-    <li><strong>Universal Web Scraper</strong> (live): crawls a whole site from one link and calls a model only when <span class="nb">JSON-LD</span> and tables are missing.</li>
-  </ul>
+  <p class="also"><strong>Also built:</strong> <a href="https://nouraldeentofi.com/motion-studio/">Nour Motion Studio</a>, a browser video editor that encodes MP4 on the device with WebCodecs <span class="dot">·</span> <a class="nb" href="https://nouraldeentofi.com/umrah-guide/">The Complete Umrah Guide</a>, an offline PWA in 10 languages <span class="dot">·</span> <a href="https://nouraldeentofi.com/en">nouraldeentofi.com</a>, with its own MCP server</p>
 </section>
 
 <section class="experience">
   <h2>EXPERIENCE</h2>
 
   <div class="head">
-    <div class="who"><h3>AI Engineer (Freelance)</h3> <span class="org"><span class="dot">·</span> Self-employed, Al Khobar</span></div>
+    <div class="who"><h3>Frontend &amp; AI Engineer (Freelance)</h3> <span class="org"><span class="dot">·</span> Self-employed, Al Khobar</span></div>
     <div class="date">Jun 2026 to Present</div>
   </div>
   <ul>
-    <li>Built an Arabic Telegram agent, in production for a private tutor since June 2026, that runs students, schedules, recurring lessons, cancellations and dues from a chat; it acts only through custom tools under strict business rules (MySQL stored procedures as tools), with usage metering and session memory.</li>
-    <li>Built the payment check behind a chess club's tournament registration (2026): an n8n workflow reads <span class="nb">bank-transfer</span> receipts with a vision model and says whether a file is a transfer at all; the secret, contract version and image size are checked before any model call, model failures still return JSON, and successful runs are not stored, because receipts carry personal data.</li>
+    <li>Built Gambit Tournaments (<a href="https://gambit.nouraldeentofi.com/en">gambit.nouraldeentofi.com/en</a>) for a chess club in Dammam: live seats, guest registration in Arabic, English and Urdu, and an admin dashboard, in Next.js, React, Prisma and MySQL.</li>
+    <li>Built its payment check in n8n so no one opens a receipt by hand: GPT-4.1 Vision reads each <span class="nb">bank-transfer</span> receipt and flags non-transfers, after secret, version and size checks; successful runs are not stored (personal data).</li>
+    <li>Designed and built 18 websites for professionals, companies and shops, Gambit included, with WhatsApp booking, ordering and quote requests, Canvas and 3D, and JSON-LD and llms.txt for AI assistants (<a href="https://nouraldeentofi.com/en/showcase">nouraldeentofi.com/en/showcase</a>).</li>
   </ul>
 
   <div class="head">
@@ -243,12 +222,10 @@ strong { font-weight: 700; }
     <div class="date">Jan 2025 to Nov 2026</div>
   </div>
   <ul>
-    <li>Built the frontend of DFS's custom CRM and quotation platform in React 19 and TypeScript, Arabic and English with full RTL, replacing spreadsheets and hand-made quotes in every department.</li>
-    <li>Cut quotation preparation to under 2 minutes once the data is entered; adopted by all 15 employees.</li>
-    <li>Built the enquiry board, quotation follow-up, sales analytics with a <span class="nb">probability-weighted</span> pipeline, <span class="nb">real-time</span> notifications, and roles composed from 120+ permissions, with route guards covered by Playwright tests.</li>
-    <li>Developed the frontend of a second CRM for WAIS, DFS's parent company (React, TypeScript, Tailwind CSS v4, <span class="nb">type-checked</span> Arabic and English translations), shipped through CI/CD with <span class="nb">zero-downtime</span> deploys.</li>
-    <li>Introduced workflow automation with n8n and the OpenAI API for the team's repetitive work.</li>
-    <li>Coordinated requirements, user stories and API contracts between frontend, backend (Laravel) and UI/UX, so frontend and backend could build in parallel and delivery stayed on schedule.</li>
+    <li>Built the frontend of this <span class="nb">fire-pump</span> and <span class="nb">safety-equipment</span> company's CRM and quotation platform from scratch in React 19 and TypeScript, Arabic and English with full RTL, replacing spreadsheets and <span class="nb">hand-made</span> quotes.</li>
+    <li>With the platform, a quotation took under 2 minutes once the data was entered; all 15 employees adopted it.</li>
+    <li>Built sales analytics with a <span class="nb">probability-weighted</span> pipeline, <span class="nb">real-time</span> notifications, and roles from 120+ permissions with <span class="nb">Playwright-tested</span> route guards; developed the frontend of a second CRM for the parent company.</li>
+    <li>Coordinated requirements and API contracts between frontend, backend (Laravel) and UI/UX, so frontend and backend built in parallel; used Claude Code daily to plan, build, test and review.</li>
   </ul>
 
   <div class="head">
@@ -256,9 +233,7 @@ strong { font-weight: 700; }
     <div class="date">Mar 2025 to May 2026</div>
   </div>
   <ul>
-    <li>Coordinated client automation and software projects from requirements to release: scope, workflow design, cost estimates, acceptance criteria and user stories on Trello.</li>
-    <li>Coordinated delivery of GoldenTag, a jewelry-store management app the team built in Flutter, from requirements to Google Play; adopted by 3 gold shops.</li>
-    <li>Set up self-hosted infrastructure: n8n in Docker on a VPS, Apache virtual hosts, Cloudflare DNS and R2 storage, and GitHub Actions deployments.</li>
+    <li>Coordinated client projects to release, including GoldenTag, a Flutter <span class="nb">jewelry-store</span> app adopted by 3 gold shops.</li>
   </ul>
 
   <div class="head">
@@ -266,53 +241,42 @@ strong { font-weight: 700; }
     <div class="date">Sep 2024 to Apr 2025</div>
   </div>
   <ul>
-    <li>Developed a responsive web dashboard in React and Tailwind CSS within a full product team, turning detailed Figma designs into accessible, reusable components; took part in code reviews.</li>
+    <li>Built a responsive React and Tailwind CSS dashboard from Figma designs within a full product team.</li>
   </ul>
 
   <div class="head">
-    <div class="who"><h3>Frontend Developer</h3> <span class="org"><span class="dot">·</span> Minicodeleader (freelance, remote)</span></div>
+    <div class="who"><h3>Frontend Developer</h3> <span class="org"><span class="dot">·</span> Minicodeleader, kids' education platform (freelance, remote)</span></div>
     <div class="date">Jun 2023 to Feb 2024</div>
   </div>
   <ul>
-    <li>Built responsive interfaces for a kids' education platform in React and Material-UI (course browsing, lessons, saved courses) from Figma designs.</li>
+    <li>Built course browsing, lessons and saved courses in React and <span class="nb">Material-UI</span> from Figma designs.</li>
   </ul>
 </section>
 
-<section class="skills">
+<section class="lines">
   <h2>SKILLS</h2>
-  <p><strong>AI engineering:</strong> LLM applications, AI agents and tool calling, structured JSON outputs, prompt engineering, output validation and guardrails, <span class="nb">prompt-injection</span> defense, document AI and Arabic OCR, Model Context Protocol (MCP), <span class="nb">cost-aware</span> model routing, <span class="nb">human-in-the-loop</span> approvals, OpenAI API (GPT-4.1, GPT-4o), Claude through MCP and Claude Code</p>
-  <p><strong>Automation:</strong> n8n (self-hosted with Docker), webhooks, REST APIs, Telegram Bot API, Google Sheets and Drive APIs, web scraping, error handling and retries</p>
-  <p><strong>Frontend:</strong> React 19, TypeScript, JavaScript (ES6+), Next.js, Tailwind CSS, Vite, TanStack Query, React Hook Form, i18n and RTL (Arabic and English), web accessibility</p>
-  <p><strong>Data, testing and delivery:</strong> Node.js, Prisma, MySQL and stored procedures, Python (pandas, TensorFlow/Keras, university projects), Vitest, React Testing Library, Playwright, GitHub Actions CI/CD, Docker, Cloudflare, Git</p>
-  <p><strong>Coordination:</strong> requirements gathering, user stories, API contracts, sprint planning, Jira, Trello, Figma; Claude Code daily for planning, building, testing and review</p>
+  <p><strong>Frontend:</strong> React 19, TypeScript, Next.js, Tailwind CSS, TanStack Query, i18n and RTL, PWA, Vitest, Playwright</p>
+  <p><strong>AI and automation:</strong> OpenAI API (GPT-4.1 Vision, GPT-4o), tool calling, structured outputs, document extraction, output validation, <span class="nb">prompt-injection</span> defense, MCP servers, n8n, Claude Code</p>
+  <p><strong>Backend and delivery:</strong> Node.js, Prisma, MySQL, REST APIs, Docker, GitHub Actions, Cloudflare, Git</p>
 </section>
 
 <section class="education">
-  <h2>EDUCATION</h2>
+  <h2>EDUCATION AND AWARDS</h2>
 
   <div class="head">
     <div class="who"><h3>Bachelor of Information Technology Engineering</h3> <span class="org"><span class="dot">·</span> University of Kalamoon</span></div>
     <div class="date">Sep 2019 to Aug 2024</div>
   </div>
   <ul>
-    <li><strong>Graduation project (2024)</strong>, fitness nutrition recommender: Kaggle data cleaned with Python and pandas, and an ensemble of 5 classifiers that turns a trainee's data into a diet plan.</li>
-    <li><strong>Semester project (2023)</strong>, plant-health assistant: a VGG16-based CNN (TensorFlow/Keras) that identifies plants from photos and recommends care.</li>
+    <li>ACPC national qualifier (ICPC), Sep 2021: team ranked 4th among the country's private universities.</li>
+    <li>Certifications: Building Apps and AI Agents with Claude Code (Coursera, 2026) <span class="dot">·</span> Advanced React (Meta, 2025)</li>
   </ul>
 </section>
 
-<section class="certs">
-  <h2>CERTIFICATIONS &amp; AWARDS</h2>
-  <ul>
-    <li><strong>Coursera (Oct 2026):</strong> Building Apps and AI Agents with Claude Code · Claude Cowork, Skills and Plugins for Workflow Automation</li>
-    <li><strong>IBM (2024):</strong> Python for Data Science, AI &amp; Development · Generative AI: Prompt Engineering Basics</li>
-    <li><strong>Meta and Google (2025):</strong> Advanced React · Foundations of Project Management · Project Initiation: Starting a Successful Project</li>
-    <li><strong>ACPC Syria (ICPC regional qualifier), Sep 2021:</strong> team ranked 4th among private universities</li>
-  </ul>
-</section>
-
-<section class="languages">
-  <h2>LANGUAGES</h2>
-  <p>Arabic: native <span class="dot">·</span> English: professional working proficiency</p>
+<section class="lines">
+  <h2>LANGUAGES AND INTERESTS</h2>
+  <p><strong>Languages:</strong> Arabic (native), English (professional working proficiency)</p>
+  <p><strong>Interests:</strong> anime, badminton, Valorant <span class="dot">·</span> teaching math <span class="dot">·</span> an Arabic YouTube channel on AI automation <span class="dot">·</span> a second brain of Markdown notes on a private server that Claude reads and writes over MCP</p>
 </section>
 
 </body>

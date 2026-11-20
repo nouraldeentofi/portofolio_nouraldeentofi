@@ -19,8 +19,8 @@
   },
   "_shortNameNote": "The short form people use for him. Feeds WebSite.alternateName, next to the Arabic name and the host, so Google has the alternatives it may show as the site name.",
   "headline": {
-    "en": "AI Engineer: LLM Agents, Arabic Document AI, MCP · n8n Automation · Frontend Developer",
-    "ar": "مطوّر تطبيقات ذكاء اصطناعي: وكلاء LLM وقراءة المستندات العربية وMCP · أتمتة بـ n8n · مطوّر واجهات أمامية"
+    "en": "Frontend & AI Engineer: React and TypeScript Interfaces, LLM Agents, Arabic Document AI, MCP · n8n Automation",
+    "ar": "مطوّر واجهات أمامية وتطبيقات ذكاء اصطناعي: واجهات React وTypeScript، ووكلاء LLM، وقراءة المستندات العربية، وخوادم MCP · أتمتة بـ n8n"
   },
   "nameVariants": [
     "Nour Aldeen Tofi",
@@ -47,8 +47,8 @@
   ],
   "_nameMisspellingsNote": "The family name written with the wrong first letter, which reads as a different Arabic word. People do type it, so it is listed for entity resolution, but it goes only into Person.alternateName in the JSON-LD, which no visitor reads. It must never reach visible text, llms.txt, llms-full.txt or the JSON API: the tests and validate enforce that.",
   "tagline": {
-    "en": "I build applications on large language models that take over manual work in Arabic and English, and the interfaces people use on top of them.",
-    "ar": "أبني تطبيقات قائمة على النماذج اللغوية الكبيرة تتولّى العمل اليدوي بالعربية والإنجليزية، وأطوّر فوقها الواجهات التي يستخدمها الناس."
+    "en": "I build React and TypeScript interfaces and the AI behind them: applications on large language models that take over manual work in Arabic and English.",
+    "ar": "أبني واجهات React وTypeScript، والذكاء الاصطناعي الذي يعمل خلفها: تطبيقات قائمة على النماذج اللغوية الكبيرة تتولّى العمل اليدوي بالعربية والإنجليزية."
   },
   "location": {
     "city": {
@@ -74,7 +74,7 @@
     "_note": "Google Analytics for nouraldeentofi.com, on the nourtofi42@gmail.com account. `tag` is the Google tag the pages load, exactly as Analytics gives it under Admin, Data streams, View tag instructions. `measurementId` is the web stream it reports to, kept for reference."
   },
   "_ogImageNote": "The 1200×630 share card, emitted as og:image / twitter:image so links unfurl with a real preview. Wider than the portrait and captioned, so it stays the share image rather than the photo. Made by `npm run og` from scripts/og/og.html, with its words taken from this file: never edit the PNG, and keep its name.",
-  "updated": "2026-11-19",
+  "updated": "2026-11-20",
   "_updatedNote": "The day the facts of his identity last changed: name, title, links, portrait, location. Set by hand, and only when one of those changes. It is the dateModified of the ProfilePage on the home page, so it must not move just because the site was rebuilt.",
   "email": "nouraldeentofi@gmail.com",
   "phone": "+966547972944",
@@ -144,14 +144,16 @@
     "openToWork": true,
     "roles": {
       "en": [
+        "Frontend & AI Engineer",
         "AI Engineer",
-        "AI Automation Engineer (n8n)",
-        "Frontend Developer (React, TypeScript, Next.js)"
+        "Frontend Developer (React, TypeScript, Next.js)",
+        "AI Automation Engineer (n8n)"
       ],
       "ar": [
+        "مطوّر واجهات أمامية وتطبيقات ذكاء اصطناعي",
         "مطوّر تطبيقات ذكاء اصطناعي",
-        "مطوّر أتمتة بالذكاء الاصطناعي (n8n)",
-        "مطوّر واجهات أمامية (React وTypeScript وNext.js)"
+        "مطوّر واجهات أمامية (React وTypeScript وNext.js)",
+        "مطوّر أتمتة بالذكاء الاصطناعي (n8n)"
       ]
     },
     "areas": {

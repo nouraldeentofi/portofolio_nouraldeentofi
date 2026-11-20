@@ -2,8 +2,8 @@
   {
     "id": "freelance-ai",
     "role": {
-      "en": "AI Engineer (Freelance)",
-      "ar": "مطوّر تطبيقات ذكاء اصطناعي (عمل حر)"
+      "en": "Frontend & AI Engineer (Freelance)",
+      "ar": "مطوّر واجهات أمامية وتطبيقات ذكاء اصطناعي (عمل حر)"
     },
     "company": {
       "en": "Self-employed",
@@ -22,22 +22,29 @@
     "end": null,
     "bullets": {
       "en": [
-        "Built an Arabic Telegram agent, in production for a private tutor, that runs students, schedules, recurring lessons, cancellations and dues from a chat. It acts only through custom tools under strict business rules, with MySQL stored procedures as its tools, usage metering and session memory.",
-        "Built the payment check behind a chess club's tournament registration: a vision model reads each uploaded bank-transfer receipt and first says whether it is a transfer at all, the site applies the rules, and successful runs are not stored because receipts carry personal data."
+        "Built Gambit Tournaments, the tournament platform of a chess club in Dammam, in Next.js, React, Prisma and MySQL: upcoming tournaments with live seats, guest registration in Arabic, English and Urdu, an archive of past tournaments, and an admin dashboard for tournaments, gallery and registrations.",
+        "Built its payment check in n8n: a vision model reads each uploaded bank-transfer receipt and first says whether it is a transfer at all, so registrations are confirmed without anyone opening a receipt by hand. The secret, contract version and image size are checked before any model call, and successful runs are not stored, because receipts carry personal data.",
+        "Designed and built eighteen websites for professionals, companies and shops, Gambit Tournaments among them, most of them in Arabic and English, each from its own visual idea, with bookings, orders and quote requests on WhatsApp where a business needs them and structured data that search engines and AI assistants can read."
       ],
       "ar": [
-        "بنيت وكيلاً عربياً على تيليجرام يعمل في بيئة الإنتاج لدى مدرّس خصوصي، يدير الطلاب والمواعيد والدروس المتكرّرة والإلغاءات والمستحقات من المحادثة. ولا يتصرّف إلا عبر أدوات مخصّصة وضمن قواعد عمل صارمة، أدواته إجراءات MySQL المخزّنة، مع قياس للاستخدام وذاكرة للجلسات.",
-        "بنيت فحص الدفع خلف التسجيل في بطولات نادٍ للشطرنج: يقرأ نموذج رؤية كل إيصال تحويل بنكي يُرفع، ويحدّد أولاً هل هو تحويل أصلاً، ثم يطبّق الموقع القواعد، ولا تُحفظ عمليات التشغيل الناجحة لأن الإيصالات تحمل بيانات شخصية."
+        "بنيت منصّة بطولات چامبت لنادي شطرنج في الدمام بـ Next.js وReact وPrisma وMySQL: بطولات قادمة بمقاعد متبقية تظهر مباشرة، وتسجيل كضيف بالعربية والإنجليزية والأوردو، وأرشيف للبطولات السابقة، ولوحة إدارة للبطولات والمعرض والتسجيلات.",
+        "بنيت فحص الدفع فيها بـ n8n: يقرأ نموذج رؤية كل إيصال تحويل بنكي يُرفع، ويحدّد أولاً هل هو تحويل أصلاً، فتُؤكَّد التسجيلات دون أن يفتح أحد إيصالاً بيده. ويُفحص المفتاح السري ونسخة العقد وحجم الصورة قبل أي استدعاء للنموذج، ولا تُحفظ عمليات التشغيل الناجحة لأن الإيصالات تحمل بيانات شخصية.",
+        "صمّمت وبنيت ثمانية عشر موقعاً للأفراد والشركات والمحلات، منها بطولات چامبت، أغلبها بالعربية والإنجليزية، ولكل موقع فكرته البصرية الخاصة. وفيها الحجز والطلب وطلبات عروض الأسعار عبر واتساب حيث يحتاجها النشاط، وبيانات منظّمة تقرؤها محرّكات البحث ومساعدات الذكاء الاصطناعي."
       ]
     },
     "stack": [
+      "Next.js",
+      "React",
+      "Prisma",
+      "MySQL",
       "n8n",
       "OpenAI API",
       "GPT-4.1 Vision",
-      "Telegram Bot API",
-      "MySQL",
-      "Google Sheets",
-      "Webhooks"
+      "Webhooks",
+      "JavaScript",
+      "Canvas",
+      "JSON-LD",
+      "RTL"
     ]
   },
   {

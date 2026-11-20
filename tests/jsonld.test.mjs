@@ -97,8 +97,8 @@ test('the email in the markup is a plain address', () => {
 
 /* The Arabic page used to name his occupation in English. */
 test('the occupation is named in the language of the page', () => {
-  assert.equal(personLd(db, 'en', 'about').hasOccupation.name, 'AI Engineer');
-  assert.equal(personLd(db, 'ar', 'about').hasOccupation.name, 'مطوّر تطبيقات ذكاء اصطناعي');
+  assert.equal(personLd(db, 'en', 'about').hasOccupation.name, 'Frontend & AI Engineer');
+  assert.equal(personLd(db, 'ar', 'about').hasOccupation.name, 'مطوّر واجهات أمامية وتطبيقات ذكاء اصطناعي');
   for (const lang of ['en', 'ar']) {
     const job = personLd(db, lang, 'about').hasOccupation;
     assert.equal(job.name, db.profile.availability.roles[lang][0]);

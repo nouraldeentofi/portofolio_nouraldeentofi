@@ -547,7 +547,7 @@ test('og:image is a PNG or a JPEG: a screenshot or a wide canvas when there is o
       // The card shows his name and what he does, so its alt text says that,
       // not the title of a product the picture does not show.
       if (expected === db.profile.ogImage) {
-        assert.equal(metaOf(doc, 'og:image:alt'), `${db.profile.name[lang]} | ${db.profile.headline[lang]}`, `${lang}/${d.page}: the alt text of the card`);
+        assert.equal(unescape(metaOf(doc, 'og:image:alt')), `${db.profile.name[lang]} | ${db.profile.headline[lang]}`, `${lang}/${d.page}: the alt text of the card`);
       }
     }
   }

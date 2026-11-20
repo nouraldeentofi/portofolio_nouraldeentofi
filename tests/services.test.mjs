@@ -532,8 +532,8 @@ test('the home intro says the same thing in both languages', () => {
   assert.match(ar, /بالعربية والإنجليزية/);
   // The client websites are a separate thing he builds, not a layer on the automation.
   assert.ok(!/websites on top/.test(en));
-  assert.match(en, /interfaces on top, and websites for people, companies and shops/);
-  assert.match(ar, /واجهات React، ومواقع للأفراد والشركات والمحلات/);
+  assert.match(en, /interfaces and the AI behind them[\s\S]*websites for people, companies and shops/);
+  assert.match(ar, /والذكاء الاصطناعي الذي يعمل خلفها[\s\S]*مواقع للأفراد والشركات والمحلات/);
 });
 
 /* -------------------------------------------------------------------- links */

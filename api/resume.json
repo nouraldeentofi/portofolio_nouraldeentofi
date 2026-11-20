@@ -2,11 +2,11 @@
   "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
   "basics": {
     "name": "Nour Aldeen Tofi",
-    "label": "AI Engineer: LLM Agents, Arabic Document AI, MCP · n8n Automation · Frontend Developer",
+    "label": "Frontend & AI Engineer: React and TypeScript Interfaces, LLM Agents, Arabic Document AI, MCP · n8n Automation",
     "email": "nouraldeentofi@gmail.com",
     "phone": "+966547972944",
     "url": "https://nouraldeentofi.com",
-    "summary": "I build applications on large language models that take over manual work in Arabic and English, and the interfaces people use on top of them.",
+    "summary": "I build React and TypeScript interfaces and the AI behind them: applications on large language models that take over manual work in Arabic and English.",
     "location": {
       "city": "Al Khobar",
       "region": "Eastern Province",
@@ -48,12 +48,13 @@
   "work": [
     {
       "name": "Self-employed",
-      "position": "AI Engineer (Freelance)",
+      "position": "Frontend & AI Engineer (Freelance)",
       "location": "Al Khobar, Saudi Arabia",
       "startDate": "2026-06-01",
       "highlights": [
-        "Built an Arabic Telegram agent, in production for a private tutor, that runs students, schedules, recurring lessons, cancellations and dues from a chat. It acts only through custom tools under strict business rules, with MySQL stored procedures as its tools, usage metering and session memory.",
-        "Built the payment check behind a chess club's tournament registration: a vision model reads each uploaded bank-transfer receipt and first says whether it is a transfer at all, the site applies the rules, and successful runs are not stored because receipts carry personal data."
+        "Built Gambit Tournaments, the tournament platform of a chess club in Dammam, in Next.js, React, Prisma and MySQL: upcoming tournaments with live seats, guest registration in Arabic, English and Urdu, an archive of past tournaments, and an admin dashboard for tournaments, gallery and registrations.",
+        "Built its payment check in n8n: a vision model reads each uploaded bank-transfer receipt and first says whether it is a transfer at all, so registrations are confirmed without anyone opening a receipt by hand. The secret, contract version and image size are checked before any model call, and successful runs are not stored, because receipts carry personal data.",
+        "Designed and built eighteen websites for professionals, companies and shops, Gambit Tournaments among them, most of them in Arabic and English, each from its own visual idea, with bookings, orders and quote requests on WhatsApp where a business needs them and structured data that search engines and AI assistants can read."
       ]
     },
     {
@@ -189,27 +190,6 @@
   ],
   "skills": [
     {
-      "name": "Automation & AI",
-      "keywords": [
-        "n8n",
-        "Workflow Automation",
-        "AI Agents",
-        "LLM Tool-Calling Design",
-        "Model Context Protocol (MCP)",
-        "OpenAI API",
-        "GPT-4o",
-        "GPT-4.1 Vision",
-        "Structured JSON Outputs",
-        "Prompt Engineering",
-        "Document AI",
-        "Arabic OCR & Extraction",
-        "Web Scraping",
-        "Telegram Bot API",
-        "Webhooks",
-        "Error Handling & Retries"
-      ]
-    },
-    {
       "name": "Frontend",
       "keywords": [
         "React.js",
@@ -228,6 +208,27 @@
         "i18n & RTL",
         "Responsive Design",
         "Web Accessibility"
+      ]
+    },
+    {
+      "name": "Automation & AI",
+      "keywords": [
+        "n8n",
+        "Workflow Automation",
+        "AI Agents",
+        "LLM Tool-Calling Design",
+        "Model Context Protocol (MCP)",
+        "OpenAI API",
+        "GPT-4o",
+        "GPT-4.1 Vision",
+        "Structured JSON Outputs",
+        "Prompt Engineering",
+        "Document AI",
+        "Arabic OCR & Extraction",
+        "Web Scraping",
+        "Telegram Bot API",
+        "Webhooks",
+        "Error Handling & Retries"
       ]
     },
     {

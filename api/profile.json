@@ -1,6 +1,6 @@
 {
   "$schema": "https://nouraldeentofi.com/api/profile.json",
-  "generated": "2026-11-19T00:00:00+03:00",
+  "generated": "2026-11-20T00:00:00+03:00",
   "name": {
     "en": "Nour Aldeen Tofi",
     "ar": "نور الدين طفي"
@@ -24,12 +24,12 @@
     "نور طفي"
   ],
   "headline": {
-    "en": "AI Engineer: LLM Agents, Arabic Document AI, MCP · n8n Automation · Frontend Developer",
-    "ar": "مطوّر تطبيقات ذكاء اصطناعي: وكلاء LLM وقراءة المستندات العربية وMCP · أتمتة بـ n8n · مطوّر واجهات أمامية"
+    "en": "Frontend & AI Engineer: React and TypeScript Interfaces, LLM Agents, Arabic Document AI, MCP · n8n Automation",
+    "ar": "مطوّر واجهات أمامية وتطبيقات ذكاء اصطناعي: واجهات React وTypeScript، ووكلاء LLM، وقراءة المستندات العربية، وخوادم MCP · أتمتة بـ n8n"
   },
   "tagline": {
-    "en": "I build applications on large language models that take over manual work in Arabic and English, and the interfaces people use on top of them.",
-    "ar": "أبني تطبيقات قائمة على النماذج اللغوية الكبيرة تتولّى العمل اليدوي بالعربية والإنجليزية، وأطوّر فوقها الواجهات التي يستخدمها الناس."
+    "en": "I build React and TypeScript interfaces and the AI behind them: applications on large language models that take over manual work in Arabic and English.",
+    "ar": "أبني واجهات React وTypeScript، والذكاء الاصطناعي الذي يعمل خلفها: تطبيقات قائمة على النماذج اللغوية الكبيرة تتولّى العمل اليدوي بالعربية والإنجليزية."
   },
   "location": {
     "city": {
@@ -109,14 +109,16 @@
     "openToWork": true,
     "roles": {
       "en": [
+        "Frontend & AI Engineer",
         "AI Engineer",
-        "AI Automation Engineer (n8n)",
-        "Frontend Developer (React, TypeScript, Next.js)"
+        "Frontend Developer (React, TypeScript, Next.js)",
+        "AI Automation Engineer (n8n)"
       ],
       "ar": [
+        "مطوّر واجهات أمامية وتطبيقات ذكاء اصطناعي",
         "مطوّر تطبيقات ذكاء اصطناعي",
-        "مطوّر أتمتة بالذكاء الاصطناعي (n8n)",
-        "مطوّر واجهات أمامية (React وTypeScript وNext.js)"
+        "مطوّر واجهات أمامية (React وTypeScript وNext.js)",
+        "مطوّر أتمتة بالذكاء الاصطناعي (n8n)"
       ]
     },
     "areas": {
@@ -152,31 +154,6 @@
   },
   "skills": [
     {
-      "id": "automation-ai",
-      "category": {
-        "en": "Automation & AI",
-        "ar": "الأتمتة والذكاء الاصطناعي"
-      },
-      "items": [
-        "n8n",
-        "Workflow Automation",
-        "AI Agents",
-        "LLM Tool-Calling Design",
-        "Model Context Protocol (MCP)",
-        "OpenAI API",
-        "GPT-4o",
-        "GPT-4.1 Vision",
-        "Structured JSON Outputs",
-        "Prompt Engineering",
-        "Document AI",
-        "Arabic OCR & Extraction",
-        "Web Scraping",
-        "Telegram Bot API",
-        "Webhooks",
-        "Error Handling & Retries"
-      ]
-    },
-    {
       "id": "frontend",
       "category": {
         "en": "Frontend",
@@ -199,6 +176,31 @@
         "i18n & RTL",
         "Responsive Design",
         "Web Accessibility"
+      ]
+    },
+    {
+      "id": "automation-ai",
+      "category": {
+        "en": "Automation & AI",
+        "ar": "الأتمتة والذكاء الاصطناعي"
+      },
+      "items": [
+        "n8n",
+        "Workflow Automation",
+        "AI Agents",
+        "LLM Tool-Calling Design",
+        "Model Context Protocol (MCP)",
+        "OpenAI API",
+        "GPT-4o",
+        "GPT-4.1 Vision",
+        "Structured JSON Outputs",
+        "Prompt Engineering",
+        "Document AI",
+        "Arabic OCR & Extraction",
+        "Web Scraping",
+        "Telegram Bot API",
+        "Webhooks",
+        "Error Handling & Retries"
       ]
     },
     {

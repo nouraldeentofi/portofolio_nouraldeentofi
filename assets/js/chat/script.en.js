@@ -20,7 +20,7 @@ export const SCRIPT = {
   start: {
     msgs: [
       'Salam 👋 I am Nour (the chat version, anyway).',
-      'I am an <b>AI engineer</b> in <b>Al Khobar, Saudi Arabia</b>. I build n8n workflows that read documents with language models, and the React interfaces people use on top of them.',
+      'I am a <b>frontend and AI engineer</b> in <b>Al Khobar, Saudi Arabia</b>. I build the interface people use and the AI behind it: React and TypeScript interfaces, and n8n workflows that read documents with language models.',
       'Everything here is also on the rest of the site as plain text. Ask away 👇',
     ],
     opts: MENU,
@@ -86,7 +86,7 @@ export const SCRIPT = {
 
   who: {
     msgs: [
-      'I am <b>Nour Aldeen Tofi</b>, an AI engineer and frontend developer based in <b>Al Khobar</b>.',
+      'I am <b>Nour Aldeen Tofi</b>, a frontend and AI engineer based in <b>Al Khobar</b>.',
       'The unusual part is that I do both ends: I design the pipeline <i>and</i> I build the interface. I also coordinate delivery: requirements, scope, tasks, deadlines.',
       'B.Eng in Information Technology from University of Kalamoon, 2019–2024. Arabic native, English professional.',
     ],
@@ -101,7 +101,7 @@ export const SCRIPT = {
     msgs: ['Quick rewind ⏪'],
     card: `<div class="chat__card-head">📜 The timeline</div>
 <div class="chat__card-body">
-  <b>2026</b> AI Engineer · freelance, ongoing<br>
+  <b>2026</b> Frontend &amp; AI Engineer · freelance, ongoing<br>
   <b>2025–26</b> Frontend Developer &amp; Project Coordinator · Distinctive Frontier<br>
   <b>2025–26</b> Freelance Project Coordinator · NexLead<br>
   <b>2024–25</b> Frontend Developer · Khwarizm Technologies<br>
