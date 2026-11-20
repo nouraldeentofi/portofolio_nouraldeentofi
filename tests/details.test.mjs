@@ -1153,6 +1153,18 @@ test('a detail page ends with its neighbours and the call to action', () => {
   // the product an employer came to see.
   assert.deepEqual(engineNeighbours(db, byId('cv-screener')), []);
   for (const id of ['ai-job-match', 'ai-email-campaign']) assert.ok(!db.workflows.find((w) => w.id === id).audience.includes('hr'), `${id} is filed under hiring`);
+  // The daily job search is a system he built for himself. It is filed with
+  // the pipelines that collect and score data, and `"neighbour": false` keeps
+  // its card off every other page: moved out of hiring without it, the card
+  // spread to the foot of four client-facing system pages.
+  const jobSearch = db.workflows.find((w) => w.id === 'ai-job-match');
+  assert.deepEqual(jobSearch.audience, ['data']);
+  assert.equal(jobSearch.neighbour, false);
+  assert.deepEqual(db.workflows.filter((w) => w.neighbour === false).map((w) => w.id), ['ai-job-match'], 'another system is kept out of the neighbour lists');
+  for (const w of db.workflows) assert.ok(!relatedSystems(db, w).some((x) => x.id === 'ai-job-match'), `${w.id}: offers the job search`);
+  for (const p of db.projects) assert.ok(!engineNeighbours(db, p).some((x) => x.id === 'ai-job-match'), `${p.id}: offers the job search`);
+  // The flag hides it from others, not others from it: its own page still ends with its neighbours.
+  assert.ok(relatedSystems(db, jobSearch).length > 0);
   assert.deepEqual(engineNeighbours(db, byId('khatm')), [], 'a project without an engine has none');
   for (const p of db.projects) {
     for (const w of engineNeighbours(db, p)) {
@@ -1164,7 +1176,12 @@ test('a detail page ends with its neighbours and the call to action', () => {
 
 /* A page that only its list page links to is one edit away from being an
    orphan, and a crawler that meets it once has little reason to think it
-   matters. Smart Lead Finder was such a page in both languages. */
+   matters. Smart Lead Finder was such a page in both languages.
+
+   One page is reached from its list page alone, on purpose: the system with
+   `"neighbour": false`. No page written for a client or an employer shows a
+   card for the daily job search, so nothing but the automation page may link
+   to it. */
 test('every detail page is linked from a page other than its list page', () => {
   for (const lang of LANGS) {
     const others = everyPage.filter((p) => p.lang === lang);
@@ -1172,6 +1189,11 @@ test('every detail page is linked from a page other than its list page', () => {
       const address = pagePath(d.page, lang);
       const link = new RegExp(`<a [^>]*href="${address}(?:#[^"]*)?"`);
       const from = others.filter((p) => p.page !== d.page && p.page !== d.parent && link.test(p.html)).map((p) => p.page || 'index');
+      if (d.entry.neighbour === false) {
+        assert.deepEqual(from, [], `${lang}/${d.page}: a page other than the automation page links to it`);
+        assert.ok(link.test(others.find((p) => p.page === d.parent).html), `${lang}/${d.page}: its list page does not link to it`);
+        continue;
+      }
       assert.ok(from.length > 0, `${lang}/${d.page}: only its list page links to it`);
     }
   }

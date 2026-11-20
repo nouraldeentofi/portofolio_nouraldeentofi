@@ -132,7 +132,7 @@ that has both a curated `flow` and a `canvas` screenshot gets one at `/automatio
 list page and the home page, the sitemap entry and the line in `llms.txt` all follow.
 Remove the entry and the next build deletes its page.
 
-Two optional fields shape the page:
+Three optional fields shape the page:
 
 - `headline` (`{ "en", "ar" }`): one line that says what the thing is in the words
   people search for. It is the line under the heading and the second half of the page
@@ -142,6 +142,10 @@ Two optional fields shape the page:
 - `workflow` on a project: the id of the n8n workflow that is its engine. That workflow
   is then shown in full on the project's page ("The automation behind it") and gets no
   page of its own; its card on the automation page leads to the project.
+- `"neighbour": false` on a workflow: its card is shown under "More systems" on no other
+  page (`relatedSystems` in `scripts/lib/details.mjs`). It keeps its card on the
+  automation page and its own page. The daily job search carries it: he built that one
+  for himself, and a page written for a client does not show it.
 
 The card of a project on `/projects` is a summary (what it is, his role, the figures, the
 stack). The problem, what he built and the context are told on its own page only, so the

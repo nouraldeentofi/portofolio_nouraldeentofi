@@ -33,7 +33,7 @@ Part of the job is coordination. I gather requirements directly from clients, de
 ## What he offers
 
 - [AI automation for repetitive work](https://nouraldeentofi.com/en/automation): Systems that take over what a team repeats by hand: reading invoices, screening CVs, replying to customers, and taking bookings and running daily admin through WhatsApp and Telegram bots. One example: for a chess club in Dammam, the system I built reads every bank-transfer receipt, so registrations are confirmed without anyone opening one by hand. We start from real samples of your work, and a person approves anything sensitive. Built with n8n and large language models.
-- [Websites for professionals and businesses](https://nouraldeentofi.com/en/showcase): A site designed around you or your business, in Arabic, English or both, and fast on phones. For a shop or a restaurant: what you offer in photos, your place on the map, and ordering or booking through WhatsApp. One example: on the site of Al-Reem Grilled Lamb in Al Khobar, each order arrives ready on the shop's WhatsApp. Send me your LinkedIn profile or your shop's Google Maps listing, and I will tell you what I would build.
+- [Websites for professionals and businesses](https://nouraldeentofi.com/en/showcase): A site designed around you or your business, in Arabic, English or both, and fast on phones. For a shop or a restaurant: what you offer in photos, your place on the map, and ordering or booking through WhatsApp. One example: on the site of Al-Reem Grilled Lamb in Al Khobar, each order arrives ready on the shop's WhatsApp. Send me your LinkedIn profile, your company's current site or your shop's Google Maps listing, and I will tell you what I would build.
 - [Frontend development for products and internal systems](https://nouraldeentofi.com/en/work): Web apps and internal tools in Arabic and English, with full right-to-left support. One example: at DFS, a safety-equipment company, I built the frontend of the CRM and quotation platform, and it replaced spreadsheets and hand-made quotes in every department. I agree the data contract with the backend first, so both sides build in parallel. Built with React, TypeScript and Next.js.
 
 ### n8n and AI automation for businesses
@@ -233,7 +233,7 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 *Mobile app · Google Play*: A jewellery store management app shipped to the Google Play Store.
 
-**Problem.** Jewelry retailers track inventory, staff, and sales on paper, in a market where the exchange rate moves daily.
+**Problem.** Jewellery retailers track inventory, staff, and sales on paper, in a market where the exchange rate moves daily.
 
 **What he built.** I coordinated delivery end to end: requirements with the client, scope and acceptance criteria, user stories on Trello, and follow-up across frontend, backend, and UI/UX through to publication. Features include inventory, employee management, barcode scanning, USD/SYP exchange rates, sales logging, and TXT export.
 
@@ -894,7 +894,7 @@ Arabic is his native language and it is a core part of his technical specialisat
 
 Yes. He is open to a full-time role as a frontend and AI engineer, on-site or hybrid anywhere in Saudi Arabia (he is based in Al Khobar and open to relocation), or fully remote.
 
-**What roles is he looking for?**
+**What kind of role is he open to?**
 
 A full-time role as a frontend and AI engineer: building product interfaces in React, TypeScript and Next.js and the features on large language models behind them. A frontend role on a team that ships AI features fits the same description. In either he can also coordinate the work between frontend, backend and design.
 

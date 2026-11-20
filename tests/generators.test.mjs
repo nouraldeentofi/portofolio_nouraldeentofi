@@ -58,7 +58,9 @@ test('the llms files say what he offers, in the words of the pages', () => {
     const base = db.profile.site;
 
     for (const o of homeOffers(db, lang)) {
-      const line = `- [${o.title}](${base}${pagePath(o.page, lang)}): ${o.body}`;
+      // The card prints its parts on separate lines; the llms files join them again.
+      const line = `- [${o.title}](${base}${pagePath(o.page, lang)}): ${o.text}`;
+      for (const part of ['body', 'example', 'next', 'tools']) if (o[part]) assert.ok(line.includes(o[part]), `${lang}: ${o.id} lost its ${part}`);
       assert.ok(short.includes(line), `${lang}: llms.txt does not offer "${o.title}"`);
       assert.ok(full.includes(line), `${lang}: llms-full.txt does not offer "${o.title}"`);
     }

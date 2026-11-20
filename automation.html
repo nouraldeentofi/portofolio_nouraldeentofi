@@ -53,8 +53,8 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;600;800&family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/tokens.css?v=9e291487">
 <link rel="stylesheet" href="/assets/css/base.css?v=52040e91">
-<link rel="stylesheet" href="/assets/css/layout.css?v=fa24b427">
-<link rel="stylesheet" href="/assets/css/components.css?v=7d01f8bf">
+<link rel="stylesheet" href="/assets/css/layout.css?v=d1c0cf80">
+<link rel="stylesheet" href="/assets/css/components.css?v=06f4e970">
 <link rel="stylesheet" href="/assets/css/motion.css?v=0828308a">
 <link rel="stylesheet" href="/assets/css/gallery.css?v=54f99880">
 <link rel="stylesheet" href="/assets/css/responsive.css?v=a7c809d0">
@@ -363,9 +363,9 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
   <button class="filter" type="button" data-filter="all" aria-pressed="true">الكل <span class="filter__count">16</span></button>
   <button class="filter" type="button" data-filter="shops" aria-pressed="false">للمحلات <span class="filter__count">4</span></button>
   <button class="filter" type="button" data-filter="hr" aria-pressed="false">التوظيف <span class="filter__count">1</span></button>
-  <button class="filter" type="button" data-filter="data" aria-pressed="false">البيانات <span class="filter__count">4</span></button>
+  <button class="filter" type="button" data-filter="data" aria-pressed="false">البيانات <span class="filter__count">5</span></button>
   <button class="filter" type="button" data-filter="education" aria-pressed="false">التعليم <span class="filter__count">2</span></button>
-  <button class="filter" type="button" data-filter="content" aria-pressed="false">المحتوى والتواصل <span class="filter__count">6</span></button>
+  <button class="filter" type="button" data-filter="content" aria-pressed="false">المحتوى والتواصل <span class="filter__count">5</span></button>
 </div>
 <ul class="legend">
   <li><span class="status status--client">يعمل لدى عميل</span></li>
@@ -1090,7 +1090,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
     <div class="lightbox__body"><img src="/assets/img/workflows/google-review-reply.webp" alt="لقطة شاشة من لوحة n8n تُظهر عُقد مدير الردود على تقييمات Google والروابط بينها" width="1559" height="741" loading="lazy" decoding="async"></div>
   </dialog>
 </article>
-<article data-reveal data-filter-item data-group="content" class="card system" id="ai-job-match">
+<article data-reveal data-filter-item data-group="data" class="card system" id="ai-job-match">
   <p class="card__meta"><span class="status status--live">يعمل الآن</span><span>وكيل مجدول مع تدخّل بشري</span><span>2026</span></p>
   <h3 class="card__title"><a href="/automation/ai-job-match">خط مطابقة الوظائف بالذكاء الاصطناعي</a></h3>
   <p class="card__body">خط مجدول ينفّذ خمسة استعلامات بحث يومياً عبر LinkedIn وIndeed وGlassdoor، ويقيّم ملاءمة كل وظيفة من واحد إلى عشرة عبر مُقيّم LLM يُخرج JSON منظّماً، ولا يسلّم إلا الأعلى تقييماً.</p>
@@ -1182,7 +1182,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
     <dl class="card__body">
       <dt>المُشغّل</dt><dd>جدول يومي</dd>
       <dt>الخدمات</dt><dd><ul class="badges"><li class="badge">n8n</li><li class="badge">JSearch API</li><li class="badge">OpenAI GPT-4.1</li><li class="badge">n8n Data Tables</li><li class="badge">Telegram</li><li class="badge">Gmail</li></ul></dd>
-      <dt>النتيجة</dt><dd>تتحوّل إعلانات اليوم إلى قائمة قصيرة مقيّمة مسبقاً.</dd>
+      <dt>النتيجة</dt><dd>تتحوّل إعلانات الوظائف اليومية إلى قائمة قصيرة مقيّمة مسبقاً.</dd>
     </dl>
   </div>
   <div class="card__foot"><a class="btn btn--ghost" href="/automation/ai-job-match">التفاصيل<span class="visually-hidden">: خط مطابقة الوظائف بالذكاء الاصطناعي</span></a></div>

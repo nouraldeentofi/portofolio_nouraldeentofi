@@ -382,6 +382,10 @@
   margin-block: var(--space-5) 0;
 }
 
+/* Where that sentence leads: a text link, never a third button, kept on
+   one line so its two words are not split from each other. */
+.hero__note a { font-weight: 600; white-space: nowrap; }
+
 /* The names of the tools, last in the home hero: quiet, in the Latin face,
    and one left-to-right run in both languages (the run carries its own
    `dir`, so on the Arabic page it still starts at the reading edge). */

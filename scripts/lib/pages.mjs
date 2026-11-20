@@ -328,6 +328,9 @@ ${body}
  * page says. It stands above the buttons, or under them when `noteAfter` is
  * set: on the home page the buttons are the invitation to a client, and the
  * sentence for an employer follows them, so the two never read as one ask.
+ * `noteLink` is where that sentence leads, a plain text link right after
+ * it: on the home page the experience page, which holds the CV. Both buttons
+ * there are ways to write to him, and a text link does not compete with them.
  * `stack` is the quiet last line of the home hero: the names of the tools,
  * one left-to-right run in either language, for the reader who looks for them.
  *
@@ -335,8 +338,9 @@ ${body}
  * back to its list page, above the heading, and `facts`, the quiet line of
  * status, kind and year under the headline.
  */
-function heroBlock({ crumbs = null, eyebrow = null, heading, headingClass = '', altName = null, headline = null, facts = null, lead = null, intro = null, note = null, noteAfter = false, actions = null, stack = null }) {
-  const noteLine = note ? `      <p class="hero__note${noteAfter ? ' hero__note--after' : ''}">${e(note)}</p>\n` : '';
+function heroBlock({ crumbs = null, eyebrow = null, heading, headingClass = '', altName = null, headline = null, facts = null, lead = null, intro = null, note = null, noteAfter = false, noteLink = null, actions = null, stack = null }) {
+  const noteTo = noteLink ? ` <a href="${noteLink.href}">${e(noteLink.label)}</a>` : '';
+  const noteLine = note ? `      <p class="hero__note${noteAfter ? ' hero__note--after' : ''}">${e(note)}${noteTo}</p>\n` : '';
   return `  <section class="hero">
     <div class="container">
 ${crumbs ? `      ${crumbs}\n` : ''}${eyebrow ? `      <p class="hero__eyebrow">${e(eyebrow)}</p>\n` : ''}      <h1${headingClass ? ` class="${headingClass}"` : ''}>${e(heading)}</h1>
@@ -431,6 +435,8 @@ function home(db, lang) {
     actions: contactActions(db, lang),
     note: availableNow(db) ? c.home.availability : null,
     noteAfter: true,
+    // The one sentence for an employer leads to the page with the CV.
+    noteLink: { href: rel('work', lang), label: c.home.availabilityLink },
     stack: c.home.stack,
   })}
 
@@ -630,6 +636,12 @@ function contact(db, lang) {
   const direct = first ? [byWhatsapp, byEmail] : [byEmail, byWhatsapp];
 
   // No eyebrow, for the same reason as the about page.
+  //
+  // Under the hero the page turns to each reader once: the client's block,
+  // then the employers' block with the role and the CV, then the list of
+  // details and profiles. The experience page sends an employer here for the
+  // role and the places he is open to, and the three buttons of the hero
+  // already carry email, WhatsApp and LinkedIn, so the list can come last.
   const main = `${heroBlock({
     heading: c.contact.title,
     headline: c.contact.lead,
@@ -641,8 +653,6 @@ function contact(db, lang) {
 
 ${section('project', null, c.contact.projectTitle, c.contact.projectBody, '')}
 
-${section('links', null, c.contact.linksTitle, null, B.contactLinks(db, lang))}
-
 ${section('details', null, c.contact.hiringTitle, null, `      <div class="grid grid--2">
         <div class="card" data-reveal>
           ${B.contactAvailability(db, lang)}
@@ -653,6 +663,8 @@ ${section('details', null, c.contact.hiringTitle, null, `      <div class="grid 
           ${B.contactCv(db, lang)}
         </div>
       </div>`)}
+
+${section('links', null, c.contact.linksTitle, null, B.contactLinks(db, lang))}
 
 ${SHOW_MCP_SECTION ? section('mcp', null, c.contact.mcpTitle, c.contact.mcpBody, B.contactMcp(db, lang)) : ''}`;
 

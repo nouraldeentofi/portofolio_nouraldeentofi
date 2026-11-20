@@ -202,9 +202,16 @@ export const relatedProjects = (db, p) => db.projects.filter((x) => x.id !== p.i
  * The other systems built for the same audience, for the foot of a system
  * page. Only those a reader can open: a system with a page of its own, or
  * one shown on its product's page.
+ *
+ * An entry with `"neighbour": false` is offered beside no other system. It
+ * keeps its card on the automation page and its own page, and is reached
+ * from there only: the daily job search is a system he built for himself,
+ * and a client reading about an inbox or a booking bot is not shown it.
  */
 export const relatedSystems = (db, w) =>
-  db.workflows.filter((x) => x.id !== w.id && hasDetail(db, x) && (x.audience ?? []).some((a) => (w.audience ?? []).includes(a)));
+  db.workflows.filter(
+    (x) => x.id !== w.id && x.neighbour !== false && hasDetail(db, x) && (x.audience ?? []).some((a) => (w.audience ?? []).includes(a)),
+  );
 
 /**
  * For the foot of a project page that shows an engine: the systems built for

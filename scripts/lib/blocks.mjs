@@ -312,14 +312,17 @@ export const liveLink = (c, url, cls = 'btn') =>
  * What he offers, right under the hero: one card per offer, each leading to
  * the page that covers it. The title is the link, so the page it points at
  * is named in the words people search for; the button repeats it for a thumb.
+ *
+ * Each part of the offer is a line of its own (`OFFER_PARTS` in offers.mjs):
+ * the job, the example, the next step, and the tools last and quiet.
  */
 export function homeOffers(db, lang) {
+  const line = (cls, text) => (text ? `\n  <p class="${cls}">${e(text)}</p>` : '');
   return offersOf(db, lang)
     .map((o) => {
       const to = href(o.page, lang);
       return `<article data-reveal class="card" id="offer-${e(o.id)}">
-  <h3 class="card__title"><a href="${to}">${e(o.title)}</a></h3>
-  <p class="card__body">${e(o.body)}</p>
+  <h3 class="card__title"><a href="${to}">${e(o.title)}</a></h3>${line('card__body', o.body)}${line('card__body', o.example)}${line('card__body', o.next)}${line('card__tools', o.tools)}
   <div class="card__foot"><a class="btn btn--ghost" href="${to}">${e(o.cta)}</a></div>
 </article>`;
     })
@@ -365,7 +368,7 @@ export function homeProofFigures(db) {
     fields,
     seconds,
     // "About", as every other text of his says it: the saving is a measured average.
-    { value: `~${saving.value}`, label: { en: 'lower AI cost per document', ar: 'أقل في تكلفة الذكاء الاصطناعي لكل مستند' } },
+    { value: `~${saving.value}`, label: { en: 'lower AI cost per document', ar: 'انخفاض في تكلفة الذكاء الاصطناعي لكل مستند' } },
     tests,
     cvs,
   ];

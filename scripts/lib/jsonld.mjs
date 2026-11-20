@@ -275,7 +275,8 @@ export function servicesLd(db, lang) {
       // The address of the card itself, so the node points at the words it repeats.
       '@id': `${pageUrl(db, '', lang)}#offer-${o.id}`,
       name: o.title,
-      description: o.body,
+      // The whole card, its lines joined: every word of it is on the page.
+      description: o.text,
       serviceType: o.serviceType,
       provider: { '@id': `${base(db)}/#nour` },
       areaServed: { '@type': 'Country', name: db.profile.location.country[lang] },

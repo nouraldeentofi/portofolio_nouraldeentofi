@@ -32,12 +32,30 @@ export const OFFERS = {
   },
 };
 
-/** The home page offers, each with its page and its category in `lang`. */
+/**
+ * The parts of an offer, in the order the card prints them, each on a line
+ * of its own: the job (`body`), one real example, what happens next, and the
+ * tools as a quiet last line. On a phone one paragraph of all four ran to
+ * ten lines; four short ones are read. `body` is required, and an offer
+ * leaves out a part it has nothing true to say in (the websites card names
+ * no tools).
+ */
+export const OFFER_PARTS = ['body', 'example', 'next', 'tools'];
+
+/**
+ * The home page offers, each with its page and its category in `lang`.
+ *
+ * `text` is the whole card as one paragraph, the parts joined by a space,
+ * for the places that have no lines: the description of the Service node
+ * and the llms files.
+ */
 export function homeOffers(db, lang) {
   return db.copy[lang].home.offers.map((offer) => {
     const known = OFFERS[offer.id];
     if (!known) throw new Error(`copy/${lang}.json: home.offers names an unknown offer "${offer.id}"`);
-    return { ...offer, page: known.page, serviceType: known.serviceType[lang] };
+    if (!offer.body) throw new Error(`copy/${lang}.json: the offer "${offer.id}" does not say what the job is`);
+    const text = OFFER_PARTS.map((part) => offer[part]).filter(Boolean).join(' ');
+    return { ...offer, text, page: known.page, serviceType: known.serviceType[lang] };
   });
 }
 

@@ -1291,8 +1291,9 @@
     "tier": "system",
     "status": "live",
     "audience": [
-      "content"
+      "data"
     ],
+    "neighbour": false,
     "name": {
       "en": "AI Job-Match Pipeline",
       "ar": "خط مطابقة الوظائف بالذكاء الاصطناعي"
@@ -1340,7 +1341,7 @@
     },
     "outcome": {
       "en": "A day of job listings becomes a short, pre-scored shortlist.",
-      "ar": "تتحوّل إعلانات اليوم إلى قائمة قصيرة مقيّمة مسبقاً."
+      "ar": "تتحوّل إعلانات الوظائف اليومية إلى قائمة قصيرة مقيّمة مسبقاً."
     },
     "workflowCount": 3,
     "nodeCount": 47,

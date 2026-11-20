@@ -26,8 +26,8 @@
     },
     "metrics": [
       { "value": "204", "label": { "en": "source files", "ar": "ملف مصدري" } },
-      { "value": "494", "label": { "en": "automated tests", "ar": "اختبار آلي" } },
-      { "value": "70+", "label": { "en": "fields extracted", "ar": "حقل مُستخرَج" } },
+      { "value": "494", "label": { "en": "automated tests", "ar": "اختباراً آلياً" } },
+      { "value": "70+", "label": { "en": "fields extracted", "ar": "حقلاً مُستخرَجاً" } },
       { "value": "13+", "label": { "en": "server-side filters", "ar": "فلتر على الخادم" } },
       { "value": "4", "label": { "en": "subscription tiers", "ar": "باقات اشتراك" } },
       { "value": "~10", "label": { "en": "seconds from photo to structured data", "ar": "ثوانٍ من الصورة إلى بيانات منظّمة" } }
@@ -65,10 +65,10 @@
       "ar": "البناء الكامل: المنتج والواجهة والخادم ومسارات الذكاء الاصطناعي"
     },
     "metrics": [
-      { "value": "1,189", "label": { "en": "automated tests", "ar": "اختبار آلي" } },
+      { "value": "1,189", "label": { "en": "automated tests", "ar": "اختباراً آلياً" } },
       { "value": "8", "label": { "en": "scoring dimensions", "ar": "أبعاد تقييم" } },
       { "value": "3", "label": { "en": "n8n AI workflows", "ar": "مسارات ذكاء اصطناعي في n8n" } },
-      { "value": "5,000", "label": { "en": "CVs performance-tested", "ar": "سيرة في اختبار الأداء" } }
+      { "value": "5,000", "label": { "en": "CVs performance-tested", "ar": "سيرة ذاتية في اختبار الأداء" } }
     ],
     "stack": ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS 4", "Prisma", "MySQL 8", "n8n", "OpenAI", "Docker", "Vitest", "i18n", "RTL"],
     "url": "https://cv-screener.nouraldeentofi.com"
@@ -204,7 +204,7 @@
     },
     "role": { "en": "Frontend developer", "ar": "مطوّر الواجهة الأمامية" },
     "metrics": [
-      { "value": "<2", "label": { "en": "minutes per quotation with the platform, once the data is entered", "ar": "دقيقة لإعداد عرض السعر عبر المنصّة بعد إدخال البيانات" } },
+      { "value": "<2", "label": { "en": "minutes per quotation with the platform, once the data is entered", "ar": "مدة إعداد عرض السعر بالدقائق عبر المنصّة، بعد إدخال البيانات" } },
       { "value": "15", "label": { "en": "employees, all of whom adopted it", "ar": "موظفاً اعتمدوا المنصّة جميعاً" } }
     ],
     "stack": ["React 19", "Vite", "TypeScript", "Tailwind CSS v4", "Axios", "TanStack React Query", "React Hook Form", "React Router", "Laravel Echo", "@hello-pangea/dnd"],
@@ -300,13 +300,13 @@
     "group": "apps",
     "year": "2025",
     "category": { "en": "Mobile app · Google Play", "ar": "تطبيق موبايل · Google Play" },
-    "headline": { "en": "Jewelry store management app on Google Play", "ar": "تطبيق إدارة محلات المجوهرات على Google Play" },
+    "headline": { "en": "Jewellery store management app on Google Play", "ar": "تطبيق إدارة محلات المجوهرات على Google Play" },
     "tagline": {
       "en": "A jewellery store management app shipped to the Google Play Store.",
       "ar": "تطبيق لإدارة محلات المجوهرات، منشور على متجر Google Play."
     },
     "problem": {
-      "en": "Jewelry retailers track inventory, staff, and sales on paper, in a market where the exchange rate moves daily.",
+      "en": "Jewellery retailers track inventory, staff, and sales on paper, in a market where the exchange rate moves daily.",
       "ar": "يتابع تجّار المجوهرات المخزون والموظفين والمبيعات على الورق، في سوق يتغيّر فيه سعر الصرف يومياً."
     },
     "built": {

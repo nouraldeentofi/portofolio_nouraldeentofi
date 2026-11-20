@@ -38,14 +38,14 @@
           "value": "494",
           "label": {
             "en": "automated tests",
-            "ar": "اختبار آلي"
+            "ar": "اختباراً آلياً"
           }
         },
         {
           "value": "70+",
           "label": {
             "en": "fields extracted",
-            "ar": "حقل مُستخرَج"
+            "ar": "حقلاً مُستخرَجاً"
           }
         },
         {
@@ -118,7 +118,7 @@
           "value": "1,189",
           "label": {
             "en": "automated tests",
-            "ar": "اختبار آلي"
+            "ar": "اختباراً آلياً"
           }
         },
         {
@@ -139,7 +139,7 @@
           "value": "5,000",
           "label": {
             "en": "CVs performance-tested",
-            "ar": "سيرة في اختبار الأداء"
+            "ar": "سيرة ذاتية في اختبار الأداء"
           }
         }
       ],
@@ -413,7 +413,7 @@
           "value": "<2",
           "label": {
             "en": "minutes per quotation with the platform, once the data is entered",
-            "ar": "دقيقة لإعداد عرض السعر عبر المنصّة بعد إدخال البيانات"
+            "ar": "مدة إعداد عرض السعر بالدقائق عبر المنصّة، بعد إدخال البيانات"
           }
         },
         {
@@ -595,7 +595,7 @@
         "ar": "تطبيق لإدارة محلات المجوهرات، منشور على متجر Google Play."
       },
       "problem": {
-        "en": "Jewelry retailers track inventory, staff, and sales on paper, in a market where the exchange rate moves daily.",
+        "en": "Jewellery retailers track inventory, staff, and sales on paper, in a market where the exchange rate moves daily.",
         "ar": "يتابع تجّار المجوهرات المخزون والموظفين والمبيعات على الورق، في سوق يتغيّر فيه سعر الصرف يومياً."
       },
       "built": {
@@ -2011,7 +2011,7 @@
       },
       "outcome": {
         "en": "A day of job listings becomes a short, pre-scored shortlist.",
-        "ar": "تتحوّل إعلانات اليوم إلى قائمة قصيرة مقيّمة مسبقاً."
+        "ar": "تتحوّل إعلانات الوظائف اليومية إلى قائمة قصيرة مقيّمة مسبقاً."
       },
       "status": "live",
       "workflowCount": 3,

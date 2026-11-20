@@ -170,6 +170,12 @@
 
 .card__body { color: var(--dim); font-size: 0.97rem; }
 
+/* The last line of an offer on the home page: the tools it is built with.
+   An owner reads the job, the example and the next step first, so this one
+   is set a size smaller. It stays in the colour of the text above it: a
+   sentence a reader may want is not dimmed below what is easy to read. */
+.card__tools { color: var(--dim); font-size: 0.85rem; }
+
 .card__body dt {
   font-weight: 800;
   color: var(--fg);

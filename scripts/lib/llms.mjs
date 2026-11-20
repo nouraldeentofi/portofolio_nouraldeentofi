@@ -30,10 +30,11 @@ function lookingFor(profile, c, lang) {
 
 /**
  * The three things he offers, one line each, linked to the page that covers
- * it: the same cards the home page opens with, in the same words.
+ * it: the same cards the home page opens with, in the same words. The card
+ * prints its parts on separate lines; here they are one line again.
  */
 function offerLines(db, lang) {
-  return homeOffers(db, lang).map((o) => `- [${o.title}](${base(db)}${pagePath(o.page, lang)}): ${o.body}`);
+  return homeOffers(db, lang).map((o) => `- [${o.title}](${base(db)}${pagePath(o.page, lang)}): ${o.text}`);
 }
 
 /**
