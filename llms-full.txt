@@ -95,7 +95,7 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 **What he built.** I built two of the three layers: the entire AI extraction engine in n8n, and the complete frontend. The frontend is three role-based applications (admin, accountant, and employee) sharing one React 19 and TypeScript codebase, with an Arabic-default bilingual UI, full RTL through logical CSS properties, and a custom i18n layer. It includes a guided upload flow with in-page camera capture, a receipt browser with server-side filtering, Excel export, and feature gating across subscription tiers, all shipped through GitHub Actions quality gates and atomic SSH deploys.
 
-**Role.** AI/automation engine and complete frontend. Laravel backend by Haitham Zedan.
+**Role.** AI/automation engine and complete frontend. Laravel backend by a teammate.
 
 **Numbers.** 204 source files · 494 automated tests · 70+ fields extracted · 13+ server-side filters · 4 subscription tiers · ~10 seconds from photo to structured data
 
@@ -854,12 +854,6 @@ Live coals: the hero opens at night, then the charcoal catches. Embers and spark
 *Nour's project manager, managed him directly, 2026-10-22*
 
 > I had the pleasure of working with Nour as his Project Manager. He consistently demonstrated professionalism, proactivity, and a strong sense of ownership. Nour took initiative, independently drove topics forward, and actively contributed to achieving project goals. I appreciated his dedication, collaborative mindset, and positive impact on the team. I would gladly recommend him for future opportunities.
-
-### Haitham Zedan, Software Engineer · Laravel PHP Developer
-
-*Worked with Nour on the same team, across two companies, 2026-02-05*
-
-> I worked closely with Nour Aldeen across two different companies, and he's one of the few people I've seen who combines strong frontend execution with real delivery ownership: requirements, task breakdown, and deadlines. I was the Backend Developer and he was the Frontend Developer. In our second collaboration, he also handled requirements clarification, turning them into actionable tasks, coordinating assignments, and keeping delivery on track. This made backend–frontend collaboration smooth, because expectations and API contracts were clear.
 
 ### George Drouj, SDE @ noon · Codeforces Master · ACPC Bronze Medalist
 

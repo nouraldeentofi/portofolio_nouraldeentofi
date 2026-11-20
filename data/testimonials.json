@@ -26,19 +26,6 @@
     }
   },
   {
-    "id": "haitham-zedan",
-    "author": "Haitham Zedan",
-    "title": { "en": "Software Engineer · Laravel PHP Developer", "ar": "مهندس برمجيات · مطوّر Laravel PHP" },
-    "relationship": { "en": "Worked with Nour on the same team, across two companies", "ar": "عمل مع نور في الفريق نفسه، في شركتين مختلفتين" },
-    "date": "2026-02-05",
-    "lang": "en",
-    "featured": true,
-    "quote": {
-      "en": "I worked closely with Nour Aldeen across two different companies, and he's one of the few people I've seen who combines strong frontend execution with real delivery ownership: requirements, task breakdown, and deadlines. I was the Backend Developer and he was the Frontend Developer. In our second collaboration, he also handled requirements clarification, turning them into actionable tasks, coordinating assignments, and keeping delivery on track. This made backend–frontend collaboration smooth, because expectations and API contracts were clear.",
-      "ar": "عملت عن قرب مع نور الدين في شركتين مختلفتين، وهو من القلائل الذين رأيتهم يجمعون بين تنفيذ قوي للواجهة الأمامية وملكية حقيقية للتسليم: المتطلبات، وتقسيم المهام، والمواعيد النهائية. كنت مطوّر الواجهة الخلفية وكان هو مطوّر الواجهة الأمامية. وفي تعاوننا الثاني تولّى أيضاً توضيح المتطلبات وتحويلها إلى مهام قابلة للتنفيذ، وتنسيق الإسناد، وإبقاء التسليم في مساره. وهذا جعل التعاون بين الواجهتين سلساً، لأن التوقّعات وعقود الـ API كانت واضحة."
-    }
-  },
-  {
     "id": "george-drouj",
     "author": "George Drouj",
     "title": { "en": "SDE @ noon · Codeforces Master · ACPC Bronze Medalist", "ar": "مهندس برمجيات في noon · Codeforces Master · ميدالية برونزية في ACPC" },

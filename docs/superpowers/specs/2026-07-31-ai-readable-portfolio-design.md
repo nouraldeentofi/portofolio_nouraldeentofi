@@ -179,7 +179,7 @@ Automation-first ordering throughout.
 - Arabic (native), English (professional working proficiency)
 - 13 certifications with credential IDs (Meta, Google ×2, IBM ×2, Packt, Scrimba ×2,
   Coursera ×4, ICPC/ACPC)
-- 4 recommendations: George Drouj, Hamza Shansho, Tawheed Malkat, Haitham Zedan
+- 4 recommendations at the time: George Drouj, Hamza Shansho, Tawheed Malkat and a former teammate
 
 Where the CVs and LinkedIn disagree, the CVs win — they are more recent. The chat
 file's "Riyadh" is wrong and is corrected to Al Khobar throughout.

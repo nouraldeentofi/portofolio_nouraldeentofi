@@ -30,7 +30,7 @@ export const pageTitle = (db, page, lang) => db.copy[lang].nav[page === '' ? 'ho
 /**
  * `sameAs` for a named person or organisation, when `data/links.json` knows
  * one. Emitting it turns a bare name into a resolvable entity, which is how
- * a search engine or model connects "Haitham Zedan" here to the same person
+ * a search engine or model connects a recommender named here to the same person
  * elsewhere. Unknown names get no key at all rather than a guess.
  */
 const entitySameAs = (db, group, name) => {

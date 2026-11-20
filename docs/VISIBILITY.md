@@ -95,7 +95,7 @@ Built in and working — no action needed:
 - **One site name**: the `WebSite` node and `og:site_name` are identical on every page in
   both languages, and each home page shows the name in both scripts.
 - **Recommenders and employers resolve** — each carries its own `sameAs`, so a model
-  can verify *which* Haitham Zedan vouched for you.
+  can verify *which* person of that name vouched for you.
 - **`robots.txt` explicitly allows** GPTBot, ClaudeBot, PerplexityBot,
   Google-Extended and friends. Most sites block these by accident.
 - **`llms.txt` / `llms-full.txt`** — your whole profile as one clean document.

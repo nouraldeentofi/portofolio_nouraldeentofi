@@ -163,18 +163,19 @@ test('transcript rejects an unknown language', () => {
   assert.throws(() => buildTranscript('fr'), /unknown language/);
 });
 
-test('collaborators named in the chat link to their profile', () => {
+test('a chat link that opens a new tab carries noopener', () => {
   for (const [name, SCRIPT] of [['en', EN], ['ar', AR]]) {
     const blob = JSON.stringify(SCRIPT);
-    assert.match(blob, /linkedin\.com\/in\/haitham-zedan/, `${name} should link Haitham`);
-    assert.match(blob, /rel=\\"noopener noreferrer\\"/, `${name} chat links need noopener`);
+    for (const a of blob.match(/<a [^>]*>/g) ?? []) {
+      if (/target=\\"_blank\\"/.test(a)) assert.match(a, /rel=\\"noopener noreferrer\\"/, `${name}: ${a}`);
+    }
   }
 });
 
-test('the transcript strips chat markup but keeps collaborator names', () => {
+test('the transcript strips chat markup but keeps its words', () => {
   const t = buildTranscript('en');
-  assert.ok(t.includes('Haitham Zedan'));
-  assert.ok(!t.includes('<a '), 'anchors must not survive into the transcript');
+  assert.ok(t.includes('two of the three layers'), 'the words inside bold markup must survive');
+  assert.ok(!/<\/?(a|b)\b/.test(t), 'markup must not survive into the transcript');
 });
 
 /* The chat is written by hand. Its figures were held to each other and to

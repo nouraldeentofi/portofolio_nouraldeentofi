@@ -71,10 +71,10 @@ test('every certification records its issuer and credential id', () => {
   }
 });
 
-test('every LinkedIn recommendation is present, newest first', () => {
+test('every recommendation the site shows is present, newest first', () => {
   const db = loadDb('data');
   const authors = db.testimonials.map((t) => t.author).sort();
-  assert.deepEqual(authors, ['George Drouj', 'Haitham Zedan', 'Hamza Shansho', 'Sameeh Hussein', 'Tareq Nasif', 'Tawheed Malkat']);
+  assert.deepEqual(authors, ['George Drouj', 'Hamza Shansho', 'Sameeh Hussein', 'Tareq Nasif', 'Tawheed Malkat']);
   const dates = db.testimonials.map((t) => t.date);
   assert.deepEqual([...dates].sort().reverse(), dates, 'recommendations must be newest first');
   for (const t of db.testimonials) assert.ok(['en', 'ar'].includes(t.lang), `${t.id}: lang must say which language the author wrote in`);
@@ -221,14 +221,15 @@ test('linkifyPeople links names without mangling numbers', async () => {
   const { linkifyPeople } = await import('../scripts/lib/render.mjs');
   const db = loadDb('data');
 
-  const out = linkifyPeople(db, 'Extracts 70 fields. Backend by Haitham Zedan.', 'en');
+  const out = linkifyPeople(db, 'Extracts 70 fields. Coached by George Drouj.', 'en');
   assert.match(out, /Extracts 70 fields/, 'plain numbers must survive untouched');
-  assert.match(out, /href="https:\/\/www\.linkedin\.com\/in\/haitham-zedan/);
+  assert.match(out, /href="https:\/\/www\.linkedin\.com\/in\/georgedrouj/);
   assert.match(out, /target="_blank"/);
 
-  // Arabic alias resolves to the same profile
-  const ar = linkifyPeople(db, 'من إعداد هيثم زيدان.', 'ar');
-  assert.match(ar, /href="https:\/\/www\.linkedin\.com\/in\/haitham-zedan/);
+  // an Arabic alias resolves to the same profile (a made-up person, so no real name is needed)
+  const withAlias = { ...db, links: { ...db.links, people: { 'Sara Example': { url: 'https://www.linkedin.com/in/sara-example/', aliases: ['سارة مثال'] } } } };
+  const ar = linkifyPeople(withAlias, 'من إعداد سارة مثال.', 'ar');
+  assert.match(ar, /href="https:\/\/www\.linkedin\.com\/in\/sara-example/);
 
   // organisations are deliberately NOT linked inside prose
   const g = linkifyPeople(db, 'Stored in Google Sheets and Google Drive.', 'en');
