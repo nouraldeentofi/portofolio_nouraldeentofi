@@ -48,6 +48,7 @@ import { flowOrder } from '../scripts/lib/diagram.mjs';
 import { checkRedirects } from '../scripts/lib/gates.mjs';
 import { buildLlmsTxt, buildLlmsFullTxt } from '../scripts/lib/llms.mjs';
 import { buildApiProjects } from '../scripts/lib/api.mjs';
+import { whatsappUrl } from '../scripts/lib/contact.mjs';
 import { yearOf, liveLabel } from '../scripts/lib/blocks.mjs';
 
 const loaded = loadDb('data');
@@ -742,7 +743,7 @@ test('the search headlines say no more than the data', () => {
   says([p['umrah-guide'].tagline.en, p['umrah-guide'].built.en], /offline/, 'the Umrah guide works offline');
   says([p['dfs-dashboard'].category.en, p['dfs-dashboard'].tagline.en], /Internal platform[\s\S]*CRM and quotation platform/, 'DFS is an internal CRM and quotation platform');
   assert.ok(!/custom/i.test(p['dfs-dashboard'].headline.en), 'the data calls the DFS platform internal, not custom');
-  says([p.goldentag.tagline.en], /jewelry store management app shipped to the Google Play Store/, 'GoldenTag');
+  says([p.goldentag.tagline.en], /jewellery store management app shipped to the Google Play Store/, 'GoldenTag');
   says([p['business-card-extractor'].built.en], /saves straight to the phone/, 'the card lands in the contacts');
   says([p['mcp-search-server'].tagline.en], /lets an AI model query real data/, 'the MCP server');
 
@@ -1122,9 +1123,13 @@ test('a detail page ends with its neighbours and the call to action', () => {
         assert.ok(doc.indexOf('id="more"') < doc.indexOf('id="more-systems"') && doc.indexOf('id="more-systems"') < doc.indexOf('<div class="cta">'), `${at}: order`);
       }
 
+      // A system is an automation offer and ends as the automation page does;
+      // a project ends with the words of the home page, for both offers.
       const last = doc.slice(doc.lastIndexOf('<section'), doc.indexOf('</main>'));
-      assert.ok(last.includes('<div class="cta">') && last.includes(`<h2>${c.home.ctaTitle}</h2>`), `${at}: does not end with the call to action`);
-      assert.ok(last.includes(`<a class="btn" href="${pagePath('contact', lang)}">${c.home.ctaButton}</a>`), at);
+      const closing = d.kind === 'project' ? c.home : c.automation;
+      assert.ok(last.includes('<div class="cta">') && last.includes(`<h2>${closing.ctaTitle}</h2>`) && last.includes(`<p>${closing.ctaBody}</p>`), `${at}: does not end with the call to action`);
+      assert.match(last, new RegExp(`<a class="btn(?: btn--ghost)?" href="${pagePath('contact', lang)}">${c.home.ctaButton}</a>`), `${at}: no button to the contact page`);
+      assert.ok(last.includes(`href="${whatsappUrl(db.profile, c.contact.whatsappText)}"`), `${at}: no WhatsApp button`);
       assert.equal(doc.split('<div class="cta">').length - 1, 1, at);
     }
   }
@@ -1143,7 +1148,11 @@ test('a detail page ends with its neighbours and the call to action', () => {
   // Beside an engine: same audience, a page of its own, never the engine of another product.
   const byId = (id) => db.projects.find((p) => p.id === id);
   assert.deepEqual(engineNeighbours(db, byId('universal-web-scraper')).map((w) => w.id), ['smart-lead-finder']);
-  assert.deepEqual(engineNeighbours(db, byId('cv-screener')).map((w) => w.id), ['ai-job-match', 'ai-email-campaign']);
+  // Nothing else is built for people who hire. The two systems that work for
+  // an applicant are not filed under hiring, so they are not listed beside
+  // the product an employer came to see.
+  assert.deepEqual(engineNeighbours(db, byId('cv-screener')), []);
+  for (const id of ['ai-job-match', 'ai-email-campaign']) assert.ok(!db.workflows.find((w) => w.id === id).audience.includes('hr'), `${id} is filed under hiring`);
   assert.deepEqual(engineNeighbours(db, byId('khatm')), [], 'a project without an engine has none');
   for (const p of db.projects) {
     for (const w of engineNeighbours(db, p)) {

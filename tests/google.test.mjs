@@ -348,7 +348,8 @@ test('what a page says about him in its markup is on that page', () => {
     if (!['', 'about', 'work', 'contact'].includes(page)) {
       assert.deepEqual(Object.keys(p).sort(), [...slim].sort(), `${at}: more than the slim node`);
     }
-    if ('telephone' in p) assert.ok(text.includes(p.telephone), `${at}: the phone number is in the markup but not on the page`);
+    // The page groups the digits for a reader ("+966 54 ..."); the markup keeps them unbroken. It is one number.
+    if ('telephone' in p) assert.ok(text.replace(/(?<=[+\d]) (?=\d)/g, '').includes(p.telephone), `${at}: the phone number is in the markup but not on the page`);
     if ('email' in p) {
       assert.equal(p.email, db.profile.email);
       assert.ok(text.includes(p.email), `${at}: the email is in the markup but not on the page`);

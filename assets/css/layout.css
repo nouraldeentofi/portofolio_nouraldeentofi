@@ -362,11 +362,10 @@
   margin-block-end: var(--space-6);
 }
 
-/* One line of status above the buttons: a live dot, then the words. */
+/* One plain sentence: the role he is open to. No dot stands beside it. A
+   live dot is the sign every app uses for "online now", and no page says he
+   is available now. */
 .hero__note {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-3);
   max-inline-size: var(--measure);
   font-size: 0.98rem;
   font-weight: 600;
@@ -374,15 +373,29 @@
   margin-block-end: var(--space-5);
 }
 
-.hero__note::before {
-  content: '';
-  flex: none;
-  inline-size: 9px;
-  block-size: 9px;
-  border-radius: 50%;
-  background: var(--lime);
-  box-shadow: 0 0 0 4px var(--accent-soft);
+/* Under the buttons, on the home page: the buttons invite a client, and the
+   sentence for an employer follows them in the weight of running text, so
+   the two are never read as one ask. */
+.hero__note--after {
+  font-weight: 400;
+  color: var(--dim);
+  margin-block: var(--space-5) 0;
 }
+
+/* The names of the tools, last in the home hero: quiet, in the Latin face,
+   and one left-to-right run in both languages (the run carries its own
+   `dir`, so on the Arabic page it still starts at the reading edge). */
+.hero__stack {
+  max-inline-size: var(--measure);
+  margin-block-start: var(--space-3);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--faint);
+}
+
+.hero__stack span { unicode-bidi: isolate; }
 
 /* The note belongs to the paragraph above it, so the gap between them closes. */
 .hero__intro:has(+ .hero__note) { margin-block-end: var(--space-4); }
@@ -392,6 +405,10 @@
   gap: var(--space-3);
   flex-wrap: wrap;
 }
+
+/* Buttons straight under a lead of several sentences need the room a
+   paragraph break gives. */
+.hero__headline--lead + .hero__actions { margin-block-start: var(--space-5); }
 
 /* ---------- grids ---------- */
 

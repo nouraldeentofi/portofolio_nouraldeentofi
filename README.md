@@ -191,8 +191,11 @@ the site, add it to `PRIVATE_PATHS` in `scripts/lib/gates.mjs` and to `_redirect
 `npm run validate` fails if a listed rule is missing, and a test fails on anything tracked
 at the root that is neither listed there nor part of the site.
 
-Two modules under `scripts/lib/` are worth knowing before you touch a page:
-`offers.mjs` ties each thing he offers to the page or the systems it leads to, and
+Three modules under `scripts/lib/` are worth knowing before you touch a page:
+`offers.mjs` ties each thing he offers to the page or the systems it leads to,
+`contact.mjs` builds the WhatsApp address and the printed phone number from the one
+`phone` in `data/profile.json` (and decides in which language WhatsApp is the first
+button), and
 `gates.mjs` holds the checks `validate` runs on the files written by hand (`_redirects`,
 `_headers`, `robots.txt`, `humans.txt`, `mcp/README.md`) and on what the build writes
 (relative addresses, the canonical and robots meta of each page, the sitemap and

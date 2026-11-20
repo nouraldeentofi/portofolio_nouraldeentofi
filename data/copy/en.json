@@ -34,7 +34,7 @@
       },
       "contact": {
         "title": "Contact and Hire Nour Aldeen Tofi | Frontend & AI Engineer",
-        "description": "Hire Nour Aldeen Tofi, a frontend and AI engineer in Al Khobar, open to frontend, AI engineering and automation roles in Saudi Arabia or remote. Email, LinkedIn and CV."
+        "description": "Hire Nour Aldeen Tofi, a frontend and AI engineer in Al Khobar, for a full-time role in Saudi Arabia or remote. He also builds websites and AI automation for businesses. Email, WhatsApp, LinkedIn and CV."
       }
     },
     "notFound": {
@@ -93,6 +93,7 @@
     "built": "What I built",
     "credentialId": "Credential ID",
     "emailMe": "Email me",
+    "whatsappMe": "Message me on WhatsApp",
     "opensInNewTab": "opens in a new tab",
     "openToWork": "Open to work",
     "readTranscript": "Read the full transcript",
@@ -120,26 +121,28 @@
   },
   "home": {
     "eyebrow": "Al Khobar, Saudi Arabia · Arabic & English",
-    "intro": "I build React and TypeScript interfaces and the AI behind them: LLM apps and n8n automation that read Arabic and English documents, run WhatsApp and Telegram bots and deliver clean data. And websites for people, companies and shops.",
-    "availability": "Open to frontend, AI engineering and AI automation roles and projects, in Saudi Arabia or remote.",
+    "headline": "Frontend & AI Engineer: web apps, websites and AI automation for professionals, companies and shops",
+    "intro": "I build the interface people use and the AI behind it, in Arabic and English. Smart Scanner turns a photo of an invoice into checked data, and the shop sites I build take bookings and orders on WhatsApp.",
+    "stack": "React · TypeScript · Next.js · n8n · LLM agents · MCP",
+    "availability": "Open to a full-time role as a frontend and AI engineer, in Saudi Arabia or remote.",
     "offersTitle": "What I can do for you",
     "offers": [
       {
         "id": "automation",
-        "title": "AI automation with n8n",
-        "body": "Workflows and AI agents that take over repetitive work: reading invoices, answering customers, screening CVs, moving data.",
+        "title": "AI automation for repetitive work",
+        "body": "Systems that take over what a team repeats by hand: reading invoices, screening CVs, replying to customers, and taking bookings and running daily admin through WhatsApp and Telegram bots. One example: for a chess club in Dammam, the system I built reads every bank-transfer receipt, so registrations are confirmed without anyone opening one by hand. We start from real samples of your work, and a person approves anything sensitive. Built with n8n and large language models.",
         "cta": "See the automation systems"
       },
       {
         "id": "websites",
         "title": "Websites for professionals and businesses",
-        "body": "Arabic and English sites designed around the person or the business, fast on phones and readable by Google and AI assistants.",
+        "body": "A site designed around you or your business, in Arabic, English or both, and fast on phones. For a shop or a restaurant: what you offer in photos, your place on the map, and ordering or booking through WhatsApp. One example: on the site of Al-Reem Grilled Lamb in Al Khobar, each order arrives ready on the shop's WhatsApp. Send me your LinkedIn profile or your shop's Google Maps listing, and I will tell you what I would build.",
         "cta": "See the websites"
       },
       {
         "id": "frontend",
-        "title": "Frontend development and project coordination",
-        "body": "React, TypeScript and Next.js interfaces in Arabic and English with full right-to-left support, delivered from requirements to production.",
+        "title": "Frontend development for products and internal systems",
+        "body": "Web apps and internal tools in Arabic and English, with full right-to-left support. One example: at DFS, a safety-equipment company, I built the frontend of the CRM and quotation platform, and it replaced spreadsheets and hand-made quotes in every department. I agree the data contract with the backend first, so both sides build in parallel. Built with React, TypeScript and Next.js.",
         "cta": "See my experience"
       }
     ],
@@ -150,9 +153,9 @@
     "projectsLabel": "Products & platforms",
     "projectsLead": "Interfaces and applications I designed, built, or shipped end to end.",
     "quoteLabel": "What people say",
-    "ctaTitle": "Have a process that should run itself?",
-    "ctaBody": "Whether it is Arabic document processing, an internal tool nobody enjoys using, or a workflow that quietly eats your team's week, tell me about it.",
-    "ctaButton": "Start a conversation",
+    "ctaTitle": "Need a website, or have work that should run itself?",
+    "ctaBody": "For a website, send me your LinkedIn profile or your shop's Google Maps listing. For automation, describe the work your team repeats by hand. I will tell you what I would build.",
+    "ctaButton": "Contact me",
     "showcaseLabel": "Sites I built",
     "showcaseLead": "For people, companies and shops. Each one starts from who they are, not from a template."
   },
@@ -215,11 +218,11 @@
       },
       {
         "q": "Is he open to work?",
-        "a": "Yes. He is open to on-site, hybrid or remote roles anywhere in Saudi Arabia (he is based in Al Khobar and open to relocation) and to fully remote roles, as well as freelance AI, automation and frontend projects. The fastest way to reach him is email."
+        "a": "Yes. He is open to a full-time role as a frontend and AI engineer, on-site or hybrid anywhere in Saudi Arabia (he is based in Al Khobar and open to relocation), or fully remote."
       },
       {
         "q": "What roles is he looking for?",
-        "a": "Full-time roles that use both halves of his work, as a frontend and AI engineer, or roles on one side of it: AI engineering on large language models, AI automation with n8n, or frontend development in React, TypeScript and Next.js. In any of them he can also coordinate the work between frontend, backend and design."
+        "a": "A full-time role as a frontend and AI engineer: building product interfaces in React, TypeScript and Next.js and the features on large language models behind them. A frontend role on a team that ships AI features fits the same description. In either he can also coordinate the work between frontend, backend and design."
       },
       {
         "q": "Where is he based, and can he relocate?",
@@ -227,7 +230,7 @@
       },
       {
         "q": "Does he take freelance website and automation projects?",
-        "a": "Yes. He designs and builds websites for professionals, companies and shops, and delivers n8n automation for businesses: WhatsApp and Telegram bots, Arabic invoice and document extraction, lead generation, and AI agents connected to a company's own systems."
+        "a": "Yes. He designs and builds websites for professionals, companies and shops, and delivers n8n automation for businesses: WhatsApp and Telegram bots, Arabic invoice and document extraction, lead generation, and AI agents connected to a company's own systems. A project starts with a look at the work as it runs today; reach him on WhatsApp or by email from the contact page."
       },
       {
         "q": "What is his automation stack?",
@@ -239,20 +242,22 @@
       },
       {
         "q": "How do I contact him?",
-        "a": "By email at nouraldeentofi@gmail.com, or through LinkedIn. This site also publishes a machine-readable profile and an MCP server, so an AI assistant can look up his experience and projects directly."
+        "a": "On WhatsApp, by email at nouraldeentofi@gmail.com, or through LinkedIn; all three are on the contact page. This site also publishes a machine-readable profile and an MCP server, so an AI assistant can look up his experience and projects directly."
       }
     ]
   },
   "work": {
     "title": "Experience and recommendations",
     "lead": "Frontend developer and AI engineer (React, TypeScript, Next.js), based in Al Khobar, Saudi Arabia, who also coordinates delivery from requirements to production.",
-    "availability": "Open to roles in Saudi Arabia or remote.",
+    "availability": "Open to a full-time role as a frontend and AI engineer, in Saudi Arabia or remote.",
     "timelineTitle": "Experience",
     "testimonialsTitle": "Recommendations",
     "credentialsTitle": "Certifications",
     "educationTitle": "Education & awards",
     "quoteTranslated": "Translated from Arabic",
-    "testimonialsSource": "All recommendations on LinkedIn"
+    "testimonialsSource": "All recommendations on LinkedIn",
+    "ctaTitle": "Hiring a frontend and AI engineer?",
+    "ctaBody": "The CV has all of this in one file, and the contact page lists the role and the places I am open to."
   },
   "projects": {
     "title": "AI products and web apps I built",
@@ -285,11 +290,11 @@
     "labLead": "Away from client work: a gallery of portfolio designs, built to push what a personal site can be.",
     "labButton": "Open the gallery",
     "ctaTitle": "Want a site that could only be yours?",
-    "ctaBody": "Send me your LinkedIn profile or your shop's Google Maps listing, and I will tell you what I would build."
+    "ctaBody": "Send me your LinkedIn profile, your company's current site or your shop's Google Maps listing, and I will tell you what I would build."
   },
   "automation": {
     "title": "n8n and AI automation for businesses",
-    "lead": "I am an n8n developer based in Al Khobar. I build automation with language models for businesses across Saudi Arabia, on site in the Eastern Province and remotely everywhere else, in Arabic and English. Every system on this page is marked honestly: running for a client, live, or built and tested.",
+    "lead": "Invoices typed in by hand, CVs read one by one, the same customer questions answered every day: I build the automation that takes over work like this, in Arabic and English. I am an n8n developer in Al Khobar and work with businesses across Saudi Arabia. Every system on this page shows its real status.",
     "servicesTitle": "What I can automate for your business",
     "services": [
       {
@@ -300,7 +305,7 @@
       {
         "id": "bots",
         "title": "WhatsApp and Telegram bots",
-        "body": "Bots that take bookings through WhatsApp buttons, and Telegram assistants that run daily work from a chat, where the AI calls fixed tools under strict rules instead of guessing."
+        "body": "Your customer picks a service, then a time, from WhatsApp buttons; the booking is written to Google Calendar and confirmed back on WhatsApp. On Telegram, an assistant runs daily work from a chat: a private tutor in Saudi Arabia manages students, schedules and dues with one, and its AI acts only through fixed tools under strict rules."
       },
       {
         "id": "reviews",
@@ -320,11 +325,12 @@
     ],
     "processTitle": "How a project runs",
     "process": [
-      "We go through the manual work as it happens today, on real samples.",
+      "We go through the manual work as it happens today, on real samples, on site in the Eastern Province or remotely.",
       "I build the workflow and test it on those samples until the results are right.",
       "It goes live with a person approving anything sensitive.",
       "I stay on to monitor it, fix it and extend it."
     ],
+    "processNext": "Describe the work as it runs today, and I will tell you what can be automated.",
     "caseTitle": "A case study in cost: one branch, three quarters saved",
     "caseBody": [
       "The mistake in my first workflow was sending every file that arrived at the webhook straight to a vision model. It worked. It also cost roughly three times more than it needed to.",
@@ -343,7 +349,9 @@
       "education": "Education",
       "content": "Content & messaging"
     },
-    "diagramNote": "Every diagram is drawn from the real node graph, with names simplified and nothing sensitive in it."
+    "diagramNote": "Every diagram is drawn from the real node graph, with names simplified and nothing sensitive in it.",
+    "ctaTitle": "Have a process that should run itself?",
+    "ctaBody": "Whether it is Arabic document processing, an internal tool nobody enjoys using, or a workflow that quietly eats your team's week, send me a few real samples of it, and I will tell you what I would automate first."
   },
   "detail": {
     "shots": "{name} on desktop and phone",
@@ -359,7 +367,7 @@
   "chat": {
     "title": "Talk to the portfolio",
     "lead": "The same information as the rest of this site, in the form of a conversation. Pick a question to begin.",
-    "status": "online, replies in seconds",
+    "status": "ready answers from this site, not a live chat",
     "transcriptTitle": "Full transcript",
     "transcriptNote": "Every answer in the conversation above as plain text, for anyone (and anything) that prefers to read rather than click.",
     "transcriptTopic": "Topic",
@@ -368,16 +376,21 @@
   },
   "contact": {
     "title": "Contact Nour Aldeen Tofi",
-    "lead": "The fastest route is email. I read everything, and I reply.",
+    "lead": "Write to me by email or on WhatsApp. I read everything, and I reply.",
+    "projectTitle": "For a website or an automation project",
+    "projectBody": "Send me your LinkedIn profile, your company's current site or your shop's Google Maps listing, or describe the work your team repeats by hand. I will tell you what I would build.",
+    "hiringTitle": "For hiring managers",
     "availabilityTitle": "Work preferences",
-    "availableNow": "Open to new roles",
-    "rolesTitle": "Roles I am looking for",
+    "availableNow": "Open to a full-time role",
+    "rolesTitle": "Roles I am open to",
     "areasTitle": "Locations",
     "cvTitle": "Curriculum vitae",
     "cvNote": "Everything in one file: frontend, AI engineering, automation and delivery.",
-    "linksTitle": "Elsewhere",
+    "linksTitle": "Contact details and profiles",
     "emailLabel": "Email",
     "phoneLabel": "Phone",
+    "whatsappLabel": "WhatsApp",
+    "whatsappText": "Hello Nour, I am writing from your website about ",
     "mcpTitle": "For AI assistants",
     "mcpBody": "This site publishes a machine-readable profile and ships an MCP server, so an AI assistant can query my experience, projects, and workflows directly instead of scraping the page."
   },

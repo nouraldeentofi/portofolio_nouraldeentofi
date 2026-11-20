@@ -1291,7 +1291,7 @@
     "tier": "system",
     "status": "live",
     "audience": [
-      "hr"
+      "content"
     ],
     "name": {
       "en": "AI Job-Match Pipeline",
@@ -1327,22 +1327,20 @@
         "Structured-JSON evaluator scoring fit on a 1–10 scale",
         "Deduplication against n8n Data Tables so nothing is seen twice",
         "Telegram delivery of high-scoring matches only",
-        "Human-in-the-loop approval before any application is sent",
-        "Semi-automated applications with tailored AI-generated cover letters via Gmail",
+        "Nothing is sent without a person's approval on Telegram",
         "A factory clones the search into a separate daily bot for each user, through the n8n API: automation that builds automation"
       ],
       "ar": [
         "مُقيّم يُخرج JSON منظّماً ويمنح درجة ملاءمة من 1 إلى 10",
         "إزالة التكرار مقابل جداول بيانات n8n فلا يتكرّر أي إعلان",
         "إرسال المطابقات عالية التقييم فقط عبر تيليجرام",
-        "موافقة بشرية قبل إرسال أي طلب توظيف",
-        "طلبات شبه آلية مع رسائل تغطية مخصّصة يولّدها الذكاء الاصطناعي وتُرسل عبر Gmail",
+        "لا يُرسَل شيء دون موافقة شخص عبر تيليجرام",
         "مصنع ينسخ البحث إلى بوت يومي مستقل لكل مستخدم عبر واجهة n8n، أي أتمتة تبني أتمتة"
       ]
     },
     "outcome": {
-      "en": "Daily job hunting collapses into reviewing a short, pre-scored shortlist.",
-      "ar": "يتقلّص البحث اليومي عن عمل إلى مراجعة قائمة قصيرة مقيّمة مسبقاً."
+      "en": "A day of job listings becomes a short, pre-scored shortlist.",
+      "ar": "تتحوّل إعلانات اليوم إلى قائمة قصيرة مقيّمة مسبقاً."
     },
     "workflowCount": 3,
     "nodeCount": 47,
@@ -2514,7 +2512,6 @@
     "tier": "build",
     "status": "built",
     "audience": [
-      "hr",
       "content"
     ],
     "name": {

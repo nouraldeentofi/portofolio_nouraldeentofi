@@ -65,7 +65,7 @@
       "endDate": "2026-11-01",
       "highlights": [
         "Built the frontend of the company's custom CRM and quotation platform in React and TypeScript, in Arabic and English with full right-to-left support, replacing spreadsheets and hand-made quotes in every department.",
-        "Cut quotation preparation to under two minutes once the data is entered, and all fifteen employees adopted the platform.",
+        "With the platform, preparing a quotation took under two minutes once the data was entered, and all fifteen employees adopted it.",
         "Built sales follow-up, purchase order drafts, sales analytics, real-time notifications and permission-based roles with route guards covered by Playwright tests, and developed the frontend of a second CRM for WAIS, the parent company.",
         "Introduced workflow automation with n8n and the OpenAI API for the team's repetitive work, and used Claude Code daily to plan, build, test and review.",
         "Coordinated requirements, user stories and API contracts between frontend, backend (Laravel) and UI/UX, so frontend and backend could build in parallel and delivery stayed on schedule."
@@ -81,7 +81,7 @@
         "Coordinated client automation and software projects from requirements to release: scope, workflow design and acceptance.",
         "Gathered requirements directly with clients, defined acceptance criteria, and broke work into tasks and user stories on Trello.",
         "Tracked timelines and prepared cost estimates, and followed up on frontend, backend and UI/UX work until each release.",
-        "Coordinated the delivery of GoldenTag, a jewelry store management app the team built in Flutter, through to the Google Play Store."
+        "Coordinated the delivery of GoldenTag, a jewellery store management app the team built in Flutter, through to the Google Play Store."
       ]
     },
     {
@@ -182,10 +182,10 @@
   ],
   "awards": [
     {
-      "title": "ACPC: Arab Collegiate Programming Contest",
+      "title": "ACPC national qualifier",
       "awarder": "ICPC: International Collegiate Programming Contest",
       "date": "2021-09-01",
-      "summary": "Algorithmic problem solving and team leadership under contest time pressure."
+      "summary": "The team ranked fourth among the country's private universities."
     }
   ],
   "skills": [
@@ -194,6 +194,7 @@
       "keywords": [
         "React.js",
         "React 19",
+        "Next.js",
         "TypeScript",
         "JavaScript (ES6+)",
         "Tailwind CSS",
@@ -218,6 +219,7 @@
         "AI Agents",
         "LLM Tool-Calling Design",
         "Model Context Protocol (MCP)",
+        "Claude Code",
         "OpenAI API",
         "GPT-4o",
         "GPT-4.1 Vision",
@@ -239,6 +241,7 @@
         "JSON",
         "OAuth 2.0",
         "MySQL",
+        "Prisma",
         "Stored Procedures",
         "Google Sheets API",
         "Google Drive API",
@@ -253,7 +256,9 @@
         "GitHub",
         "GitLab",
         "CI/CD (GitHub Actions)",
+        "Docker",
         "Vitest",
+        "Playwright",
         "React Testing Library",
         "Jira",
         "Trello",
@@ -422,6 +427,29 @@
       ]
     },
     {
+      "name": "DFS Dashboard",
+      "description": "A unified CRM and quotation platform that replaced scattered manual processes across every department.",
+      "highlights": [
+        "<2 minutes per quotation with the platform, once the data is entered",
+        "15 employees, all of whom adopted it"
+      ],
+      "keywords": [
+        "React 19",
+        "Vite",
+        "TypeScript",
+        "Tailwind CSS v4",
+        "Axios",
+        "TanStack React Query",
+        "React Hook Form",
+        "React Router",
+        "Laravel Echo",
+        "@hello-pangea/dnd"
+      ],
+      "roles": [
+        "Frontend developer"
+      ]
+    },
+    {
       "name": "Khatm · ختم",
       "description": "An open-source e-invoicing program for businesses in Saudi Arabia, with a public demo that issues and signs invoices entirely in the browser.",
       "highlights": [
@@ -473,31 +501,8 @@
       ]
     },
     {
-      "name": "DFS Dashboard",
-      "description": "A unified CRM and quotation platform that replaced scattered manual processes across every department.",
-      "highlights": [
-        "2 core modules owned",
-        "2 languages (AR/EN)"
-      ],
-      "keywords": [
-        "React 19",
-        "Vite",
-        "TypeScript",
-        "Tailwind CSS v4",
-        "Axios",
-        "TanStack React Query",
-        "React Hook Form",
-        "React Router",
-        "Laravel Echo",
-        "@hello-pangea/dnd"
-      ],
-      "roles": [
-        "Frontend developer"
-      ]
-    },
-    {
       "name": "GoldenTag",
-      "description": "A jewelry store management app shipped to the Google Play Store.",
+      "description": "A jewellery store management app shipped to the Google Play Store.",
       "highlights": [
         "4 core features",
         "Live on Google Play"

@@ -11,6 +11,7 @@ import { flowDiagram, flowOrder } from './diagram.mjs';
 import { pagePath, X_DEFAULT } from './sitemap.mjs';
 import { byCompany, companyName } from './experience.mjs';
 import { homeOffers as offersOf, automationServices as servicesOf } from './offers.mjs';
+import { phoneDisplay, whatsappUrl, whatsappFirst } from './contact.mjs';
 import {
   detailName,
   engineOf,
@@ -325,13 +326,53 @@ export function homeOffers(db, lang) {
     .join('\n');
 }
 
-export function homeProof(db, lang) {
-  const featured = db.projects.find((p) => p.featured);
-  const picks = [
-    { value: String(workflowTotal(db)), label: { en: 'n8n workflows built', ar: 'مسار عمل مبني في n8n' } },
-    ...featured.metrics.slice(0, 3),
-    { value: '75%', label: { en: 'AI cost cut by smart routing', ar: 'خفض تكلفة الذكاء الاصطناعي بالتوجيه الذكي' } },
+/**
+ * The figures of the "In numbers" strip, each read from the data.
+ *
+ * A figure earns its place here when a reader who is not an engineer can
+ * weigh it, or when an engineer would ask for it first: the sites delivered,
+ * what the invoice product reads and how fast, what the routing saved, the
+ * tests and the load test. Counts of things made (workflows, source files)
+ * stay on the project and system pages, where the reader who wants them
+ * looks.
+ *
+ * A product figure is named by its project and its value, and keeps the
+ * label the project page prints, so the two cannot disagree. One that has
+ * left the data stops the build instead of leaving a gap in the strip.
+ *
+ * The Arabic noun after the number of sites is the form for eleven to
+ * ninety-nine. Outside that range the label has to be rewritten.
+ */
+const HOME_PROOF = [
+  ['smart-scanner', '70+'],
+  ['smart-scanner', '~10'],
+  ['smart-scanner', '494'],
+  ['cv-screener', '5,000'],
+];
+
+export function homeProofFigures(db) {
+  const metric = ([id, value]) => {
+    const found = db.projects.find((p) => p.id === id)?.metrics?.find((m) => m.value === value);
+    if (!found) throw new Error(`blocks.mjs: the home page shows "${value}" of ${id}, which is not in projects.json`);
+    return found;
+  };
+  const saving = db.caseStudy?.figures?.find((f) => f.id === 'saving');
+  if (!saving) throw new Error('blocks.mjs: the home page shows the saving of the cost case study, which is not in case-study.json');
+  const [fields, seconds, tests, cvs] = HOME_PROOF.map(metric);
+
+  return [
+    { value: String(db.showcase.sites.length), label: { en: 'websites for professionals, companies and shops', ar: 'موقعاً للأفراد والشركات والمحلات' } },
+    fields,
+    seconds,
+    // "About", as every other text of his says it: the saving is a measured average.
+    { value: `~${saving.value}`, label: { en: 'lower AI cost per document', ar: 'أقل في تكلفة الذكاء الاصطناعي لكل مستند' } },
+    tests,
+    cvs,
   ];
+}
+
+export function homeProof(db, lang) {
+  const picks = homeProofFigures(db);
 
   return `<ul class="proof">
 ${picks
@@ -377,14 +418,23 @@ function systemButton(db, w, lang) {
   return product ? namedLink(c.ui.viewProject, systemHref(db, w, lang), product.name) : detailsLink(c, systemHref(db, w, lang), w.name[lang]);
 }
 
+/**
+ * Three systems on the home page, each told by what it changed.
+ *
+ * The section above them promises work taken over from people, so a card
+ * prints the outcome of its system and the honest status the automation page
+ * gives it. How the system is built, the summary an engineer reads, stays on
+ * its own page and on the automation page.
+ */
 export function homeAutomation(db, lang) {
+  const c = db.copy[lang];
   return db.workflows
     .slice(0, 3)
     .map(
       (w) => `<article data-reveal class="card">
-  <p class="card__meta"><span>${e(w.kind[lang])}</span><span>${e(yearOf(w.year, lang))}</span></p>
+  <p class="card__meta"><span class="status status--${e(w.status)}">${e(c.ui.status[w.status])}</span><span>${e(w.kind[lang])}</span><span>${e(yearOf(w.year, lang))}</span></p>
   <h3 class="card__title"><a href="${systemHref(db, w, lang)}">${e(w.name[lang])}</a></h3>
-  <p class="card__body">${prose(db, w.summary[lang], lang)}</p>
+  <p class="card__body">${prose(db, w.outcome[lang], lang)}</p>
   ${badges(w.services.slice(0, 4))}
   <div class="card__foot">${systemButton(db, w, lang)}</div>
 </article>`,
@@ -412,13 +462,43 @@ export function homeProjects(db, lang) {
     .join('\n');
 }
 
+/** The sentences of a text, each with the mark that ends it. */
+const sentencesOf = (text) => String(text).trim().split(/(?<=[.!?؟])\s+/);
+
+/* The most a quote may run to on the home page, in either language. */
+const QUOTE_LIMIT = 450;
+
+/**
+ * The opening of a recommendation, cut where a sentence ends.
+ *
+ * The home page used to cut each quote at a fixed number of characters, which
+ * stopped it inside a word, with an ellipsis, on a page that sells care. Now
+ * a quote is shown whole when it fits, and otherwise as its first sentences:
+ * as many as fit in every language at once, so the Arabic and the English
+ * card end on the same sentence. The words are the recommender's own; only
+ * the place where the excerpt stops is chosen here.
+ *
+ * `quote` is `{ en, ar }`. A translation that splits into a different number
+ * of sentences is cut on its own, by the same rule.
+ */
+export function quoteExcerpt(quote, lang, limit = QUOTE_LIMIT) {
+  const parts = Object.fromEntries(Object.entries(quote).map(([l, text]) => [l, sentencesOf(text)]));
+  const fits = (sentences, n) => sentences.slice(0, n).join(' ').length <= limit;
+  const inStep = new Set(Object.values(parts).map((x) => x.length)).size === 1;
+  const group = inStep ? Object.values(parts) : [parts[lang]];
+
+  let n = parts[lang].length;
+  while (n > 1 && !group.every((sentences) => fits(sentences, n))) n -= 1;
+  return parts[lang].slice(0, n).join(' ');
+}
+
 export function homeQuote(db, lang) {
   return db.testimonials
     .filter((t) => t.featured)
     .slice(0, 2)
     .map(
       (t) => `<figure data-reveal class="quote">
-  <blockquote class="quote__body">${e(t.quote[lang].slice(0, 280))}${t.quote[lang].length > 280 ? '…' : ''}</blockquote>
+  <blockquote class="quote__body">${e(quoteExcerpt(t.quote, lang))}</blockquote>
   <figcaption class="quote__author">${person(db, t.author, lang)}<span class="quote__role">${e(t.title[lang])}</span></figcaption>
 </figure>`,
     )
@@ -1329,14 +1409,35 @@ export function detailRelated(db, lang, d) {
 
 /* --------------------------------------------------------------- contact */
 
+/**
+ * The address of a WhatsApp chat with him, with the first line of the
+ * message written in the language of the page (see contact.mjs).
+ */
+export const whatsappHref = (db, lang) => whatsappUrl(db.profile, db.copy[lang].contact.whatsappText);
+
+/**
+ * The button that opens that chat. `cls` is the weight the place asks for:
+ * the primary button where WhatsApp comes first, a quiet one beside email.
+ */
+export function whatsappButton(db, lang, cls = 'btn') {
+  const c = db.copy[lang];
+  const url = whatsappHref(db, lang);
+  return `<a class="${cls}" href="${e(url)}"${extAttrs(url)}>${e(c.ui.whatsappMe)}${newTabHint(c.ui.opensInNewTab)}</a>`;
+}
+
 export function contactLinks(db, lang) {
   const { profile } = db;
   const c = db.copy[lang];
+  const phone = phoneDisplay(profile.phone);
+  const email = { platform: c.contact.emailLabel, url: `mailto:${profile.email}`, value: profile.email };
+  const whatsapp = { platform: c.contact.whatsappLabel, url: whatsappHref(db, lang), value: phone };
   const rows = [
-    // The two that are words, in the language of the page. The rest are the
-    // names of the places his profiles are on, the same in both languages.
-    { platform: c.contact.emailLabel, url: `mailto:${profile.email}`, value: profile.email },
-    { platform: c.contact.phoneLabel, url: `tel:${profile.phone}`, value: profile.phone },
+    // The three that are words, in the language of the page: the direct ways
+    // to reach him, with WhatsApp first where its readers write there first
+    // and beside email everywhere. The rest are the names of the places his
+    // profiles are on, the same in both languages.
+    ...(whatsappFirst(lang) ? [whatsapp, email] : [email, whatsapp]),
+    { platform: c.contact.phoneLabel, url: `tel:${profile.phone}`, value: phone },
     // Unresolved links are skipped entirely — never rendered as dead anchors.
     // `contactChannel: false` marks a link that belongs in the identity graph
     // but is not a way to reach him (a product page, say).

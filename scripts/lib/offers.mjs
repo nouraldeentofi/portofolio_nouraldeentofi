@@ -20,7 +20,7 @@
 export const OFFERS = {
   automation: {
     page: 'automation',
-    serviceType: { en: 'AI automation', ar: 'أتمتة الأعمال بالذكاء الاصطناعي' },
+    serviceType: { en: 'AI automation', ar: 'أتمتة العمل المتكرّر بالذكاء الاصطناعي' },
   },
   websites: {
     page: 'showcase',

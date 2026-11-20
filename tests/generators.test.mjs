@@ -265,9 +265,16 @@ test('the contact rows that are words are in the language of the page', () => {
   for (const lang of LANGS) {
     const c = db.copy[lang];
     const rows = [...contactLinks(db, lang).matchAll(/<a href="([^"]*)"[^>]*>[\s\S]*?<span class="platform">([^<]*)<\/span>/g)].map((m) => [m[1].split(':')[0], m[2]]);
-    assert.deepEqual(rows.slice(0, 2), [['mailto', c.contact.emailLabel], ['tel', c.contact.phoneLabel]], lang);
-    assert.ok(rows.length > 2 && rows.slice(2).every(([scheme]) => scheme === 'https'), `${lang}: the profile rows`);
+    // WhatsApp is a word too ("واتساب"). It stands beside email, and before it where its readers write there first.
+    const email = ['mailto', c.contact.emailLabel];
+    const whatsapp = ['https', c.contact.whatsappLabel];
+    assert.deepEqual(rows.slice(0, 3), [...(lang === 'ar' ? [whatsapp, email] : [email, whatsapp]), ['tel', c.contact.phoneLabel]], lang);
+    assert.ok(rows.length > 3 && rows.slice(3).every(([scheme]) => scheme === 'https'), `${lang}: the profile rows`);
+    // The rows after those three are profiles of him, never a product.
+    assert.ok(!rows.slice(3).some(([, platform]) => platform === 'Smart Scanner' || platform === 'Google Play'), `${lang}: a product among the ways to reach him`);
   }
+  assert.equal(db.copy.en.contact.whatsappLabel, 'WhatsApp');
+  assert.ok(!/[A-Za-z]/.test(db.copy.ar.contact.whatsappLabel), 'the Arabic WhatsApp label in Latin letters');
   assert.deepEqual([db.copy.en.contact.emailLabel, db.copy.en.contact.phoneLabel], ['Email', 'Phone']);
   assert.ok(!/[A-Za-z]/.test(db.copy.ar.contact.emailLabel + db.copy.ar.contact.phoneLabel), 'an Arabic label in English');
   assert.ok(!contactLinks(db, 'ar').includes('<span class="platform">Email</span>') && !contactLinks(db, 'ar').includes('<span class="platform">Phone</span>'));

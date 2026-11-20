@@ -60,21 +60,21 @@
     },
     "type": {
       "en": "Full-time · On-site",
-      "ar": "دوام كامل · في الموقع"
+      "ar": "دوام كامل · حضوري"
     },
     "start": "2025-01",
     "end": "2026-11",
     "bullets": {
       "en": [
         "Built the frontend of the company's custom CRM and quotation platform in React and TypeScript, in Arabic and English with full right-to-left support, replacing spreadsheets and hand-made quotes in every department.",
-        "Cut quotation preparation to under two minutes once the data is entered, and all fifteen employees adopted the platform.",
+        "With the platform, preparing a quotation took under two minutes once the data was entered, and all fifteen employees adopted it.",
         "Built sales follow-up, purchase order drafts, sales analytics, real-time notifications and permission-based roles with route guards covered by Playwright tests, and developed the frontend of a second CRM for WAIS, the parent company.",
         "Introduced workflow automation with n8n and the OpenAI API for the team's repetitive work, and used Claude Code daily to plan, build, test and review.",
         "Coordinated requirements, user stories and API contracts between frontend, backend (Laravel) and UI/UX, so frontend and backend could build in parallel and delivery stayed on schedule."
       ],
       "ar": [
         "بنيت الواجهة الأمامية لمنصّة CRM وعروض الأسعار المخصّصة للشركة بـ React وTypeScript، بالعربية والإنجليزية مع دعم كامل للاتجاه من اليمين إلى اليسار، فحلّت محل جداول البيانات وعروض الأسعار اليدوية في كل الأقسام.",
-        "اختصرت وقت إعداد عرض السعر إلى أقل من دقيقتين بعد إدخال البيانات، وأصبحت المنصّة معتمدة لدى موظفي الشركة الخمسة عشر جميعاً.",
+        "صار إعداد عرض السعر بالمنصّة يستغرق أقل من دقيقتين بعد إدخال البيانات، واعتمدها موظفو الشركة الخمسة عشر جميعاً.",
         "بنيت وحدات متابعة المبيعات ومسودات أوامر الشراء وتحليلات المبيعات والإشعارات الفورية، ونظام أدوار وصلاحيات مع حماية للمسارات تغطيها اختبارات Playwright، وطوّرت الواجهة الأمامية لنظام CRM ثانٍ لشركة WAIS، الشركة الأم.",
         "أدخلت أتمتة سير العمل بـ n8n وواجهة OpenAI البرمجية لتتولّى العمل المتكرّر في الفريق، واستخدمت Claude Code يومياً في التخطيط والبناء والاختبار والمراجعة.",
         "نسّقت المتطلبات وقصص المستخدم وعقود الـ API بين فرق الواجهة الأمامية والخلفية (Laravel) وتصميم تجربة المستخدم، ليعمل فريقا الواجهتين الأمامية والخلفية بالتوازي ويبقى التسليم في موعده."
@@ -116,7 +116,7 @@
         "Coordinated client automation and software projects from requirements to release: scope, workflow design and acceptance.",
         "Gathered requirements directly with clients, defined acceptance criteria, and broke work into tasks and user stories on Trello.",
         "Tracked timelines and prepared cost estimates, and followed up on frontend, backend and UI/UX work until each release.",
-        "Coordinated the delivery of GoldenTag, a jewelry store management app the team built in Flutter, through to the Google Play Store."
+        "Coordinated the delivery of GoldenTag, a jewellery store management app the team built in Flutter, through to the Google Play Store."
       ],
       "ar": [
         "نسّقت مشاريع الأتمتة والبرمجيات للعملاء من المتطلبات حتى الإصدار، مروراً بالنطاق وتصميم سير العمل.",

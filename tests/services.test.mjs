@@ -13,7 +13,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { loadDb } from '../scripts/lib/load.mjs';
 import { TEMPLATES, notFound } from '../scripts/lib/pages.mjs';
-import { headMeta, monthYear, periodWords, tagsOf } from '../scripts/lib/blocks.mjs';
+import { headMeta, monthYear, periodWords, tagsOf, homeProofFigures, quoteExcerpt } from '../scripts/lib/blocks.mjs';
+import { phoneDigits, phoneDisplay, whatsappUrl, whatsappFirst } from '../scripts/lib/contact.mjs';
 import { servicesLd } from '../scripts/lib/jsonld.mjs';
 import { OFFERS, SERVICE_SYSTEMS, homeOffers, automationServices } from '../scripts/lib/offers.mjs';
 import { PAGES, LANGS, pagePath } from '../scripts/lib/sitemap.mjs';
@@ -66,7 +67,7 @@ test('titles and descriptions carry the words people search for', () => {
       projects: ['AI Products', 'Web Apps', 'Free Browser Tools', 'invoice reading', 'CV screening'],
       showcase: ['Website Design in Al Khobar and Dammam', 'Independent web developer', 'restaurants', 'Dhahran'],
       automation: ['n8n Developer', 'AI Automation in Saudi Arabia', 'Google review replies', 'CV screening'],
-      contact: ['Hire Nour Aldeen Tofi'],
+      contact: ['Hire Nour Aldeen Tofi', 'full-time role', 'WhatsApp'],
     },
     ar: {
       '': ['أتمتة الأعمال', 'بوتات واتساب وتيليجرام', 'قراءة الفواتير العربية', 'في الخبر بالسعودية'],
@@ -75,7 +76,10 @@ test('titles and descriptions carry the words people search for', () => {
       projects: ['منتجات ذكاء اصطناعي', 'تطبيقات ويب', 'أدوات مجانية', 'قراءة الفواتير', 'فرز السير الذاتية'],
       showcase: ['تصميم مواقع في الخبر والدمام', 'مطوّر مواقع مستقل', 'المطاعم', 'المنطقة الشرقية'],
       automation: ['مطوّر n8n', 'أتمتة الأعمال بالذكاء الاصطناعي', 'الرد على تقييمات قوقل', 'فرز السير الذاتية'],
-      contact: ['وظّفه'],
+      // "واعمل معه" speaks to a client and to an employer alike. The title
+      // used to end in an order to employ him, which read as a plea and
+      // told a business owner the page was not for him.
+      contact: ['اعمل معه', 'فرص العمل بدوام كامل', 'واتساب'],
     },
   };
 
@@ -426,12 +430,15 @@ test('the offer to shops is true of real sites in the gallery', () => {
 
 /* ---------------------------------------------------------------- home page */
 
+/* The role he is open to is one plain sentence under the buttons. Above
+   them it read as part of the invitation the buttons make to a client, and
+   a client took the whole first screen for a job search. */
 test('the home hero says he is available, only while the data says so', () => {
   for (const lang of LANGS) {
     const hero = page('', lang).match(/<section class="hero">[\s\S]*?<\/section>/)[0];
-    const note = `<p class="hero__note">${db.copy[lang].home.availability}</p>`;
+    const note = `<p class="hero__note hero__note--after">${db.copy[lang].home.availability}</p>`;
     assert.ok(hero.includes(note), `${lang}: no availability line`);
-    assert.ok(hero.indexOf('hero__intro') < hero.indexOf(note) && hero.indexOf(note) < hero.indexOf('hero__actions'), `${lang}: the line is out of place`);
+    assert.ok(hero.indexOf('hero__intro') < hero.indexOf('hero__actions') && hero.indexOf('hero__actions') < hero.indexOf(note), `${lang}: the line is out of place`);
 
     for (const availability of [{ ...db.profile.availability, openToWork: false }]) {
       const busy = page('', lang, { ...db, profile: { ...db.profile, availability } });
@@ -528,12 +535,89 @@ test('nothing true was lost when the home intro was shortened', () => {
 test('the home intro says the same thing in both languages', () => {
   const en = db.copy.en.home.intro;
   const ar = db.copy.ar.home.intro;
-  assert.match(en, /Arabic and English documents/);
-  assert.match(ar, /بالعربية والإنجليزية/);
-  // The client websites are a separate thing he builds, not a layer on the automation.
-  assert.ok(!/websites on top/.test(en));
-  assert.match(en, /interfaces and the AI behind them[\s\S]*websites for people, companies and shops/);
-  assert.match(ar, /والذكاء الاصطناعي الذي يعمل خلفها[\s\S]*مواقع للأفراد والشركات والمحلات/);
+  // The first sentence stands alone: what he builds, in the words every text of his uses.
+  assert.ok(en.startsWith('I build the interface people use and the AI behind it, in Arabic and English. '));
+  assert.ok(ar.startsWith('أبني الواجهة التي يستخدمها الناس، والذكاء الاصطناعي الذي يعمل خلفها، بالعربية والإنجليزية. '));
+  // Then one example for each half, the same two in both languages.
+  assert.match(en, /Smart Scanner[\s\S]*invoice[\s\S]*shop sites[\s\S]*WhatsApp/);
+  assert.match(ar, /Smart Scanner[\s\S]*الفاتورة[\s\S]*مواقع المحلات[\s\S]*واتساب/);
+  for (const text of [en, ar]) assert.equal(text.split(/(?<=\.)\s+/).length, 2, `two sentences, not: ${text}`);
+  // No tool leads it: the names of the tools are the last line of the hero.
+  assert.ok(!/React|TypeScript|n8n|LLM/.test(en + ar));
+});
+
+/* Each example in the intro is a claim, held to the data it is taken from. */
+test('the examples in the home intro are true of the product and of real shop sites', () => {
+  const scanner = db.workflows.find((w) => w.id === 'smart-scanner-pipeline');
+  assert.match(JSON.stringify([scanner.summary.en, scanner.highlights.en, scanner.outcome.en]), /photo or a PDF/);
+  const shops = db.showcase.sites.filter((s) => s.segment === 'shops' && s.url && s.tags.includes('WhatsApp'));
+  assert.ok(shops.some((s) => /booking/i.test(JSON.stringify(s.highlights.en))), 'no shop site takes bookings on WhatsApp');
+  assert.ok(shops.some((s) => /orders? arrive/i.test(JSON.stringify(s.highlights.en))), 'no shop site takes orders on WhatsApp');
+});
+
+/* The line under his name is what a visitor reads first. It opens with his
+   title, which is also the page title, and then says what he builds and for
+   whom in words an owner uses. The names of the tools moved to the quiet last
+   line of the hero, where an engineer still finds them. */
+test('the line under his name says what he does and for whom, and names no tool', () => {
+  const title = { en: 'Frontend & AI Engineer', ar: 'مطوّر واجهات أمامية وتطبيقات ذكاء اصطناعي' };
+  for (const lang of LANGS) {
+    const c = db.copy[lang];
+    const hero = unescape(page('', lang).match(/<section class="hero">[\s\S]*?<\/section>/)[0]);
+    assert.ok(hero.includes(`<p class="hero__headline">${c.home.headline}</p>`), `${lang}: the line is not in the hero`);
+    assert.ok(c.home.headline.startsWith(`${title[lang]}: `), `${lang}: the line does not open with his title`);
+    assert.ok(titleOf(headMeta(db, '', lang)).includes(title[lang]), `${lang}: the page title lost his title`);
+    assert.ok(db.profile.headline[lang].startsWith(title[lang]), `${lang}: the line and the structured data name two titles`);
+    assert.ok(!/React|TypeScript|Next\.js|n8n|LLM|MCP/.test(c.home.headline), `${lang}: a tool name in the line under his name`);
+    assert.ok(!/[A-Za-z]/.test(db.copy.ar.home.headline), 'Latin letters in the Arabic line: several names inside a right-to-left line break its order');
+    assert.ok(c.home.headline.length <= 110 && !/\d/.test(c.home.headline) && !c.home.headline.includes('—'), `${lang}: ${c.home.headline}`);
+
+    // The tools: one left-to-right run, last in the hero, under the role sentence.
+    const stack = `<p class="hero__stack"><span dir="ltr">${c.home.stack}</span></p>`;
+    assert.ok(hero.includes(stack), `${lang}: no stack line`);
+    assert.ok(hero.indexOf('hero__note') < hero.indexOf(stack), `${lang}: the stack line is not last`);
+    for (const tool of ['React', 'TypeScript', 'Next.js', 'n8n', 'MCP']) assert.ok(c.home.stack.includes(tool), `${lang}: ${tool}`);
+    assert.ok(!/[؀-ۿ]/.test(c.home.stack), `${lang}: the stack line is names only`);
+  }
+  assert.equal(page('', 'en').split('<h1').length - 1, 1);
+  assert.equal(h1Of(page('', 'ar')), db.profile.name.ar);
+});
+
+/* One short sentence, one family of roles, the same on the two pages an
+   employer reads first. It never shares a sentence with the offer to clients:
+   "roles and projects" in three fields read as someone who takes anything. */
+test('the role he is open to is one sentence that names one role and no project', () => {
+  for (const lang of LANGS) {
+    const c = db.copy[lang];
+    assert.equal(c.work.availability, c.home.availability, `${lang}: the two pages word it differently`);
+    assert.equal(c.home.availability.split(/(?<=\.)\s+/).length, 1, `${lang}: more than one sentence`);
+  }
+  const en = db.copy.en;
+  const ar = db.copy.ar;
+  assert.match(en.home.availability, /^Open to a full-time role as a frontend and AI engineer, in Saudi Arabia or remote\.$/);
+  assert.match(ar.home.availability, /^منفتح على فرص العمل بدوام كامل في تطوير الواجهات الأمامية وتطبيقات الذكاء الاصطناعي، في السعودية أو عن بُعد\.$/);
+  for (const text of [en.home.availability, en.contact.availableNow, en.contact.rolesTitle, en.about.faq[4].a, en.about.faq[5].a, en.meta.pages.contact.description]) {
+    assert.ok(!/projects?|freelance|looking for|automation roles/i.test(text.replace('He also builds websites and AI automation for businesses.', '')), `en: ${text}`);
+  }
+  for (const text of [ar.home.availability, ar.contact.availableNow, ar.contact.rolesTitle, ar.about.faq[4].a, ar.about.faq[5].a]) {
+    assert.ok(!/مشاريع|العمل الحر|أبحث/.test(text), `ar: ${text}`);
+  }
+  // The freelance work keeps its own answer, so nothing is lost for a client.
+  assert.match(en.about.faq[7].a, /websites for professionals, companies and shops[\s\S]*WhatsApp or by email/);
+  assert.match(ar.about.faq[7].a, /مواقع للأفراد والشركات والمحلات[\s\S]*واتساب أو البريد الإلكتروني/);
+  // The roles listed on the contact page are one family: the title, and its frontend half.
+  assert.deepEqual(db.profile.availability.roles.en, ['Frontend & AI Engineer', 'Frontend Developer (React, TypeScript, Next.js)']);
+  assert.equal(db.profile.availability.roles.ar.length, db.profile.availability.roles.en.length);
+  // On-site, in the word Saudi job advertisements use: "في الموقع" reads as "on the website".
+  assert.ok(db.profile.availability.arrangements.ar.includes('حضوري') && !JSON.stringify(db.profile.availability).includes('في الموقع'));
+});
+
+/* The dot beside the sentence was the sign every app uses for "online now".
+   No page says he is available now, so no stylesheet draws it. */
+test('no live dot stands beside the role sentence', () => {
+  const css = readFileSync('assets/css/layout.css', 'utf8');
+  assert.ok(css.includes('.hero__note'), 'the sentence lost its style');
+  assert.ok(!/\.hero__note[^{]*::before/.test(css), 'the dot is back');
 });
 
 /* -------------------------------------------------------------------- links */
@@ -586,14 +670,299 @@ test('the deep pages end with the call to action', () => {
     for (const name of ['', 'about', 'work', 'projects', 'automation', 'showcase']) {
       const html = unescape(page(name, lang));
       const last = html.slice(html.lastIndexOf('<section'), html.indexOf('</main>'));
-      const title = name === 'showcase' ? c.showcase.ctaTitle : c.home.ctaTitle;
-      const body = name === 'showcase' ? c.showcase.ctaBody : c.home.ctaBody;
+      // A page with one reader ends in words for that reader: a site, an
+      // automation, or, on the page an employer lands on, the CV. The rest
+      // end as the home page does, which speaks of both offers.
+      const own = ['showcase', 'automation', 'work'].includes(name) ? c[name] : c.home;
       assert.ok(last.includes('<div class="cta">'), `${lang}/${name || 'index'}: does not end with the call to action`);
-      assert.ok(last.includes(`<h2>${title}</h2>`) && last.includes(`<p>${body}</p>`), `${lang}/${name || 'index'}: wrong words`);
-      assert.ok(last.includes(`<a class="btn" href="${pagePath('contact', lang)}">${c.home.ctaButton}</a>`), `${lang}/${name || 'index'}: no button to the contact page`);
+      assert.ok(last.includes(`<h2>${own.ctaTitle}</h2>`) && last.includes(`<p>${own.ctaBody}</p>`), `${lang}/${name || 'index'}: wrong words`);
+      assert.match(last, new RegExp(`<a class="btn(?: btn--ghost)?" href="${pagePath('contact', lang)}">${c.home.ctaButton}</a>`), `${lang}/${name || 'index'}: no button to the contact page`);
       assert.equal(html.split('<div class="cta">').length - 1, 1, `${lang}/${name || 'index'}: more than one call to action`);
+
+      // The experience page offers the CV; every other page offers WhatsApp beside the contact page.
+      const wa = `href="${whatsappUrl(db.profile, c.contact.whatsappText)}"`;
+      if (name === 'work') {
+        assert.ok(last.includes(` download>${c.ui.downloadCv}</a>`) && !last.includes(wa), `${lang}/work: the closing block`);
+        assert.ok(!/website|automat|موقعاً|أتمتة/.test(own.ctaTitle + own.ctaBody), `${lang}/work: the page an employer reads ends with an offer to clients`);
+      } else {
+        assert.ok(last.includes(wa), `${lang}/${name || 'index'}: no WhatsApp button`);
+      }
     }
   }
+});
+
+/* -------------------------------------------------------------- WhatsApp */
+
+/* The number is published once, in data/profile.json. Every WhatsApp address
+   on the site is built from it, with the first line of the message written
+   in the language of the page. */
+test('the WhatsApp address is built from the one published number', () => {
+  assert.equal(phoneDigits('+966 54 797-2944'), '966547972944');
+  assert.equal(whatsappUrl({ phone: '+966500000000' }), 'https://wa.me/966500000000');
+  assert.equal(whatsappUrl({ phone: '+966500000000' }, 'مرحباً، بخصوص '), `https://wa.me/966500000000?text=${encodeURIComponent('مرحباً، بخصوص ')}`);
+  assert.throws(() => whatsappUrl({ phone: '' }), /no digits/);
+  assert.equal(phoneDisplay('+966547972944'), '+966 54 797 2944');
+  assert.equal(phoneDisplay('+4915112345678'), '+4915112345678', 'a number of another shape is printed as it is written');
+
+  const digits = phoneDigits(db.profile.phone);
+  const other = { ...db, profile: { ...db.profile, phone: '+966500000001' } };
+  for (const lang of LANGS) {
+    const c = db.copy[lang];
+    const url = whatsappUrl(db.profile, c.contact.whatsappText);
+    assert.ok(url.startsWith(`https://wa.me/${digits}?text=`) && !url.includes('+'), `${lang}: ${url}`);
+    assert.equal(decodeURIComponent(url.split('?text=')[1]), c.contact.whatsappText);
+
+    for (const name of PAGES) {
+      const html = page(name, lang);
+      const links = [...html.matchAll(/href="(https:\/\/(?:wa\.me|api\.whatsapp\.com)[^"]*)"/g)].map((m) => unescape(m[1]));
+      // Every one of them is that address, and it opens the way the other links that leave the site do.
+      for (const link of links) assert.equal(link, url, `${lang}/${name || 'index'}`);
+      if (links.length) assert.ok(html.includes(`href="${url.replaceAll('&', '&amp;')}" target="_blank" rel="noopener noreferrer"`), `${lang}/${name || 'index'}: the link does not open as an external link`);
+      // A new number in the data reaches every page that links to WhatsApp.
+      if (links.length) assert.ok(page(name, lang, other).includes('https://wa.me/966500000001?text=') && !page(name, lang, other).includes(digits), `${lang}/${name || 'index'}: the number is written somewhere else too`);
+    }
+    for (const name of ['', 'showcase', 'automation', 'contact']) {
+      const hero = page(name, lang).match(/<section class="hero">[\s\S]*?<\/section>/)[0];
+      assert.ok(unescape(hero).includes(`href="${url}"`), `${lang}/${name || 'index'}: no WhatsApp button on the first screen`);
+    }
+  }
+});
+
+/* WhatsApp stands beside email, never in its place: the contact page keeps
+   the email button, the email row and the phone row. Arabic readers are
+   shown WhatsApp first; on the English page email leads. */
+test('the contact page offers WhatsApp beside email, first for Arabic readers', () => {
+  for (const lang of LANGS) {
+    const c = db.copy[lang];
+    const html = unescape(page('contact', lang));
+    const hero = html.match(/<section class="hero">[\s\S]*?<\/section>/)[0];
+    const buttons = [...hero.matchAll(/<a class="(btn(?: btn--ghost)?)" href="([^"]*)"[^>]*>([^<]*)/g)].map((m) => [m[1], m[2].split(/[:/]/)[0], m[3]]);
+    const email = (cls) => [cls, 'mailto', c.ui.emailMe];
+    const whatsapp = (cls) => [cls, 'https', c.ui.whatsappMe];
+    assert.deepEqual(buttons.slice(0, 2), whatsappFirst(lang) ? [whatsapp('btn'), email('btn btn--ghost')] : [email('btn'), whatsapp('btn btn--ghost')], lang);
+    assert.deepEqual(buttons.slice(2).map((b) => b[2]), ['LinkedIn'], `${lang}: a profile that is not a way to reach him is among the buttons`);
+    assert.equal(buttons.filter((b) => b[0] === 'btn').length, 1, `${lang}: one primary button`);
+    assert.notEqual(c.ui.emailMe, c.ui.whatsappMe);
+
+    // The lead names both, and says nothing about which is faster or how soon he replies.
+    assert.ok(hero.includes(`<p class="hero__headline">${c.contact.lead}</p>`));
+    assert.ok(!/fastest|within|hours|أسرع|خلال|ساعة/.test(c.contact.lead), `${lang}: a promise in the lead`);
+    assert.ok(html.includes(`mailto:${db.profile.email}`) && html.includes(`tel:${db.profile.phone}`), `${lang}: email or phone left the page`);
+    assert.ok(visibleText(html).includes(phoneDisplay(db.profile.phone)), `${lang}: the number is not printed`);
+  }
+  assert.equal(whatsappFirst('ar'), true);
+  assert.equal(whatsappFirst('en'), false);
+  assert.match(db.copy.en.contact.lead, /email[\s\S]*WhatsApp/);
+  assert.match(db.copy.ar.contact.lead, /واتساب[\s\S]*البريد الإلكتروني/);
+});
+
+/* A client who arrives with a project is told what to send before the page
+   turns to roles, and the block for employers is named for them. */
+test('the contact page speaks to a client first and names the block for employers', () => {
+  for (const lang of LANGS) {
+    const c = db.copy[lang];
+    const html = unescape(page('contact', lang));
+    assert.deepEqual(sectionIds(html), [null, 'project', 'links', 'details'], lang);
+    const project = html.split('id="project"')[1].split('</section>')[0];
+    assert.ok(project.includes(`<h2>${c.contact.projectTitle}</h2>`) && project.includes(`<p class="section__lead">${c.contact.projectBody}</p>`), lang);
+    const details = html.split('id="details"')[1].split('</section>')[0];
+    assert.ok(details.includes(`<h2>${c.contact.hiringTitle}</h2>`), `${lang}: the employers' block has no heading of its own`);
+    // "Work preferences" used to be printed twice in a row, as the section and as its first card.
+    assert.equal(html.split(`>${c.contact.availabilityTitle}<`).length - 1, 1, `${lang}: a heading printed twice`);
+    assert.notEqual(c.contact.hiringTitle, c.contact.availabilityTitle);
+    assert.ok(details.includes(c.contact.availableNow) && details.includes(c.contact.rolesTitle));
+  }
+});
+
+/* ----------------------------------------------------------- the offers */
+
+/* A card on the home page is read by an owner, not by an engineer: no tool
+   opens it, one example from delivered work stands in it, and it says what
+   happens next. Each example is held to the data it is taken from. */
+test('each offer opens with the job, gives one real example, and names no tool first', () => {
+  const tools = /^(?:n8n|React|TypeScript|Next\.js|LLM)/;
+  for (const lang of LANGS) {
+    for (const o of db.copy[lang].home.offers) {
+      assert.ok(!tools.test(o.body) && !/n8n|React|TypeScript/.test(o.title), `${lang}/${o.id}: a tool leads the card`);
+      assert.match(o.body, lang === 'en' ? /One example: / : /مثال: /, `${lang}/${o.id}: no example`);
+      assert.ok(!/\d/.test(o.body.replace(/n8n/g, '')), `${lang}/${o.id}: a figure in the card`);
+    }
+  }
+  const [automation, websites, frontend] = db.copy.en.home.offers.map((o) => o.body);
+  const [automationAr, websitesAr, frontendAr] = db.copy.ar.home.offers.map((o) => o.body);
+
+  // The receipt check runs for a client, a chess club in Dammam, and its outcome is quoted.
+  const receipts = db.workflows.find((w) => w.id === 'receipt-verify');
+  assert.equal(receipts.status, 'client');
+  assert.match(receipts.summary.en, /chess club[\s\S]*bank-transfer receipt/);
+  assert.match(automation, /chess club in Dammam[\s\S]*bank-transfer receipt[\s\S]*registrations are confirmed without anyone opening one by hand/);
+  assert.ok(automationAr.includes(receipts.outcome.ar.replace(/\.$/, '')), 'ar: the outcome of the receipt check is reworded');
+  assert.match(db.showcase.sites.find((s) => s.id === 'gambit-tournaments').role.en, /chess club in Dammam/);
+  // The two steps of "How a project runs" it borrows.
+  assert.match(db.copy.en.automation.process[0], /real samples/);
+  assert.match(db.copy.en.automation.process[2], /a person approving anything sensitive/);
+
+  // The restaurant is in the gallery, in his city, and its orders do arrive on WhatsApp.
+  const reem = db.showcase.sites.find((s) => s.id === 'alreem-mashwi');
+  assert.ok(websites.includes(`${reem.name.en} in Al Khobar`) && websitesAr.includes(`${reem.name.ar} في الخبر`));
+  assert.match(reem.role.en, /Al Khobar/);
+  assert.ok(reem.highlights.en.includes("Orders arrive ready on the shop's WhatsApp") && websitesAr.includes('يصل الطلب جاهزاً على واتساب المحل'));
+  assert.match(websites, /Arabic, English or both/);
+  assert.match(websitesAr, /بالعربية أو الإنجليزية أو باللغتين معاً/);
+
+  // What the experience data says he built at DFS, and what it replaced.
+  const dfs = db.experience.find((r) => r.id === 'dfs-frontend');
+  assert.match(dfs.bullets.en[0], /Built the frontend of the company's custom CRM and quotation platform[\s\S]*replacing spreadsheets and hand-made quotes in every department/);
+  assert.match(dfs.company, /Safety Equipment/);
+  assert.match(frontend, /at DFS, a safety-equipment company, I built the frontend of the CRM and quotation platform, and it replaced spreadsheets and hand-made quotes in every department/);
+  assert.match(frontendAr, /في DFS[\s\S]*بنيت الواجهة الأمامية لمنصّة CRM وعروض الأسعار/);
+  assert.match(db.copy.en.about.principles[0].title, /Agree the contract before the first line of code/);
+});
+
+/* -------------------------------------------------------- "In numbers" */
+
+/* Six figures a reader can weigh, each read from the data: the sites
+   delivered, what the invoice product reads and how fast, what the routing
+   saved, the tests and the load test. A count of things made is not a result. */
+test('the figures on the home page are results, each read from the data', () => {
+  const figures = homeProofFigures(db);
+  assert.deepEqual(figures.map((f) => f.value), [String(db.showcase.sites.length), '70+', '~10', '~75%', '494', '5,000']);
+  const scanner = db.projects.find((p) => p.id === 'smart-scanner').metrics;
+  const screener = db.projects.find((p) => p.id === 'cv-screener').metrics;
+  for (const value of ['70+', '~10', '494']) assert.ok(figures.includes(scanner.find((m) => m.value === value)), `${value} is not the project's own metric`);
+  assert.ok(figures.includes(screener.find((m) => m.value === '5,000')));
+  assert.equal(db.caseStudy.figures.find((f) => f.id === 'saving').value, '75%');
+
+  for (const lang of LANGS) {
+    const strip = unescape(page('', lang).split('id="proof"')[1].split('</section>')[0]);
+    const shown = [...strip.matchAll(/<span class="proof__value" data-count>([^<]*)<\/span>\s*<span class="proof__label">([^<]*)<\/span>/g)].map((m) => [m[1], m[2]]);
+    assert.deepEqual(shown, figures.map((f) => [f.value, f.label[lang]]), lang);
+    assert.ok(!/source files|workflows built|ملف مصدري|مسار عمل/.test(strip), `${lang}: a count of things made is back`);
+  }
+  // The Arabic noun after the number of sites holds from eleven to ninety-nine.
+  assert.ok(db.showcase.sites.length >= 11 && db.showcase.sites.length <= 99, 'rewrite the Arabic label: its noun form no longer fits the count');
+
+  const gone = structuredClone(loaded);
+  gone.projects.find((p) => p.id === 'cv-screener').metrics = [];
+  assert.throws(() => homeProofFigures(gone), /"5,000" of cv-screener/);
+});
+
+/* The cards under "Automation systems" say what each system changed and
+   carry the status the automation page gives it. */
+test('a system card on the home page prints the outcome and the honest status', () => {
+  for (const lang of LANGS) {
+    const c = db.copy[lang];
+    const block = unescape(page('', lang).split('<section class="section" id="automation">')[1].split('</section>')[0]);
+    for (const w of db.workflows.slice(0, 3)) {
+      const card = block.split(`">${w.name[lang]}</a></h3>`)[1].split('</article>')[0];
+      assert.ok(card.includes(`<p class="card__body">${w.outcome[lang]}</p>`), `${lang}/${w.id}: outcome`);
+      assert.ok(!block.includes(w.summary[lang]), `${lang}/${w.id}: the technical summary is on the home page`);
+      assert.ok(block.includes(`<span class="status status--${w.status}">${c.ui.status[w.status]}</span>`), `${lang}/${w.id}: status`);
+    }
+  }
+});
+
+/* ------------------------------------------------------------- quotes */
+
+test('a recommendation on the home page ends where a sentence ends, on the same one in both languages', () => {
+  assert.equal(quoteExcerpt({ en: 'One. Two. Three.', ar: 'واحد. اثنان. ثلاثة.' }, 'en', 100), 'One. Two. Three.');
+  assert.equal(quoteExcerpt({ en: 'One. Two. Three.', ar: 'واحد. اثنان. ثلاثة.' }, 'en', 12), 'One. Two.');
+  assert.equal(quoteExcerpt({ en: 'One. Two. Three.', ar: 'واحد. اثنان. ثلاثة.' }, 'ar', 12), 'واحد. اثنان.');
+  // The longer language decides for both, so the two cards stop together.
+  assert.equal(quoteExcerpt({ en: 'One. Two.', ar: 'جملة أولى طويلة جداً. جملة ثانية.' }, 'en', 25), 'One.');
+  // A first sentence longer than the limit is still printed whole, never cut inside.
+  assert.equal(quoteExcerpt({ en: 'A very long first sentence. Two.', ar: 'أ. ب.' }, 'en', 5), 'A very long first sentence.');
+  assert.equal(quoteExcerpt({ en: 'Is it? Yes.', ar: 'هل هو؟ نعم. حقاً.' }, 'ar', 8), 'هل هو؟');
+
+  for (const lang of LANGS) {
+    const block = unescape(page('', lang).split('<section class="section" id="quotes">')[1].split('</section>')[0]);
+    const quotes = [...block.matchAll(/<blockquote class="quote__body">([^<]*)<\/blockquote>/g)].map((m) => m[1]);
+    assert.equal(quotes.length, 2);
+    for (const [i, t] of db.testimonials.filter((x) => x.featured).slice(0, 2).entries()) {
+      assert.ok(t.quote[lang].startsWith(quotes[i]), `${lang}: the excerpt is not the opening of the recommendation`);
+      assert.match(quotes[i], /[.!?؟]$/, `${lang}: "${quotes[i].slice(-30)}" stops inside a sentence`);
+      assert.ok(!quotes[i].includes('…') && quotes[i].length <= 450, `${lang}: ${quotes[i].length} characters`);
+      assert.equal(quotes[i].split(/(?<=[.!?؟])\s+/).length, quoteExcerpt(t.quote, 'en').split(/(?<=[.!?؟])\s+/).length, `${lang}: the two languages stop on different sentences`);
+    }
+    // Every recommendation can be checked where it was written.
+    assert.ok(block.includes(`href="${db.profile.recommendationsUrl}"`) && block.includes(db.copy[lang].work.testimonialsSource), `${lang}: no way to the source`);
+  }
+  // The sentence a client looks for is inside the first excerpt.
+  assert.match(quoteExcerpt(db.testimonials.find((t) => t.featured).quote, 'en'), /He is reliable, responsive, and always open to feedback\.$/);
+});
+
+/* The chat is a set of prepared answers. A line under his name that said
+   "online" told a visitor he was on the other side of it. */
+test('the chat does not claim he is online', () => {
+  for (const lang of LANGS) {
+    assert.ok(!/online|replies in|متصل|يردّ خلال/.test(db.copy[lang].chat.status), `${lang}: ${db.copy[lang].chat.status}`);
+    assert.ok(page('chat', lang).includes(`<span>${db.copy[lang].chat.status}</span>`), `${lang}: the line is not under his name`);
+  }
+});
+
+/* The daily job search stays a system he built, but no page says it writes
+   applications with AI, and it is not filed where an employer looks for
+   hiring tools. */
+test('the job-search system promises no application written by AI', () => {
+  const w = db.workflows.find((x) => x.id === 'ai-job-match');
+  const said = JSON.stringify([w.summary, w.highlights, w.outcome, w.headline, w.kind]);
+  assert.ok(!/cover letter|applications? (?:is|are) sent|رسائل تغطية|طلب توظيف/i.test(said), 'the page speaks of applications again');
+  assert.equal(w.highlights.en.length, w.highlights.ar.length);
+  assert.match(w.highlights.en.join(' '), /Nothing is sent without a person's approval on Telegram/);
+});
+
+/* --------------------------------------------------------- experience */
+
+/* The page an employer lands on: the sentence about the role, and the CV
+   one tap away, at the top and again at the foot. */
+test('the experience page offers the CV under the role sentence', () => {
+  const cv = db.profile.cv[0].file;
+  for (const lang of LANGS) {
+    const c = db.copy[lang];
+    const hero = unescape(page('work', lang).match(/<section class="hero">[\s\S]*?<\/section>/)[0]);
+    assert.ok(hero.indexOf('hero__note') < hero.indexOf('hero__actions'), `${lang}: the buttons are above the sentence`);
+    assert.match(hero, new RegExp(`<a class="btn" href="/${cv.replaceAll('.', '\\.')}(?:\\?v=[a-z0-9]+)?" download>${c.ui.downloadCv}</a>`), `${lang}: no CV button`);
+    assert.ok(hero.includes(`<a class="btn btn--ghost" href="${pagePath('contact', lang)}">${c.home.ctaButton}</a>`), `${lang}: no way to the contact page`);
+  }
+});
+
+/* The same fact, told the same way as on the CV: the result is the
+   platform's, and the job has ended, so it is in the past tense. */
+test('the quotation result is the platform\'s, in the past tense', () => {
+  const dfs = db.experience.find((r) => r.id === 'dfs-frontend');
+  assert.equal(dfs.bullets.en[1], 'With the platform, preparing a quotation took under two minutes once the data was entered, and all fifteen employees adopted it.');
+  assert.ok(!/^Cut |is entered/.test(dfs.bullets.en[1]) && !dfs.bullets.ar[1].startsWith('اختصرت'));
+  const metrics = db.projects.find((p) => p.id === 'dfs-dashboard').metrics;
+  assert.deepEqual(metrics.map((m) => m.value), ['<2', '15']);
+  assert.match(metrics[0].label.en, /with the platform, once the data is entered/);
+});
+
+/* ------------------------------------------------------- automation page */
+
+/* The page that sells automation opens with the work an owner knows, and
+   offers a way to write to him before the sixteen systems, not after them. */
+test('the automation page opens with the work it takes over, and offers the next step early', () => {
+  for (const lang of LANGS) {
+    const c = db.copy[lang];
+    const html = unescape(page('automation', lang));
+    assert.ok(!/^(I am|أنا)/.test(c.automation.lead), `${lang}: the lead opens with him, not with the reader's work`);
+    assert.ok(!/\bI am\b[^.]*\. I /.test(c.automation.lead) && !c.automation.lead.includes('أنا '), `${lang}: two sentences in a row open with "I"`);
+    assert.ok(c.automation.lead.includes('n8n'), `${lang}: the lead lost the word the page is searched by`);
+
+    const services = html.split('id="services"')[1].split('</section>')[0];
+    const next = services.split('<div class="process__next"')[1];
+    assert.ok(next && next.includes(`<p>${c.automation.processNext}</p>`), `${lang}: no next step under the process`);
+    assert.ok(next.includes(`href="${whatsappUrl(db.profile, c.contact.whatsappText)}"`) && next.includes(`href="${pagePath('contact', lang)}"`), `${lang}: the next step has no buttons`);
+    assert.ok(html.indexOf('process__next') < html.indexOf('id="systems"'), `${lang}: the next step comes after the systems`);
+  }
+  // The bots card says what the customer sees, in the words of the two systems behind it.
+  const bots = db.copy.en.automation.services.find((s) => s.id === 'bots').body;
+  const booking = db.workflows.find((w) => w.id === 'whatsapp-booking');
+  const tutor = db.workflows.find((w) => w.id === 'teacher-assistant-bot');
+  assert.match(booking.summary.en, /taps a service, then a time slot, in WhatsApp buttons[\s\S]*Google Calendar[\s\S]*confirmed back on WhatsApp/);
+  assert.match(bots, /picks a service, then a time, from WhatsApp buttons[\s\S]*Google Calendar[\s\S]*confirmed back on WhatsApp/);
+  assert.match(tutor.summary.en, /private tutor in Saudi Arabia[\s\S]*students, schedules, cancellations, and dues/);
+  assert.match(bots, /private tutor in Saudi Arabia manages students, schedules and dues/);
 });
 
 /* -------------------------------------------------------------------- dates */

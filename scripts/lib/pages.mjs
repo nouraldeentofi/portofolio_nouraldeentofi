@@ -9,6 +9,7 @@ import { escapeHtml, extAttrs, newTabHint } from './render.mjs';
 import * as B from './blocks.mjs';
 import * as ld from './jsonld.mjs';
 import { PAGES, LANGS, pagePath } from './sitemap.mjs';
+import { whatsappFirst } from './contact.mjs';
 import {
   ENGINE_ANCHOR,
   detailPages,
@@ -322,17 +323,24 @@ ${body}
  * Under the heading a page has either a `headline`, one short line set like
  * a headline, or a `lead`, a few sentences that say what the page offers and
  * where, set as running text so a paragraph is not shouted. `note` is one
- * short line above the buttons, marked with a live dot.
+ * short line of plain text: the role he is open to. It carries no dot and no
+ * colour of its own, because a live dot reads as "available now", which no
+ * page says. It stands above the buttons, or under them when `noteAfter` is
+ * set: on the home page the buttons are the invitation to a client, and the
+ * sentence for an employer follows them, so the two never read as one ask.
+ * `stack` is the quiet last line of the home hero: the names of the tools,
+ * one left-to-right run in either language, for the reader who looks for them.
  *
  * A detail page adds two things, both already markup: `crumbs`, the trail
  * back to its list page, above the heading, and `facts`, the quiet line of
  * status, kind and year under the headline.
  */
-function heroBlock({ crumbs = null, eyebrow = null, heading, headingClass = '', altName = null, headline = null, facts = null, lead = null, intro = null, note = null, actions = null }) {
+function heroBlock({ crumbs = null, eyebrow = null, heading, headingClass = '', altName = null, headline = null, facts = null, lead = null, intro = null, note = null, noteAfter = false, actions = null, stack = null }) {
+  const noteLine = note ? `      <p class="hero__note${noteAfter ? ' hero__note--after' : ''}">${e(note)}</p>\n` : '';
   return `  <section class="hero">
     <div class="container">
 ${crumbs ? `      ${crumbs}\n` : ''}${eyebrow ? `      <p class="hero__eyebrow">${e(eyebrow)}</p>\n` : ''}      <h1${headingClass ? ` class="${headingClass}"` : ''}>${e(heading)}</h1>
-${altName ? `      <p class="hero__altname" lang="${altName.lang}" dir="${altName.dir}">${e(altName.text)}</p>\n` : ''}${headline ? `      <p class="hero__headline">${e(headline)}</p>\n` : ''}${facts ? `      ${facts}\n` : ''}${lead ? `      <p class="hero__headline hero__headline--lead">${e(lead)}</p>\n` : ''}${intro ? `      <p class="hero__intro">${e(intro)}</p>\n` : ''}${note ? `      <p class="hero__note">${e(note)}</p>\n` : ''}${actions ? `      <div class="hero__actions">\n${actions}\n      </div>\n` : ''}    </div>
+${altName ? `      <p class="hero__altname" lang="${altName.lang}" dir="${altName.dir}">${e(altName.text)}</p>\n` : ''}${headline ? `      <p class="hero__headline">${e(headline)}</p>\n` : ''}${facts ? `      ${facts}\n` : ''}${lead ? `      <p class="hero__headline hero__headline--lead">${e(lead)}</p>\n` : ''}${intro ? `      <p class="hero__intro">${e(intro)}</p>\n` : ''}${noteAfter ? '' : noteLine}${actions ? `      <div class="hero__actions">\n${actions}\n      </div>\n` : ''}${noteAfter ? noteLine : ''}${stack ? `      <p class="hero__stack"><span dir="ltr">${e(stack)}</span></p>\n` : ''}    </div>
   </section>`;
 }
 
@@ -357,21 +365,48 @@ const eyebrowOf = (db, lang, key) =>
 const availableNow = (db) => Boolean(db.profile.availability.openToWork);
 
 /**
- * The closing call to action: a question, a sentence and one button to the
- * contact page.
+ * The two ways on from any page: the contact page and a WhatsApp chat.
+ *
+ * The contact page holds everything else (email, LinkedIn, the role he is
+ * open to, the CV), and WhatsApp is the one channel that opens a
+ * conversation in a tap. Which of the two is the primary button follows the
+ * language (`whatsappFirst` in contact.mjs): WhatsApp on the Arabic pages,
+ * the contact page on the English ones. The pair is the same in the hero of
+ * the home, automation and showcase pages and in the closing block of every
+ * page, so the next step never changes its words.
+ */
+function contactActions(db, lang) {
+  const c = db.copy[lang];
+  const first = whatsappFirst(lang);
+  const toContact = `<a class="btn${first ? ' btn--ghost' : ''}" href="${rel('contact', lang)}">${e(c.home.ctaButton)}</a>`;
+  const toWhatsapp = B.whatsappButton(db, lang, first ? 'btn' : 'btn btn--ghost');
+  return (first ? [toWhatsapp, toContact] : [toContact, toWhatsapp]).map((a) => `        ${a}`).join('\n');
+}
+
+/** The CV as a button, at its fingerprinted address (see `assetV`). */
+const cvButton = (db, lang, cls = 'btn') =>
+  `<a class="${cls}" href="${e(assetV(db, db.profile.cv[0].file))}" download>${e(db.copy[lang].ui.downloadCv)}</a>`;
+
+/**
+ * The closing call to action: a question, a sentence that says what to send
+ * and what comes back, and the two buttons of `contactActions`.
  *
  * It ends the home page and every page a reader may land on from a search,
  * so nobody reaches the foot of a long page with nowhere to go next. The
- * words default to the home page's; the showcase passes its own.
+ * words default to the home page's, which speak of both offers. A page with
+ * one reader passes its own: the showcase and the automation page speak of
+ * their one offer, and the experience page, where an employer lands from the
+ * CV, ends with the CV and the contact page, not with an offer to clients.
  */
-function ctaBlock(db, lang, { title = db.copy[lang].home.ctaTitle, body = db.copy[lang].home.ctaBody } = {}) {
-  const c = db.copy[lang];
+function ctaBlock(db, lang, { title = db.copy[lang].home.ctaTitle, body = db.copy[lang].home.ctaBody, actions = contactActions(db, lang) } = {}) {
   return `  <section class="section">
     <div class="container">
       <div class="cta">
         <h2>${e(title)}</h2>
         <p>${e(body)}</p>
-        <a class="btn" href="${rel('contact', lang)}">${e(c.home.ctaButton)}</a>
+        <div class="cta__actions">
+${actions}
+        </div>
       </div>
     </div>
   </section>`;
@@ -388,11 +423,15 @@ function home(db, lang) {
     heading: p.name[lang],
     headingClass: 'hero__name',
     altName: otherName(db, lang),
-    headline: p.headline[lang],
+    // The line a visitor reads says what he does and for whom, in plain
+    // words. `profile.headline`, with the names of the tools, stays what the
+    // structured data, the share card and the llms files call him.
+    headline: c.home.headline,
     intro: c.home.intro,
+    actions: contactActions(db, lang),
     note: availableNow(db) ? c.home.availability : null,
-    actions: `        <a class="btn" href="${rel('contact', lang)}">${e(c.home.ctaButton)}</a>
-        <a class="btn btn--ghost" href="${rel('automation', lang)}">${e(c.nav.automation)}</a>`,
+    noteAfter: true,
+    stack: c.home.stack,
   })}
 
 ${section('offers', null, c.home.offersTitle, null, `      <div class="grid grid--3">\n${B.homeOffers(db, lang)}\n      </div>`)}
@@ -407,7 +446,7 @@ ${section('projects', c.home.projectsLabel, c.home.projectsLabel, c.home.project
 
 ${section('showcase', c.home.showcaseLabel, c.home.showcaseLabel, c.home.showcaseLead, `      <div class="grid grid--3">\n${B.homeShowcase(db, lang)}\n      </div>`, { href: rel('showcase', lang), label: c.ui.allSites })}
 
-${section('quotes', c.home.quoteLabel, c.home.quoteLabel, null, `      <div class="grid grid--2">\n${B.homeQuote(db, lang)}\n      </div>`, { href: rel('work', lang), label: c.nav.work })}
+${section('quotes', c.home.quoteLabel, c.home.quoteLabel, null, `      <div class="grid grid--2">\n${B.homeQuote(db, lang)}\n      </div>${recommendationsSource(db, lang)}`, { href: rel('work', lang), label: c.nav.work })}
 
 ${ctaBlock(db, lang)}`;
 
@@ -450,6 +489,12 @@ function recommendationsSource(db, lang) {
   return `\n      <p class="quote-source" data-reveal><a href="${e(url)}"${extAttrs(url)}>${e(c.work.testimonialsSource)}${newTabHint(c.ui.opensInNewTab)}</a></p>`;
 }
 
+/* What the experience page offers its reader, at the top and at the foot:
+   the CV, then the contact page with the role and the places he is open to. */
+const workActions = (db, lang) =>
+  `        ${cvButton(db, lang)}
+        <a class="btn btn--ghost" href="${rel('contact', lang)}">${e(db.copy[lang].home.ctaButton)}</a>`;
+
 function work(db, lang) {
   const c = db.copy[lang];
 
@@ -458,6 +503,8 @@ function work(db, lang) {
     heading: c.work.title,
     lead: c.work.lead,
     note: availableNow(db) ? c.work.availability : null,
+    // The page an employer lands on from LinkedIn: the CV is one tap away.
+    actions: workActions(db, lang),
   })}
 
 ${section('timeline', null, c.work.timelineTitle, null, B.workTimeline(db, lang))}
@@ -468,7 +515,7 @@ ${section('credentials', null, c.work.credentialsTitle, null, B.workCredentials(
 
 ${section('education', null, c.work.educationTitle, null, B.workEducation(db, lang))}
 
-${ctaBlock(db, lang)}`;
+${ctaBlock(db, lang, { title: c.work.ctaTitle, body: c.work.ctaBody, actions: workActions(db, lang) })}`;
 
   return shell(db, 'work', lang, main);
 }
@@ -492,7 +539,7 @@ ${ctaBlock(db, lang)}`;
 function showcase(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ eyebrow: eyebrowOf(db, lang, 'showcase'), heading: c.showcase.title, lead: c.showcase.lead })}
+  const main = `${heroBlock({ eyebrow: eyebrowOf(db, lang, 'showcase'), heading: c.showcase.title, lead: c.showcase.lead, actions: contactActions(db, lang) })}
 
   <section class="section" id="offer">
     <div class="container">
@@ -519,7 +566,7 @@ ${ctaBlock(db, lang, { title: c.showcase.ctaTitle, body: c.showcase.ctaBody })}`
 function automation(db, lang) {
   const c = db.copy[lang];
 
-  const main = `${heroBlock({ eyebrow: eyebrowOf(db, lang, 'automation'), heading: c.automation.title, lead: c.automation.lead })}
+  const main = `${heroBlock({ eyebrow: eyebrowOf(db, lang, 'automation'), heading: c.automation.title, lead: c.automation.lead, actions: contactActions(db, lang) })}
 
 ${section('services', null, c.automation.servicesTitle, null, `      <div class="grid grid--3">
 ${B.automationServices(db, lang)}
@@ -527,6 +574,12 @@ ${B.automationServices(db, lang)}
       <div class="process">
         <h3 class="process__title" data-reveal>${e(c.automation.processTitle)}</h3>
 ${B.automationProcess(db, lang)}
+        <div class="process__next" data-reveal>
+          <p>${e(c.automation.processNext)}</p>
+          <div class="process__actions">
+${contactActions(db, lang)}
+          </div>
+        </div>
       </div>`)}
 
   <section class="section" id="systems" data-filter-scope>
@@ -557,7 +610,7 @@ ${B.automationSystems(db, lang, 'build')}
 
 ${section('cost-case', null, c.automation.caseTitle, null, `${B.automationCase(db, lang)}`)}
 
-${ctaBlock(db, lang)}`;
+${ctaBlock(db, lang, { title: c.automation.ctaTitle, body: c.automation.ctaBody })}`;
 
   return shell(db, 'automation', lang, main);
 }
@@ -566,22 +619,31 @@ function contact(db, lang) {
   const c = db.copy[lang];
   const p = db.profile;
   const linkedin = p.sameAs.find((x) => x.platform === 'LinkedIn')?.url;
-  const github = p.sameAs.find((x) => x.platform === 'GitHub')?.url;
+
+  // The two direct ways to write to him, then LinkedIn. WhatsApp is the
+  // primary button where its readers write there first (`whatsappFirst`),
+  // and stands beside email everywhere else: never in its place. GitHub is
+  // a profile, not a way to reach him, so it stays in the list below.
+  const first = whatsappFirst(lang);
+  const byEmail = `<a class="btn${first ? ' btn--ghost' : ''}" href="mailto:${e(p.email)}">${e(c.ui.emailMe)}</a>`;
+  const byWhatsapp = B.whatsappButton(db, lang, first ? 'btn' : 'btn btn--ghost');
+  const direct = first ? [byWhatsapp, byEmail] : [byEmail, byWhatsapp];
 
   // No eyebrow, for the same reason as the about page.
   const main = `${heroBlock({
     heading: c.contact.title,
     headline: c.contact.lead,
-    actions: `        <a class="btn" href="mailto:${e(p.email)}">${e(c.ui.emailMe)}</a>${
+    actions: `${direct.map((a) => `        ${a}`).join('\n')}${
       linkedin ? `
         <a class="btn btn--ghost" href="${e(linkedin)}"${extAttrs(linkedin)}>LinkedIn${newTabHint(c.ui.opensInNewTab)}</a>` : ''
-    }${github ? `
-        <a class="btn btn--ghost" href="${e(github)}"${extAttrs(github)}>GitHub${newTabHint(c.ui.opensInNewTab)}</a>` : ''}`,
+    }`,
   })}
+
+${section('project', null, c.contact.projectTitle, c.contact.projectBody, '')}
 
 ${section('links', null, c.contact.linksTitle, null, B.contactLinks(db, lang))}
 
-${section('details', null, c.contact.availabilityTitle, null, `      <div class="grid grid--2">
+${section('details', null, c.contact.hiringTitle, null, `      <div class="grid grid--2">
         <div class="card" data-reveal>
           ${B.contactAvailability(db, lang)}
         </div>
@@ -669,11 +731,15 @@ ${B.projectEngine(db, lang, x)}
     .map((g) => `\n\n${section(g.id, null, g.title, null, `      <div class="grid grid--3">\n${g.cards}\n      </div>`)}`)
     .join('');
 
+  // A system is an automation offer, so its page ends as the automation page
+  // does. A project page ends with the words of the home page, for both offers.
+  const closing = project ? {} : { title: c.automation.ctaTitle, body: c.automation.ctaBody };
+
   const main = `${hero}
 
 ${body}${engine}${more}
 
-${ctaBlock(db, lang)}`;
+${ctaBlock(db, lang, closing)}`;
 
   return shell(db, d.page, lang, main, {
     section: d.parent,

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-20T00:00:00+03:00",
+  "generated": "2026-11-21T00:00:00+03:00",
   "projects": [
     {
       "id": "smart-scanner",
@@ -381,6 +381,68 @@
       }
     },
     {
+      "id": "dfs-dashboard",
+      "name": "DFS Dashboard",
+      "year": {
+        "en": "2025 to 2026",
+        "ar": "2025 إلى 2026"
+      },
+      "featured": false,
+      "category": {
+        "en": "Internal platform",
+        "ar": "منصّة داخلية"
+      },
+      "tagline": {
+        "en": "A unified CRM and quotation platform that replaced scattered manual processes across every department.",
+        "ar": "منصّة موحّدة لإدارة العملاء وعروض الأسعار حلّت محل عمليات يدوية متفرّقة في كل الأقسام."
+      },
+      "problem": {
+        "en": "Customer management and quotation handling lived in separate manual steps with no shared context, so nothing was traceable end to end.",
+        "ar": "كانت إدارة العملاء ومعالجة عروض الأسعار خطوات يدوية منفصلة بلا سياق مشترك، فلم يكن أي شيء قابلاً للتتبّع من طرف إلى طرف."
+      },
+      "built": {
+        "en": "I owned the two core frontend modules, CRM and Quotation, and connected them into one workflow: creating and updating quotations, tracking statuses, managing customers and leads, and an internal module for projects and tasks with assignment and progress tracking. I worked closely with the backend team on API definitions and payload reviews so UI behaviour matched the business workflow.",
+        "ar": "تولّيت وحدتَي الواجهة الأمامية الأساسيتين، وهما إدارة العملاء وعروض الأسعار، وربطتهما في سير عمل واحد: إنشاء عروض الأسعار وتحديثها، وتتبّع الحالات، وإدارة العملاء والفرص، إضافة إلى وحدة داخلية للمشاريع والمهام مع الإسناد وتتبّع التقدّم. وعملت عن قرب مع فريق الواجهة الخلفية على تعريفات الـ API ومراجعة الحمولات ليطابق سلوك الواجهة سير العمل الفعلي."
+      },
+      "role": {
+        "en": "Frontend developer",
+        "ar": "مطوّر الواجهة الأمامية"
+      },
+      "metrics": [
+        {
+          "value": "<2",
+          "label": {
+            "en": "minutes per quotation with the platform, once the data is entered",
+            "ar": "دقيقة لإعداد عرض السعر عبر المنصّة بعد إدخال البيانات"
+          }
+        },
+        {
+          "value": "15",
+          "label": {
+            "en": "employees, all of whom adopted it",
+            "ar": "موظفاً اعتمدوا المنصّة جميعاً"
+          }
+        }
+      ],
+      "stack": [
+        "React 19",
+        "Vite",
+        "TypeScript",
+        "Tailwind CSS v4",
+        "Axios",
+        "TanStack React Query",
+        "React Hook Form",
+        "React Router",
+        "Laravel Echo",
+        "@hello-pangea/dnd"
+      ],
+      "url": null,
+      "page": {
+        "en": "https://nouraldeentofi.com/en/projects/dfs-dashboard",
+        "ar": "https://nouraldeentofi.com/projects/dfs-dashboard"
+      }
+    },
+    {
       "id": "khatm",
       "name": "Khatm · ختم",
       "year": "2026",
@@ -520,68 +582,6 @@
       }
     },
     {
-      "id": "dfs-dashboard",
-      "name": "DFS Dashboard",
-      "year": {
-        "en": "2025 to 2026",
-        "ar": "2025 إلى 2026"
-      },
-      "featured": false,
-      "category": {
-        "en": "Internal platform",
-        "ar": "منصّة داخلية"
-      },
-      "tagline": {
-        "en": "A unified CRM and quotation platform that replaced scattered manual processes across every department.",
-        "ar": "منصّة موحّدة لإدارة العملاء وعروض الأسعار حلّت محل عمليات يدوية متفرّقة في كل الأقسام."
-      },
-      "problem": {
-        "en": "Customer management and quotation handling lived in separate manual steps with no shared context, so nothing was traceable end to end.",
-        "ar": "كانت إدارة العملاء ومعالجة عروض الأسعار خطوات يدوية منفصلة بلا سياق مشترك، فلم يكن أي شيء قابلاً للتتبّع من طرف إلى طرف."
-      },
-      "built": {
-        "en": "I owned the two core frontend modules, CRM and Quotation, and connected them into one workflow: creating and updating quotations, tracking statuses, managing customers and leads, and an internal module for projects and tasks with assignment and progress tracking. I worked closely with the backend team on API definitions and payload reviews so UI behaviour matched the business workflow.",
-        "ar": "تولّيت وحدتَي الواجهة الأمامية الأساسيتين، وهما إدارة العملاء وعروض الأسعار، وربطتهما في سير عمل واحد: إنشاء عروض الأسعار وتحديثها، وتتبّع الحالات، وإدارة العملاء والفرص، إضافة إلى وحدة داخلية للمشاريع والمهام مع الإسناد وتتبّع التقدّم. وعملت عن قرب مع فريق الواجهة الخلفية على تعريفات الـ API ومراجعة الحمولات ليطابق سلوك الواجهة سير العمل الفعلي."
-      },
-      "role": {
-        "en": "Frontend developer",
-        "ar": "مطوّر الواجهة الأمامية"
-      },
-      "metrics": [
-        {
-          "value": "2",
-          "label": {
-            "en": "core modules owned",
-            "ar": "وحدتان أساسيتان"
-          }
-        },
-        {
-          "value": "2",
-          "label": {
-            "en": "languages (AR/EN)",
-            "ar": "لغتان (عربي/إنجليزي)"
-          }
-        }
-      ],
-      "stack": [
-        "React 19",
-        "Vite",
-        "TypeScript",
-        "Tailwind CSS v4",
-        "Axios",
-        "TanStack React Query",
-        "React Hook Form",
-        "React Router",
-        "Laravel Echo",
-        "@hello-pangea/dnd"
-      ],
-      "url": null,
-      "page": {
-        "en": "https://nouraldeentofi.com/en/projects/dfs-dashboard",
-        "ar": "https://nouraldeentofi.com/projects/dfs-dashboard"
-      }
-    },
-    {
       "id": "goldentag",
       "name": "GoldenTag",
       "year": "2025",
@@ -591,7 +591,7 @@
         "ar": "تطبيق موبايل · Google Play"
       },
       "tagline": {
-        "en": "A jewelry store management app shipped to the Google Play Store.",
+        "en": "A jewellery store management app shipped to the Google Play Store.",
         "ar": "تطبيق لإدارة محلات المجوهرات، منشور على متجر Google Play."
       },
       "problem": {
@@ -1998,22 +1998,20 @@
           "Structured-JSON evaluator scoring fit on a 1–10 scale",
           "Deduplication against n8n Data Tables so nothing is seen twice",
           "Telegram delivery of high-scoring matches only",
-          "Human-in-the-loop approval before any application is sent",
-          "Semi-automated applications with tailored AI-generated cover letters via Gmail",
+          "Nothing is sent without a person's approval on Telegram",
           "A factory clones the search into a separate daily bot for each user, through the n8n API: automation that builds automation"
         ],
         "ar": [
           "مُقيّم يُخرج JSON منظّماً ويمنح درجة ملاءمة من 1 إلى 10",
           "إزالة التكرار مقابل جداول بيانات n8n فلا يتكرّر أي إعلان",
           "إرسال المطابقات عالية التقييم فقط عبر تيليجرام",
-          "موافقة بشرية قبل إرسال أي طلب توظيف",
-          "طلبات شبه آلية مع رسائل تغطية مخصّصة يولّدها الذكاء الاصطناعي وتُرسل عبر Gmail",
+          "لا يُرسَل شيء دون موافقة شخص عبر تيليجرام",
           "مصنع ينسخ البحث إلى بوت يومي مستقل لكل مستخدم عبر واجهة n8n، أي أتمتة تبني أتمتة"
         ]
       },
       "outcome": {
-        "en": "Daily job hunting collapses into reviewing a short, pre-scored shortlist.",
-        "ar": "يتقلّص البحث اليومي عن عمل إلى مراجعة قائمة قصيرة مقيّمة مسبقاً."
+        "en": "A day of job listings becomes a short, pre-scored shortlist.",
+        "ar": "تتحوّل إعلانات اليوم إلى قائمة قصيرة مقيّمة مسبقاً."
       },
       "status": "live",
       "workflowCount": 3,

@@ -4,17 +4,17 @@
 
 Also known as: Nour Aldeen Tofi · Nouraldeen Tofi · Nour Al-Deen Tofi · Nour Al Deen Tofi · Nour Aldin Tofi · Nour Eddin Tofi · Noureddine Tofi · Nour El Din Tofi · Noor Aldeen Tofi · Nour Aldeen Toufi · Nour Tofi · nouraldeentofi · نور الدين طفي · نورالدين طفي · نور الدين الطفي · نور طفي
 
-I build React and TypeScript interfaces and the AI behind them: LLM apps and n8n automation that read Arabic and English documents, run WhatsApp and Telegram bots and deliver clean data. And websites for people, companies and shops.
+I build the interface people use and the AI behind it, in Arabic and English. Smart Scanner turns a photo of an invoice into checked data, and the shop sites I build take bookings and orders on WhatsApp.
 
-- **Roles I am looking for:** Frontend & AI Engineer, AI Engineer, Frontend Developer (React, TypeScript, Next.js), AI Automation Engineer (n8n)
+- **Roles I am open to:** Frontend & AI Engineer, Frontend Developer (React, TypeScript, Next.js)
 - **Locations:** Al Khobar, Dammam, Dhahran, Eastern Province, Riyadh and anywhere in Saudi Arabia (open to relocation), Remote
-- **Work preferences:** Open to new roles
+- **Work preferences:** Open to a full-time role
 
 ## What he offers
 
-- [AI automation with n8n](https://nouraldeentofi.com/en/automation): Workflows and AI agents that take over repetitive work: reading invoices, answering customers, screening CVs, moving data.
-- [Websites for professionals and businesses](https://nouraldeentofi.com/en/showcase): Arabic and English sites designed around the person or the business, fast on phones and readable by Google and AI assistants.
-- [Frontend development and project coordination](https://nouraldeentofi.com/en/work): React, TypeScript and Next.js interfaces in Arabic and English with full right-to-left support, delivered from requirements to production.
+- [AI automation for repetitive work](https://nouraldeentofi.com/en/automation): Systems that take over what a team repeats by hand: reading invoices, screening CVs, replying to customers, and taking bookings and running daily admin through WhatsApp and Telegram bots. One example: for a chess club in Dammam, the system I built reads every bank-transfer receipt, so registrations are confirmed without anyone opening one by hand. We start from real samples of your work, and a person approves anything sensitive. Built with n8n and large language models.
+- [Websites for professionals and businesses](https://nouraldeentofi.com/en/showcase): A site designed around you or your business, in Arabic, English or both, and fast on phones. For a shop or a restaurant: what you offer in photos, your place on the map, and ordering or booking through WhatsApp. One example: on the site of Al-Reem Grilled Lamb in Al Khobar, each order arrives ready on the shop's WhatsApp. Send me your LinkedIn profile or your shop's Google Maps listing, and I will tell you what I would build.
+- [Frontend development for products and internal systems](https://nouraldeentofi.com/en/work): Web apps and internal tools in Arabic and English, with full right-to-left support. One example: at DFS, a safety-equipment company, I built the frontend of the CRM and quotation platform, and it replaced spreadsheets and hand-made quotes in every department. I agree the data contract with the backend first, so both sides build in parallel. Built with React, TypeScript and Next.js.
 
 ## Start here
 
@@ -35,9 +35,9 @@ I build React and TypeScript interfaces and the AI behind them: LLM apps and n8n
 - [Universal Web Scraper](https://nouraldeentofi.com/en/projects/universal-web-scraper): A whole website into an Excel file
 - [Nour Motion Studio](https://nouraldeentofi.com/en/projects/motion-studio): Free motion-graphics video maker in the browser
 - [Braille Certificate Maker](https://nouraldeentofi.com/en/projects/braille-certificate): Training certificates with Arabic Braille
+- [DFS Dashboard](https://nouraldeentofi.com/en/projects/dfs-dashboard): Internal CRM and quotation platform
 - [Khatm · ختم](https://nouraldeentofi.com/en/projects/khatm): Open-source e-invoicing for businesses in Saudi Arabia
 - [The Complete Umrah Guide](https://nouraldeentofi.com/en/projects/umrah-guide): Step-by-step Umrah guide that works offline
-- [DFS Dashboard](https://nouraldeentofi.com/en/projects/dfs-dashboard): Internal CRM and quotation platform
 - [GoldenTag](https://nouraldeentofi.com/en/projects/goldentag): Jewelry store management app on Google Play
 - [Business Card Extractor](https://nouraldeentofi.com/en/projects/business-card-extractor): Card scanner that saves to contacts
 - [MCP Search Server](https://nouraldeentofi.com/en/projects/mcp-search-server): Gives an AI model real data to query
@@ -61,10 +61,10 @@ I build React and TypeScript interfaces and the AI behind them: LLM apps and n8n
 - Universal Web Scraper (2026): One link in, the whole site out: every page discovered, the data classified, and an Excel file with a tab for each kind of data.
 - [Nour Motion Studio](https://nouraldeentofi.com/motion-studio/) (2026): Pick a size and a style, add ready-made scenes, and export a motion video for free, in the browser, with no account and no server.
 - [Braille Certificate Maker](https://braille.nouraldeentofi.com/) (2026): Fill in a training certificate and get a print-ready PDF. It comes with a full Arabic Braille version a blind trainee can read by touch, and a file for Braille embossers.
+- DFS Dashboard (2025 to 2026): A unified CRM and quotation platform that replaced scattered manual processes across every department.
 - [Khatm · ختم](https://khatm.nouraldeentofi.com/) (2026): An open-source e-invoicing program for businesses in Saudi Arabia, with a public demo that issues and signs invoices entirely in the browser.
 - [The Complete Umrah Guide](https://nouraldeentofi.com/umrah-guide/) (2026): An interactive Umrah checklist in the order the rites are performed, in ten languages, and built to be used one-handed and offline inside the Haram.
-- DFS Dashboard (2025 to 2026): A unified CRM and quotation platform that replaced scattered manual processes across every department.
-- [GoldenTag](https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag) (2025): A jewelry store management app shipped to the Google Play Store.
+- [GoldenTag](https://play.google.com/store/apps/details?id=com.leadbridge.golden_tag) (2025): A jewellery store management app shipped to the Google Play Store.
 - Business Card Extractor (2026): Photograph a business card, and it lands in your phone's contacts in one tap.
 - MCP Search Server (2026): A Model Context Protocol server that lets an AI model query real data instead of only generating text.
 

@@ -390,7 +390,11 @@ test('a product link stays with his links, though it is not part of his identity
   const scanner = db.profile.sameAs.find((s) => s.platform === 'Smart Scanner');
   assert.ok(buildApiProfile(db).links.some((l) => l.url === scanner.url));
   assert.ok(buildLlmsTxt(db).includes(scanner.url));
-  assert.ok(contactLinks(db, 'en').includes(scanner.url));
+  // It is not a way to reach him, so the contact page does not list it: a
+  // product login on another company's domain is not a channel, and it put
+  // that company's name beside a product shown with no employer.
+  assert.equal(scanner.contactChannel, false);
+  for (const lang of ['en', 'ar']) assert.ok(!contactLinks(db, lang).includes(scanner.url), `${lang}: the product is listed as a way to reach him`);
 
   for (const { lang, page, html } of everyPage()) {
     const person = ldNodes(html).find((n) => n['@type'] === 'Person');

@@ -463,6 +463,23 @@
 
 .cta p { color: var(--dim); max-inline-size: 52ch; }
 
+/* The two ways on, side by side, and one above the other where they do not fit. */
+.cta__actions,
+.process__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.cta__actions { justify-content: center; }
+
+@media (max-width: 480px) {
+  .cta__actions,
+  .process__actions { display: grid; inline-size: 100%; }
+  .cta__actions .btn,
+  .process__actions .btn { justify-content: center; }
+}
+
 /* ---------- contact ---------- */
 
 .linklist { list-style: none; padding: 0; display: grid; gap: var(--space-3); }
@@ -1302,6 +1319,16 @@
 /* How a project runs: a titled strip under the service cards. */
 .process { margin-block-start: var(--space-7); }
 .process__title { margin-block-end: var(--space-5); }
+
+/* What to do next, right under the last step: one sentence and the two
+   buttons, before the long list of systems begins. */
+.process__next {
+  display: grid;
+  gap: var(--space-4);
+  margin-block-start: var(--space-6);
+}
+
+.process__next p { color: var(--fg); font-weight: 600; max-inline-size: var(--measure); }
 
 .steps__num {
   inline-size: 32px;

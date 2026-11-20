@@ -183,6 +183,35 @@
     }
   },
   {
+    "id": "dfs-dashboard",
+    "name": "DFS Dashboard",
+    "featured": false,
+    "group": "apps",
+    "year": { "en": "2025 to 2026", "ar": "2025 إلى 2026" },
+    "category": { "en": "Internal platform", "ar": "منصّة داخلية" },
+    "headline": { "en": "Internal CRM and quotation platform", "ar": "منصّة داخلية لإدارة العملاء وعروض الأسعار" },
+    "tagline": {
+      "en": "A unified CRM and quotation platform that replaced scattered manual processes across every department.",
+      "ar": "منصّة موحّدة لإدارة العملاء وعروض الأسعار حلّت محل عمليات يدوية متفرّقة في كل الأقسام."
+    },
+    "problem": {
+      "en": "Customer management and quotation handling lived in separate manual steps with no shared context, so nothing was traceable end to end.",
+      "ar": "كانت إدارة العملاء ومعالجة عروض الأسعار خطوات يدوية منفصلة بلا سياق مشترك، فلم يكن أي شيء قابلاً للتتبّع من طرف إلى طرف."
+    },
+    "built": {
+      "en": "I owned the two core frontend modules, CRM and Quotation, and connected them into one workflow: creating and updating quotations, tracking statuses, managing customers and leads, and an internal module for projects and tasks with assignment and progress tracking. I worked closely with the backend team on API definitions and payload reviews so UI behaviour matched the business workflow.",
+      "ar": "تولّيت وحدتَي الواجهة الأمامية الأساسيتين، وهما إدارة العملاء وعروض الأسعار، وربطتهما في سير عمل واحد: إنشاء عروض الأسعار وتحديثها، وتتبّع الحالات، وإدارة العملاء والفرص، إضافة إلى وحدة داخلية للمشاريع والمهام مع الإسناد وتتبّع التقدّم. وعملت عن قرب مع فريق الواجهة الخلفية على تعريفات الـ API ومراجعة الحمولات ليطابق سلوك الواجهة سير العمل الفعلي."
+    },
+    "role": { "en": "Frontend developer", "ar": "مطوّر الواجهة الأمامية" },
+    "metrics": [
+      { "value": "<2", "label": { "en": "minutes per quotation with the platform, once the data is entered", "ar": "دقيقة لإعداد عرض السعر عبر المنصّة بعد إدخال البيانات" } },
+      { "value": "15", "label": { "en": "employees, all of whom adopted it", "ar": "موظفاً اعتمدوا المنصّة جميعاً" } }
+    ],
+    "stack": ["React 19", "Vite", "TypeScript", "Tailwind CSS v4", "Axios", "TanStack React Query", "React Hook Form", "React Router", "Laravel Echo", "@hello-pangea/dnd"],
+    "url": null,
+    "todo": "Internal product, no public URL"
+  },
+  {
     "id": "khatm",
     "name": "Khatm · ختم",
     "featured": false,
@@ -265,35 +294,6 @@
     }
   },
   {
-    "id": "dfs-dashboard",
-    "name": "DFS Dashboard",
-    "featured": false,
-    "group": "apps",
-    "year": { "en": "2025 to 2026", "ar": "2025 إلى 2026" },
-    "category": { "en": "Internal platform", "ar": "منصّة داخلية" },
-    "headline": { "en": "Internal CRM and quotation platform", "ar": "منصّة داخلية لإدارة العملاء وعروض الأسعار" },
-    "tagline": {
-      "en": "A unified CRM and quotation platform that replaced scattered manual processes across every department.",
-      "ar": "منصّة موحّدة لإدارة العملاء وعروض الأسعار حلّت محل عمليات يدوية متفرّقة في كل الأقسام."
-    },
-    "problem": {
-      "en": "Customer management and quotation handling lived in separate manual steps with no shared context, so nothing was traceable end to end.",
-      "ar": "كانت إدارة العملاء ومعالجة عروض الأسعار خطوات يدوية منفصلة بلا سياق مشترك، فلم يكن أي شيء قابلاً للتتبّع من طرف إلى طرف."
-    },
-    "built": {
-      "en": "I owned the two core frontend modules, CRM and Quotation, and connected them into one workflow: creating and updating quotations, tracking statuses, managing customers and leads, and an internal module for projects and tasks with assignment and progress tracking. I worked closely with the backend team on API definitions and payload reviews so UI behaviour matched the business workflow.",
-      "ar": "تولّيت وحدتَي الواجهة الأمامية الأساسيتين، وهما إدارة العملاء وعروض الأسعار، وربطتهما في سير عمل واحد: إنشاء عروض الأسعار وتحديثها، وتتبّع الحالات، وإدارة العملاء والفرص، إضافة إلى وحدة داخلية للمشاريع والمهام مع الإسناد وتتبّع التقدّم. وعملت عن قرب مع فريق الواجهة الخلفية على تعريفات الـ API ومراجعة الحمولات ليطابق سلوك الواجهة سير العمل الفعلي."
-    },
-    "role": { "en": "Frontend developer", "ar": "مطوّر الواجهة الأمامية" },
-    "metrics": [
-      { "value": "2", "label": { "en": "core modules owned", "ar": "وحدتان أساسيتان" } },
-      { "value": "2", "label": { "en": "languages (AR/EN)", "ar": "لغتان (عربي/إنجليزي)" } }
-    ],
-    "stack": ["React 19", "Vite", "TypeScript", "Tailwind CSS v4", "Axios", "TanStack React Query", "React Hook Form", "React Router", "Laravel Echo", "@hello-pangea/dnd"],
-    "url": null,
-    "todo": "Internal product, no public URL"
-  },
-  {
     "id": "goldentag",
     "name": "GoldenTag",
     "featured": false,
@@ -302,7 +302,7 @@
     "category": { "en": "Mobile app · Google Play", "ar": "تطبيق موبايل · Google Play" },
     "headline": { "en": "Jewelry store management app on Google Play", "ar": "تطبيق إدارة محلات المجوهرات على Google Play" },
     "tagline": {
-      "en": "A jewelry store management app shipped to the Google Play Store.",
+      "en": "A jewellery store management app shipped to the Google Play Store.",
       "ar": "تطبيق لإدارة محلات المجوهرات، منشور على متجر Google Play."
     },
     "problem": {

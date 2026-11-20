@@ -8,9 +8,9 @@
 **Phone:** +966547972944
 **Languages:** Arabic (Native), English (Professional working proficiency)
 **Open to work:** yes (On-site, Hybrid, Remote)
-**Roles I am looking for:** Frontend & AI Engineer, AI Engineer, Frontend Developer (React, TypeScript, Next.js), AI Automation Engineer (n8n)
+**Roles I am open to:** Frontend & AI Engineer, Frontend Developer (React, TypeScript, Next.js)
 **Locations:** Al Khobar, Dammam, Dhahran, Eastern Province, Riyadh and anywhere in Saudi Arabia (open to relocation), Remote
-**Work preferences:** Open to new roles
+**Work preferences:** Open to a full-time role
 
 **Links:**
 - LinkedIn: https://www.linkedin.com/in/nouraldeentofi/
@@ -32,23 +32,23 @@ Part of the job is coordination. I gather requirements directly from clients, de
 
 ## What he offers
 
-- [AI automation with n8n](https://nouraldeentofi.com/en/automation): Workflows and AI agents that take over repetitive work: reading invoices, answering customers, screening CVs, moving data.
-- [Websites for professionals and businesses](https://nouraldeentofi.com/en/showcase): Arabic and English sites designed around the person or the business, fast on phones and readable by Google and AI assistants.
-- [Frontend development and project coordination](https://nouraldeentofi.com/en/work): React, TypeScript and Next.js interfaces in Arabic and English with full right-to-left support, delivered from requirements to production.
+- [AI automation for repetitive work](https://nouraldeentofi.com/en/automation): Systems that take over what a team repeats by hand: reading invoices, screening CVs, replying to customers, and taking bookings and running daily admin through WhatsApp and Telegram bots. One example: for a chess club in Dammam, the system I built reads every bank-transfer receipt, so registrations are confirmed without anyone opening one by hand. We start from real samples of your work, and a person approves anything sensitive. Built with n8n and large language models.
+- [Websites for professionals and businesses](https://nouraldeentofi.com/en/showcase): A site designed around you or your business, in Arabic, English or both, and fast on phones. For a shop or a restaurant: what you offer in photos, your place on the map, and ordering or booking through WhatsApp. One example: on the site of Al-Reem Grilled Lamb in Al Khobar, each order arrives ready on the shop's WhatsApp. Send me your LinkedIn profile or your shop's Google Maps listing, and I will tell you what I would build.
+- [Frontend development for products and internal systems](https://nouraldeentofi.com/en/work): Web apps and internal tools in Arabic and English, with full right-to-left support. One example: at DFS, a safety-equipment company, I built the frontend of the CRM and quotation platform, and it replaced spreadsheets and hand-made quotes in every department. I agree the data contract with the backend first, so both sides build in parallel. Built with React, TypeScript and Next.js.
 
 ### n8n and AI automation for businesses
 
-I am an n8n developer based in Al Khobar. I build automation with language models for businesses across Saudi Arabia, on site in the Eastern Province and remotely everywhere else, in Arabic and English. Every system on this page is marked honestly: running for a client, live, or built and tested.
+Invoices typed in by hand, CVs read one by one, the same customer questions answered every day: I build the automation that takes over work like this, in Arabic and English. I am an n8n developer in Al Khobar and work with businesses across Saudi Arabia. Every system on this page shows its real status.
 
 - **Arabic invoices and documents.** A photo or a PDF of an invoice goes in, and checked, structured data comes out: supplier, amounts, tax and line items, in Arabic and English, handwriting included. This is the engine inside Smart Scanner. **Systems:** Smart Scanner Extraction Pipeline (Live)
-- **WhatsApp and Telegram bots.** Bots that take bookings through WhatsApp buttons, and Telegram assistants that run daily work from a chat, where the AI calls fixed tools under strict rules instead of guessing. **Systems:** WhatsApp Booking Bot (Built and tested), Teacher Assistant AI Bot (Running for a client)
+- **WhatsApp and Telegram bots.** Your customer picks a service, then a time, from WhatsApp buttons; the booking is written to Google Calendar and confirmed back on WhatsApp. On Telegram, an assistant runs daily work from a chat: a private tutor in Saudi Arabia manages students, schedules and dues with one, and its AI acts only through fixed tools under strict rules. **Systems:** WhatsApp Booking Bot (Built and tested), Teacher Assistant AI Bot (Running for a client)
 - **Customer reviews and messages.** Replies to Google reviews written automatically, with the owner approving the answer to any negative review on Telegram first, and one inbox that gathers every channel and drafts a reply in the customer's own dialect. **Systems:** Google Review Reply Manager (Built and tested), Unified Inbox (Built and tested)
 - **Hiring.** CV screening that reads Arabic and English CVs, scores each candidate against the role, and quotes the line of the CV behind every score. **Systems:** CV Screener agents (Live)
 - **Data and leads.** A whole website pulled into a spreadsheet, business leads found and scored, and messy contact lists cleaned, with a reason recorded for every rejected row. **Systems:** Universal Web Scraper (Live), Smart Lead Finder (Built and tested), CRM Lead Cleaner (Built and tested)
 
 **How a project runs**
 
-1. We go through the manual work as it happens today, on real samples.
+1. We go through the manual work as it happens today, on real samples, on site in the Eastern Province or remotely.
 2. I build the workflow and test it on those samples until the results are right.
 3. It goes live with a person approving anything sensitive.
 4. I stay on to monitor it, fix it and extend it.
@@ -177,6 +177,22 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 **Page.** https://nouraldeentofi.com/en/projects/braille-certificate
 
+### DFS Dashboard (2025 to 2026)
+
+*Internal platform*: A unified CRM and quotation platform that replaced scattered manual processes across every department.
+
+**Problem.** Customer management and quotation handling lived in separate manual steps with no shared context, so nothing was traceable end to end.
+
+**What he built.** I owned the two core frontend modules, CRM and Quotation, and connected them into one workflow: creating and updating quotations, tracking statuses, managing customers and leads, and an internal module for projects and tasks with assignment and progress tracking. I worked closely with the backend team on API definitions and payload reviews so UI behaviour matched the business workflow.
+
+**Role.** Frontend developer
+
+**Numbers.** <2 minutes per quotation with the platform, once the data is entered · 15 employees, all of whom adopted it
+
+**Stack.** React 19, Vite, TypeScript, Tailwind CSS v4, Axios, TanStack React Query, React Hook Form, React Router, Laravel Echo, @hello-pangea/dnd
+
+**Page.** https://nouraldeentofi.com/en/projects/dfs-dashboard
+
 ### Khatm · ختم (2026)
 
 *E-invoicing platform · open source*: An open-source e-invoicing program for businesses in Saudi Arabia, with a public demo that issues and signs invoices entirely in the browser.
@@ -213,25 +229,9 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 **Page.** https://nouraldeentofi.com/en/projects/umrah-guide
 
-### DFS Dashboard (2025 to 2026)
-
-*Internal platform*: A unified CRM and quotation platform that replaced scattered manual processes across every department.
-
-**Problem.** Customer management and quotation handling lived in separate manual steps with no shared context, so nothing was traceable end to end.
-
-**What he built.** I owned the two core frontend modules, CRM and Quotation, and connected them into one workflow: creating and updating quotations, tracking statuses, managing customers and leads, and an internal module for projects and tasks with assignment and progress tracking. I worked closely with the backend team on API definitions and payload reviews so UI behaviour matched the business workflow.
-
-**Role.** Frontend developer
-
-**Numbers.** 2 core modules owned · 2 languages (AR/EN)
-
-**Stack.** React 19, Vite, TypeScript, Tailwind CSS v4, Axios, TanStack React Query, React Hook Form, React Router, Laravel Echo, @hello-pangea/dnd
-
-**Page.** https://nouraldeentofi.com/en/projects/dfs-dashboard
-
 ### GoldenTag (2025)
 
-*Mobile app · Google Play*: A jewelry store management app shipped to the Google Play Store.
+*Mobile app · Google Play*: A jewellery store management app shipped to the Google Play Store.
 
 **Problem.** Jewelry retailers track inventory, staff, and sales on paper, in a market where the exchange rate moves daily.
 
@@ -428,11 +428,10 @@ A scheduled pipeline that runs five daily search queries across LinkedIn, Indeed
 - Structured-JSON evaluator scoring fit on a 1–10 scale
 - Deduplication against n8n Data Tables so nothing is seen twice
 - Telegram delivery of high-scoring matches only
-- Human-in-the-loop approval before any application is sent
-- Semi-automated applications with tailored AI-generated cover letters via Gmail
+- Nothing is sent without a person's approval on Telegram
 - A factory clones the search into a separate daily bot for each user, through the n8n API: automation that builds automation
 
-**Outcome.** Daily job hunting collapses into reviewing a short, pre-scored shortlist.
+**Outcome.** A day of job listings becomes a short, pre-scored shortlist.
 
 **Page.** https://nouraldeentofi.com/en/automation/ai-job-match
 
@@ -779,7 +778,7 @@ Live coals: the hero opens at night, then the charcoal catches. Embers and spark
 2025-01 to 2026-11 · Al Khobar, Saudi Arabia · Full-time · On-site
 
 - Built the frontend of the company's custom CRM and quotation platform in React and TypeScript, in Arabic and English with full right-to-left support, replacing spreadsheets and hand-made quotes in every department.
-- Cut quotation preparation to under two minutes once the data is entered, and all fifteen employees adopted the platform.
+- With the platform, preparing a quotation took under two minutes once the data was entered, and all fifteen employees adopted it.
 - Built sales follow-up, purchase order drafts, sales analytics, real-time notifications and permission-based roles with route guards covered by Playwright tests, and developed the frontend of a second CRM for WAIS, the parent company.
 - Introduced workflow automation with n8n and the OpenAI API for the team's repetitive work, and used Claude Code daily to plan, build, test and review.
 - Coordinated requirements, user stories and API contracts between frontend, backend (Laravel) and UI/UX, so frontend and backend could build in parallel and delivery stayed on schedule.
@@ -791,7 +790,7 @@ Live coals: the hero opens at night, then the charcoal catches. Embers and spark
 - Coordinated client automation and software projects from requirements to release: scope, workflow design and acceptance.
 - Gathered requirements directly with clients, defined acceptance criteria, and broke work into tasks and user stories on Trello.
 - Tracked timelines and prepared cost estimates, and followed up on frontend, backend and UI/UX work until each release.
-- Coordinated the delivery of GoldenTag, a jewelry store management app the team built in Flutter, through to the Google Play Store.
+- Coordinated the delivery of GoldenTag, a jewellery store management app the team built in Flutter, through to the Google Play Store.
 
 ### Frontend Developer (Part-Time), Khwarizm Technologies
 
@@ -812,7 +811,7 @@ Live coals: the hero opens at night, then the charcoal catches. Embers and spark
 ## Education and awards
 
 - **Bachelor of Information Technology Engineering**, University of Kalamoon (2024-08)
-- **ACPC: Arab Collegiate Programming Contest**, ICPC: International Collegiate Programming Contest (2021-09)
+- **ACPC national qualifier**, ICPC: International Collegiate Programming Contest (2021-09)
 
 ## Certifications
 
@@ -831,13 +830,13 @@ Live coals: the hero opens at night, then the charcoal catches. Embers and spark
 
 ## Skills
 
-**Frontend.** React.js, React 19, TypeScript, JavaScript (ES6+), Tailwind CSS, HTML5, CSS3, Material-UI, Vite, React Hooks, TanStack React Query, React Hook Form, React Router, i18n & RTL, Responsive Design, Web Accessibility
+**Frontend.** React.js, React 19, Next.js, TypeScript, JavaScript (ES6+), Tailwind CSS, HTML5, CSS3, Material-UI, Vite, React Hooks, TanStack React Query, React Hook Form, React Router, i18n & RTL, Responsive Design, Web Accessibility
 
-**Automation & AI.** n8n, Workflow Automation, AI Agents, LLM Tool-Calling Design, Model Context Protocol (MCP), OpenAI API, GPT-4o, GPT-4.1 Vision, Structured JSON Outputs, Prompt Engineering, Document AI, Arabic OCR & Extraction, Web Scraping, Telegram Bot API, Webhooks, Error Handling & Retries
+**Automation & AI.** n8n, Workflow Automation, AI Agents, LLM Tool-Calling Design, Model Context Protocol (MCP), Claude Code, OpenAI API, GPT-4o, GPT-4.1 Vision, Structured JSON Outputs, Prompt Engineering, Document AI, Arabic OCR & Extraction, Web Scraping, Telegram Bot API, Webhooks, Error Handling & Retries
 
-**Data & Backend.** REST APIs, API Integration, JSON, OAuth 2.0, MySQL, Stored Procedures, Google Sheets API, Google Drive API, Node.js, Python
+**Data & Backend.** REST APIs, API Integration, JSON, OAuth 2.0, MySQL, Prisma, Stored Procedures, Google Sheets API, Google Drive API, Node.js, Python
 
-**Tooling & Delivery.** Git, GitHub, GitLab, CI/CD (GitHub Actions), Vitest, React Testing Library, Jira, Trello, Figma, Agile, Scrum, Clean Code
+**Tooling & Delivery.** Git, GitHub, GitLab, CI/CD (GitHub Actions), Docker, Vitest, Playwright, React Testing Library, Jira, Trello, Figma, Agile, Scrum, Clean Code
 
 **Project Coordination.** Requirements Gathering, Scope Definition, API Contract Design, User Stories, Sprint Planning, Code Review, Cost Estimation, Cross-Functional Coordination, Project Coordination, Problem Solving
 
@@ -893,11 +892,11 @@ Arabic is his native language and it is a core part of his technical specialisat
 
 **Is he open to work?**
 
-Yes. He is open to on-site, hybrid or remote roles anywhere in Saudi Arabia (he is based in Al Khobar and open to relocation) and to fully remote roles, as well as freelance AI, automation and frontend projects. The fastest way to reach him is email.
+Yes. He is open to a full-time role as a frontend and AI engineer, on-site or hybrid anywhere in Saudi Arabia (he is based in Al Khobar and open to relocation), or fully remote.
 
 **What roles is he looking for?**
 
-Full-time roles that use both halves of his work, as a frontend and AI engineer, or roles on one side of it: AI engineering on large language models, AI automation with n8n, or frontend development in React, TypeScript and Next.js. In any of them he can also coordinate the work between frontend, backend and design.
+A full-time role as a frontend and AI engineer: building product interfaces in React, TypeScript and Next.js and the features on large language models behind them. A frontend role on a team that ships AI features fits the same description. In either he can also coordinate the work between frontend, backend and design.
 
 **Where is he based, and can he relocate?**
 
@@ -905,7 +904,7 @@ He lives in Al Khobar in Saudi Arabia's Eastern Province, next to Dammam and Dha
 
 **Does he take freelance website and automation projects?**
 
-Yes. He designs and builds websites for professionals, companies and shops, and delivers n8n automation for businesses: WhatsApp and Telegram bots, Arabic invoice and document extraction, lead generation, and AI agents connected to a company's own systems.
+Yes. He designs and builds websites for professionals, companies and shops, and delivers n8n automation for businesses: WhatsApp and Telegram bots, Arabic invoice and document extraction, lead generation, and AI agents connected to a company's own systems. A project starts with a look at the work as it runs today; reach him on WhatsApp or by email from the contact page.
 
 **What is his automation stack?**
 
@@ -917,4 +916,4 @@ He likes anime, badminton and Valorant, teaches maths, and explains what he buil
 
 **How do I contact him?**
 
-By email at nouraldeentofi@gmail.com, or through LinkedIn. This site also publishes a machine-readable profile and an MCP server, so an AI assistant can look up his experience and projects directly.
+On WhatsApp, by email at nouraldeentofi@gmail.com, or through LinkedIn; all three are on the contact page. This site also publishes a machine-readable profile and an MCP server, so an AI assistant can look up his experience and projects directly.

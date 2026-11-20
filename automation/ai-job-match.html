@@ -53,8 +53,8 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;600;800&family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/tokens.css?v=9e291487">
 <link rel="stylesheet" href="/assets/css/base.css?v=52040e91">
-<link rel="stylesheet" href="/assets/css/layout.css?v=f9c9bdc0">
-<link rel="stylesheet" href="/assets/css/components.css?v=d351834f">
+<link rel="stylesheet" href="/assets/css/layout.css?v=fa24b427">
+<link rel="stylesheet" href="/assets/css/components.css?v=7d01f8bf">
 <link rel="stylesheet" href="/assets/css/motion.css?v=0828308a">
 <link rel="stylesheet" href="/assets/css/gallery.css?v=54f99880">
 <link rel="stylesheet" href="/assets/css/detail.css?v=9862b87e">
@@ -192,7 +192,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
       </nav>
       <h1>خط مطابقة الوظائف بالذكاء الاصطناعي</h1>
       <p class="hero__headline">بحث يومي عن عمل بموافقة عبر تيليجرام</p>
-      <p class="card__meta detail__meta"><span class="status status--live">يعمل الآن</span><span>التوظيف</span><span>وكيل مجدول مع تدخّل بشري</span><span>2026</span></p>
+      <p class="card__meta detail__meta"><span class="status status--live">يعمل الآن</span><span>المحتوى والتواصل</span><span>وكيل مجدول مع تدخّل بشري</span><span>2026</span></p>
       <p class="hero__intro">خط مجدول ينفّذ خمسة استعلامات بحث يومياً عبر LinkedIn وIndeed وGlassdoor، ويقيّم ملاءمة كل وظيفة من واحد إلى عشرة عبر مُقيّم LLM يُخرج JSON منظّماً، ولا يسلّم إلا الأعلى تقييماً.</p>
     </div>
   </section>
@@ -206,7 +206,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
     </div>
     <div class="card card--row" data-reveal>
       <div class="card__main">
-        <ul class="card__list"><li>مُقيّم يُخرج JSON منظّماً ويمنح درجة ملاءمة من 1 إلى 10</li><li>إزالة التكرار مقابل جداول بيانات n8n فلا يتكرّر أي إعلان</li><li>إرسال المطابقات عالية التقييم فقط عبر تيليجرام</li><li>موافقة بشرية قبل إرسال أي طلب توظيف</li><li>طلبات شبه آلية مع رسائل تغطية مخصّصة يولّدها الذكاء الاصطناعي وتُرسل عبر Gmail</li><li>مصنع ينسخ البحث إلى بوت يومي مستقل لكل مستخدم عبر واجهة n8n، أي أتمتة تبني أتمتة</li></ul>
+        <ul class="card__list"><li>مُقيّم يُخرج JSON منظّماً ويمنح درجة ملاءمة من 1 إلى 10</li><li>إزالة التكرار مقابل جداول بيانات n8n فلا يتكرّر أي إعلان</li><li>إرسال المطابقات عالية التقييم فقط عبر تيليجرام</li><li>لا يُرسَل شيء دون موافقة شخص عبر تيليجرام</li><li>مصنع ينسخ البحث إلى بوت يومي مستقل لكل مستخدم عبر واجهة n8n، أي أتمتة تبني أتمتة</li></ul>
       </div>
       <aside class="card__aside">
         <dl class="card__body">
@@ -363,7 +363,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
     <div class="section__head" data-reveal>
       <div class="section__titlebar"><h2>النتيجة</h2></div>
     </div>
-    <p class="detail__outcome" data-reveal>يتقلّص البحث اليومي عن عمل إلى مراجعة قائمة قصيرة مقيّمة مسبقاً.</p>
+    <p class="detail__outcome" data-reveal>تتحوّل إعلانات اليوم إلى قائمة قصيرة مقيّمة مسبقاً.</p>
   </div>
   <dialog class="lightbox" id="canvas-ai-job-match" aria-label="خط مطابقة الوظائف بالذكاء الاصطناعي: اللوحة الحقيقية في n8n">
     <div class="lightbox__head">
@@ -388,9 +388,24 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
       </div>
       <div class="grid grid--3">
 <article data-reveal class="card">
-  <p class="card__meta"><span class="status status--live">يعمل الآن</span><span>2026</span></p>
-  <h3 class="card__title"><a href="/projects/cv-screener#automation">وكلاء CV Screener</a></h3>
-  <p class="card__body">وكلاء ذكاء اصطناعي خلف منتج</p>
+  <p class="card__meta"><span class="status status--built">مبني ومُختبر</span><span>2026</span></p>
+  <h3 class="card__title"><a href="/automation/telegram-publisher">نظام النشر عبر تيليجرام</a></h3>
+  <p class="card__body">منشورات وسائل التواصل تُدار من محادثة واحدة</p>
+</article>
+<article data-reveal class="card">
+  <p class="card__meta"><span class="status status--built">مبني ومُختبر</span><span>2026</span></p>
+  <h3 class="card__title"><a href="/automation/unified-inbox">صندوق الوارد الموحّد</a></h3>
+  <p class="card__body">رسائل العملاء بردود يقترحها الذكاء الاصطناعي</p>
+</article>
+<article data-reveal class="card">
+  <p class="card__meta"><span class="status status--built">مبني ومُختبر</span><span>2026</span></p>
+  <h3 class="card__title"><a href="/automation/whatsapp-group">مجموعة واتساب من جدول</a></h3>
+  <p class="card__body">إضافة جهات الاتصال تلقائياً من ملف Excel أو CSV</p>
+</article>
+<article data-reveal class="card">
+  <p class="card__meta"><span class="status status--built">مبني ومُختبر</span><span>2026</span></p>
+  <h3 class="card__title"><a href="/automation/social-auto-publisher">الناشر الاجتماعي الآلي</a></h3>
+  <p class="card__body">منشورات بنصوص وصور يولّدها الذكاء الاصطناعي</p>
 </article>
 <article data-reveal class="card">
   <p class="card__meta"><span class="status status--built">مبني ومُختبر</span><span>2026</span></p>
@@ -404,9 +419,12 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
   <section class="section">
     <div class="container">
       <div class="cta">
-        <h2>لديك عملية يجب أن تُدير نفسها؟</h2>
-        <p>سواء كانت معالجة مستندات عربية، أو أداة داخلية لا يطيق أحد استخدامها، أو سير عمل يلتهم أسبوع فريقك بصمت، حدّثني عنها.</p>
-        <a class="btn" href="/contact">لنبدأ الحديث</a>
+        <h2>لديك عمل يجب أن يُدير نفسه؟</h2>
+        <p>سواء كان معالجة مستندات عربية، أو أداة داخلية لا يطيق أحد استخدامها، أو سير عمل يلتهم أسبوع فريقك بصمت، أرسل لي عيّنات حقيقية منه، وأخبرك بما أقترح أتمتته أولاً.</p>
+        <div class="cta__actions">
+        <a class="btn" href="https://wa.me/966547972944?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D9%86%D9%88%D8%B1%D8%8C%20%D8%A3%D9%83%D8%AA%D8%A8%20%D9%84%D9%83%20%D9%85%D9%86%20%D9%85%D9%88%D9%82%D8%B9%D9%83%20%D8%A8%D8%AE%D8%B5%D9%88%D8%B5%20" target="_blank" rel="noopener noreferrer">راسلني على واتساب<span class="visually-hidden"> (يفتح في تبويب جديد)</span></a>
+        <a class="btn btn--ghost" href="/contact">تواصل معي</a>
+        </div>
       </div>
     </div>
   </section>
@@ -420,7 +438,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
       <ul class="footer__links">
         <li><a href="/llms.txt" target="_blank" rel="noopener">llms.txt<span class="visually-hidden"> (يفتح في تبويب جديد)</span></a></li>
         <li><a href="/api/resume.json" target="_blank" rel="noopener">resume.json<span class="visually-hidden"> (يفتح في تبويب جديد)</span></a></li>
-        <li><a href="mailto:nouraldeentofi@gmail.com">راسلني</a></li>
+        <li><a href="mailto:nouraldeentofi@gmail.com">راسلني بالبريد</a></li>
       </ul>
     </div>
   </footer>

@@ -112,7 +112,8 @@
       "platform": "Smart Scanner",
       "url": "https://receipt.nexleadtech.com",
       "identity": false,
-      "note": "A product he built, not a profile of him."
+      "contactChannel": false,
+      "note": "A product he built: not a profile of him and not a way to reach him. Its link is on the project page."
     },
     {
       "platform": "Google Play",
@@ -145,15 +146,11 @@
     "roles": {
       "en": [
         "Frontend & AI Engineer",
-        "AI Engineer",
-        "Frontend Developer (React, TypeScript, Next.js)",
-        "AI Automation Engineer (n8n)"
+        "Frontend Developer (React, TypeScript, Next.js)"
       ],
       "ar": [
         "مطوّر واجهات أمامية وتطبيقات ذكاء اصطناعي",
-        "مطوّر تطبيقات ذكاء اصطناعي",
-        "مطوّر واجهات أمامية (React وTypeScript وNext.js)",
-        "مطوّر أتمتة بالذكاء الاصطناعي (n8n)"
+        "مطوّر واجهات أمامية (React وTypeScript وNext.js)"
       ]
     },
     "areas": {
@@ -181,7 +178,7 @@
         "Remote"
       ],
       "ar": [
-        "في الموقع",
+        "حضوري",
         "هجين",
         "عن بُعد"
       ]

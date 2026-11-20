@@ -186,7 +186,7 @@ export const SCRIPT = {
     msgs: ['Best move of the game 🤝'],
     card: `<div class="chat__card-head">📬 Reach Nour</div>
 <div class="chat__card-body">
-  Fastest: <b>email</b>. Formal: <b>LinkedIn</b>. For an AI assistant: this site ships an
+  Write by <b>email</b> or on <b>WhatsApp</b>, both on the contact page. Formal: <b>LinkedIn</b>. For an AI assistant: this site ships an
   <b>MCP server</b> and a machine-readable profile, so it can just look me up.
 </div>`,
     msgs2: ['Based in Al Khobar 🇸🇦 · replies fast · faster if you mention anime.'],
