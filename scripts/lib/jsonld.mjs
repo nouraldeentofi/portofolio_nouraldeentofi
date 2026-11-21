@@ -262,8 +262,10 @@ export function profilePageLd(db, lang, modified = null) {
  *
  * The name and the description are the card's own words, so the markup says
  * nothing a visitor cannot read. He is the provider, as a person: this is not
- * a LocalBusiness, and it carries no price and no rating, because the site
- * states neither. The languages sit on the channel, which is where
+ * a LocalBusiness, and it carries no rating, because the site states none.
+ * It carries no price either: the prices of a website are printed on the
+ * websites page, not on this card, and no markup on that page repeats them.
+ * The languages sit on the channel, which is where
  * schema.org puts them: a Service has no availableLanguage of its own.
  */
 export function servicesLd(db, lang) {

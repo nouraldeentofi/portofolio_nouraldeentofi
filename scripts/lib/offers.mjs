@@ -54,10 +54,31 @@ export function homeOffers(db, lang) {
     const known = OFFERS[offer.id];
     if (!known) throw new Error(`copy/${lang}.json: home.offers names an unknown offer "${offer.id}"`);
     if (!offer.body) throw new Error(`copy/${lang}.json: the offer "${offer.id}" does not say what the job is`);
+    // The line about prices links to them, and only the websites page prints any.
+    if (offer.prices && known.page !== 'showcase') throw new Error(`copy/${lang}.json: the offer "${offer.id}" points to prices its page does not print`);
     const text = OFFER_PARTS.map((part) => offer[part]).filter(Boolean).join(' ');
     return { ...offer, text, page: known.page, serviceType: known.serviceType[lang] };
   });
 }
+
+/**
+ * What a website costs, as the websites page prints it.
+ *
+ * The kinds of site, the amounts and the currency live in `prices` in
+ * `data/showcase.json` and nowhere else; the copy holds no figure. A price
+ * printed online binds him, so it is printed as the data states it: the kind
+ * of site, then the amount and the currency ("750 SAR", "750 ريال"), with
+ * no "from" and no condition the data does not carry. Western digits in both
+ * languages, like every other figure on the site.
+ */
+export function websitePrices(db, lang) {
+  const { currency, items } = db.showcase.prices;
+  const amount = new Intl.NumberFormat('en-US');
+  return items.map((item) => ({ id: item.id, label: item.label[lang], price: `${amount.format(item.amount)} ${currency[lang]}` }));
+}
+
+/** The id of the prices on the websites page, which the websites card on the home page links to. */
+export const PRICES_ANCHOR = 'prices';
 
 /**
  * Which systems in `data/workflows.json` stand behind each service card.

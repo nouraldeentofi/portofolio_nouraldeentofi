@@ -204,8 +204,8 @@
     },
     "year": "2026",
     "summary": {
-      "en": "The AI engine of CV Screener: sibling agents that profile one CV, screen one CV against a job, and summarise a whole pool. The product server calls them; every one checks a secret first, fences the CV as data, and returns typed JSON or a typed error.",
-      "ar": "محرّك الذكاء الاصطناعي في CV Screener: وكلاء متشابهون، أحدهم يحلّل سيرة واحدة، والآخر يقيّمها مقابل وظيفة، والثالث يلخّص مجموعة كاملة. يستدعيهم خادم المنتج، وكلٌّ منهم يتحقّق من المفتاح السري أولاً، ويعزل نص السيرة كبيانات، ويُعيد JSON محدّد البنية أو خطأً محدّداً."
+      "en": "The AI engine of CV Screener: sibling agents whose tasks include profiling one CV, screening one CV against a job, and summarising a whole pool. The product server calls them; every one checks a secret first, fences the CV as data, and returns typed JSON or a typed error.",
+      "ar": "محرّك الذكاء الاصطناعي في CV Screener: وكلاء متشابهون، من مهامّهم تحليل سيرة واحدة، وتقييمها مقابل وظيفة، وتلخيص مجموعة كاملة. يستدعيهم خادم المنتج، وكلٌّ منهم يتحقّق من المفتاح السري أولاً، ويعزل نص السيرة كبيانات، ويُعيد JSON محدّد البنية أو خطأً محدّداً."
     },
     "trigger": {
       "en": "Server-to-server webhook",

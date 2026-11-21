@@ -67,7 +67,7 @@
     "metrics": [
       { "value": "1,189", "label": { "en": "automated tests", "ar": "اختباراً آلياً" } },
       { "value": "8", "label": { "en": "scoring dimensions", "ar": "أبعاد تقييم" } },
-      { "value": "3", "label": { "en": "n8n AI workflows", "ar": "مسارات ذكاء اصطناعي في n8n" } },
+      { "value": "4", "label": { "en": "n8n AI workflows", "ar": "مسارات ذكاء اصطناعي في n8n" } },
       { "value": "5,000", "label": { "en": "CVs performance-tested", "ar": "سيرة ذاتية في اختبار الأداء" } }
     ],
     "stack": ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS 4", "Prisma", "MySQL 8", "n8n", "OpenAI", "Docker", "Vitest", "i18n", "RTL"],

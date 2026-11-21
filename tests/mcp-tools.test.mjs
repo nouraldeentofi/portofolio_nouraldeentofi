@@ -59,7 +59,7 @@ test('getWorkflows returns every automation with its outcome', () => {
 });
 
 test('getCredentials can filter to certifications', () => {
-  assert.equal(getCredentials(db, { kind: 'certification' }).length, 12);
+  assert.equal(getCredentials(db, { kind: 'certification' }).length, 13);
 });
 
 test('getTestimonials returns every recommendation with both languages resolved', () => {

@@ -53,6 +53,8 @@ Invoices typed in by hand, CVs read one by one, the same customer questions answ
 3. It goes live with a person approving anything sensitive.
 4. I stay on to monitor it, fix it and extend it.
 
+Automation is priced per project, after I have seen the work.
+
 ### Websites I design and build
 
 I am an independent web developer in Al Khobar. I offer website design and development, in Arabic, English or both, for professionals, companies, shops and restaurants in Dammam, Dhahran and the rest of Saudi Arabia. Each site starts from who they are, not from a template.
@@ -64,6 +66,11 @@ I am an independent web developer in Al Khobar. I offer website design and devel
 - Fast on phones, where most of your visitors are.
 - Readable by Google and by AI assistants, so people who ask about you find you.
 - For shops and restaurants: what you sell or serve shown in photos, the location on the map, and ordering or booking through WhatsApp.
+
+**Prices**
+
+- Personal or company website: 750 SAR
+- Shop or restaurant website, linked from its Google Maps listing: 999 SAR
 
 **Where I work.** I meet clients in person in Al Khobar, Dammam and Dhahran. For clients elsewhere in Saudi Arabia and abroad, the whole project runs remotely.
 
@@ -117,7 +124,7 @@ An automation nobody trusts gets bypassed. A dashboard nobody understands gets e
 
 **Role.** Full build: product, frontend, backend, and AI workflows
 
-**Numbers.** 1,189 automated tests · 8 scoring dimensions · 3 n8n AI workflows · 5,000 CVs performance-tested
+**Numbers.** 1,189 automated tests · 8 scoring dimensions · 4 n8n AI workflows · 5,000 CVs performance-tested
 
 **Stack.** Next.js 16, React 19, TypeScript, Tailwind CSS 4, Prisma, MySQL 8, n8n, OpenAI, Docker, Vitest, i18n, RTL
 
@@ -306,7 +313,7 @@ A shared engine fetches pages and escalates only as far as it must, reads struct
 
 **Flow.** CV request webhook → Secret header check → Validate and fence → Valid request? → Profile the CV → Reject request → Structural check → Return JSON
 
-The AI engine of CV Screener: sibling agents that profile one CV, screen one CV against a job, and summarise a whole pool. The product server calls them; every one checks a secret first, fences the CV as data, and returns typed JSON or a typed error.
+The AI engine of CV Screener: sibling agents whose tasks include profiling one CV, screening one CV against a job, and summarising a whole pool. The product server calls them; every one checks a secret first, fences the CV as data, and returns typed JSON or a typed error.
 
 **Services.** n8n, OpenAI, Webhooks, Structured outputs
 
@@ -815,6 +822,7 @@ Live coals: the hero opens at night, then the charcoal catches. Embers and spark
 
 ## Certifications
 
+- **Building Apps and AI Agents with Claude Code**, Coursera (2026-10) · ID NR6XYML8054R
 - **How to use roadmaps in Jira**, Coursera Project Network (2025-05) · ID LK38V6C4Z8JI
 - **Create User Stories in Jira**, Coursera Project Network (2025-05) · ID TBR0Y7OAFNAY
 - **Get started with Jira**, Coursera Project Network (2025-05) · ID UJB8ZR6XQQIQ

@@ -9,7 +9,7 @@ import { TEMPLATES, notFound, buildRedirects } from '../scripts/lib/pages.mjs';
 import { contactCv, contactLinks, headMeta, periodWords, ROBOTS_INDEXABLE, ROBOTS_NOINDEX } from '../scripts/lib/blocks.mjs';
 import { byCompany } from '../scripts/lib/experience.mjs';
 import { personLd } from '../scripts/lib/jsonld.mjs';
-import { homeOffers, automationServices } from '../scripts/lib/offers.mjs';
+import { homeOffers, automationServices, websitePrices } from '../scripts/lib/offers.mjs';
 import { buildSite } from '../scripts/lib/site.mjs';
 import { parseRedirects } from '../scripts/lib/gates.mjs';
 
@@ -81,6 +81,9 @@ test('the llms files say what he offers, in the words of the pages', () => {
     c.automation.process.forEach((step, i) => assert.ok(section.includes(`\n${i + 1}. ${step}\n`), `${lang}: step ${i + 1}`));
     for (const line of c.showcase.offer) assert.ok(section.includes(`\n- ${line}\n`), `${lang}: ${line}`);
     assert.ok(section.includes(c.showcase.where), `${lang}: where he works is missing`);
+    // The prices as the websites page prints them, and the sentence on how automation is priced.
+    for (const p of websitePrices(db, lang)) assert.ok(section.includes(`\n- ${p.label}: ${p.price}\n`), `${lang}: the price of "${p.label}"`);
+    assert.ok(section.includes(`\n${c.automation.pricing}\n`), `${lang}: how automation is priced`);
   }
 
   // The words an assistant is asked for.
@@ -165,7 +168,7 @@ test('resume.json matches the JSON Resume shape', () => {
   assert.ok(Array.isArray(r.work) && r.work.length === 5);
   // A day, or a bare year when only the year is known: the schema accepts both.
   assert.ok(r.work.every((w) => /^\d{4}(-\d{2}-\d{2})?$/.test(w.startDate)));
-  assert.equal(r.certificates.length, 12);
+  assert.equal(r.certificates.length, 13);
   assert.ok(r.basics.profiles.every((p) => typeof p.url === 'string'));
   assert.equal(r.education[0].institution, 'University of Kalamoon');
 });

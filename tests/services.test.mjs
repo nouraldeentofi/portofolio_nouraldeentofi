@@ -16,7 +16,7 @@ import { TEMPLATES, notFound } from '../scripts/lib/pages.mjs';
 import { headMeta, monthYear, periodWords, tagsOf, homeProofFigures, quoteExcerpt } from '../scripts/lib/blocks.mjs';
 import { phoneDigits, phoneDisplay, whatsappUrl, whatsappFirst } from '../scripts/lib/contact.mjs';
 import { servicesLd } from '../scripts/lib/jsonld.mjs';
-import { OFFERS, OFFER_PARTS, SERVICE_SYSTEMS, homeOffers, automationServices } from '../scripts/lib/offers.mjs';
+import { OFFERS, OFFER_PARTS, SERVICE_SYSTEMS, PRICES_ANCHOR, homeOffers, automationServices, websitePrices } from '../scripts/lib/offers.mjs';
 import { PAGES, LANGS, pagePath } from '../scripts/lib/sitemap.mjs';
 import { byCompany } from '../scripts/lib/experience.mjs';
 import { buildSite, sitePages, pageFile } from '../scripts/lib/site.mjs';
@@ -352,6 +352,18 @@ test('the service sentences match what the systems in the data do', () => {
   assert.match(scanner.built.en, /Arabic and English/, 'CV Screener no longer says it handles both languages');
 });
 
+/* CV Screener runs on four n8n workflows. Its page printed "3 n8n AI
+   workflows" above an engine card that said four, and the Arabic summary
+   counted three agents. The figure is the engine's own count, and the
+   summary says what the agents do without counting them. */
+test('CV Screener counts its workflows one way', () => {
+  const engine = db.workflows.find((w) => w.id === 'cv-screener');
+  const figure = db.projects.find((p) => p.id === 'cv-screener').metrics.find((m) => m.label.en === 'n8n AI workflows');
+  assert.equal(engine.workflowCount, 4);
+  assert.equal(figure.value, String(engine.workflowCount));
+  assert.ok(!/\bthree\b|الثالث|ثلاث/i.test(`${engine.summary.en} ${engine.summary.ar}`), 'the summary counts three again');
+});
+
 test('an unknown service or offer stops the build instead of rendering a dead card', () => {
   const withService = structuredClone(loaded);
   withService.copy.en.automation.services[0].id = 'nope';
@@ -378,6 +390,70 @@ test('the showcase says what a client gets and where he works, above the gallery
   }
   for (const city of ['Al Khobar', 'Dammam', 'Dhahran']) assert.ok(db.copy.en.showcase.where.includes(city));
   for (const city of ['الخبر', 'الدمام', 'الظهران']) assert.ok(db.copy.ar.showcase.where.includes(city));
+});
+
+/* A price printed online binds the seller in Saudi Arabia, so the page
+   prints what he said and nothing around it: each kind of site with its
+   amount in riyals, read from data/showcase.json. No "from", no discount,
+   no free preview, no delivery time, and no figure typed into the copy. */
+test('the websites page prints the prices from the data, beside what a client gets', () => {
+  assert.deepEqual(websitePrices(db, 'en').map((p) => [p.label, p.price]), [
+    ['Personal or company website', '750 SAR'],
+    ['Shop or restaurant website, linked from its Google Maps listing', '999 SAR'],
+  ]);
+  assert.deepEqual(websitePrices(db, 'ar').map((p) => [p.label, p.price]), [
+    ['موقع شخصي أو موقع شركة', '750 ريال'],
+    ['موقع محل أو مطعم، مربوط بصفحته على خرائط Google', '999 ريال'],
+  ]);
+
+  for (const lang of LANGS) {
+    const c = db.copy[lang];
+    const block = unescape(page('showcase', lang).split('id="offer"')[1].split('</section>')[0]);
+    const prices = block.split(`<div class="prices" id="${PRICES_ANCHOR}">`)[1]?.split('</dl>')[0];
+    assert.ok(prices, `${lang}: no prices beside the list`);
+    assert.ok(prices.includes(`<h2 class="card__title">${c.showcase.pricesTitle}</h2>`), `${lang}: the prices have no heading`);
+    const shown = [...prices.matchAll(/<dt>([^<]*)<\/dt><dd>([^<]*)<\/dd>/g)].map((m) => [m[1], m[2]]);
+    assert.deepEqual(shown, websitePrices(db, lang).map((p) => [p.label, p.price]), `${lang}: the prices on the page`);
+    // In the same card as the list: what a client gets, what it costs, where he works.
+    const at = (s) => block.indexOf(`<h2 class="card__title">${s}</h2>`);
+    assert.ok(at(c.showcase.offerTitle) < at(c.showcase.pricesTitle) && at(c.showcase.pricesTitle) < at(c.showcase.whereTitle), `${lang}: order`);
+    // Nothing around the amounts that he would have to honour too: each one is
+    // a bare amount and the currency, and the block says nothing else.
+    for (const [, price] of shown) assert.match(price, lang === 'en' ? /^\d[\d,]* SAR$/ : /^\d[\d,]* ريال$/, `${lang}: ${price}`);
+    const rest = shown.flat().reduce((text, s) => text.replace(s, ''), prices.replace(/<[^>]+>/g, ' ')).replace(c.showcase.pricesTitle, '');
+    assert.equal(rest.trim(), '', `${lang}: something beside the prices: ${rest.trim()}`);
+  }
+});
+
+/* The home page leads to the prices instead of printing them a second time:
+   the amounts stay beside the kinds of site they buy. The automation page
+   says how it is priced, with no figure. And no markup repeats a price. */
+test('the websites card leads to the prices, the automation page says how it is priced, and no markup states a price', () => {
+  for (const lang of LANGS) {
+    const c = db.copy[lang];
+    const websites = c.home.offers.find((o) => o.id === 'websites');
+    const card = unescape(page('', lang).split('id="offer-websites"')[1].split('</article>')[0]);
+    assert.ok(card.includes(`<p class="card__body"><a href="${pagePath('showcase', lang)}#${PRICES_ANCHOR}">${websites.prices}</a></p>`), `${lang}: the card does not lead to the prices`);
+    assert.ok(page('showcase', lang).includes(`id="${PRICES_ANCHOR}"`), `${lang}: the link leads nowhere`);
+    // The page is called by its one name.
+    assert.ok(websites.prices.toLowerCase().includes(c.nav.showcase.toLowerCase()), `${lang}: ${websites.prices}`);
+    assert.deepEqual(c.home.offers.filter((o) => o.prices).map((o) => o.id), ['websites'], `${lang}: another card speaks of prices`);
+
+    const next = unescape(page('automation', lang)).split('<div class="process__next"')[1].split('</div>')[0];
+    assert.ok(next.indexOf(`<p>${c.automation.pricing}</p>`) !== -1 && next.indexOf(`<p>${c.automation.pricing}</p>`) < next.indexOf(`<p>${c.automation.processNext}</p>`), `${lang}: how automation is priced`);
+
+    // Every amount comes from the data: the copy around them holds no figure.
+    for (const s of [websites.prices, c.showcase.pricesTitle, c.automation.pricing]) assert.ok(!/\d/.test(s) && !s.includes('—'), `${lang}: "${s}"`);
+
+    for (const name of ['', 'showcase', 'automation']) {
+      const markup = JSON.stringify(ldNodes(page(name, lang)));
+      assert.ok(!/"(?:price|priceCurrency|priceSpecification|offers)"|"Offer"/.test(markup), `${lang}/${name || 'home'}: the structured data states a price`);
+    }
+  }
+
+  const misplaced = structuredClone(loaded);
+  misplaced.copy.en.home.offers.find((o) => o.id === 'automation').prices = 'Prices are listed on the automation page.';
+  assert.throws(() => page('', 'en', misplaced), /points to prices its page does not print/);
 });
 
 /* The gallery sits right under these sentences, and each card is tagged with

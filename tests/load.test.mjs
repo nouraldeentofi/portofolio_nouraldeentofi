@@ -64,10 +64,47 @@ test('every project and workflow carries both languages', () => {
 test('every certification records its issuer and credential id', () => {
   const db = loadDb('data');
   const certs = db.credentials.filter((c) => c.kind === 'certification');
-  assert.equal(certs.length, 12);
+  assert.equal(certs.length, 13);
   for (const c of certs) {
     assert.ok(c.issuer, `${c.id} missing issuer`);
     assert.ok(c.credentialId, `${c.id} missing credential id`);
+  }
+  // Newest first, as the experience page lists them.
+  const issued = certs.map((c) => c.issued);
+  assert.deepEqual([...issued].sort().reverse(), issued, 'certifications must be newest first');
+  const claude = certs.find((c) => c.credentialId === 'NR6XYML8054R');
+  assert.equal(claude?.name.en, 'Building Apps and AI Agents with Claude Code');
+  assert.equal(claude.issuer, 'Coursera');
+  assert.equal(claude.issued, '2026-10');
+});
+
+/* The prices are printed on the websites page, and a price printed online
+   binds the seller: one with half a label or an amount that is not a whole
+   number stops the build instead of reaching the page. */
+test('the loader refuses a price it cannot print as it stands', () => {
+  const db = loadDb('data');
+  assert.deepEqual(db.showcase.prices.currency, { en: 'SAR', ar: 'ريال' });
+  assert.deepEqual(db.showcase.prices.items.map((p) => p.amount), [750, 999]);
+
+  const dir = mkdtempSync(join(tmpdir(), 'portfolio-prices-'));
+  try {
+    const load = (change) => {
+      cpSync('data', dir, { recursive: true });
+      const showcase = JSON.parse(readFileSync('data/showcase.json', 'utf8'));
+      change(showcase.prices, showcase);
+      writeFileSync(join(dir, 'showcase.json'), JSON.stringify(showcase));
+      return loadDb(dir);
+    };
+    assert.doesNotThrow(() => load(() => {}));
+    assert.throws(() => load((p, s) => { delete s.prices; }), /showcase\.json prices: missing required key "currency\.en"/);
+    assert.throws(() => load((p) => { delete p.currency.ar; }), /showcase\.json prices: missing required key "currency\.ar"/);
+    assert.throws(() => load((p) => { p.items = []; }), /expected "items" to be a list of prices/);
+    assert.throws(() => load((p) => { delete p.items[1].label.ar; }), /prices\.items\[1\] \(shop-or-restaurant\): missing required key "label\.ar"/);
+    for (const amount of ['750', 0, -1, 749.5]) {
+      assert.throws(() => load((p) => { p.items[0].amount = amount; }), /an amount is a whole number above zero/, String(amount));
+    }
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
   }
 });
 

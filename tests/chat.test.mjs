@@ -68,6 +68,18 @@ test('the automation answer claims no more than the status of each system it lis
   for (const lang of ['en', 'ar']) assert.ok(!/in production|None of these are demos|في الإنتاج|عرض تجريبي/.test(buildTranscript(lang)), `${lang}: the transcript`);
 });
 
+/* The page of the daily job search no longer says it writes cover letters,
+   and the chat said so a line after the page stopped. The two agree. */
+test('the chat says no more of the job search than its page does', () => {
+  for (const [name, SCRIPT] of [['en', EN], ['ar', AR]]) {
+    const said = JSON.stringify(SCRIPT);
+    assert.ok(!/cover letter|رسالة التغطية|رسائل تغطية/i.test(said), `${name}: the chat writes cover letters again`);
+    assert.ok(!/cover letter|رسالة التغطية|رسائل تغطية/i.test(buildTranscript(name)), `${name}: the transcript`);
+  }
+  assert.ok(EN.automation.card.includes('<b>AI Job-Match</b>: scores jobs 1–10 daily and delivers only the good ones.<br>'));
+  assert.ok(AR.automation.card.includes('<b>مطابقة الوظائف</b>: يقيّم الوظائف يومياً من 1 إلى 10، ولا يسلّم إلا الجيّد.<br>'));
+});
+
 /* A chat message is HTML, so "&" is written "&amp;" in it. The transcript
    escapes its text itself, and printed the entity as it stood: "&amp;amp;"
    in the source, "&amp;" on the page. */
