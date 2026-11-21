@@ -84,7 +84,8 @@ These are not style preferences — `npm test` and `npm run validate` fail on th
 - Unknown facts are `null` with a sibling `todo` string. They must never render as a link.
 - **ZATCA must not appear anywhere**, and the scraper's crawl mode is never tied to the
   site it was built against.
-- A workflow `status` is a claim: `client` (running for a real client), `live`, or `built`.
+- A workflow `status` is a claim: `client` (running for a real client), `live`, `beta` (in private beta,
+  Smart Scanner today) or `built`.
   Diagrams in `flow` are curated from the real n8n node graph — no IDs, prompts or client data.
 - **A page of its own** (`/projects/<id>`, `/automation/<id>`) goes to every project, and
   to every workflow that has both a `flow` and a `canvas`, unless a project names it as its
