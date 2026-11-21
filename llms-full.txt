@@ -774,7 +774,7 @@ Live coals: the hero opens at night, then the charcoal catches. Embers and spark
 
 ### Frontend & AI Engineer (Freelance), Self-employed
 
-2026-06 to present · Al Khobar, Saudi Arabia · Freelance · Remote
+2026-11 to present · Al Khobar, Saudi Arabia · Freelance · Remote
 
 - Built Gambit Tournaments, the tournament platform of a chess club in Dammam, in Next.js, React, Prisma and MySQL: upcoming tournaments with live seats, guest registration in Arabic, English and Urdu, an archive of past tournaments, and an admin dashboard for tournaments, gallery and registrations.
 - Built its payment check in n8n: a vision model reads each uploaded bank-transfer receipt and first says whether it is a transfer at all, so registrations are confirmed without anyone opening a receipt by hand. The secret, contract version and image size are checked before any model call, and successful runs are not stored, because receipts carry personal data.
