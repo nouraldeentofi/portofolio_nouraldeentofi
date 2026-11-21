@@ -262,6 +262,10 @@
 .status--client::before { box-shadow: 0 0 0 3px var(--accent-soft); animation: status-pulse 2.2s ease-in-out infinite; }
 .status--live { color: var(--mint); border-color: color-mix(in srgb, var(--mint) 45%, transparent); }
 .status--live::before { animation: status-pulse 2.2s ease-in-out infinite; }
+/* Private beta runs, but only for the people let in: the colour of live, a
+   dashed edge, half a dot, and no pulse. */
+.status--beta { color: var(--mint); border-color: color-mix(in srgb, var(--mint) 45%, transparent); border-style: dashed; }
+.status--beta::before { background: linear-gradient(90deg, currentColor 50%, transparent 50%); border: 1.5px solid currentColor; }
 .status--built { color: var(--dim); }
 .status--built::before { background: transparent; border: 2px solid currentColor; }
 

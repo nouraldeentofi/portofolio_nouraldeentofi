@@ -29,7 +29,7 @@ export const SCRIPT = {
   automation: {
     msgs: [
       'The short version: I take a process someone does by hand, and make it run itself.',
-      'Some run for a client, some are live, some are built and tested. A few of them 👇',
+      'Some run for a client, some are live, Smart Scanner is in private beta, and some are built and tested. A few of them 👇',
     ],
     card: `<div class="chat__card-head">🤖 Automation</div>
 <div class="chat__card-body">

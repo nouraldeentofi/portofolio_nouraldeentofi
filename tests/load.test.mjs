@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { loadDb, isCalendarDay, RESERVED_IDS } from '../scripts/lib/load.mjs';
+import { loadDb, isCalendarDay, RESERVED_IDS, STATUSES } from '../scripts/lib/load.mjs';
 import { byCompany } from '../scripts/lib/experience.mjs';
 import { existsSync, cpSync, mkdtempSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -103,6 +103,35 @@ test('the loader refuses a price it cannot print as it stands', () => {
     for (const amount of ['750', 0, -1, 749.5]) {
       assert.throws(() => load((p) => { p.items[0].amount = amount; }), /an amount is a whole number above zero/, String(amount));
     }
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+/* A status is a claim about a real system, and each one the data may carry
+   is printed by a label in both languages. "beta" sits between live and
+   built: it runs, for the people let in only, and is not open to everyone.
+   Anything else, or a status with no label, stops the build. */
+test('the loader accepts only the statuses it can label', () => {
+  assert.deepEqual(STATUSES, ['client', 'live', 'beta', 'built']);
+  const db = loadDb('data');
+  for (const w of db.workflows) assert.ok(STATUSES.includes(w.status), `${w.id}: ${w.status}`);
+
+  const dir = mkdtempSync(join(tmpdir(), 'portfolio-status-'));
+  try {
+    const load = (change) => {
+      cpSync('data', dir, { recursive: true });
+      const workflows = JSON.parse(readFileSync('data/workflows.json', 'utf8'));
+      const copy = { en: JSON.parse(readFileSync('data/copy/en.json', 'utf8')), ar: JSON.parse(readFileSync('data/copy/ar.json', 'utf8')) };
+      change(workflows, copy);
+      writeFileSync(join(dir, 'workflows.json'), JSON.stringify(workflows));
+      for (const lang of ['en', 'ar']) writeFileSync(join(dir, 'copy', `${lang}.json`), JSON.stringify(copy[lang]));
+      return loadDb(dir);
+    };
+    assert.doesNotThrow(() => load(() => {}));
+    assert.throws(() => load((w) => { w[0].status = 'production'; }), /workflows\.json \(universal-web-scraper\): unknown status "production"/);
+    assert.throws(() => load((w, c) => { delete c.ar.ui.status.beta; }), /copy\/ar\.json: ui\.status must label client, live, beta, built/);
+    assert.throws(() => load((w, c) => { c.en.ui.status.demo = 'Demo'; }), /copy\/en\.json: ui\.status must label/);
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }

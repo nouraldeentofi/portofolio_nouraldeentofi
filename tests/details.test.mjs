@@ -34,6 +34,7 @@ import {
   clip,
   engineOf,
   productOf,
+  productStatus,
   hasOwnPage,
   projectHref,
   systemHref,
@@ -50,6 +51,7 @@ import { buildLlmsTxt, buildLlmsFullTxt } from '../scripts/lib/llms.mjs';
 import { buildApiProjects } from '../scripts/lib/api.mjs';
 import { whatsappUrl } from '../scripts/lib/contact.mjs';
 import { yearOf, liveLabel } from '../scripts/lib/blocks.mjs';
+import { STATUSES } from '../scripts/lib/load.mjs';
 
 const loaded = loadDb('data');
 const db = { ...loaded, build: { modified: '2026-11-15T00:00:00+03:00' } };
@@ -792,7 +794,7 @@ test('a project page shows the problem, what he built, his role, the figures and
       const numeric = (p.metrics ?? []).every((m) => /\d/.test(m.value));
       assert.equal(main.includes(`<h2 class="detail__title">${c.detail.numbers}</h2>`), Boolean(p.metrics?.length) && numeric, `${at}: the heading over the figures`);
 
-      const button = `<a class="btn" href="${p.url}" target="_blank" rel="noopener noreferrer">${liveLabel(c, p.url ?? '')}<`;
+      const button = `<a class="btn" href="${p.url}" target="_blank" rel="noopener noreferrer">${liveLabel(c, p.url ?? '', productStatus(db, p))}<`;
       assert.equal(doc.match(/<section class="hero">[\s\S]*?<\/section>/)[0].includes(button), Boolean(p.url), `${at}: the button to the live product`);
       assert.ok(!main.includes('href="null"') && !text.includes('undefined'), at);
     }
@@ -807,7 +809,10 @@ test('a project page shows the problem, what he built, his role, the figures and
     const c = db.copy[lang];
     assert.equal(liveLabel(c, play.url), c.ui.visitPlay);
     assert.equal(liveLabel(c, 'https://khatm.nouraldeentofi.com/'), c.ui.visitLive);
+    assert.equal(liveLabel(c, 'https://khatm.nouraldeentofi.com/', 'live'), c.ui.visitLive);
+    assert.equal(liveLabel(c, 'https://khatm.nouraldeentofi.com/', 'beta'), c.ui.visitBeta);
     assert.notEqual(c.ui.visitPlay, c.ui.visitLive);
+    assert.notEqual(c.ui.visitBeta, c.ui.visitLive);
     for (const page of ['projects', 'projects/goldentag']) {
       const doc = unescape(html(page, lang));
       assert.ok(doc.includes(`href="${play.url}" target="_blank" rel="noopener noreferrer">${c.ui.visitPlay}<`), `${lang}/${page}: the Play listing is called a live site`);
@@ -1449,6 +1454,64 @@ test('the home page says "in production" only above systems that are running', (
   assert.match(db.copy.ar.home.automationLead, /تعمل في الإنتاج اليوم/);
   // Why the old sentence could not stay: not everything "All systems" leads to is running.
   assert.ok(db.workflows.some((w) => !running.includes(w.status)));
+});
+
+/* Smart Scanner is in private beta, and his CV says so. The site called its
+   pipeline "Live" and "the production pipeline", and a hiring reader set the
+   two side by side. Where the product stands is one claim, the status of its
+   engine, and every place that speaks of it reads that claim: the chip on the
+   automation page and on the product's page, the button to its address, the
+   llms files and the API. Mark the pipeline live again only when the product
+   leaves its private beta, and the CV with it. */
+test('Smart Scanner reads as private beta everywhere, as his CV says', () => {
+  const p = db.projects.find((x) => x.id === 'smart-scanner');
+  const w = engineOf(db, p);
+  assert.equal(w.id, 'smart-scanner-pipeline');
+  assert.equal(w.status, 'beta', 'Smart Scanner is in private beta; its pipeline is not live');
+  assert.equal(productStatus(db, p), 'beta');
+  assert.deepEqual([db.copy.en.ui.status.beta, db.copy.ar.ui.status.beta], ['Private beta', 'نسخة تجريبية خاصة']);
+  // Nothing written about it calls it live or in production in either language.
+  const about = JSON.stringify([w.kind, w.summary, w.highlights, w.outcome, p.tagline, p.built, p.role, p.context]);
+  assert.ok(!/production|\blive\b|launched|إنتاج|يعمل الآن|أُطلق/i.test(about), 'Smart Scanner is called live or in production');
+
+  for (const lang of LANGS) {
+    const c = db.copy[lang];
+    const chip = `<span class="status status--beta">${c.ui.status.beta}</span>`;
+    const card = unescape(html('automation', lang)).split(`id="${w.id}">`)[1].split('</article>')[0];
+    assert.ok(card.includes(chip), `${lang}: the card on the automation page`);
+    const page = unescape(html(`projects/${p.id}`, lang));
+    const engine = page.split(`<section class="section" id="${ENGINE_ANCHOR}">`)[1].split('</section>')[0];
+    assert.ok(engine.includes(chip) && !engine.includes('status--live'), `${lang}: the automation behind it`);
+    // The button to its address says what is there, on its page, its card and the home page.
+    const button = `href="${p.url}" target="_blank" rel="noopener noreferrer">${c.ui.visitBeta}<`;
+    assert.ok(page.match(/<section class="hero">[\s\S]*?<\/section>/)[0].includes(button), `${lang}: the button on its page`);
+    for (const where of ['', 'projects']) {
+      const doc = unescape(html(where, lang));
+      assert.ok(doc.includes(button), `${lang}/${where}: the button`);
+      assert.ok(!doc.includes(`href="${p.url}" target="_blank" rel="noopener noreferrer">${c.ui.visitLive}<`), `${lang}/${where}: called a live site`);
+    }
+  }
+
+  const full = buildLlmsFullTxt(db);
+  const section = full.split(`### ${p.name} (`)[1].split('\n### ')[0];
+  assert.ok(section.includes(`**${db.copy.en.ui.status.beta}.** ${p.url}`) && !section.includes('**Live.**'), 'llms-full.txt: the product');
+  const system = full.split(`### ${w.name.en} (`)[1].split('\n### ')[0];
+  assert.ok(system.includes(` · ${db.copy.en.ui.status.beta} · `), 'llms-full.txt: the pipeline');
+  assert.ok(buildLlmsTxt(db).includes(`- ${w.name.en} (${w.year}, ${db.copy.en.ui.status.beta}): `), 'llms.txt');
+  assert.equal(buildApiProjects(db).workflows.find((x) => x.id === w.id).status, 'beta', 'api/projects.json');
+});
+
+/* Every status a system may carry is drawn as a chip of its own and named
+   in the legend of the automation page, from the most proven to the least. */
+test('every status has a chip style and a place in the legend, in order', () => {
+  const css = readFileSync('assets/css/gallery.css', 'utf8');
+  for (const s of STATUSES) assert.match(css, new RegExp(`\\.status--${s} \\{`), `no chip style for "${s}"`);
+  for (const lang of LANGS) {
+    const c = db.copy[lang];
+    const legend = unescape(html('automation', lang)).match(/<ul class="legend">[\s\S]*?<\/ul>/)[0];
+    const at = STATUSES.map((s) => legend.indexOf(`<span class="status status--${s}">${c.ui.status[s]}</span>`));
+    assert.ok(at.every((i, k) => i > 0 && (k === 0 || i > at[k - 1])), `${lang}: the legend names ${STATUSES.join(', ')} in that order`);
+  }
 });
 
 /* GoldenTag is the one product he coordinated while others wrote the code. Its

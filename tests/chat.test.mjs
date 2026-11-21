@@ -50,10 +50,11 @@ test('the automation answer claims no more than the status of each system it lis
   for (const [name, SCRIPT] of [['en', EN], ['ar', AR]]) {
     const answer = JSON.stringify(SCRIPT.automation);
     assert.ok(!/in production|None of these are demos|replaced work|في الإنتاج|عرض تجريبي|حلّ محلّ/.test(answer), `${name}: the automation answer overstates`);
-    // The three words it uses for a status are the ones the automation page uses.
+    // The words it uses for a status are the ones the automation page uses.
     const said = [...SCRIPT.automation.msgs, ...SCRIPT.automation.msgs2].join(' ');
     const status = db.copy[name].ui.status;
     assert.ok(said.toLowerCase().includes(status.live.toLowerCase()), `${name}: "${status.live}"`);
+    assert.ok(said.toLowerCase().includes(status.beta.toLowerCase()), `${name}: "${status.beta}"`);
     assert.ok(said.toLowerCase().includes(status.built.toLowerCase()), `${name}: "${status.built}"`);
     assert.ok(said.includes(db.copy[name].nav.automation), `${name}: it does not say where the statuses are`);
     assert.ok(!/\d|[\u0660-\u0669]/.test(said), `${name}: a count that will drift`);
@@ -65,6 +66,10 @@ test('the automation answer claims no more than the status of each system it lis
   const listed = ['smart-lead-finder', 'lesson-quality-evaluator', 'crm-lead-cleaner'].map((id) => db.workflows.find((w) => w.id === id));
   assert.ok(EN.automation.card.includes('Smart Lead Finder') && EN.automation.card.includes('CRM Lead Cleaner'));
   assert.deepEqual(listed.map((w) => w.status), ['built', 'built', 'built']);
+  // The one system it says is in private beta is the one the data marks so.
+  assert.ok(EN.automation.msgs.join(' ').includes('Smart Scanner is in private beta') && AR.automation.msgs.join(' ').includes('ومنتج Smart Scanner في نسخة تجريبية خاصة'));
+  assert.equal(db.workflows.find((w) => w.id === 'smart-scanner-pipeline').status, 'beta');
+  assert.deepEqual(db.workflows.filter((w) => w.status === 'beta').map((w) => w.id), ['smart-scanner-pipeline']);
   for (const lang of ['en', 'ar']) assert.ok(!/in production|None of these are demos|في الإنتاج|عرض تجريبي/.test(buildTranscript(lang)), `${lang}: the transcript`);
 });
 

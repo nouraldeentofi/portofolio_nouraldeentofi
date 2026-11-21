@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { loadDb } from '../scripts/lib/load.mjs';
+import { readFileSync } from 'node:fs';
+import { loadDb, STATUSES } from '../scripts/lib/load.mjs';
 import {
   getProfile,
   searchProjects,
@@ -56,6 +57,19 @@ test('getWorkflows returns every automation with its outcome', () => {
   const rows = getWorkflows(db, {});
   assert.equal(rows.length, db.workflows.length);
   assert.ok(rows.every((w) => typeof w.outcome === 'string' && w.outcome.length > 10));
+});
+
+/* A workflow's status is a code. The tool says what each code means and no
+   longer calls every system "production": one is in private beta, most are
+   built and tested. */
+test('get_workflows explains every status a workflow may carry', () => {
+  const tool = TOOLS.find((t) => t.name === 'get_workflows');
+  for (const s of STATUSES) assert.ok(tool.description.includes(`"${s}"`), `the description does not explain "${s}"`);
+  assert.ok(!/production/i.test(tool.description), 'every workflow is called production again');
+  const scanner = getWorkflows(db, {}).find((w) => w.id === 'smart-scanner-pipeline');
+  assert.equal(scanner.status, 'beta');
+  assert.ok(!/production/i.test(`${scanner.kind} ${scanner.summary}`));
+  assert.ok(!/production/i.test(readFileSync('mcp/README.md', 'utf8')), 'mcp/README.md');
 });
 
 test('getCredentials can filter to certifications', () => {

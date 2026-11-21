@@ -12,9 +12,11 @@ import { pagePath, X_DEFAULT } from './sitemap.mjs';
 import { byCompany, companyName } from './experience.mjs';
 import { homeOffers as offersOf, automationServices as servicesOf, websitePrices, PRICES_ANCHOR } from './offers.mjs';
 import { phoneDisplay, whatsappUrl, whatsappFirst } from './contact.mjs';
+import { STATUSES } from './load.mjs';
 import {
   detailName,
   engineOf,
+  productStatus,
   productOf,
   hasDetail,
   projectHref,
@@ -299,14 +301,16 @@ const detailsLink = (c, to, name) => namedLink(c.ui.details, to, name);
 
 /**
  * What the button to a project's public address says. A listing on Google
- * Play is not a site to visit, so it is named as what it is; every other
- * address is the live product.
+ * Play is not a site to visit, so it is named as what it is. A product whose
+ * engine is in private beta (`status`, from `productStatus`) is not called
+ * live; every other address is the live product.
  */
-export const liveLabel = (c, url) => (/^https?:\/\/play\.google\.com\//.test(url) ? c.ui.visitPlay : c.ui.visitLive);
+export const liveLabel = (c, url, status) =>
+  /^https?:\/\/play\.google\.com\//.test(url) ? c.ui.visitPlay : status === 'beta' ? c.ui.visitBeta : c.ui.visitLive;
 
 /** That button, in the weight the card asks for. */
-export const liveLink = (c, url, cls = 'btn') =>
-  `<a class="${cls}" href="${e(url)}"${extAttrs(url)}>${e(liveLabel(c, url))}${newTabHint(c.ui.opensInNewTab)}</a>`;
+export const liveLink = (c, url, cls = 'btn', status) =>
+  `<a class="${cls}" href="${e(url)}"${extAttrs(url)}>${e(liveLabel(c, url, status))}${newTabHint(c.ui.opensInNewTab)}</a>`;
 
 /**
  * What he offers, right under the hero: one card per offer, each leading to
@@ -407,7 +411,7 @@ export function homeFeatured(db, lang) {
   </dl>
   ${badges(p.stack)}
   <div class="card__foot">
-    ${p.url ? liveLink(c, p.url) : ''}
+    ${p.url ? liveLink(c, p.url, 'btn', productStatus(db, p)) : ''}
     ${namedLink(c.ui.viewProject, projectHref(p, lang), p.name)}
   </div>
 </article>`;
@@ -462,7 +466,7 @@ export function homeProjects(db, lang) {
   <h3 class="card__title"><a href="${projectHref(p, lang)}">${e(p.name)}</a></h3>
   <p class="card__body">${e(p.tagline[lang])}</p>
   ${badges(p.stack.slice(0, 4))}
-  <div class="card__foot">${p.url ? liveLink(c, p.url, 'btn btn--ghost') : ''}</div>
+  <div class="card__foot">${p.url ? liveLink(c, p.url, 'btn btn--ghost', productStatus(db, p)) : ''}</div>
 </article>`,
     )
     .join('\n');
@@ -736,7 +740,7 @@ export function projectsList(db, lang) {
         : ''
     }
     <dl class="card__body"><dt>${e(c.ui.stack)}</dt><dd>${badges(p.stack)}</dd></dl>
-    <div class="card__foot">${p.url ? liveLink(c, p.url) : ''}${detailsLink(c, projectHref(p, lang), p.name)}</div>
+    <div class="card__foot">${p.url ? liveLink(c, p.url, 'btn', productStatus(db, p)) : ''}${detailsLink(c, projectHref(p, lang), p.name)}</div>
   </aside>
 </article>`,
     )
@@ -1096,7 +1100,7 @@ export function automationFilters(db, lang) {
 export function automationLegend(db, lang) {
   const c = db.copy[lang];
   return `<ul class="legend">
-${['client', 'live', 'built']
+${STATUSES
   .map((s) => `  <li><span class="status status--${s}">${e(c.ui.status[s])}</span></li>`)
   .join('\n')}
   <li>${e(c.automation.diagramNote)}</li>

@@ -14,7 +14,7 @@ can never disagree.
 |---|---|
 | `get_profile` | Who he is, where he is, how to reach him, what he knows |
 | `search_projects` | Products and applications, filterable by free text or technology |
-| `get_workflows` | Production n8n automations and AI agents |
+| `get_workflows` | n8n automations and AI agents, each with its status: running for a client, live, private beta, or built and tested |
 | `get_experience` | Employment history, optionally filtered by company |
 | `get_credentials` | Certifications, education, awards, with credential IDs |
 | `get_testimonials` | Recommendations from colleagues and mentors |

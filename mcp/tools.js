@@ -179,7 +179,7 @@ export const TOOLS = [
   {
     name: 'get_workflows',
     description:
-      'List his production n8n automation workflows and AI agents, with trigger, connected services, implementation highlights, and business outcome. Use this for questions about automation, n8n, LLM agents, or document AI.',
+      'List his n8n automation workflows and AI agents, with trigger, connected services, implementation highlights, and business outcome. Each carries its status: "client" (running for a client), "live", "beta" (in private beta) or "built" (built and tested). Use this for questions about automation, n8n, LLM agents, or document AI.',
     inputSchema: {
       type: 'object',
       properties: {

@@ -10,7 +10,7 @@ import { PAGES, pagePath } from './sitemap.mjs';
 import { period } from './blocks.mjs';
 import { byCompany, companyName } from './experience.mjs';
 import { homeOffers, automationServices, websitePrices } from './offers.mjs';
-import { detailPages, detailName, detailHeadline, hasDetail, projectHref, systemHref } from './details.mjs';
+import { detailPages, detailName, detailHeadline, hasDetail, projectHref, systemHref, productStatus } from './details.mjs';
 
 const base = (db) => db.profile.site.replace(/\/$/, '');
 
@@ -253,7 +253,8 @@ export function buildLlmsFullTxt(db, lang = 'en') {
     }
     L.push(`**Stack.** ${p.stack.join(', ')}`);
     L.push('');
-    if (p.url) { L.push(`**Live.** ${p.url}`); L.push(''); }
+    // A product in private beta is not called live, here as on its page.
+    if (p.url) { L.push(`**${productStatus(db, p) === 'beta' ? c.ui.status.beta : 'Live'}.** ${p.url}`); L.push(''); }
     if (p.context) { L.push(`**Context.** ${p.context[lang]}`); L.push(''); }
     L.push(`**Page.** ${base(db)}${projectHref(p, lang)}`);
     L.push('');

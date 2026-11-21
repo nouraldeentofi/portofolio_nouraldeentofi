@@ -56,7 +56,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <link rel="stylesheet" href="/assets/css/layout.css?v=d1c0cf80">
 <link rel="stylesheet" href="/assets/css/components.css?v=39ccc3a9">
 <link rel="stylesheet" href="/assets/css/motion.css?v=0828308a">
-<link rel="stylesheet" href="/assets/css/gallery.css?v=54f99880">
+<link rel="stylesheet" href="/assets/css/gallery.css?v=e488b1cb">
 <link rel="stylesheet" href="/assets/css/responsive.css?v=a7c809d0">
 <script type="application/ld+json">
 {
@@ -370,6 +370,7 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
 <ul class="legend">
   <li><span class="status status--client">Running for a client</span></li>
   <li><span class="status status--live">Live</span></li>
+  <li><span class="status status--beta">Private beta</span></li>
   <li><span class="status status--built">Built and tested</span></li>
   <li>Every diagram is drawn from the real node graph, with names simplified and nothing sensitive in it.</li>
 </ul>
@@ -674,9 +675,9 @@ else if(L==='ar'&&en){location.replace((p==='/en'?'/':(p.slice(3)||'/'))+q);}}ca
   </dialog>
 </article>
 <article data-reveal data-filter-item data-group="data" class="card system" id="smart-scanner-pipeline">
-  <p class="card__meta"><span class="status status--live">Live</span><span>Production document AI pipeline</span><span>2026</span></p>
+  <p class="card__meta"><span class="status status--beta">Private beta</span><span>Document AI pipeline</span><span>2026</span></p>
   <h3 class="card__title"><a href="/en/projects/smart-scanner#automation">Smart Scanner Extraction Pipeline</a></h3>
-  <p class="card__body">The production pipeline behind Smart Scanner. Every invoice, whether a photo or a PDF, is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and Saudi e-invoice fields.</p>
+  <p class="card__body">The extraction pipeline behind Smart Scanner. Every invoice, whether a photo or a PDF, is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and Saudi e-invoice fields.</p>
   <figure class="system__diagram">
     <div class="wf-frame">
       <svg class="wf" viewBox="0 0 836 292" width="836" height="292" role="img" aria-labelledby="wf-smart-scanner-pipeline-en-t wf-smart-scanner-pipeline-en-d" style="--wf-w:836px">

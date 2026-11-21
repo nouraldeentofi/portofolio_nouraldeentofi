@@ -19,6 +19,7 @@ import {
   detailDescription,
   detailImage,
   engineOf,
+  productStatus,
 } from './details.mjs';
 
 const e = escapeHtml;
@@ -720,7 +721,7 @@ function detailPage(db, lang, d) {
     headline: detailHeadline(d, lang),
     facts: B.detailFacts(db, lang, d),
     intro: (project ? x.tagline : x.summary)[lang],
-    actions: project && x.url ? `        ${B.liveLink(c, x.url)}` : null,
+    actions: project && x.url ? `        ${B.liveLink(c, x.url, 'btn', productStatus(db, x))}` : null,
   });
 
   const body = `  <section class="section" id="overview">

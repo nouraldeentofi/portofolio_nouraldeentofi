@@ -28,6 +28,13 @@ export const productOf = (db, w) => db.projects.find((p) => p.workflow === w.id)
 export const engineOf = (db, p) => (p.workflow ? db.workflows.find((w) => w.id === p.workflow) : undefined);
 
 /**
+ * Where a product stands is where its engine stands: Smart Scanner is in
+ * private beta because its pipeline is. A project with no engine has no
+ * status of its own.
+ */
+export const productStatus = (db, p) => engineOf(db, p)?.status;
+
+/**
  * Whether a workflow gets a page of its own.
  *
  * It needs both a curated flow and a canvas screenshot: without them the

@@ -1258,12 +1258,12 @@
       },
       "year": "2026",
       "kind": {
-        "en": "Production document AI pipeline",
-        "ar": "خط إنتاجي لمعالجة المستندات بالذكاء الاصطناعي"
+        "en": "Document AI pipeline",
+        "ar": "خط لمعالجة المستندات بالذكاء الاصطناعي"
       },
       "summary": {
-        "en": "The production pipeline behind Smart Scanner. Every invoice, whether a photo or a PDF, is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and Saudi e-invoice fields.",
-        "ar": "الخط الإنتاجي خلف Smart Scanner. كل فاتورة، سواء كانت صورة أو ملف PDF، يُتحقّق أولاً من كونها فاتورة حقيقية، ثم تُحلّل بـ GPT-4.1 Vision، وتُتحقّق، وتُنقّى من التكرار، وتُحفظ. يقرأ العربية والإنجليزية والمستندات المختلطة، ومضبوط للفواتير العربية المكتوبة بخط اليد ولحقول الفوترة الإلكترونية السعودية."
+        "en": "The extraction pipeline behind Smart Scanner. Every invoice, whether a photo or a PDF, is verified as a real invoice, parsed with GPT-4.1 Vision, validated, deduplicated, and persisted. It reads Arabic, English, and mixed documents, and is tuned for handwritten Arabic invoices and Saudi e-invoice fields.",
+        "ar": "خط الاستخراج خلف Smart Scanner. كل فاتورة، سواء كانت صورة أو ملف PDF، يُتحقّق أولاً من كونها فاتورة حقيقية، ثم تُحلّل بـ GPT-4.1 Vision، وتُتحقّق، وتُنقّى من التكرار، وتُحفظ. يقرأ العربية والإنجليزية والمستندات المختلطة، ومضبوط للفواتير العربية المكتوبة بخط اليد ولحقول الفوترة الإلكترونية السعودية."
       },
       "trigger": {
         "en": "Webhook (image or PDF upload)",
@@ -1295,7 +1295,7 @@
         "en": "Manual invoice entry disappears entirely; a photo becomes structured accounting data in about ten seconds.",
         "ar": "يختفي الإدخال اليدوي للفواتير تماماً؛ وتتحوّل الصورة إلى بيانات محاسبية منظّمة خلال نحو عشر ثوانٍ."
       },
-      "status": "live",
+      "status": "beta",
       "workflowCount": 1,
       "flow": {
         "nodes": [

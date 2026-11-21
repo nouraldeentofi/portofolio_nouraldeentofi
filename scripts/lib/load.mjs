@@ -116,6 +116,14 @@ export function isCalendarDay(value) {
 /** File names the host treats specially, so no page of an entry may take them. */
 export const RESERVED_IDS = ['index', '404'];
 
+/**
+ * What the `status` of a workflow may claim, from the most proven to the
+ * least: running for a real client, live for anyone, running in a private
+ * beta for the people let in only, and built and tested. The automation
+ * page lists them in this order.
+ */
+export const STATUSES = ['client', 'live', 'beta', 'built'];
+
 function requireKeys(obj, keys, file) {
   for (const key of keys) {
     const value = key.split('.').reduce((acc, part) => acc?.[part], obj);
@@ -205,10 +213,10 @@ export function loadDb(dir = 'data') {
     engines.set(p.workflow, p.id);
   }
 
-  // A status is a claim about a real system. Only the three the page can
+  // A status is a claim about a real system. Only the ones the page can
   // explain are allowed, and a flow, when present, must be drawable.
   for (const w of workflows) {
-    if (!['client', 'live', 'built'].includes(w.status)) throw new Error(`workflows.json (${w.id}): unknown status "${w.status}"`);
+    if (!STATUSES.includes(w.status)) throw new Error(`workflows.json (${w.id}): unknown status "${w.status}"`);
     if (!['system', 'build'].includes(w.tier)) throw new Error(`workflows.json (${w.id}): unknown tier "${w.tier}"`);
     if (w.flow !== null && (!Array.isArray(w.flow.nodes) || !Array.isArray(w.flow.edges))) {
       throw new Error(`workflows.json (${w.id}): flow must be null or {nodes, edges}`);
@@ -283,6 +291,15 @@ export function loadDb(dir = 'data') {
     en: readJson(join(dir, 'copy'), 'en.json'),
     ar: readJson(join(dir, 'copy'), 'ar.json'),
   };
+
+  // Every status is printed by its label, so each one has a label in both
+  // languages, and a label for a status the data cannot carry is a leftover.
+  for (const lang of ['en', 'ar']) {
+    const labels = Object.keys(copy[lang].ui?.status ?? {});
+    if (labels.join() !== STATUSES.join()) {
+      throw new Error(`copy/${lang}.json: ui.status must label ${STATUSES.join(', ')} in that order, not ${labels.join(', ')}`);
+    }
+  }
 
   return {
     profile,
