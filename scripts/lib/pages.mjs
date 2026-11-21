@@ -581,6 +581,7 @@ ${B.automationServices(db, lang)}
         <h3 class="process__title" data-reveal>${e(c.automation.processTitle)}</h3>
 ${B.automationProcess(db, lang)}
         <div class="process__next" data-reveal>
+          <p>${e(c.automation.pricing)}</p>
           <p>${e(c.automation.processNext)}</p>
           <div class="process__actions">
 ${contactActions(db, lang)}

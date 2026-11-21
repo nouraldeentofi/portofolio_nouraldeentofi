@@ -237,6 +237,17 @@ export function loadDb(dir = 'data') {
   });
   requireKeys(showcase.lab ?? {}, ['id', 'name.en', 'name.ar', 'count', 'tagline.en', 'tagline.ar', 'url', 'images.desktop'], 'showcase.json lab');
 
+  // A price printed online binds the seller, so each one is printed exactly
+  // as the data has it: a kind of site in both languages and a whole amount
+  // in one currency. Half of one would print "undefined" beside a price.
+  requireKeys(showcase.prices ?? {}, ['currency.en', 'currency.ar', 'items'], 'showcase.json prices');
+  if (!Array.isArray(showcase.prices.items) || showcase.prices.items.length === 0) throw new Error('showcase.json prices: expected "items" to be a list of prices');
+  showcase.prices.items.forEach((row, i) => {
+    const at = `showcase.json prices.items[${i}] (${row.id ?? 'no id'})`;
+    requireKeys(row, ['id', 'label.en', 'label.ar', 'amount'], at);
+    if (!Number.isInteger(row.amount) || row.amount <= 0) throw new Error(`${at}: an amount is a whole number above zero`);
+  });
+
   // A tag is the name of a technology, one string for both languages, or a
   // plain-language label written in each. Half a pair would print
   // "undefined" on a badge in the other language.

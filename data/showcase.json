@@ -839,5 +839,29 @@
       "desktop": "assets/img/showcase/portfolio-gallery-desktop.webp",
       "phone": "assets/img/showcase/portfolio-gallery-phone.webp"
     }
+  },
+  "prices": {
+    "currency": {
+      "en": "SAR",
+      "ar": "ريال"
+    },
+    "items": [
+      {
+        "id": "personal-or-company",
+        "label": {
+          "en": "Personal or company website",
+          "ar": "موقع شخصي أو موقع شركة"
+        },
+        "amount": 750
+      },
+      {
+        "id": "shop-or-restaurant",
+        "label": {
+          "en": "Shop or restaurant website, linked from its Google Maps listing",
+          "ar": "موقع محل أو مطعم، مربوط بصفحته على خرائط Google"
+        },
+        "amount": 999
+      }
+    ]
   }
 }

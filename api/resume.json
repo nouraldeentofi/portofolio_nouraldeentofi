@@ -120,6 +120,11 @@
   ],
   "certificates": [
     {
+      "name": "Building Apps and AI Agents with Claude Code",
+      "issuer": "Coursera",
+      "date": "2026-10-01"
+    },
+    {
       "name": "How to use roadmaps in Jira",
       "issuer": "Coursera Project Network",
       "date": "2025-05-01"
@@ -329,7 +334,7 @@
       "highlights": [
         "1,189 automated tests",
         "8 scoring dimensions",
-        "3 n8n AI workflows",
+        "4 n8n AI workflows",
         "5,000 CVs performance-tested"
       ],
       "keywords": [

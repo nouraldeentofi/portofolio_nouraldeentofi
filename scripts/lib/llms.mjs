@@ -9,7 +9,7 @@
 import { PAGES, pagePath } from './sitemap.mjs';
 import { period } from './blocks.mjs';
 import { byCompany, companyName } from './experience.mjs';
-import { homeOffers, automationServices } from './offers.mjs';
+import { homeOffers, automationServices, websitePrices } from './offers.mjs';
 import { detailPages, detailName, detailHeadline, hasDetail, projectHref, systemHref } from './details.mjs';
 
 const base = (db) => db.profile.site.replace(/\/$/, '');
@@ -39,8 +39,8 @@ function offerLines(db, lang) {
 
 /**
  * What he offers, in full: the offers, each automation service with the
- * systems that back it, how a project runs, what a website client gets and
- * where he works.
+ * systems that back it, how a project runs and how it is priced, what a
+ * website client gets, what a website costs and where he works.
  *
  * robots.txt sends AI agents to these files instead of the pages, so what the
  * service pages say has to be said here too. Every sentence is the pages' own
@@ -68,6 +68,8 @@ function offerSection(db, lang) {
   L.push('');
   c.automation.process.forEach((step, i) => L.push(`${i + 1}. ${step}`));
   L.push('');
+  L.push(c.automation.pricing);
+  L.push('');
 
   L.push(`### ${c.showcase.title}`);
   L.push('');
@@ -76,6 +78,11 @@ function offerSection(db, lang) {
   L.push(`**${c.showcase.offerTitle}**`);
   L.push('');
   for (const line of c.showcase.offer) L.push(`- ${line}`);
+  L.push('');
+  // The prices exactly as the websites page prints them, each beside the kind of site it buys.
+  L.push(`**${c.showcase.pricesTitle}**`);
+  L.push('');
+  for (const p of websitePrices(db, lang)) L.push(`- ${p.label}: ${p.price}`);
   L.push('');
   L.push(`**${c.showcase.whereTitle}.** ${c.showcase.where}`);
   L.push('');

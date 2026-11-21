@@ -86,7 +86,7 @@ overwritten on the next build. Edit these instead:
 | Jobs and responsibilities | `data/experience.json` |
 | Products and applications | `data/projects.json` |
 | n8n automation systems (status, diagram, canvas) | `data/workflows.json` |
-| Client websites and the design lab | `data/showcase.json` |
+| Client websites, the design lab and the prices of a website | `data/showcase.json` |
 | Certificates, education, awards | `data/credentials.json` |
 | Recommendations | `data/testimonials.json` |
 | Skill groups | `data/skills.json` |

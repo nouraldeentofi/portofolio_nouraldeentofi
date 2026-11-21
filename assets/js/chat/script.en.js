@@ -35,7 +35,7 @@ export const SCRIPT = {
 <div class="chat__card-body">
   <b>Smart Scanner pipeline</b>: invoice photo → verified → parsed with GPT Vision → validated → stored.<br>
   <b>Teacher Assistant Bot</b>: an Arabic Telegram agent running a tutor's whole practice from chat.<br>
-  <b>AI Job-Match</b>: scores jobs 1–10 daily, delivers only the good ones, writes the cover letter.<br>
+  <b>AI Job-Match</b>: scores jobs 1–10 daily and delivers only the good ones.<br>
   <b>Smart Lead Finder</b>: scrapes and scores B2B leads across Saudi and Jordan.<br>
   <b>Lesson Quality Evaluator</b>: video in, structured scoring JSON out.<br>
   <b>CRM Lead Cleaner</b>: dedupes and validates incoming leads, with a reason for every rejection.

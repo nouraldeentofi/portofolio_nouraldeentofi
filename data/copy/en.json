@@ -143,6 +143,7 @@
         "body": "A site designed around you or your business, in Arabic, English or both, and fast on phones. For a shop or a restaurant: what you offer in photos, your place on the map, and ordering or booking through WhatsApp.",
         "example": "One example: on the site of Al-Reem Grilled Lamb in Al Khobar, each order arrives ready on the shop's WhatsApp.",
         "next": "Send me your LinkedIn profile, your company's current site or your shop's Google Maps listing, and I will tell you what I would build.",
+        "prices": "Prices are listed on the websites page.",
         "cta": "See the websites"
       },
       {
@@ -288,6 +289,7 @@
       "Readable by Google and by AI assistants, so people who ask about you find you.",
       "For shops and restaurants: what you sell or serve shown in photos, the location on the map, and ordering or booking through WhatsApp."
     ],
+    "pricesTitle": "Prices",
     "whereTitle": "Where I work",
     "where": "I meet clients in person in Al Khobar, Dammam and Dhahran. For clients elsewhere in Saudi Arabia and abroad, the whole project runs remotely.",
     "segments": {
@@ -339,6 +341,7 @@
       "It goes live with a person approving anything sensitive.",
       "I stay on to monitor it, fix it and extend it."
     ],
+    "pricing": "Automation is priced per project, after I have seen the work.",
     "processNext": "Describe the work as it runs today, and I will tell you what can be automated.",
     "caseTitle": "A case study in cost: one branch, three quarters saved",
     "caseBody": [

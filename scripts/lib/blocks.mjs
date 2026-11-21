@@ -10,7 +10,7 @@ import * as ld from './jsonld.mjs';
 import { flowDiagram, flowOrder } from './diagram.mjs';
 import { pagePath, X_DEFAULT } from './sitemap.mjs';
 import { byCompany, companyName } from './experience.mjs';
-import { homeOffers as offersOf, automationServices as servicesOf } from './offers.mjs';
+import { homeOffers as offersOf, automationServices as servicesOf, websitePrices, PRICES_ANCHOR } from './offers.mjs';
 import { phoneDisplay, whatsappUrl, whatsappFirst } from './contact.mjs';
 import {
   detailName,
@@ -314,15 +314,18 @@ export const liveLink = (c, url, cls = 'btn') =>
  * is named in the words people search for; the button repeats it for a thumb.
  *
  * Each part of the offer is a line of its own (`OFFER_PARTS` in offers.mjs):
- * the job, the example, the next step, and the tools last and quiet.
+ * the job, the example, the next step, and the tools last and quiet. The
+ * websites card adds one line after the next step that leads to the prices
+ * on its page; the amounts stay there, beside the kinds of site they buy.
  */
 export function homeOffers(db, lang) {
   const line = (cls, text) => (text ? `\n  <p class="${cls}">${e(text)}</p>` : '');
   return offersOf(db, lang)
     .map((o) => {
       const to = href(o.page, lang);
+      const prices = o.prices ? `\n  <p class="card__body"><a href="${to}#${PRICES_ANCHOR}">${e(o.prices)}</a></p>` : '';
       return `<article data-reveal class="card" id="offer-${e(o.id)}">
-  <h3 class="card__title"><a href="${to}">${e(o.title)}</a></h3>${line('card__body', o.body)}${line('card__body', o.example)}${line('card__body', o.next)}${line('card__tools', o.tools)}
+  <h3 class="card__title"><a href="${to}">${e(o.title)}</a></h3>${line('card__body', o.body)}${line('card__body', o.example)}${line('card__body', o.next)}${prices}${line('card__tools', o.tools)}
   <div class="card__foot"><a class="btn btn--ghost" href="${to}">${e(o.cta)}</a></div>
 </article>`;
     })
@@ -891,20 +894,32 @@ export function showcaseLab(db, lang) {
 }
 
 /**
- * What a client gets and where he works, in plain words above the gallery.
+ * What a client gets, what it costs and where he works, in plain words above
+ * the gallery.
  *
- * One card in two parts: the list on one side, the place on the other. Both
- * headings are real headings, so the page says what is on offer before it
- * shows a single screenshot.
+ * One card in two parts: the list on one side; the prices and the place on
+ * the other. Every heading is a real heading, so the page says what is on
+ * offer before it shows a single screenshot. Each price is a pair, the kind
+ * of site and its amount (`websitePrices` in offers.mjs), and the block
+ * carries the id the websites card on the home page links to.
  */
 export function showcaseOffer(db, lang) {
   const c = db.copy[lang].showcase;
+  const prices = websitePrices(db, lang)
+    .map((p) => `        <div class="prices__item"><dt>${e(p.label)}</dt><dd>${e(p.price)}</dd></div>`)
+    .join('\n');
   return `<div class="card card--row" data-reveal>
   <div class="card__main">
     <h2 class="card__title">${e(c.offerTitle)}</h2>
     ${list(c.offer.map(e), 'card__list')}
   </div>
   <div class="card__aside">
+    <div class="prices" id="${PRICES_ANCHOR}">
+      <h2 class="card__title">${e(c.pricesTitle)}</h2>
+      <dl class="prices__list">
+${prices}
+      </dl>
+    </div>
     <h2 class="card__title">${e(c.whereTitle)}</h2>
     <p class="card__body">${e(c.where)}</p>
   </div>

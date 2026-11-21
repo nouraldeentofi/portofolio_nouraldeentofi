@@ -191,6 +191,15 @@
 
 .card__list { color: var(--dim); font-size: 0.95rem; display: grid; gap: var(--space-2); }
 
+/* The prices on the websites page: each kind of site, then its amount, set
+   larger and in the colour of the headings, so an owner finds it at a glance. */
+.prices { display: grid; gap: var(--space-3); }
+.prices__list { display: grid; gap: var(--space-3); margin: 0; }
+.prices__item { display: grid; gap: var(--space-1); }
+.prices__item dt { color: var(--dim); font-size: 0.95rem; }
+.prices__item dd { margin: 0; color: var(--fg); font-size: 1.25rem; font-weight: 800; }
+.prices + .card__title { margin-block-start: var(--space-3); }
+
 /* Where a card's claim can be checked: the items it is about, further down
    the same page. The arrow points the way the link goes. */
 .card__links {

@@ -34,6 +34,7 @@
     "IBM": { "url": "https://www.ibm.com/" },
     "Packt": { "url": "https://www.packtpub.com/" },
     "Scrimba": { "url": "https://scrimba.com/" },
+    "Coursera": { "url": "https://www.coursera.org/" },
     "Coursera Project Network": { "url": "https://www.coursera.org/" },
     "ICPC: International Collegiate Programming Contest": { "url": "https://icpc.global/" }
   }
